@@ -1,0 +1,30 @@
+{
+  "name": "react-joyride",
+  "version": "0.0.1",
+  "description": "React Joyride lets you create walkthoughs, guides and tours for your components",
+  "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gilbarbara/react-joyride.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gilbarbara/react-joyride/issues"
+  },
+  "homepage": "https://github.com/gilbarbara/react-joyride#readme",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
+  },
+  "devDependencies": {
+    "eslint": "^1.2.1",
+    "eslint-plugin-react": "^3.3.0",
+    "mocha": "^2.2.5"
+  },
+  "engines": {
+    "node": ">=0.12"
+  }
+}
