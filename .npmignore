@@ -1,1 +1,6 @@
+.editorconfig
+.eslint
+.gitignore
+.scss-lint.yml
 dist
+gulpfile.js

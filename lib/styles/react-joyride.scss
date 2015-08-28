@@ -1,0 +1,71 @@
+.joyride-beacon {
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-name: joyride-pulse;
+  animation-timing-function: ease-out;
+  background-color: #f04;
+  border-radius: 100%;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  z-index: 25;
+}
+
+/* WebKit/Safari and Chrome */
+@keyframes joyride-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  80% {
+    transform: scale(1.5);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+.joyride-backdrop {
+  background: rgba(#000, 0.45);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  top: 0;
+  z-index: 998; /* one below z-index of tour-toolip (999) */
+}
+
+.joyride-tooltip {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.4);
+  color: #545454;
+  padding: 5px;
+  width: 250px;
+  z-index: 999;
+
+  p {
+    margin: 5px 3px;
+  }
+
+  .joyride-btn.close {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    padding: 3px;
+    text-align: center;
+    width: auto;
+
+    &:hover {
+      border-color: #3f94d0;
+      color: #3f94d0;
+    }
+  }
+}
