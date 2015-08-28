@@ -1,5 +1,5 @@
 module.exports = {
-    Beacon: require('./lib/scripts/beacon.js'),
-    Mixin: require('./lib/scripts/mixin.js'),
-    Tooltip: require('./lib/scripts/tooltip.js')
+    Beacon: require('./lib/scripts/Beacon.js'),
+    Mixin: require('./lib/scripts/Mixin.js'),
+    Tooltip: require('./lib/scripts/Tooltip.js')
 };
