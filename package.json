@@ -17,23 +17,25 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "react": "^0.13.3"
+    "jquery": "^2.1",
+    "react": "^0.13",
+    "trigger-event": "^1.0"
   },
   "devDependencies": {
-    "del": "^1.2.1",
-    "eslint": "^1.2.1",
-    "eslint-plugin-react": "^3.3.0",
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^2.3.1",
-    "gulp-eslint": "^1.0.0",
-    "gulp-load-plugins": "^0.10.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^2.0.4",
-    "merge-stream": "^1.0.0",
-    "mocha": "^2.2.5",
-    "run-sequence": "^1.1.2"
+    "del": "^1.2",
+    "eslint": "^1.2",
+    "eslint-plugin-react": "^3.3",
+    "gulp": "^3.9",
+    "gulp-autoprefixer": "^2.3",
+    "gulp-eslint": "^1.0",
+    "gulp-load-plugins": "^0.10",
+    "gulp-plumber": "^1.0",
+    "gulp-sass": "^2.0",
+    "merge-stream": "^1.0",
+    "mocha": "^2.2",
+    "run-sequence": "^1.1"
   },
   "engines": {
-    "node": ">=0.12"
+    "node": ">=0.10.0"
   }
 }
