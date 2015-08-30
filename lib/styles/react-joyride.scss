@@ -1,4 +1,5 @@
 $joyride-color: #f04 !default;
+$joyride-tooltip-width: (290px, 360px 450px);
 
 .joyride-beacon {
   animation-duration: 1.5s;
@@ -25,21 +26,22 @@ $joyride-color: #f04 !default;
 }
 
 .joyride-tooltip {
+  animation: joyride-tooltip 0.4s 0.2s forwards;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 2px 5px 15px rgba(#000, 0.5);
   color: #333;
+  opacity: 0;
   padding: 20px;
-  transition: all 0.2s;
-  width: 290px;
+  width: nth($joyride-tooltip-width, 1);
   z-index: 999;
 
   @media screen and (min-width: 480px) {
-    width: 360px;
+    width: nth($joyride-tooltip-width, 2);
   }
 
   @media screen and (min-width: 768px) {
-    width: 450px;
+    width: nth($joyride-tooltip-width, 3);
   }
 
   header {
@@ -84,6 +86,114 @@ $joyride-color: #f04 !default;
     }
   }
 
+  .triangle {
+    position: absolute;
+
+    /*Up pointing*/
+    &.triangle-bottom {
+      height: 0;
+      left: 45%;
+      overflow: hidden;
+      padding-bottom: 5%;
+      padding-left: 5%;
+      top: -8%;
+      width: 10%;
+
+      &:after {
+        border-bottom: 50px solid #fff;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        content: '';
+        display: block;
+        height: 0;
+        margin-left: -50px;
+        width: 0;
+      }
+    }
+
+    /*Right pointing*/
+    &.triangle-left {
+      height: 0;
+      overflow: hidden;
+      padding-bottom: 5%;
+      padding-left: 5%;
+      padding-top: 5%;
+      right: -3%;
+      width: 0;
+
+      &:after {
+        border-bottom: 50px solid transparent;
+        border-left: 50px solid #fff;
+        border-top: 50px solid transparent;
+        content: '';
+        display: block;
+        height: 0;
+        margin-left: -50px;
+        margin-top: -50px;
+        width: 0;
+      }
+    }
+
+    /*Down pointing*/
+    &.triangle-top {
+      bottom: -8%;
+      height: 0;
+      left: 45%;
+      overflow: hidden;
+      padding-left: 5%;
+      padding-top: 5%;
+      width: 10%;
+
+      &:after {
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-top: 50px solid #fff;
+        content: '';
+        display: block;
+        height: 0;
+        margin-left: -50px;
+        margin-top: -50px;
+        width: 0;
+      }
+    }
+
+    /*Left pointing*/
+    &.triangle-right {
+      height: 0;
+      left: -3%;
+      overflow: hidden;
+      padding-bottom: 5%;
+      padding-top: 5%;
+      width: 5%;
+
+      &:after {
+        border-bottom: 50px solid transparent;
+        border-right: 50px solid #fff;
+        border-top: 50px solid transparent;
+        content: '';
+        display: block;
+        height: 0;
+        margin-top: -50px;
+        width: 0;
+      }
+    }
+  }
+}
+
+@keyframes joyride-tooltip {
+  0% {
+    transform: scale(0);
+  }
+
+  90% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @keyframes joyride-pulse {
