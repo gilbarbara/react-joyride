@@ -1,6 +1,33 @@
 $joyride-color: #f04 !default;
-$joyride-tooltip-width: (290px, 360px, 450px) !default;
 $joyride-beacon-size: 36px !default;
+$joyride-tooltip-color: #fff !default;
+$joyride-tooltip-width: (290px, 360px, 450px) !default;
+
+$joyride-tooltip-arrow-width: 28px !default;
+$joyride-tooltip-arrow-height: 14px !default;
+$joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-arrow-width * 0 + 1)) / 16;
+
+@function joyride-arrow($location: top) {
+  $height: $joyride-tooltip-arrow-height;
+  $width: $joyride-tooltip-arrow-width;
+  $rotate: '0';
+
+  @if $location == bottom {
+    $rotate: '180 8 4';
+  }
+  @else if $location == left {
+    $height: $joyride-tooltip-arrow-width;
+    $width: $joyride-tooltip-arrow-height;
+    $rotate: '270 8 8';
+  }
+  @else if $location == right {
+    $height: $joyride-tooltip-arrow-width;
+    $width: $joyride-tooltip-arrow-height;
+    $rotate: '90 4 4';
+  }
+
+  @return "data:image/svg+xml,%3Csvg%20width%3D%22#{$width}%22%20height%3D%22#{$height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#{$joyride-tooltip-color}%22%20transform%3D%22scale%28#{$joyride-tooltip-arrow-scale}%29%20rotate%28#{$rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E";
+}
 
 .joyride-beacon {
   display: inline-block;
@@ -40,22 +67,29 @@ $joyride-beacon-size: 36px !default;
 }
 
 .joyride-backdrop {
-  background: rgba(#000, 0.45);
+//  background: rgba(#000, 0.45);
   bottom: 0;
   left: 0;
-  position: fixed;
+//  mix-blend-mode: hard-light;
+  position: absolute;
   right: 0;
-  text-align: center;
   top: 0;
   z-index: 998; /* one below z-index of tour-toolip (999) */
+
+  > div {
+    border-radius: 4px;
+    box-shadow: 0 0 0 99999px rgba(#000, 0.5);
+    position: absolute;
+  }
 }
 
 .joyride-tooltip {
   animation: joyride-tooltip 0.4s 0.2s forwards;
-  background-color: #fff;
+  background-color: $joyride-tooltip-color;
   border-radius: 8px;
-  box-shadow: 2px 5px 15px rgba(#000, 0.5);
+  //box-shadow: 2px 5px 15px rgba(#000, 0.5);
   color: #333;
+  filter: drop-shadow(2px 4px 4px rgba(#000, 0.3));
   opacity: 0;
   padding: 20px;
   width: nth($joyride-tooltip-width, 1);
@@ -112,95 +146,60 @@ $joyride-beacon-size: 36px !default;
   }
 
   .triangle {
+    background-repeat: no-repeat;
     position: absolute;
 
     /*Up pointing*/
-    &.triangle-bottom {
-      height: 0;
+    &.triangle-bottom,
+    &.triangle-bottom-left,
+    &.triangle-bottom-right {
+      background-image: url(joyride-arrow(bottom));
+      height: $joyride-tooltip-arrow-height;
       left: 45%;
       overflow: hidden;
-      padding-bottom: 5%;
-      padding-left: 5%;
-      top: -8%;
-      width: 10%;
+      top: -($joyride-tooltip-arrow-height - 2);
+      width: $joyride-tooltip-arrow-width;
+    }
 
-      &:after {
-        border-bottom: 50px solid #fff;
-        border-left: 50px solid transparent;
-        border-right: 50px solid transparent;
-        content: '';
-        display: block;
-        height: 0;
-        margin-left: -50px;
-        width: 0;
-      }
+    /*Down pointing*/
+    &.triangle-top,
+    &.triangle-top-left,
+    &.triangle-top-right {
+      background-image: url(joyride-arrow(top));
+      bottom: -($joyride-tooltip-arrow-height - 2);
+
+      height: $joyride-tooltip-arrow-height;
+      left: 45%;
+      overflow: hidden;
+      width: $joyride-tooltip-arrow-width;
+    }
+
+    &.triangle-bottom-left,
+    &.triangle-top-left {
+      left: 92%;
+    }
+
+    &.triangle-bottom-right,
+    &.triangle-top-right {
+      left: 8%;
     }
 
     /*Right pointing*/
     &.triangle-left {
-      height: 0;
+      background-image: url(joyride-arrow(left));
+      height: $joyride-tooltip-arrow-width;
       overflow: hidden;
-      padding-bottom: 5%;
-      padding-left: 5%;
-      padding-top: 5%;
-      right: -3%;
-      width: 0;
-
-      &:after {
-        border-bottom: 50px solid transparent;
-        border-left: 50px solid #fff;
-        border-top: 50px solid transparent;
-        content: '';
-        display: block;
-        height: 0;
-        margin-left: -50px;
-        margin-top: -50px;
-        width: 0;
-      }
-    }
-
-    /*Down pointing*/
-    &.triangle-top {
-      bottom: -8%;
-      height: 0;
-      left: 45%;
-      overflow: hidden;
-      padding-left: 5%;
-      padding-top: 5%;
-      width: 10%;
-
-      &:after {
-        border-left: 50px solid transparent;
-        border-right: 50px solid transparent;
-        border-top: 50px solid #fff;
-        content: '';
-        display: block;
-        height: 0;
-        margin-left: -50px;
-        margin-top: -50px;
-        width: 0;
-      }
+      right: -($joyride-tooltip-arrow-height - 2);
+      width: $joyride-tooltip-arrow-height;
     }
 
     /*Left pointing*/
     &.triangle-right {
-      height: 0;
-      left: -3%;
+      background-image: url(joyride-arrow(right));
+      height: $joyride-tooltip-arrow-width;
+      left: -($joyride-tooltip-arrow-height - 2);
       overflow: hidden;
-      padding-bottom: 5%;
-      padding-top: 5%;
-      width: 5%;
-
-      &:after {
-        border-bottom: 50px solid transparent;
-        border-right: 50px solid #fff;
-        border-top: 50px solid transparent;
-        content: '';
-        display: block;
-        height: 0;
-        margin-top: -50px;
-        width: 0;
-      }
+      width: $joyride-tooltip-arrow-height;
     }
   }
 }

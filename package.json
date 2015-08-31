@@ -1,7 +1,7 @@
 {
   "name": "react-joyride",
-  "version": "0.1.0",
-  "description": "React Joyride lets you create walkthoughs, guides and tours for your components",
+  "version": "0.2.0",
+  "description": "Create walkthoughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
     "type": "git",
@@ -10,14 +10,13 @@
   "bugs": {
     "url": "https://github.com/gilbarbara/react-joyride/issues"
   },
-  "homepage": "https://github.com/gilbarbara/react-joyride#readme",
+  "homepage": "https://gilbarbara.github.com/react-joyride",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "jquery": "^2.1",
     "react": "^0.13",
     "trigger-event": "^1.0"
   },
