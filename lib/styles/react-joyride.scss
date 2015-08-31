@@ -1,17 +1,42 @@
 $joyride-color: #f04 !default;
-$joyride-tooltip-width: (290px, 360px 450px);
+$joyride-tooltip-width: (290px, 360px, 450px) !default;
+$joyride-beacon-size: 36px !default;
 
 .joyride-beacon {
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-  animation-name: joyride-pulse;
-  animation-timing-function: ease-out;
-  background-color: $joyride-color;
-  border-radius: 100%;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
+  display: inline-block;
+  height: $joyride-beacon-size;
+  position: relative;
+  width: $joyride-beacon-size;
   z-index: 25;
+
+  .inner {
+    animation: joyride-beacon-inner 1.2s infinite ease-in-out;
+    background-color: $joyride-color;
+    border-radius: 50%;
+    display: block;
+    height: 50%;
+    left: 25%;
+    opacity: 0.7;
+    position: relative;
+    top: 25%;
+    width: 50%;
+  }
+
+  .outer {
+    animation: joyride-beacon-outer 1.2s infinite ease-in-out;
+    background-color: rgba($joyride-color, 0.2);
+    border: ($joyride-beacon-size / 18) solid $joyride-color;
+    border-radius: 50%;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    transform: translateY(-50%);
+    transform-origin: center;
+    width: 100%;
+  }
 }
 
 .joyride-backdrop {
@@ -211,3 +236,28 @@ $joyride-tooltip-width: (290px, 360px 450px);
   }
 }
 
+@keyframes joyride-beacon-inner {
+  20% {
+    opacity: 0.9;
+  }
+
+  90% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes joyride-beacon-outer {
+  0% {
+    transform: scale(1);
+  }
+
+  45% {
+    opacity: 0.7;
+    transform: scale(0.75);
+  }
+
+  100% {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+}
