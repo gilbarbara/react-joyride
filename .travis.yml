@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- '0.10'
+before_install:
+- currentfolder=${PWD##*/}
+- if [ "$currentfolder" != 'react-joyride' ]; then cd .. && eval "mv $currentfolder
+  react-joyride" && cd react-joyride; fi
+deploy:
+  provider: npm
+  email: gilbarbara@gmail.com
+  api_key:
+    secure: L0Bm8CsLDK9OYMfAWyTDJ/0w/64Md96995xGMKBnDb/ve9Z2AnK8zQNY5ufKkYeqRArdU9BZTCx+7VDwr5bZ0NvxVjmd2tAr8RwmFkguyOPKn8gf81t0zmsFuhZQdBm0gVjHJllrjpfQu/FeSvD+KTjsxyN6JGwq+1GMup6zpcI=
+  on:
+    tags: true
+    repo: gilbarbara/react-joyride
