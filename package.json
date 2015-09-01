@@ -1,7 +1,7 @@
 {
   "name": "react-joyride",
   "version": "0.2.0",
-  "description": "Create walkthoughs and guided tours for your apps",
+  "description": "Create walkthroughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
     "type": "git",
@@ -10,12 +10,17 @@
   "bugs": {
     "url": "https://github.com/gilbarbara/react-joyride/issues"
   },
-  "homepage": "https://gilbarbara.github.com/react-joyride",
+  "homepage": "https://gilbarbara.github.com/react-joyride/",
   "main": "index.js",
   "license": "MIT",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "keywords": [
+    "react",
+    "react-component",
+    "react-mixin",
+    "joyride",
+    "walkthroughs",
+    "tour"
+  ],
   "dependencies": {
     "react": "^0.13",
     "trigger-event": "^1.0"
@@ -33,6 +38,13 @@
     "merge-stream": "^1.0",
     "mocha": "^2.2",
     "run-sequence": "^1.1"
+  },
+  "scripts": {
+    "prepublish": "gulp build",
+    "preinstall": ".hooks/install.sh",
+    "build": "gulp build",
+    "lint": "gulp scripts:lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
     "node": ">=0.10.0"
