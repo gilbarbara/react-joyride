@@ -34,7 +34,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
   height: $joyride-beacon-size;
   position: relative;
   width: $joyride-beacon-size;
-  z-index: 25;
+  z-index: 1500;
 
   .inner {
     animation: joyride-beacon-inner 1.2s infinite ease-in-out;
@@ -74,7 +74,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 998; /* one below z-index of tour-toolip (999) */
+  z-index: 1500; /* one below z-index of tour-toolip (999) */
 
   > div {
     border-radius: 4px;
@@ -93,7 +93,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
   opacity: 0;
   padding: 20px;
   width: nth($joyride-tooltip-width, 1);
-  z-index: 999;
+  z-index: 1600;
 
   @media screen and (min-width: 480px) {
     width: nth($joyride-tooltip-width, 2);
