@@ -1,0 +1,10 @@
+{
+  "name": "react-joyride",
+  "version": "0.2.0",
+  "dependencies": {
+    "bootstrap-sass": "^3",
+    "fontawesome": "^4.4",
+    "jquery": "^2",
+    "modernizr": "^2"
+  }
+}

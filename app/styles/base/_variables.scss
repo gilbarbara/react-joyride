@@ -1,0 +1,17 @@
+$bg-color: #fff9f2;
+$base-color: #f70017;
+
+$link-color: lighten($base-color, 15%);
+
+$tag-color: adjust-hue($base-color, 10);
+$tag-hue: hue($tag-color);
+$tag-saturation: saturation($tag-color);
+$tag-lightness: lightness($tag-color);
+$tag-step: -4;
+
+$media-path: '../media/';
+
+$screen-xs: 480px;
+$screen-sm: 768px;
+$screen-md: 1024px;
+$screen-lg: 1280px;

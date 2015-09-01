@@ -1,0 +1,60 @@
+@import 'base/variables';
+@import 'base/bootstrap';
+@import 'base/utils';
+
+$fa-font-path: 'fonts/';
+@import 'fontawesome/scss/font-awesome';
+
+@import 'components/loader';
+@import 'sbadmin';
+
+$joyride-color: #9a09bc;
+@import '../../node_modules/react-joyride/lib/styles/react-joyride';
+
+@import url(http://fonts.googleapis.com/css?family=Lato:400,400italic);
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  background-color: $bg-color;
+  font-family: Lato, sans-serif;
+  font-size: 1.4rem;
+  margin: 0;
+  min-height: 100%;
+  padding: 0;
+}
+
+a {
+  color: $link-color;
+}
+
+.navbar-inverse {
+  background-color: $base-color;
+  border-color: darken($base-color, 5);
+
+  a {
+    color: #fff !important;
+  }
+}
+
+.github-ribbon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1200;
+
+  img {
+    width: 80px;
+
+    @include sm {
+      width: 120px;
+    }
+
+    @include md {
+      width: auto;
+    }
+  }
+}

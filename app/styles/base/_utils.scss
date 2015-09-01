@@ -1,0 +1,129 @@
+@mixin background-image-retina($file, $type, $width, $height) {
+  background-image: url($file + '.' + $type);
+  background-size: $width $height;
+
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 144dpi) {
+    background-image: url($file + '@2x.' + $type);
+  }
+}
+
+@mixin background-image-svg($name, $width, $height) {
+  background-image: url('#{$name}.png'); // IE8 & below
+  background-image: none, url('#{$name}.svg');
+  background-size: $width $height;
+}
+
+@mixin truncate($width: 100%) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: $width;
+  white-space: nowrap;
+}
+
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin media-query($media-query) {
+
+  @if $media-query == outdated {
+    @media (max-height: 540px) { @content; }
+  }
+
+  @if $media-query == xs-only {
+    @media (max-width: $screen-xs - 1) { @content; }
+  }
+
+  @if $media-query == sm {
+    @media (min-width: $screen-xs) { @content; }
+  }
+
+  @if $media-query == sm-only {
+    @media (max-width: $screen-sm - 1) { @content; }
+  }
+
+  @if $media-query == md {
+    @media (min-width: $screen-sm) { @content; }
+  }
+
+  @if $media-query == md-only {
+    @media (max-width: $screen-md - 1) { @content; }
+  }
+
+  @if $media-query == lg {
+    @media (min-width: $screen-md) { @content; }
+  }
+
+  @if $media-query == xl {
+    @media (min-width: $screen-lg) { @content; }
+  }
+
+  @if $media-query == retina {
+    @media (min--moz-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) { @content; }
+  }
+
+  @if $media-query == landscape {
+    @media (orientation: landscape) { @content; }
+  }
+}
+
+// Just mqs helpers...
+
+@mixin outdated {
+  @include media-query(outdated) { @content }
+}
+
+
+@mixin xs {
+  @include media-query(xs) { @content }
+}
+
+@mixin xxs-only {
+  @include media-query(xxs-only) { @content }
+}
+
+@mixin xs-only {
+  @include media-query(xs-only) { @content }
+}
+
+@mixin smt {
+  @include media-query(smt) { @content }
+}
+
+@mixin smt-only {
+  @include media-query(smt-only) { @content }
+}
+
+@mixin sm {
+  @include media-query(sm) { @content }
+}
+
+@mixin sm-only {
+  @include media-query(sm-only) { @content }
+}
+
+@mixin md {
+  @include media-query(md) { @content }
+}
+
+@mixin md-only {
+  @include media-query(md-only) { @content }
+}
+
+@mixin lg {
+  @include media-query(lg) { @content }
+}
+
+@mixin xl {
+  @include media-query(xl) { @content }
+}
+
+@mixin retina {
+  @include media-query(retina) { @content }
+}
+
+@mixin landscape {
+  @include media-query(landscape) { @content }
+}
