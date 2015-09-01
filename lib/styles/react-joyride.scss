@@ -14,13 +14,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
   @if $location == bottom {
     $rotate: '180 8 4';
-  }
-  @else if $location == left {
+  } @else if $location == left {
     $height: $joyride-tooltip-arrow-width;
     $width: $joyride-tooltip-arrow-height;
     $rotate: '270 8 8';
-  }
-  @else if $location == right {
+  } @else if $location == right {
     $height: $joyride-tooltip-arrow-width;
     $width: $joyride-tooltip-arrow-height;
     $rotate: '90 4 4';
@@ -67,14 +65,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 }
 
 .joyride-backdrop {
-//  background: rgba(#000, 0.45);
   bottom: 0;
   left: 0;
-//  mix-blend-mode: hard-light;
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 1500; /* one below z-index of tour-toolip (999) */
+  z-index: 1500;
 
   > div {
     border-radius: 4px;
@@ -87,11 +83,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
   animation: joyride-tooltip 0.4s 0.2s forwards;
   background-color: $joyride-tooltip-color;
   border-radius: 8px;
-  //box-shadow: 2px 5px 15px rgba(#000, 0.5);
   color: #333;
   filter: drop-shadow(2px 4px 4px rgba(#000, 0.3));
   opacity: 0;
   padding: 20px;
+  transform: translate3d(0, 0, 0);
   width: nth($joyride-tooltip-width, 1);
   z-index: 1600;
 
@@ -176,12 +172,20 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
     &.triangle-bottom-left,
     &.triangle-top-left {
-      left: 92%;
+      left: 4%;
     }
 
     &.triangle-bottom-right,
     &.triangle-top-right {
-      left: 8%;
+      left: 86%;
+
+      @media screen and (min-width: 480px) {
+        left: 88%;
+      }
+
+      @media screen and (min-width: 768px) {
+        left: 90%;
+      }
     }
 
     /*Right pointing*/
@@ -211,12 +215,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
   90% {
     opacity: 1;
-    transform: scale(1.1);
+    transform: scale(1.2);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: perspective(1px) scale(1);
   }
 }
 

@@ -1,0 +1,238 @@
+.joyride-beacon {
+  display: inline-block;
+  height: 36px;
+  position: relative;
+  width: 36px;
+  z-index: 1500; }
+  .joyride-beacon .inner {
+    -webkit-animation: joyride-beacon-inner 1.2s infinite ease-in-out;
+            animation: joyride-beacon-inner 1.2s infinite ease-in-out;
+    background-color: #f04;
+    border-radius: 50%;
+    display: block;
+    height: 50%;
+    left: 25%;
+    opacity: 0.7;
+    position: relative;
+    top: 25%;
+    width: 50%; }
+  .joyride-beacon .outer {
+    -webkit-animation: joyride-beacon-outer 1.2s infinite ease-in-out;
+            animation: joyride-beacon-outer 1.2s infinite ease-in-out;
+    background-color: rgba(255, 0, 68, 0.2);
+    border: 2px solid #f04;
+    border-radius: 50%;
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+    -webkit-transform-origin: center;
+        -ms-transform-origin: center;
+            transform-origin: center;
+    width: 100%; }
+
+.joyride-backdrop {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1500; }
+  .joyride-backdrop > div {
+    border-radius: 4px;
+    box-shadow: 0 0 0 99999px rgba(0, 0, 0, 0.5);
+    position: absolute; }
+
+.joyride-tooltip {
+  -webkit-animation: joyride-tooltip 0.4s 0.2s forwards;
+          animation: joyride-tooltip 0.4s 0.2s forwards;
+  background-color: #fff;
+  border-radius: 8px;
+  color: #333;
+  -webkit-filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
+  opacity: 0;
+  padding: 20px;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  width: 290px;
+  z-index: 1600; }
+  @media screen and (min-width: 480px) {
+    .joyride-tooltip {
+      width: 360px; } }
+  @media screen and (min-width: 768px) {
+    .joyride-tooltip {
+      width: 450px; } }
+  .joyride-tooltip header {
+    border-bottom: 1px solid #f04;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    position: relative; }
+    .joyride-tooltip header h4 {
+      margin: 0; }
+    .joyride-tooltip header a {
+      color: #999;
+      font-size: 2.5rem;
+      line-height: 0.7;
+      position: absolute;
+      right: 0;
+      text-decoration: none;
+      top: 0; }
+  .joyride-tooltip main {
+    margin-bottom: 12px; }
+  .joyride-tooltip footer {
+    text-align: right; }
+    .joyride-tooltip footer a {
+      background-color: #f04;
+      border-radius: 4px;
+      color: #fff;
+      padding: 6px 12px;
+      text-decoration: none;
+      -webkit-transition: background-color 0.2s ease-in-out;
+              transition: background-color 0.2s ease-in-out; }
+      .joyride-tooltip footer a:hover {
+        background-color: #e0003c; }
+  .joyride-tooltip .triangle {
+    background-repeat: no-repeat;
+    position: absolute;
+    /*Up pointing*/
+    /*Down pointing*/
+    /*Right pointing*/
+    /*Left pointing*/ }
+    .joyride-tooltip .triangle.triangle-bottom,
+    .joyride-tooltip .triangle.triangle-bottom-left,
+    .joyride-tooltip .triangle.triangle-bottom-right {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2228px%22%20height%3D%2214px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#fff%22%20transform%3D%22scale%281.75%29%20rotate%28180 8 4%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E");
+      height: 14px;
+      left: 45%;
+      overflow: hidden;
+      top: -12px;
+      width: 28px; }
+    .joyride-tooltip .triangle.triangle-top,
+    .joyride-tooltip .triangle.triangle-top-left,
+    .joyride-tooltip .triangle.triangle-top-right {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2228px%22%20height%3D%2214px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#fff%22%20transform%3D%22scale%281.75%29%20rotate%280%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E");
+      bottom: -12px;
+      height: 14px;
+      left: 45%;
+      overflow: hidden;
+      width: 28px; }
+    .joyride-tooltip .triangle.triangle-bottom-left,
+    .joyride-tooltip .triangle.triangle-top-left {
+      left: 4%; }
+    .joyride-tooltip .triangle.triangle-bottom-right,
+    .joyride-tooltip .triangle.triangle-top-right {
+      left: 86%; }
+      @media screen and (min-width: 480px) {
+        .joyride-tooltip .triangle.triangle-bottom-right,
+        .joyride-tooltip .triangle.triangle-top-right {
+          left: 88%; } }
+      @media screen and (min-width: 768px) {
+        .joyride-tooltip .triangle.triangle-bottom-right,
+        .joyride-tooltip .triangle.triangle-top-right {
+          left: 90%; } }
+    .joyride-tooltip .triangle.triangle-left {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2214px%22%20height%3D%2228px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#fff%22%20transform%3D%22scale%281.75%29%20rotate%28270 8 8%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E");
+      height: 28px;
+      overflow: hidden;
+      right: -12px;
+      width: 14px; }
+    .joyride-tooltip .triangle.triangle-right {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2214px%22%20height%3D%2228px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#fff%22%20transform%3D%22scale%281.75%29%20rotate%2890 4 4%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E");
+      height: 28px;
+      left: -12px;
+      overflow: hidden;
+      width: 14px; }
+
+@-webkit-keyframes joyride-tooltip {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0); }
+  90% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2); }
+  100% {
+    opacity: 1;
+    -webkit-transform: perspective(1px) scale(1);
+            transform: perspective(1px) scale(1); } }
+
+@keyframes joyride-tooltip {
+  0% {
+    -webkit-transform: scale(0);
+            transform: scale(0); }
+  90% {
+    opacity: 1;
+    -webkit-transform: scale(1.2);
+            transform: scale(1.2); }
+  100% {
+    opacity: 1;
+    -webkit-transform: perspective(1px) scale(1);
+            transform: perspective(1px) scale(1); } }
+
+@-webkit-keyframes joyride-pulse {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1); }
+  80% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5); }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5); } }
+
+@keyframes joyride-pulse {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1); }
+  80% {
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5); }
+  100% {
+    opacity: 0;
+    -webkit-transform: scale(2.5);
+            transform: scale(2.5); } }
+
+@-webkit-keyframes joyride-beacon-inner {
+  20% {
+    opacity: 0.9; }
+  90% {
+    opacity: 0.7; } }
+
+@keyframes joyride-beacon-inner {
+  20% {
+    opacity: 0.9; }
+  90% {
+    opacity: 0.7; } }
+
+@-webkit-keyframes joyride-beacon-outer {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1); }
+  45% {
+    opacity: 0.7;
+    -webkit-transform: scale(0.75);
+            transform: scale(0.75); }
+  100% {
+    opacity: 0.9;
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+
+@keyframes joyride-beacon-outer {
+  0% {
+    -webkit-transform: scale(1);
+            transform: scale(1); }
+  45% {
+    opacity: 0.7;
+    -webkit-transform: scale(0.75);
+            transform: scale(0.75); }
+  100% {
+    opacity: 0.9;
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
