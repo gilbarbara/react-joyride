@@ -46,22 +46,34 @@ componentWillMount: function () {
 }
 ```
 
-- `joyrideAutoplay` (bool): Show the beacon as soon as you add steps. Defaults to `true`
+- `joyrideAutoplay` (bool): Starts as soon as you add steps. Defaults to `true`
 - `joyrideLocale` (object): The strings used in the tooltip. Defaults to `{ close: 'Close', last: 'Last', next: 'Next' }`
 - `joyrideScrollToSteps` (bool): Scroll the page to the next step if needed. Defaults to `true`
 - `joyrideSteps` (array): The steps of your tour. You can leave it empty and add steps asynchronously using the `joyrideAddSteps` method. Defaults to `[]`
 - `joyrideShowBackdrop` (bool): Display a backdrop with holes above your steps. Defaults to `true`
-- `joyrideType` (string): The type of your presentation. It can be `tour` (play sequencially using Next button) or `single`. Defaults to `single`
+- `joyrideType` (string): The type of your presentation. It can be `guided` (played sequencially with Next button) or `single`. Defaults to `single`
 - `joyrideCompleteCallback` (function): It will be called after an user has completed all the steps in your tour. Defaults to `function () {}`
 - `joyrideStepCallback` (function): It will be called after each step and passes the step object. Defaults to `undefined`
 
 ## Step Syntax
 There are 4 usable options but you can pass other options if needed.
 
+```javascript
+{
+    title: 'First Step',
+    text: 'Start using the joyride',
+    selector: '.first-step',
+    position: 'bottom-left',
+    ...
+    name: 'my-first-step',
+    component: 'MyComponentName'
+}
+```
+
 - `title`: The title of the tooltip (optional)
 - `text`: The tooltip's body (required)
 - `selector`: The DOM selector of your step (required)
-- `position`: The position of you beacon/tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
+- `position`: The position of you beacon and tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
 
 ## Methods
 
