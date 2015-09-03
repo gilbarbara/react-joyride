@@ -1,25 +1,33 @@
 $joyride-color: #f04 !default;
 $joyride-beacon-size: 36px !default;
-$joyride-tooltip-color: #fff !default;
-$joyride-tooltip-width: (290px, 360px, 450px) !default;
 
-$joyride-tooltip-arrow-width: 28px !default;
-$joyride-tooltip-arrow-height: 14px !default;
-$joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-arrow-width * 0 + 1)) / 16;
+$joyride-button-border-radius: 4px !default;
+
+$joyride-hole-border-radius: 4px !default;
+$joyride-hole-outer-shadow: 0 0 0 99999px rgba(#000, 0.5) !default;
+$joyride-hole-inner-shadow: 0 0 15px rgba(#000, 0.5) !default;
+
+$joyride-tooltip-width: (290px, 360px, 450px) !default;
+$joyride-tooltip-color: #fff !default;
+$joyride-tooltip-border-radius: 8px !default;
+$joyride-tooltip-arrow-size: 28px !default;
+
+$joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
+$joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-arrow-size * 0 + 1)) / 16;
 
 @function joyride-arrow($location: top) {
   $height: $joyride-tooltip-arrow-height;
-  $width: $joyride-tooltip-arrow-width;
+  $width: $joyride-tooltip-arrow-size;
   $rotate: '0';
 
   @if $location == bottom {
     $rotate: '180 8 4';
   } @else if $location == left {
-    $height: $joyride-tooltip-arrow-width;
+    $height: $joyride-tooltip-arrow-size;
     $width: $joyride-tooltip-arrow-height;
     $rotate: '270 8 8';
   } @else if $location == right {
-    $height: $joyride-tooltip-arrow-width;
+    $height: $joyride-tooltip-arrow-size;
     $width: $joyride-tooltip-arrow-height;
     $rotate: '90 4 4';
   }
@@ -73,16 +81,17 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
   z-index: 1500;
 
   > div {
-    border-radius: 4px;
-    box-shadow: 0 0 0 99999px rgba(#000, 0.5), 0 0 15px rgba(#000, 0.5);
+    border-radius: $joyride-hole-border-radius;
+    box-shadow: $joyride-hole-outer-shadow, $joyride-hole-inner-shadow;
     position: absolute;
   }
 }
 
 .joyride-tooltip {
   animation: joyride-tooltip 0.4s 0.2s forwards;
+  animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
   background-color: $joyride-tooltip-color;
-  border-radius: 8px;
+  border-radius: $joyride-tooltip-border-radius;
   color: #333;
   filter: drop-shadow(2px 4px 4px rgba(#000, 0.3));
   opacity: 0;
@@ -129,7 +138,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
     a {
       background-color: $joyride-color;
-      border-radius: 4px;
+      border-radius: $joyride-button-border-radius;
       color: #fff;
       padding: 6px 12px;
       text-decoration: none;
@@ -154,7 +163,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
       left: 45%;
       overflow: hidden;
       top: -($joyride-tooltip-arrow-height - 2);
-      width: $joyride-tooltip-arrow-width;
+      width: $joyride-tooltip-arrow-size;
     }
 
     /*Down pointing*/
@@ -167,31 +176,31 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
       height: $joyride-tooltip-arrow-height;
       left: 45%;
       overflow: hidden;
-      width: $joyride-tooltip-arrow-width;
+      width: $joyride-tooltip-arrow-size;
     }
 
     &.triangle-bottom-left,
     &.triangle-top-left {
-      left: 2%;
+      left: 4%;
     }
 
     &.triangle-bottom-right,
     &.triangle-top-right {
-      left: 88%;
+      left: 86%;
 
       @media screen and (min-width: 480px) {
-        left: 90%;
+        left: 88%;
       }
 
       @media screen and (min-width: 768px) {
-        left: 92%;
+        left: 90%;
       }
     }
 
     /*Right pointing*/
     &.triangle-left {
       background-image: url(joyride-arrow(left));
-      height: $joyride-tooltip-arrow-width;
+      height: $joyride-tooltip-arrow-size;
       overflow: hidden;
       right: -($joyride-tooltip-arrow-height - 2);
       width: $joyride-tooltip-arrow-height;
@@ -200,7 +209,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
     /*Left pointing*/
     &.triangle-right {
       background-image: url(joyride-arrow(right));
-      height: $joyride-tooltip-arrow-width;
+      height: $joyride-tooltip-arrow-size;
       left: -($joyride-tooltip-arrow-height - 2);
       overflow: hidden;
       width: $joyride-tooltip-arrow-height;
@@ -210,12 +219,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
 @keyframes joyride-tooltip {
   0% {
-    transform: scale(0);
-  }
-
-  90% {
-    opacity: 1;
-    transform: scale(1.2);
+    transform: scale(0.1);
   }
 
   100% {
