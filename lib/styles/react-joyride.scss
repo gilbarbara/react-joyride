@@ -1,16 +1,18 @@
 $joyride-color: #f04 !default;
-$joyride-beacon-size: 36px !default;
 
-$joyride-button-border-radius: 4px !default;
+$joyride-beacon-color: $joyride-color !default;
+$joyride-beacon-size: 36px !default;
 
 $joyride-hole-border-radius: 4px !default;
 $joyride-hole-outer-shadow: 0 0 0 99999px rgba(#000, 0.5) !default;
 $joyride-hole-inner-shadow: 0 0 15px rgba(#000, 0.5) !default;
 
-$joyride-tooltip-width: (290px, 360px, 450px) !default;
-$joyride-tooltip-color: #fff !default;
-$joyride-tooltip-border-radius: 8px !default;
 $joyride-tooltip-arrow-size: 28px !default;
+$joyride-tooltip-background-color: #fff !default;
+$joyride-tooltip-border-radius: 8px !default;
+$joyride-tooltip-button-radius: 4px !default;
+$joyride-tooltip-color: $joyride-color !default;
+$joyride-tooltip-width: (290px, 360px, 450px) !default;
 
 $joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
 $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-arrow-size * 0 + 1)) / 16;
@@ -32,7 +34,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     $rotate: '90 4 4';
   }
 
-  @return "data:image/svg+xml,%3Csvg%20width%3D%22#{$width}%22%20height%3D%22#{$height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#{$joyride-tooltip-color}%22%20transform%3D%22scale%28#{$joyride-tooltip-arrow-scale}%29%20rotate%28#{$rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E";
+  @return "data:image/svg+xml,%3Csvg%20width%3D%22#{$width}%22%20height%3D%22#{$height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#{$joyride-tooltip-background-color}%22%20transform%3D%22scale%28#{$joyride-tooltip-arrow-scale}%29%20rotate%28#{$rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E";
 }
 
 .joyride-beacon {
@@ -90,7 +92,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 .joyride-tooltip {
   animation: joyride-tooltip 0.4s 0.2s forwards;
   animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
-  background-color: $joyride-tooltip-color;
+  background-color: $joyride-tooltip-background-color;
   border-radius: $joyride-tooltip-border-radius;
   color: #333;
   filter: drop-shadow(2px 4px 4px rgba(#000, 0.3));
@@ -138,7 +140,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     a {
       background-color: $joyride-color;
-      border-radius: $joyride-button-border-radius;
+      border-radius: $joyride-tooltip-button-radius;
       color: #fff;
       padding: 6px 12px;
       text-decoration: none;
