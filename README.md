@@ -96,6 +96,23 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }
 ```
 
+## Styling
+You need to include either `lib/styles/react-joyride.css` directly on your page  or `lib/styles/react-joyride.scss` as an include in your main scss file.
+
+You can customize some options with the scss:
+
+- `$joyride-color`: The base color for the beacon and Defaults to `#f04`
+- `$joyride-beacon-size`: Defaults to `36px`
+- `$joyride-button-border-radius`: Defaults to `4px`
+- `$joyride-hole-border-radius`: Defaults to `4px`
+- `$joyride-hole-outer-shadow`: Defaults to `0 0 0 99999px rgba(#000, 0.5)`
+- `$joyride-hole-inner-shadow`: Defaults to `0 0 15px rgba(#000, 0.5)`
+- `$joyride-tooltip-width`: Defaults to `(290px, 360px, 450px)`
+- `$joyride-tooltip-color`: Defaults to `#fff`
+- `$joyride-tooltip-border-radius`: Defaults to `8px`
+- `$joyride-tooltip-arrow-size`: You must use a even number to avoid half-pixel inconsistencies Defaults to `28px` 
+
+
 ---
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
