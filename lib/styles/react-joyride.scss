@@ -74,7 +74,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
   > div {
     border-radius: 4px;
-    box-shadow: 0 0 0 99999px rgba(#000, 0.5);
+    box-shadow: 0 0 0 99999px rgba(#000, 0.5), 0 0 15px rgba(#000, 0.5);
     position: absolute;
   }
 }
@@ -172,19 +172,19 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-width / ($joyride-tooltip-
 
     &.triangle-bottom-left,
     &.triangle-top-left {
-      left: 4%;
+      left: 2%;
     }
 
     &.triangle-bottom-right,
     &.triangle-top-right {
-      left: 86%;
+      left: 88%;
 
       @media screen and (min-width: 480px) {
-        left: 88%;
+        left: 90%;
       }
 
       @media screen and (min-width: 768px) {
-        left: 90%;
+        left: 92%;
       }
     }
 

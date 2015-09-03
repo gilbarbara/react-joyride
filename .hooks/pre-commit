@@ -25,14 +25,21 @@ BASE=$(git merge-base @ @{u})
 if [ $LOCAL = $REMOTE ]; then
     echo "${GREEN}✓ NO NEW COMMITS!${RESET}"
     echo ""
-    echo "${YELLOW}>>> pre-commit hook: running lint${RESET}"
+    echo "${YELLOW}>>> pre-commit hook: running build${RESET}"
 
     npm run build &> /dev/null
 
     if [ $? -ne 1 ]; then
         echo "${GREEN}✓ BUILD COMPLETED!${RESET}"
-        exit 0
 
+        if [[ -z $(git ls-files --other --exclude-standard --directory) ]]; then
+            exit 0
+        else
+            echo ""
+            echo "${RED}⊘ DIRT REPO, TRY AGAIN!${RESET}"
+            echo $(git ls-files --other --exclude-standard --directory)
+            exit 1
+        fi
     else
         echo "${RED}⊘ BUILD FAILED. NO CHEATING!${RESET}"
         exit 1

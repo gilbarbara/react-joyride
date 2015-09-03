@@ -1,6 +1,6 @@
 {
   "name": "react-joyride",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Create walkthroughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -43,7 +43,6 @@
     "prepublish": "gulp build",
     "preinstall": ".hooks/install.sh",
     "build": "gulp build",
-    "lint": "gulp scripts:lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
