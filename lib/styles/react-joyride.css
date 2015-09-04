@@ -115,9 +115,6 @@
       left: 50%;
       overflow: hidden;
       top: -12px;
-      -webkit-transform: translateX(-50%);
-          -ms-transform: translateX(-50%);
-              transform: translateX(-50%);
       width: 28px; }
     .joyride-tooltip .triangle.triangle-top,
     .joyride-tooltip .triangle.triangle-top-left,
@@ -127,10 +124,12 @@
       height: 14px;
       left: 50%;
       overflow: hidden;
+      width: 28px; }
+    .joyride-tooltip .triangle.triangle-bottom,
+    .joyride-tooltip .triangle.triangle-top {
       -webkit-transform: translateX(-50%);
           -ms-transform: translateX(-50%);
-              transform: translateX(-50%);
-      width: 28px; }
+              transform: translateX(-50%); }
     .joyride-tooltip .triangle.triangle-bottom-left,
     .joyride-tooltip .triangle.triangle-top-left {
       left: 4%; }
