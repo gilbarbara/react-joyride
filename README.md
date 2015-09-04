@@ -4,8 +4,9 @@ React Joyride
 Create walkthroughs and guided tours for your apps.
 
 ---
+![](https://badge.fury.io/js/react-joyride.svg) ![](https://travis-ci.org/gilbarbara/react-joyride.svg) 
 
-[Demo](http://gilbarbara.github.io/react-joyride/)
+View the demo [here](http://gilbarbara.github.io/react-joyride/).
 
 ## Installation
 
