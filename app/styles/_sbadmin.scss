@@ -176,6 +176,26 @@ ul.alert-dropdown {
   font-size: 40px;
 }
 
+
+.panel-dark {
+  border-color: #777;
+}
+
+.panel-dark > .panel-heading {
+  background-color: #777;
+  border-color: #777;
+  color: #fff;
+}
+
+.panel-dark > a {
+  color: #777;
+}
+
+.panel-dark > a:hover {
+  color: #777;
+}
+
+
 .panel-green {
   border-color: #5cb85c;
 }

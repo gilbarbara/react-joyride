@@ -8,7 +8,7 @@ $fa-font-path: 'fonts/';
 @import 'components/loader';
 @import 'sbadmin';
 
-$joyride-color: #9a09bc;
+$joyride-color: #00e82b;
 @import '../../node_modules/react-joyride/lib/styles/react-joyride';
 
 @import url(http://fonts.googleapis.com/css?family=Lato:400,400italic);
@@ -32,11 +32,11 @@ a {
 }
 
 .navbar-inverse {
-  background-color: $base-color;
-  border-color: darken($base-color, 5);
+  background-color: #444;
+  border-color: darken(#222, 5);
 
-  a {
-    color: #fff !important;
+  .navbar-brand {
+    color: $link-color;
   }
 }
 
@@ -57,4 +57,39 @@ a {
       width: auto;
     }
   }
+}
+
+.switch {
+  background-color: lighten($link-color, 20);
+  border-radius: 5px;
+  display: inline-flex;
+  margin-left: 1rem;
+  overflow: hidden;
+
+  > a {
+    color: lighten($link-color, 10);
+    display: flex;
+    font-size: 1.4rem;
+    line-height: 1;
+    padding: 0.4rem 1.3rem;
+    text-decoration: none !important;
+
+    &:last-of-type {
+      border-left: 1px solid darken($link-color, 30);
+    }
+
+    &.active {
+      background-color: $link-color;
+      color: #fff !important;
+      pointer-events: none;
+    }
+  }
+}
+
+.navbar-switch {
+  color: $link-color;
+  float: left;
+  margin-left: 30px;
+  padding-top: 14px;
+  vertical-align: middle;
 }

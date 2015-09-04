@@ -228,7 +228,7 @@ gulp.task('deploy-pages', function (cb) {
 gulp.task('serve', ['assets'], function () {
     browserSync.init({
         notify: true,
-        logPrefix: 'logos',
+        logPrefix: 'joyride',
         server: {
             baseDir: ['.tmp', 'app', './'],
             middleware: [middleware],
