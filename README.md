@@ -4,7 +4,7 @@ React Joyride
 Create walkthroughs and guided tours for your apps.
 
 ---
-![](https://badge.fury.io/js/react-joyride.svg) ![](https://travis-ci.org/gilbarbara/react-joyride.svg) 
+<a href="https://www.npmjs.com/package/react-joyride" target="_blank">![](https://badge.fury.io/js/react-joyride.svg)</a> <a href="https://travis-ci.org/gilbarbara/react-joyride" target="_blank">![](https://travis-ci.org/gilbarbara/react-joyride.svg)</a>
 
 View the demo [here](http://gilbarbara.github.io/react-joyride/).
 
