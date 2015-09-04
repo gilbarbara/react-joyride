@@ -6,17 +6,6 @@
 
 /* Global Styles */
 
-body {
-  background-color: #222;
-  margin-top: 100px;
-}
-
-@media(min-width: 768px) {
-  body {
-    margin-top: 50px;
-  }
-}
-
 #wrapper {
   padding-left: 0;
 }
@@ -30,20 +19,6 @@ body {
 .huge {
   font-size: 50px;
   line-height: normal;
-}
-
-@media(min-width: 768px) {
-  #wrapper {
-    padding-left: 225px;
-  }
-
-  #page-wrapper {
-    padding: 30px 10px 10px 225px;
-  }
-
-  .top-nav {
-    margin-right: 100px;
-  }
 }
 
 /* Top Navigation */

@@ -185,7 +185,7 @@ gulp.task('assets', function (cb) {
 });
 
 gulp.task('clean', function (cb) {
-    del([target() + '/*'], cb);
+    return del([target() + '/*'], cb);
 });
 
 gulp.task('get-commit', function (cb) {
@@ -251,7 +251,7 @@ gulp.task('serve', ['assets'], function () {
 
 gulp.task('build', function (cb) {
     process.env.NODE_ENV = 'production';
-    runSequence('clean', 'lint', 'readme', 'assets', ['media', 'bundle'], 'sizer', cb);
+    runSequence('clean', 'lint', 'assets', ['media', 'bundle'], 'sizer', cb);
 });
 
 gulp.task('default', ['serve']);

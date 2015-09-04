@@ -22,22 +22,16 @@ var App = React.createClass({
                     joyrideType: 'guided',
                     joyrideSteps: [
                         {
-                            title: 'User Menu',
-                            text: 'View your profile and change your settings',
-                            selector: '.user-menu',
+                            title: 'Joyride Type',
+                            text: 'It can be a guided tour or single steps',
+                            selector: '.switch-wrapper',
                             position: 'bottom'
-                        },
-                        {
-                            title: 'Sidebar Menu',
-                            text: 'Navigate through the site using these menus',
-                            selector: '.side-nav',
-                            position: 'right'
                         },
                         {
                             title: 'Comments',
                             text: 'New comments sent by your users',
                             selector: '.panel:nth-of-type(1)',
-                            position: 'bottom'
+                            position: 'bottom-left'
                         },
                         {
                             title: 'Visits',
@@ -49,13 +43,13 @@ var App = React.createClass({
                             title: 'Sales',
                             text: 'Total of sales by type',
                             selector: '#donut-chart',
-                            position: 'top'
+                            position: 'left'
                         },
                         {
                             title: 'Transactions',
                             text: 'Latest transactions',
                             selector: '#transactions',
-                            position: 'left'
+                            position: 'top-right'
                         }
                     ]
                 });
@@ -80,92 +74,26 @@ var App = React.createClass({
         if (state.ready) {
             html = (
                 <div>
-                    <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle" data-toggle="collapse"
-                                    data-target=".navbar-ex1-collapse">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            <a className="navbar-brand" href="#">React Joyride</a>
+                    <header className="main-header">
+                        <h1>React Joyride</h1>
 
-                            <div className="navbar-switch">
-                                Joyride Type
-                                <div className="switch">
-                                    <a href="#" className={state.joyrideType === 'guided' ? 'active' : ''}
-                                       data-type="guided"
-                                       onClick={this._onClickSwitch}>Guided</a>
-                                    <a href="#" className={state.joyrideType === 'single' ? 'active' : ''}
-                                       data-type="single"
-                                       onClick={this._onClickSwitch}>Single</a>
-                                </div>
+                        <div className="switch-wrapper">
+                            <h4>Joyride Type</h4>
+
+                            <div className="switch">
+                                <a href="#" className={state.joyrideType === 'guided' ? 'active' : ''}
+                                   data-type="guided"
+                                   onClick={this._onClickSwitch}>Guided</a>
+                                <a href="#" className={state.joyrideType === 'single' ? 'active' : ''}
+                                   data-type="single"
+                                   onClick={this._onClickSwitch}>Single</a>
                             </div>
                         </div>
-                        <ul className="nav navbar-right top-nav">
-                            <li className="dropdown user-menu">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i
-                                    className="fa fa-user"></i> John Smith <b className="caret"></b></a>
-                            </li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i
-                                    className="fa fa-bell"></i> <b className="caret"></b></a>
-                            </li>
-                            <li className="dropdown">
-                                <a href="#" className="dropdown-toggle" data-toggle="dropdown"><i
-                                    className="fa fa-envelope"></i> <b className="caret"></b></a>
-                            </li>
-                        </ul>
-                        <div className="collapse navbar-collapse navbar-ex1-collapse">
-                            <ul className="nav navbar-nav side-nav">
-                                <li className="active">
-                                    <a href="#"><i className="fa fa-fw fa-dashboard"></i> Dashboard</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="fa fa-fw fa-bar-chart-o"></i> Charts</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="fa fa-fw fa-table"></i> Tables</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="fa fa-fw fa-edit"></i> Forms</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i
-                                        className="fa fa-fw fa-desktop"></i> Bootstrap Elements</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i className="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
-                                </li>
-                                <li>
-                                    <a href="#" data-toggle="collapse" data-target="#demo"><i
-                                        className="fa fa-fw fa-arrows-v"></i> Dropdown <i
-                                        className="fa fa-fw fa-caret-down"></i></a>
-                                    <ul id="demo" className="collapse">
-                                        <li>
-                                            <a href="#">Dropdown Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Dropdown Item</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </nav>
+                    </header>
 
                     <div id="page-wrapper">
 
                         <div className="container-fluid">
-
-                            <div className="row">
-                                <div className="col-lg-12">
-                                    <h1 className="page-header">
-                                        Dashboard
-                                    </h1>
-                                </div>
-                            </div>
 
                             <div className="row">
                                 <div className="col-lg-3 col-md-6">
@@ -267,15 +195,15 @@ var App = React.createClass({
                             </div>
 
                             <div className="row">
-                                <div className="col-lg-12">
+                                <div className="col-xs-12 col-md-8">
                                     <div id="area-chart" className="panel panel-default">
                                         <div className="panel-heading">
                                             <h3 className="panel-title"><i
                                                 className="fa fa-bar-chart-o fa-fw"></i> Area Chart</h3>
                                         </div>
                                         <div className="panel-body">
-                                            <svg height="347" version="1.1" width="973"
-                                                 xmlns="http://www.w3.org/2000/svg">
+                                            <svg height="347" version="1.1" width="100%"
+                                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
                                                 <defs ></defs>
                                                 <text x="49.21875" y="313" textAnchor="end"
                                                       font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
@@ -521,10 +449,7 @@ var App = React.createClass({
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="row">
-                                <div className="col-lg-4">
+                                <div className="col-xs-12 col-md-4">
                                     <div id="donut-chart" className="panel panel-default">
                                         <div className="panel-heading">
                                             <h3 className="panel-title"><i
@@ -532,7 +457,7 @@ var App = React.createClass({
                                         </div>
                                         <div className="panel-body">
                                             <svg height="347" version="1.1" width="283"
-                                                 xmlns="http://www.w3.org/2000/svg">
+                                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
                                                 <path fill="none" stroke="#0b62a4"
                                                       d="M141.5,263.6666666666667A87.66666666666667,87.66666666666667,0,0,0,224.4125105355438,204.47736015043859"
                                                       strokeWidth="2" opacity="0"
@@ -551,8 +476,7 @@ var App = React.createClass({
                                                     ></path>
                                                 <path fill="none" stroke="#679dc6"
                                                       d="M62.8718822023325,137.23063663096116A87.66666666666667,87.66666666666667,0,0,0,141.47245870485656,263.6666623404901"
-                                                      strokeWidth="2" opacity="0"
-                                                    ></path>
+                                                      strokeWidth="2" opacity="0"></path>
                                                 <path fill="#679dc6" stroke="#ffffff"
                                                       d="M60.181186156024495,135.90392837878875A90.66666666666667,90.66666666666667,0,0,0,141.471516227076,266.66666219244604L141.46025885358583,302.4999937574753A126.5,126.5,0,0,1,28.042316714012117,120.05713536672914Z"
                                                       strokeWidth="3"
@@ -585,7 +509,10 @@ var App = React.createClass({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-4">
+                            </div>
+
+                            <div className="row">
+                                <div className="col-xs-12 col-md-6">
                                     <div className="panel panel-default">
                                         <div className="panel-heading">
                                             <h3 className="panel-title"><i
@@ -634,7 +561,7 @@ var App = React.createClass({
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-4">
+                                <div className="col-xs-12 col-md-6">
                                     <div id="transactions" className="panel panel-default">
                                         <div className="panel-heading">
                                             <h3 className="panel-title"><i

@@ -31,15 +31,6 @@ a {
   color: $link-color;
 }
 
-.navbar-inverse {
-  background-color: #444;
-  border-color: darken(#222, 5);
-
-  .navbar-brand {
-    color: $link-color;
-  }
-}
-
 .github-ribbon {
   position: absolute;
   right: 0;
@@ -79,17 +70,41 @@ a {
     }
 
     &.active {
-      background-color: $link-color;
-      color: #fff !important;
+      background-color: #fff;
+      color: $link-color !important;
       pointer-events: none;
     }
   }
 }
 
-.navbar-switch {
-  color: $link-color;
-  float: left;
-  margin-left: 30px;
+.main-header {
+  background-color: $link-color;
+  border-color: darken($link-color, 5);
+  padding: 3rem 1.5rem;
+
+  h1 {
+    color: #fff;
+    margin: 0 0  1rem;
+    text-align: center;
+  }
+}
+
+.switch-wrapper {
+  color: #fff;
+  margin: 0 auto;
+  max-width: 160px;
   padding-top: 14px;
-  vertical-align: middle;
+  text-align: center;
+
+  h4 {
+    margin-top: 0;
+  }
+}
+
+#page-wrapper {
+  margin-top: 3rem;
+}
+
+#donut-chart .panel-body {
+  text-align: center;
 }
