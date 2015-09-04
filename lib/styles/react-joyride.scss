@@ -4,14 +4,16 @@ $joyride-beacon-color: $joyride-color !default;
 $joyride-beacon-size: 36px !default;
 
 $joyride-hole-border-radius: 4px !default;
-$joyride-hole-outer-shadow: 0 0 0 99999px rgba(#000, 0.5) !default;
+$joyride-hole-outer-shadow: 0 0 0 9999px rgba(#000, 0.5) !default;
 $joyride-hole-inner-shadow: 0 0 15px rgba(#000, 0.5) !default;
 
 $joyride-tooltip-arrow-size: 28px !default;
 $joyride-tooltip-background-color: #fff !default;
 $joyride-tooltip-border-radius: 8px !default;
+$joyride-tooltip-button-color: #fff !default;
 $joyride-tooltip-button-radius: 4px !default;
-$joyride-tooltip-color: $joyride-color !default;
+$joyride-tooltip-color: #333 !default;
+$joyride-tooltip-highlight-color: $joyride-color !default;
 $joyride-tooltip-width: (290px, 360px, 450px) !default;
 
 $joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
@@ -92,7 +94,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 .joyride-tooltip {
   background-color: $joyride-tooltip-background-color;
   border-radius: $joyride-tooltip-border-radius;
-  color: #333;
+  color: $joyride-tooltip-color;
   filter: drop-shadow(2px 4px 4px rgba(#000, 0.3));
   opacity: 0;
   padding: 20px;
@@ -114,7 +116,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   }
 
   header {
-    border-bottom: 1px solid $joyride-color;
+    border-bottom: 1px solid $joyride-tooltip-highlight-color;
     margin-bottom: 12px;
     padding-bottom: 6px;
     position: relative;
@@ -124,7 +126,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     a {
-      color: #999;
+      color: $joyride-tooltip-color;
       font-size: 2.5rem;
       line-height: 0.7;
       position: absolute;
@@ -142,15 +144,15 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     text-align: right;
 
     a {
-      background-color: $joyride-color;
+      background-color: $joyride-tooltip-highlight-color;
       border-radius: $joyride-tooltip-button-radius;
-      color: #fff;
+      color: $joyride-tooltip-button-color;
       padding: 6px 12px;
       text-decoration: none;
       transition: background-color 0.2s ease-in-out;
 
       &:hover {
-        background-color: darken($joyride-color, 6);
+        background-color: darken($joyride-tooltip-highlight-color, 6);
       }
     }
   }
@@ -165,9 +167,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.triangle-bottom-right {
       background-image: url(joyride-arrow(bottom));
       height: $joyride-tooltip-arrow-height;
-      left: 45%;
+      left: 50%;
       overflow: hidden;
       top: -($joyride-tooltip-arrow-height - 2);
+      transform: translateX(-50%);
       width: $joyride-tooltip-arrow-size;
     }
 
@@ -177,10 +180,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.triangle-top-right {
       background-image: url(joyride-arrow(top));
       bottom: -($joyride-tooltip-arrow-height - 2);
-
       height: $joyride-tooltip-arrow-height;
-      left: 45%;
+      left: 50%;
       overflow: hidden;
+      transform: translateX(-50%);
       width: $joyride-tooltip-arrow-size;
     }
 
