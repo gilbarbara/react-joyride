@@ -57,6 +57,7 @@ componentWillMount: function () {
 - `joyrideShowBackdrop` (bool): Display a backdrop with holes above your steps. Defaults to `true`
 - `joyrideStart` (bool): Starts the tour as soon as you add steps. Defaults to `true`
 - `joyrideSteps` (array): The steps of your tour. You can leave it empty and add steps asynchronously using the `joyrideAddSteps` method. Defaults to `[]`
+- `joyrideTooltipOffset`: (number) The tooltip offset. Defaults to `30`
 - `joyrideType` (string): The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `single`
 - `joyrideCompleteCallback` (function): It will be called after an user has completed all the steps in your tour. Defaults to `function () {}`
 - `joyrideStepCallback` (function): It will be called after each step and passes the step object. Defaults to `undefined`
@@ -112,12 +113,14 @@ You can customize it with these options:
 - `$joyride-beacon-size`: Defaults to `36px`
 - `$joyride-hole-border-radius`: Defaults to `4px`
 - `$joyride-hole-inner-shadow`: Defaults to `0 0 15px rgba(#000, 0.5)`
-- `$joyride-hole-outer-shadow`: You'll need a huge blur value to fill the whole screen. Defaults to `0 0 0 99999px rgba(#000, 0.5)`
+- `$joyride-hole-outer-shadow`: You'll need a huge blur value to fill the whole screen. Defaults to `0 0 0 9999px rgba(#000, 0.5)`
 - `$joyride-tooltip-arrow-size`: You must use even numbers to avoid half-pixel inconsistencies. Defaults to `28px`
 - `$joyride-tooltip-background-color`: Defaults to `#fff`
 - `$joyride-tooltip-border-radius`: Defaults to `8px`
+- `$joyride-tooltip-button-color`: Defaults to `#fff`
 - `$joyride-tooltip-button-radius`: Defaults to `4px`
-- `$joyride-tooltip-color`: The header and button color. Defaults to `$joyride-color`
+- `$joyride-tooltip-color`: The header and button color. Defaults to `#333`
+- `$joyride-tooltip-highlight-color`: The header and button color. Defaults to `$joyride-color`
 - `$joyride-tooltip-width`: Sass List. Defaults to `(290px, 360px, 450px)`
 
 ---
