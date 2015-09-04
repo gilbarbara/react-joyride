@@ -49,10 +49,6 @@
     position: absolute; }
 
 .joyride-tooltip {
-  -webkit-animation: joyride-tooltip 0.4s 0.2s forwards;
-          animation: joyride-tooltip 0.4s 0.2s forwards;
-  -webkit-animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
-          animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
   background-color: #fff;
   border-radius: 8px;
   color: #333;
@@ -70,6 +66,11 @@
   @media screen and (min-width: 768px) {
     .joyride-tooltip {
       width: 450px; } }
+  .joyride-tooltip.animate {
+    -webkit-animation: joyride-tooltip 0.4s forwards;
+            animation: joyride-tooltip 0.4s forwards;
+    -webkit-animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
+            animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
   .joyride-tooltip header {
     border-bottom: 1px solid #f04;
     margin-bottom: 12px;
@@ -168,30 +169,6 @@
     opacity: 1;
     -webkit-transform: perspective(1px) scale(1);
             transform: perspective(1px) scale(1); } }
-
-@-webkit-keyframes joyride-pulse {
-  0% {
-    -webkit-transform: scale(1);
-            transform: scale(1); }
-  80% {
-    -webkit-transform: scale(1.5);
-            transform: scale(1.5); }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(2.5);
-            transform: scale(2.5); } }
-
-@keyframes joyride-pulse {
-  0% {
-    -webkit-transform: scale(1);
-            transform: scale(1); }
-  80% {
-    -webkit-transform: scale(1.5);
-            transform: scale(1.5); }
-  100% {
-    opacity: 0;
-    -webkit-transform: scale(2.5);
-            transform: scale(2.5); } }
 
 @-webkit-keyframes joyride-beacon-inner {
   20% {
