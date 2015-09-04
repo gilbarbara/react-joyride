@@ -1,5 +1,7 @@
 .editorconfig
-.eslint
+.eslintrc
+.hooks
+.idea
 .gitignore
 .scss-lint.yml
 gulpfile.js
