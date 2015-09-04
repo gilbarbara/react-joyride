@@ -170,7 +170,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       left: 50%;
       overflow: hidden;
       top: -($joyride-tooltip-arrow-height - 2);
-      transform: translateX(-50%);
       width: $joyride-tooltip-arrow-size;
     }
 
@@ -183,8 +182,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       height: $joyride-tooltip-arrow-height;
       left: 50%;
       overflow: hidden;
-      transform: translateX(-50%);
       width: $joyride-tooltip-arrow-size;
+    }
+
+    &.triangle-bottom,
+    &.triangle-top {
+      transform: translateX(-50%);
     }
 
     &.triangle-bottom-left,
