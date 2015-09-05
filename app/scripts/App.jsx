@@ -30,8 +30,14 @@ var App = React.createClass({
                         {
                             title: 'Comments',
                             text: 'New comments sent by your users',
-                            selector: '.panel:nth-of-type(1)',
-                            position: 'bottom-left'
+                            selector: '.panel-comments',
+                            position: 'bottom'
+                        },
+                        {
+                            title: 'Tickets',
+                            text: 'New support tickets waiting for replies',
+                            selector: '.panel-tickets',
+                            position: 'bottom'
                         },
                         {
                             title: 'Visits',
@@ -88,6 +94,7 @@ var App = React.createClass({
                                    data-type="single"
                                    onClick={this._onClickSwitch}>Single</a>
                             </div>
+                            <a href="#" className="reset" data-type={state.joyrideType} onClick={this._onClickSwitch}>restart</a>
                         </div>
                     </header>
 
@@ -97,7 +104,7 @@ var App = React.createClass({
 
                             <div className="row">
                                 <div className="col-lg-3 col-md-6">
-                                    <div className="panel panel-dark">
+                                    <div className="panel panel-dark panel-comments">
                                         <div className="panel-heading">
                                             <div className="row">
                                                 <div className="col-xs-3">
@@ -121,7 +128,7 @@ var App = React.createClass({
                                     </div>
                                 </div>
                                 <div className="col-lg-3 col-md-6">
-                                    <div className="panel panel-dark">
+                                    <div className="panel panel-dark panel-tasks">
                                         <div className="panel-heading">
                                             <div className="row">
                                                 <div className="col-xs-3">
@@ -145,7 +152,7 @@ var App = React.createClass({
                                     </div>
                                 </div>
                                 <div className="col-lg-3 col-md-6">
-                                    <div className="panel panel-dark">
+                                    <div className="panel panel-dark panel-orders">
                                         <div className="panel-heading">
                                             <div className="row">
                                                 <div className="col-xs-3">
@@ -169,7 +176,7 @@ var App = React.createClass({
                                     </div>
                                 </div>
                                 <div className="col-lg-3 col-md-6">
-                                    <div className="panel panel-dark">
+                                    <div className="panel panel-dark panel-tickets">
                                         <div className="panel-heading">
                                             <div className="row">
                                                 <div className="col-xs-3">

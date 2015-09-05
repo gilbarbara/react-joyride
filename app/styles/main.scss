@@ -80,7 +80,7 @@ a {
 .main-header {
   background-color: $link-color;
   border-color: darken($link-color, 5);
-  padding: 3rem 1.5rem;
+  padding: 3rem 1.5rem 1.5rem;
 
   h1 {
     color: #fff;
@@ -98,6 +98,12 @@ a {
 
   h4 {
     margin-top: 0;
+  }
+
+  .reset {
+    color: lighten($link-color, 20);
+    display: inline-block;
+    margin-top: 5px;
   }
 }
 
