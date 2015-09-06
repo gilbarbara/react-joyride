@@ -6,7 +6,7 @@ Create walkthroughs and guided tours for your apps.
 ---
 <a href="https://www.npmjs.com/package/react-joyride" target="_blank">![](https://badge.fury.io/js/react-joyride.svg)</a> <a href="https://travis-ci.org/gilbarbara/react-joyride" target="_blank">![](https://travis-ci.org/gilbarbara/react-joyride.svg)</a>
 
-View the demo [here](http://gilbarbara.github.io/react-joyride/).
+View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>.
 
 ## Installation
 
@@ -25,28 +25,34 @@ var App = React.createClass({
 
 This mixin changes states often so you should use `React.addons.PureRenderMixin` in your components as well.
 
+
+## Initialize
+You can start the tour right `from the `addSteps` method by passing true as a second parameter
+
+```javascript
+
+
+
+```
+
 ## Options
 
-You can change some of the options in the `componentWillMount`. All optional.
+You can change some options in `componentWillMount`. All optional.
 
 ```javascript
 componentWillMount: function () {
 	this.setState({
-		joyrideStart: false,
 		joyrideLocale: {
 			close: 'Close',
 			last: 'Last',
 			next: 'Next'
 		},
-		joyrideSteps: [
-			{
-				title: 'First Step',
-				text: 'Start your tour',
-				selector: '.first-step',
-				position: 'bottom-left'
-			},
-			...	
-		],
+		joyrideStepCallback: function(step) {
+			console.log(step);
+		},
+		joyrideCompleteCallback: function(steps) {
+			console.log(steps);
+		}
 		...
 	});
 }
@@ -55,12 +61,59 @@ componentWillMount: function () {
 - `joyrideLocale` (object): The strings used in the tooltip. Defaults to `{ close: 'Close', last: 'Last', next: 'Next' }`
 - `joyrideScrollToSteps` (bool): Scroll the page to the next step if needed. Defaults to `true`
 - `joyrideShowBackdrop` (bool): Display a backdrop with holes above your steps. Defaults to `true`
-- `joyrideStart` (bool): Starts the tour as soon as you add steps. Defaults to `true`
-- `joyrideSteps` (array): The steps of your tour. You can leave it empty and add steps asynchronously using the `joyrideAddSteps` method. Defaults to `[]`
-- `joyrideTooltipOffset`: (number) The tooltip offset. Defaults to `30`
-- `joyrideType` (string): The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `single`
-- `joyrideCompleteCallback` (function): It will be called after an user has completed all the steps in your tour. Defaults to `function () {}`
-- `joyrideStepCallback` (function): It will be called after each step and passes the step object. Defaults to `undefined`
+- `joyrideTooltipOffset`: (number) The tooltip offset from the target. Defaults to `30`
+- `joyrideType` (string): The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
+- `joyrideCompleteCallback` (function): It will be called after an user has completed all the steps in your tour and passes all steps. Defaults to `undefined`
+- `joyrideStepCallback` (function): It will be called after each step and passes the completed step. Defaults to `undefined`
+
+## Methods
+
+```javascript
+/**
+ * Add Steps
+ * @param steps {object|array} - Steps to add to the tour
+ * @param start {boolean} - Starts the tour right away
+ */
+
+this.joyrideAddSteps([
+	{
+		title: "", //optional
+		text: "...",
+		selector: "...",
+		position: "..."
+	},
+	...
+], true);
+```
+You can call this method multiple times after your component is mounted.
+
+```javascript
+
+/**
+ * Starts the tour
+ * @param [autorun] {boolean} - Starts with the first tooltip opened
+ */
+ 
+ this.joyrideStart(true);
+
+```
+Call this method after you added all your steps
+
+```javascript
+/**
+ * Retrieve the current progress of your tour
+ * @returns {{
+	index: 2,
+	percentageComplete: 50,
+	step: {
+		title: "",
+		text: "...",
+		selector: "...",
+		position: "..."
+	}
+}}
+ */
+```
 
 ## Step Syntax
 There are 4 usable options but you can pass extra parameters.
@@ -81,27 +134,6 @@ There are 4 usable options but you can pass extra parameters.
 - `text`: The tooltip's body (required)
 - `selector`: The target DOM selector of your step (required)
 - `position`: Relative position of you beacon and tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
-
-## Methods
-
-**`joyrideAddSteps(steps)`**
-
-Add steps asynchronously (if they need to be fetched from an api, etc). It accepts single steps `{object}` or an array of step objects `[{}, {}]`
-
-**`joyrideGetProgress()`**
-Retrieve the current progress of your tour. The object returned looks like this:
-```javascript
-{
-  "index": 2,
-  "percentageComplete": 50,
-  "step": {
-		title: "",
-		text: "...",
-		selector: "...",
-		position: "..."
-  }
-}
-```
 
 ## Styling
 You need to include either `lib/styles/react-joyride.css` directly on your page  or `lib/styles/react-joyride.scss` in your main scss file.
