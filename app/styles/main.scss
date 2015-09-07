@@ -34,7 +34,11 @@ a {
 .main-header {
   background-color: $link-color;
   border-color: darken($link-color, 5);
-  padding: 3rem 0;
+  padding: 2rem 0;
+
+  .intro {
+    padding: 1.5rem 0;
+  }
 
   h1 {
     color: #fff;
