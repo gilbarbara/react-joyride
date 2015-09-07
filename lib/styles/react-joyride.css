@@ -59,7 +59,7 @@
   -webkit-transform: translate3d(0, 0, 0);
           transform: translate3d(0, 0, 0);
   width: 290px;
-  z-index: 1600; }
+  z-index: 1510; }
   @media screen and (min-width: 480px) {
     .joyride-tooltip {
       width: 360px; } }
@@ -87,7 +87,8 @@
       text-decoration: none;
       top: 0; }
   .joyride-tooltip main {
-    margin-bottom: 12px; }
+    font-size: 1.8rem;
+    margin-bottom: 18px; }
   .joyride-tooltip footer {
     text-align: right; }
     .joyride-tooltip footer a {

@@ -1,4 +1,5 @@
 $joyride-color: #f04 !default;
+$joyride-zindex: 1500;
 
 $joyride-beacon-color: $joyride-color !default;
 $joyride-beacon-size: 36px !default;
@@ -44,7 +45,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   height: $joyride-beacon-size;
   position: relative;
   width: $joyride-beacon-size;
-  z-index: 1500;
+  z-index: $joyride-zindex;
 
   .inner {
     animation: joyride-beacon-inner 1.2s infinite ease-in-out;
@@ -82,7 +83,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 1500;
+  z-index: $joyride-zindex;
 
   > div {
     border-radius: $joyride-hole-border-radius;
@@ -100,7 +101,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   padding: 20px;
   transform: translate3d(0, 0, 0);
   width: nth($joyride-tooltip-width, 1);
-  z-index: 1600;
+  z-index: $joyride-zindex + 10;
 
   @media screen and (min-width: 480px) {
     width: nth($joyride-tooltip-width, 2);
@@ -137,7 +138,8 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   }
 
   main {
-    margin-bottom: 12px;
+    font-size: 1.8rem;
+    margin-bottom: 18px;
   }
 
   footer {
