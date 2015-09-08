@@ -15,43 +15,12 @@ var App = React.createClass({
 
     componentWillMount () {
         this.setState({
-            joyrideSteps: [
-                {
-                    text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
-                    selector: '.intro',
-                    position: 'bottom'
-                },
-                {
-                    title: 'Comments',
-                    text: 'New comments sent by your users',
-                    selector: '.panel-comments',
-                    position: 'bottom'
-                },
-                {
-                    title: 'Tickets',
-                    text: 'New support tickets waiting for replies',
-                    selector: '.panel-tickets',
-                    position: 'bottom'
-                },
-                {
-                    title: 'Visits',
-                    text: 'New visits in your site overtime',
-                    selector: '#area-chart',
-                    position: 'top'
-                },
-                {
-                    title: 'Sales',
-                    text: 'Total of sales by type',
-                    selector: '#donut-chart',
-                    position: 'left'
-                },
-                {
-                    title: 'Transactions',
-                    text: 'Latest transactions',
-                    selector: '#transactions',
-                    position: 'top-right'
-                }
-            ]
+            joyrideStepCallback: (step) => {
+                console.log('stepCallback', step);
+            },
+            joyrideCompleteCallback: (steps) => {
+                console.log('completeCallback', steps);
+            }
         });
     },
 
@@ -60,7 +29,43 @@ var App = React.createClass({
             this.setState({
                 ready: true
             }, () => {
-                this.joyrideStart();
+                this.joyrideAddSteps([
+                    {
+                        text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
+                        selector: '.intro',
+                        position: 'bottom'
+                    },
+                    {
+                        title: 'Comments',
+                        text: 'New comments sent by your users',
+                        selector: '.panel-comments',
+                        position: 'bottom'
+                    },
+                    {
+                        title: 'Tickets',
+                        text: 'New support tickets waiting for replies',
+                        selector: '.panel-tickets',
+                        position: 'bottom'
+                    },
+                    {
+                        title: 'Visits',
+                        text: 'New visits in your site overtime',
+                        selector: '#area-chart',
+                        position: 'top'
+                    },
+                    {
+                        title: 'Sales',
+                        text: 'Total of sales by type',
+                        selector: '#donut-chart',
+                        position: 'left'
+                    },
+                    {
+                        title: 'Transactions',
+                        text: 'Latest transactions',
+                        selector: '#transactions',
+                        position: 'top-right'
+                    }
+                ], true);
             });
         }, 1000);
     },
