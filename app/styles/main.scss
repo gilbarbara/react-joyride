@@ -8,7 +8,7 @@ $fa-font-path: 'fonts/';
 @import 'components/loader';
 @import 'sbadmin';
 
-$joyride-color: #00e82b;
+$joyride-color: #ffaf44;
 @import '../../node_modules/react-joyride/lib/styles/react-joyride';
 
 @import url(http://fonts.googleapis.com/css?family=Lato:400,400italic);
@@ -38,6 +38,11 @@ a {
 
   .intro {
     padding: 1.5rem 0;
+
+    @include lg {
+      margin: 0 auto;
+      width: 60%;
+    }
   }
 
   h1 {

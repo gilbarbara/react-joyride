@@ -82,7 +82,7 @@ var App = React.createClass({
                 <div>
                     <header className="main-header">
                         <div className="container">
-                            <div className="intro" style={{ width: '60%', margin: '0 auto' }}>
+                            <div className="intro">
                                 <h1>React Joyride</h1>
 
                                 <h2>Create walkthroughs and guided tours for your ReactJS apps.</h2>
