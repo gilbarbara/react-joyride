@@ -47,11 +47,10 @@ Or include this directly in your html:
 Add steps to your tour after your component is mounted.
 
 ```javascript
-this.joyrideAddSteps({...})]
-//If you pass `true` as a second parameter it will start the tour immediately.
+this.joyrideAddSteps([{...}])]
 ```
 
-You can start the tour at any time
+Start the tour with:
 
 ```javascript
 this.joyrideStart()
@@ -90,15 +89,16 @@ componentWillMount: function () {
 }
 ```
 
-## Methods
+## API
+
+### this.joyrideAddSteps(steps, [start])
+
+Add steps to your tour. You can call this method multiple times even after the tour has started.
+
+- `steps` {object|array} - Tour's steps
+- `start` {boolean} - Starts the tour right away (optional)
 
 ```javascript
-/**
- * Add Steps
- * @param steps {object|array} - Steps to add to the tour
- * @param start {boolean} - Starts the tour right away
- */
-
 this.joyrideAddSteps([
 	{
 		title: "", //optional
@@ -107,40 +107,40 @@ this.joyrideAddSteps([
 		position: "..."
 	},
 	...
-], true);
+]);
 ```
-You can call this method multiple times even after the tour has started.
+
+### this.joyrideStart(autorun)
+
+Call this method to start the tour if it wasn't already started with `this.joyrideAddSteps()`
+
+- `autorun` {boolean} - Starts the tour with the first tooltip opened.
+
+### this.joyrideGetProgress()
+Retrieve the current progress of your tour. The object returned looks like this:
 
 ```javascript
-
-/**
- * Starts the tour
- * @param [autorun] {boolean} - Starts with the first tooltip opened
- */
- 
- this.joyrideStart(true);
-
-```
-Call this method to, well, start the tour.
-
-```javascript
-/**
- * Retrieve the current progress of your tour
- * @returns {{
+{
 	index: 2,
 	percentageComplete: 50,
 	step: {
-		title: "",
+		title: "...",
 		text: "...",
 		selector: "...",
 		position: "..."
 	}
 }}
- */
 ```
 
 ## Step Syntax
 There are 4 usable options but you can pass extra parameters.
+
+- `title`: The title of the tooltip (optional)
+- `text`: The tooltip's body (required)
+- `selector`: The target DOM selector of your step (required)
+- `position`: Relative position of you beacon and tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
+
+Example:
 
 ```javascript
 {
@@ -153,11 +153,6 @@ There are 4 usable options but you can pass extra parameters.
     parent: 'MyComponentName'
 }
 ```
-
-- `title`: The title of the tooltip (optional)
-- `text`: The tooltip's body (required)
-- `selector`: The target DOM selector of your step (required)
-- `position`: Relative position of you beacon and tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
 
 ## SCSS Options
 
@@ -177,11 +172,12 @@ There are 4 usable options but you can pass extra parameters.
 - `$joyride-tooltip-bg-color`: Defaults to `#fff`
 - `$joyride-tooltip-border-radius`: Defaults to `8px`
 - `$joyride-tooltip-color`: The header and text color. Defaults to `#555`
+- `$joyride-tooltip-font-size`: Defaults to `16px`
 - `$joyride-tooltip-padding`: Defaults to `20px`
 - `$joyride-tooltip-shadow`: Defaults to `drop-shadow(2px 4px 4px rgba(#000, 0.5))`
 - `$joyride-tooltip-width`: Sass list of Mobile / Tablet / Desktop sizes. Defaults to `(290px, 360px, 450px)`
 - `$joyride-header-color`: Defaults to `$joyride-tooltip-header-color`
-- `$joyride-header-size`: Defaults to `2rem`
+- `$joyride-header-font-size`: Defaults to `20px`
 - `$joyride-header-border-color`: Defaults to `$joyride-color`
 - `$joyride-header-border-width`: Defaults to `1px`
 - `$joyride-button-bg-color`: Defaults to `$joyride-color`
