@@ -23,8 +23,7 @@
   ],
   "dependencies": {
     "react": "^0.13",
-    "scroll": "0.0.3",
-    "trigger-event": "^1.0"
+    "scroll": "0.0.3"
   },
   "devDependencies": {
     "del": "^1.2",
