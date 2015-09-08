@@ -161,21 +161,32 @@ There are 4 usable options but you can pass extra parameters.
 
 ## SCSS Options
 
+#### Basic
+
 - `$joyride-color`: The base color. Defaults to `#f04`
 - `$joyride-zindex`: Defaults to `1500`
+- `$joyride-backdrop-color`: Defaults to `rgba(#000, 0.5)`
 - `$joyride-beacon-color`: Defaults to `$joyride-color`
 - `$joyride-beacon-size`: Defaults to `36px`
 - `$joyride-hole-border-radius`: Defaults to `4px`
-- `$joyride-hole-inner-shadow`: Defaults to `0 0 15px rgba(#000, 0.5)`
-- `$joyride-hole-outer-shadow`: You'll need a huge blur value to fill the whole screen. Defaults to `0 0 0 9999px rgba(#000, 0.5)`
+- `$joyride-hole-shadow`: Defaults to `0 0 15px rgba(#000, 0.5)`
+
+#### Tooltip
+
 - `$joyride-tooltip-arrow-size`: You must use even numbers to avoid half-pixel inconsistencies. Defaults to `28px`
-- `$joyride-tooltip-background-color`: Defaults to `#fff`
+- `$joyride-tooltip-bg-color`: Defaults to `#fff`
 - `$joyride-tooltip-border-radius`: Defaults to `8px`
-- `$joyride-tooltip-button-color`: Defaults to `#fff`
-- `$joyride-tooltip-button-radius`: Defaults to `4px`
-- `$joyride-tooltip-color`: The header and button color. Defaults to `#333`
-- `$joyride-tooltip-highlight-color`: The header and button color. Defaults to `$joyride-color`
-- `$joyride-tooltip-width`: Sass List. Defaults to `(290px, 360px, 450px)`
+- `$joyride-tooltip-color`: The header and text color. Defaults to `#555`
+- `$joyride-tooltip-padding`: Defaults to `20px`
+- `$joyride-tooltip-shadow`: Defaults to `drop-shadow(2px 4px 4px rgba(#000, 0.5))`
+- `$joyride-tooltip-width`: Sass list of Mobile / Tablet / Desktop sizes. Defaults to `(290px, 360px, 450px)`
+- `$joyride-header-color`: Defaults to `$joyride-tooltip-header-color`
+- `$joyride-header-size`: Defaults to `2rem`
+- `$joyride-header-border-color`: Defaults to `$joyride-color`
+- `$joyride-header-border-width`: Defaults to `1px`
+- `$joyride-button-bg-color`: Defaults to `$joyride-color`
+- `$joyride-button-color`: Defaults to `#fff`
+- `$joyride-button-border-radius`: Defaults to `4px`
 
 ## License
 
