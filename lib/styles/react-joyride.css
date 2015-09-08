@@ -84,7 +84,7 @@
     position: relative; }
     .joyride-tooltip header h4 {
       color: #555;
-      font-size: 2rem;
+      font-size: 20px;
       margin: 0; }
     .joyride-tooltip header a {
       color: #555;
@@ -95,7 +95,7 @@
       text-decoration: none;
       top: 0; }
   .joyride-tooltip main {
-    font-size: 1.8rem;
+    font-size: 16px;
     margin-bottom: 18px; }
   .joyride-tooltip footer {
     text-align: right; }

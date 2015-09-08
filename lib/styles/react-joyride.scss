@@ -12,12 +12,13 @@ $joyride-tooltip-arrow-size: 36px !default;
 $joyride-tooltip-bg-color: #fff !default;
 $joyride-tooltip-border-radius: 8px !default;
 $joyride-tooltip-color: #555 !default;
+$joyride-tooltip-font-size: 16px !default;
 $joyride-tooltip-padding: 20px !default;
 $joyride-tooltip-shadow: drop-shadow(2px 4px 4px rgba(#000, 0.3)) !default;
 $joyride-tooltip-width: (290px, 360px, 450px) !default;
 
 $joyride-header-color: $joyride-tooltip-color !default;
-$joyride-header-size: 2rem !default;
+$joyride-header-font-size: 20px !default;
 $joyride-header-border-color: $joyride-color !default;
 $joyride-header-border-width: 1px !default;
 
@@ -137,7 +138,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     h4 {
       color: $joyride-header-color;
-      font-size: $joyride-header-size;
+      font-size: $joyride-header-font-size;
       margin: 0;
     }
 
@@ -153,7 +154,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   }
 
   main {
-    font-size: 1.8rem;
+    font-size: $joyride-tooltip-font-size;
     margin-bottom: 18px;
   }
 
