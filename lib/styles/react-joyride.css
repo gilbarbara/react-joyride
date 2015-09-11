@@ -60,6 +60,7 @@
   background-color: #fff;
   border-radius: 8px;
   color: #555;
+  cursor: default;
   -webkit-filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
           filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
   opacity: 0;
@@ -101,7 +102,7 @@
     margin-bottom: 18px; }
   .joyride-tooltip footer {
     text-align: right; }
-    .joyride-tooltip footer a {
+    .joyride-tooltip footer .primary {
       background-color: #f04;
       border-radius: 4px;
       color: #fff;
@@ -109,8 +110,11 @@
       text-decoration: none;
       -webkit-transition: background-color 0.2s ease-in-out;
               transition: background-color 0.2s ease-in-out; }
-      .joyride-tooltip footer a:hover {
+      .joyride-tooltip footer .primary:hover {
         background-color: #ff1f5a; }
+    .joyride-tooltip footer .secondary {
+      color: #f04;
+      margin-right: 10px; }
   .joyride-tooltip .triangle {
     background-repeat: no-repeat;
     position: absolute;

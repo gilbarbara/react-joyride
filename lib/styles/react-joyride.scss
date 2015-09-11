@@ -26,6 +26,8 @@ $joyride-button-bg-color: $joyride-color !default;
 $joyride-button-color: #fff !default;
 $joyride-button-radius: 4px !default;
 
+$joyride-back-button-color: $joyride-color !default;
+
 $joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
 $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-arrow-size * 0 + 1)) / 16;
 
@@ -113,6 +115,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     background-color: $joyride-tooltip-bg-color;
     border-radius: $joyride-tooltip-border-radius;
     color: $joyride-tooltip-color;
+    cursor: default;
     filter: $joyride-tooltip-shadow;
     opacity: 0;
     padding: $joyride-tooltip-padding;
@@ -164,7 +167,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     footer {
       text-align: right;
 
-      a {
+      .primary {
         background-color: $joyride-button-bg-color;
         border-radius: $joyride-button-radius;
         color: $joyride-button-color;
@@ -175,6 +178,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         &:hover {
           background-color: lighten($joyride-button-bg-color, 6);
         }
+      }
+
+      .secondary {
+        color: $joyride-back-button-color;
+        margin-right: 10px;
       }
     }
 
