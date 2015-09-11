@@ -1,0 +1,14 @@
+---
+languages:
+  JavaScript: true
+engines:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+  - "**.css"
+exclude_paths:
+- node_modules/**/*
