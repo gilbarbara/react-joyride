@@ -39,7 +39,7 @@
             transform-origin: center;
     width: 100%; }
 
-.joyride-backdrop {
+.joyride-overlay {
   bottom: 0;
   cursor: pointer;
   left: 0;

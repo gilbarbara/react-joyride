@@ -60,7 +60,7 @@ this.joyrideStart()
 
 - `joyrideLocale` (object): The strings used in the tooltip. Defaults to `{ close: 'Close', last: 'Last', next: 'Next' }`
 - `joyrideScrollToSteps` (bool): Scroll the page to the next step if needed. Defaults to `true`
-- `joyrideShowBackdrop` (bool): Display a backdrop with holes above your steps. Defaults to `true`
+- `joyrideShowOverlay` (bool): Display an overlay with holes above your steps. Defaults to `true`
 - `joyrideTooltipOffset`: (number) The tooltip offset from the target. Defaults to `30`
 - `joyrideType` (string): The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
 - `joyrideCompleteCallback` (function): It will be called after an user has completed all the steps in your tour and passes all steps. Defaults to `undefined`
@@ -160,7 +160,7 @@ Example:
 
 - `$joyride-color`: The base color. Defaults to `#f04`
 - `$joyride-zindex`: Defaults to `1500`
-- `$joyride-backdrop-color`: Defaults to `rgba(#000, 0.5)`
+- `$joyride-overlay-color`: Defaults to `rgba(#000, 0.5)`
 - `$joyride-beacon-color`: Defaults to `$joyride-color`
 - `$joyride-beacon-size`: Defaults to `36px`
 - `$joyride-hole-border-radius`: Defaults to `4px`
