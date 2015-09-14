@@ -188,44 +188,59 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     .triangle {
       background-repeat: no-repeat;
+      overflow: hidden;
       position: absolute;
+    }
 
-      /*Up pointing*/
-      &.triangle-bottom,
-      &.triangle-bottom-left,
-      &.triangle-bottom-right {
+    &.bottom,
+    &.bottom-left,
+    &.bottom-right {
+      margin-top: $joyride-tooltip-arrow-height;
+
+      .triangle {
         background-image: url(joyride-arrow(bottom));
         height: $joyride-tooltip-arrow-height;
         left: 50%;
-        overflow: hidden;
         top: -($joyride-tooltip-arrow-height - 2);
         width: $joyride-tooltip-arrow-size;
       }
+    }
 
-      /*Down pointing*/
-      &.triangle-top,
-      &.triangle-top-left,
-      &.triangle-top-right {
+    &.top,
+    &.top-left,
+    &.top-right {
+      margin-bottom: $joyride-tooltip-arrow-height;
+
+      .triangle {
         background-image: url(joyride-arrow(top));
         bottom: -($joyride-tooltip-arrow-height - 2);
         height: $joyride-tooltip-arrow-height;
         left: 50%;
-        overflow: hidden;
         width: $joyride-tooltip-arrow-size;
       }
+    }
 
-      &.triangle-bottom,
-      &.triangle-top {
+    &.bottom,
+    &.top {
+      .triangle {
         transform: translateX(-50%);
       }
+    }
 
-      &.triangle-bottom-left,
-      &.triangle-top-left {
-        left: 4%;
+    &.bottom-left,
+    &.top-left {
+      .triangle {
+        left: 3%;
+
+        @media screen and (min-width: 480px) {
+          left: 2%;
+        }
       }
+    }
 
-      &.triangle-bottom-right,
-      &.triangle-top-right {
+    &.bottom-right,
+    &.top-right {
+      .triangle {
         left: 86%;
 
         @media screen and (min-width: 480px) {
@@ -236,22 +251,26 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
           left: 90%;
         }
       }
+    }
 
-      /*Right pointing*/
-      &.triangle-left {
+    &.left {
+      margin-right: $joyride-tooltip-arrow-height;
+
+      .triangle {
         background-image: url(joyride-arrow(left));
         height: $joyride-tooltip-arrow-size;
-        overflow: hidden;
         right: -($joyride-tooltip-arrow-height - 2);
         width: $joyride-tooltip-arrow-height;
       }
+    }
 
-      /*Left pointing*/
-      &.triangle-right {
+    &.right {
+      margin-left: $joyride-tooltip-arrow-height;
+
+      .triangle {
         background-image: url(joyride-arrow(right));
         height: $joyride-tooltip-arrow-size;
         left: -($joyride-tooltip-arrow-height - 2);
-        overflow: hidden;
         width: $joyride-tooltip-arrow-height;
       }
     }
