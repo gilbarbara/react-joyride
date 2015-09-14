@@ -103,11 +103,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
   &-hole {
     border-radius: $joyride-hole-border-radius;
-    box-shadow: 0 0 999px 9999px $joyride-overlay-color, $joyride-hole-shadow;
+    box-shadow: 0 0 0 9999px $joyride-overlay-color, $joyride-hole-shadow;
     position: absolute;
 
-    @media screen and (min-width: 800px) {
-      box-shadow: 0 0 0 9999px $joyride-overlay-color, $joyride-hole-shadow;
+    &.safari {
+      box-shadow: 0 0 999px 9999px $joyride-overlay-color, $joyride-hole-shadow;
     }
   }
 
