@@ -59,6 +59,7 @@ this.joyrideStart()
 ## Options
 
 - `joyrideLocale` (object): The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next' }`
+- `joyrideScrollOffset` (number): The scrollTop offset used in `joyrideScrollToSteps`. Defaults to `20`
 - `joyrideScrollToSteps` (bool): Scroll the page to the next step if needed. Defaults to `true`
 - `joyrideShowBackButton` (bool): Display a back button. Defaults to `true`
 - `joyrideShowOverlay` (bool): Display an overlay with holes above your steps. Defaults to `true`
