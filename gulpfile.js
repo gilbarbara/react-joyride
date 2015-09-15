@@ -115,7 +115,7 @@ gulp.task('media', function () {
 });
 
 gulp.task('fonts', function () {
-    return gulp.src('bower_components/fontawesome/fonts/*.{eot,svg,ttf,woff,woff2}')
+    return gulp.src('bower_components/font-awesome/fonts/*.{eot,svg,ttf,woff,woff2}')
         .pipe($.flatten())
         .pipe(gulp.dest(target() + '/assets/fonts'))
         .pipe($.size({
