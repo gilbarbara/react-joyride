@@ -3,7 +3,7 @@
 @import 'base/utils';
 
 $fa-font-path: 'fonts/';
-@import 'fontawesome/scss/font-awesome';
+@import 'font-awesome/scss/font-awesome';
 
 @import 'components/loader';
 @import 'sbadmin';
@@ -11,7 +11,7 @@ $fa-font-path: 'fonts/';
 $joyride-color: #ffaf44;
 @import '../../node_modules/react-joyride/lib/styles/react-joyride';
 
-@import url(http://fonts.googleapis.com/css?family=Lato:400,400italic);
+@import url('http://fonts.googleapis.com/css?family=Lato:400,400italic');
 
 html {
   font-size: 62.5%;

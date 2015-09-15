@@ -1,5 +1,5 @@
 {
-  "name": "react-joyride",
+  "name": "react-joyride-demo",
   "version": "0.2.0",
   "description": "Create walkthoughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
@@ -12,7 +12,8 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^3.10",
-    "react": "^0.13"
+    "react": "^0.13",
+    "react-joyride": "^0.6"
   },
   "devDependencies": {
     "babelify": "^6.2",
