@@ -127,7 +127,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       width: nth($joyride-tooltip-width, 2);
     }
 
-    @media screen and (min-width: 768px) {
+    @media screen and (min-width: 960px) {
       width: nth($joyride-tooltip-width, 3);
     }
 
