@@ -71,7 +71,7 @@
   @media screen and (min-width: 480px) {
     .joyride-tooltip {
       width: 360px; } }
-  @media screen and (min-width: 768px) {
+  @media screen and (min-width: 960px) {
     .joyride-tooltip {
       width: 450px; } }
   .joyride-tooltip.animate {
