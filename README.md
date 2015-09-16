@@ -58,16 +58,25 @@ this.joyrideStart()
 
 ## Options
 
-- `joyrideLocale` (object): The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next' }`
-- `joyrideScrollOffset` (number): The scrollTop offset used in `joyrideScrollToSteps`. Defaults to `20`
-- `joyrideScrollToSteps` (bool): Scroll the page to the next step if needed. Defaults to `true`
-- `joyrideShowBackButton` (bool): Display a back button. Defaults to `true`
-- `joyrideShowOverlay` (bool): Display an overlay with holes above your steps. Defaults to `true`
-- `joyrideShowStepsProgress` (bool): Display the tour progress in the next button (1/5) in `guided` tours. Defaults to `false`
-- `joyrideTooltipOffset`: (number) The tooltip offset from the target. Defaults to `30`
-- `joyrideType` (string): The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
-- `joyrideCompleteCallback` (function): It will be called after an user has completed all the steps in your tour and passes all steps. Defaults to `undefined`
-- `joyrideStepCallback` (function): It will be called after each step and passes the completed step. Defaults to `undefined`
+`joyrideLocale` {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next' }`
+
+`joyrideScrollOffset` {number}: The scrollTop offset used in `joyrideScrollToSteps`. Defaults to `20`
+
+`joyrideScrollToSteps` {bool}: Scroll the page to the next step if needed. Defaults to `true`
+
+`joyrideShowBackButton` {bool}: Display a back button. Defaults to `true`
+
+`joyrideShowOverlay` {bool}: Display an overlay with holes above your steps. Defaults to `true`
+
+`joyrideShowStepsProgress` {bool}: Display the tour progress in the next button (1/5) in `guided` tours. Defaults to `false`
+
+`joyrideTooltipOffset` {number}: The tooltip offset from the target. Defaults to `30`
+
+`joyrideType` {string}: The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
+
+`joyrideCompleteCallback` {function}: It will be called after an user has completed all the steps in your tour and passes all steps. Defaults to `undefined`
+
+`joyrideStepCallback` {function}: It will be called after each step and passes the completed step. Defaults to `undefined`
 
 You can change these in `componentWillMount`. All optional.
 
