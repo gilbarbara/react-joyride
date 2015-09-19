@@ -28,11 +28,11 @@
     "react": "^0.13"
   },
   "devDependencies": {
-    "del": "^1.2",
+    "del": "^2.0",
     "eslint": "^1.2",
     "eslint-plugin-react": "^3.3",
     "gulp": "^3.9",
-    "gulp-autoprefixer": "^2.3",
+    "gulp-autoprefixer": "^3.0",
     "gulp-eslint": "^1.0",
     "gulp-load-plugins": "^0.10",
     "gulp-plumber": "^1.0",
