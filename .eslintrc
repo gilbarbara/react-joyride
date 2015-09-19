@@ -22,10 +22,7 @@
   },
   "globals": {
     "$": true,
-    "d3": true,
-    "Modernizr": false,
-    "heap": true,
-    "ga": false
+    "Modernizr": false
   },
   "plugins": [
     "react"
@@ -82,7 +79,7 @@
     "no-floating-decimal": 2,
     "no-implicit-coercion": [1, {"boolean": true, "number": false, "string": true}],
     "no-implied-eval": 2,
-    "no-invalid-this": 2,
+    "no-invalid-this": 1,
     "no-loop-func": 0,
     "no-multi-spaces": [
       1,
@@ -103,6 +100,7 @@
     "no-sequences": 2,
     "no-throw-literal": 2,
     "no-unused-expressions": 1,
+    "no-useless-concat": 1,
     "no-void": 2,
     "no-warning-comments": 0,
     "no-with": 1,
@@ -180,15 +178,16 @@
     "space-after-keywords": 1,
     "space-before-blocks": 1,
     "space-before-function-paren": 1,
+    "space-before-keywords": 1,
     "space-infix-ops": 1,
     "space-return-throw-case": 1,
     "space-unary-ops": 1,
     // Node
-    "callback-return": [2, ["callback", "cb", "next"]],
-    "handle-callback-err": 2,
+    "callback-return": [1, ["callback", "cb", "next"]],
+    "handle-callback-err": 1,
     "no-mixed-requires": 0,
     //Es6
-    "arrow-parens": 1,
+    "arrow-parens": 0,
     "arrow-spacing": [
       1,
       {
@@ -202,14 +201,20 @@
     "no-const-assign": 2,
     "no-this-before-super": 2,
     "object-shorthand": [0, "always"],
-    "prefer-const": 1,
+    "prefer-const": 0,
     "prefer-spread": 1,
     "require-yield": 1,
     // React
-    "react/jsx-quotes": [1, "double"],
+    "jsx-quotes": 1,
+    "react/jsx-boolean-value": [0, "always"],
+    "react/jsx-closing-bracket-location": [1, "after-props"],
+    "react/jsx-curly-spacing": [1, "never"],
+    "react/jsx-indent-props": 1,
+    "react/jsx-max-props-per-line": [1, { "maximum": 4 }],
+    "react/jsx-no-duplicate-props": 1,
     "react/jsx-no-undef": 1,
-    "react/jsx-sort-props": 0,
     "react/jsx-sort-prop-types": 1,
+    "react/jsx-sort-props": 0,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
     "react/no-did-mount-set-state": 0,
