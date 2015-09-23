@@ -51,7 +51,7 @@
     "no-sparse-arrays": 2,
     "no-unreachable": 2,
     "valid-jsdoc": [
-      2,
+      1,
       {
         "prefer": {
           "return": "returns"
