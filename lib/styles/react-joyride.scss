@@ -28,6 +28,8 @@ $joyride-button-radius: 4px !default;
 
 $joyride-back-button-color: $joyride-color !default;
 
+$joyride-skip-button-color: #ccc !default;
+
 $joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
 $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-arrow-size * 0 + 1)) / 16;
 
@@ -182,6 +184,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
       .secondary {
         color: $joyride-back-button-color;
+        margin-right: 10px;
+      }
+
+      .skip {
+        color: $joyride-skip-button-color;
+        float: left;
         margin-right: 10px;
       }
     }

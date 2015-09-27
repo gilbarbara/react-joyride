@@ -114,6 +114,10 @@
     .joyride-tooltip footer .secondary {
       color: #f04;
       margin-right: 10px; }
+    .joyride-tooltip footer .skip {
+      color: #ccc;
+      float: left;
+      margin-right: 10px; }
   .joyride-tooltip .triangle {
     background-repeat: no-repeat;
     overflow: hidden;
