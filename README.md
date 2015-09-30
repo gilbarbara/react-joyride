@@ -202,6 +202,7 @@ Example:
 - `$joyride-button-color`: Defaults to `#fff`
 - `$joyride-button-border-radius`: Defaults to `4px`
 - `$joyride-back-button-color`: Defaults to `$joyride-color`
+- `$joyride-skip-button-color`: Defaults to `#ccc`
 
 ## License
 
