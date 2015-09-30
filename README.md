@@ -60,7 +60,7 @@ this.joyrideStart()
 
 **joyrideKeyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
-**joyrideLocale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next' }`
+**joyrideLocale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`
 
 **joyrideScrollOffset** {number}: The scrollTop offset used in `joyrideScrollToSteps`. Defaults to `20`
 
@@ -70,7 +70,9 @@ this.joyrideStart()
 
 **joyrideShowOverlay** {bool}: Display an overlay with holes above your steps. Defaults to `true`
 
-**joyrideShowStepsProgress** {bool}: Display the tour progress in the next button (1/5) in `guided` tours. Defaults to `false`
+**joyrideShowSkipButton** {bool}: Display a link to skip the tour. It will trigger the `joyrideCompleteCallback` if it was defined. Defaults to `false`
+
+**joyrideShowStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `guided` tours. Defaults to `false`
 
 **joyrideTooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
@@ -91,7 +93,8 @@ componentWillMount: function () {
 			back: 'Voltar',
 			close: 'Fechar',
 			last: 'Último',
-			next: 'Próximo'
+			next: 'Próximo',
+			skip: 'Pular'
 		},
 		joyrideStepCallback: function(step) {
 			console.log(step);
