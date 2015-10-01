@@ -1,6 +1,4 @@
 ---
-languages:
-  JavaScript: true
 engines:
   eslint:
     enabled: true
