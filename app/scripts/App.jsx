@@ -9,17 +9,18 @@ var App = React.createClass({
 
     getInitialState () {
         return {
+            joyrideType: 'guided',
             ready: false
         };
     },
 
     componentWillMount () {
-        this.setState({
-            joyrideShowSkipButton: true,
-            joyrideStepCallback: (step) => {
+        this.joyrideSetOptions({
+            showSkipButton: true,
+            stepCallback: (step) => {
                 console.log('stepCallback', step);
             },
-            joyrideCompleteCallback: (steps) => {
+            completeCallback: (steps) => {
                 console.log('completeCallback', steps);
             }
         });
@@ -73,9 +74,12 @@ var App = React.createClass({
 
     _onClickSwitch (e) {
         e.preventDefault();
+        this.joyrideSetOptions({
+            type: e.currentTarget.dataset.type
+        });
         this.setState({
             joyrideType: e.currentTarget.dataset.type,
-            joyrideCurrentIndex: 0
+            _joyrideCurrentIndex: 0
         });
     },
 
@@ -427,7 +431,8 @@ var App = React.createClass({
                                                         stroke="#ffffff" strokeWidth="1" />
                                                 <circle cx="848.9260328068043" cy="210.40480000000002" r="2"
                                                         fill="#0b62a4" stroke="#ffffff" strokeWidth="1" />
-                                                <circle cx="948" cy="232.0528" r="2" fill="#0b62a4" stroke="#ffffff"
+                                                <circle cx="948" cy="232.0528" r="2"
+                                                        fill="#0b62a4" stroke="#ffffff"
                                                         strokeWidth="1" />
                                             </svg>
                                         </div>

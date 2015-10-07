@@ -13,7 +13,7 @@
   "dependencies": {
     "lodash": "^3.10",
     "react": "^0.13",
-    "react-joyride": "^0.6"
+    "react-joyride": "^0.7"
   },
   "devDependencies": {
     "babelify": "^6.3",
