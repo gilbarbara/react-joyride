@@ -8,5 +8,8 @@ ratings:
   paths:
   - "**.js"
   - "**.scss"
+addons:
+    code_climate:
+        repo_token: f5f9b3ad4d0ec4f05f0ed8b57a530044671d02bf264c3772ba67e0371442401f
 exclude_paths:
 - node_modules/**/*
