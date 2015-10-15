@@ -10,7 +10,8 @@ var App = React.createClass({
     getInitialState () {
         return {
             joyrideType: 'guided',
-            ready: false
+            ready: false,
+            steps: []
         };
     },
 
@@ -20,8 +21,8 @@ var App = React.createClass({
             stepCallback: (step) => {
                 console.log('stepCallback', step);
             },
-            completeCallback: (steps) => {
-                console.log('completeCallback', steps);
+            completeCallback: (steps, skipped) => {
+                console.log('completeCallback', steps, skipped);
             }
         });
     },
@@ -31,55 +32,62 @@ var App = React.createClass({
             this.setState({
                 ready: true
             }, () => {
-                this.joyrideAddSteps([
-                    {
-                        text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
-                        selector: '.intro',
-                        position: 'bottom'
-                    },
-                    {
-                        title: 'Comments',
-                        text: 'New comments sent by your users',
-                        selector: '.panel-comments',
-                        position: 'bottom'
-                    },
-                    {
-                        title: 'Tickets',
-                        text: 'New support tickets waiting for replies',
-                        selector: '.panel-tickets',
-                        position: 'bottom'
-                    },
-                    {
-                        title: 'Visits',
-                        text: 'New visits in your site overtime',
-                        selector: '#area-chart',
-                        position: 'top'
-                    },
-                    {
-                        title: 'Sales',
-                        text: 'Total of sales by type',
-                        selector: '#donut-chart',
-                        position: 'left'
-                    },
-                    {
-                        title: 'Transactions',
-                        text: 'Latest transactions',
-                        selector: React.findDOMNode(this.refs.transactions),
-                        position: 'top-right'
-                    }
-                ], true);
+                this.setState({
+                    steps: [
+                        {
+                            text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
+                            selector: '.intro',
+                            position: 'bottom'
+                        },
+                        {
+                            title: 'Comments',
+                            text: 'New comments sent by your users',
+                            selector: '.panel-comments',
+                            position: 'bottom'
+                        },
+                        {
+                            title: 'Tickets',
+                            text: 'New support tickets waiting for replies',
+                            selector: '.panel-tickets',
+                            position: 'bottom'
+                        },
+                        {
+                            title: 'Visits',
+                            text: 'New visits in your site overtime',
+                            selector: '#area-chart',
+                            position: 'top'
+                        },
+                        {
+                            title: 'Sales',
+                            text: 'Total of sales by type',
+                            selector: '#donut-chart',
+                            position: 'left'
+                        },
+                        {
+                            title: 'Transactions',
+                            text: 'Latest transactions',
+                            selector: React.findDOMNode(this.refs.transactions),
+                            position: 'top-right'
+                        }
+                    ]
+                }, () => {
+                    this.joyrideAddSteps(this.state.steps, true);
+                });
             });
         }, 1000);
     },
 
     _onClickSwitch (e) {
         e.preventDefault();
+
         this.joyrideSetOptions({
             type: e.currentTarget.dataset.type
         });
+
+        this.joyrideReplaceSteps(this.state.steps, true);
+
         this.setState({
-            joyrideType: e.currentTarget.dataset.type,
-            _joyrideCurrentIndex: 0
+            joyrideType: e.currentTarget.dataset.type
         });
     },
 
@@ -521,7 +529,7 @@ var App = React.createClass({
                                                 </a>
                                                 <a href="#" className="list-group-item">
                                                     <span className="badge">1 hour ago</span>
-                                                    <i className="fa fa-fw fa-user"></i> A new user has been added
+                                                    <i className="fa fa-fw fa-user"/> A new user has been added
                                                 </a>
                                                 <a href="#" className="list-group-item">
                                                     <span className="badge">2 hours ago</span>
