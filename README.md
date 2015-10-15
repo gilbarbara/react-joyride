@@ -87,9 +87,9 @@ Change the initial options during `componentWillMount`. All optional
 
 **type** {string}: The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
 
-**completeCallback** {function}: It will be called after an user has completed all the steps in your tour and passes all steps. Defaults to `undefined`
+**completeCallback** {function}: It will be called after an user has completed all the steps or skipped the tour completely and passes the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
 
-**stepCallback** {function}: It will be called after each step and passes the completed step. Defaults to `undefined`
+**stepCallback** {function}: It will be called after each step and passes the completed step `{object}`. Defaults to `undefined`
 
 Example:
 
@@ -120,7 +120,7 @@ componentWillMount: function () {
 
 Add steps to your tour. You can call this method multiple times even after the tour has started.
 
-- `steps` {object|array} - Tour's steps
+- `steps` {object|array} - Steps to add to the tour
 - `start` {boolean} - Starts the tour right away (optional)
 
 ```javascript
@@ -133,6 +133,25 @@ this.joyrideAddSteps([
 	},
 	...
 ]);
+```
+
+### this.joyrideReplaceSteps(steps, [start])
+
+Add steps to your tour. You can call this method multiple times even after the tour has started.
+
+- `steps` {object|array} - Steps to replace
+- `restart` {boolean} - Starts the new tour right away. Defaults to `true`
+
+```javascript
+this.joyrideReplaceSteps([
+	{
+		title: "", //optional
+		text: "...",
+		selector: "...",
+		position: "..."
+	},
+	...
+], true);
 ```
 
 ### this.joyrideStart(autorun)
