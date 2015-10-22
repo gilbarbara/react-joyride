@@ -84,7 +84,11 @@ var App = React.createClass({
             type: e.currentTarget.dataset.type
         });
 
-        this.joyrideReplaceSteps(this.state.steps, true);
+        this.joyrideReplaceSteps(this.state.steps, false);
+
+        setTimeout(() => {
+            this.joyrideStart();
+        }, 300);
 
         this.setState({
             joyrideType: e.currentTarget.dataset.type
