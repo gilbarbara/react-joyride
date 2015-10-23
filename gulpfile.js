@@ -27,15 +27,16 @@ function watchifyTask (options) {
     var bundler, rebundle, iteration = 0;
     bundler = browserify({
         entries: path.join(__dirname, '/app/scripts/main.js'),
+        basedir: __dirname,
         insertGlobals: true,
         cache: {},
         //debug: options.watch,
         packageCache: {},
         fullPaths: options.watch, //options.watch
-        extensions: ['.jsx'],
         transform: [
             ['babelify', { ignore: /bower_components/ }]
-        ]
+        ],
+        extensions: ['.jsx']
     });
 
     if (options.watch) {
@@ -60,6 +61,7 @@ function watchifyTask (options) {
                 if (iteration === 0 && options.cb) {
                     options.cb();
                 }
+                console.log(iteration);
                 iteration++;
             }));
     };
@@ -154,16 +156,16 @@ gulp.task('bundle', function () {
         }));
 
     extras = gulp.src([
-        'app/favicon.ico'
-    ])
+            'app/favicon.ico'
+        ])
         .pipe(gulp.dest('dist'))
         .pipe($.size({
             title: 'Extras'
         }));
 
     media = gulp.src([
-        'app/media/*.svg'
-    ])
+            'app/media/*.svg'
+        ])
         .pipe(gulp.dest('dist/media'))
         .pipe($.size({
             title: 'Media'
@@ -210,8 +212,8 @@ gulp.task('gh-pages', function () {
         .pipe(vinylPaths(del));
 
     push = gulp.src([
-        'dist/**/*'
-    ])
+            'dist/**/*'
+        ])
         .pipe($.ghPages({
             branch: 'gh-pages',
             message: commitMessage,
@@ -244,7 +246,7 @@ gulp.task('serve', ['assets'], function () {
         }
     });
 
-    gulp.watch(['app/*.html', '.tmp/assets/app.js', 'app/media/**/*', 'app/logos.json']).on('change', function () {
+    gulp.watch(['app/*.html', '.tmp/assets/app.js', 'app/media/**/*']).on('change', function () {
         browserSync.reload();
     });
 });

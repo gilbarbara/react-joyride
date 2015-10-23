@@ -1,10 +1,8 @@
 var React        = require('react/addons'),
-    _            = require('lodash'),
     ReactJoyride = require('react-joyride').Mixin,
     Loader       = require('./components/Loader');
 
 var App = React.createClass({
-
     mixins: [React.addons.PureRenderMixin, ReactJoyride],
 
     getInitialState () {
@@ -17,6 +15,7 @@ var App = React.createClass({
 
     componentWillMount () {
         this.joyrideSetOptions({
+            debug: true,
             showSkipButton: true,
             stepCallback: (step) => {
                 console.log('stepCallback', step);
@@ -533,7 +532,7 @@ var App = React.createClass({
                                                 </a>
                                                 <a href="#" className="list-group-item">
                                                     <span className="badge">1 hour ago</span>
-                                                    <i className="fa fa-fw fa-user"/> A new user has been added
+                                                    <i className="fa fa-fw fa-user" /> A new user has been added
                                                 </a>
                                                 <a href="#" className="list-group-item">
                                                     <span className="badge">2 hours ago</span>
