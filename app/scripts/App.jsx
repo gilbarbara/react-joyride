@@ -9,7 +9,37 @@ var App = React.createClass({
         return {
             joyrideType: 'guided',
             ready: false,
-            steps: []
+            steps: [
+                {
+                    text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
+                    selector: '.intro',
+                    position: 'bottom'
+                },
+                {
+                    title: 'Comments',
+                    text: 'New comments sent by your users',
+                    selector: '.panel-comments',
+                    position: 'bottom'
+                },
+                {
+                    title: 'Tickets',
+                    text: 'New support tickets waiting for replies',
+                    selector: '.panel-tickets',
+                    position: 'bottom'
+                },
+                {
+                    title: 'Visits',
+                    text: 'New visits in your site overtime',
+                    selector: '#area-chart',
+                    position: 'top'
+                },
+                {
+                    title: 'Sales',
+                    text: 'Total of sales by type',
+                    selector: '#donut-chart',
+                    position: 'left'
+                }
+            ]
         };
     },
 
@@ -31,45 +61,16 @@ var App = React.createClass({
             this.setState({
                 ready: true
             }, () => {
-                this.setState({
-                    steps: [
-                        {
-                            text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
-                            selector: '.intro',
-                            position: 'bottom'
-                        },
-                        {
-                            title: 'Comments',
-                            text: 'New comments sent by your users',
-                            selector: '.panel-comments',
-                            position: 'bottom'
-                        },
-                        {
-                            title: 'Tickets',
-                            text: 'New support tickets waiting for replies',
-                            selector: '.panel-tickets',
-                            position: 'bottom'
-                        },
-                        {
-                            title: 'Visits',
-                            text: 'New visits in your site overtime',
-                            selector: '#area-chart',
-                            position: 'top'
-                        },
-                        {
-                            title: 'Sales',
-                            text: 'Total of sales by type',
-                            selector: '#donut-chart',
-                            position: 'left'
-                        },
-                        {
+                this.setState(React.addons.update(this.state, {
+                    steps: {
+                        $push: [{
                             title: 'Transactions',
                             text: 'Latest transactions',
                             selector: React.findDOMNode(this.refs.transactions),
                             position: 'top-right'
-                        }
-                    ]
-                }, () => {
+                        }]
+                    }
+                }), () => {
                     this.joyrideAddSteps(this.state.steps, true);
                 });
             });
