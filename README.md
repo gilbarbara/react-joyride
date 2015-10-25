@@ -70,6 +70,10 @@ Change the initial options during `componentWillMount`. All optional
 
 **locale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`
 
+**resizeDebounce** {bool}: Delay the reposition of the current step while the window is being resized. Defaults to `false`
+
+**resizeDebounceDelay** {number}: The amount of delay for the `resizeDebounce` callback. Defaults to `200`
+
 **scrollOffset** {number}: The scrollTop offset used in `scrollToSteps`. Defaults to `20`
 
 **scrollToSteps** {bool}: Scroll the page to the next step if needed. Defaults to `true`
