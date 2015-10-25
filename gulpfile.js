@@ -29,12 +29,12 @@ gulp.task('styles', function () {
 });
 
 gulp.task('clean', function (cb) {
-    del(['lib/styles/*.css'], cb);
+    return del(['lib/styles/*.css'], cb);
 });
 
-gulp.task('build', function (cb) {
+gulp.task('build', ['clean'], function (cb) {
     process.env.NODE_ENV = 'production';
-    runSequence('clean', 'lint', 'styles', cb);
+    runSequence('lint', 'styles', cb);
 });
 
 gulp.task('default', ['build']);
