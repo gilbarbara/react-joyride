@@ -181,6 +181,23 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
+### Only start the tour after all target elements (or at least the first step) are rendered in the page.
+
+```javascript
+componentDidMount: function () {
+	this.joyrideAddSteps([{...},], true);
+}
+// or/and
+componentDidUpdate: function (prevProps, prevState) {
+	if (!prevState.ready && this.state.ready) {
+        this.joyrideAddSteps(steps, true);
+        //or
+        this.joyrideStart();
+    }
+}
+
+```
+
 ## Step Syntax
 There are 4 usable options but you can pass extra parameters.
 
