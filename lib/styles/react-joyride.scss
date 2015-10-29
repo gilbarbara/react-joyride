@@ -37,7 +37,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   $height: $joyride-tooltip-arrow-height;
   $width: $joyride-tooltip-arrow-size;
   $rotate: '0';
-  $arrow-color: '%23' + str-slice(#{joyride-tooltip-bg-color}, 2);
+  $arrow-color: '%23' + str-slice(#{$joyride-tooltip-bg-color}, 2);
 
   @if $location == bottom {
     $rotate: '180 8 4';
