@@ -1,5 +1,6 @@
 var gulp               = require('gulp'),
     $                  = require('gulp-load-plugins')(),
+    babelify              = require('babelify'),
     browserify         = require('browserify'),
     buffer             = require('vinyl-buffer'),
     browserSync        = require('browser-sync').create(),
@@ -34,7 +35,10 @@ function watchifyTask (options) {
         packageCache: {},
         fullPaths: options.watch, //options.watch
         transform: [
-            ['babelify', { ignore: /bower_components/ }]
+            [babelify.configure({
+                ignore: /bower_components/,
+                optional: ['es7.classProperties', 'es7.asyncFunctions']
+            })]
         ],
         extensions: ['.jsx']
     });
@@ -191,7 +195,7 @@ gulp.task('clean', function (cb) {
 });
 
 gulp.task('get-commit', function (cb) {
-    exec('git log -1 --pretty=%s && git log -1 --pretty=%b', function (err, stdout, stderr) {
+    exec('git log -1 --pretty=%s && git log -1 --pretty=%b', function (err, stdout) {
         var parts = stdout.replace('\n\n', '').split('\n');
 
         commitMessage = parts[0];
@@ -204,7 +208,6 @@ gulp.task('get-commit', function (cb) {
 });
 
 gulp.task('gh-pages', function () {
-
     var clean,
         push;
 
