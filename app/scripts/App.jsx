@@ -19,7 +19,6 @@ class App extends React.Component {
     componentWillMount () {
         this.joyrideSetOptions({
             debug: true,
-            showOverlay: false,
             showSkipButton: true,
             stepCallback: (step) => {
                 console.log('stepCallback', step);
