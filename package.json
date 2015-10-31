@@ -22,19 +22,19 @@
     "tour"
   ],
   "dependencies": {
-    "scroll": "0.0.3"
+    "scroll": "1.0"
   },
   "peerDependencies": {
     "react": "^0.13"
   },
   "devDependencies": {
     "del": "^2.0",
-    "eslint": "^1.2",
+    "eslint": "^1.8",
     "eslint-plugin-react": "^3.3",
     "gulp": "^3.9",
     "gulp-autoprefixer": "^3.0",
     "gulp-eslint": "^1.0",
-    "gulp-load-plugins": "^0.10",
+    "gulp-load-plugins": "^1.0",
     "gulp-plumber": "^1.0",
     "gulp-sass": "^2.0",
     "merge-stream": "^1.0",
