@@ -66,6 +66,9 @@ Change the initial options during `componentWillMount`. All optional
 
 - `options` {object} - One or more of the options below.
 
+
+**debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
+
 **keyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
 **locale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`
@@ -93,8 +96,6 @@ Change the initial options during `componentWillMount`. All optional
 **completeCallback** {function}: It will be called after an user has completed all the steps or skipped the tour completely and passes the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
 
 **stepCallback** {function}: It will be called after each step and passes the completed step `{object}`. Defaults to `undefined`
-
-**debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
 
 Example:
 
@@ -191,7 +192,7 @@ componentDidMount: function () {
 componentDidUpdate: function (prevProps, prevState) {
 	if (!prevState.ready && this.state.ready) {
         this.joyrideAddSteps(steps, true);
-        //or
+        // or just
         this.joyrideStart();
     }
 }
