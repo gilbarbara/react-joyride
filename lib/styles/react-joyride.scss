@@ -14,7 +14,7 @@ $joyride-tooltip-border-radius: 8px !default;
 $joyride-tooltip-color: #555 !default;
 $joyride-tooltip-font-size: 16px !default;
 $joyride-tooltip-padding: 20px !default;
-$joyride-tooltip-shadow: drop-shadow(2px 4px 4px rgba(#000, 0.3)) !default;
+$joyride-tooltip-shadow: (x: 1px, y: 2px, blur: 3px, color: rgba(#000, 0.3)) !default;
 $joyride-tooltip-width: (290px, 360px, 450px) !default;
 
 $joyride-header-color: $joyride-tooltip-color !default;
@@ -27,7 +27,6 @@ $joyride-button-color: #fff !default;
 $joyride-button-radius: 4px !default;
 
 $joyride-back-button-color: $joyride-color !default;
-
 $joyride-skip-button-color: #ccc !default;
 
 $joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
@@ -119,7 +118,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     border-radius: $joyride-tooltip-border-radius;
     color: $joyride-tooltip-color;
     cursor: default;
-    filter: $joyride-tooltip-shadow;
+    filter: drop-shadow(#{-(map-get($joyride-tooltip-shadow, 'x'))} #{-(map-get($joyride-tooltip-shadow, 'y'))} #{map-get($joyride-tooltip-shadow, 'blur')} #{map-get($joyride-tooltip-shadow, 'color')}) drop-shadow(#{map-get($joyride-tooltip-shadow, 'x')} #{map-get($joyride-tooltip-shadow, 'y')} #{map-get($joyride-tooltip-shadow, 'blur')} #{map-get($joyride-tooltip-shadow, 'color')});
     opacity: 0;
     padding: $joyride-tooltip-padding;
     transform: translate3d(0, 0, 0);

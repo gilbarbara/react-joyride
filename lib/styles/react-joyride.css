@@ -60,8 +60,8 @@
   border-radius: 8px;
   color: #555;
   cursor: default;
-  -webkit-filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
-          filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.3));
+  -webkit-filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
+          filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
   opacity: 0;
   padding: 20px;
   -webkit-transform: translate3d(0, 0, 0);

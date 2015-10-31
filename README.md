@@ -28,7 +28,7 @@ var App = React.createClass({
 
 #### Styles
  
-If your are using **SCSS**:
+If your are using **SCSS** (and you should):
 
 ```scss
 @include 'react-joyride/lib/styles/react-joyride'
@@ -240,7 +240,7 @@ Example:
 - `$joyride-tooltip-color`: The header and text color. Defaults to `#555`
 - `$joyride-tooltip-font-size`: Defaults to `16px`
 - `$joyride-tooltip-padding`: Defaults to `20px`
-- `$joyride-tooltip-shadow`: Defaults to `drop-shadow(2px 4px 4px rgba(#000, 0.5))`
+- `$joyride-tooltip-shadow`: Sass list for drop-shadow. Defaults to `(x: 1px, y: 2px, blur: 3px, color: rgba(#000, 0.3))`
 - `$joyride-tooltip-width`: Sass list of Mobile / Tablet / Desktop sizes. Defaults to `(290px, 360px, 450px)`
 - `$joyride-header-color`: Defaults to `$joyride-tooltip-header-color`
 - `$joyride-header-font-size`: Defaults to `20px`
