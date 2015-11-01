@@ -57,7 +57,7 @@
 
 .joyride-tooltip {
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 4px;
   color: #555;
   cursor: default;
   -webkit-filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
@@ -79,32 +79,39 @@
             animation: joyride-tooltip 0.4s forwards;
     -webkit-animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
             animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
+  .joyride-tooltip__close {
+    color: #555;
+    font-size: 20px;
+    line-height: 12px;
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+    top: 10px; }
+    .joyride-tooltip__close:hover, .joyride-tooltip__close:focus {
+      color: #6e6e6e;
+      outline: none;
+      text-decoration: none; }
+    .joyride-tooltip__close--header {
+      right: 20px;
+      top: 20px; }
   .joyride-tooltip header {
     border-bottom: 1px solid #f04;
-    margin-bottom: 12px;
     padding-bottom: 6px;
     position: relative; }
     .joyride-tooltip header h4 {
       color: #555;
       font-size: 20px;
       margin: 0; }
-    .joyride-tooltip header a {
-      color: #555;
-      font-size: 2.5rem;
-      line-height: 0.7;
-      position: absolute;
-      right: 0;
-      text-decoration: none;
-      top: 0; }
   .joyride-tooltip main {
     font-size: 16px;
-    margin-bottom: 18px; }
+    padding: 12px 0 18px; }
   .joyride-tooltip footer {
     text-align: right; }
     .joyride-tooltip footer .primary {
       background-color: #f04;
       border-radius: 4px;
       color: #fff;
+      outline: none;
       padding: 6px 12px;
       text-decoration: none;
       -webkit-transition: background-color 0.2s ease-in-out;
@@ -113,7 +120,8 @@
         background-color: #ff1f5a; }
     .joyride-tooltip footer .secondary {
       color: #f04;
-      margin-right: 10px; }
+      margin-right: 10px;
+      outline: none; }
     .joyride-tooltip footer .skip {
       color: #ccc;
       float: left;
@@ -148,13 +156,11 @@
       .joyride-tooltip.bottom-left .triangle, .joyride-tooltip.top-left .triangle {
         left: 2%; } }
   .joyride-tooltip.bottom-right .triangle, .joyride-tooltip.top-right .triangle {
-    left: 86%; }
+    left: auto;
+    right: 3%; }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-right .triangle, .joyride-tooltip.top-right .triangle {
-        left: 88%; } }
-    @media screen and (min-width: 768px) {
-      .joyride-tooltip.bottom-right .triangle, .joyride-tooltip.top-right .triangle {
-        left: 90%; } }
+        right: 2%; } }
   .joyride-tooltip.left {
     margin-right: 18px; }
     .joyride-tooltip.left .triangle {
