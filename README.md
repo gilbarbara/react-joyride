@@ -15,23 +15,26 @@ npm install --save react-joyride
 
 
 ```javascript
-var react = require('react/addons');
-var joyride = require('react-joyride').Mixin;
+var react = require('react');
+var Joyride = require('react-joyride').Component;
 
 var App = React.createClass({
-  mixins: [React.addons.PureRenderMixin, joyride],
+	render: function () {
+		return (
+			<Joyride ref="joyride" steps={this.state.steps} debug={true} ... />
+		);
+	}
   ...
 });
 ```
+Don't forget to pass a `ref` to the component.
 
-**This mixin changes state often so you should use `React.addons.PureRenderMixin` in your components as well.**
-
-#### Styles
+### Styles
  
 If your are using **SCSS** (and you should):
 
 ```scss
-@include 'react-joyride/lib/styles/react-joyride'
+@include '../path/to/node-modules/react-joyride/lib/styles/react-joyride'
 
 ```
 
@@ -44,28 +47,60 @@ Or include this directly in your html:
 
 ## Getting Started
 
-Add steps to your tour after your component is mounted.
+Add a custom function to include steps in your parent component
 
 ```javascript
-	componentDidMount: function () {
-		this.joyrideAddSteps([{...}])]
-	}
+_addSteps: function (steps, start) {
+    if (!Array.isArray(steps)) {
+        steps = [steps];
+    }
+
+    if (!steps.length) {
+        return false;
+    }
+
+    this.setState(currentState => {
+        currentState.steps = currentState.steps.concat(this.refs.joyride.parseSteps(steps));
+        return currentState;
+    }, function () {
+    	if (start) {
+    		this.refs.joyride.start();
+    	}
+    }.bind(this));
+}
 ```
 
-Start the tour with:
+Add steps after your components are mounted.
 
 ```javascript
-this.joyrideStart()
+componentDidMount: function () {
+	this._addSteps({...});
+
+	// or using props in your child components
+	this.props.addSteps({...});
+}
+...   
+render: function () {
+	return (
+		<Joyride ref="joyride" .../>
+		<ChildComponent addSteps={this._addSteps} />
+	);
+}
 ```
 
-## API
+Or you can start the tour after a criteria is met
 
-### this.joyrideSetOptions(options)
+```javascript
+componentDidUpdate (prevProps, prevState) {
+    if (!prevState.ready && this.state.ready) {
+        this.refs.joyride.start();
+    }
+},
+```
 
-Change the initial options during `componentWillMount`. All optional
+## Options
 
-- `options` {object} - One or more of the options below.
-
+You can change the initial options passing props to the component. All optional.
 
 **debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
 
@@ -89,6 +124,8 @@ Change the initial options during `componentWillMount`. All optional
 
 **showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `guided` tours. Defaults to `false`
 
+**steps** {array}: The tour's steps. Defaults to `[]`
+
 **tooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
 **type** {string}: The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
@@ -100,73 +137,26 @@ Change the initial options during `componentWillMount`. All optional
 Example:
 
 ```javascript
-componentWillMount: function () {
-	this.joyrideSetOptions({
-		locale: {
-			back: 'Voltar',
-			close: 'Fechar',
-			last: 'Último',
-			next: 'Próximo',
-			skip: 'Pular'
-		},
-		showSkipButton: true,
-		tooltipOffset: 10,
-		...
-		stepCallback: function(step) {
-			console.log(step);
-		},
-		completeCallback: function(steps) {
-			console.log(steps);
-		}
-	});
-}
+<Joyride ref="joyride" steps={this.state.steps} debug={true} type="single"
+		 stepCallback={function (step) { console.log('stepCallback', step); }} ... />
 ```
 
-### this.joyrideAddSteps(steps, [start])
+## API
 
-Add steps to your tour. You can call this method multiple times even after the tour has started.
 
-- `steps` {object|array} - Steps to add to the tour
-- `start` {boolean} - Starts the tour right away (optional)
+### this.refs.joyride.start(autorun)
 
-```javascript
-this.joyrideAddSteps([
-	{
-		title: "", //optional
-		text: "...",
-		selector: "...",
-		position: "..."
-	},
-	...
-]);
-```
-
-### this.joyrideReplaceSteps(steps, [start])
-
-Add steps to your tour. You can call this method multiple times even after the tour has started.
-
-- `steps` {object|array} - Steps to replace
-- `restart` {boolean} - Starts the new tour right away. Defaults to `true`
-
-```javascript
-this.joyrideReplaceSteps([
-	{
-		title: "", //optional
-		text: "...",
-		selector: "...",
-		position: "..."
-	},
-	...
-], true);
-```
-
-### this.joyrideStart(autorun)
-
-Call this method to start the tour if it wasn't already started with `this.joyrideAddSteps()`
+Call this method to start the tour.
 
 - `autorun` {boolean} - Starts the tour with the first tooltip opened.
 
-### this.joyrideGetProgress()
+### this.refs.joyride.reset(restart)
+
+Call this method to reset the tour
+
+- `restart` {boolean} - Starts the new tour right away
+
+### this.refs.joyride.getProgress()
 Retrieve the current progress of your tour. The object returned looks like this:
 
 ```javascript
@@ -182,22 +172,31 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
-### Only start the tour after all target elements (or at least the first step) are rendered in the page.
+### this.refs.joyride.parseSteps(steps)
+
+Parse the incoming steps, check if it's already rendered and returns an array with valid items
+
+- `steps ` {array|object}
 
 ```javascript
-componentDidMount: function () {
-	this.joyrideAddSteps([{...},], true);
-}
-// or/and
-componentDidUpdate: function (prevProps, prevState) {
-	if (!prevState.ready && this.state.ready) {
-        this.joyrideAddSteps(steps, true);
-        // or just
-        this.joyrideStart();
-    }
-}
+var steps = this.refs.joyride.parseSteps({
+    title: 'Title',
+    text: 'description',
+    selector: ReactDOM.findDOMNode(this.refs.node),
+    position: 'top'
+});
 
+// steps
+[{
+    title: 'Title',
+    text: 'description',
+    selector: '[data-reactid="0.0.1.0"]',
+    position: 'top'
+}]
 ```
+
+### Only start the tour after all target elements (or at least the first step) are rendered in the page.
+
 
 ## Step Syntax
 There are 4 usable options but you can pass extra parameters.
@@ -237,7 +236,7 @@ Example:
 
 - `$joyride-tooltip-arrow-size`: You must use even numbers to avoid half-pixel inconsistencies. Defaults to `28px`
 - `$joyride-tooltip-bg-color`: Defaults to `#fff`
-- `$joyride-tooltip-border-radius`: Defaults to `8px`
+- `$joyride-tooltip-border-radius`: Defaults to `4px`
 - `$joyride-tooltip-color`: The header and text color. Defaults to `#555`
 - `$joyride-tooltip-font-size`: Defaults to `16px`
 - `$joyride-tooltip-padding`: Defaults to `20px`
@@ -252,6 +251,7 @@ Example:
 - `$joyride-button-border-radius`: Defaults to `4px`
 - `$joyride-back-button-color`: Defaults to `$joyride-color`
 - `$joyride-skip-button-color`: Defaults to `#ccc`
+- `$joyride-close-color`: Defaults to `$joyride-tooltip-color`
 
 ## License
 
