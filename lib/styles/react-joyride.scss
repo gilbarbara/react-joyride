@@ -17,6 +17,8 @@ $joyride-tooltip-padding: 20px !default;
 $joyride-tooltip-shadow: (x: 1px, y: 2px, blur: 3px, color: rgba(#000, 0.3)) !default;
 $joyride-tooltip-width: (290px, 360px, 450px) !default;
 
+$joyride-close-color: $joyride-tooltip-color !default;
+
 $joyride-header-color: $joyride-tooltip-color !default;
 $joyride-header-font-size: 20px !default;
 $joyride-header-border-color: $joyride-color !default;
@@ -138,9 +140,30 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
     }
 
+    &__close {
+      color: $joyride-close-color;
+      font-size: 20px;
+      line-height: 12px;
+      position: absolute;
+      right: 10px;
+      text-decoration: none;
+      top: 10px;
+
+      &:hover,
+      &:focus {
+        color: lighten($joyride-close-color, 10);
+        outline: none;
+        text-decoration: none;
+      }
+
+      &--header {
+        right: $joyride-tooltip-padding;
+        top: $joyride-tooltip-padding;
+      }
+    }
+
     header {
       border-bottom: $joyride-header-border-width solid $joyride-header-border-color;
-      margin-bottom: 12px;
       padding-bottom: 6px;
       position: relative;
 
@@ -149,21 +172,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         font-size: $joyride-header-font-size;
         margin: 0;
       }
-
-      a {
-        color: $joyride-tooltip-color;
-        font-size: 2.5rem;
-        line-height: 0.7;
-        position: absolute;
-        right: 0;
-        text-decoration: none;
-        top: 0;
-      }
     }
 
     main {
       font-size: $joyride-tooltip-font-size;
-      margin-bottom: 18px;
+      padding: 12px 0 18px;
     }
 
     footer {
@@ -173,6 +186,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         background-color: $joyride-button-bg-color;
         border-radius: $joyride-button-radius;
         color: $joyride-button-color;
+        outline: none;
         padding: 6px 12px;
         text-decoration: none;
         transition: background-color 0.2s ease-in-out;
@@ -185,6 +199,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       .secondary {
         color: $joyride-back-button-color;
         margin-right: 10px;
+        outline: none;
       }
 
       .skip {
