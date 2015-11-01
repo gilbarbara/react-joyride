@@ -249,14 +249,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.bottom-right,
     &.top-right {
       .triangle {
-        left: 86%;
+        left: auto;
+        right: 3%;
 
         @media screen and (min-width: 480px) {
-          left: 88%;
-        }
-
-        @media screen and (min-width: 768px) {
-          left: 90%;
+          right: 2%;
         }
       }
     }
