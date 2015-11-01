@@ -25,26 +25,27 @@
     "scroll": "1.0"
   },
   "peerDependencies": {
-    "react": "^0.13"
+    "react": "^0.14",
+    "react-dom": "^0.14"
   },
   "devDependencies": {
     "del": "^2.0",
     "eslint": "^1.8",
-    "eslint-plugin-react": "^3.3",
+    "eslint-plugin-react": "^3.6",
     "gulp": "^3.9",
-    "gulp-autoprefixer": "^3.0",
+    "gulp-autoprefixer": "^3.1",
     "gulp-eslint": "^1.0",
     "gulp-load-plugins": "^1.0",
     "gulp-plumber": "^1.0",
-    "gulp-sass": "^2.0",
+    "gulp-sass": "^2.1",
     "merge-stream": "^1.0",
-    "mocha": "^2.2",
+    "mocha": "^2.3",
     "run-sequence": "^1.1"
   },
   "scripts": {
     "build": "gulp build"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=0.12"
   }
 }
