@@ -80,15 +80,17 @@
     -webkit-animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
             animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
   .joyride-tooltip__close {
-    color: #555;
-    font-size: 20px;
+    color: rgba(85, 85, 85, 0.5);
+    font-size: 30px;
     line-height: 12px;
     position: absolute;
     right: 10px;
     text-decoration: none;
-    top: 10px; }
+    top: 10px;
+    z-index: 10;
+    display: block; }
     .joyride-tooltip__close:hover, .joyride-tooltip__close:focus {
-      color: #6e6e6e;
+      color: rgba(59, 59, 59, 0.5);
       outline: none;
       text-decoration: none; }
     .joyride-tooltip__close--header {

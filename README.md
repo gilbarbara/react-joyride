@@ -251,7 +251,8 @@ Example:
 - `$joyride-button-border-radius`: Defaults to `4px`
 - `$joyride-back-button-color`: Defaults to `$joyride-color`
 - `$joyride-skip-button-color`: Defaults to `#ccc`
-- `$joyride-close-color`: Defaults to `$joyride-tooltip-color`
+- `$joyride-close`: Sass list for the close button: Defaults to `(color: rgba($joyride-tooltip-color, 0.5), size: 30px, top: 10px, right: 10px)`
+- `$joyride-close-visible`: Default to `true`;
 
 ## License
 
