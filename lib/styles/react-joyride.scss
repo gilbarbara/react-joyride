@@ -17,7 +17,8 @@ $joyride-tooltip-padding: 20px !default;
 $joyride-tooltip-shadow: (x: 1px, y: 2px, blur: 3px, color: rgba(#000, 0.3)) !default;
 $joyride-tooltip-width: (290px, 360px, 450px) !default;
 
-$joyride-close-color: $joyride-tooltip-color !default;
+$joyride-close: (color: rgba($joyride-tooltip-color, 0.5), size: 30px, top: 10px, right: 10px) !default;
+$joyride-close-visible: true !default;
 
 $joyride-header-color: $joyride-tooltip-color !default;
 $joyride-header-font-size: 20px !default;
@@ -141,17 +142,24 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &__close {
-      color: $joyride-close-color;
-      font-size: 20px;
+      color: map-get($joyride-close, 'color');
+      font-size: map-get($joyride-close, 'size');
       line-height: 12px;
       position: absolute;
-      right: 10px;
+      right: map-get($joyride-close, 'right');
       text-decoration: none;
-      top: 10px;
+      top: map-get($joyride-close, 'top');
+      z-index: 10;
+
+      @if $joyride-close-visible {
+        display: block;
+      } @else {
+        display: none;
+      }
 
       &:hover,
       &:focus {
-        color: lighten($joyride-close-color, 10);
+        color: darken(map-get($joyride-close, 'color'), 10);
         outline: none;
         text-decoration: none;
       }
