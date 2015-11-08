@@ -7,21 +7,25 @@ React Joyride
 
 View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>.
 
-## Install
+## Setup
 
 ```javascript
 npm install --save react-joyride
 ```
 
+Include `Joyride` in the parent component before anything else.
+
 
 ```javascript
 var react = require('react');
-var Joyride = require('react-joyride').Component;
+var Joyride = require('react-joyride');
 
 var App = React.createClass({
 	render: function () {
 		return (
-			<Joyride ref="joyride" steps={this.state.steps} debug={true} ... />
+			<div className="app">
+				<Joyride ref="joyride" steps={this.state.steps} debug={true} ... />
+			</div>
 		);
 	}
   ...
@@ -138,7 +142,7 @@ Example:
 
 ```javascript
 <Joyride ref="joyride" steps={this.state.steps} debug={true} type="single"
-		 stepCallback={function (step) { console.log('stepCallback', step); }} ... />
+		 stepCallback={this._stepCallback} ... />
 ```
 
 ## API
