@@ -1,6 +1,8 @@
 React Joyride
 ===
 
+### Create walkthroughs and guided tours for your ReactJS apps. Now with standalone tooltips!
+
 <a href="https://www.npmjs.com/package/react-joyride" target="_blank">![](https://badge.fury.io/js/react-joyride.svg)</a> <a href="https://travis-ci.org/gilbarbara/react-joyride" target="_blank">![](https://travis-ci.org/gilbarbara/react-joyride.svg)</a> <a href="https://codeclimate.com/github/gilbarbara/react-joyride">![](https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg)</a> <a href="https://gitter.im/gilbarbara/react-joyride?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">![Join the chat at https://gitter.im/gilbarbara/react-joyride](https://badges.gitter.im/Join%20Chat.svg)</a>
 
 <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">![](http://gilbarbara.github.io/react-joyride/media/example.png)</a>
@@ -25,6 +27,7 @@ var App = React.createClass({
 		return (
 			<div className="app">
 				<Joyride ref="joyride" steps={this.state.steps} debug={true} ... />
+				<YourComponents .../>
 			</div>
 		);
 	}
@@ -51,26 +54,32 @@ Or include this directly in your html:
 
 ## Getting Started
 
-Add a custom function to include steps in your parent component
+Add a custom function to include steps and/or tooltips in your parent component
 
 ```javascript
-_addSteps: function (steps, start) {
-    if (!Array.isArray(steps)) {
-        steps = [steps];
-    }
+addSteps: function (steps, start) {
+	let joyride = this.refs.joyride;
+		
+	if (!Array.isArray(steps)) {
+	    steps = [steps];
+	}
+	
+	if (!steps.length) {
+	    return false;
+	}
+	
+	this.setState(currentState => {
+	    currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
+	    return currentState;
+	}, function () {
+		if (start) {
+			joyride.start();
+		}
+	});
+}
 
-    if (!steps.length) {
-        return false;
-    }
-
-    this.setState(currentState => {
-        currentState.steps = currentState.steps.concat(this.refs.joyride.parseSteps(steps));
-        return currentState;
-    }, function () {
-    	if (start) {
-    		this.refs.joyride.start();
-    	}
-    }.bind(this));
+addTooltip: function (data) {
+    this.refs.joyride.addTooltip(data);
 }
 ```
 
@@ -78,7 +87,8 @@ Add steps after your components are mounted.
 
 ```javascript
 componentDidMount: function () {
-	this._addSteps({...});
+	this.addSteps({...}); // or this.addTooltip({...});
+	
 
 	// or using props in your child components
 	this.props.addSteps({...});
@@ -87,7 +97,7 @@ componentDidMount: function () {
 render: function () {
 	return (
 		<Joyride ref="joyride" .../>
-		<ChildComponent addSteps={this._addSteps} />
+		<ChildComponent addSteps={this.addSteps} addTooltip={this.addTooltip} />
 	);
 }
 ```
@@ -120,9 +130,11 @@ You can change the initial options passing props to the component. All optional.
 
 **scrollToSteps** {bool}: Scroll the page to the next step if needed. Defaults to `true`
 
+**scrollToFirstStep** {bool}: Scroll the page for the first step. Defaults to `false`
+
 **showBackButton** {bool}: Display a back button. Defaults to `true`
 
-**showOverlay** {bool}: Display an overlay with holes above your steps. Defaults to `true`
+**showOverlay** {bool}: Display an overlay with holes above your steps (for tours only). Defaults to `true`
 
 **showSkipButton** {bool}: Display a link to skip the tour. It will trigger the `completeCallback` if it was defined. Defaults to `false`
 
@@ -154,9 +166,13 @@ Call this method to start the tour.
 
 - `autorun` {boolean} - Starts the tour with the first tooltip opened.
 
+### this.refs.joyride.stop()
+
+Call this method to stop/pause the tour.
+
 ### this.refs.joyride.reset(restart)
 
-Call this method to reset the tour
+Call this method to reset the tour iteration back to 0
 
 - `restart` {boolean} - Starts the new tour right away
 
@@ -203,12 +219,19 @@ var steps = this.refs.joyride.parseSteps({
 
 
 ## Step Syntax
-There are 4 usable options but you can pass extra parameters.
+There are a few usable options but you can pass extra parameters.
 
-- `title`: The title of the tooltip (optional)
-- `text`: The tooltip's body (required)
-- `selector`: The target DOM selector of your step (required)
+- `title`: The title of the tooltip
+- `text`: The tooltip's body text **(required)**
+- `selector`: The target DOM selector of your feature **(required)**
 - `position`: Relative position of you beacon and tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
+
+Extra option for standalone tooltips
+
+- `trigger`: The DOM element that will trigger the tooltip
+
+And now you can style tooltips individually with these options: `bgColor`, `borderRadius`, `color`, `textAlign`, `textColor` and `width`
+
 
 Example:
 
@@ -218,7 +241,15 @@ Example:
     text: 'Start using the joyride',
     selector: '.first-step',
     position: 'bottom-left',
-    ...
+    style: {
+		bgColor: 'rgba(0, 0, 0, 0.8)',
+		borderRadius: '0',
+		color: '#ff4456',
+		textAlign: 'center',
+		textColor: '#fff',
+		width: '29rem'
+	},
+    // extra params...
     name: 'my-first-step',
     parent: 'MyComponentName'
 }
