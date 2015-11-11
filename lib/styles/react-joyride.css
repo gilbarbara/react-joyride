@@ -79,55 +79,6 @@
             animation: joyride-tooltip 0.4s forwards;
     -webkit-animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
             animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
-  .joyride-tooltip__close {
-    color: rgba(85, 85, 85, 0.5);
-    font-size: 30px;
-    line-height: 12px;
-    position: absolute;
-    right: 10px;
-    text-decoration: none;
-    top: 10px;
-    z-index: 10;
-    display: block; }
-    .joyride-tooltip__close:hover, .joyride-tooltip__close:focus {
-      color: rgba(59, 59, 59, 0.5);
-      outline: none;
-      text-decoration: none; }
-    .joyride-tooltip__close--header {
-      right: 20px;
-      top: 20px; }
-  .joyride-tooltip header {
-    border-bottom: 1px solid #f04;
-    padding-bottom: 6px;
-    position: relative; }
-    .joyride-tooltip header h4 {
-      color: #555;
-      font-size: 20px;
-      margin: 0; }
-  .joyride-tooltip main {
-    font-size: 16px;
-    padding: 12px 0 18px; }
-  .joyride-tooltip footer {
-    text-align: right; }
-    .joyride-tooltip footer .primary {
-      background-color: #f04;
-      border-radius: 4px;
-      color: #fff;
-      outline: none;
-      padding: 6px 12px;
-      text-decoration: none;
-      -webkit-transition: background-color 0.2s ease-in-out;
-              transition: background-color 0.2s ease-in-out; }
-      .joyride-tooltip footer .primary:hover {
-        background-color: #ff1f5a; }
-    .joyride-tooltip footer .secondary {
-      color: #f04;
-      margin-right: 10px;
-      outline: none; }
-    .joyride-tooltip footer .skip {
-      color: #ccc;
-      float: left;
-      margin-right: 10px; }
   .joyride-tooltip .triangle {
     background-repeat: no-repeat;
     overflow: hidden;
@@ -139,6 +90,9 @@
       height: 18px;
       left: 50%;
       top: -16px;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
       width: 36px; }
   .joyride-tooltip.top, .joyride-tooltip.top-left, .joyride-tooltip.top-right {
     margin-bottom: 18px; }
@@ -147,19 +101,24 @@
       bottom: -16px;
       height: 18px;
       left: 50%;
+      -webkit-transform: translateX(-50%);
+          -ms-transform: translateX(-50%);
+              transform: translateX(-50%);
       width: 36px; }
-  .joyride-tooltip.bottom .triangle, .joyride-tooltip.top .triangle {
-    -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-            transform: translateX(-50%); }
   .joyride-tooltip.bottom-left .triangle, .joyride-tooltip.top-left .triangle {
-    left: 3%; }
+    left: 3%;
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0); }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-left .triangle, .joyride-tooltip.top-left .triangle {
         left: 2%; } }
   .joyride-tooltip.bottom-right .triangle, .joyride-tooltip.top-right .triangle {
     left: auto;
-    right: 3%; }
+    right: 3%;
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0); }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-right .triangle, .joyride-tooltip.top-right .triangle {
         right: 2%; } }
@@ -177,6 +136,70 @@
       height: 36px;
       left: -16px;
       width: 18px; }
+  .joyride-tooltip__close {
+    color: rgba(85, 85, 85, 0.5);
+    font-size: 30px;
+    line-height: 12px;
+    position: absolute;
+    right: 10px;
+    text-decoration: none;
+    top: 10px;
+    z-index: 10;
+    display: block; }
+    .joyride-tooltip__close:hover, .joyride-tooltip__close:focus {
+      color: rgba(59, 59, 59, 0.5);
+      outline: none;
+      text-decoration: none; }
+    .joyride-tooltip__close--header {
+      right: 20px;
+      top: 20px; }
+  .joyride-tooltip__header {
+    border-bottom: 1px solid #f04;
+    color: #555;
+    font-size: 20px;
+    padding-bottom: 6px;
+    position: relative; }
+  .joyride-tooltip__main {
+    font-size: 16px;
+    padding: 12px 0 18px; }
+  .joyride-tooltip__footer {
+    text-align: right; }
+    .joyride-tooltip__footer .primary {
+      background-color: #f04;
+      border-radius: 4px;
+      color: #fff;
+      outline: none;
+      padding: 6px 12px;
+      text-decoration: none;
+      -webkit-transition: background-color 0.2s ease-in-out;
+              transition: background-color 0.2s ease-in-out; }
+      .joyride-tooltip__footer .primary:hover {
+        background-color: #ff1f5a; }
+    .joyride-tooltip__footer .secondary {
+      color: #f04;
+      margin-right: 10px;
+      outline: none; }
+    .joyride-tooltip__footer .skip {
+      color: #ccc;
+      float: left;
+      margin-right: 10px; }
+  .joyride-tooltip.standalone {
+    background-color: #fff;
+    border-radius: 4px;
+    color: #555;
+    width: 290px; }
+    .joyride-tooltip.standalone.bottom .triangle {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2236px%22%20height%3D%2218px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%28180 8 4%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
+    .joyride-tooltip.standalone.top .triangle {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2236px%22%20height%3D%2218px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%280%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
+    .joyride-tooltip.standalone.left .triangle {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%28270 8 8%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
+    .joyride-tooltip.standalone.right .triangle {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%2890 4 4%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
+    .joyride-tooltip.standalone .joyride-tooltip__main {
+      padding-bottom: 0; }
+    .joyride-tooltip.standalone .joyride-tooltip__footer {
+      display: none; }
 
 @-webkit-keyframes joyride-tooltip {
   0% {
