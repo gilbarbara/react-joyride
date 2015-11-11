@@ -35,11 +35,6 @@ $joyride-button-radius: 4px !default;
 $joyride-back-button-color: $joyride-color !default;
 $joyride-skip-button-color: #ccc !default;
 
-$joyride-standalone-tooltip-bg-color: $joyride-tooltip-bg-color !default;
-$joyride-standalone-tooltip-border-radius: $joyride-tooltip-border-radius !default;
-$joyride-standalone-tooltip-color: $joyride-tooltip-color !default;
-$joyride-standalone-tooltip-width: 290px;
-
 $joyride-tooltip-arrow-height: $joyride-tooltip-arrow-size / 2;
 $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-arrow-size * 0 + 1)) / 16; // strip-units crazy hack
 
@@ -308,27 +303,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &.standalone {
-      background-color: $joyride-standalone-tooltip-bg-color;
-      border-radius: $joyride-standalone-tooltip-border-radius;
-      color: $joyride-standalone-tooltip-color;
-      width: $joyride-standalone-tooltip-width;
-
-      &.bottom .triangle {
-        background-image: url(joyride-arrow(bottom, $joyride-standalone-tooltip-bg-color));
-      }
-
-      &.top .triangle {
-        background-image: url(joyride-arrow(top, $joyride-standalone-tooltip-bg-color));
-      }
-
-      &.left .triangle {
-        background-image: url(joyride-arrow(left, $joyride-standalone-tooltip-bg-color));
-      }
-
-      &.right .triangle {
-        background-image: url(joyride-arrow(right, $joyride-standalone-tooltip-bg-color));
-      }
-
       .joyride-tooltip__main {
         padding-bottom: 0;
       }
