@@ -1,7 +1,9 @@
-var React = require('react/addons');
+import React from 'react';
 
-var Loader = React.createClass({
-    mixins: [React.addons.PureRenderMixin],
+export default class Loader extends React.Component {
+    constructor (props) {
+        super(props);
+    }
 
     render () {
         return (
@@ -13,6 +15,4 @@ var Loader = React.createClass({
             </div>
         );
     }
-});
-
-module.exports = Loader;
+}

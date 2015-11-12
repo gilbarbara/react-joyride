@@ -1,17 +1,30 @@
 $bg-color: #fff9f2;
 $base-color: #f70017;
-
-$link-color: lighten($base-color, 15%);
-
-$tag-color: adjust-hue($base-color, 10);
-$tag-hue: hue($tag-color);
-$tag-saturation: saturation($tag-color);
-$tag-lightness: lightness($tag-color);
-$tag-step: -4;
+$link-color: #1776b7; //lighten($base-color, 15%);
 
 $media-path: '../media/';
 
-$screen-xs: 480px;
-$screen-sm: 768px;
-$screen-md: 1024px;
-$screen-lg: 1280px;
+$font-family-sans-serif: Roboto, sans-serif;
+$headings-font-weight: 500;
+
+$enable-flex: true;
+$grid-gutter-width: 3rem;
+$grid-breakpoints: (
+  // Extra small screen / phone
+  xs: 0,
+  // Small screen / phone
+  sm: 480px,
+  // Medium screen / tablet
+  md: 768px,
+  // Large screen / desktop
+  lg: 1024px,
+  // Extra large screen / wide desktop
+  xl: 1280px
+);
+$container-max-widths: (
+  sm: 90%, // 480
+  md: 80%, // 720
+  lg: 960px, // 960
+  xl: 800px // 1140
+);
+

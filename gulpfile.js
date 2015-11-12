@@ -1,6 +1,5 @@
 var gulp               = require('gulp'),
     $                  = require('gulp-load-plugins')(),
-    babelify              = require('babelify'),
     browserify         = require('browserify'),
     buffer             = require('vinyl-buffer'),
     browserSync        = require('browser-sync').create(),
@@ -29,17 +28,11 @@ function watchifyTask (options) {
     bundler = browserify({
         entries: path.join(__dirname, '/app/scripts/main.js'),
         basedir: __dirname,
-        insertGlobals: true,
+        insertGlobals: options.watch,
         cache: {},
-        //debug: options.watch,
+        debug: options.watch,
         packageCache: {},
         fullPaths: options.watch, //options.watch
-        transform: [
-            [babelify.configure({
-                ignore: /bower_components/,
-                optional: ['es7.classProperties', 'es7.asyncFunctions']
-            })]
-        ],
         extensions: ['.jsx']
     });
 
@@ -57,10 +50,9 @@ function watchifyTask (options) {
         }
 
         stream
-            .pipe(source($.if(options.watch, 'app.js', 'app.min.js')))
+            .pipe(source('app.js'))
             .pipe(buffer())
-            .pipe($.if(!options.watch, $.uglify()))
-            .pipe(gulp.dest(target() + '/assets'))
+            .pipe(gulp.dest('.tmp/assets'))
             .pipe($.tap(function () {
                 if (iteration === 0 && options.cb) {
                     options.cb();
@@ -138,14 +130,12 @@ gulp.task('bundle', function () {
     var html,
         vendor,
         extras,
-        media,
-        assets = $.useref.assets();
+        media;
 
     html = gulp.src('app/*.html')
-        .pipe(assets)
-        .pipe($.if('*.css', $.cssmin()))
-        .pipe(assets.restore())
         .pipe($.useref())
+        .pipe($.if('*.css', $.cssmin()))
+        .pipe($.if('*.js', $.uglify()))
         .pipe(gulp.dest('dist'))
         .pipe($.size({
             title: 'HTML'
@@ -243,7 +233,7 @@ gulp.task('serve', ['assets'], function () {
         }
     });
 
-    gulp.watch('app/styles/**/*.scss', function (e) {
+    gulp.watch(['app/styles/**/*.scss', 'node_modules/react-joyride/**/*.scss'], function (e) {
         if (e.type === 'changed') {
             gulp.start('styles');
         }

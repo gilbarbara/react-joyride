@@ -1,6 +1,5 @@
-import React from 'react/addons';
-import reactMixin from 'react-mixin';
-import { Mixin as ReactJoyride } from 'react-joyride';
+import React from 'react';
+import Joyride from 'react-joyride';
 import Header from'./components/Header';
 import Panels from'./components/Panels';
 import Charts from'./components/Charts';
@@ -11,22 +10,11 @@ class App extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            joyrideType: 'guided',
-            ready: false
+            joyrideOverlay: false,
+            joyrideType: 'single',
+            ready: false,
+            steps: []
         };
-    }
-
-    componentWillMount () {
-        this.joyrideSetOptions({
-            debug: true,
-            showSkipButton: true,
-            stepCallback: (step) => {
-                console.log('stepCallback', step);
-            },
-            completeCallback: (steps, skipped) => {
-                console.log('completeCallback', steps, skipped);
-            }
-        });
     }
 
     componentDidMount () {
@@ -39,32 +27,63 @@ class App extends React.Component {
 
     componentDidUpdate (prevProps, prevState) {
         if (!prevState.ready && this.state.ready) {
-            this.joyrideStart();
+            this.refs.joyride.start();
         }
     }
 
-    _addSteps (steps) {
-        this.setState({
-            steps: this.joyrideAddSteps(steps)
+    _addSteps (steps, start) {
+        let joyride = this.refs.joyride;
+
+        if (!Array.isArray(steps)) {
+            steps = [steps];
+        }
+
+        if (!steps.length) {
+            return false;
+        }
+
+        this.setState(currentState => {
+            currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
+            return currentState;
+        }, function () {
+            if (start) {
+                joyride.start();
+            }
         });
+    }
+
+    _addTooltip (data) {
+        this.refs.joyride.addTooltip(data);
+    }
+
+    _stepCallback (step) {
+        console.log('stepCallback', step);
+    }
+
+    _completeCallback (steps, skipped) {
+        console.log('completeCallback', steps, skipped);
     }
 
     _onClickSwitch (e) {
         e.preventDefault();
+        let el    = e.currentTarget,
+            state = {};
 
-        this.joyrideSetOptions({
-            type: e.currentTarget.dataset.type
-        });
+        if (el.dataset.key === 'joyrideType') {
+            this.refs.joyride.reset();
 
-        this.joyrideReplaceSteps(this.state.steps, false);
+            setTimeout(() => {
+                this.refs.joyride.start();
+            }, 300);
 
-        setTimeout(() => {
-            this.joyrideStart();
-        }, 300);
+            state.joyrideType = e.currentTarget.dataset.type;
+        }
 
-        this.setState({
-            joyrideType: e.currentTarget.dataset.type
-        });
+        if (el.dataset.key === 'joyrideOverlay') {
+            state.joyrideOverlay = el.dataset.type === 'active';
+        }
+
+        this.setState(state);
     }
 
     render () {
@@ -74,8 +93,14 @@ class App extends React.Component {
         if (state.ready) {
             html = (
                 <div>
-                    <Header joyrideType={state.joyrideType} onClickSwitch={this._onClickSwitch.bind(this)}
-                            addSteps={this._addSteps.bind(this)} />
+                    <Joyride ref="joyride" debug={true} steps={state.steps}
+                             type={state.joyrideType} showSkipButton={true}
+                             showOverlay={state.joyrideOverlay} stepCallback={this._stepCallback}
+                             completeCallback={this._completeCallback} />
+                    <Header joyrideType={state.joyrideType} joyrideOverlay={state.joyrideOverlay}
+                            onClickSwitch={this._onClickSwitch.bind(this)}
+                            addSteps={this._addSteps.bind(this)}
+                            addTooltip={this._addTooltip.bind(this)} />
 
                     <div id="page-wrapper">
 
@@ -100,7 +125,5 @@ class App extends React.Component {
         );
     }
 }
-
-reactMixin.onClass(App, ReactJoyride);
 
 export default App;

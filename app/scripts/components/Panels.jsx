@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Panels extends React.Component {
+class Cards extends React.Component {
     constructor (props) {
         super(props);
         this.state = {};
@@ -14,25 +14,26 @@ export default class Panels extends React.Component {
         this.props.addSteps([
             {
                 title: 'Comments',
-                text: 'New comments sent by your users',
-                selector: '.panel-comments',
-                position: 'bottom'
+                text: 'New comments sent by users',
+                selector: '.card-comments',
+                trigger: '.card-comments a',
+                position: 'top'
             },
             {
                 title: 'Tickets',
                 text: 'New support tickets waiting for replies',
-                selector: '.panel-tickets',
-                position: 'bottom'
+                selector: '.card-tickets',
+                position: 'bottom-right'
             }
         ]);
     }
 
     render () {
         return (
-            <div className="row panels">
-                <div className="col-xs-12 col-sm-6 col-md-3">
-                    <div className="panel panel-dark panel-comments">
-                        <div className="panel-heading">
+            <div className="row cards">
+                <div className="col-xs-12 col-sm-6 col-lg-3">
+                    <div className="card card-dark card-comments">
+                        <div className="card-block">
                             <div className="row">
                                 <div className="col-xs-3">
                                     <i className="fa fa-comments fa-5x" />
@@ -43,20 +44,20 @@ export default class Panels extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div className="panel-footer">
-                                <span className="pull-left">View Details</span>
-                                            <span className="pull-right"><i
-                                                className="fa fa-arrow-circle-right" /></span>
 
-                                <div className="clearfix"></div>
-                            </div>
-                        </a>
+                        <div className="card-footer clearfix">
+                            <a href="#">
+                                <span className="pull-left">View Details</span>
+                                <span className="pull-right">
+                                    <i className="fa fa-arrow-circle-right" />
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div className="col-xs-12 col-sm-6 col-md-3">
-                    <div className="panel panel-dark panel-tasks">
-                        <div className="panel-heading">
+                <div className="col-xs-12 col-sm-6 col-lg-3">
+                    <div className="card card-dark card-tasks">
+                        <div className="card-block">
                             <div className="row">
                                 <div className="col-xs-3">
                                     <i className="fa fa-tasks fa-5x" />
@@ -67,20 +68,20 @@ export default class Panels extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div className="panel-footer">
-                                <span className="pull-left">View Details</span>
-                                            <span className="pull-right"><i
-                                                className="fa fa-arrow-circle-right" /></span>
 
-                                <div className="clearfix"></div>
-                            </div>
-                        </a>
+                        <div className="card-footer clearfix">
+                            <a href="#">
+                                <span className="pull-left">View Details</span>
+                                <span className="pull-right">
+                                    <i className="fa fa-arrow-circle-right" />
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div className="col-xs-12 col-sm-6 col-md-3">
-                    <div className="panel panel-dark panel-orders">
-                        <div className="panel-heading">
+                <div className="col-xs-12 col-sm-6 col-lg-3">
+                    <div className="card card-dark card-orders">
+                        <div className="card-block">
                             <div className="row">
                                 <div className="col-xs-3">
                                     <i className="fa fa-shopping-cart fa-5x" />
@@ -91,20 +92,20 @@ export default class Panels extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div className="panel-footer">
-                                <span className="pull-left">View Details</span>
-                                            <span className="pull-right">
-                                                <i className="fa fa-arrow-circle-right" /></span>
 
-                                <div className="clearfix"></div>
-                            </div>
-                        </a>
+                        <div className="card-footer clearfix">
+                            <a href="#">
+                                <span className="pull-left">View Details</span>
+                                <span className="pull-right">
+                                    <i className="fa fa-arrow-circle-right" />
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div className="col-xs-12 col-sm-6 col-md-3">
-                    <div className="panel panel-dark panel-tickets">
-                        <div className="panel-heading">
+                <div className="col-xs-12 col-sm-6 col-lg-3">
+                    <div className="card card-dark card-tickets">
+                        <div className="card-block">
                             <div className="row">
                                 <div className="col-xs-3">
                                     <i className="fa fa-support fa-5x" />
@@ -115,18 +116,20 @@ export default class Panels extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
-                            <div className="panel-footer">
-                                <span className="pull-left">View Details</span>
-                                            <span className="pull-right"><i
-                                                className="fa fa-arrow-circle-right" /></span>
 
-                                <div className="clearfix"></div>
-                            </div>
-                        </a>
+                        <div className="card-footer clearfix">
+                            <a href="#">
+                                <span className="pull-left">View Details</span>
+                                <span className="pull-right">
+                                    <i className="fa fa-arrow-circle-right" />
+                                </span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         );
     }
 }
+
+export default Cards;

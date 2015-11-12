@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
     constructor (props) {
         super(props);
         this.state = {};
@@ -8,16 +8,47 @@ export default class Header extends React.Component {
 
     static propTypes = {
         addSteps: React.PropTypes.func.isRequired,
+        addTooltip: React.PropTypes.func.isRequired,
+        joyrideOverlay: React.PropTypes.bool.isRequired,
         joyrideType: React.PropTypes.string.isRequired,
         onClickSwitch: React.PropTypes.func.isRequired
     }
 
     componentDidMount () {
-        this.props.addSteps({
-            text: 'React Joyride is a ReactJS mixin for creating tours through your app.<br/><br/>It is fully responsive and customizable.',
+        /*this.props.addSteps({
+            text: 'React Joyride is a ReactJS component for creating tours for your app.<br/><br/>It is fully responsive and customizable.',
             selector: '.intro',
             position: 'bottom'
-        }, true);
+        });*/
+
+        this.props.addTooltip({
+            title: 'Standalone Tooltips',
+            text: '<h2 style="margin-bottom: 10px; line-height: 1.6">Now you can open tooltips independently!</h2>And even style them one by one!',
+            selector: '.intro h2 a',
+            position: 'bottom',
+            style: {
+                bgColor: 'rgba(0, 0, 0, 0.8)',
+                borderRadius: '0',
+                color: '#ff4456',
+                textAlign: 'center',
+                textColor: '#fff',
+                width: '29rem'
+            }
+        });
+
+        this.props.addTooltip({
+            text: 'Change how you want to play your tour!',
+            selector: '.sw-right',
+            trigger: '.sw-right span a',
+            position: 'bottom',
+            style: {
+                bgColor: '#232323',
+                borderRadius: '1rem',
+                textAlign: 'center',
+                textColor: '#ff4456',
+                width: '18rem'
+            }
+        });
     }
 
     render () {
@@ -29,12 +60,45 @@ export default class Header extends React.Component {
                     <div className="intro">
                         <h1>React Joyride</h1>
 
-                        <h2>Create walkthroughs and guided tours for your ReactJS apps.</h2>
+                        <h2>Create walkthroughs and guided tours for your ReactJS apps.<br />Now with standalone tooltips!
+                            <a href="#" style={{ color: 'inherit' }}><i className="fa fa-question-circle" /></a></h2>
                     </div>
 
                     <div className="row row-menu">
-                        <div className="col-xs-5 col-sm-6">
-                            <a href="https://github.com/gilbarbara/react-joyride" className="github">
+                        <div className="col-xs-6 col-md-4">
+                            <div className="switch-wrapper">
+                                <span>Overlay</span>
+
+                                <div className="switch">
+                                    <a href="#" className={props.joyrideOverlay ? 'active' : ''}
+                                       data-key="joyrideOverlay"
+                                       data-type="active"
+                                       onClick={props.onClickSwitch}>On</a>
+                                    <a href="#" className={!props.joyrideOverlay ? 'active' : ''}
+                                       data-key="joyrideOverlay"
+                                       data-type="disabled"
+                                       onClick={props.onClickSwitch}>Off</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-4">
+                            <div className="switch-wrapper sw-right">
+                                <span>Tour Type <a href="#" style={{ color: '#fff' }}><i className="fa fa-question-circle" /></a></span>
+
+                                <div className="switch">
+                                    <a href="#" className={props.joyrideType === 'guided' ? 'active' : ''}
+                                       data-key="joyrideType"
+                                       data-type="guided"
+                                       onClick={props.onClickSwitch}>Guided</a>
+                                    <a href="#" className={props.joyrideType === 'single' ? 'active' : ''}
+                                       data-key="joyrideType"
+                                       data-type="single"
+                                       onClick={props.onClickSwitch}>Single</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xs-12 col-md-4 github">
+                            <a href="https://github.com/gilbarbara/react-joyride">
                                 <svg width="122px" height="35px" viewBox="0 0 122 35" version="1.1"
                                      xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
                                     <g>
@@ -45,23 +109,11 @@ export default class Header extends React.Component {
                                 </svg>
                             </a>
                         </div>
-                        <div className="col-xs-7 col-sm-6">
-                            <div className="switch-wrapper">
-                                <span>Type</span>
-
-                                <div className="switch">
-                                    <a href="#" className={props.joyrideType === 'guided' ? 'active' : ''}
-                                       data-type="guided"
-                                       onClick={props.onClickSwitch}>Guided</a>
-                                    <a href="#" className={props.joyrideType === 'single' ? 'active' : ''}
-                                       data-type="single"
-                                       onClick={props.onClickSwitch}>Single</a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </header>
         );
     }
 }
+
+export default Header;

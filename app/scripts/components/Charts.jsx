@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class Charts extends React.Component {
+class Charts extends React.Component {
     constructor (props) {
         super(props);
         this.state = {};
@@ -31,12 +31,13 @@ export default class Charts extends React.Component {
         return (
             <div className="row charts">
                 <div className="col-xs-12 col-md-8">
-                    <div id="area-chart" className="panel panel-default">
-                        <div className="panel-heading">
-                            <h3 className="panel-title">
-                                <i className="fa fa-bar-chart-o fa-fw" /> Area Chart</h3>
+                    <div id="area-chart" className="card">
+                        <div className="card-header">
+                            <h3>
+                                <i className="fa fa-bar-chart-o fa-fw" /> Area Chart
+                            </h3>
                         </div>
-                        <div className="panel-body">
+                        <div className="card-block">
                             <svg height="347" version="1.1" width="100%"
                                  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
                                 <text x="49.21875" y="313" textAnchor="end"
@@ -236,12 +237,13 @@ export default class Charts extends React.Component {
                     </div>
                 </div>
                 <div className="col-xs-12 col-md-4">
-                    <div id="donut-chart" className="panel panel-default">
-                        <div className="panel-heading">
-                            <h3 className="panel-title">
-                                <i className="fa fa-long-arrow-right fa-fw" /> Donut Chart</h3>
+                    <div id="donut-chart" className="card">
+                        <div className="card-header">
+                            <h3>
+                                <i className="fa fa-long-arrow-right fa-fw" /> Donut Chart
+                            </h3>
                         </div>
-                        <div className="panel-body">
+                        <div className="card-block">
                             <svg height="347" version="1.1" width="283"
                                  xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
                                 <path fill="none" stroke="#0b62a4"
@@ -282,9 +284,11 @@ export default class Charts extends React.Component {
                                 </text>
                             </svg>
                         </div>
-                        <div className="text-right">
-                            <a href="#">View Details <i
-                                className="fa fa-arrow-circle-right" /></a>
+                        <div className="card-footer">
+                            <div className="text-right">
+                                <a href="#">View Details <i
+                                    className="fa fa-arrow-circle-right" /></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -292,3 +296,5 @@ export default class Charts extends React.Component {
         );
     }
 }
+
+export default Charts;

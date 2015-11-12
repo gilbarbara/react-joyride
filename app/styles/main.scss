@@ -1,3 +1,5 @@
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,400italic,500');
+
 @import 'base/variables';
 @import 'base/bootstrap';
 @import 'base/utils';
@@ -8,10 +10,8 @@ $fa-font-path: 'fonts/';
 @import 'components/loader';
 @import 'sbadmin';
 
-$joyride-color: #ffaf44;
+$joyride-color: #f04;
 @import '../../node_modules/react-joyride/lib/styles/react-joyride';
-
-@import url('http://fonts.googleapis.com/css?family=Lato:400,400italic');
 
 html {
   font-size: 62.5%;
@@ -20,7 +20,7 @@ html {
 
 body {
   background-color: #fff;
-  font-family: Lato, sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 1.4rem;
   margin: 0;
   min-height: 100%;
@@ -38,11 +38,6 @@ a {
 
   .intro {
     padding: 1.5rem 0;
-
-    @include lg {
-      margin: 0 auto;
-      width: 60%;
-    }
   }
 
   h1 {
@@ -53,34 +48,24 @@ a {
   }
 
   h2 {
-    color: lighten($link-color, 25);
-    font-size: 2.4rem;
+    color: lighten($link-color, 40);
+    font-size: 2rem;
+    line-height: 1.3;
     margin: 0;
     text-align: center;
-  }
 
-  .github {
-    background-color: lighten($link-color, 25);
-    display: inline-block;
-    line-height: 1;
-    padding: 4px 8px;
-
-    svg {
-      height: auto;
-      width: 70px;
+    @include md {
+      font-size: 2.4rem;
     }
 
-    path {
-      fill: $link-color;
+    a {
+      display: inline-block;
+      margin-left: 0.4rem;
     }
   }
 
   .row-menu {
-    margin-top: 2.5rem;
-
     > div {
-      text-align: center;
-
       @include md-only {
         &:nth-of-type(1) {
           text-align: left;
@@ -91,23 +76,75 @@ a {
           text-align: right;
         }
       }
+
+      &:nth-of-type(1) {
+        order: 1;
+      }
+
+      &:nth-of-type(2) {
+        order: 2;
+        text-align: right;
+
+        @include md {
+          order: 3;
+        }
+      }
+
+      &.github {
+        order: 3;
+        padding-top: 20px;
+        text-align: center;
+
+        @include md {
+          order: 2;
+        }
+
+        a {
+          background-color: lighten($link-color, 40);
+          display: inline-block;
+          line-height: 1;
+          padding: 4px 8px;
+
+          svg {
+            height: auto;
+            width: 70px;
+          }
+
+          path {
+            fill: $link-color;
+          }
+        }
+      }
     }
   }
 }
 
 .switch-wrapper {
   color: #fff;
-  display: inline-block;
+  display: inline-flex;
+  flex-flow: column;
+
+  > span {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    text-align: left;
+    text-transform: uppercase;
+  }
+
+  &.sw-right {
+    > span {
+      text-align: right;
+    }
+  }
 
   .switch {
-    background-color: lighten($link-color, 20);
-    border-radius: 5px;
+    background-color: rgba(#fff, 0.6);
+    border-radius: 0.2rem;
     display: inline-flex;
-    margin-left: 0.5rem;
     overflow: hidden;
 
     > a {
-      color: lighten($link-color, 10);
+      color: lighten($link-color, 5);
       display: flex;
       font-size: 1.4rem;
       line-height: 1;
@@ -129,8 +166,4 @@ a {
 
 #page-wrapper {
   margin-top: 3rem;
-}
-
-#donut-chart .panel-body {
-  text-align: center;
 }

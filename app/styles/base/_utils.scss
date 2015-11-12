@@ -33,31 +33,39 @@
   }
 
   @if $media-query == xs-only {
-    @media (max-width: $screen-xs - 1) { @content; }
+    @media only screen and (max-width: breakpoint-max('xs')) {
+      @content;
+    }
   }
 
   @if $media-query == sm {
-    @media (min-width: $screen-xs) { @content; }
+    @media only screen and (min-width: breakpoint-min('sm')) {
+      @content;
+    }
   }
 
   @if $media-query == sm-only {
-    @media (max-width: $screen-sm - 1) { @content; }
+    @media only screen and (max-width: breakpoint-max('md')) {
+      @content;
+    }
   }
 
   @if $media-query == md {
-    @media (min-width: $screen-sm) { @content; }
-  }
-
-  @if $media-query == md-only {
-    @media (max-width: $screen-md - 1) { @content; }
+    @media only screen and (min-width: breakpoint-min('md')) {
+      @content;
+    }
   }
 
   @if $media-query == lg {
-    @media (min-width: $screen-md) { @content; }
+    @media only screen and (min-width: breakpoint-min('lg')) {
+      @content;
+    }
   }
 
   @if $media-query == xl {
-    @media (min-width: $screen-lg) { @content; }
+    @media only screen and (min-width: breakpoint-min('xl')) {
+      @content;
+    }
   }
 
   @if $media-query == retina {
@@ -86,14 +94,6 @@
 
 @mixin xs-only {
   @include media-query(xs-only) { @content }
-}
-
-@mixin smt {
-  @include media-query(smt) { @content }
-}
-
-@mixin smt-only {
-  @include media-query(smt-only) { @content }
 }
 
 @mixin sm {

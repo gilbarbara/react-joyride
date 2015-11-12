@@ -145,82 +145,52 @@ ul.alert-dropdown {
   width: 100%;
 }
 
-/* Custom Colored Panels */
+.card {
+  border: 0;
+  border-radius: 0;
+  margin-bottom: $grid-gutter-width;
 
-.huge {
-  font-size: 40px;
+  &-header {
+    background-color: #dcdcdc;
+
+    &:first-child {
+      border-radius: 0.3rem 0.3rem 0 0;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  &-block {
+    border: 1px solid #dcdcdc;
+  }
+
+  &-footer {
+    background-color: #dcdcdc;
+
+    a {
+      color: #777;
+      pointer-events: none;
+
+      &:hover {
+        color: #777;
+        text-decoration: none;
+      }
+    }
+  }
+
+  &.card-dark > .card-block {
+    background-color: #777;
+    border-color: #777;
+    color: #fff;
+  }
 }
 
+#donut-chart .card-block {
+  text-align: center;
 
-.panel-dark {
-  border-color: #777;
-}
-
-.panel-dark > .panel-heading {
-  background-color: #777;
-  border-color: #777;
-  color: #fff;
-}
-
-.panel-dark > a {
-  color: #777;
-}
-
-.panel-dark > a:hover {
-  color: #777;
-}
-
-
-.panel-green {
-  border-color: #5cb85c;
-}
-
-.panel-green > .panel-heading {
-  background-color: #5cb85c;
-  border-color: #5cb85c;
-  color: #fff;
-}
-
-.panel-green > a {
-  color: #5cb85c;
-}
-
-.panel-green > a:hover {
-  color: #3d8b3d;
-}
-
-.panel-red {
-  border-color: #d9534f;
-}
-
-.panel-red > .panel-heading {
-  background-color: #d9534f;
-  border-color: #d9534f;
-  color: #fff;
-}
-
-.panel-red > a {
-  color: #d9534f;
-}
-
-.panel-red > a:hover {
-  color: #b52b27;
-}
-
-.panel-yellow {
-  border-color: #f0ad4e;
-}
-
-.panel-yellow > .panel-heading {
-  background-color: #f0ad4e;
-  border-color: #f0ad4e;
-  color: #fff;
-}
-
-.panel-yellow > a {
-  color: #f0ad4e;
-}
-
-.panel-yellow > a:hover {
-  color: #df8a13;
+  svg {
+    max-width: 100%;
+  }
 }
