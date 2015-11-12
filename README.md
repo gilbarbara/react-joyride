@@ -3,8 +3,6 @@ React Joyride
 
 <a href="https://www.npmjs.com/package/react-joyride" target="_blank">![](https://badge.fury.io/js/react-joyride.svg)</a> <a href="https://travis-ci.org/gilbarbara/react-joyride" target="_blank">![](https://travis-ci.org/gilbarbara/react-joyride.svg)</a> <a href="https://codeclimate.com/github/gilbarbara/react-joyride">![](https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg)</a> <a href="https://gitter.im/gilbarbara/react-joyride?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">![Join the chat at https://gitter.im/gilbarbara/react-joyride](https://badges.gitter.im/Join%20Chat.svg)</a>
 
-### Create walkthroughs and guided tours for your ReactJS apps. Now with standalone tooltips!
-
 <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">![](http://gilbarbara.github.io/react-joyride/media/example.png)</a>
 
 View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>.
