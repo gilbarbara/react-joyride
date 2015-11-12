@@ -11,6 +11,9 @@ View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blan
 
 ## Setup
 
+
+### Version 1.0 has a very different setup from 0.x versions. The old syntax will not work.
+
 ```javascript
 npm install --save react-joyride
 ```
