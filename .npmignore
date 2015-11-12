@@ -1,7 +1,12 @@
+.codeclimate.yml
 .editorconfig
 .eslintrc
 .hooks
 .idea
 .gitignore
+.npmignore
 .scss-lint.yml
+.travis.yml
 gulpfile.js
+node_modules
+npm-debug.log
