@@ -16,14 +16,20 @@ class Cards extends React.Component {
                 title: 'Comments',
                 text: 'New comments sent by users',
                 selector: '.card-comments',
-                trigger: '.card-comments a',
                 position: 'top'
             },
             {
                 title: 'Tickets',
                 text: 'New support tickets waiting for replies',
                 selector: '.card-tickets',
-                position: 'bottom-right'
+                position: 'bottom-right',
+                style: {
+                    mainColor: '#000',
+                    beacon: {
+                        inner: '#000',
+                        outer: '#000'
+                    }
+                }
             }
         ]);
     }

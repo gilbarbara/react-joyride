@@ -27,11 +27,11 @@ class Header extends React.Component {
             selector: '.intro h2 a',
             position: 'bottom',
             style: {
-                bgColor: 'rgba(0, 0, 0, 0.8)',
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderRadius: '0',
-                color: '#ff4456',
+                color: '#fff',
+                mainColor: '#ff4456',
                 textAlign: 'center',
-                textColor: '#fff',
                 width: '29rem'
             }
         });
@@ -42,10 +42,10 @@ class Header extends React.Component {
             trigger: '.sw-right span a',
             position: 'bottom',
             style: {
-                bgColor: '#232323',
+                backgroundColor: '#232323',
                 borderRadius: '1rem',
+                color: '#ff4456',
                 textAlign: 'center',
-                textColor: '#ff4456',
                 width: '18rem'
             }
         });
