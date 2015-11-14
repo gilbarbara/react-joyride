@@ -225,13 +225,13 @@ There are a few usable options but you can pass extra parameters.
 - `title`: The title of the tooltip
 - `text`: The tooltip's body text **(required)**
 - `selector`: The target DOM selector of your feature **(required)**
-- `position`: Relative position of you beacon and tooltip. It can be one of these: `right`, `left`, `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right` and `center`. This defaults to `top`.
+- `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 
 Extra option for standalone tooltips
 
 - `trigger`: The DOM element that will trigger the tooltip
 
-And now you can style tooltips individually with these options: `bgColor`, `borderRadius`, `color`, `textAlign`, `textColor` and `width`
+And now you can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`. Also you can style `button` and `beacon` individually.
 
 
 Example:
@@ -243,12 +243,20 @@ Example:
     selector: '.first-step',
     position: 'bottom-left',
     style: {
-		bgColor: 'rgba(0, 0, 0, 0.8)',
+		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 		borderRadius: '0',
-		color: '#ff4456',
+		color: '#fff',
+		mainColor: '#ff4456',
 		textAlign: 'center',
-		textColor: '#fff',
-		width: '29rem'
+		width: '29rem',
+		beacon: {
+			inner: '#000',
+			outer: '#000'
+		},
+		button: {
+			display: 'none'
+			// or any style attribute
+		}
 	},
     // extra params...
     name: 'my-first-step',
