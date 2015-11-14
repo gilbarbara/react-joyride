@@ -30,7 +30,7 @@ class Header extends React.Component {
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderRadius: '0',
                 color: '#fff',
-                mainColor: '#ff4456',
+                mainColor: '#ff67b4',
                 textAlign: 'center',
                 width: '29rem'
             }
@@ -44,7 +44,7 @@ class Header extends React.Component {
             style: {
                 backgroundColor: '#232323',
                 borderRadius: '1rem',
-                color: '#ff4456',
+                color: '#ff67b4',
                 textAlign: 'center',
                 width: '18rem'
             }
@@ -61,14 +61,13 @@ class Header extends React.Component {
                         <h1>React Joyride</h1>
 
                         <h2>Create walkthroughs and guided tours for your ReactJS apps.<br />Now with standalone tooltips!
-                            <a href="#" style={{ color: 'inherit' }}><i className="fa fa-question-circle" /></a></h2>
+                            <a href="#"><i className="fa fa-question-circle" /></a></h2>
                     </div>
 
                     <div className="row row-menu">
                         <div className="col-xs-6 col-md-4">
                             <div className="switch-wrapper">
                                 <span>Overlay</span>
-
                                 <div className="switch">
                                     <a href="#" className={props.joyrideOverlay ? 'active' : ''}
                                        data-key="joyrideOverlay"
@@ -83,7 +82,7 @@ class Header extends React.Component {
                         </div>
                         <div className="col-xs-6 col-md-4">
                             <div className="switch-wrapper sw-right">
-                                <span>Tour Type <a href="#" style={{ color: '#fff' }}><i className="fa fa-question-circle" /></a></span>
+                                <span>Tour Type<a href="#"><i className="fa fa-question-circle" /></a></span>
 
                                 <div className="switch">
                                     <a href="#" className={props.joyrideType === 'guided' ? 'active' : ''}

@@ -24,10 +24,14 @@ class Cards extends React.Component {
                 selector: '.card-tickets',
                 position: 'bottom-right',
                 style: {
+                    backgroundColor: '#ccc',
                     mainColor: '#000',
                     beacon: {
                         inner: '#000',
                         outer: '#000'
+                    },
+                    skip: {
+                        color: '#FF67B4'
                     }
                 }
             }

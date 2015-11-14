@@ -1,5 +1,4 @@
 @import url('http://fonts.googleapis.com/css?family=Roboto:400,400italic,500');
-
 @import 'base/variables';
 @import 'base/bootstrap';
 @import 'base/utils';
@@ -10,7 +9,7 @@ $fa-font-path: 'fonts/';
 @import 'components/loader';
 @import 'sbadmin';
 
-$joyride-color: #f04;
+$joyride-color: $secondary-color;
 @import '../../node_modules/react-joyride/lib/styles/react-joyride';
 
 html {
@@ -28,12 +27,12 @@ body {
 }
 
 a {
-  color: $link-color;
+  color: $primary-color;
 }
 
 .main-header {
-  background-color: $link-color;
-  border-color: darken($link-color, 5);
+  background-color: $primary-color;
+  border-color: darken($primary-color, 5);
   padding: 2rem 0;
 
   .intro {
@@ -48,7 +47,7 @@ a {
   }
 
   h2 {
-    color: lighten($link-color, 40);
+    color: lighten($primary-color, 40);
     font-size: 2rem;
     line-height: 1.3;
     margin: 0;
@@ -59,6 +58,7 @@ a {
     }
 
     a {
+      color: $secondary-color;
       display: inline-block;
       margin-left: 0.4rem;
     }
@@ -100,7 +100,7 @@ a {
         }
 
         a {
-          background-color: lighten($link-color, 40);
+          background-color: lighten($primary-color, 40);
           display: inline-block;
           line-height: 1;
           padding: 4px 8px;
@@ -111,7 +111,7 @@ a {
           }
 
           path {
-            fill: $link-color;
+            fill: $primary-color;
           }
         }
       }
@@ -129,6 +129,12 @@ a {
     margin-bottom: 0.3rem;
     text-align: left;
     text-transform: uppercase;
+
+    a {
+      color: $secondary-color;
+      display: inline-block;
+      margin-left: 4px;
+    }
   }
 
   &.sw-right {
@@ -144,7 +150,7 @@ a {
     overflow: hidden;
 
     > a {
-      color: lighten($link-color, 5);
+      color: lighten($primary-color, 5);
       display: flex;
       font-size: 1.4rem;
       line-height: 1;
@@ -152,12 +158,12 @@ a {
       text-decoration: none !important;
 
       &:last-of-type {
-        border-left: 1px solid darken($link-color, 30);
+        border-left: 1px solid darken($primary-color, 30);
       }
 
       &.active {
         background-color: #fff;
-        color: $link-color !important;
+        color: $primary-color !important;
         pointer-events: none;
       }
     }
