@@ -22,6 +22,7 @@
     "tour"
   ],
   "dependencies": {
+    "object-assign": "^4.0.1",
     "scroll": "1.0"
   },
   "peerDependencies": {
