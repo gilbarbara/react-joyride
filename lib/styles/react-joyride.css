@@ -183,23 +183,10 @@
       color: #ccc;
       float: left;
       margin-right: 10px; }
-  .joyride-tooltip.standalone {
-    background-color: #fff;
-    border-radius: 4px;
-    color: #555;
-    width: 290px; }
-    .joyride-tooltip.standalone.bottom .triangle {
-      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2236px%22%20height%3D%2218px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%28180 8 4%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
-    .joyride-tooltip.standalone.top .triangle {
-      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2236px%22%20height%3D%2218px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%280%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
-    .joyride-tooltip.standalone.left .triangle {
-      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%28270 8 8%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
-    .joyride-tooltip.standalone.right .triangle {
-      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2218px%22%20height%3D%2236px%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22%23fff%22%20transform%3D%22scale%282.25%29%20rotate%2890 4 4%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E"); }
-    .joyride-tooltip.standalone .joyride-tooltip__main {
-      padding-bottom: 0; }
-    .joyride-tooltip.standalone .joyride-tooltip__footer {
-      display: none; }
+  .joyride-tooltip.standalone .joyride-tooltip__main {
+    padding-bottom: 0; }
+  .joyride-tooltip.standalone .joyride-tooltip__footer {
+    display: none; }
 
 @-webkit-keyframes joyride-tooltip {
   0% {
