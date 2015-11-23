@@ -231,7 +231,9 @@ Extra option for standalone tooltips
 
 - `trigger`: The DOM element that will trigger the tooltip
 
-And now you can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`. Also you can style `button` and `beacon` individually.
+As of version 1.x you can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
+
+Also you can style `button`, `skip`, `back` and `beacon` individually using standard style options.
 
 
 Example:
@@ -256,7 +258,11 @@ Example:
 		button: {
 			display: 'none'
 			// or any style attribute
-		}
+		},
+		skip: {
+			color: '#f04'
+		},
+		...
 	},
     // extra params...
     name: 'my-first-step',
