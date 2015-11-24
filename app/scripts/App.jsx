@@ -31,7 +31,7 @@ class App extends React.Component {
         }
     }
 
-    _addSteps (steps, start) {
+    _addSteps (steps) {
         let joyride = this.refs.joyride;
 
         if (!Array.isArray(steps)) {
@@ -45,10 +45,6 @@ class App extends React.Component {
         this.setState(currentState => {
             currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
             return currentState;
-        }, function () {
-            if (start) {
-                joyride.start();
-            }
         });
     }
 
@@ -57,11 +53,11 @@ class App extends React.Component {
     }
 
     _stepCallback (step) {
-        console.log('stepCallback', step);
+        console.log('••• stepCallback', step);
     }
 
     _completeCallback (steps, skipped) {
-        console.log('completeCallback', steps, skipped);
+        console.log('••• completeCallback', steps, skipped);
     }
 
     _onClickSwitch (e) {
