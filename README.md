@@ -58,7 +58,7 @@ Or include this directly in your html:
 Add a custom function to include steps and/or tooltips in your parent component
 
 ```javascript
-addSteps: function (steps, start) {
+addSteps: function (steps) {
 	let joyride = this.refs.joyride;
 		
 	if (!Array.isArray(steps)) {
@@ -69,13 +69,9 @@ addSteps: function (steps, start) {
 	    return false;
 	}
 	
-	this.setState(currentState => {
+	this.setState(function(currentState) {
 	    currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
 	    return currentState;
-	}, function () {
-		if (start) {
-			joyride.start();
-		}
 	});
 }
 
@@ -113,6 +109,8 @@ componentDidUpdate (prevProps, prevState) {
 },
 ```
 
+Please refer to the source code of the demo if you need a practical [example](https://github.com/gilbarbara/react-joyride/tree/demo/app/scripts).
+
 ## Options
 
 You can change the initial options passing props to the component. All optional.
@@ -147,7 +145,7 @@ You can change the initial options passing props to the component. All optional.
 
 **type** {string}: The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
 
-**completeCallback** {function}: It will be called after an user has completed all the steps or skipped the tour completely and passes the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
+**completeCallback** {function}: It will be called after an user has completed all the steps or skipped the tour and passes two parameters, the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
 
 **stepCallback** {function}: It will be called after each step and passes the completed step `{object}`. Defaults to `undefined`
 
@@ -188,7 +186,8 @@ Retrieve the current progress of your tour. The object returned looks like this:
 		title: "...",
 		text: "...",
 		selector: "...",
-		position: "..."
+		position: "...",
+		...
 	}
 }}
 ```
@@ -233,7 +232,7 @@ Extra option for standalone tooltips
 
 As of version 1.x you can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
-Also you can style `button`, `skip`, `back` and `beacon` individually using standard style options.
+Also you can style `button`, `skip`, `back` and `close` individually using standard style options. And `beacon` inner and outer colors.
 
 
 Example:
