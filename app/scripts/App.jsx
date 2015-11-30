@@ -10,8 +10,8 @@ class App extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            joyrideOverlay: false,
-            joyrideType: 'single',
+            joyrideOverlay: true,
+            joyrideType: 'continuous',
             ready: false,
             steps: []
         };

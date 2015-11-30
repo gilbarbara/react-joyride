@@ -85,10 +85,10 @@ class Header extends React.Component {
                                 <span>Tour Type<a href="#"><i className="fa fa-question-circle" /></a></span>
 
                                 <div className="switch">
-                                    <a href="#" className={props.joyrideType === 'guided' ? 'active' : ''}
+                                    <a href="#" className={props.joyrideType === 'continuous' ? 'active' : ''}
                                        data-key="joyrideType"
-                                       data-type="guided"
-                                       onClick={props.onClickSwitch}>Guided</a>
+                                       data-type="continuous"
+                                       onClick={props.onClickSwitch}>Continuous</a>
                                     <a href="#" className={props.joyrideType === 'single' ? 'active' : ''}
                                        data-key="joyrideType"
                                        data-type="single"
