@@ -137,13 +137,13 @@ You can change the initial options passing props to the component. All optional.
 
 **showSkipButton** {bool}: Display a link to skip the tour. It will trigger the `completeCallback` if it was defined. Defaults to `false`
 
-**showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `guided` tours. Defaults to `false`
+**showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `continuous` tours. Defaults to `false`
 
 **steps** {array}: The tour's steps. Defaults to `[]`
 
 **tooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
-**type** {string}: The type of your presentation. It can be `guided` (played sequencially with the Next button) or `single`. Defaults to `guided`
+**type** {string}: The type of your presentation. It can be `continuous` (played sequencially with the Next button) or `single`. Defaults to `single`
 
 **completeCallback** {function}: It will be called after an user has completed all the steps or skipped the tour and passes two parameters, the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
 
