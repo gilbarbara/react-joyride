@@ -218,13 +218,14 @@ var steps = this.refs.joyride.parseSteps({
 ### Only start the tour after all target elements (or at least the first step) are rendered in the page.
 
 
-## Step Syntax
+## Tooltip / Step Syntax
 There are a few usable options but you can pass extra parameters.
 
 - `title`: The title of the tooltip
 - `text`: The tooltip's body text **(required)**
 - `selector`: The target DOM selector of your feature **(required)**
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
+- `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
 
 Extra option for standalone tooltips
 
@@ -243,6 +244,7 @@ Example:
     text: 'Start using the joyride',
     selector: '.first-step',
     position: 'bottom-left',
+    type: 'hover',
     style: {
 		backgroundColor: 'rgba(0, 0, 0, 0.8)',
 		borderRadius: '0',
