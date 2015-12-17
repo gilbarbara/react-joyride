@@ -26,6 +26,7 @@ class Header extends React.Component {
             text: '<h2 style="margin-bottom: 10px; line-height: 1.6">Now you can open tooltips independently!</h2>And even style them one by one!',
             selector: '.intro h2 a',
             position: 'bottom',
+            event: 'hover',
             style: {
                 backgroundColor: 'rgba(0, 0, 0, 0.8)',
                 borderRadius: '0',

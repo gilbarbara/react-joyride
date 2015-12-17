@@ -16,7 +16,8 @@ class Cards extends React.Component {
                 title: 'Comments',
                 text: 'New comments sent by users',
                 selector: '.card-comments',
-                position: 'top'
+                position: 'top',
+                type: 'hover'
             },
             {
                 title: 'Tickets',
