@@ -274,8 +274,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     &__footer {
       text-align: right;
+    }
 
-      .primary {
+    &__button {
+      &--primary {
         background-color: $joyride-button-bg-color;
         border-radius: $joyride-button-radius;
         color: $joyride-button-color;
@@ -289,13 +291,13 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         }
       }
 
-      .secondary {
+      &--secondary {
         color: $joyride-back-button-color;
         margin-right: 10px;
         outline: none;
       }
 
-      .skip {
+      &--skip {
         color: $joyride-skip-button-color;
         float: left;
         margin-right: 10px;
