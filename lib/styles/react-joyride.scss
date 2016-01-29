@@ -141,7 +141,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       width: nth($joyride-tooltip-width, 3);
     }
 
-    &.animate {
+    &--animate {
       animation: $joyride-tooltip-animation;
       animation-timing-function: $joyride-tooltip-animation-timing;
     }
