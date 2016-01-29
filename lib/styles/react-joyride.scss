@@ -302,7 +302,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       }
     }
 
-    &.standalone {
+    &--standalone {
       .joyride-tooltip__main {
         padding-bottom: 0;
       }
