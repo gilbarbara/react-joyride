@@ -70,7 +70,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     width: $joyride-beacon-size;
     z-index: $joyride-zindex;
 
-    .inner {
+    &__inner {
       animation: joyride-beacon-inner 1.2s infinite ease-in-out;
       background-color: $joyride-beacon-color;
       border-radius: 50%;
@@ -84,7 +84,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       width: 50%;
     }
 
-    .outer {
+    &__outer {
       animation: joyride-beacon-outer 1.2s infinite ease-in-out;
       background-color: rgba($joyride-beacon-color, 0.2);
       border: ($joyride-beacon-size / 18) solid $joyride-beacon-color;
