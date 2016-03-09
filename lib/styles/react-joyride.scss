@@ -70,7 +70,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     width: $joyride-beacon-size;
     z-index: $joyride-zindex;
 
-    .inner {
+    &__inner {
       animation: joyride-beacon-inner 1.2s infinite ease-in-out;
       background-color: $joyride-beacon-color;
       border-radius: 50%;
@@ -84,7 +84,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       width: 50%;
     }
 
-    .outer {
+    &__outer {
       animation: joyride-beacon-outer 1.2s infinite ease-in-out;
       background-color: rgba($joyride-beacon-color, 0.2);
       border: ($joyride-beacon-size / 18) solid $joyride-beacon-color;
@@ -141,12 +141,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       width: nth($joyride-tooltip-width, 3);
     }
 
-    &.animate {
+    &--animate {
       animation: $joyride-tooltip-animation;
       animation-timing-function: $joyride-tooltip-animation-timing;
     }
 
-    .triangle {
+    &__triangle {
       background-repeat: no-repeat;
       overflow: hidden;
       position: absolute;
@@ -157,7 +157,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.bottom-right {
       margin-top: $joyride-tooltip-arrow-height;
 
-      .triangle {
+      .joyride-tooltip__triangle {
         background-image: url(joyride-arrow(bottom));
         height: $joyride-tooltip-arrow-height;
         left: 50%;
@@ -172,7 +172,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.top-right {
       margin-bottom: $joyride-tooltip-arrow-height;
 
-      .triangle {
+      .joyride-tooltip__triangle {
         background-image: url(joyride-arrow(top));
         bottom: -($joyride-tooltip-arrow-height - 2);
         height: $joyride-tooltip-arrow-height;
@@ -184,7 +184,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     &.bottom-left,
     &.top-left {
-      .triangle {
+      .joyride-tooltip__triangle {
         left: 3%;
         transform: translateX(0);
 
@@ -196,7 +196,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     &.bottom-right,
     &.top-right {
-      .triangle {
+      .joyride-tooltip__triangle {
         left: auto;
         right: 3%;
         transform: translateX(0);
@@ -210,7 +210,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.left {
       margin-right: $joyride-tooltip-arrow-height;
 
-      .triangle {
+      .joyride-tooltip__triangle {
         background-image: url(joyride-arrow(left));
         height: $joyride-tooltip-arrow-size;
         right: -($joyride-tooltip-arrow-height - 2);
@@ -221,7 +221,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &.right {
       margin-left: $joyride-tooltip-arrow-height;
 
-      .triangle {
+      .joyride-tooltip__triangle {
         background-image: url(joyride-arrow(right));
         height: $joyride-tooltip-arrow-size;
         left: -($joyride-tooltip-arrow-height - 2);
@@ -274,8 +274,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
     &__footer {
       text-align: right;
+    }
 
-      .primary {
+    &__button {
+      &--primary {
         background-color: $joyride-button-bg-color;
         border-radius: $joyride-button-radius;
         color: $joyride-button-color;
@@ -289,20 +291,20 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         }
       }
 
-      .secondary {
+      &--secondary {
         color: $joyride-back-button-color;
         margin-right: 10px;
         outline: none;
       }
 
-      .skip {
+      &--skip {
         color: $joyride-skip-button-color;
         float: left;
         margin-right: 10px;
       }
     }
 
-    &.standalone {
+    &--standalone {
       .joyride-tooltip__main {
         padding-bottom: 0;
       }
