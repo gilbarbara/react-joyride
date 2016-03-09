@@ -22,7 +22,7 @@
     "tour"
   ],
   "dependencies": {
-    "object-assign": "^4.0.1",
+    "object-assign": "^4.0",
     "scroll": "1.0"
   },
   "peerDependencies": {
@@ -30,17 +30,17 @@
     "react-dom": "^0.14"
   },
   "devDependencies": {
-    "del": "^2.0",
-    "eslint": "^1.8",
-    "eslint-plugin-react": "^3.6",
+    "del": "^2.2",
+    "eslint": "^1.10",
+    "eslint-plugin-react": "^3.13",
     "gulp": "^3.9",
     "gulp-autoprefixer": "^3.1",
-    "gulp-eslint": "^1.0",
-    "gulp-load-plugins": "^1.0",
-    "gulp-plumber": "^1.0",
-    "gulp-sass": "^2.1",
+    "gulp-eslint": "^1.1",
+    "gulp-load-plugins": "^1.2",
+    "gulp-plumber": "^1.1",
+    "gulp-sass": "^2.2",
     "merge-stream": "^1.0",
-    "mocha": "^2.3",
+    "mocha": "^2.4",
     "run-sequence": "^1.1"
   },
   "scripts": {

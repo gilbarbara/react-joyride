@@ -312,3 +312,4 @@ Copyright © 2015 Gil Barbara - [MIT License](LICENSE)
 ---
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
+  
