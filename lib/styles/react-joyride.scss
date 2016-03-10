@@ -286,8 +286,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         text-decoration: none;
         transition: background-color 0.2s ease-in-out;
 
+        &:active,
+        &:focus,
         &:hover {
           background-color: lighten($joyride-button-bg-color, 6);
+          color: $joyride-button-color;
+          text-decoration: none;
         }
       }
 
