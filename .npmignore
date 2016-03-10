@@ -9,4 +9,5 @@
 .travis.yml
 gulpfile.js
 node_modules
+tests
 npm-debug.log
