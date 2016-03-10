@@ -10,7 +10,7 @@ $fa-font-path: 'fonts/';
 @import 'sbadmin';
 
 $joyride-color: $secondary-color;
-@import '../../node_modules/react-joyride/lib/styles/react-joyride';
+@import '../../node_modules/react-joyride/lib/styles/react-joyride.scss';
 
 html {
   font-size: 62.5%;

@@ -5,6 +5,6 @@
     "bootstrap": "^4",
     "font-awesome": "~4",
     "jquery": "~2",
-    "modernizr": "~2.8.3"
+    "modernizr": "~2.8"
   }
 }
