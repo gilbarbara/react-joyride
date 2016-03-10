@@ -205,7 +205,7 @@
     ],
     "space-after-keywords": 1,
     "space-before-blocks": 1,
-    "space-before-function-paren": 1,
+    "space-before-function-paren": 0,
     "space-before-keywords": 1,
     "space-infix-ops": 1,
     "space-return-throw-case": 1,
