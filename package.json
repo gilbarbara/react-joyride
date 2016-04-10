@@ -48,9 +48,9 @@
     "jsdom": "^8.3",
     "merge-stream": "^1.0",
     "mocha": "^2.4",
-    "react": ">=15.0",
+    "react": "^15.0",
     "react-addons-test-utils": "^15.0",
-    "react-dom": ">=15.0",
+    "react-dom": "^15.0",
     "run-sequence": "^1.1"
   },
   "babel": {
