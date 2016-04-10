@@ -1,31 +1,14 @@
-# EditorConfig helps developers define and maintain consistent
-# coding styles between different editors and IDEs
-# editorconfig.org
+# EditorConfig is awesome: http://EditorConfig.org
 
+# top-most EditorConfig file
 root = true
 
+# Unix-style newlines with a newline ending every file
 [*]
-# change these settings to your own preference
-indent_style = space
-indent_size = 4
-
-# we recommend you to keep these unchanged
 end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
 insert_final_newline = true
+indent_style = space
+indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false
-
-[*.json]
-indent_style = space
-indent_size = 2
-
-[{.eslintrc,.scss-lint.yml}]
-indent_style = space
-indent_size = 2
-
-[*.{scss,sass}]
-indent_style = space
-indent_size = 2
