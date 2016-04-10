@@ -24,7 +24,7 @@ class Header extends React.Component {
       event: 'hover',
       style: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        borderRadius: '0',
+        borderRadius: 0,
         color: '#fff',
         mainColor: '#ff67b4',
         textAlign: 'center',

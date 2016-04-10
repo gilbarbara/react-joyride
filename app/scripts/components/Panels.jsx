@@ -9,7 +9,7 @@ class Cards extends React.Component {
     this.props.addSteps([
       {
         title: 'Trigger Action',
-        text: 'It can be `click` (default) or `hover` (reverts to click on touch devices',
+        text: 'It can be `click` (default) or `hover` <i>(reverts to click on touch devices</i>',
         selector: '.card-comments',
         position: 'top',
         type: 'hover'

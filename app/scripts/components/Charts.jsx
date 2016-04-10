@@ -28,16 +28,13 @@ class Charts extends React.Component {
         position: 'left',
         style: {
           backgroundColor: '#12d217',
-          borderRadius: '0',
+          borderRadius: 0,
           color: '#fff',
           mainColor: '#fff',
           textAlign: 'center',
           beacon: {
             inner: '#12d217',
             outer: '#12d217'
-          },
-          button: {
-            display: 'none'
           },
           skip: {
             display: 'none'

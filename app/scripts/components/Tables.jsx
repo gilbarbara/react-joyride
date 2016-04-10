@@ -10,7 +10,7 @@ class Tables extends React.Component {
     this.props.addSteps({
       title: 'Tooltip Position',
       text: 'Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.',
-      selector: ReactDOM.findDOMNode(this.refs.transactions),
+      selector: '.transactions',
       position: 'top-right',
       style: {
         mainColor: '#f07b50',
@@ -77,7 +77,7 @@ class Tables extends React.Component {
           </div>
         </div>
         <div className="col-xs-12 col-md-6">
-          <div ref="transactions" className="card">
+          <div ref="transactions" className="card transactions">
             <div className="card-header">
               <h3>
                 <i className="fa fa-money fa-fw" /> Transactions Panel</h3>

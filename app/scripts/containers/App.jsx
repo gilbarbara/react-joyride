@@ -7,6 +7,7 @@ import Charts from '../components/Charts';
 import Tables from '../components/Tables';
 import Loader from '../components/Loader';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -58,11 +59,11 @@ class App extends React.Component {
   }
 
   stepCallback(step) {
-    console.log('••• stepCallback', step); //eslint-disable-line no-console
+    console.log('%cStep Callback', 'color: #2B759E; font-weight: bold', step); //eslint-disable-line no-console
   }
 
   completeCallback(steps, skipped) {
-    console.log('••• completeCallback', steps, skipped); //eslint-disable-line no-console
+    console.log('%ccompleteCallback', 'color: #519255; font-weight: bold', steps, skipped); //eslint-disable-line no-console
   }
 
   @autobind
@@ -110,11 +111,8 @@ class App extends React.Component {
             onClickSwitch={this.onClickSwitch}
             addSteps={this.addSteps}
             addTooltip={this.addTooltip} />
-
           <div id="page-wrapper">
-
             <div className="container-fluid">
-
               <Panels addSteps={this.addSteps} />
               <Charts addSteps={this.addSteps} />
               <Tables addSteps={this.addSteps} />
