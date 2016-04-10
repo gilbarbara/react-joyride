@@ -202,7 +202,7 @@ Parse the incoming steps, check if it's already rendered and returns an array wi
 var steps = this.refs.joyride.parseSteps({
     title: 'Title',
     text: 'description',
-    selector: 'my-super-class,
+    selector: 'my-super-class',
     position: 'top'
 });
 

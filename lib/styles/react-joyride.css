@@ -16,7 +16,6 @@
     position: relative;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
     width: 50%; }
   .joyride-beacon__outer {
@@ -32,10 +31,8 @@
     position: absolute;
     top: 0;
     -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
             transform: translateY(-50%);
     -webkit-transform-origin: center;
-        -ms-transform-origin: center;
             transform-origin: center;
     width: 100%; }
 
@@ -91,7 +88,6 @@
       left: 50%;
       top: -16px;
       -webkit-transform: translateX(-50%);
-          -ms-transform: translateX(-50%);
               transform: translateX(-50%);
       width: 36px; }
   .joyride-tooltip.top, .joyride-tooltip.top-left, .joyride-tooltip.top-right {
@@ -102,13 +98,11 @@
       height: 18px;
       left: 50%;
       -webkit-transform: translateX(-50%);
-          -ms-transform: translateX(-50%);
               transform: translateX(-50%);
       width: 36px; }
   .joyride-tooltip.bottom-left .joyride-tooltip__triangle, .joyride-tooltip.top-left .joyride-tooltip__triangle {
     left: 3%;
     -webkit-transform: translateX(0);
-        -ms-transform: translateX(0);
             transform: translateX(0); }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-left .joyride-tooltip__triangle, .joyride-tooltip.top-left .joyride-tooltip__triangle {
@@ -117,7 +111,6 @@
     left: auto;
     right: 3%;
     -webkit-transform: translateX(0);
-        -ms-transform: translateX(0);
             transform: translateX(0); }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-right .joyride-tooltip__triangle, .joyride-tooltip.top-right .joyride-tooltip__triangle {
@@ -172,7 +165,7 @@
     padding: 6px 12px;
     text-decoration: none;
     -webkit-transition: background-color 0.2s ease-in-out;
-            transition: background-color 0.2s ease-in-out; }
+    transition: background-color 0.2s ease-in-out; }
     .joyride-tooltip__button--primary:active, .joyride-tooltip__button--primary:focus, .joyride-tooltip__button--primary:hover {
       background-color: #ff1f5a;
       color: #fff;
