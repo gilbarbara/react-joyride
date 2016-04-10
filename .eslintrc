@@ -1,4 +1,5 @@
 {
+  "parser": "babel-eslint",
   "ecmaFeatures": {
     "jsx": true
   },
@@ -77,7 +78,7 @@
       }
     ],
     "no-implied-eval": 2,
-    "no-invalid-this": 1,
+    "no-invalid-this": 0,
     "no-loop-func": 0,
     "no-multi-spaces": [
       1,
@@ -145,6 +146,7 @@
     ],
     "eol-last": 1,
     "key-spacing": 1,
+    "keyword-spacing": 1,
     "lines-around-comment": [
       0,
       {
@@ -203,12 +205,9 @@
         "after": true
       }
     ],
-    "space-after-keywords": 1,
     "space-before-blocks": 1,
     "space-before-function-paren": 0,
-    "space-before-keywords": 1,
     "space-infix-ops": 1,
-    "space-return-throw-case": 1,
     "space-unary-ops": 1,
     // Node
     "callback-return": [
@@ -243,7 +242,6 @@
     ],
     "react/jsx-no-duplicate-props": 1,
     "react/jsx-no-undef": 1,
-    "react/jsx-sort-prop-types": 1,
     "react/jsx-sort-props": 0,
     "react/jsx-uses-react": 1,
     "react/jsx-uses-vars": 1,
@@ -255,6 +253,7 @@
     "react/react-in-jsx-scope": 1,
     //"react/require-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/self-closing-comp": 1,
+    "react/sort-prop-types": 1,
     "react/sort-comp": [
       1,
       {

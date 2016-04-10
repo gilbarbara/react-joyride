@@ -46,13 +46,11 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
   @if $location == bottom {
     $rotate: '180 8 4';
-  }
-  @else if $location == left {
+  } @else if $location == left {
     $height: $joyride-tooltip-arrow-size;
     $width: $joyride-tooltip-arrow-height;
     $rotate: '270 8 8';
-  }
-  @else if $location == right {
+  } @else if $location == right {
     $height: $joyride-tooltip-arrow-size;
     $width: $joyride-tooltip-arrow-height;
     $rotate: '90 4 4';
@@ -241,8 +239,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
       @if $joyride-close-visible {
         display: block;
-      }
-      @else {
+      } @else {
         display: none;
       }
 
@@ -319,7 +316,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
   }
 }
-
 
 @keyframes joyride-tooltip {
   0% {
