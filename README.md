@@ -202,7 +202,7 @@ Parse the incoming steps, check if it's already rendered and returns an array wi
 var steps = this.refs.joyride.parseSteps({
     title: 'Title',
     text: 'description',
-    selector: ReactDOM.findDOMNode(this.refs.node),
+    selector: 'my-super-class,
     position: 'top'
 });
 
@@ -210,7 +210,7 @@ var steps = this.refs.joyride.parseSteps({
 [{
     title: 'Title',
     text: 'description',
-    selector: '[data-reactid="0.0.1.0"]',
+    selector: '#super-panel',
     position: 'top'
 }]
 ```
@@ -241,7 +241,7 @@ Example:
 ```javascript
 {
     title: 'First Step',
-    text: 'Start using the joyride',
+    text: 'Start using the <strong>joyride</strong>', // supports html tags
     selector: '.first-step',
     position: 'bottom-left',
     type: 'hover',
