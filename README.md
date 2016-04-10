@@ -5,7 +5,7 @@ React Joyride
 
 <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">![](http://gilbarbara.github.io/react-joyride/media/example.png)</a>
 
-View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>.
+View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>. [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
 
 ## Setup
 
