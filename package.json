@@ -44,6 +44,7 @@
     "gulp-load-plugins": "^1.2",
     "gulp-mocha": "^2.2",
     "gulp-plumber": "^1.1",
+    "gulp-rename": "^1.2",
     "gulp-sass": "^2.2",
     "jsdom": "^8.3",
     "merge-stream": "^1.0",
