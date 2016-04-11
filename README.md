@@ -49,7 +49,7 @@ If your are using **SCSS** (and you should):
 Or include this directly in your html:
 
 ```html
-<link rel="stylesheet" href="react-joyride/lib/styles/react-joyride.css" type="text/css">
+<link rel="stylesheet" href="react-joyride/lib/styles/react-joyride-compiled.css" type="text/css">
 ```
 
 

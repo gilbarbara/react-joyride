@@ -38,6 +38,7 @@ gulp.task('styles', function() {
         }).on('error', $.sass.logError))
         .pipe($.plumber.stop())
         .pipe($.autoprefixer())
+      .pipe($.rename({ suffix: '-compiled' }))
         .pipe(gulp.dest('lib/styles'));
 });
 
