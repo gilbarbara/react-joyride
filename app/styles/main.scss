@@ -1,16 +1,16 @@
-@import url('http://fonts.googleapis.com/css?family=Roboto:400,400italic,500');
+@import url('//fonts.googleapis.com/css?family=Roboto:400,400italic,500');
 @import 'base/variables';
 @import 'base/bootstrap';
 @import 'base/utils';
 
-$fa-font-path: 'fonts/';
+$fa-font-path: '../fonts';
 @import 'font-awesome/scss/font-awesome';
 
 @import 'components/loader';
 @import 'sbadmin';
 
-$joyride-color: $secondary-color;
-@import '../../node_modules/react-joyride/lib/styles/react-joyride.scss';
+$joyride-color: #760bc5;
+@import '../../node_modules/react-joyride/lib/styles/react-joyride';
 
 html {
   font-size: 62.5%;

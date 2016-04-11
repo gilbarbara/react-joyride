@@ -14,7 +14,7 @@ class App extends React.Component {
 
     this.state = {
       joyrideOverlay: true,
-      joyrideType: 'single',
+      joyrideType: 'continuous',
       ready: false,
       steps: []
     };

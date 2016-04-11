@@ -6,7 +6,7 @@ class Cards extends React.Component {
   }
 
   componentDidMount() {
-    this.props.addSteps([
+    const steps = [
       {
         title: 'Trigger Action',
         text: 'It can be `click` (default) or `hover` <i>(reverts to click on touch devices</i>',
@@ -31,7 +31,26 @@ class Cards extends React.Component {
           }
         }
       }
-    ]);
+    ];
+
+    if (location.hostname === 'localhost') {
+      steps.push(
+        {
+          title: 'Tasks',
+          text: 'Hey look! Tasks!',
+          selector: '.card-tasks',
+          position: 'right'
+        },
+        {
+          title: 'Orders',
+          text: 'Mo\' Money',
+          selector: '.card-orders',
+          position: 'left'
+        }
+      );
+    }
+
+    this.props.addSteps(steps);
   }
 
   render() {
