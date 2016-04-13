@@ -166,7 +166,7 @@ gulp.task('bundle', function() {
     }));
 
   fonts = gulp.src('.tmp/assets/fonts/**/*')
-    .pipe(gulp.dest('dist/fonts'))
+    .pipe(gulp.dest('dist/assets/fonts'))
     .pipe($.size({
       title: 'Fonts'
     }));
