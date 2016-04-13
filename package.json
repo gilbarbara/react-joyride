@@ -26,8 +26,8 @@
     "scroll": "1.0"
   },
   "peerDependencies": {
-    "react": ">=0.14",
-    "react-dom": ">=0.14"
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.0",
