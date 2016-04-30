@@ -3,7 +3,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import jsdom from 'jsdom';
 
-let Component;
+import Component from '../lib/scripts/Component';
 
 function setup() {
     const props = {
@@ -36,19 +36,6 @@ function setup() {
 }
 
 describe('Component', () => {
-    before(function(done) {
-        jsdom.env({
-            html: "<!doctype html><html><body></body></html>",
-            done: function(errs, window) {
-                global.window = window;
-                global.navigator = window.navigator;
-
-                Component = require('../lib/scripts/Component');
-                done();
-            }
-        });
-    });
-
     it('should render correctly before calling start', () => {
         const { output } = setup();
 
