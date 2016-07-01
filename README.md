@@ -10,8 +10,6 @@ View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blan
 ## Setup
 
 
-### Version 1.0 has a very different setup from 0.x versions. The old syntax will not work.
-
 ```javascript
 npm install --save react-joyride
 ```
@@ -55,7 +53,7 @@ Or include this directly in your html:
 
 ## Getting Started
 
-Add a custom function to include steps in your state in your parent component
+Add a custom function to include steps to your state in your own component
 
 ```javascript
 addSteps: function (steps) {
@@ -76,11 +74,12 @@ addSteps: function (steps) {
 }
 ```
 
-Add steps after your components are mounted.
+Add steps/tooltips after your components are mounted.
 
 ```javascript
 componentDidMount: function () {
 	this.addSteps({...}); // or this.props.addTooltip({...});
+	this.refs.joyride.start();
 	
 
 	// or using props in your child components
