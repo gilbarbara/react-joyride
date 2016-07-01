@@ -55,7 +55,7 @@ Or include this directly in your html:
 
 ## Getting Started
 
-Add a custom function to include steps and/or tooltips in your parent component
+Add a custom function to include steps in your state in your parent component
 
 ```javascript
 addSteps: function (steps) {
@@ -74,17 +74,13 @@ addSteps: function (steps) {
 	    return currentState;
 	});
 }
-
-addTooltip: function (data) {
-    this.refs.joyride.addTooltip(data);
-}
 ```
 
 Add steps after your components are mounted.
 
 ```javascript
 componentDidMount: function () {
-	this.addSteps({...}); // or this.addTooltip({...});
+	this.addSteps({...}); // or this.props.addTooltip({...});
 	
 
 	// or using props in your child components
@@ -94,7 +90,7 @@ componentDidMount: function () {
 render: function () {
 	return (
 		<Joyride ref="joyride" .../>
-		<ChildComponent addSteps={this.addSteps} addTooltip={this.addTooltip} />
+		<ChildComponent addSteps={this.addSteps} addTooltip={this.props.addTooltip} />
 	);
 }
 ```
@@ -135,7 +131,7 @@ You can change the initial options passing props to the component. All optional.
 
 **showOverlay** {bool}: Display an overlay with holes above your steps (for tours only). Defaults to `true`
 
-**showSkipButton** {bool}: Display a link to skip the tour. It will trigger the `completeCallback` if it was defined. Defaults to `false`
+**showSkipButton** {bool}: Display a link to skip the tour. Defaults to `false`
 
 **showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `continuous` tours. Defaults to `false`
 
@@ -145,19 +141,42 @@ You can change the initial options passing props to the component. All optional.
 
 **type** {string}: The type of your presentation. It can be `continuous` (played sequencially with the Next button) or `single`. Defaults to `single`
 
-**completeCallback** {function}: It will be called after an user has completed all the steps or skipped the tour and passes two parameters, the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
+**disableOverlay** {bool}: Don't close the tooltip on clicking the overlay. Defaults to `false`
 
-**stepCallback** {function}: It will be called after each step and passes the completed step `{object}`. Defaults to `undefined`
+**callback** {function}: It will be called after:  
+* clicking the beacon `{ type: 'step:before', step: {...} }`  
+* closing a step `{ type: 'step:after', step: {...} }`  
+* clicking on the overlay (if not disabled) `{ type: 'overlay', step: {...} }`  
+* when the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`  
+
+Defaults to `undefined`
+
+### Deprecated
+
+~~completeCallback~~ {function}: It will be called after an user has completed all the steps or skipped the tour and passes two parameters, the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
+
+~~stepCallback~~ {function}: It will be called after each step and passes the completed step `{object}`. Defaults to `undefined`
 
 Example:
 
 ```javascript
-<Joyride ref="joyride" steps={this.state.steps} debug={true} type="single"
-		 stepCallback={this._stepCallback} ... />
+<Joyride
+	ref="joyride"
+	steps={this.state.steps}
+	debug={true}
+	type="single"
+	callback={this.callback}
+	...
+/>
 ```
 
 ## API
 
+### this.refs.addTooltip(data)
+
+Add tooltips in your elements.
+
+- `data` {object} - A step object (check the syntax below)
 
 ### this.refs.joyride.start(autorun)
 
@@ -233,7 +252,7 @@ Extra option for standalone tooltips
 
 As of version 1.x you can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
-Also you can style `button`, `skip`, `back` and `close` individually using standard style options. And `beacon` inner and outer colors.
+Also you can style `button`, `skip`, `back`, `close` and `hole` individually using standard style options. And `beacon` inner and outer colors.
 
 
 Example:
@@ -307,7 +326,7 @@ Example:
 
 ## License
 
-Copyright © 2015 Gil Barbara - [MIT License](LICENSE)
+Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 
 ---
 
