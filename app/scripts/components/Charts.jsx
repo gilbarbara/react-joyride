@@ -1,4 +1,5 @@
 import React from 'react';
+import Inline from './Inline';
 
 class Charts extends React.Component {
   static propTypes = {
@@ -22,7 +23,7 @@ class Charts extends React.Component {
       },
       {
         title: 'Hide Elements',
-        text: 'You can really customize the UI',
+        text: <Inline />,
         textAlign: 'center',
         selector: '#donut-chart',
         position: 'left',

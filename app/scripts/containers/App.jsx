@@ -58,12 +58,9 @@ class App extends React.Component {
     this.refs.joyride.addTooltip(data);
   }
 
-  stepCallback(step) {
-    console.log('%cStep Callback', 'color: #2B759E; font-weight: bold', step); //eslint-disable-line no-console
-  }
-
-  completeCallback(steps, skipped) {
-    console.log('%ccompleteCallback', 'color: #519255; font-weight: bold', steps, skipped); //eslint-disable-line no-console
+  callback(data) {
+    console.log('%ccallback', 'color: #2B759E; font-weight: bold'); //eslint-disable-line no-console
+    console.log(data); //eslint-disable-line no-console
   }
 
   @autobind
@@ -103,8 +100,7 @@ class App extends React.Component {
             type={state.joyrideType}
             showSkipButton={true}
             showOverlay={state.joyrideOverlay}
-            stepCallback={this.stepCallback}
-            completeCallback={this.completeCallback} />
+            callback={this.callback} />
           <Header
             joyrideType={state.joyrideType}
             joyrideOverlay={state.joyrideOverlay}

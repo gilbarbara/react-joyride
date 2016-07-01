@@ -9,14 +9,14 @@ class Cards extends React.Component {
     const steps = [
       {
         title: 'Trigger Action',
-        text: 'It can be `click` (default) or `hover` <i>(reverts to click on touch devices</i>',
+        text: 'It can be `click` (default) or `hover` <i>(reverts to click on touch devices</i>.',
         selector: '.card-comments',
         position: 'top',
         type: 'hover'
       },
       {
         title: 'Advance customization',
-        text: 'You can set individual styling options for beacons and tooltips',
+        text: 'You can set individual styling options for beacons, tooltips and the hole. And you can have <a href="#hi">links</a> too',
         selector: '.card-tickets',
         position: 'bottom-right',
         style: {
@@ -28,6 +28,9 @@ class Cards extends React.Component {
           },
           skip: {
             color: '#FF67B4'
+          },
+          hole: {
+            backgroundColor: 'RGBA(201, 23, 33, 0.2)',
           }
         }
       }
@@ -75,7 +78,7 @@ class Cards extends React.Component {
               <a href="#">
                 <span className="pull-left">View Details</span>
                 <span className="pull-right">
-                    <i className="fa fa-arrow-circle-right" />
+                  <i className="fa fa-arrow-circle-right" />
                 </span>
               </a>
             </div>
@@ -99,7 +102,7 @@ class Cards extends React.Component {
               <a href="#">
                 <span className="pull-left">View Details</span>
                 <span className="pull-right">
-                    <i className="fa fa-arrow-circle-right" />
+                  <i className="fa fa-arrow-circle-right" />
                 </span>
               </a>
             </div>
@@ -123,7 +126,7 @@ class Cards extends React.Component {
               <a href="#">
                 <span className="pull-left">View Details</span>
                 <span className="pull-right">
-                    <i className="fa fa-arrow-circle-right" />
+                  <i className="fa fa-arrow-circle-right" />
                 </span>
               </a>
             </div>
@@ -147,7 +150,7 @@ class Cards extends React.Component {
               <a href="#">
                 <span className="pull-left">View Details</span>
                 <span className="pull-right">
-                    <i className="fa fa-arrow-circle-right" />
+                  <i className="fa fa-arrow-circle-right" />
                 </span>
               </a>
             </div>
