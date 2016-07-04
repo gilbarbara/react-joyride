@@ -72,13 +72,17 @@ addSteps: function (steps) {
 	    return currentState;
 	});
 }
+
+addTooltip(data) {
+	this.refs.joyride.addTooltip(data);
+}
 ```
 
 Add steps/tooltips after your components are mounted.
 
 ```javascript
 componentDidMount: function () {
-	this.addSteps({...}); // or this.props.addTooltip({...});
+	this.addSteps({...}); // or this.addTooltip({...});
 	this.refs.joyride.start();
 	
 
@@ -89,7 +93,7 @@ componentDidMount: function () {
 render: function () {
 	return (
 		<Joyride ref="joyride" .../>
-		<ChildComponent addSteps={this.addSteps} addTooltip={this.props.addTooltip} />
+		<ChildComponent addSteps={this.addSteps} addTooltip={this.addTooltip} />
 	);
 }
 ```
