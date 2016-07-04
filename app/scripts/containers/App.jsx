@@ -7,7 +7,6 @@ import Charts from '../components/Charts';
 import Tables from '../components/Tables';
 import Loader from '../components/Loader';
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -99,6 +98,7 @@ class App extends React.Component {
             steps={state.steps}
             type={state.joyrideType}
             showSkipButton={true}
+            showStepsProgress={true}
             showOverlay={state.joyrideOverlay}
             callback={this.callback} />
           <Header
@@ -122,9 +122,7 @@ class App extends React.Component {
     }
 
     return (
-      <div className="app">
-        {html}
-      </div>
+      <div className="app">{html}</div>
     );
   }
 }

@@ -33,14 +33,14 @@ class Header extends React.Component {
     });
 
     this.props.addTooltip({
-      text: 'Change how you want to play your tour!',
+      text: 'Change how you want to play the tour',
       selector: '.sw-right',
       trigger: '.sw-right span a',
       position: 'bottom',
       style: {
-        backgroundColor: '#232323',
-        borderRadius: '1rem',
-        color: '#ff67b4',
+        backgroundColor: '#E6F212',
+        borderRadius: '0.5rem',
+        color: '#000',
         textAlign: 'center',
         width: '18rem'
       }
@@ -61,7 +61,7 @@ class Header extends React.Component {
           </div>
 
           <div className="row row-menu">
-            <div className="col-xs-6 col-md-4">
+            <div className="col-xs-5 col-md-4">
               <div className="switch-wrapper">
                 <span>Overlay</span>
                 <div className="switch">
@@ -80,7 +80,7 @@ class Header extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="col-xs-6 col-md-4">
+            <div className="col-xs-7 col-md-4">
               <div className="switch-wrapper sw-right">
                 <span>Tour Type<a href="#"><i className="fa fa-question-circle" /></a></span>
 
