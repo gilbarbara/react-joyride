@@ -735,7 +735,7 @@ export default class Joyride extends React.Component {
             }
           }
 
-          if (props.showSkipButton) {
+          if (props.showSkipButton && props.steps[state.index + 1]) {
             buttons.skip = props.locale.skip;
           }
         }
