@@ -745,6 +745,7 @@ export default class Joyride extends React.Component {
           browser: this.getBrowser(),
           buttons,
           cssPosition,
+          disableOverlay: props.disableOverlay,
           showOverlay,
           step: currentStep,
           standalone: Boolean(state.tooltip),
