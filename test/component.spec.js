@@ -1,9 +1,8 @@
 import expect from 'expect';
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
-import jsdom from 'jsdom';
 
-let Component;
+import Joyride from '../src/scripts/Joyride';
 
 function setup() {
   const props = {
@@ -24,35 +23,15 @@ function setup() {
     ]
   };
 
-  const renderer = TestUtils.createRenderer();
-  renderer.render(<Component { ...props } />);
-  const output = renderer.getRenderOutput();
-
-  return {
-    props,
-    output,
-    renderer
-  };
+  return TestUtils.renderIntoDocument(
+    <Joyride {...props} />
+  );
 }
 
-describe('Component', () => {
-  before((done) => {
-    jsdom.env({
-      html: '<!doctype html><html><body></body></html>',
-      done: (errs, window) => {
-        global.window = window;
-        global.navigator = window.navigator;
+describe('Joyride', () => {
+  const render = setup();
 
-        Component = require('../src/scripts/Joyride');
-        done();
-      }
-    });
-  });
-
-  it('should render correctly before calling start', () => {
-    const { output } = setup();
-
-    expect(output.props.className).toBe('joyride');
-    expect(output.props.children).toEqual([undefined, undefined]);
+  it('should be a Component', () => {
+    expect(TestUtils.isCompositeComponent(render)).toBe(true);
   });
 });
