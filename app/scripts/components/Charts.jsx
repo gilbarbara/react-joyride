@@ -60,14 +60,13 @@ class Charts extends React.Component {
             </div>
             <div className="card-block">
               <svg
-                height="347" version="1.1" width="100%"
-                viewBox="0 0 740 347"
-                xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax">
+                height="347" width="100%"
+                viewBox="0 0 740 347" preserveAspectRatio="xMaxYMax">
                 <text
                   x="49.21875" y="313" textAnchor="end"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                  stroke="none" fill="#888888"
                   fontSize="12px" fontFamily="sans-serif"
-                  font-weight="normal">
+                  fontWeight="normal">
                   <tspan dy="4">0
                   </tspan>
                 </text>
@@ -76,9 +75,9 @@ class Charts extends React.Component {
                   strokeWidth="0.5" />
                 <text
                   x="49.21875" y="241" textAnchor="end"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                  stroke="none" fill="#888888"
                   fontSize="12px" fontFamily="sans-serif"
-                  font-weight="normal">
+                 >
                   <tspan dy="4">7,500
                   </tspan>
                 </text>
@@ -87,18 +86,18 @@ class Charts extends React.Component {
                   strokeWidth="0.5" />
                 <text
                   x="49.21875" y="169" textAnchor="end"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                  stroke="none" fill="#888888"
                   fontSize="12px" fontFamily="sans-serif"
-                  font-weight="normal">
+                 >
                   <tspan dy="4">15,000
                   </tspan>
                 </text>
                 <path fill="none" stroke="#aaaaaa" d="M61.71875,169H948" strokeWidth="0.5" />
                 <text
                   x="49.21875" y="97.00000000000003" textAnchor="end"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                  stroke="none" fill="#888888"
                   fontSize="12px" fontFamily="sans-serif"
-                  font-weight="normal">
+                 >
                   <tspan dy="4.000000000000028">22,500
                   </tspan>
                 </text>
@@ -108,9 +107,9 @@ class Charts extends React.Component {
                   strokeWidth="0.5" />
                 <text
                   x="49.21875" y="25" textAnchor="end"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
+                  stroke="none" fill="#888888"
                   fontSize="12px" fontFamily="sans-serif"
-                  font-weight="normal">
+                 >
                   <tspan dy="4">30,000
                   </tspan>
                 </text>
@@ -119,72 +118,72 @@ class Charts extends React.Component {
                   strokeWidth="0.5" />
                 <text
                   x="848.9260328068043" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2015-03
                   </tspan>
                 </text>
                 <text
                   x="750.8840861052045" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2014-12
                   </tspan>
                 </text>
                 <text
                   x="652.9318803159174" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2014-09
                   </tspan>
                 </text>
                 <text
                   x="553.8579131227217" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2014-06
                   </tspan>
                 </text>
                 <text
                   x="454.7839459295261" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2014-03
                   </tspan>
                 </text>
                 <text
                   x="357.8188901756784" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2013-12
                   </tspan>
                 </text>
                 <text
                   x="259.8666843863912" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2013-09
                   </tspan>
                 </text>
                 <text
                   x="160.7927171931956" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2013-06
                   </tspan>
                 </text>
                 <text
                   x="61.71875" y="325.5" textAnchor="middle"
-                  font="10px &quot;Arial&quot;" stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif" font-weight="normal"
+                  stroke="none" fill="#888888"
+                  fontSize="12px" fontFamily="sans-serif"
                   transform="matrix(1,0,0,1,0,7)">
                   <tspan dy="4">2013-03
                   </tspan>
@@ -321,9 +320,8 @@ class Charts extends React.Component {
             </div>
             <div className="card-block">
               <svg
-                width="262px" height="262px" viewBox="0 0 262 262" version="1.1"
-                xmlns="http://www.w3.org/2000/svg">
-                <g stroke="none" strokeWidth="1" fill="none" fill-rule="evenodd">
+                width="262px" height="262px" viewBox="0 0 262 262">
+                <g stroke="none" strokeWidth="1" fill="none">
                   <g>
                     <path
                       d="M128.5,222.666667 C166.368433,222.666667 200.05722,198.617028 212.358281,162.802197 L210.46674,162.152523 C198.443147,197.159501 165.514258,220.666667 128.5,220.666667 L128.5,222.666667 L128.5,222.666667 Z"
