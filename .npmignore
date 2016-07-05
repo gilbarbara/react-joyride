@@ -2,12 +2,11 @@
 .editorconfig
 .eslintrc
 .hooks
-.idea
 .gitignore
 .npmignore
 .scss-lint.yml
 .travis.yml
 gulpfile.js
 node_modules
-tests
-npm-debug.log
+src
+test

@@ -1,25 +1,37 @@
-var React   = require('react'),
-    Beacon  = require('./Beacon'),
-    Tooltip = require('./Tooltip');
+import React from 'react';
+import scroll from 'scroll';
+import autobind from 'core-decorators/lib/autobind';
+import Beacon from './Beacon';
+import Tooltip from './Tooltip';
 
-var defaultState = {
-      index: 0,
-      play: false,
-      showTooltip: false,
-      xPos: -1000,
-      yPos: -1000,
-      skipped: false
-    },
-    isTouch      = false;
+const defaultState = {
+  index: 0,
+  play: false,
+  showTooltip: false,
+  xPos: -1000,
+  yPos: -1000,
+  skipped: false
+};
 
+const listeners = {
+  tooltips: {}
+};
+
+let isTouch = false;
 if (typeof window !== 'undefined') {
   isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
 }
 
-var Component = React.createClass({
-  displayName: 'Joyride',
+@autobind
+export default class Joyride extends React.Component {
+  constructor(props) {
+    super(props);
 
-  propTypes: {
+    this.displayName = 'Joyride';
+    this.state = defaultState;
+  }
+
+  static propTypes = {
     callback: React.PropTypes.func,
     completeCallback: React.PropTypes.func,
     debug: React.PropTypes.bool,
@@ -28,6 +40,7 @@ var Component = React.createClass({
     locale: React.PropTypes.object,
     resizeDebounce: React.PropTypes.bool,
     resizeDebounceDelay: React.PropTypes.number,
+    run: React.PropTypes.bool,
     scrollOffset: React.PropTypes.number,
     scrollToFirstStep: React.PropTypes.bool,
     scrollToSteps: React.PropTypes.bool,
@@ -39,189 +52,191 @@ var Component = React.createClass({
     steps: React.PropTypes.array,
     tooltipOffset: React.PropTypes.number,
     type: React.PropTypes.string
-  },
+  };
 
-  getDefaultProps: function() {
-    return {
-      debug: false,
-      keyboardNavigation: true,
-      locale: {
-        back: 'Back',
-        close: 'Close',
-        last: 'Last',
-        next: 'Next',
-        skip: 'Skip'
-      },
-      resizeDebounce: false,
-      resizeDebounceDelay: 200,
-      scrollToSteps: true,
-      scrollOffset: 20,
-      scrollToFirstStep: false,
-      showBackButton: true,
-      showOverlay: true,
-      showSkipButton: false,
-      showStepsProgress: false,
-      steps: [],
-      tooltipOffset: 15,
-      type: 'single'
-    };
-  },
+  static defaultProps = {
+    debug: false,
+    keyboardNavigation: true,
+    locale: {
+      back: 'Back',
+      close: 'Close',
+      last: 'Last',
+      next: 'Next',
+      skip: 'Skip'
+    },
+    resizeDebounce: false,
+    resizeDebounceDelay: 200,
+    run: false,
+    scrollToSteps: true,
+    scrollOffset: 20,
+    scrollToFirstStep: false,
+    showBackButton: true,
+    showOverlay: true,
+    showSkipButton: false,
+    showStepsProgress: false,
+    steps: [],
+    tooltipOffset: 15,
+    type: 'single'
+  };
 
-  getInitialState: function() {
-    return defaultState;
-  },
+  componentDidMount() {
+    const props = this.props;
 
-  componentWillMount: function() {
-    this.listeners = {
-      tooltips: {}
-    };
-  },
-
-  componentDidMount: function() {
-    var props = this.props;
-
-    this._log(['joyride:initialized', props]);
+    this.logger('joyride:initialized', [props]);
 
     if (props.resizeDebounce) {
-      var self = this,
-          timeoutId;
+      let timeoutId;
 
-      this.listeners.resize = (function() {
-        return function() {
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(function() {
-            timeoutId = null;
-            self._calcPlacement();
-          }, props.resizeDebounceDelay);
-        };
-      }());
+      listeners.resize = () => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          timeoutId = null;
+          this.calcPlacement();
+        }, props.resizeDebounceDelay);
+      };
     }
     else {
-      this.listeners.resize = this._calcPlacement;
+      listeners.resize = () => {
+        this.calcPlacement();
+      };
     }
-    window.addEventListener('resize', this.listeners.resize);
+    window.addEventListener('resize', listeners.resize);
 
     if (props.keyboardNavigation) {
-      this.listeners.keyboard = this._keyboardNavigation;
-      document.body.addEventListener('keydown', this.listeners.keyboard);
+      listeners.keyboard = this.keyboardNavigation;
+      document.body.addEventListener('keydown', listeners.keyboard);
     }
-  },
+  }
 
-  componentWillUnmount: function() {
-    window.removeEventListener('resize', this.listeners.resize);
+  componentWillReceiveProps(nextProps) {
+    const props = this.props;
+    this.logger('joyride:willReceiveProps', [nextProps]);
 
-    if (this.props.keyboardNavigation) {
-      document.body.removeEventListener('keydown', this.listeners.keyboard);
-    }
+    if (nextProps.steps.length !== props.steps.length) {
+      this.logger('joyride:changedSteps', [nextProps.steps]);
 
-    if (Object.keys(this.listeners.tooltips).length) {
-      Object.keys(this.listeners.tooltips).forEach(function(key) {
-        document.querySelector(key)
-          .removeEventListener(this.listeners.tooltips[key].event, this.listeners.tooltips[key].cb);
-        delete this.listeners.tooltips[key];
-      });
-    }
-  },
-
-  componentDidUpdate: function(prevProps, prevState) {
-    var props = this.props,
-        state = this.state;
-
-    this._calcPlacement();
-
-    if (prevProps.steps.length !== props.steps.length) {
-      this._log(['joyride:changedSteps', this.props.steps]);
-
-      if (!props.steps.length) {
+      if (!nextProps.steps.length) {
         this.reset();
+      }
+      else if (nextProps.run) {
+        this.reset(true);
       }
     }
 
-    if (state.play && props.scrollToSteps && (props.scrollToFirstStep || (state.index > 0 || prevState.index > state.index))) {
-      var scroll = require('scroll');
-      scroll.top(this._getBrowser() === 'firefox' ? document.documentElement : document.body, this._getScrollTop());
+    if (!props.run && nextProps.run && nextProps.steps.length) {
+      this.start();
     }
-  },
+    else if (props.run && nextProps.run === false) {
+      this.stop();
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const state = this.state;
+    const props = this.props;
+
+    this.calcPlacement();
+
+    if (state.play && props.scrollToSteps && (props.scrollToFirstStep || (state.index > 0 || prevState.index > state.index))) {
+      scroll.top(this.getBrowser() === 'firefox' ? document.documentElement : document.body, this.getScrollTop());
+    }
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', listeners.resize);
+
+    if (this.props.keyboardNavigation) {
+      document.body.removeEventListener('keydown', listeners.keyboard);
+    }
+
+    if (Object.keys(listeners.tooltips).length) {
+      Object.keys(listeners.tooltips).forEach((key) => {
+        document.querySelector(key)
+          .removeEventListener(listeners.tooltips[key].event, listeners.tooltips[key].cb);
+        delete listeners.tooltips[key];
+      });
+    }
+  }
 
   /**
    * Starts the tour
    * @param {boolean} [autorun]- Starts with the first tooltip opened
    */
-  start: function(autorun) {
-    autorun = autorun === true;
+  start(autorun) {
+    const autoStart = autorun === true;
 
-    this._log(['joyride:start', 'autorun:', autorun]);
+    this.logger('joyride:start', ['autorun:', autoStart]);
 
     this.setState({
       play: true
-    }, function() {
-      if (autorun) {
-        this._toggleTooltip(true);
+    }, () => {
+      if (autoStart) {
+        this.toggleTooltip(true);
       }
     });
-  },
+  }
 
   /**
    * Stop the tour
    */
-  stop: function() {
-    this._log(['joyride:stop']);
+  stop() {
+    this.logger('joyride:stop');
 
     this.setState({
       showTooltip: false,
       play: false
     });
-  },
+  }
 
   /**
    * Reset Tour
    * @param {boolean} [restart] - Starts the new tour right away
    */
-  reset: function(restart) {
-    restart = restart === true;
+  reset(restart) {
+    const shouldRestart = restart === true;
 
-    var newState = JSON.parse(JSON.stringify(defaultState));
-    newState.play = restart;
+    const newState = JSON.parse(JSON.stringify(defaultState));
+    newState.play = shouldRestart;
 
-    this._log(['joyride:reset', 'restart:', restart]);
+    this.logger('joyride:reset', ['restart:', shouldRestart]);
 
     // Force a re-render if necessary
-    if (restart && this.state.play === restart && this.state.index === 0) {
+    if (shouldRestart && this.state.play === shouldRestart && this.state.index === 0) {
       this.forceUpdate();
     }
 
     this.setState(newState);
-  },
+  }
 
   /**
    * Retrieve the current progress of your tour
    * @returns {{index: (number|*), percentageComplete: number, step: (object|null)}}
    */
-  getProgress: function() {
-    var state = this.state,
-        props = this.props;
+  getProgress() {
+    const state = this.state;
+    const props = this.props;
 
-    this._log(['joyride:getProgress', 'steps:', props.steps]);
+    this.logger('joyride:getProgress', ['steps:', props.steps]);
 
     return {
       index: state.index,
       percentageComplete: parseFloat(((state.index / props.steps.length) * 100).toFixed(2).replace('.00', '')),
       step: props.steps[state.index]
     };
-  },
+  }
 
   /**
    * Parse the incoming steps
    * @param {Array|Object} steps
    * @returns {Array}
    */
-  parseSteps: function(steps) {
-    var tmpSteps = [],
-        newSteps = [],
-        el;
+  parseSteps(steps) {
+    const newSteps = [];
+    let tmpSteps = [];
+    let el;
 
     if (Array.isArray(steps)) {
-      steps.forEach(function(s) {
+      steps.forEach((s) => {
         if (s instanceof Object) {
           tmpSteps.push(s);
         }
@@ -231,15 +246,15 @@ var Component = React.createClass({
       tmpSteps = [steps];
     }
 
-    tmpSteps.forEach(function(s) {
+    tmpSteps.forEach((s) => {
       if (s.selector.dataset && s.selector.dataset.reactid) {
-        s.selector = '[data-reactid="' + s.selector.dataset.reactid + '"]';
+        s.selector = `[data-reactid="${s.selector.dataset.reactid}"]`;
         console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
       }
       else if (s.selector.dataset) {
         console.error('Unsupported error: React 15.0+ don\'t write reactid to the DOM anymore, please use a plain class in your step.', s); //eslint-disable-line no-console
         if (s.selector.className) {
-          s.selector = '.' + s.selector.className.replace(' ', '.');
+          s.selector = `.${s.selector.className.replace(' ', '.')}`;
         }
       }
 
@@ -250,116 +265,120 @@ var Component = React.createClass({
         newSteps.push(s);
       }
       else {
-        this._log(['joyride:parseSteps', 'Element not rendered in the DOM. Skipped..', s], true);
+        this.logger('joyride:parseSteps', ['Element not rendered in the DOM. Skipped..', s], true);
       }
-    }.bind(this));
+    });
 
     return newSteps;
-  },
+  }
 
-  addTooltip: function(data) {
-    var parseData = this.parseSteps(data),
-        el,
-        eventType,
-        key;
+  addTooltip(data) {
+    const parseData = this.parseSteps(data);
+    let newData;
+    let el;
+    let eventType;
+    let key;
 
-    this._log(['joyride:addTooltip', 'data:', data]);
+    this.logger('joyride:addTooltip', ['data:', data]);
 
     if (parseData.length) {
-      data = parseData[0];
-      key = data.trigger || data.selector;
+      newData = parseData[0];
+      key = newData.trigger || newData.selector;
       el = document.querySelector(key);
-      eventType = data.event || 'click';
+      eventType = newData.event || 'click';
     }
 
     el.dataset.tooltip = JSON.stringify(data);
 
     if (eventType === 'hover' && !isTouch) {
-      this.listeners.tooltips[key] = { event: 'mouseenter', cb: this._onTooltipTrigger };
-      this.listeners.tooltips[key + 'mouseleave'] = { event: 'mouseleave', cb: this._onTooltipTrigger };
-      this.listeners.tooltips[key + 'click'] = {
-        event: 'click', cb: function(e) {
+      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onTooltipTrigger };
+      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onTooltipTrigger };
+      listeners.tooltips[`${key}click`] = {
+        event: 'click', cb: (e) => {
           e.preventDefault();
         }
       };
 
-      el.addEventListener('mouseenter', this.listeners.tooltips[key].cb);
-      el.addEventListener('mouseleave', this.listeners.tooltips[key + 'mouseleave'].cb);
-      el.addEventListener('click', this.listeners.tooltips[key + 'click'].cb);
+      el.addEventListener('mouseenter', listeners.tooltips[key].cb);
+      el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);
+      el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
     }
     else {
-      this.listeners.tooltips[key] = { event: 'click', cb: this._onTooltipTrigger };
-      el.addEventListener('click', this.listeners.tooltips[key].cb);
+      listeners.tooltips[key] = { event: 'click', cb: this.onTooltipTrigger };
+      el.addEventListener('click', listeners.tooltips[key].cb);
     }
-  },
+  }
 
-  _log: function(msg, warn) {
-    var logger = warn ? console.warn || console.error : console.log; //eslint-disable-line no-console
+  logger(type, msg, warn) {
+    const logger = warn ? console.warn || console.error : console.log; //eslint-disable-line no-console
 
     if (this.props.debug) {
-      logger.apply(console, msg); //eslint-disable-line no-console
+      console.log(`%c${type}`, 'color: #005590; font-weight: bold'); //eslint-disable-line no-console
+      if (msg) {
+        logger.apply(console, msg);
+      }
     }
-  },
+  }
 
   /**
    * Returns the current browser
    * @private
    * @returns {String}
    */
-  _getBrowser: function() {
+  getBrowser() {
     // Return cached result if avalible, else get result then cache it.
-    if (this._browser) {
-      return this._browser;
+    if (this.browser) {
+      return this.browser;
     }
 
-    var isOpera = Boolean(window.opera) || navigator.userAgent.indexOf(' OPR/') >= 0;
+    const isOpera = Boolean(window.opera) || navigator.userAgent.indexOf(' OPR/') >= 0;
     // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
-    var isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
-    var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+    const isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
+    const isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
     // At least Safari 3+: "[object HTMLElementConstructor]"
-    var isChrome = Boolean(window.chrome) && !isOpera;// Chrome 1+
-    var isIE = /*@cc_on!@*/ Boolean(document.documentMode); // At least IE6
+    const isChrome = Boolean(window.chrome) && !isOpera;// Chrome 1+
+    const isIE = /*@cc_on!@*/ Boolean(document.documentMode); // At least IE6
 
-    return (this._browser =
+    return (this.browser =
       isOpera ? 'opera' :
       isFirefox ? 'firefox' :
       isSafari ? 'safari' :
       isChrome ? 'chrome' :
       isIE ? 'ie' :
       '');
-  },
+  }
 
   /**
    * Get an element actual dimensions with margin
    * @param {String|Element} el - Element node or selector
    * @returns {{height: number, width: number}}
    */
-  _getElementDimensions: function(el) {
+  getElementDimensions(el) {
     // Get the DOM Node if you pass in a string
-    el = (typeof el === 'string') ? document.querySelector(el) : el;
+    const newEl = (typeof el === 'string') ? document.querySelector(el) : el;
 
-    var styles = window.getComputedStyle(el),
-        height = el.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10),
-        width  = el.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
+    const styles = window.getComputedStyle(newEl);
+    const height = newEl.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
+    const width = newEl.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
 
     return {
-      height: height,
-      width: width
+      height,
+      width
     };
-  },
+  }
 
   /**
    * Get the scrollTop position
    * @returns {number}
    */
-  _getScrollTop: function() {
-    var state     = this.state,
-        props     = this.props,
-        step      = props.steps[state.index],
-        position  = this._calcPosition(step),
-        target    = document.querySelector(step.selector),
-        targetTop = target.getBoundingClientRect().top + document.body.scrollTop,
-        scrollTop = 0;
+  getScrollTop() {
+    const state = this.state;
+    const props = this.props;
+    const step = props.steps[state.index];
+    const position = this.calcPosition(step);
+    const target = document.querySelector(step.selector);
+    const targetTop = target.getBoundingClientRect().top + document.body.scrollTop;
+    let scrollTop = 0;
 
     if (/^top/.test(position)) {
       scrollTop = Math.floor(state.yPos - props.scrollOffset);
@@ -369,17 +388,17 @@ var Component = React.createClass({
     }
 
     return scrollTop;
-  },
+  }
 
   /**
    * Keydown event listener
    * @param {Event} e - Keyboard event
    */
-  _keyboardNavigation: function(e) {
-    var state  = this.state,
-        props  = this.props,
-        intKey = (window.Event) ? e.which : e.keyCode,
-        hasSteps;
+  keyboardNavigation(e) {
+    const state = this.state;
+    const props = this.props;
+    const intKey = (window.Event) ? e.which : e.keyCode;
+    let hasSteps;
 
     if (state.showTooltip) {
       if ([32, 38, 40].indexOf(intKey) > -1) {
@@ -387,22 +406,22 @@ var Component = React.createClass({
       }
 
       if (intKey === 27) {
-        this._toggleTooltip(false, state.index + 1);
+        this.toggleTooltip(false, state.index + 1);
       }
       else if ([13, 32].indexOf(intKey) > -1) {
         hasSteps = Boolean(props.steps[state.index + 1]);
-        this._toggleTooltip(hasSteps, state.index + 1, 'next');
+        this.toggleTooltip(hasSteps, state.index + 1, 'next');
       }
     }
-  },
+  }
 
   /**
    * Tooltip event listener
    * @param {Event} e - Click event
    */
-  _onTooltipTrigger: function(e) {
+  onTooltipTrigger(e) {
     e.preventDefault();
-    var tooltip = e.currentTarget.dataset.tooltip;
+    let tooltip = e.currentTarget.dataset.tooltip;
 
     if (tooltip) {
       tooltip = JSON.parse(tooltip);
@@ -412,7 +431,7 @@ var Component = React.createClass({
           previousPlay: this.state.previousPlay !== undefined ? this.state.previousPlay : this.state.play,
           play: false,
           showTooltip: false,
-          tooltip: tooltip,
+          tooltip,
           xPos: -1000,
           yPos: -1000
         });
@@ -421,16 +440,17 @@ var Component = React.createClass({
         document.querySelector('.joyride-tooltip__close').click();
       }
     }
-  },
+  }
 
   /**
    * Beacon click event listener
    * @param {Event} e - Click event
    */
-  _onBeaconTrigger: function(e) {
+  onBeaconTrigger(e) {
     e.preventDefault();
-    var props = this.props;
-    var state = this.state;
+
+    const state = this.state;
+    const props = this.props;
 
     if (typeof props.callback === 'function') {
       props.callback({
@@ -438,24 +458,25 @@ var Component = React.createClass({
         step: props.steps[state.index]
       });
     }
-    this._toggleTooltip(true, state.index);
-  },
+
+    this.toggleTooltip(true, state.index);
+  }
 
   /**
    * Tooltip click event listener
    * @param {Event} e - Click event
    */
-  _onClickTooltip: function(e) {
-    var el       = e.currentTarget.className.indexOf('joyride-') === 0 && e.currentTarget.tagName === 'A' ? e.currentTarget : e.target,
-        type     = el.dataset.type;
+  onClickTooltip(e) {
+    const state = this.state;
+    const props = this.props;
+    const el = e.currentTarget.className.indexOf('joyride-') === 0 && e.currentTarget.tagName === 'A' ? e.currentTarget : e.target;
+    const type = el.dataset.type;
+
     if (el.className.indexOf('joyride-') === 0) {
       e.preventDefault();
       e.stopPropagation();
-
-      var state    = this.state,
-          props    = this.props,
-          tooltip  = document.querySelector('.joyride-tooltip'),
-          newIndex = state.index + (type === 'back' ? -1 : 1);
+      const tooltip = document.querySelector('.joyride-tooltip');
+      let newIndex = state.index + (type === 'back' ? -1 : 1);
 
       if (type === 'skip') {
         this.setState({
@@ -474,7 +495,7 @@ var Component = React.createClass({
         });
       }
       else if (type) {
-        this._toggleTooltip(
+        this.toggleTooltip(
           (props.type === 'continuous' || props.type === 'guided')
           && ['close', 'skip'].indexOf(type) === -1
           && Boolean(props.steps[newIndex])
@@ -491,7 +512,7 @@ var Component = React.createClass({
         }
       }
     }
-  },
+  }
 
   /**
    * Toggle Tooltip's visibility
@@ -499,18 +520,18 @@ var Component = React.createClass({
    * @param {Number} [index] - The tour's new index
    * @param {string} [action]
    */
-  _toggleTooltip: function(show, index, action) {
-    index = (index !== undefined ? index : this.state.index);
-    var props = this.props;
+  toggleTooltip(show, index, action) {
+    const props = this.props;
+    const newIndex = (index !== undefined ? index : this.state.index);
 
     this.setState({
-      play: props.steps[index] ? this.state.play : false,
+      play: props.steps[newIndex] ? this.state.play : false,
       showTooltip: show,
-      index: index,
+      index: newIndex,
       xPos: -1000,
       yPos: -1000
-    }, function() {
-      var lastIndex = action === 'back' ? index + 1 : index - 1;
+    }, () => {
+      const lastIndex = action === 'back' ? newIndex + 1 : newIndex - 1;
 
       if (action && props.steps[lastIndex]) {
         if (typeof props.stepCallback === 'function') { // Deprecated
@@ -539,30 +560,30 @@ var Component = React.createClass({
         }
       }
     });
-  },
+  }
 
   /**
    * Position absolute elements next to its target
    */
-  _calcPlacement: function() {
-    var state       = this.state,
-        props       = this.props,
-        step        = state.tooltip ? state.tooltip : props.steps[state.index],
-        showTooltip = state.tooltip ? true : state.showTooltip,
-        component,
-        position,
-        body,
-        target,
-        placement   = {
-          x: -1000,
-          y: -1000
-        };
+  calcPlacement() {
+    const state = this.state;
+    const props = this.props;
+    const step = state.tooltip ? state.tooltip : props.steps[state.index];
+    const showTooltip = state.tooltip ? true : state.showTooltip;
+    const placement = {
+      x: -1000,
+      y: -1000
+    };
+    let component;
+    let position;
+    let body;
+    let target;
 
     if (step && ((state.tooltip || (state.play && props.steps[state.index])) && state.xPos < 0)) {
-      position = this._calcPosition(step);
+      position = this.calcPosition(step);
       body = document.body.getBoundingClientRect();
       target = document.querySelector(step.selector).getBoundingClientRect();
-      component = this._getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
+      component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
 
       // Calculate x position
       if (/^left/.test(position)) {
@@ -596,25 +617,28 @@ var Component = React.createClass({
       }
 
       this.setState({
-        xPos: this._preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height),
-        yPos: this._preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height),
-        position: position
+        xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height),
+        yPos: this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height),
+        position
       });
     }
-  },
+  }
 
   /**
    * Update position for small screens.
+   *
    * @param {Object} step
    * @private
+   *
+   * @returns {string}
    */
-  _calcPosition: function(step) {
-    var props = this.props;
-    var showTooltip = this.state.tooltip ? true : this.state.showTooltip;
-    var position = step.position;
-    var body = document.body.getBoundingClientRect();
-    var target = document.querySelector(step.selector).getBoundingClientRect();
-    var component = this._getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
+  calcPosition(step) {
+    const props = this.props;
+    const showTooltip = this.state.tooltip ? true : this.state.showTooltip;
+    const body = document.body.getBoundingClientRect();
+    const target = document.querySelector(step.selector).getBoundingClientRect();
+    const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
+    let position = step.position;
 
     if (/^left/.test(position) && target.left - (component.width + props.tooltipOffset) < 0) {
       position = 'top';
@@ -624,7 +648,7 @@ var Component = React.createClass({
     }
 
     return position;
-  },
+  }
 
   /**
    * Prevent tooltip to render outside the window
@@ -634,12 +658,12 @@ var Component = React.createClass({
    * @param {Number} elHeight - The target element height
    * @returns {Number}
    */
-  _preventWindowOverflow: function(value, axis, elWidth, elHeight) {
-    var winWidth  = window.innerWidth,
-        body      = document.body,
-        html      = document.documentElement,
-        docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight),
-        newValue  = value;
+  preventWindowOverflow(value, axis, elWidth, elHeight) {
+    const winWidth = window.innerWidth;
+    const body = document.body;
+    const html = document.documentElement;
+    const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+    let newValue = value;
 
     if (axis === 'x') {
       if (value + elWidth >= winWidth) {
@@ -659,7 +683,7 @@ var Component = React.createClass({
     }
 
     return newValue;
-  },
+  }
 
   /**
    *
@@ -667,44 +691,38 @@ var Component = React.createClass({
    * @returns {*}
    * @private
    */
-  _createComponent: function(update) {
-    var state       = this.state,
-        props       = this.props,
-        currentStep = Object.assign({}, state.tooltip || props.steps[state.index]),
-        buttons     = {
-          primary: props.locale.close
-        },
-        target      = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null,
-        cssPosition = target ? target.style.position : null,
-        showOverlay = state.tooltip ? false : props.showOverlay,
-        component;
+  createComponent(update) {
+    const state = this.state;
+    const props = this.props;
+    const currentStep = Object.assign({}, state.tooltip || props.steps[state.index]);
+    const buttons = {
+      primary: props.locale.close
+    };
+    const target = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null;
+    const cssPosition = target ? target.style.position : null;
+    const showOverlay = state.tooltip ? false : props.showOverlay;
+    let component;
 
-    this._log([
-      'joyride:' + (update ? 'updateComponent' : 'createComponent'),
+    this.logger(`joyride:${(update ? 'sizeComponent' : 'renderComponent')}`, [
       'component:', state.showTooltip || state.tooltip ? 'Tooltip' : 'Beacon',
       'target:', target
     ]);
 
     if (target) {
       if (state.showTooltip || state.tooltip) {
-        currentStep.position = state.position || currentStep.position;
+        currentStep.position = state.position;
 
         if (!state.tooltip) {
           if (props.type === 'continuous' || props.type === 'guided') {
             buttons.primary = props.locale.last;
 
             if (props.steps[state.index + 1]) {
-
-
               if (props.showStepsProgress) {
-                var next = props.locale.next;
+                let next = props.locale.next;
                 if (typeof props.locale.next === 'string') {
-                  next = React.createElement('span', {}, props.locale.next);
+                  next = (<span>{props.locale.next}</span>);
                 }
-                buttons.primary = React.createElement('span', {},
-                  next,
-                  React.createElement('span', {}, ' ' + (state.index + 1) + '/' + props.steps.length)
-                );
+                buttons.primary = (<span>{next} <span>{`${(state.index + 1)}/${props.steps.length}`}</span></span>);
               }
               else {
                 buttons.primary = props.locale.next;
@@ -723,62 +741,59 @@ var Component = React.createClass({
 
         component = React.createElement(Tooltip, {
           animate: state.xPos > -1,
-          browser: this._getBrowser(),
-          buttons: buttons,
-          cssPosition: cssPosition,
-          disableOverlay: props.disableOverlay,
-          showOverlay: showOverlay,
+          browser: this.getBrowser(),
+          buttons,
+          cssPosition,
+          showOverlay,
           step: currentStep,
           standalone: Boolean(state.tooltip),
           type: props.type,
           xPos: state.xPos,
           yPos: state.yPos,
-          onClick: this._onClickTooltip
+          onClick: this.onClickTooltip
         });
       }
       else {
         component = React.createElement(Beacon, {
-          cssPosition: cssPosition,
+          cssPosition,
           step: currentStep,
           xPos: state.xPos,
           yPos: state.yPos,
-          onTrigger: this._onBeaconTrigger,
+          onTrigger: this.onBeaconTrigger,
           eventType: currentStep.type || 'click'
         });
       }
     }
 
     return component;
-  },
+  }
 
-  render: function() {
-    var state   = this.state,
-        props   = this.props,
-        hasStep = Boolean(props.steps[state.index]),
-        component,
-        standaloneTooltip;
+  render() {
+    const state = this.state;
+    const props = this.props;
+    const hasStep = Boolean(props.steps[state.index]);
+    let component;
+    let standaloneTooltip;
 
     if (state.play && state.xPos < 0 && hasStep) {
-      this._log(['joyride:render', 'step:', props.steps[state.index]]);
+      this.logger('joyride:render', ['step:', props.steps[state.index]]);
     }
     else if (!state.play && state.tooltip) {
-      this._log(['joyride:render', 'tooltip:', state.tooltip]);
+      this.logger('joyride:render', ['tooltip:', state.tooltip]);
     }
 
     if (state.tooltip) {
-      standaloneTooltip = this._createComponent();
+      standaloneTooltip = this.createComponent();
     }
     else if (state.play && hasStep) {
-      component = this._createComponent(state.xPos < 0);
+      component = this.createComponent(state.xPos < 0);
     }
 
-    return React.createElement('div', {
-        className: 'joyride'
-      },
-      component,
-      standaloneTooltip
+    return (
+      <div className="joyride">
+           {component}
+           {standaloneTooltip}
+      </div>
     );
   }
-});
-
-module.exports = Component;
+}

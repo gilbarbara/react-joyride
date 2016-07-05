@@ -1,1 +1,1 @@
-module.exports = require('./lib/scripts/Component.js');
+module.exports = require('./lib/scripts/Joyride.js');
