@@ -134,8 +134,9 @@ export default class Joyride extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const state = this.state;
     const props = this.props;
-
-    this.calcPlacement();
+    if (state.xPos < 0) {
+      this.calcPlacement();
+    }
 
     if (state.play && props.scrollToSteps && (props.scrollToFirstStep || (state.index > 0 || prevState.index > state.index))) {
       scroll.top(this.getBrowser() === 'firefox' ? document.documentElement : document.body, this.getScrollTop());
@@ -579,7 +580,7 @@ export default class Joyride extends React.Component {
     let body;
     let target;
 
-    if (step && ((state.tooltip || (state.play && props.steps[state.index])) && state.xPos < 0)) {
+    if (step && (state.tooltip || (state.play && props.steps[state.index]))) {
       position = this.calcPosition(step);
       body = document.body.getBoundingClientRect();
       target = document.querySelector(step.selector).getBoundingClientRect();
