@@ -1,12 +1,6 @@
 import React from 'react';
 
-export default class Tooltip extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.displayName = 'JoyrideTooltip';
-  }
-
+export default class JoyrideTooltip extends React.Component {
   static propTypes = {
     animate: React.PropTypes.bool.isRequired,
     browser: React.PropTypes.string.isRequired,

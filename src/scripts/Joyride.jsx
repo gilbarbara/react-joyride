@@ -1,6 +1,7 @@
 import React from 'react';
 import scroll from 'scroll';
-import autobind from 'core-decorators/lib/autobind';
+import autobind from 'react-autobind';
+
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
 
@@ -26,8 +27,8 @@ if (typeof window !== 'undefined') {
 export default class Joyride extends React.Component {
   constructor(props) {
     super(props);
+    autobind(this);
 
-    this.displayName = 'Joyride';
     this.state = defaultState;
   }
 

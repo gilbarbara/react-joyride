@@ -22,6 +22,7 @@
     "tour"
   ],
   "dependencies": {
+    "react-autobind": "^1.0",
     "scroll": "^2.0"
   },
   "peerDependencies": {
@@ -40,7 +41,6 @@
     "babel-preset-react": "^6.5",
     "babel-preset-stage-1": "^6.5",
     "babel-register": "^6.9",
-    "core-decorators": "^0.12",
     "del": "^2.2",
     "eslint": "^2.13",
     "eslint-config-airbnb": "^9.0",

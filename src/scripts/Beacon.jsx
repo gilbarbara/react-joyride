@@ -7,13 +7,7 @@ if (typeof window !== 'undefined') {
   isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
 }
 
-export default class Beacon extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.displayName = 'JoyrideBeacon';
-  }
-
+export default class JoyrideBeacon extends React.Component {
   static propTypes = {
     cssPosition: React.PropTypes.string.isRequired,
     eventType: React.PropTypes.string.isRequired,
