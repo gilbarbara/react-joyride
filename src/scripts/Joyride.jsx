@@ -103,7 +103,7 @@ export default class Joyride extends React.Component {
     }
     window.addEventListener('resize', listeners.resize);
 
-    if (props.keyboardNavigation) {
+    if (props.keyboardNavigation && props.type === 'continuous') {
       listeners.keyboard = this.keyboardNavigation;
       document.body.addEventListener('keydown', listeners.keyboard);
     }
@@ -130,6 +130,22 @@ export default class Joyride extends React.Component {
     else if (props.run && nextProps.run === false) {
       this.stop();
     }
+
+    if (
+      !listeners.keyboard &&
+      ((!props.keyboardNavigation && nextProps.keyboardNavigation) || props.keyboardNavigation)
+      && nextProps.type === 'continuous'
+    ) {
+      listeners.keyboard = this.keyboardNavigation;
+      document.body.addEventListener('keydown', listeners.keyboard);
+    }
+    else if (
+      listeners.keyboard && props.keyboardNavigation &&
+      (!nextProps.keyboardNavigation || nextProps.type !== 'continuous')
+    ) {
+      document.body.removeEventListener('keydown', listeners.keyboard);
+      delete listeners.keyboard;
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -147,7 +163,7 @@ export default class Joyride extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', listeners.resize);
 
-    if (this.props.keyboardNavigation) {
+    if (listeners.keyboard) {
       document.body.removeEventListener('keydown', listeners.keyboard);
     }
 
