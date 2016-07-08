@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 
   callback(data) {
-    console.log('%ccallback', 'color: #2B759E; font-weight: bold'); //eslint-disable-line no-console
+    console.log('%ccallback', 'color: #47AAAC; font-weight: bold; font-size: 13px;'); //eslint-disable-line no-console
     console.log(data); //eslint-disable-line no-console
   }
 
