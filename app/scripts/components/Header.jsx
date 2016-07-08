@@ -19,7 +19,7 @@ class Header extends React.Component {
     this.props.addTooltip({
       title: 'Standalone Tooltips',
       text: '<h2 style="margin-bottom: 10px; line-height: 1.6">Now you can open tooltips independently!</h2>And even style them one by one!',
-      selector: '.intro h2 a',
+      selector: '.intro h3 a',
       position: 'bottom',
       event: 'hover',
       style: {
@@ -56,8 +56,9 @@ class Header extends React.Component {
           <div className="intro">
             <h1>React Joyride</h1>
 
-            <h2>Create walkthroughs and guided tours for your ReactJS apps.<br />Now with standalone tooltips!
-              <a href="#"><i className="fa fa-question-circle" /></a></h2>
+            <h2>Create walkthroughs and guided tours for your ReactJS apps.</h2>
+            <h3>Now with standalone tooltips!
+              <a href="#"><i className="fa fa-question-circle" /></a></h3>
           </div>
 
           <div className="row row-menu">
