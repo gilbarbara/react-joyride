@@ -162,6 +162,7 @@ export default class Joyride extends React.Component {
 
   /**
    * Starts the tour
+   *
    * @param {boolean} [autorun]- Starts with the first tooltip opened
    */
   start(autorun) {
@@ -192,6 +193,7 @@ export default class Joyride extends React.Component {
 
   /**
    * Reset Tour
+   *
    * @param {boolean} [restart] - Starts the new tour right away
    */
   reset(restart) {
@@ -212,6 +214,7 @@ export default class Joyride extends React.Component {
 
   /**
    * Retrieve the current progress of your tour
+   *
    * @returns {{index: (number|*), percentageComplete: number, step: (object|null)}}
    */
   getProgress() {
@@ -229,6 +232,7 @@ export default class Joyride extends React.Component {
 
   /**
    * Parse the incoming steps
+   *
    * @param {Array|Object} steps
    * @returns {Array}
    */
@@ -274,6 +278,11 @@ export default class Joyride extends React.Component {
     return newSteps;
   }
 
+  /**
+   * Add Tooltip events
+   *
+   * @param {Object} data
+   */
   addTooltip(data) {
     const parseData = this.parseSteps(data);
     let newData;
@@ -311,11 +320,19 @@ export default class Joyride extends React.Component {
     }
   }
 
+  /**
+   * Log method calls if debug is enabled
+   *
+   * @private
+   * @param {string} type
+   * @param {string} msg
+   * @param {boolean} warn
+   */
   logger(type, msg, warn) {
     const logger = warn ? console.warn || console.error : console.log; //eslint-disable-line no-console
 
     if (this.props.debug) {
-      console.log(`%c${type}`, 'color: #005590; font-weight: bold'); //eslint-disable-line no-console
+      console.log(`%c${type}`, 'color: #760bc5; font-weight: bold; font-size: 12px;'); //eslint-disable-line no-console
       if (msg) {
         logger.apply(console, msg);
       }
@@ -324,6 +341,7 @@ export default class Joyride extends React.Component {
 
   /**
    * Returns the current browser
+   *
    * @private
    * @returns {String}
    */
@@ -352,6 +370,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Get an element actual dimensions with margin
+   *
+   * @private
    * @param {String|Element} el - Element node or selector
    * @returns {{height: number, width: number}}
    */
@@ -371,6 +391,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Get the scrollTop position
+   *
+   * @private
    * @returns {number}
    */
   getScrollTop() {
@@ -394,6 +416,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Keydown event listener
+   *
+   * @private
    * @param {Event} e - Keyboard event
    */
   keyboardNavigation(e) {
@@ -419,6 +443,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Tooltip event listener
+   *
+   * @private
    * @param {Event} e - Click event
    */
   onTooltipTrigger(e) {
@@ -446,6 +472,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Beacon click event listener
+   *
+   * @private
    * @param {Event} e - Click event
    */
   onBeaconTrigger(e) {
@@ -466,6 +494,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Tooltip click event listener
+   *
+   * @private
    * @param {Event} e - Click event
    */
   onClickTooltip(e) {
@@ -518,6 +548,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Toggle Tooltip's visibility
+   *
+   * @private
    * @param {Boolean} show - Render the tooltip directly or the beacon
    * @param {Number} [index] - The tour's new index
    * @param {string} [action]
@@ -566,6 +598,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Position absolute elements next to its target
+   *
+   * @private
    */
   calcPlacement() {
     const state = this.state;
@@ -629,8 +663,8 @@ export default class Joyride extends React.Component {
   /**
    * Update position for small screens.
    *
-   * @param {Object} step
    * @private
+   * @param {Object} step
    *
    * @returns {string}
    */
@@ -654,6 +688,8 @@ export default class Joyride extends React.Component {
 
   /**
    * Prevent tooltip to render outside the window
+   *
+   * @private
    * @param {Number} value - The axis position
    * @param {String} axis - The Axis X or Y
    * @param {Number} elWidth - The target element width
@@ -688,10 +724,11 @@ export default class Joyride extends React.Component {
   }
 
   /**
+   * Create a React Element
    *
+   * @private
    * @param {Boolean} [update]
    * @returns {*}
-   * @private
    */
   createComponent(update) {
     const state = this.state;
