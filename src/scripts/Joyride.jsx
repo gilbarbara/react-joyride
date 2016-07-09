@@ -23,7 +23,6 @@ if (typeof window !== 'undefined') {
   isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
 }
 
-@autobind
 export default class Joyride extends React.Component {
   constructor(props) {
     super(props);
