@@ -104,7 +104,7 @@ export default class Joyride extends React.Component {
     window.addEventListener('resize', listeners.resize);
 
     if (props.keyboardNavigation && props.type === 'continuous') {
-      listeners.keyboard = this.keyboardNavigation;
+      listeners.keyboard = this.onKeyboardNavigation;
       document.body.addEventListener('keydown', listeners.keyboard);
     }
   }
@@ -136,7 +136,7 @@ export default class Joyride extends React.Component {
       ((!props.keyboardNavigation && nextProps.keyboardNavigation) || props.keyboardNavigation)
       && nextProps.type === 'continuous'
     ) {
-      listeners.keyboard = this.keyboardNavigation;
+      listeners.keyboard = this.onKeyboardNavigation;
       document.body.addEventListener('keydown', listeners.keyboard);
     }
     else if (
@@ -436,7 +436,7 @@ export default class Joyride extends React.Component {
    * @private
    * @param {Event} e - Keyboard event
    */
-  keyboardNavigation(e) {
+  onKeyboardNavigation(e) {
     const state = this.state;
     const props = this.props;
     const intKey = (window.Event) ? e.which : e.keyCode;
