@@ -321,8 +321,8 @@ export default class Joyride extends React.Component {
     el.setAttribute('data-tooltip', JSON.stringify(data));
 
     if (eventType === 'hover' && !isTouch) {
-      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onTooltipTrigger };
-      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onTooltipTrigger };
+      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
+      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}click`] = {
         event: 'click', cb: (e) => {
           e.preventDefault();
@@ -334,7 +334,7 @@ export default class Joyride extends React.Component {
       el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
     }
     else {
-      listeners.tooltips[key] = { event: 'click', cb: this.onTooltipTrigger };
+      listeners.tooltips[key] = { event: 'click', cb: this.onClickStandaloneTrigger };
       el.addEventListener('click', listeners.tooltips[key].cb);
     }
   }
@@ -437,7 +437,7 @@ export default class Joyride extends React.Component {
    * @private
    * @param {Event} e - Click event
    */
-  onTooltipTrigger(e) {
+  onClickStandaloneTrigger(e) {
     e.preventDefault();
     let tooltip = e.currentTarget.dataset.tooltip;
 
@@ -466,7 +466,7 @@ export default class Joyride extends React.Component {
    * @private
    * @param {Event} e - Click event
    */
-  onBeaconTrigger(e) {
+  onClickBeacon(e) {
     e.preventDefault();
 
     const state = this.state;
@@ -788,7 +788,7 @@ export default class Joyride extends React.Component {
           step: currentStep,
           xPos: state.xPos,
           yPos: state.yPos,
-          onTrigger: this.onBeaconTrigger,
+          onTrigger: this.onClickBeacon,
           eventType: currentStep.type || 'click'
         });
       }
