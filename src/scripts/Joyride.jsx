@@ -766,7 +766,6 @@ export default class Joyride extends React.Component {
 
         component = React.createElement(Tooltip, {
           animate: state.xPos > -1,
-          browser: this.getBrowser(),
           buttons,
           cssPosition,
           disableOverlay: props.disableOverlay,
