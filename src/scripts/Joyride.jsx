@@ -156,7 +156,7 @@ export default class Joyride extends React.Component {
     }
 
     if (state.play && props.scrollToSteps && (props.scrollToFirstStep || (state.index > 0 || prevState.index > state.index))) {
-      scroll.top(this.getBrowser() === 'firefox' ? document.documentElement : document.body, this.getScrollTop());
+      scroll.top(['ie', 'firefox'].indexOf(this.getBrowser()) > -1  ? document.documentElement : document.body, this.getScrollTop());
     }
   }
 
@@ -315,7 +315,7 @@ export default class Joyride extends React.Component {
       eventType = newData.event || 'click';
     }
 
-    el.dataset.tooltip = JSON.stringify(data);
+    el.setAttribute('data-tooltip', JSON.stringify(data));
 
     if (eventType === 'hover' && !isTouch) {
       listeners.tooltips[key] = { event: 'mouseenter', cb: this.onTooltipTrigger };
