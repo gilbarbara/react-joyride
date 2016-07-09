@@ -1,6 +1,7 @@
 import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
+import { getRootEl } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -154,8 +155,11 @@ export default class Joyride extends React.Component {
       this.calcPlacement();
     }
 
-    if (state.play && props.scrollToSteps && (props.scrollToFirstStep || (state.index > 0 || prevState.index > state.index))) {
-      scroll.top(['ie', 'firefox'].indexOf(this.getBrowser()) > -1  ? document.documentElement : document.body, this.getScrollTop());
+    if (
+      state.play && props.scrollToSteps &&
+      (props.scrollToFirstStep || (state.index > 0 || prevState.index > state.index))
+    ) {
+      scroll.top(getRootEl(), this.getScrollTop());
     }
   }
 
@@ -387,17 +391,17 @@ export default class Joyride extends React.Component {
     const step = props.steps[state.index];
     const position = this.calcPosition(step);
     const target = document.querySelector(step.selector);
-    const targetTop = target.getBoundingClientRect().top + document.body.scrollTop;
-    let scrollTop = 0;
+    const targetTop = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop);
+    let scrollTo = 0;
 
     if (/^top/.test(position)) {
-      scrollTop = Math.floor(state.yPos - props.scrollOffset);
+      scrollTo = Math.floor(state.yPos - props.scrollOffset);
     }
     else if (/^bottom|^left|^right/.test(position)) {
-      scrollTop = Math.floor(targetTop - props.scrollOffset);
+      scrollTo = Math.floor(targetTop - props.scrollOffset);
     }
 
-    return scrollTop;
+    return scrollTo;
   }
 
   /**
@@ -816,8 +820,8 @@ export default class Joyride extends React.Component {
 
     return (
       <div className="joyride">
-           {component}
-           {standaloneTooltip}
+        {component}
+        {standaloneTooltip}
       </div>
     );
   }
