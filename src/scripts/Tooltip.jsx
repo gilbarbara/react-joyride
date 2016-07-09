@@ -1,9 +1,9 @@
 import React from 'react';
+import { browser } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   static propTypes = {
     animate: React.PropTypes.bool.isRequired,
-    browser: React.PropTypes.string.isRequired,
     buttons: React.PropTypes.object.isRequired,
     cssPosition: React.PropTypes.string.isRequired,
     disableOverlay: React.PropTypes.bool,
@@ -23,7 +23,6 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   static defaultProps = {
-    browser: 'chrome',
     buttons: {
       primary: 'Close'
     },
@@ -273,7 +272,7 @@ export default class JoyrideTooltip extends React.Component {
 
     if (props.showOverlay) {
       output.hole = (
-        <div className={`joyride-hole ${props.browser}`} style={styles.hole} />
+        <div className={`joyride-hole ${browser}`} style={styles.hole} />
       );
     }
 
