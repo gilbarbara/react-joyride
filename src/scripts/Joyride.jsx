@@ -355,35 +355,6 @@ export default class Joyride extends React.Component {
   }
 
   /**
-   * Returns the current browser
-   *
-   * @private
-   * @returns {String}
-   */
-  getBrowser() {
-    // Return cached result if avalible, else get result then cache it.
-    if (this.browser) {
-      return this.browser;
-    }
-
-    const isOpera = Boolean(window.opera) || navigator.userAgent.indexOf(' OPR/') >= 0;
-    // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
-    const isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
-    const isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
-    // At least Safari 3+: "[object HTMLElementConstructor]"
-    const isChrome = Boolean(window.chrome) && !isOpera;// Chrome 1+
-    const isIE = /*@cc_on!@*/ Boolean(document.documentMode); // At least IE6
-
-    return (this.browser =
-      isOpera ? 'opera' :
-      isFirefox ? 'firefox' :
-      isSafari ? 'safari' :
-      isChrome ? 'chrome' :
-      isIE ? 'ie' :
-      '');
-  }
-
-  /**
    * Get an element actual dimensions with margin
    *
    * @private
