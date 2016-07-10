@@ -151,6 +151,7 @@ export default class Joyride extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const state = this.state;
     const props = this.props;
+
     if (state.xPos < 0) {
       this.calcPlacement();
     }
@@ -518,9 +519,9 @@ export default class Joyride extends React.Component {
       }
       else if (type) {
         this.toggleTooltip(
-          (props.type === 'continuous' || props.type === 'guided')
-          && ['close', 'skip'].indexOf(type) === -1
-          && Boolean(props.steps[newIndex])
+          ['continuous', 'guided'].indexOf(props.type) > -1 &&
+          ['close', 'skip'].indexOf(type) === -1 &&
+          Boolean(props.steps[newIndex])
           , newIndex
           , type);
       }
@@ -605,11 +606,13 @@ export default class Joyride extends React.Component {
     let body;
     let target;
 
+    this.logger('joyride:calcPlacement', ['step:', step]);
+
     if (step && (state.tooltip || (state.play && props.steps[state.index]))) {
       position = this.calcPosition(step);
       body = document.body.getBoundingClientRect();
       target = document.querySelector(step.selector).getBoundingClientRect();
-      component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
+      component = this.getElementDimensions(showTooltip ? '.joyride-tooltip' : '.joyride-beacon');
 
       // Calculate x position
       if (/^left/.test(position)) {
@@ -717,22 +720,21 @@ export default class Joyride extends React.Component {
    * Create a React Element
    *
    * @private
-   * @param {Boolean} [update]
    * @returns {*}
    */
-  createComponent(update) {
+  createComponent() {
     const state = this.state;
     const props = this.props;
     const currentStep = Object.assign({}, state.tooltip || props.steps[state.index]);
-    const buttons = {
-      primary: props.locale.close
-    };
     const target = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null;
     const cssPosition = target ? target.style.position : null;
     const showOverlay = state.tooltip ? false : props.showOverlay;
+    const buttons = {
+      primary: props.locale.close
+    };
     let component;
 
-    this.logger(`joyride:${(update ? 'sizeComponent' : 'renderComponent')}`, [
+    this.logger(`joyride:${(state.xPos < 0 ? 'sizeComponent' : 'renderComponent')}`, [
       'component:', state.showTooltip || state.tooltip ? 'Tooltip' : 'Beacon',
       'target:', target
     ]);
@@ -742,7 +744,7 @@ export default class Joyride extends React.Component {
         currentStep.position = state.position;
 
         if (!state.tooltip) {
-          if (props.type === 'continuous' || props.type === 'guided') {
+          if (['continuous', 'guided'].indexOf(props.type) > -1) {
             buttons.primary = props.locale.last;
 
             if (props.steps[state.index + 1]) {
@@ -815,7 +817,7 @@ export default class Joyride extends React.Component {
       standaloneTooltip = this.createComponent();
     }
     else if (state.play && hasStep) {
-      component = this.createComponent(state.xPos < 0);
+      component = this.createComponent();
     }
 
     return (
