@@ -392,6 +392,7 @@ export default class Joyride extends React.Component {
     const step = props.steps[state.index];
     const position = this.calcPosition(step);
     const target = document.querySelector(step.selector);
+    if(!target){ return }
     const targetTop = target.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop);
     let scrollTo = 0;
 
@@ -605,13 +606,16 @@ export default class Joyride extends React.Component {
     let position;
     let body;
     let target;
+    let targetElm;
 
     this.logger('joyride:calcPlacement', ['step:', step]);
 
     if (step && (state.tooltip || (state.play && props.steps[state.index]))) {
       position = this.calcPosition(step);
       body = document.body.getBoundingClientRect();
-      target = document.querySelector(step.selector).getBoundingClientRect();
+      targetElm = document.querySelector(step.selector);
+      if(!targetElm){ return }
+      target = targetElm.getBoundingClientRect();
       component = this.getElementDimensions(showTooltip ? '.joyride-tooltip' : '.joyride-beacon');
 
       // Calculate x position
@@ -665,7 +669,9 @@ export default class Joyride extends React.Component {
     const props = this.props;
     const showTooltip = this.state.tooltip ? true : this.state.showTooltip;
     const body = document.body.getBoundingClientRect();
-    const target = document.querySelector(step.selector).getBoundingClientRect();
+    const targetElm = document.querySelector(step.selector);
+    if(!targetElm) { return }
+    const target = targetElm.getBoundingClientRect();
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     let position = step.position;
 
