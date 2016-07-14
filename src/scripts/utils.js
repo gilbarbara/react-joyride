@@ -23,6 +23,10 @@ export function hexToRGB(hex) {
  * @returns {String}
  */
 function getBrowser() {
+  if (typeof window === 'undefined') {
+    return 'node';
+  }
+
   const isOpera = Boolean(window.opera) || navigator.userAgent.indexOf(' OPR/') >= 0;
   // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
   const isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
