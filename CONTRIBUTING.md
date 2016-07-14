@@ -10,7 +10,7 @@ Before submitting a new pull request, open a new issue to discuss it. It may alr
 
 In any case:  
 - Format files using these rules [EditorConfig](https://github.com/gilbarbara/react-joyride/blob/master/.editorconfig)
-- Follow the [Javascript](https://github.com/gilbarbara/react-joyride/blob/master/.eslintrc) and [CSS](https://github.com/gilbarbara/react-joyride/blob/master/.scss-lint.yml) styleguides.
-- Document new code with jsdoc syntax.
+- Follow the [Javascript](https://github.com/gilbarbara/react-joyride/blob/master/.eslintrc) (ESLint) and [CSS](https://github.com/gilbarbara/react-joyride/blob/master/.scss-lint.yml) (scss-lint) styleguides.
+- Document new code with jsdoc.
 
 Thank you!
