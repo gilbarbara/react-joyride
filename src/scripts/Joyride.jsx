@@ -423,7 +423,7 @@ export default class Joyride extends React.Component {
       }
 
       if (intKey === 27) {
-        this.toggleTooltip(false, state.index + 1);
+        this.toggleTooltip(false, state.index + 1, 'esc');
       }
       else if ([13, 32].indexOf(intKey) > -1) {
         hasSteps = Boolean(props.steps[state.index + 1]);
