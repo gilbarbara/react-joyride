@@ -76,8 +76,7 @@ class Charts extends React.Component {
                 <text
                   x="49.21875" y="241" textAnchor="end"
                   stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif"
-                 >
+                  fontSize="12px" fontFamily="sans-serif">
                   <tspan dy="4">7,500
                   </tspan>
                 </text>
@@ -87,8 +86,7 @@ class Charts extends React.Component {
                 <text
                   x="49.21875" y="169" textAnchor="end"
                   stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif"
-                 >
+                  fontSize="12px" fontFamily="sans-serif">
                   <tspan dy="4">15,000
                   </tspan>
                 </text>
@@ -96,8 +94,7 @@ class Charts extends React.Component {
                 <text
                   x="49.21875" y="97.00000000000003" textAnchor="end"
                   stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif"
-                 >
+                  fontSize="12px" fontFamily="sans-serif">
                   <tspan dy="4.000000000000028">22,500
                   </tspan>
                 </text>
@@ -108,8 +105,7 @@ class Charts extends React.Component {
                 <text
                   x="49.21875" y="25" textAnchor="end"
                   stroke="none" fill="#888888"
-                  fontSize="12px" fontFamily="sans-serif"
-                 >
+                  fontSize="12px" fontFamily="sans-serif">
                   <tspan dy="4">30,000
                   </tspan>
                 </text>

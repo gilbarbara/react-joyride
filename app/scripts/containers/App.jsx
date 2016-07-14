@@ -97,6 +97,13 @@ class App extends React.Component {
             debug={false}
             steps={state.steps}
             type={state.joyrideType}
+            locale={{
+              back: (<span>Back</span>),
+              close: (<span>Close</span>),
+              last: (<span>Last</span>),
+              next: (<span>Next</span>),
+              skip: (<span>Skip</span>)
+            }}
             showSkipButton={true}
             showStepsProgress={true}
             showOverlay={state.joyrideOverlay}

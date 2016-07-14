@@ -26,8 +26,13 @@
   transform: translateY(-50%);
 }
 
-@mixin media-query($media-query) {
+@mixin ie10 {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content;
+  }
+}
 
+@mixin media-query($media-query) {
   @if $media-query == outdated {
     @media (max-height: 540px) { @content; }
   }

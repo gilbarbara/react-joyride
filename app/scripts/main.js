@@ -1,8 +1,7 @@
 // Polyfills
-import 'core-js/modules/es6.promise';
-import 'core-js/modules/es6.array.from';
-import 'core-js/modules/es6.object.assign';
+import 'core-js/shim';
 import 'classlist-polyfill';
+import './utils/Polyfills';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

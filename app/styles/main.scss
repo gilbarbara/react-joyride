@@ -119,8 +119,13 @@ a {
           padding: 4px 8px;
 
           svg {
-            height: auto;
-            width: 70px;
+            height: 2rem;
+            width: auto;
+
+            @include ie10 {
+              max-width: 100%;
+              width: initial;
+            }
           }
 
           path {
@@ -129,6 +134,13 @@ a {
         }
       }
     }
+  }
+}
+
+.card.tasks {
+  .card-block {
+    height: 29.6rem;
+    overflow: scroll;
   }
 }
 
@@ -186,3 +198,4 @@ a {
 #page-wrapper {
   margin-top: 3rem;
 }
+

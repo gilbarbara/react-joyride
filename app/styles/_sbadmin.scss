@@ -168,6 +168,7 @@ ul.alert-dropdown {
 
     svg {
       height: auto;
+      max-height: 100%;
       width: 100%;
     }
   }
@@ -197,6 +198,10 @@ ul.alert-dropdown {
   text-align: center;
 
   svg {
-    max-width: 100%;
+    width: 50%;
+
+    @include md {
+      width: 90%;
+    }
   }
 }
