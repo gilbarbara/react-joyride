@@ -475,6 +475,7 @@ export default class Joyride extends React.Component {
 
     if (typeof props.callback === 'function') {
       props.callback({
+        action: 'beacon',
         type: 'step:before',
         step: props.steps[state.index]
       });
@@ -529,6 +530,7 @@ export default class Joyride extends React.Component {
       if (e.target.className === 'joyride-overlay') {
         if (typeof props.callback === 'function') {
           props.callback({
+            action: 'click',
             type: 'overlay',
             step: props.steps[state.index]
           });
@@ -565,6 +567,7 @@ export default class Joyride extends React.Component {
 
         if (typeof props.callback === 'function') {
           props.callback({
+            action,
             type: 'step:after',
             step: props.steps[lastIndex]
           });
@@ -578,6 +581,7 @@ export default class Joyride extends React.Component {
 
         if (typeof props.callback === 'function') {
           props.callback({
+            action,
             type: 'finished',
             steps: props.steps,
             skipped: this.state.skipped
