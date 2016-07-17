@@ -255,7 +255,7 @@ Extra option for standalone tooltips
 
 You can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
-Also you can style `button`, `skip`, `back`, `close` and `hole` individually using standard style options. And `beacon` inner and outer colors.
+Also you can style `button`, `skip`, `back`, `close` and `hole` individually using standard style options. And `beacon` offset, inner and outer colors.
 
 
 Example:
@@ -275,6 +275,8 @@ Example:
 		textAlign: 'center',
 		width: '29rem',
 		beacon: {
+			offsetX: 10,
+			offsetY: 10,
 			inner: '#000',
 			outer: '#000'
 		},
