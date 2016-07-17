@@ -1,37 +1,13 @@
 import expect from 'expect';
 import React from 'react';
-import TestUtils from 'react-addons-test-utils';
+import { render } from 'enzyme';
 
-import Joyride from '../src/scripts/Joyride';
-
-function setup() {
-  const props = {
-    steps: [
-      {
-        title: 'Auto Scroll',
-        text: 'Scroll to correct position if required. <i>It can be turned off</i>',
-        selector: '#area-chart',
-        position: 'top'
-      },
-      {
-        title: 'Hide Elements',
-        text: 'You can really customize the UI',
-        textAlign: 'center',
-        selector: '#donut-chart',
-        position: 'left'
-      }
-    ]
-  };
-
-  return TestUtils.renderIntoDocument(
-    <Joyride {...props} />
-  );
-}
+import Demo from './demo/App';
 
 describe('Joyride', () => {
-  const render = setup();
+  const demo = render(<Demo />);
 
-  it('should be a Component', () => {
-    expect(TestUtils.isCompositeComponent(render)).toBe(true);
+  it('should be able to start', () => {
+    expect(demo.find('.joyride').length).toEqual(1);
   });
 });
