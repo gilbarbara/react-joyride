@@ -22,6 +22,7 @@
     "tour"
   ],
   "dependencies": {
+    "nested-property": "^0.0.6",
     "react-autobind": "^1.0",
     "scroll": "^2.0"
   },
@@ -41,7 +42,12 @@
     "babel-preset-react": "^6.5",
     "babel-preset-stage-1": "^6.5",
     "babel-register": "^6.9",
+    "babelify": "^7.3",
+    "bootstrap": "^4.0.0-alpha",
+    "browserify": "^13.0",
+    "chromedriver": "^2.21",
     "del": "^2.2",
+    "enzyme": "^2.4",
     "eslint": "^2.13",
     "eslint-config-airbnb": "^9.0",
     "eslint-plugin-import": "^1.9",
@@ -51,26 +57,34 @@
     "gulp": "^3.9",
     "gulp-autoprefixer": "^3.1",
     "gulp-babel": "^6.1",
+    "gulp-connect": "^4.1",
     "gulp-eslint": "^2.0",
     "gulp-load-plugins": "^1.2",
     "gulp-plumber": "^1.1",
     "gulp-rename": "^1.2",
     "gulp-sass": "^2.3",
+    "gulp-tap": "^0.1",
     "jsdom": "^9.2",
     "mocha": "^2.5",
+    "nightwatch": "^0.9",
     "react": "^15.1",
     "react-addons-test-utils": "^15.1",
     "react-dom": "^15.1",
-    "run-sequence": "^1.2"
+    "run-sequence": "^1.2",
+    "selenium-server-standalone-jar": "^2.53",
+    "vinyl-buffer": "^1.0",
+    "vinyl-source-stream": "^1.1",
+    "watchify": "^3.7"
   },
   "scripts": {
     "lint": "eslint src test",
     "build": "gulp build",
     "prepublish": "npm run build",
-    "test": "./node_modules/.bin/_mocha --compilers js:babel-register --recursive --require ./test/setup.js"
+    "test": "npm run test:ui",
+    "test:ui": "gulp localserver & nightwatch -c test/nightwatch.js; kill %1"
   },
   "engines": {
-    "node": ">=5.0.0",
+    "node": ">=6.0.0",
     "npm": ">=3.0.0"
   }
 }

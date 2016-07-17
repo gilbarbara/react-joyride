@@ -1,18 +1,69 @@
 /*eslint-disable no-var, one-var, func-names, indent, prefer-arrow-callback, object-shorthand, no-console, newline-per-chained-call, one-var-declaration-per-line, prefer-template, vars-on-top  */
+var path = require('path');
+var exec = require('child_process').exec;
+var gulp        = require('gulp'),
+    $           = require('gulp-load-plugins')(),
+    browserify  = require('browserify'),
+    buffer      = require('vinyl-buffer'),
+    del         = require('del'),
+    runSequence = require('run-sequence'),
+    source      = require('vinyl-source-stream'),
+    watchify    = require('watchify');
 
-var gulp          = require('gulp'),
-    $             = require('gulp-load-plugins')(),
-    del           = require('del'),
-    runSequence   = require('run-sequence');
+var shouldWatch = false;
+
+function watchifyTask(options) {
+  var bundler, rebundle, iteration = 0;
+  bundler = browserify({
+    entries: path.join(__dirname, '/test/demo/main.js'),
+    basedir: __dirname,
+    insertGlobals: false, // options.watch
+    cache: {},
+    // debug: options.watch,
+    packageCache: {},
+    fullPaths: false, // options.watch
+    transform: [['babelify']],
+    extensions: ['.jsx']
+  });
+
+  if (options.watch) {
+    bundler = watchify(bundler);
+  }
+
+  rebundle = function() {
+    var stream = bundler.bundle();
+
+    if (options.watch) {
+      stream.on('error', function(err) {
+        console.log(err);
+      });
+    }
+
+    stream
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(gulp.dest('.tmp'))
+      .pipe($.tap(function() {
+        if (iteration === 0 && options.cb) {
+          options.cb();
+        }
+        iteration++;
+      }))
+      .pipe($.connect.reload());
+  };
+
+  bundler.on('update', rebundle);
+  return rebundle();
+}
 
 gulp.task('scripts', function() {
-  return gulp.src('src/scripts/**/*')
+  return gulp.src('demo/scripts/**/*')
     .pipe($.babel())
     .pipe(gulp.dest('lib/scripts'));
 });
 
 gulp.task('lint', function() {
-  return gulp.src('src/scripts/**/*')
+  return gulp.src('demo/scripts/**/*')
     .pipe($.eslint({
       useEslintrc: true,
       rules: {
@@ -24,7 +75,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('styles', function() {
-  return gulp.src('src/styles/*.scss')
+  return gulp.src('demo/styles/*.scss')
     .pipe(gulp.dest('lib/styles'))
     .pipe($.plumber())
     .pipe($.sass.sync({
@@ -41,7 +92,7 @@ gulp.task('clean', function(cb) {
 });
 
 gulp.task('watch', ['build'], function() {
-  gulp.watch('src/**/*', function() {
+  gulp.watch('demo/**/*', function() {
     gulp.start('scripts');
   });
 });
@@ -49,6 +100,63 @@ gulp.task('watch', ['build'], function() {
 gulp.task('build', ['clean'], function(cb) {
   process.env.NODE_ENV = 'production';
   runSequence('lint', 'scripts', 'styles', cb);
+});
+
+gulp.task('localserver', function(cb) {
+  shouldWatch = true;
+
+  gulp.watch(['demo/styles/*', 'test/demo/*.scss'], function() {
+    gulp.start('styles:test');
+  });
+
+  return runSequence('setup:test', cb);
+});
+
+gulp.task('setup:test', ['scripts:test', 'styles:test'], function() {
+  gulp.src('test/demo/index.html')
+    .pipe(gulp.dest('.tmp'));
+
+  return $.connect.server({
+    root: [path.join(__dirname, '.tmp/')],
+    livereload: true,
+    port: 8888
+  });
+});
+
+gulp.task('scripts:test', function(cb) {
+  return watchifyTask({
+    watch: shouldWatch,
+    cb: cb
+  });
+});
+
+gulp.task('styles:test', function() {
+  return gulp.src('test/demo/main.scss')
+    .pipe($.plumber())
+    .pipe($.sass.sync({
+      precision: 4
+    }).on('error', $.sass.logError))
+    .pipe($.plumber.stop())
+    .pipe($.autoprefixer())
+    .pipe($.rename({ basename: 'bundle' }))
+    .pipe(gulp.dest('.tmp'))
+    .pipe($.connect.reload());
+});
+
+gulp.task('test:ui', ['setup:test'], function(cb) {
+  exec('./node_modules/.bin/nightwatch -c test/nightwatch.conf.js', function(error, stdout) {
+    $.connect.serverClose();
+    console.log(stdout);
+
+    if (error) {
+      console.error(`exec error: ${error}`);
+      process.exit(1);
+      return;
+    }
+
+    process.exit(0);
+    cb();
+  });
 });
 
 gulp.task('default', ['build']);
