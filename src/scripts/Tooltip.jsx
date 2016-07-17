@@ -85,10 +85,10 @@ export default class JoyrideTooltip extends React.Component {
 
   setStyles(opts, styles, stepStyles) {
     styles.hole = {
-      top: Math.round((opts.target.top - document.body.getBoundingClientRect().top) - 5),
-      left: Math.round(opts.target.left - 5),
-      width: Math.round(opts.target.width + 10),
-      height: Math.round(opts.target.height + 10)
+      top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - 5),
+      left: Math.round(opts.rect.left - 5),
+      width: Math.round(opts.rect.width + 10),
+      height: Math.round(opts.rect.height + 10)
     };
 
     styles.buttons = {
@@ -165,9 +165,15 @@ export default class JoyrideTooltip extends React.Component {
   render() {
     const props = this.props;
     const step = props.step;
+    const target = document.querySelector(step.selector);
+
+    if (!target) {
+      return undefined;
+    }
+
     const opts = {
       classes: ['joyride-tooltip'],
-      target: document.querySelector(step.selector).getBoundingClientRect(),
+      rect: target.getBoundingClientRect(),
       positionClass: step.position
     };
     const output = {};
@@ -187,7 +193,7 @@ export default class JoyrideTooltip extends React.Component {
 
     if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && props.xPos > -1) {
       opts.tooltip = document.querySelector('.joyride-tooltip').getBoundingClientRect();
-      opts.targetMiddle = (opts.target.left + opts.target.width / 2);
+      opts.targetMiddle = (opts.rect.left + opts.rect.width / 2);
       opts.arrowPosition = (((opts.targetMiddle - props.xPos) / opts.tooltip.width) * 100).toFixed(2);
       opts.arrowPosition = `${this.getArrowPosition(opts.arrowPosition)}%`;
 
@@ -210,7 +216,7 @@ export default class JoyrideTooltip extends React.Component {
     if (step.title) {
       output.header = (
         <div className="joyride-tooltip__header" style={styles.header}>
-             {step.title}</div>
+          {step.title}</div>
       );
     }
 
@@ -242,7 +248,11 @@ export default class JoyrideTooltip extends React.Component {
       </a>);
     }
 
-    output.tooltipElement = (
+    if (step.event === 'hover') {
+      styles.buttons.close.opacity = 0;
+    }
+
+    output.tooltipComponent = (
       <div className={opts.classes.join(' ')} style={styles.tooltip} data-target={step.selector}>
         <div
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
@@ -253,8 +263,8 @@ export default class JoyrideTooltip extends React.Component {
           style={styles.buttons.close}
           data-type="close"
           onClick={props.onClick}>×</a>
-           {output.header}
-           {output.main}
+        {output.header}
+        {output.main}
         <div className="joyride-tooltip__footer">
           {output.skip}
           {output.secondary}
@@ -277,7 +287,7 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     if (!props.showOverlay) {
-      return output.tooltipElement;
+      return output.tooltipComponent;
     }
 
     return (
@@ -290,7 +300,7 @@ export default class JoyrideTooltip extends React.Component {
         data-type="close"
         onClick={!props.disableOverlay ? props.onClick : undefined}>
         {output.hole}
-        {output.tooltipElement}
+        {output.tooltipComponent}
       </div>
     );
   }
