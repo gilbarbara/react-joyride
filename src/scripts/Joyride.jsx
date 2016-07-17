@@ -644,7 +644,7 @@ export default class Joyride extends React.Component {
         placement.y = (rect.top - body.top) + rect.height - (showTooltip ? -props.tooltipOffset : component.height / 2);
       }
       else {
-        placement.y = (rect.top - body.top) + rect.height / 2 - component.height / 2 + (showTooltip ? props.tooltipOffset : 0);
+        placement.y = (rect.top - body.top);
       }
 
       if (/^bottom|^top/.test(position)) {
