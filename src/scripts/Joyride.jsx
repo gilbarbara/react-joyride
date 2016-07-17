@@ -1,6 +1,7 @@
 import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
+import nested from 'nested-property';
 import { getRootEl } from './utils';
 
 import Beacon from './Beacon';
@@ -319,6 +320,10 @@ export default class Joyride extends React.Component {
       eventType = newData.event || 'click';
     }
 
+    if (!el) {
+      return;
+    }
+
     el.setAttribute('data-tooltip', JSON.stringify(data));
 
     if (eventType === 'hover' && !isTouch) {
@@ -345,8 +350,8 @@ export default class Joyride extends React.Component {
    *
    * @private
    * @param {string} type
-   * @param {string} msg
-   * @param {boolean} warn
+   * @param {string|Array} [msg]
+   * @param {boolean} [warn]
    */
   logger(type, msg, warn) {
     const logger = warn ? console.warn || console.error : console.log; //eslint-disable-line no-console
@@ -369,7 +374,6 @@ export default class Joyride extends React.Component {
   getElementDimensions(el) {
     // Get the DOM Node if you pass in a string
     const newEl = (typeof el === 'string') ? document.querySelector(el) : el;
-
     const styles = window.getComputedStyle(newEl);
     const height = newEl.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
     const width = newEl.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
@@ -549,7 +553,7 @@ export default class Joyride extends React.Component {
    * Toggle Tooltip's visibility
    *
    * @private
-   * @param {Boolean} show - Render the tooltip directly or the beacon
+   * @param {Boolean} show - Render the tooltip or the beacon
    * @param {Number} [index] - The tour's new index
    * @param {string} [action]
    */
@@ -620,6 +624,8 @@ export default class Joyride extends React.Component {
     }
 
     if (step && (state.tooltip || (state.play && props.steps[state.index]))) {
+      const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
+      const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
       const body = document.body.getBoundingClientRect();
       const component = this.getElementDimensions(showTooltip ? '.joyride-tooltip' : '.joyride-beacon');
@@ -627,21 +633,21 @@ export default class Joyride extends React.Component {
 
       // Calculate x position
       if (/^left/.test(position)) {
-        placement.x = rect.left - (showTooltip ? component.width + props.tooltipOffset : component.width / 2);
+        placement.x = rect.left - (showTooltip ? component.width + props.tooltipOffset : (component.width / 2) + offsetX);
       }
       else if (/^right/.test(position)) {
-        placement.x = rect.left + rect.width - (showTooltip ? -props.tooltipOffset : component.width / 2);
+        placement.x = rect.left + rect.width - (showTooltip ? -props.tooltipOffset : (component.width / 2) - offsetX);
       }
       else {
-        placement.x = rect.left + rect.width / 2 - component.width / 2;
+        placement.x = rect.left + (rect.width / 2) - (component.width / 2);
       }
 
       // Calculate y position
       if (/^top/.test(position)) {
-        placement.y = (rect.top - body.top) - (showTooltip ? component.height + props.tooltipOffset : component.height / 2);
+        placement.y = (rect.top - body.top) - (showTooltip ? component.height + props.tooltipOffset : (component.height / 2) + offsetY);
       }
       else if (/^bottom/.test(position)) {
-        placement.y = (rect.top - body.top) + rect.height - (showTooltip ? -props.tooltipOffset : component.height / 2);
+        placement.y = (rect.top - body.top) + rect.height - (showTooltip ? -props.tooltipOffset : (component.height / 2) - offsetY);
       }
       else {
         placement.y = (rect.top - body.top);
@@ -680,6 +686,7 @@ export default class Joyride extends React.Component {
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
 
     if (!target) {
+      this.logger('joyride:calcPosition', ['step:', step, 'target:', "NO TARGET"], true);
       return 'top';
     }
 
@@ -692,6 +699,8 @@ export default class Joyride extends React.Component {
     else if (/^right/.test(position) && (rect.left + rect.width + (component.width + props.tooltipOffset)) > body.width) {
       position = 'bottom';
     }
+
+    this.logger('joyride:calcPosition', ['step:', step, 'target:', position]);
 
     return position;
   }
@@ -751,14 +760,22 @@ export default class Joyride extends React.Component {
     };
     let component;
 
-    this.logger(`joyride:${(state.xPos < 0 ? 'sizeComponent' : 'renderComponent')}`, [
+    if (!target) {
+      this.logger(`joyride:createComponent:${(state.xPos < 0 ? 'pre-render' : 'render')}`, [
+        'component:', state.showTooltip || state.tooltip ? 'Tooltip' : 'Beacon',
+        'step:', currentStep
+      ], true);
+      return false;
+    }
+
+    this.logger(`joyride:createComponent:${(state.xPos < 0 ? 'pre-render' : 'render')}`, [
       'component:', state.showTooltip || state.tooltip ? 'Tooltip' : 'Beacon',
-      'target:', target
+      'step:', currentStep
     ]);
 
     if (target) {
       if (state.showTooltip || state.tooltip) {
-        currentStep.position = state.position;
+        currentStep.position = state.position || currentStep.position;
 
         if (!state.tooltip) {
           if (['continuous', 'guided'].indexOf(props.type) > -1) {
