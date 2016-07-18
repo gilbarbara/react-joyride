@@ -7,14 +7,15 @@ React Joyride
 
 View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>. [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
 
-## Setup
+[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/React-Joyride/)
 
+## Setup
 
 ```javascript
 npm install --save react-joyride
 ```
 
-Include `Joyride` in the parent component before anything else.
+Include `Joyride` in the parent component.
 
 
 ```javascript
@@ -340,3 +341,4 @@ Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
   
+
