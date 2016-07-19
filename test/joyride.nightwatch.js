@@ -22,7 +22,7 @@ describe('React Joyride', function mocha() {
     browser.assert.elementPresent('.joyride');
   });
 
-  xcontext('Hero', () => {
+  context('Hero', () => {
     it('should be able to move the cursor the first tooltip"', () => {
       browser.moveToElement('.hero h3 span', 0, 0, () => {});
       browser.pause(timer);
@@ -45,7 +45,7 @@ describe('React Joyride', function mocha() {
     });
   });
 
-  xcontext('Projects', () => {
+  context('Projects', () => {
     it('should have scrolled to the element', () => {
       browser.pause(wait);
       browser.getLocation('.projects', (result) => {
@@ -86,7 +86,7 @@ describe('React Joyride', function mocha() {
     });
   });
 
-  xcontext('Mission', () => {
+  context('Mission', () => {
     it('should have scrolled to the element', () => {
       browser.pause(wait);
       browser.getLocation('.mission', (result) => {
@@ -127,7 +127,7 @@ describe('React Joyride', function mocha() {
     });
   });
 
-  xcontext('About', () => {
+  context('About', () => {
     it('should have scrolled to the element', () => {
       browser.pause(wait);
       browser.getLocation('.about', (result) => {
