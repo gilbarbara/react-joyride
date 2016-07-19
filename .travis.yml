@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-- '5.7'
+- '6.2'
+before_script:
+  - gulp localserver &
+  - sleep 20
 deploy:
   provider: npm
   email: gilbarbara@gmail.com
@@ -10,5 +13,6 @@ deploy:
     tags: true
     repo: gilbarbara/react-joyride
 addons:
+    sauce_connect: true
     code_climate:
         repo_token: f5f9b3ad4d0ec4f05f0ed8b57a530044671d02bf264c3772ba67e0371442401f

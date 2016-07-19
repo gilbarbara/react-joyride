@@ -80,7 +80,7 @@
     "lint": "eslint src test",
     "build": "gulp build",
     "prepublish": "npm run build",
-    "test": "npm run test:ui",
+    "test": "nightwatch -c test/nightwatch.conf.js",
     "test:ui": "gulp test:ui"
   },
   "engines": {
