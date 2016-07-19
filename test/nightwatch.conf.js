@@ -5,7 +5,7 @@ var chromedriver = require('chromedriver');
 const TRAVIS_JOB_NUMBER = process.env.TRAVIS_JOB_NUMBER;
 
 module.exports = {
-  src_folders: ['test'],
+  src_folders: ['test/ui'],
   output_folder: 'reports',
   selenium: {
     start_process: false,
@@ -15,7 +15,6 @@ module.exports = {
       'webdriver.ie.driver': ''
     }
   },
-  test_runner: { type: 'mocha', options: { bail: 'bail' } },
   test_settings: {
     default: {
       launch_url: 'http://ondemand.saucelabs.com:80',
@@ -23,7 +22,6 @@ module.exports = {
       selenium_port: 80,
       username: process.env.SAUCE_USERNAME,
       access_key: process.env.SAUCE_ACCESS_KEY,
-      filter: 'test/*.nightwatch.js',
       screenshots: {
         enabled: false,
         path: 'reports'

@@ -14,7 +14,6 @@ module.exports = function sauce(client, callback) {
   }
 
   if (!username || !accessKey || !sessionId) {
-    console.log(client);
     console.log('No username, accessKey or sessionId');
     callback();
     return;
@@ -30,9 +29,9 @@ module.exports = function sauce(client, callback) {
 
   function responseCallback(res) {
     res.setEncoding('utf8');
-    console.log('Response: ', res.statusCode, JSON.stringify(res.headers));
+    // console.log('Response: ', res.statusCode, JSON.stringify(res.headers));
     res.on('data', function onData(chunk) {
-      console.log('BODY: ' + chunk);
+      // console.log('BODY: ' + chunk);
     });
     res.on('end', function onEnd() {
       console.info('Finished updating saucelabs');
