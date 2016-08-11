@@ -193,7 +193,7 @@ export default class JoyrideTooltip extends React.Component {
 
     if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && props.xPos > -1) {
       opts.tooltip = document.querySelector('.joyride-tooltip').getBoundingClientRect();
-      opts.targetMiddle = (opts.rect.left + opts.rect.width / 2);
+      opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
       opts.arrowPosition = (((opts.targetMiddle - props.xPos) / opts.tooltip.width) * 100).toFixed(2);
       opts.arrowPosition = `${this.getArrowPosition(opts.arrowPosition)}%`;
 

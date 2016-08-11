@@ -330,7 +330,8 @@ export default class Joyride extends React.Component {
       listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}click`] = {
-        event: 'click', cb: (e) => {
+        event: 'click',
+        cb: (e) => {
           e.preventDefault();
         }
       };
@@ -636,10 +637,10 @@ export default class Joyride extends React.Component {
         placement.x = rect.left - (showTooltip ? component.width + props.tooltipOffset : (component.width / 2) + offsetX);
       }
       else if (/^right/.test(position)) {
-        placement.x = rect.left + rect.width - (showTooltip ? -props.tooltipOffset : (component.width / 2) - offsetX);
+        placement.x = (rect.left + rect.width) - (showTooltip ? -props.tooltipOffset : (component.width / 2) - offsetX);
       }
       else {
-        placement.x = rect.left + (rect.width / 2) - (component.width / 2);
+        placement.x = rect.left + ((rect.width / 2) - (component.width / 2));
       }
 
       // Calculate y position
@@ -647,7 +648,7 @@ export default class Joyride extends React.Component {
         placement.y = (rect.top - body.top) - (showTooltip ? component.height + props.tooltipOffset : (component.height / 2) + offsetY);
       }
       else if (/^bottom/.test(position)) {
-        placement.y = (rect.top - body.top) + rect.height - (showTooltip ? -props.tooltipOffset : (component.height / 2) - offsetY);
+        placement.y = (rect.top - body.top) + (rect.height - (showTooltip ? -props.tooltipOffset : (component.height / 2) - offsetY));
       }
       else {
         placement.y = (rect.top - body.top);
@@ -658,7 +659,7 @@ export default class Joyride extends React.Component {
           placement.x = rect.left - (showTooltip ? props.tooltipOffset : component.width / 2);
         }
         else if (/right/.test(position)) {
-          placement.x = rect.left + rect.width - (showTooltip ? component.width - props.tooltipOffset : component.width / 2);
+          placement.x = rect.left + (rect.width - (showTooltip ? component.width - props.tooltipOffset : component.width / 2));
         }
       }
 
@@ -686,7 +687,7 @@ export default class Joyride extends React.Component {
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
 
     if (!target) {
-      this.logger('joyride:calcPosition', ['step:', step, 'target:', "NO TARGET"], true);
+      this.logger('joyride:calcPosition', ['step:', step, 'target:', 'NO TARGET'], true);
       return 'top';
     }
 
