@@ -1,5 +1,4 @@
 /*eslint-disable no-var */
-var jar = require('selenium-server-standalone-jar');
 var chromedriver = require('chromedriver');
 
 const TRAVIS_JOB_NUMBER = process.env.TRAVIS_JOB_NUMBER;
@@ -9,7 +8,6 @@ module.exports = {
   output_folder: 'reports',
   selenium: {
     start_process: false,
-    server_path: jar.path,
     cli_args: {
       'webdriver.chrome.driver': chromedriver.path,
       'webdriver.ie.driver': ''
