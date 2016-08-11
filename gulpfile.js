@@ -12,7 +12,7 @@ var gulp        = require('gulp'),
 
 var shouldWatch = false;
 
-function watchifyTask(options) {
+function bundleScripts(options) {
   var bundler, rebundle, iteration = 0;
   bundler = browserify({
     entries: path.join(__dirname, '/test/demo/main.js'),
@@ -57,13 +57,13 @@ function watchifyTask(options) {
 }
 
 gulp.task('scripts', function() {
-  return gulp.src('demo/scripts/**/*')
+  return gulp.src('src/scripts/**/*')
     .pipe($.babel())
     .pipe(gulp.dest('lib/scripts'));
 });
 
 gulp.task('lint', function() {
-  return gulp.src('demo/scripts/**/*')
+  return gulp.src('src/scripts/**/*')
     .pipe($.eslint({
       useEslintrc: true,
       rules: {
@@ -75,7 +75,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('styles', function() {
-  return gulp.src('demo/styles/*.scss')
+  return gulp.src('src/styles/*.scss')
     .pipe(gulp.dest('lib/styles'))
     .pipe($.plumber())
     .pipe($.sass.sync({
@@ -88,11 +88,11 @@ gulp.task('styles', function() {
 });
 
 gulp.task('clean', function(cb) {
-  return del(['lib/styles/*.css'], cb);
+  return del(['lib'], cb);
 });
 
 gulp.task('watch', ['build'], function() {
-  gulp.watch('demo/**/*', function() {
+  gulp.watch('src/**/*', function() {
     gulp.start('scripts');
   });
 });
@@ -124,7 +124,7 @@ gulp.task('setup:test', ['scripts:test', 'styles:test'], function() {
 });
 
 gulp.task('scripts:test', function(cb) {
-  return watchifyTask({
+  return bundleScripts({
     watch: shouldWatch,
     cb: cb
   });
