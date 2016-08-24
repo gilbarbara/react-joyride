@@ -585,7 +585,7 @@ export default class Joyride extends React.Component {
         }
       }
 
-      if (props.steps.length && !props.steps[index]) {
+      if (props.steps.length && !props.steps[newIndex]) {
         if (typeof props.completeCallback === 'function') { // Deprecated
           props.completeCallback(props.steps, this.state.skipped);
         }
