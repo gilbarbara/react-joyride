@@ -118,7 +118,7 @@ class Tables extends React.Component {
             </div>
           </div>
           <div className="col-xs-12 col-md-6">
-            <div ref="transactions" className="card transactions">
+            <div className="card transactions">
               <div className="card-header">
                 <h3>
                   <i className="fa fa-money fa-fw" /> Transactions Panel</h3>
@@ -127,50 +127,50 @@ class Tables extends React.Component {
                 <div className="table-responsive">
                   <table className="table table-bordered table-hover table-striped">
                     <thead>
-                    <tr>
-                      <th>Order #</th>
-                      <th>Order Date</th>
-                      <th>Order Time</th>
-                      <th>Amount (USD)</th>
-                    </tr>
+                      <tr>
+                        <th>Order #</th>
+                        <th>Order Date</th>
+                        <th>Order Time</th>
+                        <th>Amount (USD)</th>
+                      </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>3326</td>
-                      <td>08/21/2015</td>
-                      <td>3:29 PM</td>
-                      <td>$321.33</td>
-                    </tr>
-                    <tr>
-                      <td>3325</td>
-                      <td>08/21/2015</td>
-                      <td>3:20 PM</td>
-                      <td>$234.34</td>
-                    </tr>
-                    <tr>
-                      <td>3324</td>
-                      <td>08/21/2015</td>
-                      <td>3:03 PM</td>
-                      <td>$724.17</td>
-                    </tr>
-                    <tr>
-                      <td>3323</td>
-                      <td>08/21/2015</td>
-                      <td>3:00 PM</td>
-                      <td>$23.71</td>
-                    </tr>
-                    <tr>
-                      <td>3322</td>
-                      <td>08/21/2015</td>
-                      <td>2:49 PM</td>
-                      <td>$8345.23</td>
-                    </tr>
-                    <tr>
-                      <td>3321</td>
-                      <td>08/21/2015</td>
-                      <td>2:23 PM</td>
-                      <td>$245.12</td>
-                    </tr>
+                      <tr>
+                        <td>3326</td>
+                        <td>08/21/2015</td>
+                        <td>3:29 PM</td>
+                        <td>$321.33</td>
+                      </tr>
+                      <tr>
+                        <td>3325</td>
+                        <td>08/21/2015</td>
+                        <td>3:20 PM</td>
+                        <td>$234.34</td>
+                      </tr>
+                      <tr>
+                        <td>3324</td>
+                        <td>08/21/2015</td>
+                        <td>3:03 PM</td>
+                        <td>$724.17</td>
+                      </tr>
+                      <tr>
+                        <td>3323</td>
+                        <td>08/21/2015</td>
+                        <td>3:00 PM</td>
+                        <td>$23.71</td>
+                      </tr>
+                      <tr>
+                        <td>3322</td>
+                        <td>08/21/2015</td>
+                        <td>2:49 PM</td>
+                        <td>$8345.23</td>
+                      </tr>
+                      <tr>
+                        <td>3321</td>
+                        <td>08/21/2015</td>
+                        <td>2:23 PM</td>
+                        <td>$245.12</td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

@@ -29,13 +29,13 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (!prevState.ready && this.state.ready) {
-      this.refs.joyride.start();
+      this.joyride.start();
     }
   }
 
   @autobind
   addSteps(steps) {
-    const joyride = this.refs.joyride;
+    const joyride = this.joyride;
     let newSteps = steps;
 
     if (!Array.isArray(newSteps)) {
@@ -54,7 +54,7 @@ class App extends React.Component {
 
   @autobind
   addTooltip(data) {
-    this.refs.joyride.addTooltip(data);
+    this.joyride.addTooltip(data);
   }
 
   callback(data) {
@@ -69,10 +69,10 @@ class App extends React.Component {
     const state = {};
 
     if (el.dataset.key === 'joyrideType') {
-      this.refs.joyride.reset();
+      this.joyride.reset();
 
       setTimeout(() => {
-        this.refs.joyride.start();
+        this.joyride.start();
       }, 300);
 
       state.joyrideType = e.currentTarget.dataset.type;
@@ -93,7 +93,7 @@ class App extends React.Component {
       html = (
         <div>
           <Joyride
-            ref="joyride"
+            ref={c => (this.joyride = c)}
             debug={false}
             steps={state.steps}
             type={state.joyrideType}

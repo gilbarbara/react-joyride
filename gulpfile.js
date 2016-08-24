@@ -25,7 +25,7 @@ function isProduction() {
 function watchifyTask(options) {
   var bundler, rebundle, iteration = 0;
   bundler = browserify({
-    entries: path.join(__dirname, '/app/scripts/main.js'),
+    entries: path.join(__dirname, '/app/scripts/main.jsx'),
     basedir: __dirname,
     insertGlobals: false,
     cache: {}, // required for watchify

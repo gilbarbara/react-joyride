@@ -1,3 +1,4 @@
+/*eslint-disable import/imports-first */
 // Polyfills
 import 'core-js/shim';
 import 'classlist-polyfill';
