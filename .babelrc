@@ -12,8 +12,7 @@
   "env": {
     "production": {
       "plugins": [
-        "transform-inline-environment-variables",
-        "transform-runtime"
+        "transform-inline-environment-variables"
       ]
     }
   }
