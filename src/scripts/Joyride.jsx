@@ -115,8 +115,6 @@ export default class Joyride extends React.Component {
     this.logger('joyride:willReceiveProps', [nextProps]);
 
     if (nextProps.steps.length !== props.steps.length) {
-      this.logger('joyride:changedSteps', [nextProps.steps]);
-
       if (!nextProps.steps.length) {
         this.reset();
       }
@@ -287,12 +285,10 @@ export default class Joyride extends React.Component {
 
       el = document.querySelector(s.selector);
       s.position = s.position || 'top';
+      newSteps.push(s);
 
-      if (el && el.offsetParent) {
-        newSteps.push(s);
-      }
-      else {
-        this.logger('joyride:parseSteps', ['Element not rendered in the DOM. Skipped..', s], true);
+      if (!el) {
+        console.warn('joyride:parseSteps', 'Target not rendered. For best results only add steps after they are mounted.', s); //eslint-disable-line no-console
       }
     });
 
@@ -560,7 +556,13 @@ export default class Joyride extends React.Component {
    */
   toggleTooltip(show, index, action) {
     const props = this.props;
-    const newIndex = (index !== undefined ? index : this.state.index);
+    let newIndex = (index !== undefined ? index : this.state.index);
+    const step = props.steps[newIndex];
+
+    if (step && !document.querySelector(step.selector)) {
+      console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
+      newIndex += action === 'back' ? -1 : 1;
+    }
 
     this.setState({
       play: props.steps[newIndex] ? this.state.play : false,
