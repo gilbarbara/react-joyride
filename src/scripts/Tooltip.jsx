@@ -8,6 +8,7 @@ export default class JoyrideTooltip extends React.Component {
     cssPosition: React.PropTypes.string.isRequired,
     disableOverlay: React.PropTypes.bool,
     onClick: React.PropTypes.func.isRequired,
+    onRender: React.PropTypes.func.isRequired,
     showOverlay: React.PropTypes.bool.isRequired,
     standalone: React.PropTypes.bool,
     step: React.PropTypes.object.isRequired,
@@ -32,17 +33,42 @@ export default class JoyrideTooltip extends React.Component {
     yPos: -1000
   };
 
+  componentDidMount() {
+    this.forceUpdate(this.props.onRender);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.step.selector !== this.props.step.selector) {
+      this.forceUpdate(this.props.onRender);
+    }
+  }
+
   getArrowPosition(position) {
-    let arrowPosition;
+    let arrowPosition = position;
 
     if (window.innerWidth < 480) {
-      arrowPosition = (position < 8 ? 8 : (position > 92 ? 92 : position));
+      if (position < 8) {
+        arrowPosition = 8;
+      }
+      else if (position > 92) {
+        arrowPosition = 92;
+      }
     }
     else if (window.innerWidth < 1024) {
-      arrowPosition = (position < 6 ? 6 : (position > 94 ? 94 : position));
+      if (position < 6) {
+        arrowPosition = 6;
+      }
+      else if (position > 94) {
+        arrowPosition = 94;
+      }
     }
     else {
-      arrowPosition = (position < 5 ? 5 : (position > 95 ? 95 : position));
+      if (position < 5) {
+        arrowPosition = 5;
+      }
+      else if (position > 95) {
+        arrowPosition = 95;
+      }
     }
 
     return arrowPosition;
@@ -83,7 +109,21 @@ export default class JoyrideTooltip extends React.Component {
     return `data:image/svg+xml,%3Csvg%20width%3D%22${width}%22%20height%3D%22${height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22${opts.color}%22%20transform%3D%22scale%28${opts.scale}%29%20rotate%28${rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E`;
   }
 
-  setStyles(opts, styles, stepStyles) {
+  setStyles(stepStyles, opts) {
+    const styles = {
+      arrow: {
+        left: opts.arrowPosition
+      },
+      buttons: {},
+      header: {},
+      hole: {},
+      tooltip: {
+        position: this.props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
+        top: Math.round(this.props.yPos),
+        left: Math.round(this.props.xPos)
+      }
+    };
+
     styles.hole = {
       top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - 5),
       left: Math.round(opts.rect.left - 5),
@@ -162,6 +202,49 @@ export default class JoyrideTooltip extends React.Component {
     return styles;
   }
 
+  setOpts() {
+    const props = this.props;
+    const step = props.step;
+    const target = document.querySelector(step.selector);
+    const tooltip = document.querySelector('.joyride-tooltip');
+
+    const opts = {
+      classes: ['joyride-tooltip'],
+      rect: target.getBoundingClientRect(),
+      positionClass: step.position
+    };
+
+    opts.positonBaseClass = opts.positionClass.match(/-/) ? opts.positionClass.split('-')[0] : opts.positionClass;
+
+    if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && props.xPos > -1) {
+      opts.tooltip = { width: 450 };
+
+      if (tooltip) {
+        opts.tooltip = tooltip.getBoundingClientRect();
+      }
+
+      opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
+      opts.arrowPosition = (((opts.targetMiddle - props.xPos) / opts.tooltip.width) * 100).toFixed(2);
+      opts.arrowPosition = `${this.getArrowPosition(opts.arrowPosition)}%`;
+    }
+
+    if (props.standalone) {
+      opts.classes.push('joyride-tooltip--standalone');
+    }
+
+    if (opts.positonBaseClass !== opts.positionClass) {
+      opts.classes.push(opts.positonBaseClass);
+    }
+
+    opts.classes.push(opts.positionClass);
+
+    if (props.animate) {
+      opts.classes.push('joyride-tooltip--animate');
+    }
+
+    return opts;
+  }
+
   render() {
     const props = this.props;
     const step = props.step;
@@ -171,47 +254,9 @@ export default class JoyrideTooltip extends React.Component {
       return undefined;
     }
 
-    const opts = {
-      classes: ['joyride-tooltip'],
-      rect: target.getBoundingClientRect(),
-      positionClass: step.position
-    };
+    const opts = this.setOpts();
+    const styles = this.setStyles(step.style, opts);
     const output = {};
-    let styles = {
-      arrow: {},
-      buttons: {},
-      header: {},
-      hole: {},
-      tooltip: {
-        position: this.props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
-        top: Math.round(this.props.yPos),
-        left: Math.round(this.props.xPos)
-      }
-    };
-
-    opts.positonBaseClass = opts.positionClass.match(/-/) ? opts.positionClass.split('-')[0] : opts.positionClass;
-
-    if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && props.xPos > -1) {
-      opts.tooltip = document.querySelector('.joyride-tooltip').getBoundingClientRect();
-      opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
-      opts.arrowPosition = (((opts.targetMiddle - props.xPos) / opts.tooltip.width) * 100).toFixed(2);
-      opts.arrowPosition = `${this.getArrowPosition(opts.arrowPosition)}%`;
-
-      styles.arrow.left = opts.arrowPosition;
-    }
-
-    styles = this.setStyles(opts, styles, step.style);
-
-    if (props.standalone) {
-      opts.classes.push('joyride-tooltip--standalone');
-    }
-    if (opts.positonBaseClass) {
-      opts.classes.push(opts.positonBaseClass);
-    }
-    opts.classes.push(opts.positionClass);
-    if (props.animate) {
-      opts.classes.push('joyride-tooltip--animate');
-    }
 
     if (step.title) {
       output.header = (
