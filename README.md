@@ -93,8 +93,10 @@ componentDidMount: function () {
 ...   
 render: function () {
 	return (
-		<Joyride ref="joyride" .../>
-		<ChildComponent addSteps={this.addSteps} addTooltip={this.addTooltip} />
+	  <div>
+		  <Joyride ref="joyride" .../>
+		  <ChildComponent addSteps={this.addSteps} addTooltip={this.addTooltip} />
+		</div>
 	);
 }
 ```
