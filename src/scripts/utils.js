@@ -1,3 +1,5 @@
+/*eslint-disable no-nested-ternary */
+
 /**
  * Convert hex to RGB
  *

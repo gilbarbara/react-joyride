@@ -17,6 +17,7 @@
     "newline-per-chained-call": [1, { "ignoreChainWithDepth": 5 }],
     "no-case-declarations": 1,
     "no-duplicate-imports": 2,
+    "no-lonely-if": 1,
     "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
     "no-multi-spaces": [1, { "exceptions": { "VariableDeclarator": true, "Property": false } }],
     "no-nested-ternary": 1,
