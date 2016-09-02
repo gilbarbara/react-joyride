@@ -35,6 +35,7 @@ export default class Joyride extends React.Component {
   }
 
   static propTypes = {
+    onBeforeStart: React.PropTypes.func,
     callback: React.PropTypes.func,
     completeCallback: React.PropTypes.func,
     debug: React.PropTypes.bool,
@@ -58,6 +59,7 @@ export default class Joyride extends React.Component {
   };
 
   static defaultProps = {
+    onBeforeStart: () => {},
     debug: false,
     keyboardNavigation: true,
     locale: {
@@ -182,18 +184,24 @@ export default class Joyride extends React.Component {
    * Starts the tour
    *
    * @param {boolean} [autorun]- Starts with the first tooltip opened
+   * @param {number} [stepIndex] - The tour's index
+   * @param {string} [action]
+   *
    */
-  start(autorun) {
+  start(autorun, stepIndex, action) {
     const autoStart = autorun === true;
 
     this.logger('joyride:start', ['autorun:', autoStart]);
 
-    this.setState({
-      play: true
-    }, () => {
-      if (autoStart) {
-        this.toggleTooltip(true);
-      }
+    const promise = this.props.onBeforeStart() || new Promise(r => r());
+    promise.then(() => {
+      this.setState({
+        play: true
+      }, () => {
+        if (autoStart) {
+          this.toggleTooltip(true, stepIndex, action);
+        }
+      });
     });
   }
 
@@ -489,19 +497,7 @@ export default class Joyride extends React.Component {
     const state = this.state;
     const props = this.props;
 
-    let promise = new Promise((r) => { r(); });
-    if (typeof props.callback === 'function') {
-      promise = props.callback({
-        action: 'beacon',
-        type: 'step:before',
-        step: props.steps[state.index]
-      }) || promise;
-    }
-
-    promise = !(promise instanceof Promise) ? new Promise((r) => { r(); }) : promise;
-    promise.then(() => {
-      this.toggleTooltip(true, state.index);
-    });
+    this.start(true, state.index, 'beacon');
   }
 
   /**
