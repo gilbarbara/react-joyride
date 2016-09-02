@@ -35,6 +35,7 @@ export default class Joyride extends React.Component {
   }
 
   static propTypes = {
+    onBeforeStart: React.PropTypes.func,
     callback: React.PropTypes.func,
     completeCallback: React.PropTypes.func,
     debug: React.PropTypes.bool,
@@ -58,6 +59,7 @@ export default class Joyride extends React.Component {
   };
 
   static defaultProps = {
+    onBeforeStart: () => {},
     debug: false,
     keyboardNavigation: true,
     locale: {
@@ -182,18 +184,24 @@ export default class Joyride extends React.Component {
    * Starts the tour
    *
    * @param {boolean} [autorun]- Starts with the first tooltip opened
+   * @param {number} [stepIndex] - The tour's index
+   * @param {string} [action]
+   *
    */
-  start(autorun) {
+  start(autorun, stepIndex, action) {
     const autoStart = autorun === true;
 
     this.logger('joyride:start', ['autorun:', autoStart]);
 
-    this.setState({
-      play: true
-    }, () => {
-      if (autoStart) {
-        this.toggleTooltip(true);
-      }
+    const promise = this.props.onBeforeStart() || new Promise(r => r());
+    promise.then(() => {
+      this.setState({
+        play: true
+      }, () => {
+        if (autoStart) {
+          this.toggleTooltip(true, stepIndex, action);
+        }
+      });
     });
   }
 
@@ -489,15 +497,7 @@ export default class Joyride extends React.Component {
     const state = this.state;
     const props = this.props;
 
-    if (typeof props.callback === 'function') {
-      props.callback({
-        action: 'beacon',
-        type: 'step:before',
-        step: props.steps[state.index]
-      });
-    }
-
-    this.toggleTooltip(true, state.index);
+    this.start(true, state.index, 'beacon');
   }
 
   /**
@@ -571,45 +571,59 @@ export default class Joyride extends React.Component {
       newIndex += action === 'back' ? -1 : 1;
     }
 
-    this.setState({
-      play: props.steps[newIndex] ? this.state.play : false,
-      showTooltip: show,
-      index: newIndex,
-      position: undefined,
-      redraw: !show,
-      xPos: -1000,
-      yPos: -1000
-    }, () => {
-      const lastIndex = action === 'back' ? newIndex + 1 : newIndex - 1;
+    const lastIndex = action === 'back' ? newIndex + 1 : newIndex - 1;
+    const lastStep = props.steps[lastIndex];
+    const toStep = props.steps[newIndex];
+    const callback = typeof props.callback !== 'function' ? () => {} : props.callback;
 
-      if (action && props.steps[lastIndex]) {
-        if (typeof props.stepCallback === 'function') { // Deprecated
-          props.stepCallback(props.steps[lastIndex]);
-        }
+    let promise = new Promise((r) => { r(); });
+    if (lastStep && typeof props.stepCallback === 'function') { // Deprecated
+      props.stepCallback(lastStep);
+    }
 
-        if (typeof props.callback === 'function') {
-          props.callback({
+    if (toStep && (action === 'next' || action === 'back' || action === 'beacon')) {
+      promise = callback({
+        action,
+        type: 'step:before',
+        step: toStep
+      }) || promise;
+    }
+
+    promise = !(promise instanceof Promise) ? new Promise((r) => { r(); }) : promise;
+    promise.then(() => {
+      this.setState({
+        play: toStep ? this.state.play : false,
+        showTooltip: show,
+        index: newIndex,
+        position: undefined,
+        redraw: !show,
+        xPos: -1000,
+        yPos: -1000
+      }, () => {
+        let promise2 = new Promise(r => r());
+        if (action && action !== 'close' && toStep) {
+          promise2 = callback({
             action,
             type: 'step:after',
-            step: props.steps[lastIndex]
-          });
-        }
-      }
-
-      if (props.steps.length && !props.steps[newIndex]) {
-        if (typeof props.completeCallback === 'function') { // Deprecated
-          props.completeCallback(props.steps, this.state.skipped);
+            step: toStep
+          }) || promise2;
         }
 
-        if (typeof props.callback === 'function') {
-          props.callback({
-            action,
-            type: 'finished',
-            steps: props.steps,
-            skipped: this.state.skipped
-          });
-        }
-      }
+        promise2.then(() => {
+          if ((props.steps.length && !toStep) || action === 'close') {
+            if (typeof props.completeCallback === 'function') { // Deprecated
+              props.completeCallback(props.steps, this.state.skipped);
+            }
+
+            callback({
+              action,
+              type: 'finished',
+              steps: props.steps,
+              skipped: this.state.skipped
+            });
+          }
+        });
+      });
     });
   }
 
