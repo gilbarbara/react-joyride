@@ -2,7 +2,7 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl } from './utils';
+import { getRootEl, getScrollContainer } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -44,6 +44,7 @@ export default class Joyride extends React.Component {
     resizeDebounce: React.PropTypes.bool,
     resizeDebounceDelay: React.PropTypes.number,
     run: React.PropTypes.bool,
+    scrollContainerSelector: React.PropTypes.string,
     scrollOffset: React.PropTypes.number,
     scrollToFirstStep: React.PropTypes.bool,
     scrollToSteps: React.PropTypes.bool,
@@ -81,7 +82,6 @@ export default class Joyride extends React.Component {
     tooltipOffset: 15,
     type: 'single'
   };
-
   componentDidMount() {
     const {
       keyboardNavigation,
@@ -371,6 +371,14 @@ export default class Joyride extends React.Component {
   }
 
   /**
+   * Get the scroll container
+   * @param {Element} defaultElement - Element node
+   * @returns {Element} Element node
+   */
+  getScrollContainer(defaultElement) {
+    return getScrollContainer(this, defaultElement);
+  }
+  /**
    * Get an element actual dimensions with margin
    *
    * @private
@@ -412,7 +420,9 @@ export default class Joyride extends React.Component {
     }
 
     const rect = target.getBoundingClientRect();
-    const targetTop = rect.top + (window.pageYOffset || document.documentElement.scrollTop);
+    const targetTop = rect.top + (props.scrollContainerSelector
+      ? this.getScrollContainer()
+      : (window.pageYOffset || document.documentElement.scrollTop));
     const position = this.calcPosition(step);
     let scrollTo = 0;
 
@@ -647,7 +657,7 @@ export default class Joyride extends React.Component {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
-      const body = document.body.getBoundingClientRect();
+      const body = this.getScrollContainer().getBoundingClientRect();
       const component = this.getElementDimensions(showTooltip ? '.joyride-tooltip' : '.joyride-beacon');
       const rect = target.getBoundingClientRect();
 
@@ -683,7 +693,7 @@ export default class Joyride extends React.Component {
       }
 
       this.setState({
-        xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height),
+        xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height) - this.getScrollContainer().getBoundingClientRect().top,
         yPos: this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height),
         redraw: false
       });
@@ -701,7 +711,7 @@ export default class Joyride extends React.Component {
   calcPosition(step) {
     const { tooltipOffset } = this.props;
     const showTooltip = this.state.tooltip ? true : this.state.showTooltip;
-    const body = document.body.getBoundingClientRect();
+    const body = this.getScrollContainer().getBoundingClientRect();
     const target = document.querySelector(step.selector);
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
@@ -742,7 +752,7 @@ export default class Joyride extends React.Component {
    */
   preventWindowOverflow(value, axis, elWidth, elHeight) {
     const winWidth = window.innerWidth;
-    const body = document.body;
+    const body = this.getScrollContainer();
     const html = document.documentElement;
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
     let newValue = value;
@@ -847,7 +857,8 @@ export default class Joyride extends React.Component {
         xPos: state.xPos,
         yPos: state.yPos,
         onClick: this.onClickTooltip,
-        onRender: this.onRenderTooltip
+        onRender: this.onRenderTooltip,
+        scrollContainerSelector: props.scrollContainerSelector
       });
     }
     else {

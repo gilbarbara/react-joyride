@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser } from './utils';
+import { browser, getScrollContainer } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   static propTypes = {
@@ -9,6 +9,7 @@ export default class JoyrideTooltip extends React.Component {
     disableOverlay: React.PropTypes.bool,
     onClick: React.PropTypes.func.isRequired,
     onRender: React.PropTypes.func.isRequired,
+    scrollContainerSelector: React.PropTypes.string,
     showOverlay: React.PropTypes.bool.isRequired,
     standalone: React.PropTypes.bool,
     step: React.PropTypes.object.isRequired,
@@ -43,6 +44,15 @@ export default class JoyrideTooltip extends React.Component {
     if (prevProps.step.selector !== step.selector) {
       this.forceUpdate(onRender);
     }
+  }
+
+  /**
+   * Get the scroll container
+   * @param {Element} defaultElement - Element node
+   * @returns {Element} Element node
+   */
+  getScrollContainer(defaultElement) {
+    return getScrollContainer(this, defaultElement);
   }
 
   getArrowPosition(position) {
@@ -126,8 +136,8 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - 5),
-      left: Math.round(opts.rect.left - 5),
+      top: Math.round((opts.rect.top - this.getScrollContainer().getBoundingClientRect().top) - 5) + this.getScrollContainer().scrollTop,
+      left: Math.round((opts.rect.left - this.getScrollContainer().getBoundingClientRect().left) - 5) + this.getScrollContainer().scrollLeft,
       width: Math.round(opts.rect.width + 10),
       height: Math.round(opts.rect.height + 10)
     };
@@ -341,7 +351,7 @@ export default class JoyrideTooltip extends React.Component {
         className="joyride-overlay"
         style={{
           cursor: disableOverlay ? 'default' : 'pointer',
-          height: document.body.clientHeight
+          height: this.getScrollContainer().clientHeight
         }}
         data-type="close"
         onClick={!disableOverlay ? onClick : undefined}>
