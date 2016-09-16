@@ -178,7 +178,7 @@ Example:
 
 ## API
 
-### this.refs.addTooltip(data)
+### this.refs.joyride.addTooltip(data)
 
 Add tooltips in your elements.
 
