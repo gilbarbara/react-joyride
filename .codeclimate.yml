@@ -1,0 +1,25 @@
+---
+engines:
+  eslint:
+    enabled: true
+    channel: "eslint-2"
+    checks:
+      import/no-duplicates:
+        enabled: false
+      no-template-curly-in-string:
+        enabled: false
+      import/no-unresolved:
+        enabled: false
+      import/no-extraneous-dependencies:
+        enabled: false
+  scss-lint:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+  - "**.scss"
+exclude_paths:
+  - coverage/**/*
+  - documentation/**/*
+  - lib/**/*
+  - node_modules/**/*
