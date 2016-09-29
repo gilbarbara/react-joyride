@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "es2015",
+    "react",
+    "stage-1"
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-object-assign"
+  ],
+  "compact": "true",
+  "env": {
+    "production": {
+      "plugins": [
+        "transform-inline-environment-variables"
+      ]
+    }
+  }
+}

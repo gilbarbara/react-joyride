@@ -2,14 +2,24 @@
 engines:
   eslint:
     enabled: true
+    channel: "eslint-2"
+    checks:
+      import/no-duplicates:
+        enabled: false
+      no-template-curly-in-string:
+        enabled: false
+      import/no-unresolved:
+        enabled: false
+      import/no-extraneous-dependencies:
+        enabled: false
   scss-lint:
     enabled: true
 ratings:
   paths:
   - "**.js"
   - "**.scss"
-addons:
-    code_climate:
-        repo_token: f5f9b3ad4d0ec4f05f0ed8b57a530044671d02bf264c3772ba67e0371442401f
 exclude_paths:
-- node_modules/**/*
+  - coverage/**/*
+  - documentation/**/*
+  - lib/**/*
+  - node_modules/**/*

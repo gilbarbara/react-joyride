@@ -1,0 +1,63 @@
+$headings-font-family: Trocchi;
+
+@import '../../node_modules/bootstrap/scss/bootstrap';
+@import '../../src/styles/react-joyride';
+@import '//fonts.googleapis.com/css?family=Trocchi';
+
+body {
+  font-family: Trocchi, serif;
+}
+
+.hero {
+  background-color: #45c3ff;
+  color: #fff;
+  height: 100vh;
+
+  > .container {
+    padding-top: 45vh;
+  }
+
+  a {
+    background-color: #ff8145;
+    border: 0.2rem solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    height: 3rem;
+    line-height: 2.6rem;
+    margin-left: 1rem;
+    text-align: center;
+    width: 3rem;
+
+    &:active,
+    &:focus,
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  span {
+    text-decoration: underline;
+  }
+}
+
+.site__section {
+  color: #fff;
+  height: 100vh;
+
+  .container {
+    padding-top: $grid-gutter-width;
+  }
+}
+
+.projects {
+  background-color: #8145ff;
+}
+
+.mission {
+  background-color: #1ec900;
+}
+
+.about {
+  background-color: #ff8145;
+}
