@@ -26,7 +26,7 @@ var App = React.createClass({
 	render: function () {
 		return (
 			<div className="app">
-				<Joyride ref="joyride" steps={this.state.steps} debug={true} ... />
+				<Joyride ref={c => (this.joyride = c)} steps={this.state.steps} debug={true} ... />
 				<YourComponents .../>
 			</div>
 		);
@@ -41,7 +41,7 @@ Don't forget to pass a `ref` to the component.
 If your are using **SCSS** (and you should):
 
 ```scss
-@include '../path/to/node-modules/react-joyride/lib/styles/react-joyride'
+@import '../path/to/node-modules/react-joyride/lib/styles/react-joyride'
 
 ```
 
@@ -58,7 +58,7 @@ Add a custom function to include steps to your state in your own component
 
 ```javascript
 addSteps: function (steps) {
-	let joyride = this.refs.joyride;
+	let joyride = this.joyride;
 		
 	if (!Array.isArray(steps)) {
 	    steps = [steps];
@@ -75,7 +75,7 @@ addSteps: function (steps) {
 }
 
 addTooltip(data) {
-	this.refs.joyride.addTooltip(data);
+	this.joyride.addTooltip(data);
 }
 ```
 
@@ -84,7 +84,7 @@ Add steps/tooltips after your components are mounted.
 ```javascript
 componentDidMount: function () {
 	this.addSteps({...}); // or this.addTooltip({...});
-	this.refs.joyride.start();
+	this.joyride.start();
 	
 
 	// or using props in your child components
@@ -106,7 +106,7 @@ Or you can start the tour after a criteria is met
 ```javascript
 componentDidUpdate (prevProps, prevState) {
     if (!prevState.ready && this.state.ready) {
-        this.refs.joyride.start();
+        this.joyride.start();
     }
 },
 ```
@@ -178,29 +178,29 @@ Example:
 
 ## API
 
-### this.refs.addTooltip(data)
+### this.joyride.addTooltip(data)
 
 Add tooltips in your elements.
 
 - `data` {object} - A step object (check the syntax below)
 
-### this.refs.joyride.start(autorun)
+### this.joyride.start(autorun)
 
 Call this method to start the tour.
 
 - `autorun` {boolean} - Starts the tour with the first tooltip opened.
 
-### this.refs.joyride.stop()
+### this.joyride.stop()
 
 Call this method to stop/pause the tour.
 
-### this.refs.joyride.reset(restart)
+### this.joyride.reset(restart)
 
 Call this method to reset the tour iteration back to 0
 
 - `restart` {boolean} - Starts the new tour right away
 
-### this.refs.joyride.getProgress()
+### this.joyride.getProgress()
 Retrieve the current progress of your tour. The object returned looks like this:
 
 ```javascript
@@ -217,14 +217,14 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
-### this.refs.joyride.parseSteps(steps)
+### this.joyride.parseSteps(steps)
 
 Parse the incoming steps, check if it's already rendered and returns an array with valid items
 
 - `steps ` {array|object}
 
 ```javascript
-var steps = this.refs.joyride.parseSteps({
+var steps = this.joyride.parseSteps({
     title: 'Title',
     text: 'description',
     selector: 'my-super-class',
