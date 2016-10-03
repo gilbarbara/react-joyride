@@ -770,7 +770,8 @@ export default class Joyride extends React.Component {
     const props = this.props;
     const currentStep = Object.assign({}, state.tooltip || props.steps[state.index]);
     const target = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null;
-    const cssPosition = target ? target.style.position : null;
+    const isFixed = currentStep && currentStep.fixed;
+    const cssPosition = (isFixed && 'fixed') || (target ? target.style.position : null);
     const showOverlay = state.tooltip ? false : props.showOverlay;
     const buttons = {
       primary: props.locale.close
