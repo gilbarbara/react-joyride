@@ -54,3 +54,19 @@ export const browser = getBrowser();
 export function getRootEl() {
   return ['ie', 'firefox'].indexOf(getBrowser()) > -1 ? document.documentElement : document.body;
 }
+
+/**
+ * Create an equivalent to getBoundingClientRect with correct values
+ *
+ * @private
+ * @param {Object} element - The target element
+ * @returns {Array}
+ */
+export function getBoundingClientRectFromElement(element) {
+  return {
+    left: element.offsetLeft ? element.offsetLeft : 0,
+    top: element.offsetTop ? element.offsetTop : 0,
+    width: typeof element.width === 'function' ? element.width() : element.offsetWidth,
+    height: typeof element.height === 'function' ? element.height() : element.offsetHeight,
+  };
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser } from './utils';
+import { browser, getBoundingClientRectFromElement } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   static propTypes = {
@@ -125,7 +125,7 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - 5),
+      top: Math.round((opts.rect.top - getBoundingClientRectFromElement(document.body).top) - 5),
       left: Math.round(opts.rect.left - 5),
       width: Math.round(opts.rect.width + 10),
       height: Math.round(opts.rect.height + 10)
@@ -210,7 +210,7 @@ export default class JoyrideTooltip extends React.Component {
 
     const opts = {
       classes: ['joyride-tooltip'],
-      rect: target.getBoundingClientRect(),
+      rect: getBoundingClientRectFromElement(target),
       positionClass: step.position
     };
 
@@ -220,7 +220,7 @@ export default class JoyrideTooltip extends React.Component {
       opts.tooltip = { width: 450 };
 
       if (tooltip) {
-        opts.tooltip = tooltip.getBoundingClientRect();
+        opts.tooltip = getBoundingClientRectFromElement(tooltip);
       }
 
       opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
