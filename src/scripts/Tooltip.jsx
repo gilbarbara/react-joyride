@@ -20,7 +20,8 @@ export default class JoyrideTooltip extends React.Component {
     yPos: React.PropTypes.oneOfType([
       React.PropTypes.number,
       React.PropTypes.string
-    ]).isRequired
+    ]).isRequired,
+    holePadding: React.PropTypes.number
   };
 
   static defaultProps = {
@@ -30,7 +31,8 @@ export default class JoyrideTooltip extends React.Component {
     cssPosition: 'absolute',
     step: {},
     xPos: -1000,
-    yPos: -1000
+    yPos: -1000,
+    holePadding: 5
   };
 
   componentDidMount() {
@@ -125,10 +127,10 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - 5),
-      left: Math.round(opts.rect.left - 5),
-      width: Math.round(opts.rect.width + 10),
-      height: Math.round(opts.rect.height + 10)
+      top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - opts.holePadding),
+      left: Math.round(opts.rect.left - opts.holePadding),
+      width: Math.round(opts.rect.width + (opts.holePadding * 2)),
+      height: Math.round(opts.rect.height + (opts.holePadding * 2))
     };
 
     styles.buttons = {
@@ -211,7 +213,8 @@ export default class JoyrideTooltip extends React.Component {
     const opts = {
       classes: ['joyride-tooltip'],
       rect: target.getBoundingClientRect(),
-      positionClass: step.position
+      positionClass: step.position,
+      holePadding: props.holePadding
     };
 
     opts.positonBaseClass = opts.positionClass.match(/-/) ? opts.positionClass.split('-')[0] : opts.positionClass;

@@ -127,6 +127,8 @@ You can change the initial options passing props to the component. All optional.
 
 **resizeDebounceDelay** {number}: The amount of delay for the `resizeDebounce` callback. Defaults to `200`
 
+**holePadding** {number}: The gap around the target inside the hole. Defaults to `5`
+
 **scrollOffset** {number}: The scrollTop offset used in `scrollToSteps`. Defaults to `20`
 
 **scrollToSteps** {bool}: Scroll the page to the next step if needed. Defaults to `true`

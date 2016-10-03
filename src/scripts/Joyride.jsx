@@ -54,7 +54,8 @@ export default class Joyride extends React.Component {
     stepCallback: React.PropTypes.func,
     steps: React.PropTypes.array,
     tooltipOffset: React.PropTypes.number,
-    type: React.PropTypes.string
+    type: React.PropTypes.string,
+    holePadding: React.PropTypes.number
   };
 
   static defaultProps = {
@@ -79,7 +80,8 @@ export default class Joyride extends React.Component {
     showStepsProgress: false,
     steps: [],
     tooltipOffset: 15,
-    type: 'single'
+    type: 'single',
+    holePadding: 5
   };
 
   componentDidMount() {
@@ -830,7 +832,8 @@ export default class Joyride extends React.Component {
         xPos: state.xPos,
         yPos: state.yPos,
         onClick: this.onClickTooltip,
-        onRender: this.onRenderTooltip
+        onRender: this.onRenderTooltip,
+        holePadding: props.holePadding
       });
     }
     else {
