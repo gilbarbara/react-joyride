@@ -17,6 +17,14 @@ const defaultState = {
   skipped: false
 };
 
+const callbackTypes = {
+  CLICK_BEACON: 'beacon:click',
+  STEP_BEFORE: 'step:before',
+  STEP_AFTER: 'step:after',
+  OVERLAY: 'overlay',
+  FINISHED: 'finished'
+};
+
 const listeners = {
   tooltips: {}
 };
@@ -491,8 +499,7 @@ export default class Joyride extends React.Component {
 
     if (typeof props.callback === 'function') {
       props.callback({
-        action: 'beacon',
-        type: 'step:before',
+        type: callbackTypes.CLICK_BEACON,
         step: props.steps[state.index]
       });
     }
@@ -544,8 +551,7 @@ export default class Joyride extends React.Component {
       if (e.target.className === 'joyride-overlay') {
         if (typeof props.callback === 'function') {
           props.callback({
-            action: 'click',
-            type: 'overlay',
+            type: callbackTypes.OVERLAY,
             step: props.steps[state.index]
           });
         }
@@ -562,17 +568,45 @@ export default class Joyride extends React.Component {
    * @param {string} [action]
    */
   toggleTooltip(show, index, action) {
-    const props = this.props;
+    const { steps, callback, completeCallback, stepCallback } = this.props;
     let newIndex = (index !== undefined ? index : this.state.index);
-    const step = props.steps[newIndex];
+    const step = steps[newIndex];
 
     if (step && !document.querySelector(step.selector)) {
       console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
       newIndex += action === 'back' ? -1 : 1;
     }
 
+    const lastIndex = action === 'back' ? newIndex + 1 : newIndex - 1;
+
+    if (action && steps[lastIndex]) {
+      if (typeof stepCallback === 'function') { // Deprecated
+        stepCallback(steps[lastIndex]);
+      }
+
+      if (typeof callback === 'function') {
+        callback({
+          type: callbackTypes.STEP_AFTER,
+          step: steps[lastIndex]
+        });
+      }
+    }
+
+    if (step) {
+      if (typeof stepCallback === 'function') { // Deprecated
+        stepCallback(step);
+      }
+
+      if (typeof callback === 'function') {
+        callback({
+          type: callbackTypes.STEP_BEFORE,
+          step
+        });
+      }
+    }
+
     this.setState({
-      play: props.steps[newIndex] ? this.state.play : false,
+      play: steps[newIndex] ? this.state.play : false,
       showTooltip: show,
       index: newIndex,
       position: undefined,
@@ -580,33 +614,17 @@ export default class Joyride extends React.Component {
       xPos: -1000,
       yPos: -1000
     }, () => {
-      const lastIndex = action === 'back' ? newIndex + 1 : newIndex - 1;
-
-      if (action && props.steps[lastIndex]) {
-        if (typeof props.stepCallback === 'function') { // Deprecated
-          props.stepCallback(props.steps[lastIndex]);
+        const { skipped } = this.state;
+      if (steps.length && !steps[newIndex]) {
+        if (typeof completeCallback === 'function') { // Deprecated
+          completeCallback(steps, skipped);
         }
 
-        if (typeof props.callback === 'function') {
-          props.callback({
-            action,
-            type: 'step:after',
-            step: props.steps[lastIndex]
-          });
-        }
-      }
-
-      if (props.steps.length && !props.steps[newIndex]) {
-        if (typeof props.completeCallback === 'function') { // Deprecated
-          props.completeCallback(props.steps, this.state.skipped);
-        }
-
-        if (typeof props.callback === 'function') {
-          props.callback({
-            action,
-            type: 'finished',
-            steps: props.steps,
-            skipped: this.state.skipped
+        if (typeof callback === 'function') {
+          callback({
+            type: callbackTypes.FINISHED,
+            steps,
+            skipped
           });
         }
       }
