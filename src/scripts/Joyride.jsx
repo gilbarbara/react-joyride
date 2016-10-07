@@ -572,11 +572,6 @@ export default class Joyride extends React.Component {
     let newIndex = (index !== undefined ? index : this.state.index);
     const step = steps[newIndex];
 
-    if (step && !document.querySelector(step.selector)) {
-      console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
-      newIndex += action === 'back' ? -1 : 1;
-    }
-
     const lastIndex = action === 'back' ? newIndex + 1 : newIndex - 1;
 
     if (action && steps[lastIndex]) {
@@ -592,15 +587,22 @@ export default class Joyride extends React.Component {
       }
     }
 
+    if (step && !document.querySelector(step.selector)) {
+      console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
+      newIndex += action === 'back' ? -1 : 1;
+      this.toggleTooltip(show, newIndex, action);
+      return;
+    }
+
     if (step) {
       if (typeof stepCallback === 'function') { // Deprecated
-        stepCallback(step);
+        stepCallback(steps[newIndex]);
       }
 
       if (typeof callback === 'function') {
         callback({
           type: callbackTypes.STEP_BEFORE,
-          step
+          step: steps[newIndex]
         });
       }
     }
@@ -614,7 +616,7 @@ export default class Joyride extends React.Component {
       xPos: -1000,
       yPos: -1000
     }, () => {
-        const { skipped } = this.state;
+      const { skipped } = this.state;
       if (steps.length && !steps[newIndex]) {
         if (typeof completeCallback === 'function') { // Deprecated
           completeCallback(steps, skipped);
