@@ -150,7 +150,8 @@ You can change the initial options passing props to the component. All optional.
 **disableOverlay** {bool}: Don't close the tooltip on clicking the overlay. Defaults to `false`
 
 **callback** {function}: It will be called after:  
-* clicking the beacon `{ type: 'step:before', step: {...} }`  
+* clicking the beacon `{ type: 'beacon:click', step: {...} }`
+* opening a step `{ type: 'step:before', step: {...} }`  
 * closing a step `{ type: 'step:after', step: {...} }`  
 * clicking on the overlay (if not disabled) `{ type: 'overlay', step: {...} }`  
 * when the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`  
