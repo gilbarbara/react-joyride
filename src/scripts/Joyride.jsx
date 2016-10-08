@@ -685,7 +685,7 @@ export default class Joyride extends React.Component {
       }
 
       this.setState({
-        xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height) - this.getScrollContainer().getBoundingClientRect().top,
+        xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height),
         yPos: this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height),
         redraw: false
       });
@@ -709,7 +709,7 @@ export default class Joyride extends React.Component {
     const rect = target.getBoundingClientRect();
     let position = step.position;
 
-//    this.logger('joyride:calcPosition', ['step:', step, 'compoent:', component, 'rect:', rect]);
+//    this.logger('joyride:calcPosition', ['step:', step, 'component:', component, 'rect:', rect]);
 
     if (/^left/.test(position) && rect.left - (component.width + props.tooltipOffset) < 0) {
       position = 'top';

@@ -130,7 +130,7 @@ export default class JoyrideTooltip extends React.Component {
       tooltip: {
         position: this.props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
         top: Math.round(this.props.yPos) + this.getScrollContainer().scrollTop,
-        left: Math.round(this.props.xPos) + this.getScrollContainer().scrollLeft
+        left: Math.round(this.props.xPos - this.getScrollContainer().getBoundingClientRect().left) + this.getScrollContainer().scrollLeft
       }
     };
 
