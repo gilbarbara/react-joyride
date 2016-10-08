@@ -837,8 +837,8 @@ export default class Joyride extends React.Component {
         step: currentStep,
         standalone: Boolean(state.tooltip),
         type: props.type,
-        xPos: state.xPos,
-        yPos: state.yPos,
+        xPos: state.xPos + (currentStep.offsetX || 0),
+        yPos: state.yPos + (currentStep.offsetY || 0),
         onClick: this.onClickTooltip,
         onRender: this.onRenderTooltip,
         scrollContainerSelector: props.scrollContainerSelector
@@ -848,8 +848,8 @@ export default class Joyride extends React.Component {
       component = React.createElement(Beacon, {
         cssPosition,
         step: currentStep,
-        xPos: state.xPos,
-        yPos: state.yPos,
+        xPos: state.xPos + (currentStep.offsetX || 0),
+        yPos: state.yPos + (currentStep.offsetY || 0),
         onTrigger: this.onClickBeacon,
         eventType: currentStep.type || 'click'
       });
