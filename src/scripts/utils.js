@@ -63,10 +63,19 @@ export function getRootEl() {
  * @returns {Array}
  */
 export function getBoundingClientRectFromElement(element) {
+  let x = 0;
+  let y = 0;
+  let elem = element;
+  while (elem && !isNaN(elem.offsetLeft) && !isNaN(elem.offsetTop)) {
+    x += elem.offsetLeft - elem.scrollLeft;
+    y += elem.offsetTop - elem.scrollTop;
+    elem = elem.offsetParent;
+  }
+  elem = element;
   return {
-    left: element.offsetLeft ? element.offsetLeft : 0,
-    top: element.offsetTop ? element.offsetTop : 0,
-    width: typeof element.width === 'function' ? element.width() : element.offsetWidth,
-    height: typeof element.height === 'function' ? element.height() : element.offsetHeight,
+    top: y,
+    left: x,
+    width: typeof elem.width === 'function' ? elem.width() : elem.offsetWidth,
+    height: typeof elem.height === 'function' ? elem.height() : elem.offsetHeight,
   };
 }
