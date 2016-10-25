@@ -29,18 +29,22 @@ function getBrowser() {
     return 'node';
   }
 
+  // Opera 8.0+
   const isOpera = Boolean(window.opera) || navigator.userAgent.indexOf(' OPR/') >= 0;
-  // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
-  const isFirefox = typeof InstallTrigger !== 'undefined';// Firefox 1.0+
-  const isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
-  // At least Safari 3+: "[object HTMLElementConstructor]"
-  const isChrome = Boolean(window.chrome) && !isOpera;// Chrome 1+
+  // Firefox 1.0+
+  const isFirefox = typeof InstallTrigger !== 'undefined';
+  // Chrome 1+
+  const isChrome = !!window.chrome && !!window.chrome.webstore;
+  // Safari <= 9 "[object HTMLElementConstructor]"
+  const isSafari = (Object.prototype.toString.call(window.HTMLElement)
+      .indexOf('Constructor') > 0 || !isChrome) && !isOpera && window.webkitAudioContext !== undefined;
+  // Internet Explorer 6-11
   const isIE = Boolean(document.documentMode); // At least IE6
 
   return isOpera ? 'opera' :
          isFirefox ? 'firefox' :
-         isSafari ? 'safari' :
          isChrome ? 'chrome' :
+         isSafari ? 'safari' :
          isIE ? 'ie' :
          '';
 }
