@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "no-continue": 0,
+    "no-plusplus": 0,
+    "no-prototype-builtins": 0
+  }
+}

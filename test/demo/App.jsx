@@ -49,7 +49,7 @@ export default class Demo extends React.Component {
   }
 
   componentDidMount() {
-    this.refs.joyride.addTooltip({
+    this.joyride.addTooltip({
       title: 'The classic joyride',
       text: "Let's go on a magical tour",
       selector: '.hero h3 span',
@@ -75,18 +75,18 @@ export default class Demo extends React.Component {
         running: true
       });
 
-      this.refs.joyride.start();
+      this.joyride.start();
       return;
     }
 
-    this.refs.joyride.reset(true);
+    this.joyride.reset(true);
   }
 
   render() {
     return (
       <div className="demo">
         <Joyride
-          ref="joyride"
+          ref={c => (this.joyride = c)}
           steps={this.state.steps}
           scrollToFirstStep={true}
           debug={false} />

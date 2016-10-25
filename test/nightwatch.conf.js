@@ -1,4 +1,5 @@
 /*eslint-disable no-var */
+var selenium = require('selenium-server-standalone-jar');
 var chromedriver = require('chromedriver');
 
 const TRAVIS_JOB_NUMBER = process.env.TRAVIS_JOB_NUMBER;
@@ -8,6 +9,7 @@ module.exports = {
   output_folder: 'reports',
   selenium: {
     start_process: false,
+    server_path: selenium.path,
     cli_args: {
       'webdriver.chrome.driver': chromedriver.path,
       'webdriver.ie.driver': ''
@@ -31,6 +33,21 @@ module.exports = {
         build: `build-${TRAVIS_JOB_NUMBER}`,
         'tunnel-identifier': TRAVIS_JOB_NUMBER,
         screenResolution: '1280x960'
+      },
+    },
+    local: {
+      launch_url: 'http://localhost',
+      selenium_host: 'localhost',
+      selenium_port: 4444,
+      silent: true,
+      screenshots: {
+        enabled: false,
+        path: 'reports'
+      },
+      desiredCapabilities: {
+        browserName: 'chrome',
+        javascriptEnabled: true,
+        acceptSslCerts: true
       },
     },
     firefox: {

@@ -13,7 +13,7 @@ module.exports = {
   'should be able to init a session': function(browser) {
     browser
       .url('http://localhost:8888/')
-      .resizeWindow(1280, 800)
+      .resizeWindow(1280, 960)
       .waitForElementVisible('#react', timer);
   },
 
@@ -26,15 +26,13 @@ module.exports = {
     browser.assert.elementPresent('.joyride');
   },
 
-  'Hero - should be able to move the cursor the first tooltip': function(browser) {
+  'Hero - should be able to trigger the first tooltip': function(browser) {
     browser.moveToElement('.hero h3 span', 0, 0, function() {});
     browser.pause(timer);
-  },
 
-  'Hero - should be able to see the tooltip UI': function(browser) {
     browser
       .waitForElementVisible('.joyride-tooltip', timer)
-      .assert.cssProperty('.joyride-tooltip', 'top', '437px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '497px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '320px')
       .assert.cssProperty('.joyride-tooltip', 'height', '113px')
@@ -52,14 +50,14 @@ module.exports = {
     browser.getLocation('.projects', function(result) {
       browser.assert.equal(typeof result, 'object');
       browser.assert.equal(result.status, 0);
-      browser.assert.equal(result.value.y, 728);
+      browser.assert.equal(result.value.y, 861);
     });
   },
 
   'Projects - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', timer)
-      .assert.cssProperty('.joyride-beacon', 'top', '754px')
+      .assert.cssProperty('.joyride-beacon', 'top', '905px')
       .assert.cssProperty('.joyride-beacon', 'left', '227px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
@@ -72,7 +70,7 @@ module.exports = {
 
     browser
       .waitForElementVisible('.joyride-tooltip', timer)
-      .assert.cssProperty('.joyride-tooltip', 'top', '754px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '905px')
       .assert.cssProperty('.joyride-tooltip', 'left', '230px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '155px')
@@ -91,14 +89,14 @@ module.exports = {
     browser.getLocation('.mission', (result) => {
       browser.assert.equal(typeof result, 'object');
       browser.assert.equal(result.status, 0);
-      browser.assert.equal(result.value.y, 1456);
+      browser.assert.equal(result.value.y, 1722);
     });
   },
 
   'Mission - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', timer)
-      .assert.cssProperty('.joyride-beacon', 'top', '1526px')
+      .assert.cssProperty('.joyride-beacon', 'top', '1810px')
       .assert.cssProperty('.joyride-beacon', 'left', '129px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
@@ -111,7 +109,7 @@ module.exports = {
 
     browser
       .waitForElementVisible('.joyride-tooltip', timer)
-      .assert.cssProperty('.joyride-tooltip', 'top', '1539px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '1823px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '155px')
@@ -130,14 +128,14 @@ module.exports = {
     browser.getLocation('.about', function(result) {
       browser.assert.equal(typeof result, 'object');
       browser.assert.equal(result.status, 0);
-      browser.assert.equal(result.value.y, 2184);
+      browser.assert.equal(result.value.y, 2583);
     });
   },
 
   'About - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', timer)
-      .assert.cssProperty('.joyride-beacon', 'top', '2210px')
+      .assert.cssProperty('.joyride-beacon', 'top', '2627px')
       .assert.cssProperty('.joyride-beacon', 'left', '52px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
@@ -150,7 +148,7 @@ module.exports = {
 
     browser
       .waitForElementVisible('.joyride-tooltip', timer)
-      .assert.cssProperty('.joyride-tooltip', 'top', '2040px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '2457px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '155px')
