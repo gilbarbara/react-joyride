@@ -38,8 +38,10 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.step.selector !== this.props.step.selector) {
-      this.forceUpdate(this.props.onRender);
+    const { onRender, step } = this.props;
+
+    if (prevProps.step.selector !== step.selector) {
+      this.forceUpdate(onRender);
     }
   }
 
@@ -62,13 +64,11 @@ export default class JoyrideTooltip extends React.Component {
         arrowPosition = 94;
       }
     }
-    else {
-      if (position < 5) {
-        arrowPosition = 5;
-      }
-      else if (position > 95) {
-        arrowPosition = 95;
-      }
+    else if (position < 5) {
+      arrowPosition = 5;
+    }
+    else if (position > 95) {
+      arrowPosition = 95;
     }
 
     return arrowPosition;
@@ -110,6 +110,7 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   setStyles(stepStyles, opts) {
+    const { cssPosition, xPos, yPos } = this.props;
     const styles = {
       arrow: {
         left: opts.arrowPosition
@@ -118,9 +119,9 @@ export default class JoyrideTooltip extends React.Component {
       header: {},
       hole: {},
       tooltip: {
-        position: this.props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
-        top: Math.round(this.props.yPos),
-        left: Math.round(this.props.xPos)
+        position: cssPosition === 'fixed' ? 'fixed' : 'absolute',
+        top: Math.round(yPos),
+        left: Math.round(xPos)
       }
     };
 
@@ -203,8 +204,8 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   setOpts() {
-    const props = this.props;
-    const step = props.step;
+    const { animate, standalone, step, xPos } = this.props;
+
     const target = document.querySelector(step.selector);
     const tooltip = document.querySelector('.joyride-tooltip');
 
@@ -216,7 +217,7 @@ export default class JoyrideTooltip extends React.Component {
 
     opts.positonBaseClass = opts.positionClass.match(/-/) ? opts.positionClass.split('-')[0] : opts.positionClass;
 
-    if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && props.xPos > -1) {
+    if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && xPos > -1) {
       opts.tooltip = { width: 450 };
 
       if (tooltip) {
@@ -224,11 +225,11 @@ export default class JoyrideTooltip extends React.Component {
       }
 
       opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
-      opts.arrowPosition = (((opts.targetMiddle - props.xPos) / opts.tooltip.width) * 100).toFixed(2);
+      opts.arrowPosition = (((opts.targetMiddle - xPos) / opts.tooltip.width) * 100).toFixed(2);
       opts.arrowPosition = `${this.getArrowPosition(opts.arrowPosition)}%`;
     }
 
-    if (props.standalone) {
+    if (standalone) {
       opts.classes.push('joyride-tooltip--standalone');
     }
 
@@ -238,7 +239,7 @@ export default class JoyrideTooltip extends React.Component {
 
     opts.classes.push(opts.positionClass);
 
-    if (props.animate) {
+    if (animate) {
       opts.classes.push('joyride-tooltip--animate');
     }
 
@@ -246,8 +247,8 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   render() {
-    const props = this.props;
-    const step = props.step;
+    const { buttons, disableOverlay, onClick, showOverlay, step, type } = this.props;
+
     const target = document.querySelector(step.selector);
 
     if (!target) {
@@ -265,14 +266,14 @@ export default class JoyrideTooltip extends React.Component {
       );
     }
 
-    if (props.buttons.skip) {
+    if (buttons.skip) {
       output.skip = (<a
         href="#"
         className="joyride-tooltip__button joyride-tooltip__button--skip"
         style={styles.buttons.skip}
         data-type="skip"
-        onClick={props.onClick}>
-        {props.buttons.skip}
+        onClick={onClick}>
+        {buttons.skip}
       </a>);
     }
     if (!step.text || typeof step.text === 'string') {
@@ -282,14 +283,14 @@ export default class JoyrideTooltip extends React.Component {
       output.main = (<div className="joyride-tooltip__main">{step.text}</div>);
     }
 
-    if (props.buttons.secondary) {
+    if (buttons.secondary) {
       output.secondary = (<a
         href="#"
         className="joyride-tooltip__button joyride-tooltip__button--secondary"
         style={styles.buttons.back}
         data-type="back"
-        onClick={props.onClick}>
-        {props.buttons.secondary}
+        onClick={onClick}>
+        {buttons.secondary}
       </a>);
     }
 
@@ -307,7 +308,7 @@ export default class JoyrideTooltip extends React.Component {
           className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
           style={styles.buttons.close}
           data-type="close"
-          onClick={props.onClick}>×</a>
+          onClick={onClick}>×</a>
         {output.header}
         {output.main}
         <div className="joyride-tooltip__footer">
@@ -317,21 +318,21 @@ export default class JoyrideTooltip extends React.Component {
             href="#"
             className="joyride-tooltip__button joyride-tooltip__button--primary"
             style={styles.buttons.primary}
-            data-type={['single', 'casual'].indexOf(props.type) > -1 ? 'close' : 'next'}
-            onClick={props.onClick}>
-            {props.buttons.primary}
+            data-type={['single', 'casual'].indexOf(type) > -1 ? 'close' : 'next'}
+            onClick={onClick}>
+            {buttons.primary}
           </a>
         </div>
       </div>
     );
 
-    if (props.showOverlay) {
+    if (showOverlay) {
       output.hole = (
         <div className={`joyride-hole ${browser}`} style={styles.hole} />
       );
     }
 
-    if (!props.showOverlay) {
+    if (!showOverlay) {
       return output.tooltipComponent;
     }
 
@@ -339,11 +340,11 @@ export default class JoyrideTooltip extends React.Component {
       <div
         className="joyride-overlay"
         style={{
-          cursor: props.disableOverlay ? 'default' : 'pointer',
+          cursor: disableOverlay ? 'default' : 'pointer',
           height: document.body.clientHeight
         }}
         data-type="close"
-        onClick={!props.disableOverlay ? props.onClick : undefined}>
+        onClick={!disableOverlay ? onClick : undefined}>
         {output.hole}
         {output.tooltipComponent}
       </div>

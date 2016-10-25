@@ -12,6 +12,7 @@ export default class JoyrideBeacon extends React.Component {
     cssPosition: React.PropTypes.string.isRequired,
     eventType: React.PropTypes.string.isRequired,
     onTrigger: React.PropTypes.func.isRequired,
+    step: React.PropTypes.object.isRequired,
     xPos: React.PropTypes.oneOfType([
       React.PropTypes.number,
       React.PropTypes.string
@@ -29,17 +30,17 @@ export default class JoyrideBeacon extends React.Component {
   };
 
   render() {
-    const props = this.props;
+    const { cssPosition, eventType, onTrigger, step, xPos, yPos } = this.props;
     const styles = {
       beacon: {
-        left: props.xPos,
-        position: props.cssPosition === 'fixed' ? 'fixed' : 'absolute',
-        top: props.yPos
+        left: xPos,
+        position: cssPosition === 'fixed' ? 'fixed' : 'absolute',
+        top: yPos
       },
       inner: {},
       outer: {}
     };
-    const stepStyles = props.step.style || {};
+    const stepStyles = step.style || {};
     let rgb;
 
     if (stepStyles.beacon) {
@@ -73,8 +74,8 @@ export default class JoyrideBeacon extends React.Component {
         href="#"
         className="joyride-beacon"
         style={styles.beacon}
-        onClick={props.eventType === 'click' || isTouch ? props.onTrigger : null}
-        onMouseEnter={props.eventType === 'hover' && !isTouch ? props.onTrigger : null}>
+        onClick={eventType === 'click' || isTouch ? onTrigger : null}
+        onMouseEnter={eventType === 'hover' && !isTouch ? onTrigger : null}>
         <span className="joyride-beacon__inner" style={styles.inner} />
         <span className="joyride-beacon__outer" style={styles.outer} />
       </a>

@@ -65,7 +65,6 @@ gulp.task('scripts', function() {
 gulp.task('lint', function() {
   return gulp.src('src/scripts/**/*')
     .pipe($.eslint({
-      useEslintrc: true,
       rules: {
         'no-console': 2
       }
