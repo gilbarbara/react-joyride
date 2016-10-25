@@ -12,7 +12,6 @@
   },
   "homepage": "https://gilbarbara.github.com/react-joyride/",
   "main": "index.js",
-  "license": "MIT",
   "keywords": [
     "react",
     "react-component",
@@ -21,6 +20,7 @@
     "walkthroughs",
     "tour"
   ],
+  "license": "MIT",
   "dependencies": {
     "nested-property": "^0.0.7",
     "react-autobind": "^1.0",
