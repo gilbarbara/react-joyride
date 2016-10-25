@@ -77,7 +77,6 @@
             animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
   .joyride-tooltip__triangle {
     background-repeat: no-repeat;
-    overflow: hidden;
     position: absolute; }
   .joyride-tooltip.bottom, .joyride-tooltip.bottom-left, .joyride-tooltip.bottom-right {
     margin-top: 18px; }
