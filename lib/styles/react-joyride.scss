@@ -88,6 +88,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       border: ($joyride-beacon-size / 18) solid $joyride-beacon-color;
       border-radius: 50%;
       display: block;
+      box-sizing: border-box;
       height: 100%;
       left: 0;
       opacity: 0.9;
