@@ -219,6 +219,19 @@ export default class Joyride extends React.Component {
   }
 
   /**
+   * Move to the next step, if there is one.  If there is no next step, hide the tooltip.
+   */
+  next() {
+    const state = this.state;
+    const { steps } = this.props;
+    const nextIndex = state.index + 1;
+    const hasSteps = Boolean(steps[nextIndex]);
+    const shouldDisplay = hasSteps && state.showTooltip;
+    this.logger('joyride:next', ['new index:', nextIndex]);
+    this.toggleTooltip(shouldDisplay, state.index + 1, 'next');
+  }
+
+  /**
    * Reset Tour
    *
    * @param {boolean} [restart] - Starts the new tour right away

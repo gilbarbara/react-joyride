@@ -190,9 +190,13 @@ Call this method to start the tour.
 
 - `autorun` {boolean} - Starts the tour with the first tooltip opened.
 
+### this.joyride.next()
+
+Call this method to programmatically advance to the next step of the tour.
+
 ### this.joyride.stop()
 
-Call this method to stop/pause the tour.
+Call this method to stop/pause the tour.  Call `this.joyride.start(true)` to restart.
 
 ### this.joyride.reset(restart)
 
