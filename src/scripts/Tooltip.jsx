@@ -2,6 +2,11 @@ import React from 'react';
 import { browser } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   static propTypes = {
     animate: React.PropTypes.bool.isRequired,
     buttons: React.PropTypes.object.isRequired,
@@ -34,11 +39,52 @@ export default class JoyrideTooltip extends React.Component {
     yPos: -1000
   };
 
+  componentWillMount() {
+    const opts = this.setOpts(this.props);
+    const styles = this.setStyles(this.props.step.style, opts, this.props);
+    this.setState({ styles, opts });
+  }
+
   componentDidMount() {
     const { onRender } = this.props;
 
     this.forceUpdate();
     onRender();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      animate: nextAnimate,
+      standalone: nextStandalone,
+      step: nextStep,
+      cssPosition: nextCssPosition,
+      holePadding: nextHolePadding,
+      xPos: nextXPos,
+      yPos: nextYPos,
+    } = nextProps;
+    const {
+      animate,
+      standalone,
+      step,
+      cssPosition,
+      holePadding,
+      xPos,
+      yPos,
+    } = this.props;
+
+    if (
+      nextAnimate !== animate ||
+      nextStandalone !== standalone ||
+      nextStep !== step ||
+      nextCssPosition !== cssPosition ||
+      nextHolePadding !== holePadding ||
+      nextXPos !== xPos ||
+      nextYPos !== yPos
+    ) {
+      const opts = this.setOpts(nextProps);
+      const styles = this.setStyles(nextProps.step.style, opts, nextProps);
+      this.setState({ styles, opts });
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -114,8 +160,19 @@ export default class JoyrideTooltip extends React.Component {
     return `data:image/svg+xml,%3Csvg%20width%3D%22${width}%22%20height%3D%22${height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22${opts.color}%22%20transform%3D%22scale%28${opts.scale}%29%20rotate%28${rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E`;
   }
 
-  setStyles(stepStyles, opts) {
-    const { cssPosition, holePadding, xPos, yPos } = this.props;
+  /**
+   * Calculate styles based on those passed in with the step, or calculated opts, or props
+   *
+   * @param {Object} stepStyles              Style object provided with step
+   * @param {Object} opts                    Options object calculated from this.setOpts
+   * @param {string} opts.arrowPosition      Used for left/right positioing of arrow when on bottom or top
+   * @param {Object} opts.rect               BoundingClientRect of target element
+   * @param {string} opts.positonBaseClass   Base position of tooltip (top, bottom, left, right)
+   * @param {Object} props                   Positioning properties: cssPosition, xPos, and yPos
+   * @returns {Object}                       Calculated styles for arrow, buttons, header, hole, and tooltip
+   */
+  setStyles(stepStyles, opts, props) {
+    const { cssPosition, holePadding, xPos, yPos } = props;
     const styles = {
       arrow: {
         left: opts.arrowPosition
@@ -208,8 +265,8 @@ export default class JoyrideTooltip extends React.Component {
     return styles;
   }
 
-  setOpts() {
-    const { animate, standalone, step, xPos } = this.props;
+  setOpts(props) {
+    const { animate, standalone, step, xPos } = props;
 
     const target = document.querySelector(step.selector);
     const tooltip = document.querySelector('.joyride-tooltip');
@@ -260,8 +317,8 @@ export default class JoyrideTooltip extends React.Component {
       return undefined;
     }
 
-    const opts = this.setOpts();
-    const styles = this.setStyles(step.style, opts);
+    const opts = this.state.opts;
+    const styles = this.state.styles;
     const output = {};
 
     if (step.title) {
