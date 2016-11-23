@@ -47,11 +47,12 @@ export default class JoyrideTooltip extends React.Component {
 
   /**
    * Get the scroll container
+   * @param {String} scrollContainer - The scrollable parent container selector
    * @param {Element} defaultElement - Element node
    * @returns {Element} Element node
    */
-  getScrollContainer(defaultElement) {
-    return getScrollContainer(this, defaultElement);
+  getScrollContainer(scrollContainer, defaultElement) {
+    return getScrollContainer(scrollContainer, defaultElement);
   }
 
   getArrowPosition(position) {

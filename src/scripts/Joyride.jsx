@@ -2,7 +2,7 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl, getScrollContainer } from './utils';
+import { getScrollContainer } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -167,7 +167,7 @@ export default class Joyride extends React.Component {
     }
 
     if (state.play && scrollToSteps && shouldScroll) {
-      scroll.top(this.getScrollContainer(getRootEl()), this.getScrollTop());
+      scroll.top(this.getScrollContainer(), this.getScrollTop());
     }
   }
 
@@ -372,11 +372,12 @@ export default class Joyride extends React.Component {
 
   /**
    * Get the scroll container
+   * @param {String} scrollContainer - The scrollable parent container selector
    * @param {Element} defaultElement - Element node
    * @returns {Element} Element node
    */
-  getScrollContainer(defaultElement) {
-    return getScrollContainer(this, defaultElement);
+  getScrollContainer(scrollContainer, defaultElement) {
+    return getScrollContainer(scrollContainer, defaultElement);
   }
   /**
    * Get an element actual dimensions with margin
