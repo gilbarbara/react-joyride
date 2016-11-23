@@ -437,7 +437,7 @@ export default class Joyride extends React.Component {
     let scrollTo = 0;
     /* eslint-disable no-console */
     console.warn(targetTop, useScrollContainer, this.getScrollContainer(useScrollContainer).scrollTop, scrollOffset);
-    console.warn(target.offsetTop, this.getScrollContainer(useScrollContainer).height);
+    console.warn(target.offsetTop, this.getScrollContainer(useScrollContainer));
     /* eslint-enable no-console */
 
     if (/^top/.test(position)) {
