@@ -424,13 +424,14 @@ export default class Joyride extends React.Component {
     }
 
     const rect = target.getBoundingClientRect();
-    let targetTop;
+    let targetTop = 0;
 
     if (useScrollContainer) {
+      const targetBottomPos = target.offsetTop + target.offsetHeight;
       const targetOffset = target.offsetTop - target.offsetHeight;
       const containerHeight = this.getScrollContainer(useScrollContainer).offsetHeight;
 
-      if (Math.abs(targetOffset) > containerHeight) {
+      if (targetBottomPos > containerHeight) {
         targetTop = containerHeight - targetOffset;
       }
     }
