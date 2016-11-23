@@ -804,6 +804,7 @@ export default class Joyride extends React.Component {
     const target = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null;
     const cssPosition = target ? target.style.position : null;
     const shouldShowOverlay = state.tooltip ? false : showOverlay;
+    const useScrollContainer = (currentStep && currentStep.scrollContainerSelector) || scrollContainerSelector;
     const buttons = {
       primary: locale.close
     };
@@ -863,7 +864,7 @@ export default class Joyride extends React.Component {
         yPos: state.yPos + (currentStep.offsetY || 0),
         onClick: this.onClickTooltip,
         onRender: this.onRenderTooltip,
-        scrollContainerSelector
+        scrollContainerSelector: useScrollContainer
       });
     }
     else {
