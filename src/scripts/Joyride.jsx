@@ -717,8 +717,8 @@ export default class Joyride extends React.Component {
   calcPosition(step) {
     const { tooltipOffset, scrollContainerSelector } = this.props;
     const showTooltip = this.state.tooltip ? true : this.state.showTooltip;
-    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
-    const body = this.getScrollContainer(useScrollContainer).getBoundingClientRect();
+    // const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+    const body = this.getScrollContainer().getBoundingClientRect();
     const target = document.querySelector(step.selector);
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
