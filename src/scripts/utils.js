@@ -59,10 +59,9 @@ export function getRootEl() {
   return ['ie', 'firefox'].indexOf(getBrowser()) > -1 ? document.documentElement : document.body;
 }
 
-export function getScrollContainer(component, defaultElement) {
-  const props = component.props;
-  if (props.scrollContainerSelector) {
-    return document.querySelector(props.scrollContainerSelector);
+export function getScrollContainer(scrollContainer, defaultElement) {
+  if (scrollContainer) {
+    return document.querySelector(scrollContainer);
   }
   if (defaultElement) {
     return defaultElement;

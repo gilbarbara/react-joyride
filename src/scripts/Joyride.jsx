@@ -414,14 +414,15 @@ export default class Joyride extends React.Component {
     const { scrollOffset, steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
+    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
 
     if (!target) {
       return 0;
     }
 
     const rect = target.getBoundingClientRect();
-    const targetTop = rect.top + (scrollContainerSelector
-      ? this.getScrollContainer()
+    const targetTop = rect.top + (useScrollContainer
+      ? this.getScrollContainer(useScrollContainer)
       : (window.pageYOffset || document.documentElement.scrollTop));
     const position = this.calcPosition(step);
     let scrollTo = 0;
@@ -638,7 +639,7 @@ export default class Joyride extends React.Component {
    */
   calcPlacement() {
     const state = this.state;
-    const { steps, tooltipOffset } = this.props;
+    const { steps, tooltipOffset, scrollContainerSelector } = this.props;
     const step = state.tooltip ? state.tooltip : (steps[state.index] || {});
     const showTooltip = state.tooltip ? true : state.showTooltip;
     const target = document.querySelector(step.selector);
@@ -657,7 +658,8 @@ export default class Joyride extends React.Component {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
-      const body = this.getScrollContainer().getBoundingClientRect();
+      const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+      const body = this.getScrollContainer(useScrollContainer).getBoundingClientRect();
       const component = this.getElementDimensions(showTooltip ? '.joyride-tooltip' : '.joyride-beacon');
       const rect = target.getBoundingClientRect();
 
@@ -709,9 +711,10 @@ export default class Joyride extends React.Component {
    * @returns {string}
    */
   calcPosition(step) {
-    const { tooltipOffset } = this.props;
+    const { tooltipOffset, scrollContainerSelector } = this.props;
     const showTooltip = this.state.tooltip ? true : this.state.showTooltip;
-    const body = this.getScrollContainer().getBoundingClientRect();
+    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+    const body = this.getScrollContainer(useScrollContainer).getBoundingClientRect();
     const target = document.querySelector(step.selector);
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
