@@ -411,7 +411,7 @@ export default class Joyride extends React.Component {
    */
   getScrollTop() {
     const state = this.state;
-    const { scrollOffset, steps } = this.props;
+    const { scrollOffset, steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
 
@@ -420,7 +420,7 @@ export default class Joyride extends React.Component {
     }
 
     const rect = target.getBoundingClientRect();
-    const targetTop = rect.top + (props.scrollContainerSelector
+    const targetTop = rect.top + (scrollContainerSelector
       ? this.getScrollContainer()
       : (window.pageYOffset || document.documentElement.scrollTop));
     const position = this.calcPosition(step);
@@ -793,7 +793,8 @@ export default class Joyride extends React.Component {
       showSkipButton,
       showStepsProgress,
       steps,
-      type
+      type,
+      scrollContainerSelector
     } = this.props;
     const currentStep = Object.assign({}, state.tooltip || steps[state.index]);
     const target = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null;
@@ -858,7 +859,7 @@ export default class Joyride extends React.Component {
         yPos: state.yPos + (currentStep.offsetY || 0),
         onClick: this.onClickTooltip,
         onRender: this.onRenderTooltip,
-        scrollContainerSelector: props.scrollContainerSelector
+        scrollContainerSelector
       });
     }
     else {
