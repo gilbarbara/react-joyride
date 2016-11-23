@@ -37,7 +37,7 @@ var App = React.createClass({
 Don't forget to pass a `ref` to the component.
 
 ### Styles
- 
+
 If your are using **SCSS** (and you should):
 
 ```scss
@@ -59,15 +59,15 @@ Add a custom function to include steps to your state in your own component
 ```javascript
 addSteps: function (steps) {
 	let joyride = this.joyride;
-		
+
 	if (!Array.isArray(steps)) {
 	    steps = [steps];
 	}
-	
+
 	if (!steps.length) {
 	    return false;
 	}
-	
+
 	this.setState(function(currentState) {
 	    currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
 	    return currentState;
@@ -85,7 +85,7 @@ Add steps/tooltips after your components are mounted.
 componentDidMount: function () {
 	this.addSteps({...}); // or this.addTooltip({...});
 	this.joyride.start();
-	
+
 
 	// or using props in your child components
 	this.props.addSteps({...});
@@ -342,5 +342,3 @@ Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 ---
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
-  
-
