@@ -721,7 +721,7 @@ export default class Joyride extends React.Component {
   calcPosition(step) {
     const { tooltipOffset, scrollContainerSelector } = this.props;
     const showTooltip = this.state.tooltip ? true : this.state.showTooltip;
-    const body = this.getScrollContainer().getBoundingClientRect();
+    const body = this.getScrollContainer(scrollContainerSelector).getBoundingClientRect();
     const target = document.querySelector(step.selector);
     const component = this.getElementDimensions((showTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
@@ -810,7 +810,6 @@ export default class Joyride extends React.Component {
     const target = currentStep && currentStep.selector ? document.querySelector(currentStep.selector) : null;
     const cssPosition = target ? target.style.position : null;
     const shouldShowOverlay = state.tooltip ? false : showOverlay;
-    const useScrollContainer = (currentStep && currentStep.scrollContainerSelector) || scrollContainerSelector;
     const buttons = {
       primary: locale.close
     };
@@ -870,7 +869,7 @@ export default class Joyride extends React.Component {
         yPos: state.yPos + (currentStep.offsetY || 0),
         onClick: this.onClickTooltip,
         onRender: this.onRenderTooltip,
-        scrollContainerSelector: useScrollContainer
+        scrollContainerSelector
       });
     }
     else {
