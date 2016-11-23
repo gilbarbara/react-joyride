@@ -424,13 +424,19 @@ export default class Joyride extends React.Component {
     }
 
     const rect = target.getBoundingClientRect();
-    const targetTop = rect.top + (useScrollContainer
+    let targetTop = useScrollContainer
       ? this.getScrollContainer(useScrollContainer).scrollTop
-      : (window.pageYOffset || document.documentElement.scrollTop));
+      : (window.pageYOffset || document.documentElement.scrollTop);
+
+    // Only add viewport offset if scrolling parent or body
+    if (!step.scrollContainerSelector) {
+      targetTop += rect.top;
+    }
+
     const position = this.calcPosition(step);
     let scrollTo = 0;
     /* eslint-disable no-console */
-    console.warn(targetTop, rect.top, this.getScrollContainer(useScrollContainer).scrollTop);
+    console.warn(targetTop, useScrollContainer, this.getScrollContainer(useScrollContainer).scrollTop);
 
     if (/^top/.test(position)) {
       scrollTo = Math.floor(state.yPos - scrollOffset);
