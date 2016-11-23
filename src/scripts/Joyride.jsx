@@ -429,6 +429,8 @@ export default class Joyride extends React.Component {
       : (window.pageYOffset || document.documentElement.scrollTop));
     const position = this.calcPosition(step);
     let scrollTo = 0;
+    /* eslint-disable no-console */
+    console.warn(targetTop, rect.top, this.getScrollContainer(useScrollContainer).scrollTop);
 
     if (/^top/.test(position)) {
       scrollTo = Math.floor(state.yPos - scrollOffset);
@@ -436,6 +438,10 @@ export default class Joyride extends React.Component {
     else if (/^bottom|^left|^right/.test(position)) {
       scrollTo = Math.floor(targetTop - scrollOffset);
     }
+
+    /* eslint-disable no-console */
+    console.warn(scrollTo);
+    /* eslint-enable no-console */
 
     return scrollTo;
   }
