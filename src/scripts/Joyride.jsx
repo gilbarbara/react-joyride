@@ -170,7 +170,6 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll) {
       scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop());
-      scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft());
     }
   }
 
@@ -438,10 +437,6 @@ export default class Joyride extends React.Component {
       else {
         return targetTop;
       }
-
-      /* eslint-disable no-console */
-      console.log(target.offsetTop, target.offsetHeight, containerHeight, targetTop, scrollOffset);
-      /* eslint-enable no-console */
     }
     else {
       targetTop = (window.pageYOffset || document.documentElement.scrollTop);
