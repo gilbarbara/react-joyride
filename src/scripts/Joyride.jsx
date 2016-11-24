@@ -435,6 +435,10 @@ export default class Joyride extends React.Component {
       if (targetBottomPos > containerHeight) {
         targetTop = containerHeight - targetOffset;
       }
+
+      /* eslint-disable no-console */
+      console.log(target.offsetTop, target.offsetHeight, containerHeight, targetTop, scrollOffset);
+      /* eslint-enable no-console */
     }
     else {
       targetTop = (window.pageYOffset || document.documentElement.scrollTop);
@@ -456,51 +460,6 @@ export default class Joyride extends React.Component {
     }
 
     return scrollTo;
-  }
-
-  /**
-   * Get the scrollLeft position
-   *
-   * @private
-   * @returns {number}
-   */
-  getScrollLeft() {
-    const state = this.state;
-    const { scrollOffset, steps, scrollContainerSelector } = this.props;
-    const step = steps[state.index];
-    const target = document.querySelector(step.selector);
-    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
-
-    if (!target) {
-      return 0;
-    }
-
-    const rect = target.getBoundingClientRect();
-    let targetLeft = 0;
-
-    if (useScrollContainer) {
-      const targetRightPos = target.offsetLeft + target.offsetWidth;
-      const targetOffset = target.offsetLeft - target.offsetWidth;
-      const containerWidth = this.getScrollContainer(useScrollContainer).offsetWidth;
-
-      if (targetRightPos > containerWidth) {
-        targetLeft = containerWidth - targetOffset;
-      }
-
-      /* eslint-disable no-console */
-      console.log(targetLeft, targetRightPos, targetOffset, containerWidth, scrollOffset);
-      /* eslint-enable no-console */
-    }
-    else {
-      targetLeft = (window.pageXOffset || document.documentElement.scrollLeft);
-    }
-
-    // Only add viewport offset if scrolling parent or body
-    if (!step.scrollContainerSelector) {
-      targetLeft += rect.left;
-    }
-
-    return targetLeft;
   }
 
   /**
