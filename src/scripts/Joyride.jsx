@@ -435,6 +435,9 @@ export default class Joyride extends React.Component {
       if (targetBottomPos > containerHeight) {
         targetTop = containerHeight - targetOffset;
       }
+      else {
+        return targetTop;
+      }
 
       /* eslint-disable no-console */
       console.log(target.offsetTop, target.offsetHeight, containerHeight, targetTop, scrollOffset);
