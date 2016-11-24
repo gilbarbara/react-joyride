@@ -486,6 +486,10 @@ export default class Joyride extends React.Component {
       if (targetRightPos > containerWidth) {
         targetLeft = containerWidth - targetOffset;
       }
+
+      /* eslint-disable no-console */
+      console.log(targetLeft, targetRightPos, targetOffset, containerWidth, scrollOffset);
+      /* eslint-enable no-console */
     }
     else {
       targetLeft = (window.pageXOffset || document.documentElement.scrollLeft);
@@ -496,7 +500,7 @@ export default class Joyride extends React.Component {
       targetLeft += rect.left;
     }
 
-    return Math.floor(targetLeft - scrollOffset);
+    return targetLeft;
   }
 
   /**
