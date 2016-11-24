@@ -170,6 +170,7 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll) {
       scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop());
+      scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft());
     }
   }
 
@@ -439,10 +440,6 @@ export default class Joyride extends React.Component {
       targetTop = (window.pageYOffset || document.documentElement.scrollTop);
     }
 
-    /* eslint-disable no-console */
-    console.log(targetTop, this.getScrollContainer(useScrollContainer).offsetHeight, target.offsetTop, target.offsetHeight);
-    /* eslint-enable no-console */
-
     // Only add viewport offset if scrolling parent or body
     if (!step.scrollContainerSelector) {
       targetTop += rect.top;
@@ -459,6 +456,47 @@ export default class Joyride extends React.Component {
     }
 
     return scrollTo;
+  }
+
+  /**
+   * Get the scrollLeft position
+   *
+   * @private
+   * @returns {number}
+   */
+  getScrollLeft() {
+    const state = this.state;
+    const { scrollOffset, steps, scrollContainerSelector } = this.props;
+    const step = steps[state.index];
+    const target = document.querySelector(step.selector);
+    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+
+    if (!target) {
+      return 0;
+    }
+
+    const rect = target.getBoundingClientRect();
+    let targetLeft = 0;
+
+    if (useScrollContainer) {
+      const targetRightPos = target.offsetLeft + target.offsetWidth;
+      const targetOffset = target.offsetLeft - target.offsetWidth;
+      const containerWidth = this.getScrollContainer(useScrollContainer).offsetWidth;
+
+      if (targetRightPos > containerWidth) {
+        targetLeft = containerWidth - targetOffset;
+      }
+    }
+    else {
+      targetLeft = (window.pageXOffset || document.documentElement.scrollLeft);
+    }
+
+    // Only add viewport offset if scrolling parent or body
+    if (!step.scrollContainerSelector) {
+      targetLeft += rect.left;
+    }
+
+    return Math.floor(targetLeft - scrollOffset);
   }
 
   /**
