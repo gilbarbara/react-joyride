@@ -418,7 +418,7 @@ export default class Joyride extends React.Component {
     const { scrollOffset, steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
-    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
 
     if (!target) {
       return 0;
@@ -475,7 +475,7 @@ export default class Joyride extends React.Component {
     const { steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
-    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
 
     if (!target) {
       return 0;
