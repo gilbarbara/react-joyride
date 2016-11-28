@@ -170,6 +170,7 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll && this.getScrollContainer(useScrollContainer)) {
       scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop());
+      scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft());
     }
   }
 
@@ -431,6 +432,7 @@ export default class Joyride extends React.Component {
       const targetOffset = target.offsetTop - target.offsetHeight;
       const containerHeight = this.getScrollContainer(useScrollContainer).offsetHeight;
 
+      // Target is out of view, scroll container so it's fully visible
       if (targetBottomPos > containerHeight) {
         targetTop = containerHeight - targetOffset;
       }
@@ -458,6 +460,54 @@ export default class Joyride extends React.Component {
     }
 
     return scrollTo;
+  }
+
+  /**
+   * Get the scrollLeft position
+   *
+   * @private
+   * @returns {number}
+   */
+  getScrollLeft() {
+    const state = this.state;
+    const { steps, scrollContainerSelector } = this.props;
+    const step = steps[state.index];
+    const target = document.querySelector(step.selector);
+    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+
+    if (!target) {
+      return 0;
+    }
+
+    const targetRect = target.getBoundingClientRect();
+    let targetLeft = 0;
+
+    if (useScrollContainer) {
+      const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+      const containerRect = scrollContainerElem.getBoundingClientRect();
+      const containerOffset = scrollContainerElem.scrollLeft;
+      const targetRightPos = targetRect.right;
+      const containerRightPos = containerRect.right + containerOffset;
+
+      // Target is out of view, scroll container so it's fully visible
+      if (targetRightPos > containerRightPos) {
+        targetLeft = (targetRightPos - containerRightPos) + 10;
+      }
+      else {
+        // Return the current scroll container position
+        return containerOffset;
+      }
+    }
+    else {
+      targetLeft = (window.pageXOffset || document.documentElement.scrollLeft);
+    }
+
+    // Only add viewport offset if scrolling parent or body
+    if (!step.scrollContainerSelector) {
+      targetLeft += targetRect.left;
+    }
+
+    return Math.floor(targetLeft);
   }
 
   /**
