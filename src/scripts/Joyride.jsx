@@ -162,7 +162,7 @@ export default class Joyride extends React.Component {
     const { scrollToFirstStep, scrollToSteps, steps, scrollContainerSelector } = this.props;
     const shouldScroll = scrollToFirstStep || (state.index > 0 || prevState.index > state.index);
     const step = steps[state.index];
-    const useScrollContainer = step.scrollContainerSelector || scrollContainerSelector;
+    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
 
     if (state.redraw) {
       this.calcPlacement();
