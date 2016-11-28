@@ -9,7 +9,6 @@ export default class JoyrideTooltip extends React.Component {
     disableOverlay: React.PropTypes.bool,
     onClick: React.PropTypes.func.isRequired,
     onRender: React.PropTypes.func.isRequired,
-    scrollContainerSelector: React.PropTypes.string,
     showOverlay: React.PropTypes.bool.isRequired,
     standalone: React.PropTypes.bool,
     step: React.PropTypes.object.isRequired,
@@ -52,7 +51,7 @@ export default class JoyrideTooltip extends React.Component {
    * @returns {Element} Element node
    */
   getScrollContainer(defaultElement) {
-    return getScrollContainer(this.props.scrollContainerSelector, defaultElement);
+    return getScrollContainer(null, defaultElement);
   }
 
   getArrowPosition(position) {
