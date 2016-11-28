@@ -71,6 +71,7 @@ export default class Joyride extends React.Component {
     resizeDebounce: false,
     resizeDebounceDelay: 200,
     run: false,
+    scrollContainerSelector: '',
     scrollToSteps: true,
     scrollOffset: 20,
     scrollToFirstStep: false,

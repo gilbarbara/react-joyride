@@ -149,6 +149,8 @@ You can change the initial options passing props to the component. All optional.
 
 **disableOverlay** {bool}: Don't close the tooltip on clicking the overlay. Defaults to `false`
 
+**scrollContainerSelector** {string}: The parent container selector element that will scroll when step target is out of view. Can also be specified for each step, see step specs below. Defaults to ''.
+
 **callback** {function}: It will be called after:  
 * clicking the beacon `{ type: 'step:before', step: {...} }`  
 * closing a step `{ type: 'step:after', step: {...} }`  
@@ -251,6 +253,7 @@ There are a few usable options but you can pass custom parameters.
 - `selector`: The target DOM selector of your feature **(required)**
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
+- `scrollContainerSelector`: The parent container selector element that will scroll when step target is out of view. Defaults to ''.
 
 Extra option for standalone tooltips
 
