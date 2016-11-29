@@ -129,14 +129,14 @@ export default class JoyrideTooltip extends React.Component {
       hole: {},
       tooltip: {
         position: cssPosition === 'fixed' ? 'fixed' : 'absolute',
-        top: Math.round(yPos) + this.getScrollContainer().scrollTop,
-        left: Math.round(xPos - this.getScrollContainer().getBoundingClientRect().left) + this.getScrollContainer().scrollLeft
+        top: Math.round(yPos),
+        left: Math.round(xPos)
       }
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - this.getScrollContainer().getBoundingClientRect().top) - 5) + this.getScrollContainer().scrollTop,
-      left: Math.round((opts.rect.left - this.getScrollContainer().getBoundingClientRect().left) - 5) + this.getScrollContainer().scrollLeft,
+      top: Math.round((opts.rect.top - this.getScrollContainer().getBoundingClientRect().top) - 5),
+      left: Math.round((opts.rect.left - this.getScrollContainer().getBoundingClientRect().left) - 5),
       width: Math.round(opts.rect.width + 10),
       height: Math.round(opts.rect.height + 10)
     };
