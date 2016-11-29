@@ -170,6 +170,9 @@ export default class Joyride extends React.Component {
     }
 
     if (state.play && scrollToSteps && shouldScroll && this.getScrollContainer(useScrollContainer)) {
+      /* eslint-disable no-console */
+      console.log("Scroll", useScrollContainer, this.getScrollContainer(useScrollContainer), this.getScrollTop());
+      /* eslint-enable no-console */
       scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop());
       scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft());
     }
