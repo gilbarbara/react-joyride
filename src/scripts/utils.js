@@ -60,7 +60,7 @@ export function getRootEl() {
 }
 
 export function getScrollContainer(scrollContainer, defaultElement) {
-  if (scrollContainer) {
+  if (scrollContainer && document.querySelector(scrollContainer)) {
     return document.querySelector(scrollContainer);
   }
   if (defaultElement) {

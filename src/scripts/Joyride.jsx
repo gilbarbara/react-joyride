@@ -171,9 +171,9 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll) {
       // Scroll specified parent element
-      if (this.getScrollContainer(useScrollContainer)) {
-        scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop());
-        scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft());
+      if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
+        scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true));
+        scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true));
       }
 
       // Scroll body element
@@ -419,23 +419,28 @@ export default class Joyride extends React.Component {
    * Get the scrollTop position
    *
    * @private
+   * @param {Boolean} getContainerScroll - If obtaining the scrollContainerSelector scrollTop position (as opposed to the body scrollTop)
    * @returns {number}
    */
-  getScrollTop() {
+  getScrollTop(getContainerScroll) {
     const state = this.state;
     const { scrollOffset, steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
+    let targetTop = 0;
 
     if (!target) {
-      return 0;
+      return targetTop;
     }
 
     const rect = target.getBoundingClientRect();
-    let targetTop = 0;
 
-    if (useScrollContainer) {
+    if (getContainerScroll) {
+      if (!useScrollContainer) {
+        return targetTop;
+      }
+
       const scrollContainerElem = this.getScrollContainer(useScrollContainer);
       const containerRect = scrollContainerElem.getBoundingClientRect();
       const targetBottomPos = rect.bottom;
@@ -454,19 +459,20 @@ export default class Joyride extends React.Component {
       targetTop = (window.pageYOffset || document.documentElement.scrollTop);
     }
 
+    let scrollTo = targetTop;
+
     // Only add viewport offset if scrolling parent or body
     if (!step.scrollContainerSelector) {
       targetTop += rect.top;
-    }
 
-    const position = this.calcPosition(step);
-    let scrollTo = 0;
+      const position = this.calcPosition(step);
 
-    if (/^top/.test(position)) {
-      scrollTo = Math.floor(state.yPos - scrollOffset);
-    }
-    else if (/^bottom|^left|^right/.test(position)) {
-      scrollTo = Math.floor(targetTop - scrollOffset);
+      if (/^top/.test(position)) {
+        scrollTo = Math.floor(state.yPos - scrollOffset);
+      }
+      else if (/^bottom|^left|^right/.test(position)) {
+        scrollTo = Math.floor(targetTop - scrollOffset);
+      }
     }
 
     return scrollTo;
@@ -476,23 +482,29 @@ export default class Joyride extends React.Component {
    * Get the scrollLeft position
    *
    * @private
+   * @param {Boolean} getContainerScroll - If obtaining the scrollContainerSelector scrollLeft position (as opposed to the body scrollLeft)
    * @returns {number}
    */
-  getScrollLeft() {
+  getScrollLeft(getContainerScroll) {
     const state = this.state;
     const { steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
+    let targetLeft = 0;
 
     if (!target) {
-      return 0;
+      return targetLeft;
     }
 
     const targetRect = target.getBoundingClientRect();
-    let targetLeft = 0;
 
-    if (useScrollContainer) {
+
+    if (getContainerScroll) {
+      if (!useScrollContainer) {
+        return targetLeft;
+      }
+
       const scrollContainerElem = this.getScrollContainer(useScrollContainer);
       const containerRect = scrollContainerElem.getBoundingClientRect();
       const containerOffset = scrollContainerElem.scrollLeft;
@@ -501,7 +513,7 @@ export default class Joyride extends React.Component {
 
       // Target is out of view, scroll container so it's fully visible
       if (targetRightPos > containerRightPos) {
-        targetLeft = (targetRightPos - containerRightPos) + 10;
+        targetLeft = (targetRightPos - containerRightPos);
       }
       else {
         // Return the current scroll container position
@@ -948,8 +960,8 @@ export default class Joyride extends React.Component {
       component = React.createElement(Beacon, {
         cssPosition,
         step: currentStep,
-        xPos: state.xPos + (currentStep.offsetX || 0),
-        yPos: state.yPos + (currentStep.offsetY || 0),
+        xPos: (state.xPos + (currentStep.offsetX || 0)) - this.getScrollLeft(true),
+        yPos: (state.yPos + (currentStep.offsetY || 0)) - this.getScrollTop(true),
         onTrigger: this.onClickBeacon,
         eventType: currentStep.type || 'click'
       });

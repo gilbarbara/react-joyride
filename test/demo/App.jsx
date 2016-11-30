@@ -21,6 +21,14 @@ export default class Demo extends React.Component {
           }
         },
         {
+          title: 'Last Project',
+          text: 'Last project completed',
+          textAlign: 'center',
+          selector: '.projects table tr:nth-child(15)',
+          position: 'right',
+          scrollContainerSelector: '.table-wrapper'
+        },
+        {
           title: 'Our Mission',
           text: 'Or some other marketing bullshit terms',
           selector: '.mission h2 span',
@@ -83,6 +91,17 @@ export default class Demo extends React.Component {
   }
 
   render() {
+    let sampleProjects = [];
+    for (let i = 1; i <= 15; i++) {
+      sampleProjects.push(
+        <tr key={i}>
+          <td>Test Project {i}</td>
+          <td>Leon Kennedy</td>
+          <td>01-01-20{i < 10 ? '0' + i : i}</td>
+        </tr>
+      );
+    }
+
     return (
       <div className="demo">
         <Joyride
@@ -99,6 +118,20 @@ export default class Demo extends React.Component {
         <div className="site__section projects">
           <div className="container">
             <h2><span>Projects</span></h2>
+            <div className="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Project Name</th>
+                    <th>Creator</th>
+                    <th>Date Completed</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sampleProjects}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
