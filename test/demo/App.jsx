@@ -21,14 +21,6 @@ export default class Demo extends React.Component {
           }
         },
         {
-          title: 'Last Project',
-          text: 'Last project completed',
-          textAlign: 'center',
-          selector: '.projects table tr:nth-child(15)',
-          position: 'right',
-          scrollContainerSelector: '.table-wrapper'
-        },
-        {
           title: 'Our Mission',
           text: 'Or some other marketing bullshit terms',
           selector: '.mission h2 span',
@@ -49,6 +41,14 @@ export default class Demo extends React.Component {
               offsetX: 15
             }
           }
+        },
+        {
+          title: 'Last Project',
+          text: 'Last project completed',
+          textAlign: 'center',
+          selector: '.table table tr:nth-child(15)',
+          position: 'right',
+          scrollContainerSelector: '.table-wrapper'
         }
       ]
     };
@@ -118,20 +118,6 @@ export default class Demo extends React.Component {
         <div className="site__section projects">
           <div className="container">
             <h2><span>Projects</span></h2>
-            <div className="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Project Name</th>
-                    <th>Creator</th>
-                    <th>Date Completed</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sampleProjects}
-                </tbody>
-              </table>
-            </div>
           </div>
         </div>
 
@@ -144,6 +130,23 @@ export default class Demo extends React.Component {
           <div className="container">
             <h2><span>About</span></h2>
           </div>
+        </div>
+
+        <div className="container">
+        <div className="table-wrapper table">
+          <table>
+            <thead>
+              <tr>
+                <th>Project Name</th>
+                <th>Creator</th>
+                <th>Date Completed</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sampleProjects}
+            </tbody>
+          </table>
+        </div>
         </div>
       </div>
     );

@@ -52,14 +52,6 @@ body {
 
 .projects {
   background-color: #8145ff;
-
-  .table-wrapper {
-    white-space: nowrap;
-    margin-top: 1rem;
-    width: 200px;
-    height: 150px;
-    overflow: auto;
-  }
 }
 
 .mission {
@@ -68,4 +60,12 @@ body {
 
 .about {
   background-color: #ff8145;
+}
+
+.table-wrapper {
+  white-space: nowrap;
+  margin-top: 1rem;
+  width: 200px;
+  height: 150px;
+  overflow: auto;
 }

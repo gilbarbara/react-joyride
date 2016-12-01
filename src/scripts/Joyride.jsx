@@ -165,20 +165,18 @@ export default class Joyride extends React.Component {
     const step = steps[state.index];
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
 
-    if (state.redraw) {
-      this.calcPlacement();
-    }
-
     if (state.play && scrollToSteps && shouldScroll) {
-      // Scroll specified parent element
       if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
-        scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true));
-        scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true));
+        // Scroll specified parent element
+        this.scrollContainerElement(useScrollContainer);
       }
-
-      // Scroll body element
-      scroll.top(this.getScrollContainer(), this.getScrollTop());
-      scroll.left(this.getScrollContainer(), this.getScrollLeft());
+      else {
+        // Scroll body element
+        this.scrollBodyElement();
+      }
+    }
+    else if (state.redraw) {
+      this.calcPlacement();
     }
   }
 
@@ -196,6 +194,37 @@ export default class Joyride extends React.Component {
         delete listeners.tooltips[key];
       });
     }
+  }
+
+  /**
+   * Scrolls the body element to correct top and left position
+   */
+  scrollBodyElement() {
+    if (this.state.redraw) {
+      this.calcPlacement();
+    }
+
+    scroll.top(this.getScrollContainer(), this.getScrollTop());
+    scroll.left(this.getScrollContainer(), this.getScrollLeft());
+  }
+
+  /**
+   * Scrolls the scrollContainerSelector element to correct top and left position
+   *
+   * @param {String} [useScrollContainer]- The step or app-level scroll container selector
+   */
+  scrollContainerElement(useScrollContainer) {
+    scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true));
+
+    scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), () => {
+      // Adjust body scroll after scroll container has been scrolled and position is recalculated
+      if (this.state.redraw) {
+        this.calcPlacement(this.scrollBodyElement);
+      }
+      else {
+        this.scrollBodyElement();
+      }
+    });
   }
 
   /**
@@ -428,6 +457,8 @@ export default class Joyride extends React.Component {
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
+    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+    const containerOffset = scrollContainerElem.scrollTop;
     let targetTop = 0;
 
     if (!target) {
@@ -441,11 +472,9 @@ export default class Joyride extends React.Component {
         return targetTop;
       }
 
-      const scrollContainerElem = this.getScrollContainer(useScrollContainer);
       const containerRect = scrollContainerElem.getBoundingClientRect();
       const targetBottomPos = rect.bottom;
       const containerBottomPos = containerRect.bottom;
-      const containerOffset = scrollContainerElem.scrollTop;
 
       // Target is out of view, scroll container so it's fully visible
       if (targetBottomPos > containerBottomPos) {
@@ -459,12 +488,11 @@ export default class Joyride extends React.Component {
       targetTop = (window.pageYOffset || document.documentElement.scrollTop);
     }
 
-    let scrollTo = targetTop;
+    // Add the target top offset
+    let scrollTo = targetTop += rect.top;
 
     // Only add viewport offset if scrolling parent or body
-    if (!step.scrollContainerSelector) {
-      targetTop += rect.top;
-
+    if (!getContainerScroll || !step.scrollContainerSelector) {
       const position = this.calcPosition(step);
 
       if (/^top/.test(position)) {
@@ -525,7 +553,7 @@ export default class Joyride extends React.Component {
     }
 
     // Only add viewport offset if scrolling parent or body
-    if (!step.scrollContainerSelector) {
+    if (!getContainerScroll || !step.scrollContainerSelector) {
       targetLeft += targetRect.left;
     }
 
@@ -731,8 +759,9 @@ export default class Joyride extends React.Component {
    * Position absolute elements next to its target
    *
    * @private
+   * @param {Function} callback - Method to call after placement is set in state
    */
-  calcPlacement() {
+  calcPlacement(callback) {
     const state = this.state;
     const { steps, tooltipOffset } = this.props;
     const step = state.tooltip ? state.tooltip : (steps[state.index] || {});
@@ -792,6 +821,10 @@ export default class Joyride extends React.Component {
         xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height),
         yPos: this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height),
         redraw: false
+      }, () => {
+        if (callback) {
+          callback();
+        }
       });
     }
   }
@@ -960,8 +993,8 @@ export default class Joyride extends React.Component {
       component = React.createElement(Beacon, {
         cssPosition,
         step: currentStep,
-        xPos: (state.xPos + (currentStep.offsetX || 0)) - this.getScrollLeft(true),
-        yPos: (state.yPos + (currentStep.offsetY || 0)) - this.getScrollTop(true),
+        xPos: (state.xPos + (currentStep.offsetX || 0)),
+        yPos: (state.yPos + (currentStep.offsetY || 0)),
         onTrigger: this.onClickBeacon,
         eventType: currentStep.type || 'click'
       });
