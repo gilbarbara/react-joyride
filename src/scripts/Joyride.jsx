@@ -480,6 +480,10 @@ export default class Joyride extends React.Component {
       const targetBottomPos = rect.bottom;
       const containerBottomPos = containerRect.bottom;
 
+      /* eslint-disable no-console */
+      console.log(targetBottomPos, containerBottomPos, containerRect, containerOffset);
+      /* eslint-enable no-console */
+
       // Target is out of view, scroll container so it's fully visible
       if (targetBottomPos > containerBottomPos) {
         return targetBottomPos - containerBottomPos;
