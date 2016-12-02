@@ -167,8 +167,9 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll) {
       if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
+        const recalculate = this.state.yPos !== prevState.yPos;
         // Scroll specified parent element
-        this.scrollContainerElement(useScrollContainer);
+        this.scrollContainerElement(useScrollContainer, recalculate);
       }
       else {
         // Scroll body element
@@ -211,18 +212,21 @@ export default class Joyride extends React.Component {
   /**
    * Scrolls the scrollContainerSelector element to correct top and left position
    *
-   * @param {String} [useScrollContainer]- The step or app-level scroll container selector
+   * @param {String} [useScrollContainer] - The step or app-level scroll container selector
+   * @param {Boolean} [recalculate] - Whether the placement should be recalculated
    */
-  scrollContainerElement(useScrollContainer) {
-    scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true));
-
-    scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), () => {
+  scrollContainerElement(useScrollContainer, recalculate) {
+    scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true), (error) => {
       // Adjust body scroll after scroll container has been scrolled and position is recalculated
-      if (this.state.redraw) {
+      if (!error && recalculate) {
         this.calcPlacement(this.scrollBodyElement);
       }
-      else {
-        this.scrollBodyElement();
+    });
+
+    scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), (error) => {
+      // Adjust body scroll after scroll container has been scrolled and position is recalculated
+      if (!error && recalculate) {
+        this.calcPlacement(this.scrollBodyElement);
       }
     });
   }
@@ -459,7 +463,7 @@ export default class Joyride extends React.Component {
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
     const scrollContainerElem = this.getScrollContainer(useScrollContainer);
     const containerOffset = scrollContainerElem.scrollTop;
-    let targetTop = 0;
+    const targetTop = 0;
 
     if (!target) {
       return targetTop;
@@ -478,18 +482,14 @@ export default class Joyride extends React.Component {
 
       // Target is out of view, scroll container so it's fully visible
       if (targetBottomPos > containerBottomPos) {
-        targetTop = targetBottomPos - containerBottomPos;
+        return targetBottomPos - containerBottomPos;
       }
-      else {
-        return containerOffset;
-      }
-    }
-    else {
-      targetTop = (window.pageYOffset || document.documentElement.scrollTop);
+
+      return containerOffset;
     }
 
     // Add the target top offset
-    let scrollTo = targetTop += rect.top;
+    let scrollTo = (window.pageYOffset || document.documentElement.scrollTop) + rect.top;
 
     // Only add viewport offset if scrolling parent or body
     if (!getContainerScroll || !step.scrollContainerSelector) {
@@ -499,7 +499,7 @@ export default class Joyride extends React.Component {
         scrollTo = Math.floor(state.yPos - scrollOffset);
       }
       else if (/^bottom|^left|^right/.test(position)) {
-        scrollTo = Math.floor(targetTop - scrollOffset);
+        scrollTo = Math.floor(scrollTo - scrollOffset);
       }
     }
 
@@ -822,7 +822,7 @@ export default class Joyride extends React.Component {
         yPos: this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height),
         redraw: false
       }, () => {
-        if (callback) {
+        if (typeof callback === 'function') {
           callback();
         }
       });
