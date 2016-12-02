@@ -478,12 +478,17 @@ export default class Joyride extends React.Component {
 
       const containerRect = scrollContainerElem.getBoundingClientRect();
       const targetBottomPos = rect.bottom;
+      const targetTopPos = rect.top;
       const containerBottomPos = containerRect.bottom;
+      const containerTopPos = containerRect.top;
       const computedStyle = getComputedStyle(scrollContainerElem);
 
       // Target is out of view, scroll container so it's fully visible
       if (targetBottomPos > containerBottomPos) {
         return (targetBottomPos - containerBottomPos) + parseFloat(computedStyle.paddingTop);
+      }
+      else if (targetTopPos < containerTopPos) {
+        return (containerTopPos - targetTopPos) + parseFloat(computedStyle.paddingTop);
       }
 
       return containerOffset;
