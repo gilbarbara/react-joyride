@@ -2,8 +2,8 @@ language: node_js
 node_js:
 - '6.2'
 before_script:
-  - gulp localserver &
-  - sleep 20
+- gulp localserver &
+- sleep 20
 deploy:
   provider: npm
   email: gilbarbara@gmail.com
@@ -13,5 +13,8 @@ deploy:
     tags: true
     repo: gilbarbara/react-joyride
 addons:
-    sauce_connect: true
-    code_climate: true
+  code_climate: true
+  sauce_connect:
+    username: react-joyride
+  jwt:
+    secure: iSxsgqQnUtWhQ8vfYYXqGvvLA3OIOM+Ny9/R3VW5LMEQaxgsczcIkCQfSAmiBsg7CEZg20+cx+w73mz6cVc/buHe+hoSOZHyu2FrDBQXkikAEH9pce6fVNHZO7GRcCufj7whvZCSwsgc5EzWgfTklYRG6s26s+Ulsw0BZowuypw+ttC6Se6Ks34H5A+LccjcxnlMliuK+WmtBGG63uvA3RhNSU7xNFRjyOVw5mgMOp/l2oSgHRUEi/WgLBFKLfFl/9MnjL7d0F7F24I+4dT54ja2ujcC/wbVyU101E7Rv5DT31ysb4JpUcFaP8u4BqYFsvsM/sclV+pT4nPvXSjyHG180UHS1lcfi2O9CduxiZtjbsfmgL+o5UwzNImfyHuogrXQXqLHznDQQUtxk9CXyYy33IY/U9OZrN2BQM/AYEnr4ZrFkacZinaOXm0XjIqkbLlnwsYSo1Aj80Te7W8MBwt8fl28rIVV9xxRdK2kW8gSu3LgUYhvrq1fknrfQyLzWADhSu5YP8yowUvBGRUGTBb2yq1Rs4Pzsh/CDuaOT3wU5IDXhUHmx7n4k3pQ11cZbGmKRzTmf8PGbIglPc6wo3J6aj01dTg1aPxxaeXMfKAtjoh+Yf6lziVTqt6HImuLksybBKvSQTGILmqQUsEupwk8qCLYtYQoZLW5t0d/U7s=
