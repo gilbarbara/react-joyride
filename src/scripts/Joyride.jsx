@@ -1,5 +1,5 @@
 import React from 'react';
-import scroll from 'scroll';
+import zenscroll from 'zenscroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
 import { getRootEl } from './utils';
@@ -44,7 +44,6 @@ export default class Joyride extends React.Component {
     resizeDebounce: React.PropTypes.bool,
     resizeDebounceDelay: React.PropTypes.number,
     run: React.PropTypes.bool,
-    scrollOffset: React.PropTypes.number,
     scrollToFirstStep: React.PropTypes.bool,
     scrollToSteps: React.PropTypes.bool,
     showBackButton: React.PropTypes.bool,
@@ -71,7 +70,6 @@ export default class Joyride extends React.Component {
     resizeDebounceDelay: 200,
     run: false,
     scrollToSteps: true,
-    scrollOffset: 20,
     scrollToFirstStep: false,
     showBackButton: true,
     showOverlay: true,
@@ -167,7 +165,7 @@ export default class Joyride extends React.Component {
     }
 
     if (state.play && scrollToSteps && shouldScroll) {
-      scroll.top(getRootEl(), this.getScrollTop());
+      zenscroll.top(getRootEl());
     }
   }
 
@@ -393,37 +391,6 @@ export default class Joyride extends React.Component {
       height,
       width
     };
-  }
-
-  /**
-   * Get the scrollTop position
-   *
-   * @private
-   * @returns {number}
-   */
-  getScrollTop() {
-    const state = this.state;
-    const { scrollOffset, steps } = this.props;
-    const step = steps[state.index];
-    const target = document.querySelector(step.selector);
-
-    if (!target) {
-      return 0;
-    }
-
-    const rect = target.getBoundingClientRect();
-    const targetTop = rect.top + (window.pageYOffset || document.documentElement.scrollTop);
-    const position = this.calcPosition(step);
-    let scrollTo = 0;
-
-    if (/^top/.test(position)) {
-      scrollTo = Math.floor(state.yPos - scrollOffset);
-    }
-    else if (/^bottom|^left|^right/.test(position)) {
-      scrollTo = Math.floor(targetTop - scrollOffset);
-    }
-
-    return scrollTo;
   }
 
   /**

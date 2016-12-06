@@ -127,8 +127,6 @@ You can change the initial options passing props to the component. All optional.
 
 **resizeDebounceDelay** {number}: The amount of delay for the `resizeDebounce` callback. Defaults to `200`
 
-**scrollOffset** {number}: The scrollTop offset used in `scrollToSteps`. Defaults to `20`
-
 **scrollToSteps** {bool}: Scroll the page to the next step if needed. Defaults to `true`
 
 **scrollToFirstStep** {bool}: Scroll the page for the first step. Defaults to `false`
