@@ -25,6 +25,7 @@
     border: 2px solid #f04;
     border-radius: 50%;
     display: block;
+    box-sizing: border-box;
     height: 100%;
     left: 0;
     opacity: 0.9;
