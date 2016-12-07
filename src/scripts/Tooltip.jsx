@@ -65,6 +65,7 @@ export default class JoyrideTooltip extends React.Component {
       holePadding: nextHolePadding,
       xPos: nextXPos,
       yPos: nextYPos,
+      showOverlay: nextShowOverlay,
     } = nextProps;
     const {
       animate,
@@ -74,6 +75,7 @@ export default class JoyrideTooltip extends React.Component {
       holePadding,
       xPos,
       yPos,
+      showOverlay,
     } = this.props;
 
     if (
@@ -88,6 +90,15 @@ export default class JoyrideTooltip extends React.Component {
       const opts = this.setOpts(nextProps);
       const styles = this.setStyles(nextProps.step.style, opts, nextProps);
       this.setState({ styles, opts });
+    }
+
+    if (nextShowOverlay !== showOverlay) {
+      if (nextShowOverlay) {
+        document.addEventListener('mousemove', this.handleMouseMove, false);
+      }
+      else {
+        document.removeEventListener('mousemove', this.handleMouseMove, false);
+      }
     }
   }
 
