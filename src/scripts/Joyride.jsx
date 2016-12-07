@@ -216,16 +216,16 @@ export default class Joyride extends React.Component {
    * @param {Boolean} [recalculate] - Whether the placement should be recalculated
    */
   scrollContainerElement(useScrollContainer, recalculate) {
-    scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true), (error) => {
+    scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true), () => {
       // Adjust body scroll after scroll container has been scrolled and position is recalculated
-      if (!error && recalculate) {
+      if (recalculate) {
         this.calcPlacement(this.scrollBodyElement);
       }
     });
 
-    scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), (error) => {
+    scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), () => {
       // Adjust body scroll after scroll container has been scrolled and position is recalculated
-      if (!error && recalculate) {
+      if (recalculate) {
         this.calcPlacement(this.scrollBodyElement);
       }
     });
@@ -829,7 +829,8 @@ export default class Joyride extends React.Component {
         redraw: false
       }, () => {
         if (typeof callback === 'function') {
-          callback();
+          // Execute callback after the scrolling transition is finished
+          setTimeout(() => { callback(); }, 350);
         }
       });
     }
