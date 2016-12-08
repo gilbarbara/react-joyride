@@ -574,11 +574,11 @@ export default class Joyride extends React.Component {
       }
 
       if (e.target.classList.contains('joyride-hole')) {
-        if (typeof props.callback === 'function') {
-          props.callback({
+        if (typeof callback === 'function') {
+          callback({
             action: 'click',
             type: 'hole',
-            step: props.steps[state.index]
+            step: steps[state.index]
           });
         }
       }
