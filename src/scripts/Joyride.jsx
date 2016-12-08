@@ -39,6 +39,7 @@ export default class Joyride extends React.Component {
     completeCallback: React.PropTypes.func,
     debug: React.PropTypes.bool,
     disableOverlay: React.PropTypes.bool,
+    holePadding: React.PropTypes.number,
     keyboardNavigation: React.PropTypes.bool,
     locale: React.PropTypes.object,
     resizeDebounce: React.PropTypes.bool,
@@ -59,6 +60,7 @@ export default class Joyride extends React.Component {
 
   static defaultProps = {
     debug: false,
+    holePadding: 5,
     keyboardNavigation: true,
     locale: {
       back: 'Back',
@@ -561,11 +563,11 @@ export default class Joyride extends React.Component {
       }
 
       if (e.target.classList.contains('joyride-hole')) {
-        if (typeof props.callback === 'function') {
-          props.callback({
+        if (typeof callback === 'function') {
+          callback({
             action: 'click',
             type: 'hole',
-            step: props.steps[state.index]
+            step: steps[state.index]
           });
         }
       }
@@ -787,6 +789,7 @@ export default class Joyride extends React.Component {
     const state = this.state;
     const {
       disableOverlay,
+      holePadding,
       locale,
       showBackButton,
       showOverlay,
@@ -850,6 +853,7 @@ export default class Joyride extends React.Component {
         buttons,
         cssPosition,
         disableOverlay,
+        holePadding,
         showOverlay: shouldShowOverlay,
         step: currentStep,
         standalone: Boolean(state.tooltip),
