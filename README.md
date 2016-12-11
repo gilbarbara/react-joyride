@@ -1,11 +1,14 @@
 React Joyride
 ===
 
-<a href="https://www.npmjs.com/package/react-joyride" target="_blank">![](https://badge.fury.io/js/react-joyride.svg)</a> <a href="https://travis-ci.org/gilbarbara/react-joyride" target="_blank">![](https://travis-ci.org/gilbarbara/react-joyride.svg)</a> <a href="https://codeclimate.com/github/gilbarbara/react-joyride">![](https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg)</a> <a href="https://gitter.im/gilbarbara/react-joyride?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">![Join the chat at https://gitter.im/gilbarbara/react-joyride](https://badges.gitter.im/Join%20Chat.svg)</a>
+[![NPM version][npm-image]][npm-url]
+[![build status][travis-image]][travis-url]
+[![Code Climate status][codeclimate-image]][codeclimate-url]
+[![Join the chat at https://gitter.im/gilbarbara/react-joyride][gitter-image]][gitter-url]
 
-<a href="http://gilbarbara.github.io/react-joyride/" target="_blank">![](http://gilbarbara.github.io/react-joyride/media/example.png)</a>
+[![Joyride example image][example-image]][example-url]
 
-View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>. [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
+View the demo [here](http://gilbarbara.github.io/react-joyride/) [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
 
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/React-Joyride/)
 
@@ -349,3 +352,13 @@ Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
   
 
+[npm-image]: https://badge.fury.io/js/react-joyride.svg
+[npm-url]: https://www.npmjs.com/package/react-joyride
+[travis-image]: https://travis-ci.org/gilbarbara/react-joyride.svg
+[travis-url]: https://travis-ci.org/gilbarbara/react-joyride
+[codeclimate-image]: https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg
+[codeclimate-url]: https://codeclimate.com/github/gilbarbara/react-joyride
+[gitter-image]: https://badges.gitter.im/Join%20Chat.svg
+[gitter-url]: https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[example-image]: http://gilbarbara.github.io/react-joyride/media/example.png
+[example-url]: http://gilbarbara.github.io/react-joyride/
