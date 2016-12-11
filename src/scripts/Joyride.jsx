@@ -414,67 +414,52 @@ class Joyride extends React.Component {
   }
 
   /**
-   * Parse the incoming steps
+   * Parse the incoming step
    *
-   * @param {Array|Object} steps
+   * @param {Object} step
    * @returns {Array}
    */
-  parseSteps(steps) {
-    const newSteps = [];
-    let tmpSteps = [];
-    let el;
+  parseStep(step) {
+    const newStep = Object.assign({}, step, { position: step.position || 'top' });
 
-    if (Array.isArray(steps)) {
-      steps.forEach((s) => {
-        if (s instanceof Object) {
-          tmpSteps.push(s);
-        }
-      });
+    if (step.selector.dataset && step.selector.dataset.reactid) {
+      step.selector = `[data-reactid="${step.selector.dataset.reactid}"]`;
+      console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
     }
-    else {
-      tmpSteps = [steps];
+    else if (step.selector.dataset) {
+      console.error('Unsupported error: React 15.0+ don\'t write reactid to the DOM anymore, please use a plain class in your step.', step); //eslint-disable-line no-console
+      if (step.selector.className) {
+        step.selector = `.${step.selector.className.replace(' ', '.')}`;
+      }
     }
 
-    tmpSteps.forEach((s) => {
-      if (s.selector.dataset && s.selector.dataset.reactid) {
-        s.selector = `[data-reactid="${s.selector.dataset.reactid}"]`;
-        console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
-      }
-      else if (s.selector.dataset) {
-        console.error('Unsupported error: React 15.0+ don\'t write reactid to the DOM anymore, please use a plain class in your step.', s); //eslint-disable-line no-console
-        if (s.selector.className) {
-          s.selector = `.${s.selector.className.replace(' ', '.')}`;
-        }
-      }
-
-      el = document.querySelector(s.selector);
-      s.position = s.position || 'top';
-      newSteps.push(s);
-
+    const el = document.querySelector(step.selector);
+    if (!el) {
       if (!el) {
         logger({
           type: 'joyride:parseSteps',
           msg: 'Target not rendered. For best results only add steps after they are mounted.',
           debug: this.props.debug,
-          warn: s,
+          warn: step,
         });
       }
-    });
+      this.logger('joyride:parseStep', 'Target not rendered. For best results only add steps after they are mounted.', step);
+    }
+    else {
+      newStep.el = el;
+    }
 
-    return newSteps;
+    return newStep;
   }
 
   /**
-   * Add Tooltip events
+   * Add standalone tooltip events
    *
-   * @param {Object} data
+   * @param {Object} data - Similar shape to a 'step', but for a single tooltip
    */
   addTooltip(data) {
-    const parseData = this.parseSteps(data);
-    let newData;
-    let el;
-    let eventType;
-    let key;
+    const parsedData = this.parseStep(data);
+    if (!parsedData) return;
 
     logger({
       type: 'joyride:addTooltip',
@@ -482,28 +467,16 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
 
-    if (parseData.length) {
-      newData = parseData[0];
-      key = newData.trigger || newData.selector;
-      el = document.querySelector(key);
-      eventType = newData.event || 'click';
-    }
-
-    if (!el) {
-      return;
-    }
-
+    const key = parsedData.trigger || parsedData.selector;
+    const el = document.querySelector(key);
+    if (!el) return;
     el.setAttribute('data-tooltip', JSON.stringify(data));
 
+    const eventType = parsedData.event || 'click';
     if (eventType === 'hover' && !isTouch) {
       listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}click`] = {
-        event: 'click',
-        cb: (e) => {
-          e.preventDefault();
-        }
-      };
+      listeners.tooltips[`${key}click`] = { event: 'click', cb: (e) => { e.preventDefault(); } };
 
       el.addEventListener('mouseenter', listeners.tooltips[key].cb);
       el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);

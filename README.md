@@ -40,8 +40,8 @@ var App = React.createClass({
 Don't forget to pass a `ref` to the component.
 
 ### Styles
- 
-If your are using **SCSS** (and you should):
+
+If you are using **SCSS** (and you should):
 
 ```scss
 @import '../path/to/node-modules/react-joyride/lib/styles/react-joyride'
@@ -60,22 +60,19 @@ Or include this directly in your html:
 Add a custom method to include steps to your component state (or store).
 
 ```javascript
-addSteps: function (steps) {
-  if (!Array.isArray(steps)) {
-    steps = [steps];
-  }
-  
-  if (!steps.length) {
-    return false;
-  }
-  
+addStep: function (step) {
+  let joyride = this.joyride;
+
+  if (!step || typeof step !== 'object') return false;
+
   this.setState(function(currentState) {
-    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
+    currentState.steps = currentState.steps.concat(joyride.parseStep(step));
     return currentState;
   });
 }
 
-addTooltip: function(data) {
+// Render a standalone tooltip
+addTooltip(data) {
   this.joyride.addTooltip(data);
 }
 ```
@@ -147,16 +144,16 @@ You can change the initial options passing props to the component.
 
 **debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
 
-**callback** {function}: It will be called when the tour's state changes and returns a single parameter: 
+**callback** {function}: It will be called when the tour's state changes and returns a single parameter:
 
-* entering a step `{ type: 'step:before', index: 0, step: {...} }` 
-* rendering the beacon `{ type: 'beacon:before', step: {...} }` 
-* triggering the beacon `{ type: 'beacon:trigger', step: {...} }` 
-* rendering the tooltip `{ type: 'tooltip:before', step: {...} }` 
-* closing a step `{ type: 'step:after', step: {...} }` 
-* clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }` 
-* clicking on the hole `{ type: 'hole:click', step: {...} }` 
-* the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }` 
+* entering a step `{ type: 'step:before', index: 0, step: {...} }`
+* rendering the beacon `{ type: 'beacon:before', step: {...} }`
+* triggering the beacon `{ type: 'beacon:trigger', step: {...} }`
+* rendering the tooltip `{ type: 'tooltip:before', step: {...} }`
+* closing a step `{ type: 'step:after', step: {...} }`
+* clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }`
+* clicking on the hole `{ type: 'hole:click', step: {...} }`
+* the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`
 
 The callback object also receives an `action` string (start|next|back) and the step `index`.
 
@@ -225,27 +222,19 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
-### this.joyride.parseSteps(steps)
+### this.joyride.parseStep(step)
 
-Parse the incoming steps, check if it's already rendered and returns an array with valid items
+Parse an incoming step, check if the target has been rendered, add the target element to the step, and return the step.
 
-- `steps ` {array|object}
+- `step ` {object}
 
 ```javascript
-var steps = this.joyride.parseSteps({
-  title: 'Title',
-  text: 'description',
-  selector: 'my-super-class',
-  position: 'top'
+var step = this.joyride.parseStep({
+    title: 'Title',
+    text: 'description',
+    selector: '.my-super-class',
+    position: 'top'
 });
-
-// steps
-[{
-  title: 'Title',
-  text: 'description',
-  selector: '#super-panel',
-  position: 'top'
-}]
 ```
 
 ### Only start the tour after all target elements (or at least the first step) are rendered in the page.
@@ -350,5 +339,3 @@ Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 ---
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
- 
-
