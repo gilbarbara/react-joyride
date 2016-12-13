@@ -46,8 +46,8 @@ export default class Demo extends React.Component {
           title: 'Last Project',
           text: 'Last project completed',
           textAlign: 'center',
-          selector: '.table table tr:nth-child(15)',
-          position: 'right',
+          selector: '.table table tr:nth-child(15) td:nth-child(4)',
+          position: 'top',
           scrollContainerSelector: '.table-wrapper'
         }
       ]
@@ -98,6 +98,13 @@ export default class Demo extends React.Component {
           <td>Test Project {i}</td>
           <td>Leon Kennedy</td>
           <td>01-01-20{i < 10 ? '0' + i : i}</td>
+          <td>Content 4</td>
+          <td>Content 5</td>
+          <td>Content 6</td>
+          <td>Content 7</td>
+          <td>Content 8</td>
+          <td>Content 9</td>
+          <td>Content 10</td>
         </tr>
       );
     }
@@ -108,6 +115,7 @@ export default class Demo extends React.Component {
           ref={c => (this.joyride = c)}
           steps={this.state.steps}
           scrollToFirstStep={true}
+          type="continuous"
           debug={false} />
         <div className="hero">
           <div className="container">
@@ -140,6 +148,13 @@ export default class Demo extends React.Component {
                 <th>Project Name</th>
                 <th>Creator</th>
                 <th>Date Completed</th>
+                <th>Column 4</th>
+                <th>Column 5</th>
+                <th>Column 6</th>
+                <th>Column 7</th>
+                <th>Column 8</th>
+                <th>Column 9</th>
+                <th>Column 10</th>
               </tr>
             </thead>
             <tbody>

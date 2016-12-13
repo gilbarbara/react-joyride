@@ -199,14 +199,21 @@ export default class Joyride extends React.Component {
 
   /**
    * Scrolls the body element to correct top and left position
+   *
+   * @param {Boolean} [forceRedraw] - If redraw should be force executed
    */
-  scrollBodyElement() {
-    if (this.state.redraw) {
-      this.calcPlacement();
-    }
+  scrollBodyElement(forceRedraw) {
+    clearTimeout(this.bodyScrollTimeout);
+    this.bodyScrollTimeout = setTimeout(() => {
+      this.bodyScrollTimeout = null;
 
-    scroll.top(this.getScrollContainer(), this.getScrollTop());
-    scroll.left(this.getScrollContainer(), this.getScrollLeft());
+      if (forceRedraw || this.state.redraw) {
+        this.calcPlacement();
+      }
+
+      scroll.top(this.getScrollContainer(), this.getScrollTop());
+      scroll.left(this.getScrollContainer(), this.getScrollLeft());
+    }, 50);
   }
 
   /**
@@ -219,14 +226,14 @@ export default class Joyride extends React.Component {
     scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true), () => {
       // Adjust body scroll after scroll container has been scrolled and position is recalculated
       if (recalculate) {
-        this.calcPlacement(this.scrollBodyElement);
+        this.calcPlacement(this.scrollBodyElement.bind(null, true));
       }
     });
 
     scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), () => {
       // Adjust body scroll after scroll container has been scrolled and position is recalculated
       if (recalculate) {
-        this.calcPlacement(this.scrollBodyElement);
+        this.calcPlacement(this.scrollBodyElement.bind(null, true));
       }
     });
   }
