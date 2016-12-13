@@ -35,16 +35,18 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   componentDidMount() {
+    const { onRender } = this.props;
+
     this.forceUpdate();
-    this.props.onRender();
+    onRender();
   }
 
   componentDidUpdate(prevProps) {
-    const { step } = this.props;
+    const { onRender, step } = this.props;
 
     if (prevProps.step.selector !== step.selector) {
       this.forceUpdate();
-      this.props.onRender();
+      onRender();
     }
   }
 
