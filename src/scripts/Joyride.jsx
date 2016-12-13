@@ -167,7 +167,7 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll) {
       if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
-        const recalculate = this.state.yPos !== prevState.yPos;
+        const recalculate = state.redraw || this.state.yPos !== prevState.yPos;
         // Scroll specified parent element
         this.scrollContainerElement(useScrollContainer, recalculate);
       }
@@ -477,32 +477,36 @@ export default class Joyride extends React.Component {
     }
 
     const rect = target.getBoundingClientRect();
+    let offsetTop = (window.pageYOffset || document.documentElement.scrollTop);
 
     if (getContainerScroll) {
       if (!useScrollContainer) {
         return targetTop;
       }
 
-      const containerRect = scrollContainerElem.getBoundingClientRect();
-      const targetBottomPos = rect.bottom;
-      const targetTopPos = rect.top;
-      const containerBottomPos = containerRect.bottom;
-      const containerTopPos = containerRect.top;
-      const computedStyle = getComputedStyle(scrollContainerElem);
+      if (step && step.scrollContainerSelector) {
+        const containerRect = scrollContainerElem.getBoundingClientRect();
+        const targetBottomPos = rect.bottom;
+        const targetTopPos = rect.top;
+        const containerBottomPos = containerRect.bottom;
+        const containerTopPos = containerRect.top;
+        const computedStyle = getComputedStyle(scrollContainerElem);
 
-      // Target is out of view, scroll container so it's fully visible
-      if (targetBottomPos > containerBottomPos) {
-        return (targetBottomPos - containerBottomPos) + parseFloat(computedStyle.paddingTop);
-      }
-      else if (targetTopPos < containerTopPos) {
-        return (containerTopPos - targetTopPos) + parseFloat(computedStyle.paddingTop);
-      }
+        // Target is out of view, scroll container so it's fully visible
+        if (targetBottomPos > containerBottomPos) {
+          return (targetBottomPos - containerBottomPos) + parseFloat(computedStyle.paddingTop);
+        }
+        else if (targetTopPos < containerTopPos) {
+          return (containerTopPos - targetTopPos) + parseFloat(computedStyle.paddingTop);
+        }
 
-      return containerOffset;
+        return containerOffset;
+      }
+      offsetTop = scrollContainerElem.scrollTop;
     }
 
     // Add the target top offset
-    let scrollTo = (window.pageYOffset || document.documentElement.scrollTop) + rect.top;
+    let scrollTo = offsetTop + rect.top;
 
     // Only add viewport offset if scrolling parent or body
     if (!getContainerScroll || !step.scrollContainerSelector) {

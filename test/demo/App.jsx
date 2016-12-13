@@ -115,7 +115,6 @@ export default class Demo extends React.Component {
           ref={c => (this.joyride = c)}
           steps={this.state.steps}
           scrollToFirstStep={true}
-          type="continuous"
           debug={false} />
         <div className="hero">
           <div className="container">
