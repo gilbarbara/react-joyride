@@ -54,12 +54,10 @@ Or include this directly in your html:
 
 ## Getting Started
 
-Add a custom function to include steps to your state in your own component
+Add a custom method to include steps to your component state (or store).
 
 ```javascript
 addSteps: function (steps) {
-	let joyride = this.joyride;
-		
 	if (!Array.isArray(steps)) {
 	    steps = [steps];
 	}
@@ -69,55 +67,50 @@ addSteps: function (steps) {
 	}
 	
 	this.setState(function(currentState) {
-	    currentState.steps = currentState.steps.concat(joyride.parseSteps(steps));
+	    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
 	    return currentState;
 	});
 }
 
-addTooltip(data) {
+addTooltip: function(data) {
 	this.joyride.addTooltip(data);
 }
 ```
 
-Add steps/tooltips after your components are mounted.
+When your component is mounted or his child components, just add steps.
 
 ```javascript
 componentDidMount: function () {
-	this.addSteps({...}); // or this.addTooltip({...});
-	this.joyride.start();
-	
-
-	// or using props in your child components
-	this.props.addSteps({...});
+	this.addSteps({...}); // or this.props.addSteps({...}); in your child components
 }
 ...   
 render: function () {
 	return (
 	  <div>
-		  <Joyride ref="joyride" .../>
-		  <ChildComponent addSteps={this.addSteps} addTooltip={this.addTooltip} />
+		  <Joyride
+		  	ref="joyride"
+		  	steps={this.state.steps}
+		  	run={this.state.steps.length} //or some other trigger to start the Joyride
+		  	...
+		  />
+		  <ChildComponent
+		  	addSteps={this.addSteps}
+		  	addTooltip={this.addTooltip}
+		  />
 		</div>
 	);
 }
-```
-
-Or you can start the tour after a criteria is met
-
-```javascript
-componentDidUpdate (prevProps, prevState) {
-    if (!prevState.ready && this.state.ready) {
-        this.joyride.start();
-    }
-},
 ```
 
 Please refer to the source code of the demo if you need a practical [example](https://github.com/gilbarbara/react-joyride/tree/demo/app/scripts).
 
 ## Options
 
-You can change the initial options passing props to the component. All optional.
+You can change the initial options passing props to the component.
 
-**debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
+**steps** {array}: The tour's steps. Defaults to `[]`
+
+**run** {bool}: Run/stop the tour.
 
 **keyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
@@ -143,27 +136,28 @@ You can change the initial options passing props to the component. All optional.
 
 **showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `continuous` tours. Defaults to `false`
 
-**steps** {array}: The tour's steps. Defaults to `[]`
-
 **tooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
 **type** {string}: The type of your presentation. It can be `continuous` (played sequencially with the Next button) or `single`. Defaults to `single`
 
 **disableOverlay** {bool}: Don't close the tooltip on clicking the overlay. Defaults to `false`
 
-**callback** {function}: It will be called after:  
-* clicking the beacon `{ type: 'step:before', step: {...} }`  
+**debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
+
+**callback** {function}: It will be called when the tour's state changes and returns a single parameter:  
+
+* entering a step `{ type: 'step:before', index: 0, step: {...} }`  
+* rendering the beacon `{ type: 'beacon:before', step: {...} }`  
+* triggering the beacon `{ type: 'beacon:trigger', step: {...} }`  
+* rendering the tooltip `{ type: 'tooltip:before', step: {...} }`  
 * closing a step `{ type: 'step:after', step: {...} }`  
-* clicking on the overlay (if not disabled) `{ type: 'overlay', step: {...} }`  
-* when the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`  
+* clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }`  
+* clicking on the hole `{ type: 'hole:click', step: {...} }`  
+* the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`  
+
+The callback object also receives an `action` string (start|next|back) and the step `index`.
 
 Defaults to `undefined`
-
-### Deprecated
-
-~~completeCallback~~ {function}: It will be called after an user has completed all the steps or skipped the tour and passes two parameters, the steps `{array}` and if the tour was skipped `{boolean}`. Defaults to `undefined`
-
-~~stepCallback~~ {function}: It will be called after each step and passes the completed step `{object}`. Defaults to `undefined`
 
 Example:
 
@@ -171,6 +165,7 @@ Example:
 <Joyride
 	ref="joyride"
 	steps={this.state.steps}
+	run={this.state.steps.length}
 	debug={true}
 	type="single"
 	callback={this.callback}
@@ -194,17 +189,21 @@ Call this method to start the tour.
 
 ### this.joyride.next()
 
-Call this method to programmatically advance to the next step of the tour.
+Call this method to programmatically advance to the next step.
+
+### this.joyride.back()
+
+Call this method to programmatically return to the previous step.
 
 ### this.joyride.stop()
 
-Call this method to stop/pause the tour.  Call `this.joyride.start(true)` to restart.
+Call this method to stop/pause the tour.
 
 ### this.joyride.reset(restart)
 
 Call this method to reset the tour iteration back to 0
 
-- `restart` {boolean} - Starts the new tour right away
+- `restart` {boolean} - Starts the tour again
 
 ### this.joyride.getProgress()
 Retrieve the current progress of your tour. The object returned looks like this:
