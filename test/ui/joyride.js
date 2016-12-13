@@ -58,7 +58,7 @@ module.exports = {
     browser
       .waitForElementVisible('.joyride-beacon', timer)
       .assert.cssProperty('.joyride-beacon', 'top', '905px')
-      .assert.cssProperty('.joyride-beacon', 'left', '227px')
+      .assert.cssProperty('.joyride-beacon', 'left', '228px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
   },
@@ -71,7 +71,7 @@ module.exports = {
     browser
       .waitForElementVisible('.joyride-tooltip', timer)
       .assert.cssProperty('.joyride-tooltip', 'top', '905px')
-      .assert.cssProperty('.joyride-tooltip', 'left', '230px')
+      .assert.cssProperty('.joyride-tooltip', 'left', '231px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '155px')
       .assert.containsText('.joyride-tooltip__header', 'Our Projects')
