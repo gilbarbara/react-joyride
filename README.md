@@ -26,14 +26,14 @@ var react = require('react');
 var Joyride = require('react-joyride');
 
 var App = React.createClass({
-	render: function () {
-		return (
-			<div className="app">
-				<Joyride ref={c => (this.joyride = c)} steps={this.state.steps} debug={true} ... />
-				<YourComponents .../>
-			</div>
-		);
-	}
+  render: function () {
+    return (
+      <div className="app">
+        <Joyride ref={c => (this.joyride = c)} steps={this.state.steps} debug={true} ... />
+        <YourComponents .../>
+      </div>
+    );
+  }
   ...
 });
 ```
@@ -61,22 +61,22 @@ Add a custom method to include steps to your component state (or store).
 
 ```javascript
 addSteps: function (steps) {
-	if (!Array.isArray(steps)) {
-	    steps = [steps];
-	}
+  if (!Array.isArray(steps)) {
+    steps = [steps];
+  }
 
-	if (!steps.length) {
-	    return false;
-	}
+  if (!steps.length) {
+    return false;
+  }
 
-	this.setState(function(currentState) {
-	    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
-	    return currentState;
-	});
+  this.setState(function(currentState) {
+    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
+    return currentState;
+  });
 }
 
 addTooltip: function(data) {
-	this.joyride.addTooltip(data);
+  this.joyride.addTooltip(data);
 }
 ```
 
@@ -84,24 +84,24 @@ When your component is mounted or his child components, just add steps.
 
 ```javascript
 componentDidMount: function () {
-	this.addSteps({...}); // or this.props.addSteps({...}); in your child components
+  this.addSteps({...}); // or this.props.addSteps({...}); in your child components
 }
 ...   
 render: function () {
-	return (
-	  <div>
-		  <Joyride
-		  	ref="joyride"
-		  	steps={this.state.steps}
-		  	run={this.state.steps.length} //or some other trigger to start the Joyride
-		  	...
-		  />
-		  <ChildComponent
-		  	addSteps={this.addSteps}
-		  	addTooltip={this.addTooltip}
-		  />
-		</div>
-	);
+  return (
+    <div>
+      <Joyride
+        ref="joyride"
+        steps={this.state.steps}
+        run={this.state.steps.length} //or some other trigger to start the Joyride
+        ...
+      />
+      <ChildComponent
+        addSteps={this.addSteps}
+        addTooltip={this.addTooltip}
+      />
+    </div>
+  );
 }
 ```
 
@@ -166,13 +166,13 @@ Example:
 
 ```javascript
 <Joyride
-	ref="joyride"
-	steps={this.state.steps}
-	run={this.state.steps.length}
-	debug={true}
-	type="single"
-	callback={this.callback}
-	...
+  ref="joyride"
+  steps={this.state.steps}
+  run={this.state.steps.length}
+  debug={true}
+  type="single"
+  callback={this.callback}
+  ...
 />
 ```
 
@@ -213,15 +213,15 @@ Retrieve the current progress of your tour. The object returned looks like this:
 
 ```javascript
 {
-	index: 2,
-	percentageComplete: 50,
-	step: {
-		title: "...",
-		text: "...",
-		selector: "...",
-		position: "...",
-		...
-	}
+  index: 2,
+  percentageComplete: 50,
+  step: {
+    title: "...",
+    text: "...",
+    selector: "...",
+    position: "...",
+    ...
+  }
 }}
 ```
 
@@ -279,30 +279,30 @@ Example:
     position: 'bottom-left',
     type: 'hover',
     style: {
-		backgroundColor: 'rgba(0, 0, 0, 0.8)',
-		borderRadius: '0',
-		color: '#fff',
-		mainColor: '#ff4456',
-		textAlign: 'center',
-		width: '29rem',
-		beacon: {
-			offsetX: 10,
-			offsetY: 10,
-			inner: '#000',
-			outer: '#000'
-		},
-		button: {
-			display: 'none'
-			// or any style attribute
-		},
-		skip: {
-			color: '#f04'
-		},
-		hole: {
-			backgroundColor: 'RGBA(201, 23, 33, 0.2)',
-		}
-		...
-	},
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    borderRadius: '0',
+    color: '#fff',
+    mainColor: '#ff4456',
+    textAlign: 'center',
+    width: '29rem',
+    beacon: {
+      offsetX: 10,
+      offsetY: 10,
+      inner: '#000',
+      outer: '#000'
+    },
+    button: {
+      display: 'none'
+      // or any style attribute
+    },
+    skip: {
+      color: '#f04'
+    },
+    hole: {
+      backgroundColor: 'RGBA(201, 23, 33, 0.2)',
+    }
+    ...
+  },
     // custom params...
     name: 'my-first-step',
     parent: 'MyComponentName'
