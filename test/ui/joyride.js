@@ -96,8 +96,8 @@ module.exports = {
   'Mission - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', timer)
-      .assert.cssProperty('.joyride-beacon', 'top', '1810px')
-      .assert.cssProperty('.joyride-beacon', 'left', '129px')
+      .assert.cssProperty('.joyride-beacon', 'top', '1805px')
+      .assert.cssProperty('.joyride-beacon', 'left', '264px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
   },
@@ -109,17 +109,18 @@ module.exports = {
 
     browser
       .waitForElementVisible('.joyride-tooltip', timer)
-      .assert.cssProperty('.joyride-tooltip', 'top', '1823px')
-      .assert.cssProperty('.joyride-tooltip', 'left', '15px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '1818px')
+      .assert.cssProperty('.joyride-tooltip', 'left', '57px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '155px')
       .assert.containsText('.joyride-tooltip__header', 'Our Mission')
-      .assert.containsText('.joyride-tooltip__main', 'Or some other marketing bullshit terms');
+      .assert.containsText('.joyride-tooltip__main', 'Can be advanced by clicking an element in an overlay hole.');
   },
 
-  'Mission - should be able to close the tooltip': function(browser) {
+  'Mission - should be able to advance the tooltip by clicking the App’s button': function(browser) {
     browser.pause(wait);
-    browser.click('.joyride-tooltip__button--primary');
+    browser.moveToElement('.mission button', 10, 10);
+    browser.click('.mission button');
     browser.waitForElementNotPresent('.joyride-tooltip', timer);
   },
 
