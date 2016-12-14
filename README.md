@@ -1,11 +1,14 @@
 React Joyride
 ===
 
-<a href="https://www.npmjs.com/package/react-joyride" target="_blank">![](https://badge.fury.io/js/react-joyride.svg)</a> <a href="https://travis-ci.org/gilbarbara/react-joyride" target="_blank">![](https://travis-ci.org/gilbarbara/react-joyride.svg)</a> <a href="https://codeclimate.com/github/gilbarbara/react-joyride">![](https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg)</a> <a href="https://gitter.im/gilbarbara/react-joyride?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge">![Join the chat at https://gitter.im/gilbarbara/react-joyride](https://badges.gitter.im/Join%20Chat.svg)</a>
+[![NPM version](https://badge.fury.io/js/react-joyride.svg)](https://badge.fury.io/js/react-joyride.svg)
+[![build status](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride)
+[![Code Climate status](https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg)](https://codeclimate.com/github/gilbarbara/react-joyride)
+[![Join the chat at https://gitter.im/gilbarbara/react-joyride](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eslint/eslint?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-<a href="http://gilbarbara.github.io/react-joyride/" target="_blank">![](http://gilbarbara.github.io/react-joyride/media/example.png)</a>
+[![Joyride example image](http://gilbarbara.github.io/react-joyride/media/example.png)](http://gilbarbara.github.io/react-joyride/)
 
-View the demo <a href="http://gilbarbara.github.io/react-joyride/" target="_blank">here</a>. [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
+View the demo [here](http://gilbarbara.github.io/react-joyride/) [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
 
 [![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/React-Joyride/)
 
@@ -23,15 +26,15 @@ var react = require('react');
 var Joyride = require('react-joyride');
 
 var App = React.createClass({
-	render: function () {
-		return (
-			<div className="app">
-				<Joyride ref={c => (this.joyride = c)} steps={this.state.steps} debug={true} ... />
-				<YourComponents .../>
-			</div>
-		);
-	}
-  ...
+  render: function () {
+    return (
+      <div className="app">
+        <Joyride ref={c => (this.joyride = c)} steps={this.state.steps} debug={true} ... />
+        <YourComponents .../>
+      </div>
+    );
+  }
+ ...
 });
 ```
 Don't forget to pass a `ref` to the component.
@@ -58,22 +61,22 @@ Add a custom method to include steps to your component state (or store).
 
 ```javascript
 addSteps: function (steps) {
-	if (!Array.isArray(steps)) {
-	    steps = [steps];
-	}
-	
-	if (!steps.length) {
-	    return false;
-	}
-	
-	this.setState(function(currentState) {
-	    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
-	    return currentState;
-	});
+  if (!Array.isArray(steps)) {
+    steps = [steps];
+  }
+  
+  if (!steps.length) {
+    return false;
+  }
+  
+  this.setState(function(currentState) {
+    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
+    return currentState;
+  });
 }
 
 addTooltip: function(data) {
-	this.joyride.addTooltip(data);
+  this.joyride.addTooltip(data);
 }
 ```
 
@@ -81,24 +84,24 @@ When your component is mounted or his child components, just add steps.
 
 ```javascript
 componentDidMount: function () {
-	this.addSteps({...}); // or this.props.addSteps({...}); in your child components
+  this.addSteps({...}); // or this.props.addSteps({...}); in your child components
 }
-...   
+...  
 render: function () {
-	return (
-	  <div>
-		  <Joyride
-		  	ref="joyride"
-		  	steps={this.state.steps}
-		  	run={this.state.steps.length} //or some other trigger to start the Joyride
-		  	...
-		  />
-		  <ChildComponent
-		  	addSteps={this.addSteps}
-		  	addTooltip={this.addTooltip}
-		  />
-		</div>
-	);
+  return (
+   <div>
+     <Joyride
+       ref="joyride"
+       steps={this.state.steps}
+       run={this.state.steps.length} //or some other trigger to start the Joyride
+       ...
+     />
+     <ChildComponent
+       addSteps={this.addSteps}
+       addTooltip={this.addTooltip}
+     />
+    </div>
+  );
 }
 ```
 
@@ -134,7 +137,7 @@ You can change the initial options passing props to the component.
 
 **showSkipButton** {bool}: Display a link to skip the tour. Defaults to `false`
 
-**showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5*  in `continuous` tours. Defaults to `false`
+**showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5* in `continuous` tours. Defaults to `false`
 
 **tooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
@@ -144,16 +147,16 @@ You can change the initial options passing props to the component.
 
 **debug** {bool}: Console.log Joyride's inner actions. Defaults to `false`
 
-**callback** {function}: It will be called when the tour's state changes and returns a single parameter:  
+**callback** {function}: It will be called when the tour's state changes and returns a single parameter: 
 
-* entering a step `{ type: 'step:before', index: 0, step: {...} }`  
-* rendering the beacon `{ type: 'beacon:before', step: {...} }`  
-* triggering the beacon `{ type: 'beacon:trigger', step: {...} }`  
-* rendering the tooltip `{ type: 'tooltip:before', step: {...} }`  
-* closing a step `{ type: 'step:after', step: {...} }`  
-* clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }`  
-* clicking on the hole `{ type: 'hole:click', step: {...} }`  
-* the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`  
+* entering a step `{ type: 'step:before', index: 0, step: {...} }` 
+* rendering the beacon `{ type: 'beacon:before', step: {...} }` 
+* triggering the beacon `{ type: 'beacon:trigger', step: {...} }` 
+* rendering the tooltip `{ type: 'tooltip:before', step: {...} }` 
+* closing a step `{ type: 'step:after', step: {...} }` 
+* clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }` 
+* clicking on the hole `{ type: 'hole:click', step: {...} }` 
+* the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }` 
 
 The callback object also receives an `action` string (start|next|back) and the step `index`.
 
@@ -163,13 +166,13 @@ Example:
 
 ```javascript
 <Joyride
-	ref="joyride"
-	steps={this.state.steps}
-	run={this.state.steps.length}
-	debug={true}
-	type="single"
-	callback={this.callback}
-	...
+  ref="joyride"
+  steps={this.state.steps}
+  run={this.state.steps.length}
+  debug={true}
+  type="single"
+  callback={this.callback}
+  ...
 />
 ```
 
@@ -210,15 +213,15 @@ Retrieve the current progress of your tour. The object returned looks like this:
 
 ```javascript
 {
-	index: 2,
-	percentageComplete: 50,
-	step: {
-		title: "...",
-		text: "...",
-		selector: "...",
-		position: "...",
-		...
-	}
+  index: 2,
+  percentageComplete: 50,
+  step: {
+    title: "...",
+    text: "...",
+    selector: "...",
+    position: "...",
+    ...
+  }
 }}
 ```
 
@@ -230,18 +233,18 @@ Parse the incoming steps, check if it's already rendered and returns an array wi
 
 ```javascript
 var steps = this.joyride.parseSteps({
-    title: 'Title',
-    text: 'description',
-    selector: 'my-super-class',
-    position: 'top'
+  title: 'Title',
+  text: 'description',
+  selector: 'my-super-class',
+  position: 'top'
 });
 
 // steps
 [{
-    title: 'Title',
-    text: 'description',
-    selector: '#super-panel',
-    position: 'top'
+  title: 'Title',
+  text: 'description',
+  selector: '#super-panel',
+  position: 'top'
 }]
 ```
 
@@ -270,39 +273,39 @@ Example:
 
 ```javascript
 {
-    title: 'First Step',
-    text: 'Start using the <strong>joyride</strong>', // supports html tags
-    selector: '.first-step',
-    position: 'bottom-left',
-    type: 'hover',
-    style: {
-		backgroundColor: 'rgba(0, 0, 0, 0.8)',
-		borderRadius: '0',
-		color: '#fff',
-		mainColor: '#ff4456',
-		textAlign: 'center',
-		width: '29rem',
-		beacon: {
-			offsetX: 10,
-			offsetY: 10,
-			inner: '#000',
-			outer: '#000'
-		},
-		button: {
-			display: 'none'
-			// or any style attribute
-		},
-		skip: {
-			color: '#f04'
-		},
-		hole: {
-			backgroundColor: 'RGBA(201, 23, 33, 0.2)',
-		}
-		...
-	},
-    // custom params...
-    name: 'my-first-step',
-    parent: 'MyComponentName'
+  title: 'First Step',
+  text: 'Start using the <strong>joyride</strong>', // supports html tags
+  selector: '.first-step',
+  position: 'bottom-left',
+  type: 'hover',
+  style: {
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    borderRadius: '0',
+    color: '#fff',
+    mainColor: '#ff4456',
+    textAlign: 'center',
+    width: '29rem',
+    beacon: {
+      offsetX: 10,
+      offsetY: 10,
+      inner: '#000',
+      outer: '#000'
+    },
+    button: {
+      display: 'none'
+      // or any style attribute
+    },
+    skip: {
+      color: '#f04'
+    },
+    hole: {
+      backgroundColor: 'RGBA(201, 23, 33, 0.2)',
+    }
+    ...
+  },
+  // custom params...
+  name: 'my-first-step',
+  parent: 'MyComponentName'
 }
 ```
 
@@ -347,5 +350,5 @@ Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 ---
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
-  
+ 
 
