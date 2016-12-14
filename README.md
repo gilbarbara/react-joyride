@@ -40,7 +40,7 @@ var App = React.createClass({
 Don't forget to pass a `ref` to the component.
 
 ### Styles
- 
+
 If your are using **SCSS** (and you should):
 
 ```scss
@@ -64,11 +64,11 @@ addSteps: function (steps) {
 	if (!Array.isArray(steps)) {
 	    steps = [steps];
 	}
-	
+
 	if (!steps.length) {
 	    return false;
 	}
-	
+
 	this.setState(function(currentState) {
 	    currentState.steps = currentState.steps.concat(this.joyride.parseSteps(steps));
 	    return currentState;
@@ -350,7 +350,6 @@ Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 ---
 
 Inspired by [react-tour-guide](https://github.com/jakemmarsh/react-tour-guide) and [jquery joyride tour](http://zurb.com/playground/jquery-joyride-feature-tour-plugin)
-  
 
 [npm-image]: https://badge.fury.io/js/react-joyride.svg
 [npm-url]: https://www.npmjs.com/package/react-joyride
