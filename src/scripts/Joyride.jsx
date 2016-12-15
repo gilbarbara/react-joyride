@@ -988,6 +988,7 @@ class Joyride extends React.Component {
         cssPosition,
         disableOverlay,
         holePadding,
+        selector: sanitizeSelector(step.selector),
         showOverlay: shouldShowOverlay,
         step,
         standalone: Boolean(standaloneTooltip),

@@ -15,6 +15,10 @@ export default class JoyrideTooltip extends React.Component {
     holePadding: React.PropTypes.number,
     onClick: React.PropTypes.func.isRequired,
     onRender: React.PropTypes.func.isRequired,
+
+    // sanitized selector string
+    selector: React.PropTypes.string.isRequired,
+
     showOverlay: React.PropTypes.bool.isRequired,
     standalone: React.PropTypes.bool,
     step: React.PropTypes.object.isRequired,
@@ -103,9 +107,9 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { onRender, step } = this.props;
+    const { onRender, selector } = this.props;
 
-    if (prevProps.step.selector !== step.selector) {
+    if (prevProps.selector !== selector) {
       this.forceUpdate();
       onRender();
     }
@@ -342,9 +346,9 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   render() {
-    const { buttons, disableOverlay, onClick, showOverlay, step, type } = this.props;
+    const { buttons, disableOverlay, onClick, selector, showOverlay, step, type } = this.props;
 
-    const target = document.querySelector(step.selector);
+    const target = document.querySelector(selector);
 
     if (!target) {
       return undefined;
@@ -394,7 +398,7 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     output.tooltipComponent = (
-      <div className={opts.classes.join(' ')} style={styles.tooltip} data-target={step.selector}>
+      <div className={opts.classes.join(' ')} style={styles.tooltip} data-target={selector}>
         <div
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
           style={styles.arrow} />
