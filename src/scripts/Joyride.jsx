@@ -726,7 +726,6 @@ class Joyride extends React.Component {
       play: steps[nextIndex] ? play : false,
       showTooltip: show,
       index: nextIndex,
-      position: undefined,
       redraw: !show,
       xPos: -1000,
       yPos: -1000
