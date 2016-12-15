@@ -428,6 +428,7 @@ class Joyride extends React.Component {
    * @returns {Array}
    */
   parseStep(step) {
+    this.checkStepValidity(step);
     const newStep = Object.assign({}, step, { position: step.position || 'top' });
     newStep.selector = sanitizeSelector(step.selector);
     const el = document.querySelector(newStep.selector);
@@ -450,13 +451,47 @@ class Joyride extends React.Component {
   }
 
   /**
+   * Verify that a step is valid
+   *
+   * @param   {Object}  step - A step object
+   * @returns {boolean}        True if the step is valid, false otherwise
+   */
+  checkStepValidity(step) {
+    // Check that the step is the proper type
+    if (!step || typeof step !== 'object' || Array.isArray(step)) {
+      logger({
+        type: 'joyride:checkStepValidity',
+        msg: 'Did not provide a step object.',
+        warn: true,
+        debug: this.props.debug,
+      });
+      return false;
+    }
+
+    // Check that all required step fields are present
+    const requiredFields = ['selector', 'text'];
+    function hasRequiredField(requiredField) {
+      const hasField = Boolean(step[requiredField]);
+      if (!hasField) {
+        logger({
+          type: 'joyride:checkStepValidity',
+          msg: [`Provided a step without the required ${requiredField} property.`, 'Step:', step],
+          warn: true,
+          debug: this.props.debug,
+        });
+      }
+      return hasField;
+    }
+    return requiredFields.every(hasRequiredField);
+  }
+
+  /**
    * Add standalone tooltip events
    *
    * @param {Object} data - Similar shape to a 'step', but for a single tooltip
    */
   addTooltip(data) {
-    const parsedData = this.parseStep(data);
-    if (!parsedData) return;
+    if (!this.checkStepValidity(data)) return;
 
     logger({
       type: 'joyride:addTooltip',
@@ -464,12 +499,12 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
 
-    const key = parsedData.trigger || parsedData.selector;
+    const key = data.trigger || sanitizeSelector(data.selector);
     const el = document.querySelector(key);
     if (!el) return;
     el.setAttribute('data-tooltip', JSON.stringify(data));
 
-    const eventType = parsedData.event || 'click';
+    const eventType = data.event || 'click';
     if (eventType === 'hover' && !isTouch) {
       listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
