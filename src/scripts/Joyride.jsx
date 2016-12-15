@@ -36,6 +36,10 @@ const listeners = {
   tooltips: {}
 };
 
+const STEP_DEFAULTS = {
+  position: 'top',
+};
+
 let isTouch = false;
 if (typeof window !== 'undefined') {
   isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
@@ -429,7 +433,7 @@ class Joyride extends React.Component {
    */
   parseStep(step) {
     this.checkStepValidity(step);
-    const newStep = Object.assign({}, step, { position: step.position || 'top' });
+    const newStep = Object.assign({}, step);
     newStep.selector = sanitizeSelector(step.selector);
     const el = document.querySelector(newStep.selector);
     if (!el) {
@@ -844,7 +848,7 @@ class Joyride extends React.Component {
     const target = document.querySelector(step.selector);
     const component = this.getElementDimensions((displayTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
-    let position = step.position;
+    let position = step.position || STEP_DEFAULTS.position;
 
     if (/^left/.test(position) && rect.left - (component.width + tooltipOffset) < 0) {
       position = 'top';
@@ -953,7 +957,7 @@ class Joyride extends React.Component {
     }
 
     if (showTooltip || standaloneTooltip) {
-      step.position = this.calcPosition(step);
+      const position = this.calcPosition(step);
 
       if (!standaloneTooltip) {
         if (['continuous', 'guided'].indexOf(type) > -1) {
@@ -988,6 +992,7 @@ class Joyride extends React.Component {
         cssPosition,
         disableOverlay,
         holePadding,
+        position,
         selector: sanitizeSelector(step.selector),
         showOverlay: shouldShowOverlay,
         step,
