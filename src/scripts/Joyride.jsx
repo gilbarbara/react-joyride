@@ -430,6 +430,24 @@ class Joyride extends React.Component {
   }
 
   /**
+   * Parse the incoming steps
+   *
+   * @deprecated
+   *
+   * @param {Array|Object} steps
+   * @returns {Array}
+   */
+  parseSteps(steps) {
+    logger({
+      type: 'joyride:parseSteps',
+      msg: 'joyride.parseSteps() is deprecated.  It is no longer necessary to parse steps before providing them to Joyride.',
+      warn: true,
+      debug: this.props.debug,
+    });
+    return steps;
+  }
+
+  /**
    * Verify that a step is valid
    *
    * @param   {Object}  step - A step object
@@ -492,7 +510,12 @@ class Joyride extends React.Component {
 
     const el = document.querySelector(sanitizeSelector(step.selector));
     if (!el) {
-      this.logger('joyride:getStepTargetElement', 'Target not rendered. For best results only add steps after they are mounted.', true);
+      logger({
+        type: 'joyride:getStepTargetElement',
+        msg: 'Target not rendered. For best results only add steps after they are mounted.',
+        warn: true,
+        debug: this.props.debug,
+      });
       return null;
     }
     return el;

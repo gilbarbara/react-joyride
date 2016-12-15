@@ -60,19 +60,17 @@ Or include this directly in your html:
 Add a custom method to include steps to your component state (or store).
 
 ```javascript
-addStep: function (step) {
-  let joyride = this.joyride;
-
-  if (!step || typeof step !== 'object') return false;
+addSteps: function (steps) {
+  if (!steps || typeof steps !== 'object') return false;
 
   this.setState(function(currentState) {
-    currentState.steps = currentState.steps.concat(joyride.parseStep(step));
+    currentState.steps = currentState.steps.concat(steps);
     return currentState;
   });
 }
 
 // Render a standalone tooltip
-addTooltip(data) {
+addTooltip: function(data) {
   this.joyride.addTooltip(data);
 }
 ```
@@ -224,19 +222,27 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
-### this.joyride.parseStep(step)
+### **Deprecated** this.joyride.parseSteps(steps)
 
-Parse an incoming step, check if the target has been rendered, add the target element to the step, and return the step.
+Parse the incoming steps, check if it's already rendered and returns an array with valid items
 
-- `step ` {object}
+- `steps ` {array|object}
 
 ```javascript
-var step = this.joyride.parseStep({
-    title: 'Title',
-    text: 'description',
-    selector: '.my-super-class',
-    position: 'top'
+var steps = this.joyride.parseSteps({
+  title: 'Title',
+  text: 'description',
+  selector: 'my-super-class',
+  position: 'top'
 });
+
+// steps
+[{
+  title: 'Title',
+  text: 'description',
+  selector: '#super-panel',
+  position: 'top'
+}]
 ```
 
 ### Only start the tour after all target elements (or at least the first step) are rendered in the page.
