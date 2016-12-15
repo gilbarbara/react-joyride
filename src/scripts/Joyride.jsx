@@ -2,7 +2,7 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl } from './utils';
+import { getRootEl, logger } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -105,7 +105,11 @@ class Joyride extends React.Component {
       type
     } = this.props;
 
-    this.logger('joyride:initialized', [this.props]);
+    logger({
+      type: 'joyride:initialized',
+      msg: [this.props],
+      debug: this.props.debug,
+    });
 
     if (resizeDebounce) {
       let timeoutId;
@@ -134,8 +138,11 @@ class Joyride extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { play, shouldPlay, standaloneTooltip } = this.state;
     const { keyboardNavigation, run } = this.props;
-    this.logger('joyride:willReceiveProps', [nextProps]);
-
+    logger({
+      type: 'joyride:willReceiveProps',
+      msg: [nextProps],
+      debug: nextProps.debug,
+    });
     if (!nextProps.steps.length) {
       this.reset();
     }
@@ -295,7 +302,11 @@ class Joyride extends React.Component {
     const showTooltip = autorun === true;
     const { steps } = this.props;
 
-    this.logger('joyride:start', ['autorun:', showTooltip]);
+    logger({
+      type: 'joyride:start',
+      msg: ['autorun:', showTooltip],
+      debug: this.props.debug,
+    });
 
     this.setState({
       play: !!steps.length,
@@ -308,8 +319,10 @@ class Joyride extends React.Component {
    * Stop the tour
    */
   stop() {
-    this.logger('joyride:stop');
-
+    logger({
+      type: 'joyride:stop',
+      debug: this.props.debug,
+    });
     this.setState({
       showTooltip: false,
       play: false
@@ -326,7 +339,11 @@ class Joyride extends React.Component {
 
     const shouldDisplay = Boolean(steps[nextIndex]) && showTooltip;
 
-    this.logger('joyride:next', ['new index:', nextIndex]);
+    logger({
+      type: 'joyride:next',
+      msg: ['new index:', nextIndex],
+      debug: this.props.debug,
+    });
     this.toggleTooltip(shouldDisplay, nextIndex, 'next');
   }
 
@@ -340,7 +357,11 @@ class Joyride extends React.Component {
 
     const shouldDisplay = Boolean(steps[previousIndex]) && showTooltip;
 
-    this.logger('joyride:back', ['new index:', previousIndex]);
+    logger({
+      type: 'joyride:back',
+      msg: ['new index:', previousIndex],
+      debug: this.props.debug,
+    });
     this.toggleTooltip(shouldDisplay, previousIndex, 'next');
   }
 
@@ -356,8 +377,11 @@ class Joyride extends React.Component {
     const newState = JSON.parse(JSON.stringify(defaultState));
     newState.play = shouldRestart;
 
-    this.logger('joyride:reset', ['restart:', shouldRestart]);
-
+    logger({
+      type: 'joyride:reset',
+      msg: ['restart:', shouldRestart],
+      debug: this.props.debug,
+    });
     // Force a re-render if necessary
     if (shouldRestart && play === shouldRestart && index === 0) {
       this.forceUpdate();
@@ -375,7 +399,11 @@ class Joyride extends React.Component {
     const { index } = this.state;
     const { steps } = this.props;
 
-    this.logger('joyride:getProgress', ['steps:', steps]);
+    logger({
+      type: 'joyride:getProgress',
+      msg: ['steps:', steps],
+      debug: this.props.debug,
+    });
 
     return {
       index,
@@ -423,7 +451,12 @@ class Joyride extends React.Component {
       newSteps.push(s);
 
       if (!el) {
-        this.logger('joyride:parseSteps', 'Target not rendered. For best results only add steps after they are mounted.', s);
+        logger({
+          type: 'joyride:parseSteps',
+          msg: 'Target not rendered. For best results only add steps after they are mounted.',
+          debug: this.props.debug,
+          warn: s,
+        });
       }
     });
 
@@ -442,7 +475,11 @@ class Joyride extends React.Component {
     let eventType;
     let key;
 
-    this.logger('joyride:addTooltip', ['data:', data]);
+    logger({
+      type: 'joyride:addTooltip',
+      msg: ['data:', data],
+      debug: this.props.debug,
+    });
 
     if (parseData.length) {
       newData = parseData[0];
@@ -474,26 +511,6 @@ class Joyride extends React.Component {
     else {
       listeners.tooltips[key] = { event: 'click', cb: this.onClickStandaloneTrigger };
       el.addEventListener('click', listeners.tooltips[key].cb);
-    }
-  }
-
-  /**
-   * Log method calls if debug is enabled
-   *
-   * @private
-   * @param {string} type
-   * @param {string|Array} [msg]
-   * @param {boolean} [warn]
-   */
-  logger(type, msg, warn) {
-    const { debug } = this.props;
-    const logger = warn ? console.warn || console.error : console.log; //eslint-disable-line no-console
-
-    if (debug) {
-      console.log(`%c${type}`, 'color: #760bc5; font-weight: bold; font-size: 12px;'); //eslint-disable-line no-console
-      if (msg) {
-        logger.apply(console, msg);
-      }
     }
   }
 
@@ -750,8 +767,11 @@ class Joyride extends React.Component {
       y: -1000
     };
 
-    this.logger(`joyride:calcPlacement${this.getRenderStage()}`, ['step:', step]);
-
+    logger({
+      type: `joyride:calcPlacement${this.getRenderStage()}`,
+      msg: ['step:', step],
+      debug: this.props.debug,
+    });
     if (!target) {
       return;
     }
@@ -820,8 +840,6 @@ class Joyride extends React.Component {
     const component = this.getElementDimensions((displayTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
     let position = step.position;
-
-//    this.logger('joyride:calcPosition', ['step:', step, 'compoent:', component, 'rect:', rect]);
 
     if (/^left/.test(position) && rect.left - (component.width + tooltipOffset) < 0) {
       position = 'top';
@@ -914,11 +932,16 @@ class Joyride extends React.Component {
 
     let component;
 
-    this.logger(`joyride:createComponent${this.getRenderStage()}`, [
-      'component:', showTooltip || standaloneTooltip ? 'Tooltip' : 'Beacon',
-      'animate:', xPos > -1 && !redraw,
-      'step:', step
-    ], !target);
+    logger({
+      type: `joyride:createComponent${this.getRenderStage()}`,
+      msg: [
+        'component:', showTooltip || standaloneTooltip ? 'Tooltip' : 'Beacon',
+        'animate:', xPos > -1 && !redraw,
+        'step:', step
+      ],
+      debug: this.props.debug,
+      warn: !target,
+    });
 
     if (!target) {
       return false;
@@ -992,10 +1015,18 @@ class Joyride extends React.Component {
     let standaloneComponent;
 
     if (play && hasStep) {
-      this.logger(`joyride:render${this.getRenderStage()}`, ['step:', steps[index]]);
+      logger({
+        type: `joyride:render${this.getRenderStage()}`,
+        msg: ['step:', steps[index]],
+        debug: this.props.debug,
+      });
     }
     else if (!play && standaloneTooltip) {
-      this.logger('joyride:render', ['tooltip:', standaloneTooltip]);
+      logger({
+        type: 'joyride:render',
+        msg: ['tooltip:', standaloneTooltip],
+        debug: this.props.debug,
+      });
     }
 
     if (standaloneTooltip) {
