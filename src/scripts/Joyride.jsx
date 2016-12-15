@@ -2,7 +2,7 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl, logger } from './utils';
+import { getRootEl, logger, sanitizeSelector } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -429,19 +429,8 @@ class Joyride extends React.Component {
    */
   parseStep(step) {
     const newStep = Object.assign({}, step, { position: step.position || 'top' });
-
-    if (step.selector.dataset && step.selector.dataset.reactid) {
-      step.selector = `[data-reactid="${step.selector.dataset.reactid}"]`;
-      console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
-    }
-    else if (step.selector.dataset) {
-      console.error('Unsupported error: React 15.0+ don\'t write reactid to the DOM anymore, please use a plain class in your step.', step); //eslint-disable-line no-console
-      if (step.selector.className) {
-        step.selector = `.${step.selector.className.replace(' ', '.')}`;
-      }
-    }
-
-    const el = document.querySelector(step.selector);
+    newStep.selector = sanitizeSelector(step.selector);
+    const el = document.querySelector(newStep.selector);
     if (!el) {
       if (!el) {
         logger({
