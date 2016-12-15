@@ -29,7 +29,10 @@ export default class JoyrideTooltip extends React.Component {
     showOverlay: React.PropTypes.bool.isRequired,
     standalone: React.PropTypes.bool,
     step: React.PropTypes.object.isRequired,
-    target: React.PropTypes.element.isRequired,
+
+    // DOM element to target
+    target: React.PropTypes.object.isRequired,
+
     type: React.PropTypes.string.isRequired,
     xPos: React.PropTypes.oneOfType([
       React.PropTypes.number,
