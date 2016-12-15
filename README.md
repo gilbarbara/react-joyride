@@ -112,6 +112,8 @@ You can change the initial options passing props to the component.
 
 **run** {bool}: Run/stop the tour.
 
+**autoStart** {bool}: Open the tooltip automatically when started, without showing a beacon.
+
 **keyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
 **locale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`

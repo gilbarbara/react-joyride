@@ -50,6 +50,7 @@ class Joyride extends React.Component {
   }
 
   static propTypes = {
+    autoStart: React.PropTypes.bool,
     callback: React.PropTypes.func,
     debug: React.PropTypes.bool,
     disableOverlay: React.PropTypes.bool,
@@ -72,6 +73,7 @@ class Joyride extends React.Component {
   };
 
   static defaultProps = {
+    autoStart: false,
     debug: false,
     holePadding: 5,
     keyboardNavigation: true,
@@ -96,6 +98,12 @@ class Joyride extends React.Component {
     tooltipOffset: 15,
     type: 'single'
   };
+
+  componentWillMount() {
+    const { steps, run, autoStart } = this.props;
+
+    if (steps && run) this.start(autoStart);
+  }
 
   componentDidMount() {
     const {
@@ -151,7 +159,7 @@ class Joyride extends React.Component {
       (!run && nextProps.run) ||
       (!play && (shouldPlay && !standaloneTooltip))
     ) {
-      this.start();
+      this.start(nextProps.autoStart);
     }
 
     if (run && !nextProps.run) {
