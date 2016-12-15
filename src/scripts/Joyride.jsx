@@ -105,8 +105,8 @@ class Joyride extends React.Component {
 
   componentWillMount() {
     const { steps, run, autoStart } = this.props;
-
-    if (steps && run) this.start(autoStart);
+    const stepsAreValid = this.checkStepsValidity(steps);
+    if (steps && stepsAreValid && run) this.start(autoStart);
   }
 
   componentDidMount() {
@@ -155,8 +155,12 @@ class Joyride extends React.Component {
       msg: [nextProps],
       debug: nextProps.debug,
     });
-    if (!nextProps.steps.length) {
+    if (this.props.steps.length && !nextProps.steps.length) {
       this.reset();
+    }
+
+    if (nextProps.steps !== this.props.steps) {
+      this.checkStepsValidity(nextProps.steps);
     }
 
     if (
@@ -458,6 +462,22 @@ class Joyride extends React.Component {
       return hasField;
     }
     return requiredFields.every(hasRequiredField);
+  }
+
+  /**
+   * Check one or more steps are valid
+   *
+   * @param   {Object|Object[]}  steps - A step object or array of step objects
+   * @returns {boolean}                 True if one or more stpes, and all steps are valid, false otherwise
+   */
+  checkStepsValidity(steps) {
+    if (!Array.isArray(steps) && typeof steps === 'object') {
+      return this.checkStepValidity(steps);
+    }
+    else if (steps.length > 0) {
+      return steps.every(this.checkStepValidity);
+    }
+    return false;
   }
 
   /**
