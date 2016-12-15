@@ -426,35 +426,6 @@ class Joyride extends React.Component {
   }
 
   /**
-   * Parse the incoming step
-   *
-   * @param {Object} step
-   * @returns {Array}
-   */
-  parseStep(step) {
-    this.checkStepValidity(step);
-    const newStep = Object.assign({}, step);
-    newStep.selector = sanitizeSelector(step.selector);
-    const el = document.querySelector(newStep.selector);
-    if (!el) {
-      if (!el) {
-        logger({
-          type: 'joyride:parseSteps',
-          msg: 'Target not rendered. For best results only add steps after they are mounted.',
-          debug: this.props.debug,
-          warn: step,
-        });
-      }
-      this.logger('joyride:parseStep', 'Target not rendered. For best results only add steps after they are mounted.', step);
-    }
-    else {
-      newStep.el = el;
-    }
-
-    return newStep;
-  }
-
-  /**
    * Verify that a step is valid
    *
    * @param   {Object}  step - A step object
@@ -487,6 +458,24 @@ class Joyride extends React.Component {
       return hasField;
     }
     return requiredFields.every(hasRequiredField);
+  }
+
+  /**
+   * Find and return the targeted DOM element based on a step's 'selector'.
+   *
+   * @param   {Object} step - A step object
+   * @returns {Element}       A DOM element (if found)
+   */
+  getStepTargetElement(step) {
+    const isValidStep = this.checkStepValidity(step);
+    if (!isValidStep) return null;
+
+    const el = document.querySelector(sanitizeSelector(step.selector));
+    if (!el) {
+      this.logger('joyride:getStepTargetElement', 'Target not rendered. For best results only add steps after they are mounted.', true);
+      return null;
+    }
+    return el;
   }
 
   /**
@@ -559,7 +548,7 @@ class Joyride extends React.Component {
     const { index, yPos } = this.state;
     const { scrollOffset, steps } = this.props;
     const step = steps[index];
-    const target = document.querySelector(step.selector);
+    const target = this.getStepTargetElement(step);
 
     if (!target) {
       return 0;
@@ -743,8 +732,9 @@ class Joyride extends React.Component {
     const { steps } = this.props;
     let nextIndex = (newIndex !== undefined ? newIndex : index);
     const step = steps[nextIndex];
+    const mountedTargetElement = this.getStepTargetElement(step);
 
-    if (step && !document.querySelector(step.selector)) {
+    if (step && !mountedTargetElement) {
       console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
       nextIndex += action === 'back' ? -1 : 1;
     }
@@ -769,21 +759,19 @@ class Joyride extends React.Component {
     const { index, play, standaloneTooltip, showTooltip } = this.state;
     const { steps, tooltipOffset } = this.props;
     const step = standaloneTooltip || (steps[index] || {});
-    const displayTooltip = standaloneTooltip ? true : showTooltip;
-    const target = document.querySelector(step.selector);
-    const placement = {
-      x: -1000,
-      y: -1000
-    };
-
     logger({
       type: `joyride:calcPlacement${this.getRenderStage()}`,
       msg: ['step:', step],
       debug: this.props.debug,
     });
-    if (!target) {
-      return;
-    }
+    const displayTooltip = standaloneTooltip ? true : showTooltip;
+    const placement = {
+      x: -1000,
+      y: -1000
+    };
+
+    const target = this.getStepTargetElement(step);
+    if (!target) return;
 
     if (step && (standaloneTooltip || (play && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
@@ -845,7 +833,7 @@ class Joyride extends React.Component {
     const { tooltipOffset } = this.props;
     const displayTooltip = standaloneTooltip ? true : showTooltip;
     const body = document.body.getBoundingClientRect();
-    const target = document.querySelector(step.selector);
+    const target = this.getStepTargetElement(step);
     const component = this.getElementDimensions((displayTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
     let position = step.position || STEP_DEFAULTS.position;
@@ -932,7 +920,7 @@ class Joyride extends React.Component {
     const currentStep = standaloneTooltip || steps[index];
     const step = { ...currentStep };
 
-    const target = step && step.selector ? document.querySelector(step.selector) : null;
+    const target = this.getStepTargetElement(step);
     const cssPosition = target ? target.style.position : null;
     const shouldShowOverlay = standaloneTooltip ? false : showOverlay;
     const buttons = {
@@ -997,6 +985,7 @@ class Joyride extends React.Component {
         showOverlay: shouldShowOverlay,
         step,
         standalone: Boolean(standaloneTooltip),
+        target,
         type,
         xPos,
         yPos,

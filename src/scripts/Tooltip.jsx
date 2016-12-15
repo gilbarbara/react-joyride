@@ -29,6 +29,7 @@ export default class JoyrideTooltip extends React.Component {
     showOverlay: React.PropTypes.bool.isRequired,
     standalone: React.PropTypes.bool,
     step: React.PropTypes.object.isRequired,
+    target: React.PropTypes.element.isRequired,
     type: React.PropTypes.string.isRequired,
     xPos: React.PropTypes.oneOfType([
       React.PropTypes.number,
@@ -299,9 +300,8 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   setOpts(props) {
-    const { animate, position, standalone, step, xPos } = props;
+    const { animate, position, standalone, target, xPos } = props;
 
-    const target = document.querySelector(step.selector);
     const tooltip = document.querySelector('.joyride-tooltip');
 
     const opts = {
@@ -356,9 +356,7 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   render() {
-    const { buttons, disableOverlay, onClick, selector, showOverlay, step, type } = this.props;
-
-    const target = document.querySelector(selector);
+    const { buttons, disableOverlay, onClick, selector, showOverlay, step, target, type } = this.props;
 
     if (!target) {
       return undefined;
