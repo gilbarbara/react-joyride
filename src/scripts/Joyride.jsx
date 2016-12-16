@@ -783,13 +783,13 @@ class Joyride extends React.Component {
    * Toggle Tooltip's visibility
    *
    * @private
-   * @param {Object}  [arg]        - Immediately destructured argument object
-   * @param {Boolean} [arg.show]   - Render the tooltip or the beacon, defaults to opposite of current show
-   * @param {Number}  [arg.index]  - The tour's new index, defaults to current index
-   * @param {string}  [arg.action] - The action being undertaken.
+   * @param {Object}    [arg]        - Immediately destructured argument object
+   * @param {Boolean}   [arg.show]   - Render the tooltip or the beacon, defaults to opposite of current show
+   * @param {Number}    [arg.index]  - The tour's new index, defaults to current index
+   * @param {string}    [arg.action] - The action being undertaken.
+   * @param {Object[]}  [arg.steps]  - The array of step objects that is going to be rendered
    */
-  toggleTooltip({ show = !this.state.showTooltip, index = this.state.index, action = '' }) {
-    const { steps } = this.props;
+  toggleTooltip({ show = !this.state.showTooltip, index = this.state.index, action = '', steps = this.props.steps }) {
     let nextIndex = index;
     const nextStep = steps[nextIndex];
 
