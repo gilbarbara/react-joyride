@@ -784,23 +784,22 @@ class Joyride extends React.Component {
    *
    * @private
    * @param {Boolean} show - Render the tooltip or the beacon
-   * @param {Number} [newIndex] - The tour's new index
-   * @param {string} [action]
+   * @param {Number}  [index]  - The tour's new index, defaults to current index
+   * @param {string}  [action] - The action being undertaken.
    */
-  toggleTooltip(show, newIndex, action = '') {
-    const { index, play } = this.state;
+  toggleTooltip(show = !this.state.showTooltip, index = this.state.index, action = '') {
     const { steps } = this.props;
-    let nextIndex = (newIndex !== undefined ? newIndex : index);
-    const step = steps[nextIndex];
+    let nextIndex = index;
+    const nextStep = steps[nextIndex];
 
-    if (step && !this.getStepTargetElement(step)) {
-      console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
+    if (nextStep && !this.getStepTargetElement(nextStep)) {
+      console.warn('Target not mounted, skipping...', nextStep, action); //eslint-disable-line no-console
       nextIndex += action === 'back' ? -1 : 1;
     }
 
     this.setState({
       action,
-      play: steps[nextIndex] ? play : false,
+      play: nextStep ? this.state.play : false, // stop playing if there is no next step
       showTooltip: show,
       index: nextIndex,
       redraw: !show,
