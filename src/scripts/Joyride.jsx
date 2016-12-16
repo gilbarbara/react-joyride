@@ -149,7 +149,8 @@ class Joyride extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { play, shouldPlay, standaloneTooltip } = this.state;
-    const { keyboardNavigation, run } = this.props;
+    const { keyboardNavigation, run, steps } = this.props;
+    const stepsChanged = (nextProps.steps !== steps);
     logger({
       type: 'joyride:willReceiveProps',
       msg: [nextProps],
@@ -157,12 +158,16 @@ class Joyride extends React.Component {
     });
     const runChanged = (nextProps.run !== run);
     let shouldStart = false;
-    if (this.props.steps.length && !nextProps.steps.length) {
-      this.reset();
-    }
 
-    if (nextProps.steps !== this.props.steps) {
-      this.checkStepsValidity(nextProps.steps);
+    if (stepsChanged && this.checkStepsValidity(nextProps.steps)) {
+      // Removed all steps, so reset
+      if (!nextProps.steps || !nextProps.steps.length) {
+        this.reset();
+      }
+      // Start the joyride if steps were added for the first time, and run prop is true
+      else if (!steps.length && nextProps.run) {
+        shouldStart = true;
+      }
     }
 
     if (runChanged) {
