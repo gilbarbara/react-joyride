@@ -49,6 +49,17 @@ function getBrowser() {
          '';
 }
 
+/**
+ * Helper function to get the browser-normalized "document height" - which is
+ * basically the scrolling height of the document.
+ * @returns {Number}
+ */
+export function getDocHeight() {
+  const body = document.body;
+  const html = document.documentElement;
+  return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+}
+
 export const browser = getBrowser();
 
 /**
