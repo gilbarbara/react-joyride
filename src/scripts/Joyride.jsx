@@ -330,11 +330,11 @@ class Joyride extends React.Component {
   /**
    * Starts the tour
    *
-   * @param {boolean} [autorun]- Starts with the first tooltip opened
+   * @param {boolean}  [autorun] - Starts with the first tooltip opened
+   * @param {Object[]} [steps]   - Array of steps, defaults to this.props.steps
    */
-  start(autorun) {
+  start(autorun, steps = this.props.steps) {
     const showTooltip = autorun === true;
-    const { steps } = this.props;
 
     logger({
       type: 'joyride:start',
