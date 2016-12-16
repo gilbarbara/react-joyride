@@ -155,6 +155,8 @@ class Joyride extends React.Component {
       msg: [nextProps],
       debug: nextProps.debug,
     });
+    const runChanged = (nextProps.run !== run);
+    let shouldStart = false;
     if (this.props.steps.length && !nextProps.steps.length) {
       this.reset();
     }
@@ -163,17 +165,27 @@ class Joyride extends React.Component {
       this.checkStepsValidity(nextProps.steps);
     }
 
-    if (
-      (!run && nextProps.run) ||
-      (!play && (shouldPlay && !standaloneTooltip))
-    ) {
+    if (runChanged) {
+      // run prop was changed to off, so stop the joyride
+      if (run && nextProps.run === false) {
+        this.stop();
+      }
+      // run prop was changed to on, so start the joyride
+      else if (!run && nextProps.run) {
+        shouldStart = true;
+      }
+      // Was not playing, but should, and isn't a standaloneTooltip
+      // TODO (@ianvs): Try moving this elsewhere, as it only relies on state, not nextProps
+      else if (!play && (shouldPlay && !standaloneTooltip)) {
+        shouldStart = true;
+      }
+    }
+
+    if (shouldStart) {
       this.start(nextProps.autoStart);
     }
 
-    if (run && !nextProps.run) {
-      this.stop();
-    }
-
+    // Update keyboard listeners if necessary
     if (
       !listeners.keyboard &&
       ((!keyboardNavigation && nextProps.keyboardNavigation) || keyboardNavigation)
