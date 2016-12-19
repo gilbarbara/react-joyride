@@ -171,8 +171,9 @@ class Joyride extends React.Component {
   componentWillUpdate(nextProps, nextState) {
     const { action, index, play, showTooltip, standaloneTooltip } = this.state;
     const { steps } = this.props;
+    const { steps: nextSteps } = nextProps;
     const step = steps[index];
-    const nextStep = steps[nextState.index];
+    const nextStep = nextSteps[nextState.index];
 
     if (!standaloneTooltip && nextState.standaloneTooltip) {
       this.triggerCallback({
@@ -242,11 +243,11 @@ class Joyride extends React.Component {
       }
     }
 
-    if (steps.length && !steps[nextState.index]) {
+    if (nextProps.run && nextSteps.length && !nextStep) {
       this.triggerCallback({
         action: nextState.action,
         type: callbackTypes.FINISHED,
-        steps,
+        steps: nextSteps,
         skipped: nextState.skipped
       });
     }
