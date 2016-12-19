@@ -260,7 +260,7 @@ class Joyride extends React.Component {
       }
     }
 
-    if (nextState.index !== index) {
+    if (nextState.index !== index && play) {
       this.triggerCallback({
         action,
         index,
