@@ -775,9 +775,8 @@ class Joyride extends React.Component {
     const { steps } = this.props;
     let nextIndex = (newIndex !== undefined ? newIndex : index);
     const step = steps[nextIndex];
-    const mountedTargetElement = this.getStepTargetElement(step);
 
-    if (step && !mountedTargetElement) {
+    if (step && !this.getStepTargetElement(step)) {
       console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
       nextIndex += action === 'back' ? -1 : 1;
     }
