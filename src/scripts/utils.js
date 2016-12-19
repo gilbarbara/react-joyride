@@ -75,7 +75,12 @@ export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
   if (debug) {
     console.log(`%c${type}`, 'color: #760bc5; font-weight: bold; font-size: 12px;'); //eslint-disable-line no-console
     if (msg) {
-      loggingFunction.apply(console, msg);
+      if (Array.isArray(msg)) {
+        loggingFunction.apply(console, msg);
+      }
+      else {
+        loggingFunction.apply(console, [msg]);
+      }
     }
   }
 }
