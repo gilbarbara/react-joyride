@@ -71,6 +71,7 @@ class Joyride extends React.Component {
     showOverlay: React.PropTypes.bool,
     showSkipButton: React.PropTypes.bool,
     showStepsProgress: React.PropTypes.bool,
+    stepIndex: React.PropTypes.number,
     steps: React.PropTypes.array,
     tooltipOffset: React.PropTypes.number,
     type: React.PropTypes.string
@@ -154,8 +155,9 @@ class Joyride extends React.Component {
       debug: nextProps.debug,
     });
     const { play, shouldPlay, standaloneTooltip } = this.state;
-    const { keyboardNavigation, run, steps } = this.props;
+    const { keyboardNavigation, run, steps, stepIndex } = this.props;
     const stepsChanged = (nextProps.steps !== steps);
+    const stepIndexChanged = (nextProps.stepIndex !== stepIndex && nextProps.stepIndex !== this.state.index);
     const runChanged = (nextProps.run !== run);
     let shouldStart = false;
 
@@ -186,8 +188,20 @@ class Joyride extends React.Component {
       }
     }
 
-    if (shouldStart) {
-      this.start(nextProps.autoStart);
+    if (stepIndexChanged) {
+      const hasStep = nextProps.steps[nextProps.stepIndex];
+      const shouldDisplay = hasStep && nextProps.autoStart;
+      if (nextProps.stepIndex === 0 && shouldStart) {
+        this.start(nextProps.autoStart, nextProps.steps);
+      }
+      else {
+        this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
+      }
+    }
+
+    // Did not change the index, but need to start up the joyride
+    else if (shouldStart) {
+      this.start(nextProps.autoStart, nextProps.steps);
     }
 
     // Update keyboard listeners if necessary

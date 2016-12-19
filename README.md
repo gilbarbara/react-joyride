@@ -108,6 +108,8 @@ You can change the initial options passing props to the component.
 
 **steps** {array}: The tour's steps. Defaults to `[]`
 
+**stepIndex** {number}: Jump to a specific step index.
+
 **run** {bool}: Run/stop the tour.
 
 **autoStart** {bool}: Open the tooltip automatically when started, without showing a beacon.
