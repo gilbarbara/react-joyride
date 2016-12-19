@@ -43,10 +43,26 @@ export default class Demo extends React.Component {
           }
         },
         {
+          title: 'Mid Project',
+          text: 'Mid project completed',
+          textAlign: 'center',
+          selector: '.table table tr:nth-child(8) td:nth-child(6)',
+          position: 'top',
+          scrollContainerSelector: '.table-wrapper'
+        },
+        {
           title: 'Last Project',
           text: 'Last project completed',
           textAlign: 'center',
           selector: '.table table tr:nth-child(15) td:nth-child(4)',
+          position: 'top',
+          scrollContainerSelector: '.table-wrapper'
+        },
+        {
+          title: 'Last Project 2',
+          text: 'Last project completed other field',
+          textAlign: 'center',
+          selector: '.table table tr:nth-child(15) td:nth-child(5)',
           position: 'top',
           scrollContainerSelector: '.table-wrapper'
         }

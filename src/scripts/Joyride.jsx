@@ -167,9 +167,8 @@ export default class Joyride extends React.Component {
 
     if (state.play && scrollToSteps && shouldScroll) {
       if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
-        const recalculate = state.redraw || this.state.yPos !== prevState.yPos;
         // Scroll specified parent element
-        this.scrollContainerElement(useScrollContainer, recalculate);
+        this.scrollContainerElement(useScrollContainer);
       }
       else {
         // Scroll body element
@@ -211,8 +210,8 @@ export default class Joyride extends React.Component {
         this.calcPlacement();
       }
 
-      scroll.top(this.getScrollContainer(), this.getScrollTop());
-      scroll.left(this.getScrollContainer(), this.getScrollLeft());
+      scroll.top(this.getScrollContainer(), this.getScrollValue(false, 'y'));
+      scroll.left(this.getScrollContainer(), this.getScrollValue(false, 'x'));
     }, 50);
   }
 
@@ -220,22 +219,46 @@ export default class Joyride extends React.Component {
    * Scrolls the scrollContainerSelector element to correct top and left position
    *
    * @param {String} [useScrollContainer] - The step or app-level scroll container selector
-   * @param {Boolean} [recalculate] - Whether the placement should be recalculated
    */
-  scrollContainerElement(useScrollContainer, recalculate) {
-    scroll.top(this.getScrollContainer(useScrollContainer), this.getScrollTop(true), () => {
-      // Adjust body scroll after scroll container has been scrolled and position is recalculated
-      if (recalculate) {
-        this.calcPlacement(this.scrollBodyElement.bind(null, true));
-      }
-    });
+  scrollContainerElement(useScrollContainer) {
+    const state = this.state;
+    const { steps } = this.props;
+    const step = steps[state.index];
+    const target = document.querySelector(step.selector);
 
-    scroll.left(this.getScrollContainer(useScrollContainer), this.getScrollLeft(true), () => {
-      // Adjust body scroll after scroll container has been scrolled and position is recalculated
-      if (recalculate) {
+    if (!target || !useScrollContainer) {
+      return;
+    }
+
+    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+    const containerOffsetTop = scrollContainerElem.scrollTop;
+    const containerOffsetLeft = scrollContainerElem.scrollLeft;
+    const newYScroll = this.getScrollValue(true, 'y');
+    const newXScroll = this.getScrollValue(true, 'x');
+
+    if (containerOffsetTop !== newYScroll && containerOffsetLeft !== newXScroll) {
+      scroll.top(scrollContainerElem, newYScroll, { duration: 1 }, () => {
+        scroll.left(scrollContainerElem, newXScroll, { duration: 1 }, () => {
+          // Adjust body scroll after scroll container has been scrolled and position is recalculated
+          this.calcPlacement(this.scrollBodyElement.bind(null, true));
+        });
+      });
+    }
+    else if (containerOffsetTop !== newYScroll) {
+      scroll.top(scrollContainerElem, newYScroll, { duration: 1 }, () => {
+        // Adjust body scroll after scroll container has been scrolled and position is recalculated
         this.calcPlacement(this.scrollBodyElement.bind(null, true));
-      }
-    });
+      });
+    }
+    else if (containerOffsetLeft !== newXScroll) {
+      scroll.left(scrollContainerElem, newXScroll, { duration: 1 }, () => {
+        // Adjust body scroll after scroll container has been scrolled and position is recalculated
+        this.calcPlacement(this.scrollBodyElement.bind(null, true));
+      });
+    }
+    else {
+      this.scrollBodyElement();
+    }
   }
 
   /**
@@ -459,57 +482,44 @@ export default class Joyride extends React.Component {
    * Get the scrollTop position
    *
    * @private
-   * @param {Boolean} getContainerScroll - If obtaining the scrollContainerSelector scrollTop position (as opposed to the body scrollTop)
+   * @param {Boolean} getContainerScroll - If obtaining the scrollContainerSelector scroll position (as opposed to the body scroll position)
+   * @param {String} axis - The axis to get the scroll value, 'y' or 'x'
    * @returns {number}
    */
-  getScrollTop(getContainerScroll) {
+  getScrollValue(getContainerScroll, axis) {
     const state = this.state;
     const { scrollOffset, steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
-    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
-    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
-    const containerOffset = scrollContainerElem.scrollTop;
-    const targetTop = 0;
 
     if (!target) {
-      return targetTop;
+      return 0;
     }
 
+    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
+    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+    const scrollPosFields = this.getScrollPosFields(axis);
+    const containerOffset = scrollContainerElem[scrollPosFields.scrollField];
     const rect = target.getBoundingClientRect();
-    let offsetTop = (window.pageYOffset || document.documentElement.scrollTop);
+    let offsetPos = (window[scrollPosFields.pageOffset] || document.documentElement[scrollPosFields.scrollField]);
 
     if (getContainerScroll) {
       if (!useScrollContainer) {
-        return targetTop;
+        return 0;
       }
 
       if (step && step.scrollContainerSelector) {
-        const containerRect = scrollContainerElem.getBoundingClientRect();
-        const targetBottomPos = rect.bottom;
-        const targetTopPos = rect.top;
-        const containerBottomPos = containerRect.bottom;
-        const containerTopPos = containerRect.top;
-        const computedStyle = getComputedStyle(scrollContainerElem);
-
-        // Target is out of view, scroll container so it's fully visible
-        if (targetBottomPos > containerBottomPos) {
-          return (targetBottomPos - containerBottomPos) + parseFloat(computedStyle.paddingTop);
-        }
-        else if (targetTopPos < containerTopPos) {
-          return (containerTopPos - targetTopPos) + parseFloat(computedStyle.paddingTop);
-        }
-
-        return containerOffset;
+        // this.setState({ redraw: true });
+        return this.getScrollForParentContainer(axis);
       }
-      offsetTop = scrollContainerElem.scrollTop;
+      offsetPos = containerOffset;
     }
 
-    // Add the target top offset
-    let scrollTo = offsetTop + rect.top;
+    // Add the target offset
+    let scrollTo = offsetPos + rect[scrollPosFields.start];
 
-    // Only add viewport offset if scrolling parent or body
-    if (!getContainerScroll || !step.scrollContainerSelector) {
+    // Only add viewport offset if scrolling vertically for parent or body
+    if (axis === 'y' && (!getContainerScroll || !step.scrollContainerSelector)) {
       const position = this.calcPosition(step);
 
       if (/^top/.test(position)) {
@@ -523,58 +533,41 @@ export default class Joyride extends React.Component {
     return scrollTo;
   }
 
-  /**
-   * Get the scrollLeft position
-   *
-   * @private
-   * @param {Boolean} getContainerScroll - If obtaining the scrollContainerSelector scrollLeft position (as opposed to the body scrollLeft)
-   * @returns {number}
-   */
-  getScrollLeft(getContainerScroll) {
+  getScrollPosFields(axis) {
+    return {
+      start: axis === 'y' ? 'top' : 'left',
+      end: axis === 'y' ? 'bottom' : 'right',
+      scrollField: `scroll${axis === 'y' ? 'Top' : 'Left'}`,
+      pageOffset: `page${axis === 'y' ? 'Y' : 'X'}Offset`,
+      paddingStart: `padding${axis === 'y' ? 'Top' : 'Left'}`,
+      paddingEnd: `padding${axis === 'y' ? 'Bottom' : 'Right'}`
+    };
+  }
+
+  getScrollForParentContainer(axis) {
     const state = this.state;
     const { steps, scrollContainerSelector } = this.props;
     const step = steps[state.index];
     const target = document.querySelector(step.selector);
+    const rect = target.getBoundingClientRect();
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
-    let targetLeft = 0;
+    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+    const scrollPosFields = this.getScrollPosFields(axis);
+    const containerOffset = scrollContainerElem[scrollPosFields.scrollField];
+    const containerRect = scrollContainerElem.getBoundingClientRect();
+    const computedStyle = getComputedStyle(scrollContainerElem);
+    const containerPaddingOffset = parseFloat(computedStyle[scrollPosFields.paddingStart]);
+    const scrollbarWidth = scrollContainerElem.offsetWidth - scrollContainerElem.clientWidth;
 
-    if (!target) {
-      return targetLeft;
+    // Target is out of view, scroll container so it's fully visible
+    if (rect[scrollPosFields.end] > containerRect[scrollPosFields.end]) {
+      return (rect[scrollPosFields.end] - containerRect[scrollPosFields.end]) + containerPaddingOffset + scrollbarWidth + containerOffset;
+    }
+    else if (rect[scrollPosFields.start] < containerRect[scrollPosFields.start]) {
+      return (containerRect[scrollPosFields.end] - rect[scrollPosFields.end]) + containerPaddingOffset;
     }
 
-    const targetRect = target.getBoundingClientRect();
-
-
-    if (getContainerScroll) {
-      if (!useScrollContainer) {
-        return targetLeft;
-      }
-
-      const scrollContainerElem = this.getScrollContainer(useScrollContainer);
-      const containerRect = scrollContainerElem.getBoundingClientRect();
-      const containerOffset = scrollContainerElem.scrollLeft;
-      const targetRightPos = targetRect.right;
-      const containerRightPos = containerRect.right + containerOffset;
-
-      // Target is out of view, scroll container so it's fully visible
-      if (targetRightPos > containerRightPos) {
-        targetLeft = (targetRightPos - containerRightPos);
-      }
-      else {
-        // Return the current scroll container position
-        return containerOffset;
-      }
-    }
-    else {
-      targetLeft = (window.pageXOffset || document.documentElement.scrollLeft);
-    }
-
-    // Only add viewport offset if scrolling parent or body
-    if (!getContainerScroll || !step.scrollContainerSelector) {
-      targetLeft += targetRect.left;
-    }
-
-    return Math.floor(targetLeft);
+    return containerOffset;
   }
 
   /**
@@ -841,7 +834,7 @@ export default class Joyride extends React.Component {
       }, () => {
         if (typeof callback === 'function') {
           // Execute callback after the scrolling transition is finished
-          setTimeout(() => { callback(); }, 350);
+          setTimeout(() => { callback(); }, 50);
         }
       });
     }
