@@ -192,7 +192,7 @@ class Joyride extends React.Component {
       const hasStep = nextProps.steps[nextProps.stepIndex];
       const shouldDisplay = hasStep && nextProps.autoStart;
       if (nextProps.stepIndex === 0 && shouldStart) {
-        this.start(nextProps.autoStart, nextProps.steps);
+        this.start(nextProps.autoStart, nextProps.steps, 0);
       }
       else {
         this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
@@ -346,8 +346,9 @@ class Joyride extends React.Component {
    *
    * @param {boolean}  [autorun] - Starts with the first tooltip opened
    * @param {Object[]} [steps]   - Array of steps, defaults to this.props.steps
+   * @param {number}   [index]   - Optional step index to start joyride at
    */
-  start(autorun, steps = this.props.steps) {
+  start(autorun, steps = this.props.steps, index) {
     const showTooltip = autorun === true;
 
     logger({
@@ -359,7 +360,8 @@ class Joyride extends React.Component {
     this.setState({
       play: !!steps.length,
       shouldPlay: !steps.length,
-      showTooltip
+      showTooltip,
+      index: typeof index !== 'undefined' ? index : this.state.index,
     });
   }
 
