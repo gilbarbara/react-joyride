@@ -191,8 +191,8 @@ class Joyride extends React.Component {
     if (stepIndexChanged) {
       const hasStep = nextProps.steps[nextProps.stepIndex];
       const shouldDisplay = hasStep && nextProps.autoStart;
-      if (nextProps.stepIndex === 0 && shouldStart) {
-        this.start(nextProps.autoStart, nextProps.steps, 0);
+      if (runChanged && shouldStart) {
+        this.start(nextProps.autoStart, nextProps.steps, nextProps.stepIndex);
       }
       else {
         this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
