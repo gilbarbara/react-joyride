@@ -344,11 +344,11 @@ class Joyride extends React.Component {
   /**
    * Starts the tour
    *
-   * @param {boolean}  [autorun] - Starts with the first tooltip opened
-   * @param {Object[]} [steps]   - Array of steps, defaults to this.props.steps
-   * @param {number}   [index]   - Optional step index to start joyride at
+   * @param {boolean}  [autorun]    - Starts with the first tooltip opened
+   * @param {Object[]} [steps]      - Array of steps, defaults to this.props.steps
+   * @param {number}   [startIndex] - Optional step index to start joyride at
    */
-  start(autorun, steps = this.props.steps, index) {
+  start(autorun, steps = this.props.steps, startIndex) {
     const showTooltip = autorun === true;
 
     logger({
@@ -361,7 +361,7 @@ class Joyride extends React.Component {
       play: !!steps.length,
       shouldPlay: !steps.length,
       showTooltip,
-      index: typeof index !== 'undefined' ? index : this.state.index,
+      index: typeof startIndex !== 'undefined' ? startIndex : this.state.index,
     });
   }
 
