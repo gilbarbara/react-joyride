@@ -312,7 +312,7 @@ class Joyride extends React.Component {
     const { scrollToFirstStep, scrollToSteps, steps } = this.props;
     const shouldScroll = scrollToFirstStep || (index > 0 || prevState.index > index);
 
-    if (redraw) {
+    if (redraw && steps[index]) {
       this.calcPlacement();
     }
 
@@ -838,13 +838,16 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
     const displayTooltip = standaloneTooltip ? true : showTooltip;
+    const target = this.getStepTargetElement(step);
+    if (!target) {
+      this.setState({ redraw: false });
+      return;
+    }
+
     const placement = {
       x: -1000,
       y: -1000
     };
-
-    const target = this.getStepTargetElement(step);
-    if (!target) return;
 
     if (step && (standaloneTooltip || (play && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
