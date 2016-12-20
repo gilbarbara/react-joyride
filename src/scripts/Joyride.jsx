@@ -243,7 +243,7 @@ class Joyride extends React.Component {
       }
     }
 
-    if (steps.length && !steps[nextState.index]) {
+    if (steps.length && !steps[nextState.index] && nextState.index !== index) {
       this.triggerCallback({
         action: nextState.action,
         type: callbackTypes.FINISHED,
@@ -649,14 +649,14 @@ class Joyride extends React.Component {
       const position = this.calcPosition(step);
 
       if (/^top/.test(position)) {
-        scrollTo = Math.floor(yPos - scrollOffset);
+        scrollTo = yPos - scrollOffset;
       }
       else if (/^bottom|^left|^right/.test(position)) {
-        scrollTo = Math.floor(scrollTo - scrollOffset);
+        scrollTo -= scrollOffset;
       }
     }
 
-    return scrollTo;
+    return Math.floor(scrollTo);
   }
 
   getScrollPosFields(axis) {
@@ -687,10 +687,10 @@ class Joyride extends React.Component {
 
     // Target is out of view, scroll container so it's fully visible
     if (rect[scrollPosFields.end] > containerRect[scrollPosFields.end]) {
-      return (rect[scrollPosFields.end] - containerRect[scrollPosFields.end]) + containerPaddingOffset + scrollbarWidth + containerOffset;
+      return Math.floor((rect[scrollPosFields.end] - containerRect[scrollPosFields.end]) + containerPaddingOffset + scrollbarWidth + containerOffset);
     }
     else if (rect[scrollPosFields.start] < containerRect[scrollPosFields.start]) {
-      return (containerRect[scrollPosFields.end] - rect[scrollPosFields.end]) + containerPaddingOffset;
+      return Math.floor((containerRect[scrollPosFields.end] - rect[scrollPosFields.end]) + containerPaddingOffset);
     }
 
     return containerOffset;
