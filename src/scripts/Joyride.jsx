@@ -103,17 +103,14 @@ class Joyride extends React.Component {
     type: 'single'
   };
 
-  componentWillMount() {
-    const { steps, run, autoStart } = this.props;
-    const stepsAreValid = this.checkStepsValidity(steps);
-    if (steps && stepsAreValid && run) this.start(autoStart);
-  }
-
   componentDidMount() {
     const {
+      autoStart,
       keyboardNavigation,
       resizeDebounce,
       resizeDebounceDelay,
+      run,
+      steps,
       type
     } = this.props;
 
@@ -122,6 +119,9 @@ class Joyride extends React.Component {
       msg: [this.props],
       debug: this.props.debug,
     });
+
+    const stepsAreValid = this.checkStepsValidity(steps);
+    if (steps && stepsAreValid && run) this.start(autoStart);
 
     if (resizeDebounce) {
       let timeoutId;
