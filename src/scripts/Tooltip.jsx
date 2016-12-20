@@ -7,6 +7,7 @@ export default class JoyrideTooltip extends React.Component {
     buttons: React.PropTypes.object.isRequired,
     cssPosition: React.PropTypes.string.isRequired,
     disableOverlay: React.PropTypes.bool,
+    holePadding: React.PropTypes.number,
     onClick: React.PropTypes.func.isRequired,
     onRender: React.PropTypes.func.isRequired,
     showOverlay: React.PropTypes.bool.isRequired,
@@ -34,14 +35,18 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   componentDidMount() {
-    this.forceUpdate(this.props.onRender);
+    const { onRender } = this.props;
+
+    this.forceUpdate();
+    onRender();
   }
 
   componentDidUpdate(prevProps) {
     const { onRender, step } = this.props;
 
     if (prevProps.step.selector !== step.selector) {
-      this.forceUpdate(onRender);
+      this.forceUpdate();
+      onRender();
     }
   }
 
@@ -119,7 +124,7 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   setStyles(stepStyles, opts) {
-    const { cssPosition, xPos, yPos } = this.props;
+    const { cssPosition, holePadding, xPos, yPos } = this.props;
     const styles = {
       arrow: {
         left: opts.arrowPosition
@@ -135,10 +140,10 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - this.getScrollContainer().getBoundingClientRect().top) - 5),
-      left: Math.round((opts.rect.left - this.getScrollContainer().getBoundingClientRect().left) - 5),
-      width: Math.round(opts.rect.width + 10),
-      height: Math.round(opts.rect.height + 10)
+      top: Math.round((opts.rect.top - this.getScrollContainer().getBoundingClientRect().top) - holePadding),
+      left: Math.round((opts.rect.left - this.getScrollContainer().getBoundingClientRect().left) - holePadding),
+      width: Math.round(opts.rect.width + (holePadding * 2)),
+      height: Math.round(opts.rect.height + (holePadding * 2))
     };
 
     styles.buttons = {

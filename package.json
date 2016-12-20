@@ -1,6 +1,6 @@
 {
   "name": "react-joyride",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Create walkthroughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -48,8 +48,8 @@
     "del": "^2.2",
     "enzyme": "^2.5",
     "eslint": "^3.8",
-    "eslint-config-airbnb": "^12.0",
-    "eslint-plugin-import": "^2.0",
+    "eslint-config-airbnb": "^13.0",
+    "eslint-plugin-import": "^2.2",
     "eslint-plugin-jsx-a11y": "^2.2",
     "eslint-plugin-react": "^6.4",
     "expect": "^1.20",
