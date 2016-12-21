@@ -256,7 +256,7 @@ class Joyride extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { index, redraw, play, shouldPlay, standaloneTooltip } = this.state;
     const { scrollToFirstStep, scrollToSteps, steps, scrollContainerSelector } = this.props;
-    const shouldScroll = scrollToFirstStep || (index > 0 || prevState.index > index);
+    const shouldScroll = scrollToFirstStep || (index !== 0 && prevState.index !== index);
     const step = steps[index];
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
 
@@ -617,7 +617,7 @@ class Joyride extends React.Component {
     const { index, yPos } = this.state;
     const { scrollOffset, steps, scrollContainerSelector } = this.props;
     const step = steps[index];
-    const target = document.querySelector(step.selector);
+    const target = step && document.querySelector(step.selector);
 
     if (!target) {
       return 0;
@@ -690,7 +690,7 @@ class Joyride extends React.Component {
       return Math.floor((rect[scrollPosFields.end] - containerRect[scrollPosFields.end]) + containerPaddingOffset + scrollbarWidth + containerOffset);
     }
     else if (rect[scrollPosFields.start] < containerRect[scrollPosFields.start]) {
-      return Math.floor((containerRect[scrollPosFields.end] - rect[scrollPosFields.end]) + containerPaddingOffset);
+      return Math.floor(containerOffset - Math.abs(rect[scrollPosFields.start]) - containerRect[scrollPosFields.start] - scrollbarWidth);
     }
 
     return containerOffset;
