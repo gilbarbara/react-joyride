@@ -311,7 +311,7 @@ class Joyride extends React.Component {
 
       scroll.top(this.getScrollContainer(), this.getScrollValue(false, 'y'));
       scroll.left(this.getScrollContainer(), this.getScrollValue(false, 'x'));
-    }, 50);
+    }, 10);
   }
 
   /**

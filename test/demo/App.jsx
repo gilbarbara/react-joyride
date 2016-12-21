@@ -43,10 +43,18 @@ export default class Demo extends React.Component {
           }
         },
         {
+          title: 'First Project',
+          text: 'First project completed',
+          textAlign: 'center',
+          selector: '.table table tr:nth-child(1) td:nth-child(3)',
+          position: 'top',
+          scrollContainerSelector: '.table-wrapper'
+        },
+        {
           title: 'Mid Project',
           text: 'Mid project completed',
           textAlign: 'center',
-          selector: '.table table tr:nth-child(8) td:nth-child(6)',
+          selector: '.table table tr:nth-child(8) td:nth-child(9)',
           position: 'top',
           scrollContainerSelector: '.table-wrapper'
         },
@@ -131,6 +139,8 @@ export default class Demo extends React.Component {
           ref={c => (this.joyride = c)}
           steps={this.state.steps}
           scrollToFirstStep={true}
+          type="continuous"
+          showSkipButton={true}
           debug={false} />
         <div className="hero">
           <div className="container">
@@ -156,27 +166,27 @@ export default class Demo extends React.Component {
         </div>
 
         <div className="container">
-        <div className="table-wrapper table">
-          <table>
-            <thead>
-              <tr>
-                <th>Project Name</th>
-                <th>Creator</th>
-                <th>Date Completed</th>
-                <th>Column 4</th>
-                <th>Column 5</th>
-                <th>Column 6</th>
-                <th>Column 7</th>
-                <th>Column 8</th>
-                <th>Column 9</th>
-                <th>Column 10</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sampleProjects}
-            </tbody>
-          </table>
-        </div>
+          <div className="table-wrapper table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Creator</th>
+                  <th>Date Completed</th>
+                  <th>Column 4</th>
+                  <th>Column 5</th>
+                  <th>Column 6</th>
+                  <th>Column 7</th>
+                  <th>Column 8</th>
+                  <th>Column 9</th>
+                  <th>Column 10</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sampleProjects}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     );
