@@ -136,6 +136,9 @@ export default class JoyrideTooltip extends React.Component {
       width: Math.round(opts.rect.width + (holePadding * 2)),
       height: Math.round(opts.rect.height + (holePadding * 2))
     };
+    if (cssPosition === 'fixed') {
+      styles.hole.position = cssPosition;
+    }
 
     styles.buttons = {
       back: {},
