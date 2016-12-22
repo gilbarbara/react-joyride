@@ -116,6 +116,8 @@ export default class JoyrideTooltip extends React.Component {
 
   setStyles(stepStyles, opts) {
     const { cssPosition, holePadding, xPos, yPos } = this.props;
+    const isFixed = (cssPosition === 'fixed');
+
     const styles = {
       arrow: {
         left: opts.arrowPosition
@@ -124,20 +126,20 @@ export default class JoyrideTooltip extends React.Component {
       header: {},
       hole: {},
       tooltip: {
-        position: cssPosition === 'fixed' ? 'fixed' : 'absolute',
+        position: isFixed ? 'fixed' : 'absolute',
         top: Math.round(yPos),
         left: Math.round(xPos)
       }
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - document.body.getBoundingClientRect().top) - holePadding),
+      top: Math.round((opts.rect.top - (isFixed ? 0 : document.body.getBoundingClientRect().top)) - holePadding),
       left: Math.round(opts.rect.left - holePadding),
       width: Math.round(opts.rect.width + (holePadding * 2)),
       height: Math.round(opts.rect.height + (holePadding * 2))
     };
-    if (cssPosition === 'fixed') {
-      styles.hole.position = cssPosition;
+    if (isFixed) {
+      styles.hole.position = 'fixed';
     }
 
     styles.buttons = {
