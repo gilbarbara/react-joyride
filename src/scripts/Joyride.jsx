@@ -207,12 +207,14 @@ class Joyride extends React.Component {
     }
 
     if (nextState.index !== index) {
-      this.triggerCallback({
-        action,
-        index,
-        type: callbackTypes.STEP_AFTER,
-        step
-      });
+      if (nextState.action !== 'close') {
+        this.triggerCallback({
+          action,
+          index,
+          type: callbackTypes.STEP_AFTER,
+          step
+        });
+      }
 
       if (nextState.index && nextStep) {
         this.triggerCallback({
@@ -254,21 +256,18 @@ class Joyride extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { index, redraw, play, shouldPlay, standaloneTooltip } = this.state;
+    const { index, redraw, play, shouldPlay, standaloneTooltip, isScrolling } = this.state;
     const { scrollToFirstStep, scrollToSteps, steps, scrollContainerSelector } = this.props;
-    const shouldScroll = scrollToFirstStep || (index !== 0 && prevState.index !== index);
+    const shouldScroll = (index === 0 && scrollToFirstStep) || (index !== 0 && prevState.index !== index);
     const step = steps[index];
     const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
 
-    if (play && scrollToSteps && shouldScroll) {
-      if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
-        // Scroll specified parent element
-        this.scrollContainerElement(useScrollContainer);
-      }
-      else {
-        // Scroll body element
-        this.scrollBodyElement();
-      }
+    if (isScrolling !== prevState.isScrolling) {
+      return;
+    }
+
+    if (play && scrollToSteps && shouldScroll && !isScrolling) {
+      this.scrollToTarget(useScrollContainer);
     }
     else if (redraw) {
       this.calcPlacement();
@@ -295,6 +294,19 @@ class Joyride extends React.Component {
     }
   }
 
+  scrollToTarget(useScrollContainer) {
+    this.setState({ isScrolling: true }, () => {
+      if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
+        // Scroll specified parent element
+        this.scrollContainerElement(useScrollContainer);
+      }
+      else {
+        // Scroll body element
+        this.scrollBodyElement();
+      }
+    });
+  }
+
   /**
    * Scrolls the body element to correct top and left position
    *
@@ -309,8 +321,11 @@ class Joyride extends React.Component {
         this.calcPlacement();
       }
 
-      scroll.top(this.getScrollContainer(), this.getScrollValue(false, 'y'));
-      scroll.left(this.getScrollContainer(), this.getScrollValue(false, 'x'));
+      scroll.top(this.getScrollContainer(), this.getScrollValue(false, 'y'), () => {
+        scroll.left(this.getScrollContainer(), this.getScrollValue(false, 'x'), () => {
+          this.setState({ isScrolling: false });
+        });
+      });
     }, 10);
   }
 
@@ -335,24 +350,12 @@ class Joyride extends React.Component {
     const newYScroll = this.getScrollValue(true, 'y');
     const newXScroll = this.getScrollValue(true, 'x');
 
-    if (containerOffsetTop !== newYScroll && containerOffsetLeft !== newXScroll) {
+    if (containerOffsetTop !== newYScroll || containerOffsetLeft !== newXScroll) {
       scroll.top(scrollContainerElem, newYScroll, { duration: 1 }, () => {
         scroll.left(scrollContainerElem, newXScroll, { duration: 1 }, () => {
           // Adjust body scroll after scroll container has been scrolled and position is recalculated
           this.calcPlacement(this.scrollBodyElement.bind(null, true));
         });
-      });
-    }
-    else if (containerOffsetTop !== newYScroll) {
-      scroll.top(scrollContainerElem, newYScroll, { duration: 1 }, () => {
-        // Adjust body scroll after scroll container has been scrolled and position is recalculated
-        this.calcPlacement(this.scrollBodyElement.bind(null, true));
-      });
-    }
-    else if (containerOffsetLeft !== newXScroll) {
-      scroll.left(scrollContainerElem, newXScroll, { duration: 1 }, () => {
-        // Adjust body scroll after scroll container has been scrolled and position is recalculated
-        this.calcPlacement(this.scrollBodyElement.bind(null, true));
       });
     }
     else {
@@ -663,6 +666,7 @@ class Joyride extends React.Component {
     return {
       start: axis === 'y' ? 'top' : 'left',
       end: axis === 'y' ? 'bottom' : 'right',
+      size: axis === 'y' ? 'height' : 'width',
       scrollField: `scroll${axis === 'y' ? 'Top' : 'Left'}`,
       pageOffset: `page${axis === 'y' ? 'Y' : 'X'}Offset`,
       paddingStart: `padding${axis === 'y' ? 'Top' : 'Left'}`,
@@ -690,7 +694,7 @@ class Joyride extends React.Component {
       return Math.floor((rect[scrollPosFields.end] - containerRect[scrollPosFields.end]) + containerPaddingOffset + scrollbarWidth + containerOffset);
     }
     else if (rect[scrollPosFields.start] < containerRect[scrollPosFields.start]) {
-      return Math.floor(containerOffset - Math.abs(rect[scrollPosFields.start]) - containerRect[scrollPosFields.start] - scrollbarWidth);
+      return Math.floor(containerOffset - ((containerRect[scrollPosFields.start] - Math.abs(rect[scrollPosFields.start])) + rect[scrollPosFields.size]) - scrollbarWidth);
     }
 
     return containerOffset;
