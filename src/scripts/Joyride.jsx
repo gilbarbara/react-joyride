@@ -207,14 +207,12 @@ class Joyride extends React.Component {
     }
 
     if (nextState.index !== index) {
-      if (['close', 'skip'].indexOf(nextState.action) === -1) {
-        this.triggerCallback({
-          action,
-          index,
-          type: callbackTypes.STEP_AFTER,
-          step
-        });
-      }
+      this.triggerCallback({
+        action: ['close', 'skip'].indexOf(nextState.action) > -1 ? nextState.action : action,
+        index,
+        type: callbackTypes.STEP_AFTER,
+        step
+      });
 
       if (nextState.index && nextStep) {
         this.triggerCallback({
