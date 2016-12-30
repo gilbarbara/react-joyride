@@ -265,6 +265,13 @@ class Joyride extends React.Component {
     }
 
     if (play && scrollToSteps && shouldScroll && !isScrolling) {
+      // Watch scroll event to the container
+      if (step && step.scrollContainerSelector) {
+        const scrollElement = this.getScrollContainer(useScrollContainer);
+        scrollElement.removeEventListener('scroll', this.calcPlacement);
+        scrollElement.addEventListener('scroll', this.calcPlacement);
+      }
+
       this.scrollToTarget(useScrollContainer);
     }
     else if (redraw) {
@@ -778,6 +785,7 @@ class Joyride extends React.Component {
     e.preventDefault();
     const { index } = this.state;
     const { steps } = this.props;
+    const eventType = e.type;
 
     this.triggerCallback({
       action: e.type,
@@ -786,7 +794,19 @@ class Joyride extends React.Component {
       step: steps[index]
     });
 
-    this.toggleTooltip(true, index, `beacon:${e.type}`);
+    if (steps[index].scrollContainerSelector) {
+      const scrollContainerElem = this.getScrollContainer(steps[index].scrollContainerSelector);
+
+      // Scroll element to ensure tooltip shows on correct position
+      scroll.top(scrollContainerElem, this.getScrollValue(true, 'y'), { duration: 1 }, () => {
+        scroll.left(scrollContainerElem, this.getScrollValue(true, 'x'), { duration: 1 }, () => {
+          this.toggleTooltip(true, index, `beacon:${eventType}`);
+        });
+      });
+      return;
+    }
+
+    this.toggleTooltip(true, index, `beacon:${eventType}`);
   }
 
   /**
@@ -1059,6 +1079,8 @@ class Joyride extends React.Component {
     const target = step && step.selector ? document.querySelector(step.selector) : null;
     const cssPosition = target ? target.style.position : null;
     const shouldShowOverlay = standaloneTooltip ? false : showOverlay;
+    const useYPos = (yPos + (step.offsetY || 0));
+    const useXPos = (xPos + (step.offsetX || 0));
     const buttons = {
       primary: locale.close
     };
@@ -1115,18 +1137,32 @@ class Joyride extends React.Component {
         step,
         standalone: Boolean(standaloneTooltip),
         type,
-        xPos: xPos + (step.offsetX || 0),
-        yPos: yPos + (step.offsetY || 0),
+        xPos: useXPos,
+        yPos: useYPos,
         onClick: this.onClickTooltip,
         onRender: this.onRenderTooltip
       });
     }
     else {
+      if (step && step.scrollContainerSelector) {
+        const scrollElement = this.getScrollContainer(step.scrollContainerSelector);
+        const containerRect = scrollElement.getBoundingClientRect();
+        const offsetY = (window.pageYOffset || document.documentElement.pageYOffset) || 0;
+        const offsetX = (window.pageXOffset || document.documentElement.pageXOffset) || 0;
+        const outOfYView = Math.abs(useYPos - offsetY) < containerRect.top || Math.abs(useYPos - offsetY) > containerRect.bottom;
+        const outOfXView = Math.abs(useXPos - offsetX) < containerRect.left || Math.abs(useXPos - offsetX) > containerRect.right;
+
+        // Don't show the beacon if it's out of view in the scroll container
+        if (outOfYView || outOfXView) {
+          return false;
+        }
+      }
+
       component = React.createElement(Beacon, {
         cssPosition,
         step,
-        xPos: (xPos + (step.offsetX || 0)),
-        yPos: (yPos + (step.offsetY || 0)),
+        xPos: useXPos,
+        yPos: useYPos,
         onTrigger: this.onClickBeacon,
         eventType: step.type || 'click'
       });
