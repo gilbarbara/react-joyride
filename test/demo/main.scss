@@ -56,6 +56,20 @@ body {
 
 .mission {
   background-color: #1ec900;
+
+  button {
+    background-color: #fff;
+    margin-left: 30px;
+
+    &:hover {
+      background-color: #ccc;
+      cursor: pointer;
+    }
+  }
+
+  h2 {
+    float: left;
+  }
 }
 
 .about {
