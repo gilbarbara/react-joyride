@@ -75,7 +75,32 @@ export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
   if (debug) {
     console.log(`%c${type}`, 'color: #760bc5; font-weight: bold; font-size: 12px;'); //eslint-disable-line no-console
     if (msg) {
-      loggingFunction.apply(console, msg);
+      if (Array.isArray(msg)) {
+        loggingFunction.apply(console, msg);
+      }
+      else {
+        loggingFunction.apply(console, [msg]);
+      }
     }
   }
+}
+
+/**
+ * Check for deprecated selector styles, return stringified, safer versions
+ *
+ * @param   {string|Object} selector - The selector provided in a step object
+ * @returns {string}                   A cleaned-up selector string
+ */
+export function sanitizeSelector(selector) {
+  if (selector.dataset && selector.dataset.reactid) {
+    console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
+    return `[data-reactid="${selector.dataset.reactid}"]`;
+  }
+  else if (selector.dataset) {
+    console.error('Unsupported error: React 15.0+ doesn’t write reactid to the DOM anymore, please use a plain class in your step.', selector); //eslint-disable-line no-console
+    if (selector.className) {
+      return `.${selector.className.replace(' ', '.')}`;
+    }
+  }
+  return selector;
 }

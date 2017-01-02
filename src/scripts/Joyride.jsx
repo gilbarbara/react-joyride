@@ -2,7 +2,7 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl, logger } from './utils';
+import { getRootEl, logger, sanitizeSelector } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -36,6 +36,10 @@ const listeners = {
   tooltips: {}
 };
 
+const STEP_DEFAULTS = {
+  position: 'top',
+};
+
 let isTouch = false;
 if (typeof window !== 'undefined') {
   isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
@@ -50,6 +54,7 @@ class Joyride extends React.Component {
   }
 
   static propTypes = {
+    autoStart: React.PropTypes.bool,
     callback: React.PropTypes.func,
     debug: React.PropTypes.bool,
     disableOverlay: React.PropTypes.bool,
@@ -72,6 +77,7 @@ class Joyride extends React.Component {
   };
 
   static defaultProps = {
+    autoStart: false,
     debug: false,
     holePadding: 5,
     keyboardNavigation: true,
@@ -99,9 +105,12 @@ class Joyride extends React.Component {
 
   componentDidMount() {
     const {
+      autoStart,
       keyboardNavigation,
       resizeDebounce,
       resizeDebounceDelay,
+      run,
+      steps,
       type
     } = this.props;
 
@@ -110,6 +119,9 @@ class Joyride extends React.Component {
       msg: [this.props],
       debug: this.props.debug,
     });
+
+    const stepsAreValid = this.checkStepsValidity(steps);
+    if (steps && stepsAreValid && run) this.start(autoStart);
 
     if (resizeDebounce) {
       let timeoutId;
@@ -143,15 +155,19 @@ class Joyride extends React.Component {
       msg: [nextProps],
       debug: nextProps.debug,
     });
-    if (!nextProps.steps.length) {
+    if (this.props.steps.length && !nextProps.steps.length) {
       this.reset();
+    }
+
+    if (nextProps.steps !== this.props.steps) {
+      this.checkStepsValidity(nextProps.steps);
     }
 
     if (
       (!run && nextProps.run) ||
       (!play && (shouldPlay && !standaloneTooltip))
     ) {
-      this.start();
+      this.start(nextProps.autoStart);
     }
 
     if (run && !nextProps.run) {
@@ -416,65 +432,102 @@ class Joyride extends React.Component {
   /**
    * Parse the incoming steps
    *
+   * @deprecated
+   *
    * @param {Array|Object} steps
    * @returns {Array}
    */
   parseSteps(steps) {
-    const newSteps = [];
-    let tmpSteps = [];
-    let el;
-
-    if (Array.isArray(steps)) {
-      steps.forEach((s) => {
-        if (s instanceof Object) {
-          tmpSteps.push(s);
-        }
-      });
-    }
-    else {
-      tmpSteps = [steps];
-    }
-
-    tmpSteps.forEach((s) => {
-      if (s.selector.dataset && s.selector.dataset.reactid) {
-        s.selector = `[data-reactid="${s.selector.dataset.reactid}"]`;
-        console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
-      }
-      else if (s.selector.dataset) {
-        console.error('Unsupported error: React 15.0+ don\'t write reactid to the DOM anymore, please use a plain class in your step.', s); //eslint-disable-line no-console
-        if (s.selector.className) {
-          s.selector = `.${s.selector.className.replace(' ', '.')}`;
-        }
-      }
-
-      el = document.querySelector(s.selector);
-      s.position = s.position || 'top';
-      newSteps.push(s);
-
-      if (!el) {
-        logger({
-          type: 'joyride:parseSteps',
-          msg: 'Target not rendered. For best results only add steps after they are mounted.',
-          debug: this.props.debug,
-          warn: s,
-        });
-      }
+    logger({
+      type: 'joyride:parseSteps',
+      msg: 'joyride.parseSteps() is deprecated.  It is no longer necessary to parse steps before providing them to Joyride.',
+      warn: true,
+      debug: this.props.debug,
     });
-
-    return newSteps;
+    return steps;
   }
 
   /**
-   * Add Tooltip events
+   * Verify that a step is valid
    *
-   * @param {Object} data
+   * @param   {Object}  step - A step object
+   * @returns {boolean}        True if the step is valid, false otherwise
+   */
+  checkStepValidity(step) {
+    // Check that the step is the proper type
+    if (!step || typeof step !== 'object' || Array.isArray(step)) {
+      logger({
+        type: 'joyride:checkStepValidity',
+        msg: 'Did not provide a step object.',
+        warn: true,
+        debug: this.props.debug,
+      });
+      return false;
+    }
+
+    // Check that all required step fields are present
+    const requiredFields = ['selector', 'text'];
+    const hasRequiredField = (requiredField) => {
+      const hasField = Boolean(step[requiredField]);
+      if (!hasField) {
+        logger({
+          type: 'joyride:checkStepValidity',
+          msg: [`Provided a step without the required ${requiredField} property.`, 'Step:', step],
+          warn: true,
+          debug: this.props.debug,
+        });
+      }
+      return hasField;
+    };
+    return requiredFields.every(hasRequiredField);
+  }
+
+  /**
+   * Check one or more steps are valid
+   *
+   * @param   {Object|Object[]}  steps - A step object or array of step objects
+   * @returns {boolean}                 True if one or more stpes, and all steps are valid, false otherwise
+   */
+  checkStepsValidity(steps) {
+    if (!Array.isArray(steps) && typeof steps === 'object') {
+      return this.checkStepValidity(steps);
+    }
+    else if (steps.length > 0) {
+      return steps.every(this.checkStepValidity);
+    }
+    return false;
+  }
+
+  /**
+   * Find and return the targeted DOM element based on a step's 'selector'.
+   *
+   * @param   {Object} step - A step object
+   * @returns {Element}       A DOM element (if found)
+   */
+  getStepTargetElement(step) {
+    const isValidStep = this.checkStepValidity(step);
+    if (!isValidStep) return null;
+
+    const el = document.querySelector(sanitizeSelector(step.selector));
+    if (!el) {
+      logger({
+        type: 'joyride:getStepTargetElement',
+        msg: 'Target not rendered. For best results only add steps after they are mounted.',
+        warn: true,
+        debug: this.props.debug,
+      });
+      return null;
+    }
+    return el;
+  }
+
+  /**
+   * Add standalone tooltip events
+   *
+   * @param {Object} data - Similar shape to a 'step', but for a single tooltip
    */
   addTooltip(data) {
-    const parseData = this.parseSteps(data);
-    let newData;
-    let el;
-    let eventType;
-    let key;
+    if (!this.checkStepValidity(data)) return;
 
     logger({
       type: 'joyride:addTooltip',
@@ -482,28 +535,16 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
 
-    if (parseData.length) {
-      newData = parseData[0];
-      key = newData.trigger || newData.selector;
-      el = document.querySelector(key);
-      eventType = newData.event || 'click';
-    }
-
-    if (!el) {
-      return;
-    }
-
+    const key = data.trigger || sanitizeSelector(data.selector);
+    const el = document.querySelector(key);
+    if (!el) return;
     el.setAttribute('data-tooltip', JSON.stringify(data));
 
+    const eventType = data.event || 'click';
     if (eventType === 'hover' && !isTouch) {
       listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}click`] = {
-        event: 'click',
-        cb: (e) => {
-          e.preventDefault();
-        }
-      };
+      listeners.tooltips[`${key}click`] = { event: 'click', cb: (e) => { e.preventDefault(); } };
 
       el.addEventListener('mouseenter', listeners.tooltips[key].cb);
       el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);
@@ -550,7 +591,7 @@ class Joyride extends React.Component {
     const { index, yPos } = this.state;
     const { scrollOffset, steps } = this.props;
     const step = steps[index];
-    const target = document.querySelector(step.selector);
+    const target = this.getStepTargetElement(step);
 
     if (!target) {
       return 0;
@@ -735,7 +776,7 @@ class Joyride extends React.Component {
     let nextIndex = (newIndex !== undefined ? newIndex : index);
     const step = steps[nextIndex];
 
-    if (step && !document.querySelector(step.selector)) {
+    if (step && !this.getStepTargetElement(step)) {
       console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
       nextIndex += action === 'back' ? -1 : 1;
     }
@@ -745,7 +786,6 @@ class Joyride extends React.Component {
       play: steps[nextIndex] ? play : false,
       showTooltip: show,
       index: nextIndex,
-      position: undefined,
       redraw: !show,
       xPos: -1000,
       yPos: -1000
@@ -761,21 +801,19 @@ class Joyride extends React.Component {
     const { index, play, standaloneTooltip, showTooltip } = this.state;
     const { steps, tooltipOffset } = this.props;
     const step = standaloneTooltip || (steps[index] || {});
-    const displayTooltip = standaloneTooltip ? true : showTooltip;
-    const target = document.querySelector(step.selector);
-    const placement = {
-      x: -1000,
-      y: -1000
-    };
-
     logger({
       type: `joyride:calcPlacement${this.getRenderStage()}`,
       msg: ['step:', step],
       debug: this.props.debug,
     });
-    if (!target) {
-      return;
-    }
+    const displayTooltip = standaloneTooltip ? true : showTooltip;
+    const placement = {
+      x: -1000,
+      y: -1000
+    };
+
+    const target = this.getStepTargetElement(step);
+    if (!target) return;
 
     if (step && (standaloneTooltip || (play && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
@@ -837,10 +875,10 @@ class Joyride extends React.Component {
     const { tooltipOffset } = this.props;
     const displayTooltip = standaloneTooltip ? true : showTooltip;
     const body = document.body.getBoundingClientRect();
-    const target = document.querySelector(step.selector);
+    const target = this.getStepTargetElement(step);
     const component = this.getElementDimensions((displayTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
     const rect = target.getBoundingClientRect();
-    let position = step.position;
+    let position = step.position || STEP_DEFAULTS.position;
 
     if (/^left/.test(position) && rect.left - (component.width + tooltipOffset) < 0) {
       position = 'top';
@@ -924,7 +962,7 @@ class Joyride extends React.Component {
     const currentStep = standaloneTooltip || steps[index];
     const step = { ...currentStep };
 
-    const target = step && step.selector ? document.querySelector(step.selector) : null;
+    const target = this.getStepTargetElement(step);
     const cssPosition = target ? target.style.position : null;
     const shouldShowOverlay = standaloneTooltip ? false : showOverlay;
     const buttons = {
@@ -949,7 +987,7 @@ class Joyride extends React.Component {
     }
 
     if (showTooltip || standaloneTooltip) {
-      step.position = this.calcPosition(step);
+      const position = this.calcPosition(step);
 
       if (!standaloneTooltip) {
         if (['continuous', 'guided'].indexOf(type) > -1) {
@@ -984,9 +1022,12 @@ class Joyride extends React.Component {
         cssPosition,
         disableOverlay,
         holePadding,
+        position,
+        selector: sanitizeSelector(step.selector),
         showOverlay: shouldShowOverlay,
         step,
         standalone: Boolean(standaloneTooltip),
+        target,
         type,
         xPos,
         yPos,
