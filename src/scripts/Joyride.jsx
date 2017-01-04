@@ -212,7 +212,7 @@ class Joyride extends React.Component {
       ((!keyboardNavigation && nextProps.keyboardNavigation) || keyboardNavigation)
       && nextProps.type === 'continuous'
     ) {
-      listeners.keyboard = this.onshowTooltipKeyboardNavigation;
+      listeners.keyboard = this.onKeyboardNavigation;
       document.body.addEventListener('keydown', listeners.keyboard);
     }
     else if (
