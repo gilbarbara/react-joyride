@@ -58,3 +58,49 @@ export const browser = getBrowser();
 export function getRootEl() {
   return ['ie', 'firefox'].indexOf(getBrowser()) > -1 ? document.documentElement : document.body;
 }
+
+/**
+ * Log method calls if debug is enabled
+ *
+ * @private
+ * @param {Object}       arg         - Immediately destructured option argument
+ * @param {string}       arg.type    - The method the logger was called from
+ * @param {string|Array} [arg.msg]   - The message to be logged
+ * @param {boolean}      [arg.warn]  - If true, the message will be a warning
+ * @param {boolean}      [arg.debug] - Nothing will be logged unless debug is true
+ */
+export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
+  const loggingFunction = warn ? console.warn || console.error : console.log; //eslint-disable-line no-console
+
+  if (debug) {
+    console.log(`%c${type}`, 'color: #760bc5; font-weight: bold; font-size: 12px;'); //eslint-disable-line no-console
+    if (msg) {
+      if (Array.isArray(msg)) {
+        loggingFunction.apply(console, msg);
+      }
+      else {
+        loggingFunction.apply(console, [msg]);
+      }
+    }
+  }
+}
+
+/**
+ * Check for deprecated selector styles, return stringified, safer versions
+ *
+ * @param   {string|Object} selector - The selector provided in a step object
+ * @returns {string}                   A cleaned-up selector string
+ */
+export function sanitizeSelector(selector) {
+  if (selector.dataset && selector.dataset.reactid) {
+    console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
+    return `[data-reactid="${selector.dataset.reactid}"]`;
+  }
+  else if (selector.dataset) {
+    console.error('Unsupported error: React 15.0+ doesn’t write reactid to the DOM anymore, please use a plain class in your step.', selector); //eslint-disable-line no-console
+    if (selector.className) {
+      return `.${selector.className.replace(' ', '.')}`;
+    }
+  }
+  return selector;
+}
