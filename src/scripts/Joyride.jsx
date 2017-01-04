@@ -71,6 +71,7 @@ class Joyride extends React.Component {
     showOverlay: React.PropTypes.bool,
     showSkipButton: React.PropTypes.bool,
     showStepsProgress: React.PropTypes.bool,
+    stepIndex: React.PropTypes.number,
     steps: React.PropTypes.array,
     tooltipOffset: React.PropTypes.number,
     type: React.PropTypes.string
@@ -148,32 +149,62 @@ class Joyride extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { play, shouldPlay, standaloneTooltip } = this.state;
-    const { keyboardNavigation, run } = this.props;
     logger({
       type: 'joyride:willReceiveProps',
       msg: [nextProps],
       debug: nextProps.debug,
     });
-    if (this.props.steps.length && !nextProps.steps.length) {
-      this.reset();
+    const { play, shouldPlay, standaloneTooltip } = this.state;
+    const { keyboardNavigation, run, steps, stepIndex } = this.props;
+    const stepsChanged = (nextProps.steps !== steps);
+    const stepIndexChanged = (nextProps.stepIndex !== stepIndex && nextProps.stepIndex !== this.state.index);
+    const runChanged = (nextProps.run !== run);
+    let shouldStart = false;
+
+    if (stepsChanged && this.checkStepsValidity(nextProps.steps)) {
+      // Removed all steps, so reset
+      if (!nextProps.steps || !nextProps.steps.length) {
+        this.reset();
+      }
+      // Start the joyride if steps were added for the first time, and run prop is true
+      else if (!steps.length && nextProps.run) {
+        shouldStart = true;
+      }
     }
 
-    if (nextProps.steps !== this.props.steps) {
-      this.checkStepsValidity(nextProps.steps);
+    if (runChanged) {
+      // run prop was changed to off, so stop the joyride
+      if (run && nextProps.run === false) {
+        this.stop();
+      }
+      // run prop was changed to on, so start the joyride
+      else if (!run && nextProps.run) {
+        shouldStart = true;
+      }
+      // Was not playing, but should, and isn't a standaloneTooltip
+      // TODO (@ianvs): Try moving this elsewhere, as it only relies on state, not nextProps
+      else if (!play && (shouldPlay && !standaloneTooltip)) {
+        shouldStart = true;
+      }
     }
 
-    if (
-      (!run && nextProps.run) ||
-      (!play && (shouldPlay && !standaloneTooltip))
-    ) {
-      this.start(nextProps.autoStart);
+    if (stepIndexChanged) {
+      const hasStep = nextProps.steps[nextProps.stepIndex];
+      const shouldDisplay = hasStep && nextProps.autoStart;
+      if (runChanged && shouldStart) {
+        this.start(nextProps.autoStart, nextProps.steps, nextProps.stepIndex);
+      }
+      else {
+        this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
+      }
     }
 
-    if (run && !nextProps.run) {
-      this.stop();
+    // Did not change the index, but need to start up the joyride
+    else if (shouldStart) {
+      this.start(nextProps.autoStart, nextProps.steps);
     }
 
+    // Update keyboard listeners if necessary
     if (
       !listeners.keyboard &&
       ((!keyboardNavigation && nextProps.keyboardNavigation) || keyboardNavigation)
@@ -229,7 +260,7 @@ class Joyride extends React.Component {
       }
     }
 
-    if (nextState.index !== index) {
+    if (nextState.index !== index && play) {
       this.triggerCallback({
         action,
         index,
@@ -281,7 +312,7 @@ class Joyride extends React.Component {
     const { scrollToFirstStep, scrollToSteps, steps } = this.props;
     const shouldScroll = scrollToFirstStep || (index > 0 || prevState.index > index);
 
-    if (redraw) {
+    if (redraw && steps[index]) {
       this.calcPlacement();
     }
 
@@ -313,11 +344,12 @@ class Joyride extends React.Component {
   /**
    * Starts the tour
    *
-   * @param {boolean} [autorun]- Starts with the first tooltip opened
+   * @param {boolean}  [autorun]    - Starts with the first tooltip opened
+   * @param {Object[]} [steps]      - Array of steps, defaults to this.props.steps
+   * @param {number}   [startIndex] - Optional step index to start joyride at
    */
-  start(autorun) {
+  start(autorun, steps = this.props.steps, startIndex) {
     const showTooltip = autorun === true;
-    const { steps } = this.props;
 
     logger({
       type: 'joyride:start',
@@ -328,7 +360,8 @@ class Joyride extends React.Component {
     this.setState({
       play: !!steps.length,
       shouldPlay: !steps.length,
-      showTooltip
+      showTooltip,
+      index: typeof startIndex !== 'undefined' ? startIndex : this.state.index,
     });
   }
 
@@ -361,7 +394,7 @@ class Joyride extends React.Component {
       msg: ['new index:', nextIndex],
       debug: this.props.debug,
     });
-    this.toggleTooltip(shouldDisplay, nextIndex, 'next');
+    this.toggleTooltip({ show: shouldDisplay, index: nextIndex, action: 'next' });
   }
 
   /**
@@ -379,7 +412,7 @@ class Joyride extends React.Component {
       msg: ['new index:', previousIndex],
       debug: this.props.debug,
     });
-    this.toggleTooltip(shouldDisplay, previousIndex, 'next');
+    this.toggleTooltip({ show: shouldDisplay, index: previousIndex, action: 'next' });
   }
 
   /**
@@ -616,6 +649,11 @@ class Joyride extends React.Component {
     const { callback } = this.props;
 
     if (typeof callback === 'function') {
+      logger({
+        type: 'joyride:triggerCallback',
+        msg: [options],
+        debug: this.props.debug,
+      });
       callback(options);
     }
   }
@@ -638,11 +676,11 @@ class Joyride extends React.Component {
       }
 
       if (intKey === 27) {
-        this.toggleTooltip(false, index + 1, 'esc');
+        this.toggleTooltip({ show: false, index: index + 1, action: 'esc' });
       }
       else if ([13, 32].indexOf(intKey) > -1) {
         hasSteps = Boolean(steps[index + 1]);
-        this.toggleTooltip(hasSteps, index + 1, 'next');
+        this.toggleTooltip({ show: hasSteps, index: index + 1, action: 'next' });
       }
     }
   }
@@ -700,7 +738,7 @@ class Joyride extends React.Component {
       step: steps[index]
     });
 
-    this.toggleTooltip(true, index, `beacon:${e.type}`);
+    this.toggleTooltip({ show: true, index, action: `beacon:${e.type}` });
   }
 
   /**
@@ -741,7 +779,7 @@ class Joyride extends React.Component {
           && ['close', 'skip'].indexOf(dataType) === -1
           && Boolean(steps[newIndex]);
 
-        this.toggleTooltip(shouldDisplay, newIndex, dataType);
+        this.toggleTooltip({ show: shouldDisplay, index: newIndex, action: dataType });
       }
 
       if (e.target.className === 'joyride-overlay') {
@@ -766,24 +804,24 @@ class Joyride extends React.Component {
    * Toggle Tooltip's visibility
    *
    * @private
-   * @param {Boolean} show - Render the tooltip or the beacon
-   * @param {Number} [newIndex] - The tour's new index
-   * @param {string} [action]
+   * @param {Object}    [arg]        - Immediately destructured argument object
+   * @param {Boolean}   [arg.show]   - Render the tooltip or the beacon, defaults to opposite of current show
+   * @param {Number}    [arg.index]  - The tour's new index, defaults to current index
+   * @param {string}    [arg.action] - The action being undertaken.
+   * @param {Object[]}  [arg.steps]  - The array of step objects that is going to be rendered
    */
-  toggleTooltip(show, newIndex, action = '') {
-    const { index, play } = this.state;
-    const { steps } = this.props;
-    let nextIndex = (newIndex !== undefined ? newIndex : index);
-    const step = steps[nextIndex];
+  toggleTooltip({ show = !this.state.showTooltip, index = this.state.index, action = '', steps = this.props.steps }) {
+    let nextIndex = index;
+    const nextStep = steps[nextIndex];
 
-    if (step && !this.getStepTargetElement(step)) {
-      console.warn('Target not mounted, skipping...', step, action); //eslint-disable-line no-console
+    if (nextStep && !this.getStepTargetElement(nextStep)) {
+      console.warn('Target not mounted, skipping...', nextStep, action); //eslint-disable-line no-console
       nextIndex += action === 'back' ? -1 : 1;
     }
 
     this.setState({
       action,
-      play: steps[nextIndex] ? play : false,
+      play: nextStep ? this.state.play : false, // stop playing if there is no next step
       showTooltip: show,
       index: nextIndex,
       redraw: !show,
@@ -807,13 +845,16 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
     const displayTooltip = standaloneTooltip ? true : showTooltip;
+    const target = this.getStepTargetElement(step);
+    if (!target) {
+      this.setState({ redraw: false });
+      return;
+    }
+
     const placement = {
       x: -1000,
       y: -1000
     };
-
-    const target = this.getStepTargetElement(step);
-    if (!target) return;
 
     if (step && (standaloneTooltip || (play && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
