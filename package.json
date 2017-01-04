@@ -1,6 +1,6 @@
 {
   "name": "react-joyride",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Create walkthroughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -76,9 +76,9 @@
     "watchify": "^3.8"
   },
   "scripts": {
-    "lint": "eslint --ext .jx --ext .jsx src test",
+    "lint": "eslint --ext .js --ext .jsx src test",
     "build": "gulp build",
-    "prepublish": "npm run build",
+    "prepublish": "gulp build",
     "test": "nightwatch -c test/nightwatch.conf.js",
     "test:ui": "gulp test:ui"
   },
