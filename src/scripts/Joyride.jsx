@@ -346,9 +346,9 @@ class Joyride extends React.Component {
   /**
    * Starts the tour
    *
-   * @param {boolean}  [autorun]    - Starts with the first tooltip opened
-   * @param {Object[]} [steps]      - Array of steps, defaults to this.props.steps
-   * @param {number}   [startIndex] - Optional step index to start joyride at
+   * @param {boolean} [autorun] - Starts with the first tooltip opened
+   * @param {Array} [steps] - Array of steps, defaults to this.props.steps
+   * @param {number} [startIndex] - Optional step index to start joyride at
    */
   start(autorun, steps = this.props.steps, startIndex) {
     const shouldRenderTooltip = autorun === true;
@@ -445,7 +445,7 @@ class Joyride extends React.Component {
   /**
    * Retrieve the current progress of your tour
    *
-   * @returns {{index: (number|*), percentageComplete: number, step: (object|null)}}
+   * @returns {{index: number, percentageComplete: number, step: (object|null)}}
    */
   getProgress() {
     const { index } = this.state;
@@ -462,6 +462,50 @@ class Joyride extends React.Component {
       percentageComplete: parseFloat(((index / steps.length) * 100).toFixed(2).replace('.00', '')),
       step: steps[index]
     };
+  }
+
+  /**
+   * Add standalone tooltip events
+   *
+   * @param {Object} data - Similar shape to a 'step', but for a single tooltip
+   */
+  addTooltip(data) {
+    if (!this.checkStepValidity(data)) {
+      return;
+    }
+
+    logger({
+      type: 'joyride:addTooltip',
+      msg: ['data:', data],
+      debug: this.props.debug,
+    });
+
+    const key = data.trigger || sanitizeSelector(data.selector);
+    const el = document.querySelector(key);
+    if (!el) {
+      return;
+    }
+    el.setAttribute('data-tooltip', JSON.stringify(data));
+
+    const eventType = data.event || 'click';
+    if (eventType === 'hover' && !isTouch) {
+      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
+      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
+      listeners.tooltips[`${key}click`] = {
+        event: 'click',
+        cb: (e) => {
+          e.preventDefault();
+        }
+      };
+
+      el.addEventListener('mouseenter', listeners.tooltips[key].cb);
+      el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);
+      el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
+    }
+    else {
+      listeners.tooltips[key] = { event: 'click', cb: this.onClickStandaloneTrigger };
+      el.addEventListener('click', listeners.tooltips[key].cb);
+    }
   }
 
   /**
@@ -485,8 +529,8 @@ class Joyride extends React.Component {
   /**
    * Verify that a step is valid
    *
-   * @param   {Object}  step - A step object
-   * @returns {boolean}        True if the step is valid, false otherwise
+   * @param {Object} step - A step object
+   * @returns {boolean} - True if the step is valid, false otherwise
    */
   checkStepValidity(step) {
     // Check that the step is the proper type
@@ -520,8 +564,8 @@ class Joyride extends React.Component {
   /**
    * Check one or more steps are valid
    *
-   * @param   {Object|Object[]}  steps - A step object or array of step objects
-   * @returns {boolean}                 True if one or more stpes, and all steps are valid, false otherwise
+   * @param {Object|Array} steps - A step object or array of step objects
+   * @returns {boolean} - True if one or more stpes, and all steps are valid, false otherwise
    */
   checkStepsValidity(steps) {
     if (!Array.isArray(steps) && typeof steps === 'object') {
@@ -536,12 +580,15 @@ class Joyride extends React.Component {
   /**
    * Find and return the targeted DOM element based on a step's 'selector'.
    *
-   * @param   {Object} step - A step object
-   * @returns {Element}       A DOM element (if found)
+   * @private
+   * @param {Object} step - A step object
+   * @returns {Element} - A DOM element (if found)
    */
   getStepTargetElement(step) {
     const isValidStep = this.checkStepValidity(step);
-    if (!isValidStep) return null;
+    if (!isValidStep) {
+      return null;
+    }
 
     const el = document.querySelector(sanitizeSelector(step.selector));
     if (!el) {
@@ -554,41 +601,6 @@ class Joyride extends React.Component {
       return null;
     }
     return el;
-  }
-
-  /**
-   * Add standalone tooltip events
-   *
-   * @param {Object} data - Similar shape to a 'step', but for a single tooltip
-   */
-  addTooltip(data) {
-    if (!this.checkStepValidity(data)) return;
-
-    logger({
-      type: 'joyride:addTooltip',
-      msg: ['data:', data],
-      debug: this.props.debug,
-    });
-
-    const key = data.trigger || sanitizeSelector(data.selector);
-    const el = document.querySelector(key);
-    if (!el) return;
-    el.setAttribute('data-tooltip', JSON.stringify(data));
-
-    const eventType = data.event || 'click';
-    if (eventType === 'hover' && !isTouch) {
-      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}click`] = { event: 'click', cb: (e) => { e.preventDefault(); } };
-
-      el.addEventListener('mouseenter', listeners.tooltips[key].cb);
-      el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);
-      el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
-    }
-    else {
-      listeners.tooltips[key] = { event: 'click', cb: this.onClickStandaloneTrigger };
-      el.addEventListener('click', listeners.tooltips[key].cb);
-    }
   }
 
   /**
@@ -647,6 +659,12 @@ class Joyride extends React.Component {
     return scrollTo;
   }
 
+  /**
+   * Trigger the callback.
+   *
+   * @private
+   * @param {Object} options
+   */
   triggerCallback(options) {
     const { callback } = this.props;
 
@@ -656,6 +674,7 @@ class Joyride extends React.Component {
         msg: [options],
         debug: this.props.debug,
       });
+
       callback(options);
     }
   }
@@ -716,10 +735,6 @@ class Joyride extends React.Component {
         document.querySelector('.joyride-tooltip__close').click();
       }
     }
-  }
-
-  onRenderTooltip() {
-    this.calcPlacement();
   }
 
   /**
@@ -802,17 +817,21 @@ class Joyride extends React.Component {
     }
   }
 
+  onRenderTooltip() {
+    this.calcPlacement();
+  }
+
   /**
    * Toggle Tooltip's visibility
    *
    * @private
-   * @param {Object}    [arg]        - Immediately destructured argument object
-   * @param {Boolean}   [arg.show]   - Render the tooltip or the beacon, defaults to opposite of current show
-   * @param {Number}    [arg.index]  - The tour's new index, defaults to current index
-   * @param {string}    [arg.action] - The action being undertaken.
-   * @param {Object[]}  [arg.steps]  - The array of step objects that is going to be rendered
+   * @param {Object} options - Immediately destructured argument object
+   * @param {Boolean} options.show - Render the tooltip or the beacon, defaults to opposite of current show
+   * @param {Number} options.index - The tour's new index, defaults to current index
+   * @param {string} [options.action] - The action being undertaken.
+   * @param {Array} [options.steps] - The array of step objects that is going to be rendered
    */
-  toggleTooltip({ show = !this.state.showTooltip, index = this.state.index, action = '', steps = this.props.steps }) {
+  toggleTooltip({ show, index, action, steps = this.props.steps }) {
     let nextIndex = index;
     const nextStep = steps[nextIndex];
 
@@ -935,6 +954,12 @@ class Joyride extends React.Component {
     return position;
   }
 
+  /**
+   * Get the render stage.
+   *
+   * @private
+   * @returns {string}
+   */
   getRenderStage() {
     const { shouldRedraw, xPos } = this.state;
 
@@ -989,7 +1014,7 @@ class Joyride extends React.Component {
    * Create a React Element
    *
    * @private
-   * @returns {*}
+   * @returns {boolean|ReactComponent}
    */
   createComponent() {
     const { index, shouldRedraw, shouldRenderTooltip, standaloneData, xPos, yPos } = this.state;
