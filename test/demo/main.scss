@@ -8,6 +8,10 @@ body {
   font-family: Trocchi, serif;
 }
 
+.demo {
+  overflow: auto;
+}
+
 .hero {
   background-color: #45c3ff;
   color: #fff;
@@ -74,4 +78,12 @@ body {
 
 .about {
   background-color: #ff8145;
+}
+
+.table-wrapper {
+  white-space: nowrap;
+  margin-top: 1rem;
+  width: 500px;
+  height: 150px;
+  overflow: auto;
 }
