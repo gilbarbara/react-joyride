@@ -125,8 +125,6 @@ You can change the initial options passing props to the component.
 
 **holePadding** {number}: The gap around the target inside the hole. Defaults to `5`
 
-**scrollContainerSelector** {string}: The parent container selector element that will scroll when step target is out of view. Can also be specified for each step, see step specs below. Defaults to ''.
-
 **scrollOffset** {number}: The scrollTop offset used in `scrollToSteps`. Defaults to `20`
 
 **scrollToSteps** {bool}: Scroll the page to the next step if needed. Defaults to `true`

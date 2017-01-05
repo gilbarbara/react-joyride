@@ -59,7 +59,6 @@ class Joyride extends React.Component {
     resizeDebounce: React.PropTypes.bool,
     resizeDebounceDelay: React.PropTypes.number,
     run: React.PropTypes.bool,
-    scrollContainerSelector: React.PropTypes.string,
     scrollOffset: React.PropTypes.number,
     scrollToFirstStep: React.PropTypes.bool,
     scrollToSteps: React.PropTypes.bool,
@@ -86,7 +85,6 @@ class Joyride extends React.Component {
     resizeDebounce: false,
     resizeDebounceDelay: 200,
     run: false,
-    scrollContainerSelector: '',
     scrollToSteps: true,
     scrollOffset: 20,
     scrollToFirstStep: false,
@@ -255,10 +253,10 @@ class Joyride extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     const { index, redraw, play, shouldPlay, standaloneTooltip, isScrolling } = this.state;
-    const { scrollToFirstStep, scrollToSteps, steps, scrollContainerSelector } = this.props;
+    const { scrollToFirstStep, scrollToSteps, steps } = this.props;
     const shouldScroll = (index === 0 && scrollToFirstStep) || (index !== 0 && prevState.index !== index);
     const step = steps[index];
-    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
+    const useScrollContainer = !!step && step.scrollContainerSelector;
 
     if (isScrolling !== prevState.isScrolling) {
       return;
@@ -266,7 +264,7 @@ class Joyride extends React.Component {
 
     if (play && scrollToSteps && shouldScroll && !isScrolling) {
       // Watch scroll event to the container
-      if (step && step.scrollContainerSelector) {
+      if (useScrollContainer) {
         const scrollElement = this.getScrollContainer(useScrollContainer);
         scrollElement.removeEventListener('scroll', this.calcPlacement);
         scrollElement.addEventListener('scroll', this.calcPlacement);
@@ -623,7 +621,7 @@ class Joyride extends React.Component {
    */
   getScrollValue(getContainerScroll, axis) {
     const { index, yPos } = this.state;
-    const { scrollOffset, steps, scrollContainerSelector } = this.props;
+    const { scrollOffset, steps } = this.props;
     const step = steps[index];
     const target = step && document.querySelector(step.selector);
 
@@ -631,22 +629,17 @@ class Joyride extends React.Component {
       return 0;
     }
 
-    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
-    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+    const useScrollContainer = !!step && step.scrollContainerSelector;
     const scrollPosFields = this.getScrollPosFields(axis);
-    const containerOffset = scrollContainerElem[scrollPosFields.scrollField];
     const rect = target.getBoundingClientRect();
-    let offsetPos = (window[scrollPosFields.pageOffset] || document.documentElement[scrollPosFields.scrollField]);
+    const offsetPos = (window[scrollPosFields.pageOffset] || document.documentElement[scrollPosFields.scrollField]);
 
     if (getContainerScroll) {
       if (!useScrollContainer) {
         return 0;
       }
 
-      if (step && step.scrollContainerSelector) {
-        return this.getScrollForParentContainer(axis);
-      }
-      offsetPos = containerOffset;
+      return this.getScrollForParentContainer(axis);
     }
 
     // Add the target offset
@@ -681,12 +674,11 @@ class Joyride extends React.Component {
 
   getScrollForParentContainer(axis) {
     const { index } = this.state;
-    const { steps, scrollContainerSelector } = this.props;
+    const { steps } = this.props;
     const step = steps[index];
     const target = document.querySelector(step.selector);
     const rect = target.getBoundingClientRect();
-    const useScrollContainer = (step && step.scrollContainerSelector) || scrollContainerSelector;
-    const scrollContainerElem = this.getScrollContainer(useScrollContainer);
+    const scrollContainerElem = this.getScrollContainer(step.scrollContainerSelector);
     const scrollPosFields = this.getScrollPosFields(axis);
     const containerOffset = scrollContainerElem[scrollPosFields.scrollField];
     const containerRect = scrollContainerElem.getBoundingClientRect();
