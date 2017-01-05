@@ -105,13 +105,17 @@ export function sanitizeSelector(selector) {
   return selector;
 }
 
-
-export function getScrollContainer(scrollContainer, defaultElement) {
+/**
+ * Locates the scrollable container
+ *
+ * @param  {string} scrollContainer - The scrollContainerSelector string
+ *
+ * @returns {object} - Element node
+ */
+export function getScrollContainer(scrollContainer) {
   if (scrollContainer && document.querySelector(scrollContainer)) {
     return document.querySelector(scrollContainer);
   }
-  if (defaultElement) {
-    return defaultElement;
-  }
+
   return document.body;
 }

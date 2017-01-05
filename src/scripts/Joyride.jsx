@@ -362,6 +362,12 @@ class Joyride extends React.Component {
     }
   }
 
+  /**
+   *  Scrolls the step scroll selector or the body to the target
+   *
+   * @param  {string} useScrollContainer - The selector to scroll.
+   * If none is provided, will scroll body
+   */
   scrollToTarget(useScrollContainer) {
     this.setState({ isScrolling: true }, () => {
       if (useScrollContainer && this.getScrollContainer(useScrollContainer)) {
@@ -686,12 +692,12 @@ class Joyride extends React.Component {
 
   /**
    * Get the scroll container
+   *
    * @param {String} scrollContainer - The scrollable parent container selector
-   * @param {Element} defaultElement - Element node
    * @returns {Element} Element node
    */
-  getScrollContainer(scrollContainer, defaultElement) {
-    return getScrollContainer(scrollContainer, defaultElement);
+  getScrollContainer(scrollContainer) {
+    return getScrollContainer(scrollContainer);
   }
   /**
    * Get an element actual dimensions with margin
@@ -767,6 +773,12 @@ class Joyride extends React.Component {
     return Math.floor(scrollTo);
   }
 
+  /**
+   * Obtains the correct field values needed to calculate the scroll value for the axis
+   *
+   * @param  {string} axis - The axis (y|x) to get fields
+   * @returns {object} - The various field values
+   */
   getScrollPosFields(axis) {
     return {
       start: axis === 'y' ? 'top' : 'left',
@@ -779,6 +791,12 @@ class Joyride extends React.Component {
     };
   }
 
+  /**
+   * Gets the scroll value for step scrollContainerSelector element
+   *
+   * @param  {string} axis - The axis (y|x) to calculate the value for
+   * @returns {number} - The amount the axis should be scrolled
+   */
   getScrollForParentContainer(axis) {
     const { index } = this.state;
     const { steps } = this.props;
