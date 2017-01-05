@@ -224,7 +224,7 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
-### **Deprecated** this.joyride.parseSteps(steps)
+### ~~this.joyride.parseSteps(steps)~~ Deprecated
 
 Parse the incoming steps, check if it's already rendered and returns an array with valid items
 
