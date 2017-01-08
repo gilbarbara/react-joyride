@@ -891,6 +891,7 @@ class Joyride extends React.Component {
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
       const body = document.body.getBoundingClientRect();
+      const scrollTop = step.fixed ? 0 : body.top;
       const component = this.getElementDimensions();
       const rect = target.getBoundingClientRect();
 
@@ -907,13 +908,13 @@ class Joyride extends React.Component {
 
       // Calculate y position
       if (/^top/.test(position)) {
-        placement.y = (rect.top - body.top) - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
+        placement.y = (rect.top - scrollTop) - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
       }
       else if (/^bottom/.test(position)) {
-        placement.y = (rect.top - body.top) + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
+        placement.y = (rect.top - scrollTop) + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
       }
       else {
-        placement.y = (rect.top - body.top);
+        placement.y = (rect.top - scrollTop);
       }
 
       if (/^bottom|^top/.test(position)) {
