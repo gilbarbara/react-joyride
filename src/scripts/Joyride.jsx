@@ -1036,19 +1036,12 @@ class Joyride extends React.Component {
     const step = { ...currentStep };
 
     const target = this.getStepTargetElement(step);
-    let cssPosition = null;
-    if (step && step.fixed) {
-      cssPosition = 'fixed';
-    }
-    else if (target) {
-      cssPosition = target.style.position;
-    }
+    let component;
+
     const shouldShowOverlay = standaloneData ? false : showOverlay;
     const buttons = {
       primary: locale.close
     };
-
-    let component;
 
     logger({
       type: `joyride:createComponent${this.getRenderStage()}`,
@@ -1098,7 +1091,6 @@ class Joyride extends React.Component {
       component = React.createElement(Tooltip, {
         animate: xPos > -1 && !shouldRedraw,
         buttons,
-        cssPosition,
         disableOverlay,
         holePadding,
         position,
@@ -1116,7 +1108,6 @@ class Joyride extends React.Component {
     }
     else {
       component = React.createElement(Beacon, {
-        cssPosition,
         step,
         xPos,
         yPos,
