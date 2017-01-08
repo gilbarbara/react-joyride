@@ -22,7 +22,7 @@ export default class Demo extends React.Component {
         },
         {
           title: 'Our Mission',
-          text: 'Can be advanced by clicking an element in an overlay hole.',
+          text: 'Can be advanced by clicking an element through the overlay hole.',
           selector: '.mission button',
           position: 'bottom',
           style: {
@@ -41,7 +41,19 @@ export default class Demo extends React.Component {
           position: 'left',
           style: {
             beacon: {
-              offsetX: 15
+              offsetX: 20
+            },
+          }
+        },
+        {
+          title: 'Menu',
+          text: 'You can find more stuff here',
+          selector: '.main-header a',
+          position: 'top',
+          fixed: true,
+          style: {
+            beacon: {
+              offsetY: 15
             }
           }
         }
@@ -57,8 +69,8 @@ export default class Demo extends React.Component {
   componentDidMount() {
     this.joyride.addTooltip({
       title: 'The classic joyride',
-      text: "Let's go on a magical tour",
-      selector: '.hero h3 span',
+      text: "Let's go on a magical tour! Just click the big orange button.",
+      selector: '.hero__tooltip',
       position: 'bottom',
       event: 'hover',
       style: {
@@ -67,7 +79,24 @@ export default class Demo extends React.Component {
         color: '#fff',
         mainColor: '#ff67b4',
         textAlign: 'center',
-        width: '20rem'
+        width: '29rem'
+      }
+    });
+
+    this.joyride.addTooltip({
+      title: 'A fixed tooltip',
+      text: 'For fixed elements, you know.',
+      selector: '.main-header img',
+      position: 'top',
+      fixed: true,
+      event: 'hover',
+      style: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        borderRadius: 0,
+        color: '#fff',
+        mainColor: '#f04',
+        textAlign: 'center',
+        width: '29rem'
       }
     });
   }
@@ -87,7 +116,7 @@ export default class Demo extends React.Component {
       // allow the tooltip time to hide before proceeding to next step and restarting
       setTimeout(() => {
         this.joyride.next();
-        this.joyride.start();
+        this.joyride.start(true);
       }, 100);
     }
   }
@@ -113,13 +142,25 @@ export default class Demo extends React.Component {
           steps={this.state.steps}
           stepIndex={this.state.step}
           scrollToFirstStep={true}
+          type="continuous"
           disableOverlay={this.state.step === 1}
           callback={this.handleJoyrideCallback}
           debug={false} />
+        <header className="main-header">
+          <div className="container">
+            <a href="#" onClick={e => e.preventDefault()}><span /></a>
+            <img src="/logo.svg" alt="Joyride" />
+          </div>
+        </header>
         <div className="hero">
           <div className="container">
-            <h1>My super awesome catchy title</h1>
-            <h3><span>Let's Talk?</span><a href="#" onClick={this.onClickStart}>&raquo;</a></h3>
+            <div className="hero__content">
+              <h1>
+                <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
+                <a href="#" className="hero__tooltip">?</a>
+              </h1>
+              <a href="#" className="hero__start" onClick={this.onClickStart}>Let's Go!</a>
+            </div>
           </div>
         </div>
         <div className="site__section projects">
@@ -130,7 +171,8 @@ export default class Demo extends React.Component {
 
         <div className="site__section mission">
           <div className="container">
-            <h2><span>Mission</span></h2><button onClick={this.handleNextButtonClick}>Advance</button>
+            <h2><span>Mission</span></h2>
+            <button className="btn btn-secondary" onClick={this.handleNextButtonClick}>Advance</button>
           </div>
         </div>
         <div className="site__section about">
