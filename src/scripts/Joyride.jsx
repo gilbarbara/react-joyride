@@ -494,26 +494,18 @@ class Joyride extends React.Component {
       return;
     }
     el.setAttribute('data-tooltip', JSON.stringify(data));
-
     const eventType = data.event || 'click';
-      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
-    if (eventType === 'hover') {
-      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}click`] = {
-        event: 'click',
-        cb: (e) => {
-          e.preventDefault();
-        }
-      };
 
-      el.addEventListener('mouseenter', listeners.tooltips[key].cb);
+    if (eventType === 'hover') {
+      listeners.tooltips[`${key}mouseenter`] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
+      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
+
+      el.addEventListener('mouseenter', listeners.tooltips[`${key}mouseenter`].cb);
       el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);
-      el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
     }
-    else {
-      listeners.tooltips[key] = { event: 'click', cb: this.onClickStandaloneTrigger };
-      el.addEventListener('click', listeners.tooltips[key].cb);
-    }
+
+    listeners.tooltips[`${key}click`] = { event: 'click', cb: this.onClickStandaloneTrigger };
+    el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
   }
 
   /**
