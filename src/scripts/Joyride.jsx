@@ -41,10 +41,7 @@ const STEP_DEFAULTS = {
   position: 'top',
 };
 
-let isTouch = false;
-if (typeof window !== 'undefined') {
-  isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
-}
+let hasTouch = false;
 
 class Joyride extends React.Component {
   constructor(props) {
@@ -149,6 +146,13 @@ class Joyride extends React.Component {
       listeners.keyboard = this.onKeyboardNavigation;
       document.body.addEventListener('keydown', listeners.keyboard);
     }
+
+    window.addEventListener('touchstart', function setHasTouch() {
+      hasTouch = true;
+      // Remove event listener once fired, otherwise it'll kill scrolling
+      // performance
+      window.removeEventListener('touchstart', setHasTouch);
+    }, false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -488,8 +492,8 @@ class Joyride extends React.Component {
     el.setAttribute('data-tooltip', JSON.stringify(data));
 
     const eventType = data.event || 'click';
-    if (eventType === 'hover' && !isTouch) {
       listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
+    if (eventType === 'hover') {
       listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
       listeners.tooltips[`${key}click`] = {
         event: 'click',
@@ -720,13 +724,16 @@ class Joyride extends React.Component {
     const { isRunning, standaloneData } = this.state;
     let tooltipData = e.currentTarget.dataset.tooltip;
 
+    if (['mouseenter', 'mouseleave'].includes(e.type) && hasTouch) {
+      return;
+    }
+
     if (tooltipData) {
       tooltipData = JSON.parse(tooltipData);
 
       if (!standaloneData || (standaloneData.selector !== tooltipData.selector)) {
         this.setState({
           isRunning: false,
-          position: undefined,
           shouldRenderTooltip: false,
           shouldRun: isRunning,
           standaloneData: tooltipData,
