@@ -643,6 +643,9 @@ class Joyride extends React.Component {
     if (!target) {
       return 0;
     }
+    if (step.fixed) {
+      return 0;
+    }
 
     const rect = target.getBoundingClientRect();
     const targetTop = rect.top + (window.pageYOffset || document.documentElement.scrollTop);
@@ -1033,7 +1036,13 @@ class Joyride extends React.Component {
     const step = { ...currentStep };
 
     const target = this.getStepTargetElement(step);
-    const cssPosition = target ? target.style.position : null;
+    let cssPosition = null;
+    if (step && step.fixed) {
+      cssPosition = 'fixed';
+    }
+    else if (target) {
+      cssPosition = target.style.position;
+    }
     const shouldShowOverlay = standaloneData ? false : showOverlay;
     const buttons = {
       primary: locale.close
