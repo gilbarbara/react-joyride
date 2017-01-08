@@ -37,8 +37,9 @@ const listeners = {
   tooltips: {}
 };
 
-const STEP_DEFAULTS = {
+const DEFAULTS = {
   position: 'top',
+  minWidth: 290
 };
 
 let hasTouch = false;
@@ -607,19 +608,20 @@ class Joyride extends React.Component {
    * Get an element actual dimensions with margin
    *
    * @private
-   * @param {String|Element} el - Element node or selector
    * @returns {{height: number, width: number}}
    */
-  getElementDimensions(el) {
-    // Get the DOM Node if you pass in a string
-    const newEl = (typeof el === 'string') ? document.querySelector(el) : el;
+  getElementDimensions() {
+    const { shouldRenderTooltip, standaloneData } = this.state;
+    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
+    const el = document.querySelector(displayTooltip ? '.joyride-tooltip' : '.joyride-beacon');
+
     let height = 0;
     let width = 0;
 
-    if (newEl) {
-      const styles = window.getComputedStyle(newEl);
-      height = newEl.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
-      width = newEl.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
+    if (el) {
+      const styles = window.getComputedStyle(el);
+      height = el.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
+      width = el.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
     }
 
     return {
@@ -863,13 +865,15 @@ class Joyride extends React.Component {
     const { index, isRunning, standaloneData, shouldRenderTooltip } = this.state;
     const { steps, tooltipOffset } = this.props;
     const step = standaloneData || (steps[index] || {});
+    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
+    const target = this.getStepTargetElement(step);
+
     logger({
       type: `joyride:calcPlacement${this.getRenderStage()}`,
       msg: ['step:', step],
       debug: this.props.debug,
     });
-    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
-    const target = this.getStepTargetElement(step);
+
     if (!target) {
       this.setState({
         shouldRedraw: false
@@ -887,7 +891,7 @@ class Joyride extends React.Component {
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
       const body = document.body.getBoundingClientRect();
-      const component = this.getElementDimensions(displayTooltip ? '.joyride-tooltip' : '.joyride-beacon');
+      const component = this.getElementDimensions();
       const rect = target.getBoundingClientRect();
 
       // Calculate x position
@@ -938,19 +942,17 @@ class Joyride extends React.Component {
    * @returns {string}
    */
   calcPosition(step) {
-    const { shouldRenderTooltip, standaloneData } = this.state;
     const { tooltipOffset } = this.props;
-    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
     const body = document.body.getBoundingClientRect();
     const target = this.getStepTargetElement(step);
-    const component = this.getElementDimensions((displayTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
+    const width = this.getElementDimensions().width || DEFAULTS.minWidth;
     const rect = target.getBoundingClientRect();
-    let position = step.position || STEP_DEFAULTS.position;
+    let position = step.position || DEFAULTS.position;
 
-    if (/^left/.test(position) && rect.left - (component.width + tooltipOffset) < 0) {
+    if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && (rect.left + rect.width + (component.width + tooltipOffset)) > body.width) {
+    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > body.width) {
       position = 'bottom';
     }
 
