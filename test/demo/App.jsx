@@ -136,8 +136,6 @@ export default class Demo extends React.Component {
   onClickStart(e) {
     e.preventDefault();
 
-    console.log("Start?");
-
     this.setState({
       running: true,
       step: 0,
