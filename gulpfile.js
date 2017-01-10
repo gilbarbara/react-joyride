@@ -104,7 +104,7 @@ gulp.task('build', ['clean'], function(cb) {
 gulp.task('localserver', function(cb) {
   shouldWatch = true;
 
-  gulp.watch(['demo/styles/*', 'test/demo/*.scss'], function() {
+  gulp.watch(['src/styles/*', 'test/demo/*.scss'], function() {
     gulp.start('setup:styles');
   });
 

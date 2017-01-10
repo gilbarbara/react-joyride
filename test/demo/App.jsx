@@ -48,9 +48,9 @@ export default class Demo extends React.Component {
         {
           title: 'Menu',
           text: 'You can find more stuff here',
-          selector: '.main-header a',
+          selector: '.demo__footer a',
           position: 'top',
-          fixed: true,
+          isFixed: true,
           style: {
             beacon: {
               offsetY: 15
@@ -85,10 +85,10 @@ export default class Demo extends React.Component {
 
     this.joyride.addTooltip({
       title: 'A fixed tooltip',
-      text: 'For fixed elements, you know.',
-      selector: '.main-header img',
+      text: 'For fixed elements, you know?',
+      selector: '.demo__footer img',
       position: 'top',
-      fixed: true,
+      isFixed: true,
       event: 'hover',
       style: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -112,12 +112,7 @@ export default class Demo extends React.Component {
 
   handleNextButtonClick() {
     if (this.state.step === 1) {
-      this.joyride.stop();
-      // allow the tooltip time to hide before proceeding to next step and restarting
-      setTimeout(() => {
-        this.joyride.next();
-        this.joyride.start(true);
-      }, 100);
+      this.joyride.next();
     }
   }
 
@@ -146,40 +141,42 @@ export default class Demo extends React.Component {
           disableOverlay={this.state.step === 1}
           callback={this.handleJoyrideCallback}
           debug={false} />
-        <header className="main-header">
+        <main>
+          <div className="hero">
+            <div className="container">
+              <div className="hero__content">
+                <h1>
+                  <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
+                  <a href="#" className="hero__tooltip">?</a>
+                </h1>
+                <a href="#" className="hero__start" onClick={this.onClickStart}>Let's Go!</a>
+              </div>
+            </div>
+          </div>
+          <div className="demo__section projects">
+            <div className="container">
+              <h2><span>Projects</span></h2>
+            </div>
+          </div>
+
+          <div className="demo__section mission">
+            <div className="container">
+              <h2><span>Mission</span></h2>
+              <button className="btn btn-secondary mission__button" onClick={this.handleNextButtonClick}>Advance</button>
+            </div>
+          </div>
+          <div className="demo__section about">
+            <div className="container">
+              <h2><span>About</span></h2>
+            </div>
+          </div>
+        </main>
+        <footer className="demo__footer">
           <div className="container">
             <a href="#" onClick={e => e.preventDefault()}><span /></a>
             <img src="/logo.svg" alt="Joyride" />
           </div>
-        </header>
-        <div className="hero">
-          <div className="container">
-            <div className="hero__content">
-              <h1>
-                <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
-                <a href="#" className="hero__tooltip">?</a>
-              </h1>
-              <a href="#" className="hero__start" onClick={this.onClickStart}>Let's Go!</a>
-            </div>
-          </div>
-        </div>
-        <div className="site__section projects">
-          <div className="container">
-            <h2><span>Projects</span></h2>
-          </div>
-        </div>
-
-        <div className="site__section mission">
-          <div className="container">
-            <h2><span>Mission</span></h2>
-            <button className="btn btn-secondary" onClick={this.handleNextButtonClick}>Advance</button>
-          </div>
-        </div>
-        <div className="site__section about">
-          <div className="container">
-            <h2><span>About</span></h2>
-          </div>
-        </div>
+        </footer>
       </div>
     );
   }
