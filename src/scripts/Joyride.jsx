@@ -49,7 +49,7 @@ class Joyride extends React.Component {
     super(props);
     autobind(this);
 
-    this.state = defaultState;
+    this.state = { ...defaultState };
   }
 
   static propTypes = {
