@@ -258,7 +258,7 @@ There are a few usable options but you can pass custom parameters.
 - `selector`: The target DOM selector of your feature **(required)**
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
-- `isFixed`: If `true`, the tooltip will remain in fixed position within the viewport. Defaults to `false`.
+- `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
 
 Extra option for standalone tooltips
 
@@ -278,6 +278,7 @@ Example:
   selector: '.first-step',
   position: 'bottom-left',
   type: 'hover',
+  isFixed: true,
   style: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderRadius: '0',
