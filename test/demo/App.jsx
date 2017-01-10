@@ -9,6 +9,13 @@ export default class Demo extends React.Component {
       running: false,
       steps: [
         {
+          title: 'Target Body',
+          text: 'Events become disabled when large tooltip overlaps target hole :(',
+          textAlign: 'center',
+          selector: '.hero',
+          position: 'top'
+        },
+        {
           title: 'Our Projects',
           text: 'Ooops. I forgot to add images!',
           textAlign: 'center',
