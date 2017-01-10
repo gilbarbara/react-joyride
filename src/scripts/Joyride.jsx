@@ -480,6 +480,12 @@ class Joyride extends React.Component {
    */
   addTooltip(data) {
     if (!this.checkStepValidity(data)) {
+      logger({
+        type: 'joyride:addTooltip:FAIL',
+        msg: ['data:', data],
+        debug: this.props.debug,
+      });
+
       return;
     }
 
