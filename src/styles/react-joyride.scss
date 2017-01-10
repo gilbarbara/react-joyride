@@ -30,7 +30,7 @@ $joyride-header-border-width: 1px !default;
 
 $joyride-button-bg-color: $joyride-color !default;
 $joyride-button-color: #fff !default;
-$joyride-button-radius: 4px !default;
+$joyride-button-border-radius: 4px !default;
 
 $joyride-back-button-color: $joyride-color !default;
 $joyride-skip-button-color: #ccc !default;
@@ -276,7 +276,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     &__button {
       &--primary {
         background-color: $joyride-button-bg-color;
-        border-radius: $joyride-button-radius;
+        border-radius: $joyride-button-border-radius;
         color: $joyride-button-color;
         outline: none;
         padding: 6px 12px;
