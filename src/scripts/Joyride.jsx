@@ -552,7 +552,7 @@ class Joyride extends React.Component {
     }
 
     // Check that all required step fields are present
-    const requiredFields = ['selector', 'text'];
+    const requiredFields = ['selector'];
     const hasRequiredField = (requiredField) => {
       const hasField = Boolean(step[requiredField]);
       if (!hasField) {
