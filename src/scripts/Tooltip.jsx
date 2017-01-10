@@ -200,7 +200,7 @@ export default class JoyrideTooltip extends React.Component {
    */
   setStyles(stepStyles, opts, props) {
     const { holePadding, step, xPos, yPos } = props;
-    const isFixed = (step.fixed === true);
+    const isFixed = step.isFixed === true;
 
     const styles = {
       arrow: {

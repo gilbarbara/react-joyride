@@ -321,7 +321,7 @@ class Joyride extends React.Component {
     const scrollTop = this.getScrollTop();
     const shouldScroll = (
       scrollToFirstStep || (index > 0 || prevState.index > index))
-      && (step && !step.fixed); // fixed steps don't need to scroll
+      && (step && !step.isFixed); // fixed steps don't need to scroll
 
     if (shouldRedraw && step) {
       this.calcPlacement();
@@ -897,7 +897,7 @@ class Joyride extends React.Component {
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
       const body = document.body.getBoundingClientRect();
-      const scrollTop = step.fixed ? 0 : body.top;
+      const scrollTop = step.isFixed === true ? 0 : body.top;
       const component = this.getElementDimensions();
       const rect = target.getBoundingClientRect();
 

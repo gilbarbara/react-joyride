@@ -32,7 +32,7 @@ export default class JoyrideBeacon extends React.Component {
     const styles = {
       beacon: {
         left: xPos,
-        position: step.fixed ? 'fixed' : 'absolute',
+        position: step.isFixed === true ? 'fixed' : 'absolute',
         top: yPos
       },
       inner: {},
