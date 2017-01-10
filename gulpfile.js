@@ -104,32 +104,32 @@ gulp.task('build', ['clean'], function(cb) {
 gulp.task('localserver', function(cb) {
   shouldWatch = true;
 
-  gulp.watch(['demo/styles/*', 'test/demo/*.scss'], function() {
-    gulp.start('styles:test');
+  gulp.watch(['src/styles/*', 'test/demo/*.scss'], function() {
+    gulp.start('setup:styles');
   });
 
   return runSequence('setup:test', cb);
 });
 
-gulp.task('setup:test', ['scripts:test', 'styles:test'], function() {
+gulp.task('setup:test', ['setup:scripts', 'setup:styles'], function() {
   gulp.src('test/demo/index.html')
     .pipe(gulp.dest('.tmp'));
 
   return $.connect.server({
-    root: [path.join(__dirname, '.tmp/')],
+    root: [path.join(__dirname, 'test', 'demo'), path.join(__dirname, '.tmp/')],
     livereload: true,
     port: 8888
   });
 });
 
-gulp.task('scripts:test', function(cb) {
+gulp.task('setup:scripts', function(cb) {
   return bundleScripts({
     watch: shouldWatch,
     cb: cb
   });
 });
 
-gulp.task('styles:test', function() {
+gulp.task('setup:styles', function() {
   return gulp.src('test/demo/main.scss')
     .pipe($.plumber())
     .pipe($.sass.sync({

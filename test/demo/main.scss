@@ -1,83 +1,170 @@
 $headings-font-family: Trocchi;
+$font-size-base: 1.6rem;
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../src/styles/react-joyride';
 @import '//fonts.googleapis.com/css?family=Trocchi';
 
+html {
+  font-size: 62.5%;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
 body {
   font-family: Trocchi, serif;
+  font-size: 1.6rem;
 }
 
 .demo {
   overflow: auto;
-}
+  padding-bottom: 6rem;
 
-.hero {
-  background-color: #45c3ff;
-  color: #fff;
-  height: 100vh;
-
-  > .container {
-    padding-top: 45vh;
-  }
-
-  a {
-    background-color: #ff8145;
-    border: 0.2rem solid #fff;
-    border-radius: 50%;
-    color: #fff;
-    display: inline-block;
-    height: 3rem;
-    line-height: 2.6rem;
-    margin-left: 1rem;
-    text-align: center;
-    width: 3rem;
-
-    &:active,
-    &:focus,
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  span {
-    text-decoration: underline;
-  }
-}
-
-.site__section {
-  color: #fff;
-  height: 100vh;
-
-  .container {
-    padding-top: 3rem;
-  }
-}
-
-.projects {
-  background-color: #8145ff;
-}
-
-.mission {
-  background-color: #1ec900;
-
-  button {
+  &__footer {
     background-color: #fff;
-    margin-left: 30px;
+    bottom: 0;
+    height: 6rem;
+    left: 0;
+    padding: 1rem 0;
+    position: fixed;
+    right: 0;
+    text-align: center;
+    z-index: 1000;
 
-    &:hover {
-      background-color: #ccc;
-      cursor: pointer;
+    .container {
+      position: relative;
+    }
+
+    a {
+      display: inline-block;
+      height: 2.5rem;
+      left: 1.5rem;
+      position: absolute;
+      top: 0.8rem;
+      width: 3.5rem;
+
+      span {
+        background-color: #f04;
+        display: block;
+        height: 0.3rem;
+        margin-top: 1rem;
+
+        &:before {
+          background-color: #f04;
+          content: '';
+          display: block;
+          height: 0.3rem;
+          position: absolute;
+          top: 0;
+          width: 3.5rem;
+        }
+
+        &:after {
+          background-color: #f04;
+          content: '';
+          display: block;
+          height: 0.3rem;
+          position: absolute;
+          top: 2rem;
+          width: 3.5rem;
+        }
+      }
+    }
+
+    img {
+      height: 4rem;
+      width: auto;
     }
   }
 
-  h2 {
-    float: left;
-  }
-}
+  &__section {
+    color: #fff;
+    height: 100vh;
 
-.about {
-  background-color: #ff8145;
+    .container {
+      padding-top: 3rem;
+    }
+  }
+
+  .hero {
+    background-color: #45c3ff;
+    color: #fff;
+    height: 100vh;
+
+    .container {
+      position: relative;
+    }
+
+    &__content {
+      position: absolute;
+      top: 50vh;
+      transform: translateY(-50%);
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      max-width: 70rem;
+    }
+
+    &__start {
+      background-color: #ff8145;
+      border-radius: 0.6rem;
+      color: #fff;
+      display: inline-block;
+      font-size: 3rem;
+      height: 5rem;
+      line-height: 5rem;
+      margin-top: 1.5rem;
+      padding: 0 2rem;
+      text-align: center;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+
+    &__tooltip {
+      background-color: #ff8145;
+      border-radius: 50%;
+      color: #fff;
+      display: inline-block;
+      font-size: 1.3rem;
+      line-height: 2rem;
+      text-align: center;
+      vertical-align: super;
+      width: 2rem;
+
+      &:active,
+      &:focus,
+      &:hover {
+        color: #fff;
+        text-decoration: none;
+      }
+    }
+  }
+
+  .projects {
+    background-color: #8145ff;
+  }
+
+  .mission {
+    background-color: #1ec900;
+
+    button {
+      margin-left: 30px;
+    }
+
+    h2 {
+      float: left;
+    }
+  }
+
+  .about {
+    background-color: #ff8145;
+  }
 }
 
 .table-wrapper {

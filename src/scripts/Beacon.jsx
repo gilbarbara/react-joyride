@@ -9,7 +9,6 @@ if (typeof window !== 'undefined') {
 
 export default class JoyrideBeacon extends React.Component {
   static propTypes = {
-    cssPosition: React.PropTypes.string.isRequired,
     eventType: React.PropTypes.string.isRequired,
     onTrigger: React.PropTypes.func.isRequired,
     step: React.PropTypes.object.isRequired,
@@ -24,17 +23,16 @@ export default class JoyrideBeacon extends React.Component {
   };
 
   static defaultProps = {
-    cssPosition: 'absolute',
     xPos: -1000,
     yPos: -1000
   };
 
   render() {
-    const { cssPosition, eventType, onTrigger, step, xPos, yPos } = this.props;
+    const { eventType, onTrigger, step, xPos, yPos } = this.props;
     const styles = {
       beacon: {
         left: xPos,
-        position: cssPosition === 'fixed' ? 'fixed' : 'absolute',
+        position: step.isFixed === true ? 'fixed' : 'absolute',
         top: yPos
       },
       inner: {},

@@ -22,7 +22,7 @@ export default class Demo extends React.Component {
         },
         {
           title: 'Our Mission',
-          text: 'Can be advanced by clicking an element in an overlay hole.',
+          text: 'Can be advanced by clicking an element through the overlay hole.',
           selector: '.mission button',
           position: 'bottom',
           style: {
@@ -41,7 +41,19 @@ export default class Demo extends React.Component {
           position: 'left',
           style: {
             beacon: {
-              offsetX: 15
+              offsetX: 20
+            },
+          }
+        },
+        {
+          title: 'Menu',
+          text: 'You can find more stuff here',
+          selector: '.demo__footer a',
+          position: 'top',
+          isFixed: true,
+          style: {
+            beacon: {
+              offsetY: 15
             }
           }
         },
@@ -89,8 +101,8 @@ export default class Demo extends React.Component {
   componentDidMount() {
     this.joyride.addTooltip({
       title: 'The classic joyride',
-      text: "Let's go on a magical tour",
-      selector: '.hero h3 span',
+      text: "Let's go on a magical tour! Just click the big orange button.",
+      selector: '.hero__tooltip',
       position: 'bottom',
       event: 'hover',
       style: {
@@ -99,13 +111,32 @@ export default class Demo extends React.Component {
         color: '#fff',
         mainColor: '#ff67b4',
         textAlign: 'center',
-        width: '20rem'
+        width: '29rem'
+      }
+    });
+
+    this.joyride.addTooltip({
+      title: 'A fixed tooltip',
+      text: 'For fixed elements, you know?',
+      selector: '.demo__footer img',
+      position: 'top',
+      isFixed: true,
+      event: 'hover',
+      style: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        borderRadius: 0,
+        color: '#fff',
+        mainColor: '#f04',
+        textAlign: 'center',
+        width: '29rem'
       }
     });
   }
 
   onClickStart(e) {
     e.preventDefault();
+
+    console.log("Start?");
 
     this.setState({
       running: true,
@@ -115,12 +146,7 @@ export default class Demo extends React.Component {
 
   handleNextButtonClick() {
     if (this.state.step === 1) {
-      this.joyride.stop();
-      // allow the tooltip time to hide before proceeding to next step and restarting
-      setTimeout(() => {
-        this.joyride.next();
-        this.joyride.start();
-      }, 100);
+      this.joyride.next();
     }
   }
 
@@ -162,57 +188,72 @@ export default class Demo extends React.Component {
           steps={this.state.steps}
           stepIndex={this.state.step}
           scrollToFirstStep={true}
+          type="continuous"
           disableOverlay={this.state.step === 1}
           callback={this.handleJoyrideCallback}
           showSkipButton={true}
           type="continuous"
           debug={false} />
-        <div className="hero">
-          <div className="container">
-            <h1>My super awesome catchy title</h1>
-            <h3><span>Let's Talk?</span><a href="#" onClick={this.onClickStart}>&raquo;</a></h3>
+        <main>
+          <div className="hero">
+            <div className="container">
+              <div className="hero__content">
+                <h1>
+                  <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
+                  <a href="#" className="hero__tooltip">?</a>
+                </h1>
+                <a href="#" className="hero__start" onClick={this.onClickStart}>Let's Go!</a>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="site__section projects">
-          <div className="container">
-            <h2><span>Projects</span></h2>
+          <div className="demo__section projects">
+            <div className="container">
+              <h2><span>Projects</span></h2>
+            </div>
           </div>
-        </div>
 
-        <div className="site__section mission">
-          <div className="container">
-            <h2><span>Mission</span></h2><button onClick={this.handleNextButtonClick}>Advance</button>
+          <div className="demo__section mission">
+            <div className="container">
+              <h2><span>Mission</span></h2>
+              <button className="btn btn-secondary mission__button" onClick={this.handleNextButtonClick}>Advance</button>
+            </div>
           </div>
-        </div>
-        <div className="site__section about">
-          <div className="container">
-            <h2><span>About</span></h2>
+          <div className="demo__section about">
+            <div className="container">
+              <h2><span>About</span></h2>
+            </div>
           </div>
-        </div>
 
-        <div className="container">
-          <div className="table-wrapper table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Project Name</th>
-                  <th>Creator</th>
-                  <th>Date Completed</th>
-                  <th>Column 4</th>
-                  <th>Column 5</th>
-                  <th>Column 6</th>
-                  <th>Column 7</th>
-                  <th>Column 8</th>
-                  <th>Column 9</th>
-                  <th>Column 10</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sampleProjects}
-              </tbody>
-            </table>
+          <div className="container">
+            <div className="table-wrapper table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Project Name</th>
+                    <th>Creator</th>
+                    <th>Date Completed</th>
+                    <th>Column 4</th>
+                    <th>Column 5</th>
+                    <th>Column 6</th>
+                    <th>Column 7</th>
+                    <th>Column 8</th>
+                    <th>Column 9</th>
+                    <th>Column 10</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sampleProjects}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        </main>
+        <footer className="demo__footer">
+          <div className="container">
+            <a href="#" onClick={e => e.preventDefault()}><span /></a>
+            <img src="/logo.svg" alt="Joyride" />
+          </div>
+        </footer>
       </div>
     );
   }

@@ -37,21 +37,19 @@ const listeners = {
   tooltips: {}
 };
 
-const STEP_DEFAULTS = {
+const DEFAULTS = {
   position: 'top',
+  minWidth: 290
 };
 
-let isTouch = false;
-if (typeof window !== 'undefined') {
-  isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
-}
+let hasTouch = false;
 
 class Joyride extends React.Component {
   constructor(props) {
     super(props);
     autobind(this);
 
-    this.state = defaultState;
+    this.state = { ...defaultState };
   }
 
   static propTypes = {
@@ -149,6 +147,13 @@ class Joyride extends React.Component {
       listeners.keyboard = this.onKeyboardNavigation;
       document.body.addEventListener('keydown', listeners.keyboard);
     }
+
+    window.addEventListener('touchstart', function setHasTouch() {
+      hasTouch = true;
+      // Remove event listener once fired, otherwise it'll kill scrolling
+      // performance
+      window.removeEventListener('touchstart', setHasTouch);
+    }, false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -313,7 +318,7 @@ class Joyride extends React.Component {
       }
     }
 
-    if (nextProps.run && nextSteps.length && !nextStep) {
+    if (nextProps.run && nextSteps.length && index !== nextState.index && !nextStep) {
       this.triggerCallback({
         action: nextState.action,
         type: callbackTypes.FINISHED,
@@ -326,15 +331,19 @@ class Joyride extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     const { index, shouldRedraw, isRunning, shouldRun, standaloneData, isScrolling } = this.state;
     const { scrollToFirstStep, scrollToSteps, steps } = this.props;
+    const step = steps[index];
+
     const stepChanged = (index !== 0 && prevState.index !== index);
     const isRunningChanged = isRunning !== prevState.isRunning;
-    const shouldScroll = (index === 0 && scrollToFirstStep) || stepChanged || isRunningChanged;
+    const shouldScroll = (
+      (index === 0 && scrollToFirstStep) || stepChanged || isRunningChanged)
+      && (step && !step.isFixed); // fixed steps don't need to scroll
 
     if (isScrolling !== prevState.isScrolling) {
       return;
     }
 
-    if (shouldRedraw && steps[index]) {
+    if (shouldRedraw && step) {
       this.calcPlacement();
     }
 
@@ -559,6 +568,12 @@ class Joyride extends React.Component {
    */
   addTooltip(data) {
     if (!this.checkStepValidity(data)) {
+      logger({
+        type: 'joyride:addTooltip:FAIL',
+        msg: ['data:', data],
+        debug: this.props.debug,
+      });
+
       return;
     }
 
@@ -574,26 +589,18 @@ class Joyride extends React.Component {
       return;
     }
     el.setAttribute('data-tooltip', JSON.stringify(data));
-
     const eventType = data.event || 'click';
-    if (eventType === 'hover' && !isTouch) {
-      listeners.tooltips[key] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
-      listeners.tooltips[`${key}click`] = {
-        event: 'click',
-        cb: (e) => {
-          e.preventDefault();
-        }
-      };
 
-      el.addEventListener('mouseenter', listeners.tooltips[key].cb);
+    if (eventType === 'hover') {
+      listeners.tooltips[`${key}mouseenter`] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
+      listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
+
+      el.addEventListener('mouseenter', listeners.tooltips[`${key}mouseenter`].cb);
       el.addEventListener('mouseleave', listeners.tooltips[`${key}mouseleave`].cb);
-      el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
     }
-    else {
-      listeners.tooltips[key] = { event: 'click', cb: this.onClickStandaloneTrigger };
-      el.addEventListener('click', listeners.tooltips[key].cb);
-    }
+
+    listeners.tooltips[`${key}click`] = { event: 'click', cb: this.onClickStandaloneTrigger };
+    el.addEventListener('click', listeners.tooltips[`${key}click`].cb);
   }
 
   /**
@@ -695,19 +702,20 @@ class Joyride extends React.Component {
    * Get an element actual dimensions with margin
    *
    * @private
-   * @param {String|Element} el - Element node or selector
    * @returns {{height: number, width: number}}
    */
-  getElementDimensions(el) {
-    // Get the DOM Node if you pass in a string
-    const newEl = (typeof el === 'string') ? document.querySelector(el) : el;
+  getElementDimensions() {
+    const { shouldRenderTooltip, standaloneData } = this.state;
+    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
+    const el = document.querySelector(displayTooltip ? '.joyride-tooltip' : '.joyride-beacon');
+
     let height = 0;
     let width = 0;
 
-    if (newEl) {
-      const styles = window.getComputedStyle(newEl);
-      height = newEl.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
-      width = newEl.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
+    if (el) {
+      const styles = window.getComputedStyle(el);
+      height = el.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
+      width = el.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
     }
 
     return {
@@ -882,13 +890,16 @@ class Joyride extends React.Component {
     const { isRunning, standaloneData } = this.state;
     let tooltipData = e.currentTarget.dataset.tooltip;
 
+    if (['mouseenter', 'mouseleave'].includes(e.type) && hasTouch) {
+      return;
+    }
+
     if (tooltipData) {
       tooltipData = JSON.parse(tooltipData);
 
       if (!standaloneData || (standaloneData.selector !== tooltipData.selector)) {
         this.setState({
           isRunning: false,
-          position: undefined,
           shouldRenderTooltip: false,
           shouldRun: isRunning,
           standaloneData: tooltipData,
@@ -1034,13 +1045,15 @@ class Joyride extends React.Component {
     const { index, isRunning, standaloneData, shouldRenderTooltip } = this.state;
     const { steps, tooltipOffset } = this.props;
     const step = standaloneData || (steps[index] || {});
+    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
+    const target = this.getStepTargetElement(step);
+
     logger({
       type: `joyride:calcPlacement${this.getRenderStage()}`,
       msg: ['step:', step],
       debug: this.props.debug,
     });
-    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
-    const target = this.getStepTargetElement(step);
+
     if (!target) {
       this.setState({
         shouldRedraw: false
@@ -1058,7 +1071,8 @@ class Joyride extends React.Component {
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
       const body = this.getScrollContainer().getBoundingClientRect();
-      const component = this.getElementDimensions(displayTooltip ? '.joyride-tooltip' : '.joyride-beacon');
+      const scrollTop = step.isFixed === true ? 0 : body.top;
+      const component = this.getElementDimensions();
       const rect = target.getBoundingClientRect();
 
       // Calculate x position
@@ -1074,13 +1088,13 @@ class Joyride extends React.Component {
 
       // Calculate y position
       if (/^top/.test(position)) {
-        placement.y = (rect.top - body.top) - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
+        placement.y = (rect.top - scrollTop) - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
       }
       else if (/^bottom/.test(position)) {
-        placement.y = (rect.top - body.top) + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
+        placement.y = (rect.top - scrollTop) + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
       }
       else {
-        placement.y = (rect.top - body.top);
+        placement.y = (rect.top - scrollTop);
       }
 
       if (/^bottom|^top/.test(position)) {
@@ -1115,19 +1129,17 @@ class Joyride extends React.Component {
    * @returns {string}
    */
   calcPosition(step) {
-    const { shouldRenderTooltip, standaloneData } = this.state;
     const { tooltipOffset } = this.props;
-    const displayTooltip = standaloneData ? true : shouldRenderTooltip;
     const body = this.getScrollContainer().getBoundingClientRect();
     const target = this.getStepTargetElement(step);
-    const component = this.getElementDimensions((displayTooltip ? '.joyride-tooltip' : '.joyride-beacon'));
+    const width = this.getElementDimensions().width || DEFAULTS.minWidth;
     const rect = target.getBoundingClientRect();
-    let position = step.position || STEP_DEFAULTS.position;
+    let position = step.position || DEFAULTS.position;
 
-    if (/^left/.test(position) && rect.left - (component.width + tooltipOffset) < 0) {
+    if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && (rect.left + rect.width + (component.width + tooltipOffset)) > body.width) {
+    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > body.width) {
       position = 'bottom';
     }
 
@@ -1213,15 +1225,14 @@ class Joyride extends React.Component {
     const step = { ...currentStep };
 
     const target = this.getStepTargetElement(step);
-    const cssPosition = target ? target.style.position : null;
+    let component;
+
     const shouldShowOverlay = standaloneData ? false : showOverlay;
     const useYPos = (yPos + (step.offsetY || 0));
     const useXPos = (xPos + (step.offsetX || 0));
     const buttons = {
       primary: locale.close
     };
-
-    let component;
 
     logger({
       type: `joyride:createComponent${this.getRenderStage()}`,
@@ -1271,7 +1282,6 @@ class Joyride extends React.Component {
       component = React.createElement(Tooltip, {
         animate: xPos > -1 && !shouldRedraw,
         buttons,
-        cssPosition,
         disableOverlay,
         holePadding,
         position,
@@ -1303,7 +1313,6 @@ class Joyride extends React.Component {
       }
 
       component = React.createElement(Beacon, {
-        cssPosition,
         step,
         xPos: useXPos,
         yPos: useYPos,
