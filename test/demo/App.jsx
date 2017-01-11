@@ -9,11 +9,10 @@ export default class Demo extends React.Component {
       running: false,
       steps: [
         {
-          title: 'Our Projects',
-          text: 'Ooops. I forgot to add images!',
+          title: 'Title only steps — As they say: Make the font bigger!',
           textAlign: 'center',
-          selector: '.projects h2 span',
-          position: 'right',
+          selector: '.projects .list',
+          position: 'top',
           style: {
             beacon: {
               offsetX: 30
@@ -25,13 +24,14 @@ export default class Demo extends React.Component {
           text: 'Can be advanced by clicking an element through the overlay hole.',
           selector: '.mission button',
           position: 'bottom',
+          allowClickThrough: true,
           style: {
             beacon: {
               offsetY: 20
             },
             button: {
               display: 'none',
-            },
+            }
           }
         },
         {
@@ -46,8 +46,7 @@ export default class Demo extends React.Component {
           }
         },
         {
-          title: 'Menu',
-          text: 'You can find more stuff here',
+          text: "Text only steps — Because sometimes you don't really need a proper heading",
           selector: '.demo__footer a',
           position: 'top',
           isFixed: true,
@@ -111,6 +110,8 @@ export default class Demo extends React.Component {
   }
 
   handleNextButtonClick() {
+    console.log('handleNextButtonClick');
+
     if (this.state.step === 1) {
       this.joyride.next();
     }
@@ -132,15 +133,15 @@ export default class Demo extends React.Component {
     return (
       <div className="demo">
         <Joyride
+          callback={this.handleJoyrideCallback}
+          debug={false}
+          disableOverlay={this.state.step === 1}
           ref={c => (this.joyride = c)}
           run={this.state.running}
-          steps={this.state.steps}
-          stepIndex={this.state.step}
           scrollToFirstStep={true}
-          type="continuous"
-          disableOverlay={this.state.step === 1}
-          callback={this.handleJoyrideCallback}
-          debug={false} />
+          stepIndex={this.state.step}
+          steps={this.state.steps}
+          type="continuous" />
         <main>
           <div className="hero">
             <div className="container">
@@ -156,13 +157,25 @@ export default class Demo extends React.Component {
           <div className="demo__section projects">
             <div className="container">
               <h2><span>Projects</span></h2>
+              <div className="list">
+                <div>
+                  <img src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS" role="presentation" />
+                </div>
+                <div>
+                  <img src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW" role="presentation" />
+                </div>
+                <div>
+                  <img src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑" role="presentation" />
+                </div>
+              </div>
             </div>
           </div>
 
           <div className="demo__section mission">
             <div className="container">
               <h2><span>Mission</span></h2>
-              <button className="btn btn-secondary mission__button" onClick={this.handleNextButtonClick}>Advance</button>
+              <button className="btn btn-secondary mission__button" onClick={this.handleNextButtonClick}>Advance
+              </button>
             </div>
           </div>
           <div className="demo__section about">

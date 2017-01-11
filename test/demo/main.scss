@@ -81,6 +81,20 @@ body {
     .container {
       padding-top: 3rem;
     }
+
+    .list {
+      display: flex;
+      justify-content:space-around;
+      margin-top: 18px;
+
+      > * {
+
+      }
+
+      img {
+        max-width: 100%;
+      }
+    }
   }
 
   .hero {
