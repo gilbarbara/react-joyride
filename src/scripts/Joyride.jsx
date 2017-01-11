@@ -30,7 +30,8 @@ const callbackTypes = {
   STANDALONE_AFTER: 'standalone:after',
   OVERLAY: 'overlay:click',
   HOLE: 'hole:click',
-  FINISHED: 'finished'
+  FINISHED: 'finished',
+  TARGET_NOT_FOUND: 'error:target_not_found'
 };
 
 const listeners = {
@@ -268,6 +269,18 @@ class Joyride extends React.Component {
     }
 
     if (nextState.index !== index && isRunning) {
+      if (nextStep && !this.getStepTargetElement(nextStep)) {
+        console.warn('Target not mounted', nextStep, action); //eslint-disable-line no-console
+        this.triggerCallback({
+          action,
+          index,
+          type: callbackTypes.TARGET_NOT_FOUND,
+          step
+        });
+        this.stop();
+        return;
+      }
+
       this.triggerCallback({
         action,
         index,
@@ -843,17 +856,11 @@ class Joyride extends React.Component {
    * @param {Array} [options.steps] - The array of step objects that is going to be rendered
    */
   toggleTooltip({ show, index, action, steps = this.props.steps }) {
-    let nextIndex = index;
-    const nextStep = steps[nextIndex];
-
-    if (nextStep && !this.getStepTargetElement(nextStep)) {
-      console.warn('Target not mounted, skipping...', nextStep, action); //eslint-disable-line no-console
-      nextIndex += action === 'back' ? -1 : 1;
-    }
+    const nextStep = steps[index];
 
     this.setState({
       action,
-      index: nextIndex,
+      index,
       isRunning: nextStep ? this.state.isRunning : false, // stop playing if there is no next step
       shouldRedraw: !show,
       shouldRenderTooltip: show,
