@@ -261,8 +261,6 @@ There are some usable options but you can pass custom parameters.
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
 - `style`: An object with stylesheet options.
 
-You must pass either title or text. If none are present the step will fail validation.
-
 
 **Extra option for standalone tooltips**
 
