@@ -250,8 +250,8 @@ var steps = this.joyride.parseSteps({
 ### Only start the tour after all target elements (or at least the first step) are rendered in the page.
 
 
-## Tooltip / Step Syntax
-There are a few usable options but you can pass custom parameters.
+## Step Syntax
+There are some usable options but you can pass custom parameters.
 
 - `title`: The title of the tooltip
 - `text`: The tooltip's body text
@@ -259,8 +259,12 @@ There are a few usable options but you can pass custom parameters.
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
+- `style`: An object with stylesheet options.
 
-Extra option for standalone tooltips
+You must pass either title or text. If none are present the step will fail validation.
+
+
+**Extra option for standalone tooltips**
 
 - `trigger`: The DOM element that will trigger the tooltip
 
