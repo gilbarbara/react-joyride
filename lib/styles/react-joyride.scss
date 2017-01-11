@@ -120,6 +120,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   }
 
   &-tooltip {
+    pointer-events: auto;
     background-color: $joyride-tooltip-bg-color;
     border-radius: $joyride-tooltip-border-radius;
     color: $joyride-tooltip-color;

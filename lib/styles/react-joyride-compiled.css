@@ -53,6 +53,7 @@
     box-shadow: 0 0 999px 9999px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.5); }
 
 .joyride-tooltip {
+  pointer-events: auto;
   background-color: #fff;
   border-radius: 4px;
   color: #555;
