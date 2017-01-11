@@ -60,7 +60,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 }
 
 .joyride {
-
   &-beacon {
     display: inline-block;
     height: $joyride-beacon-size;
@@ -261,12 +260,18 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       color: $joyride-header-color;
       font-size: $joyride-header-font-size;
       padding-bottom: 6px;
+      padding-right: 18px;
       position: relative;
+
+      ~ .joyride-tooltip__main {
+        padding: 12px 0 18px;
+      }
     }
 
     &__main {
       font-size: $joyride-tooltip-font-size;
-      padding: 12px 0 18px;
+      padding-bottom: 18px;
+      padding-right: 18px;
     }
 
     &__footer {

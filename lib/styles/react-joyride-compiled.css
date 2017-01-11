@@ -150,10 +150,14 @@
     color: #555;
     font-size: 20px;
     padding-bottom: 6px;
+    padding-right: 18px;
     position: relative; }
+    .joyride-tooltip__header ~ .joyride-tooltip__main {
+      padding: 12px 0 18px; }
   .joyride-tooltip__main {
     font-size: 16px;
-    padding: 12px 0 18px; }
+    padding-bottom: 18px;
+    padding-right: 18px; }
   .joyride-tooltip__footer {
     text-align: right; }
   .joyride-tooltip__button--primary {
