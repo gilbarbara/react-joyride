@@ -252,7 +252,7 @@ class Joyride extends React.Component {
     if ((!isRunning && nextState.isRunning) && index === 0) {
       this.triggerCallback({
         action: 'start',
-        index,
+        index: nextState.index,
         type: callbackTypes.STEP_BEFORE,
         step: nextStep
       });
@@ -269,7 +269,7 @@ class Joyride extends React.Component {
 
     if (nextState.index !== index && isRunning) {
       this.triggerCallback({
-        action,
+        action: nextState.action,
         index,
         type: callbackTypes.STEP_AFTER,
         step
