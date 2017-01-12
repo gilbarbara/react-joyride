@@ -230,7 +230,7 @@ class Joyride extends React.Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    const { action, index, isRunning, shouldRenderTooltip, standaloneData } = this.state;
+    const { index, isRunning, shouldRenderTooltip, standaloneData } = this.state;
     const { steps } = this.props;
     const { steps: nextSteps } = nextProps;
     const step = steps[index];
