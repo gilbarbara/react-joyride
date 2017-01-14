@@ -437,8 +437,11 @@ class Joyride extends React.Component {
     const { index, isRunning } = this.state;
     const shouldRestart = restart === true;
 
-    const newState = JSON.parse(JSON.stringify(defaultState));
-    newState.isRunning = shouldRestart;
+    const newState = {
+      ...defaultState,
+      isRunning: shouldRestart,
+      shouldRenderTooltip: this.props.autoStart,
+    };
 
     logger({
       type: 'joyride:reset',
