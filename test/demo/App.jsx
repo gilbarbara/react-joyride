@@ -24,7 +24,7 @@ export default class Demo extends React.Component {
           text: 'Can be advanced by clicking an element through the overlay hole.',
           selector: '.mission button',
           position: 'bottom',
-          allowClickThrough: true,
+          allowClicksThruHole: true,
           style: {
             beacon: {
               offsetY: 20
