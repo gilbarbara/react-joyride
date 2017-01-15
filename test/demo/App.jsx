@@ -35,6 +35,11 @@ export default class Demo extends React.Component {
           }
         },
         {
+          title: 'Unmounted target',
+          text: 'This step tests what happens when a target is missing',
+          selector: '.not-mounted',
+        },
+        {
           title: 'About Us',
           text: 'We are the people',
           selector: '.about h2 span',
@@ -110,8 +115,6 @@ export default class Demo extends React.Component {
   }
 
   handleNextButtonClick() {
-    console.log('handleNextButtonClick');
-
     if (this.state.step === 1) {
       this.joyride.next();
     }
@@ -126,6 +129,12 @@ export default class Demo extends React.Component {
     if (result.type === 'finished' && this.state.running) {
       // Need to set our running state to false, so we can restart if we click start again.
       this.setState({ running: false });
+    }
+
+    if (result.type === 'error:target_not_found') {
+      this.setState({
+        step: result.action === 'back' ? result.index - 1 : result.index + 1,
+      });
     }
   }
 

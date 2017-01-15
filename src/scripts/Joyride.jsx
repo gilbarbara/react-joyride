@@ -30,7 +30,8 @@ const callbackTypes = {
   STANDALONE_AFTER: 'standalone:after',
   OVERLAY: 'overlay:click',
   HOLE: 'hole:click',
-  FINISHED: 'finished'
+  FINISHED: 'finished',
+  TARGET_NOT_FOUND: 'error:target_not_found'
 };
 
 const listeners = {
@@ -203,6 +204,11 @@ class Joyride extends React.Component {
       if (runChanged && shouldStart) {
         this.start(nextProps.autoStart, nextProps.steps, nextProps.stepIndex);
       }
+      // Next prop is set to run, and the index has changed, but for some reason joyride is not running
+      // (maybe this is because of a target not mounted, and the app wants to skip to another step)
+      else if (nextProps.run && !isRunning) {
+        this.start(nextProps.autoStart, nextProps.steps, nextProps.stepIndex);
+      }
       else {
         this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
       }
@@ -277,7 +283,17 @@ class Joyride extends React.Component {
         step
       });
 
-      if (nextState.index && nextStep) {
+      if (nextStep && !this.getStepTargetElement(nextStep)) {
+        console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
+        this.triggerCallback({
+          action: nextState.action,
+          index: nextState.index,
+          type: callbackTypes.TARGET_NOT_FOUND,
+          step
+        });
+      }
+
+      else if (nextState.index && nextStep) {
         this.triggerCallback({
           action: nextState.action,
           index: nextState.index,
@@ -848,20 +864,17 @@ class Joyride extends React.Component {
    * @param {Array} [options.steps] - The array of step objects that is going to be rendered
    */
   toggleTooltip({ show, index, action, steps = this.props.steps }) {
-    let nextIndex = index;
-    const nextStep = steps[nextIndex];
-
-    if (nextStep && !this.getStepTargetElement(nextStep)) {
-      console.warn('Target not mounted, skipping...', nextStep, action); //eslint-disable-line no-console
-      nextIndex += action === 'back' ? -1 : 1;
-    }
+    const nextStep = steps[index];
+    const hasMountedTarget = this.getStepTargetElement(nextStep);
 
     this.setState({
       action,
-      index: nextIndex,
-      isRunning: nextStep ? this.state.isRunning : false, // stop playing if there is no next step
-      shouldRedraw: !show,
-      shouldRenderTooltip: show,
+      index,
+      // Stop playing if there is no next step or can't find the target
+      isRunning: (nextStep && hasMountedTarget) ? this.state.isRunning : false,
+      // If we are not showing now, or there is no target, we'll need to redraw eventually
+      shouldRedraw: !show || !hasMountedTarget,
+      shouldRenderTooltip: show && hasMountedTarget,
       xPos: -1000,
       yPos: -1000
     });
@@ -886,9 +899,6 @@ class Joyride extends React.Component {
     });
 
     if (!target) {
-      this.setState({
-        shouldRedraw: false
-      });
       return;
     }
 
