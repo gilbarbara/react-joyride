@@ -6,6 +6,7 @@ export default class Demo extends React.Component {
     super(props);
 
     this.state = {
+      autoStart: false,
       running: false,
       steps: [
         {
@@ -134,7 +135,12 @@ export default class Demo extends React.Component {
     if (result.type === 'error:target_not_found') {
       this.setState({
         step: result.action === 'back' ? result.index - 1 : result.index + 1,
+        autoStart: result.action !== 'close',
       });
+    }
+
+    if (result.type === 'step:after') {
+      this.setState({ autoStart: false });
     }
   }
 
@@ -142,6 +148,7 @@ export default class Demo extends React.Component {
     return (
       <div className="demo">
         <Joyride
+          autoStart={this.state.autoStart}
           callback={this.handleJoyrideCallback}
           debug={false}
           disableOverlay={this.state.step === 1}
