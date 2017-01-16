@@ -290,7 +290,7 @@ class Joyride extends React.Component {
           action: nextState.action,
           index: nextState.index,
           type: callbackTypes.TARGET_NOT_FOUND,
-          step
+          step: nextStep,
         });
       }
 
@@ -312,7 +312,7 @@ class Joyride extends React.Component {
           action: nextState.action,
           index: nextState.index,
           type: callbackTypes.TARGET_NOT_FOUND,
-          step
+          step: nextStep,
         });
       }
 
