@@ -283,6 +283,7 @@ class Joyride extends React.Component {
         step
       });
 
+      // Attempted to advance to a step with a target that cannot be found
       if (nextStep && !this.getStepTargetElement(nextStep)) {
         console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
         this.triggerCallback({
@@ -304,7 +305,18 @@ class Joyride extends React.Component {
     }
 
     if (nextState.isRunning && (shouldRenderTooltip !== nextState.shouldRenderTooltip || nextState.index !== index)) {
-      if (nextState.shouldRenderTooltip) {
+      // Attempted to start running, but the step does not have a valid target in the DOM
+      if (nextStep && !this.getStepTargetElement(nextStep)) {
+        console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
+        this.triggerCallback({
+          action: nextState.action,
+          index: nextState.index,
+          type: callbackTypes.TARGET_NOT_FOUND,
+          step
+        });
+      }
+
+      else if (nextState.shouldRenderTooltip) {
         this.triggerCallback({
           action: nextState.action || (nextState.index === 0 ? 'autostart' : ''),
           index: nextState.index,
@@ -858,8 +870,8 @@ class Joyride extends React.Component {
    *
    * @private
    * @param {Object} options - Immediately destructured argument object
-   * @param {Boolean} options.show - Render the tooltip or the beacon, defaults to opposite of current show
-   * @param {Number} options.index - The tour's new index, defaults to current index
+   * @param {Boolean} options.show - Render the tooltip or the beacon
+   * @param {Number} options.index - The tour's new index
    * @param {string} [options.action] - The action being undertaken.
    * @param {Array} [options.steps] - The array of step objects that is going to be rendered
    */
