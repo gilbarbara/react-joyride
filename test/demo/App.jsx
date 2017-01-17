@@ -135,7 +135,7 @@ export default class Demo extends React.Component {
     if (result.type === 'error:target_not_found') {
       this.setState({
         step: result.action === 'back' ? result.index - 1 : result.index + 1,
-        autoStart: result.action !== 'close',
+        autoStart: result.action !== 'close' && result.action !== 'esc',
       });
     }
 
