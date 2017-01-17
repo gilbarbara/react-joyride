@@ -243,6 +243,7 @@ class Joyride extends React.Component {
     const { steps: nextSteps } = nextProps;
     const step = steps[index];
     const nextStep = nextSteps[nextState.index];
+    const hasRenderedTarget = Boolean(this.getStepTargetElement(nextStep));
 
     if (!standaloneData && nextState.standaloneData) {
       this.triggerCallback({
@@ -255,6 +256,20 @@ class Joyride extends React.Component {
         type: callbackTypes.STANDALONE_AFTER,
         step: standaloneData
       });
+    }
+
+    // Tried to start, but something went wrong and we're not actually running
+    if (nextState.action === 'start' && !nextState.isRunning) {
+      // There's a step to use, but there's no target in the DOM
+      if (nextStep && !hasRenderedTarget) {
+        console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
+        this.triggerCallback({
+          action: 'start',
+          index: nextState.index,
+          type: callbackTypes.TARGET_NOT_FOUND,
+          step: nextStep,
+        });
+      }
     }
 
     if ((!isRunning && nextState.isRunning) && index === 0) {
@@ -284,7 +299,7 @@ class Joyride extends React.Component {
       });
 
       // Attempted to advance to a step with a target that cannot be found
-      if (nextStep && !this.getStepTargetElement(nextStep)) {
+      if (nextStep && !hasRenderedTarget) {
         console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
         this.triggerCallback({
           action: nextState.action,
@@ -305,18 +320,7 @@ class Joyride extends React.Component {
     }
 
     if (nextState.isRunning && (shouldRenderTooltip !== nextState.shouldRenderTooltip || nextState.index !== index)) {
-      // Attempted to start running, but the step does not have a valid target in the DOM
-      if (nextStep && !this.getStepTargetElement(nextStep)) {
-        console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
-        this.triggerCallback({
-          action: nextState.action,
-          index: nextState.index,
-          type: callbackTypes.TARGET_NOT_FOUND,
-          step: nextStep,
-        });
-      }
-
-      else if (nextState.shouldRenderTooltip) {
+      if (nextState.shouldRenderTooltip) {
         this.triggerCallback({
           action: nextState.action || (nextState.index === 0 ? 'autostart' : ''),
           index: nextState.index,
@@ -389,20 +393,22 @@ class Joyride extends React.Component {
    * @param {Array} [steps] - Array of steps, defaults to this.props.steps
    * @param {number} [startIndex] - Optional step index to start joyride at
    */
-  start(autorun, steps = this.props.steps, startIndex) {
-    const shouldRenderTooltip = autorun === true;
+  start(autorun, steps = this.props.steps, startIndex = this.state.index) {
+    const hasMountedTarget = Boolean(this.getStepTargetElement(steps[startIndex]));
+    const shouldRenderTooltip = (autorun === true) && hasMountedTarget;
 
     logger({
       type: 'joyride:start',
-      msg: ['autorun:', shouldRenderTooltip],
+      msg: ['autorun:', autorun === true],
       debug: this.props.debug,
     });
 
     this.setState({
-      index: typeof startIndex !== 'undefined' ? startIndex : this.state.index,
-      isRunning: !!steps.length,
+      action: 'start',
+      index: startIndex,
+      isRunning: Boolean(steps.length) && hasMountedTarget,
       shouldRenderTooltip,
-      shouldRun: !steps.length
+      shouldRun: !steps.length,
     });
   }
 
