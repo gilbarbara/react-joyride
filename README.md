@@ -134,6 +134,8 @@ You can change the initial options passing props to the component.
 
 **showOverlay** {bool}: Display an overlay with holes above your steps (for tours only). Defaults to `true`
 
+**allowClicksThruHole** {bool}: Allow mouse and touch events within overlay hole, and prevent `hole:click` callback from being sent.  Defaults to `false`
+
 **showSkipButton** {bool}: Display a link to skip the tour. Defaults to `false`
 
 **showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5* in `continuous` tours. Defaults to `false`
@@ -250,18 +252,20 @@ var steps = this.joyride.parseSteps({
 ### Only start the tour after all target elements (or at least the first step) are rendered in the page.
 
 
-## Tooltip / Step Syntax
-There are a few usable options but you can pass custom parameters.
+## Step Syntax
+There are some usable options but you can pass custom parameters.
 
 - `title`: The title of the tooltip
-- `text`: The tooltip's body text **(required)**
+- `text`: The tooltip's body text
 - `selector`: The target DOM selector of your feature **(required)**
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
+- `allowClicksThruHole`: Set to `true` to allow pointer-events (hover, clicks, etc) or touch events within overlay hole. If `true`, the `hole:click` callback will not be sent. Defaults to `false`. Takes precedence over a `allowClicksThruHole` prop provided to `<Joyride />`
+- `style`: An object with stylesheet options.
 - `scrollContainerSelector`: The parent container selector element that will scroll when step target is out of view. Defaults to ''.
 
-Extra option for standalone tooltips
+**Extra option for standalone tooltips**
 
 - `trigger`: The DOM element that will trigger the tooltip
 

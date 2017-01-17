@@ -49,25 +49,24 @@ module.exports = {
   },
 
   'Hero - should start the tour when clicking the button': function(browser) {
-    browser
-      .click('.hero__start')
-      .pause(wait);
+    browser.click('.hero__start');
   },
 
   'Projects - should have scrolled to the element': function(browser) {
-    browser.pause(pause);
-    browser.getLocation('.projects', function(result) {
-      browser.assert.equal(typeof result, 'object');
-      browser.assert.equal(result.status, 0);
-      browser.assert.equal(result.value.y, 861);
-    });
+    browser
+      .pause(pause)
+      .getLocation('.projects', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 861);
+      });
   },
 
   'Projects - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', wait)
-      .assert.cssProperty('.joyride-beacon', 'top', '889px')
-      .assert.cssProperty('.joyride-beacon', 'left', '179px')
+      .assert.cssProperty('.joyride-beacon', 'top', '913px')
+      .assert.cssProperty('.joyride-beacon', 'left', '622px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
   },
@@ -76,18 +75,18 @@ module.exports = {
     browser
       .click('.joyride-beacon')
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '889px')
-      .assert.cssProperty('.joyride-tooltip', 'left', '182px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '737px')
+      .assert.cssProperty('.joyride-tooltip', 'left', '415px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '155px')
-      .assert.containsText('.joyride-tooltip__header', 'Our Projects')
-      .assert.containsText('.joyride-tooltip__main', 'Ooops. I forgot to add images!');
+      .assert.cssProperty('.joyride-tooltip', 'height', '161px')
+      .assert.containsText('.joyride-tooltip__header', 'Title only steps — As they say: Make the font bigger!');
   },
 
   'Projects - should be able to close the tooltip': function(browser) {
-    browser.pause(pause);
-    browser.click('.joyride-tooltip__close');
-    browser.waitForElementNotPresent('.joyride-tooltip', wait);
+    browser
+      .pause(pause)
+      .click('.joyride-tooltip__close')
+      .waitForElementNotPresent('.joyride-tooltip', wait);
   },
 
   'Mission - should have scrolled to the element': function(browser) {
@@ -161,12 +160,11 @@ module.exports = {
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
-      .assert.cssProperty('.joyride-tooltip', 'top', '631px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '656px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '155px')
-      .assert.containsText('.joyride-tooltip__header', 'Menu')
-      .assert.containsText('.joyride-tooltip__main', 'You can find more stuff here');
+      .assert.cssProperty('.joyride-tooltip', 'height', '130px')
+      .assert.containsText('.joyride-tooltip__main', "Text only steps — Because sometimes you don't really need a proper heading");
   },
 
   'Footer - should be able to close the tooltip': function(browser) {
