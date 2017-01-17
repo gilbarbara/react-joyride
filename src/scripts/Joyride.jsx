@@ -272,7 +272,8 @@ class Joyride extends React.Component {
       }
     }
 
-    if ((!isRunning && nextState.isRunning) && index === 0) {
+    // Started running from the beginning (the current index is 0)
+    if ((!isRunning && nextState.isRunning) && nextState.index === 0) {
       this.triggerCallback({
         action: 'start',
         index: nextState.index,
