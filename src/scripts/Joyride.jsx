@@ -171,6 +171,7 @@ class Joyride extends React.Component {
     const stepIndexChanged = (nextProps.stepIndex !== stepIndex && nextProps.stepIndex !== this.state.index);
     const runChanged = (nextProps.run !== run);
     let shouldStart = false;
+    let didStop = false;
 
     if (stepsChanged && this.checkStepsValidity(nextProps.steps)) {
       // Removed all steps, so reset
@@ -187,6 +188,7 @@ class Joyride extends React.Component {
       // run prop was changed to off, so stop the joyride
       if (run && nextProps.run === false) {
         this.stop();
+        didStop = true;
       }
       // run prop was changed to on, so start the joyride
       else if (!run && nextProps.run) {
@@ -209,7 +211,7 @@ class Joyride extends React.Component {
       else if (nextProps.run && !isRunning) {
         this.start(nextProps.autoStart, nextProps.steps, nextProps.stepIndex);
       }
-      else {
+      else if (!didStop) {
         this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
       }
     }
