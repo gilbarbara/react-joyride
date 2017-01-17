@@ -245,12 +245,14 @@ class Joyride extends React.Component {
     const nextStep = nextSteps[nextState.index];
     const hasRenderedTarget = Boolean(this.getStepTargetElement(nextStep));
 
+    // Standalone tooltip is being turned on
     if (!standaloneData && nextState.standaloneData) {
       this.triggerCallback({
         type: callbackTypes.STANDALONE_BEFORE,
         step: nextState.standaloneData
       });
     }
+    // Standalone tooltip is being turned off
     else if (standaloneData && !nextState.standaloneData) {
       this.triggerCallback({
         type: callbackTypes.STANDALONE_AFTER,
@@ -281,6 +283,7 @@ class Joyride extends React.Component {
         step: nextStep
       });
 
+      // Not showing a tooltip yet, so we're going to show a beacon instead
       if (!nextState.shouldRenderTooltip) {
         this.triggerCallback({
           action: 'start',
@@ -291,7 +294,8 @@ class Joyride extends React.Component {
       }
     }
 
-    if (nextState.index !== index && isRunning) {
+    // Joyride was running (it might still be), and the index has been changed
+    if (isRunning && nextState.index !== index) {
       this.triggerCallback({
         action: nextState.action,
         index,
@@ -310,7 +314,9 @@ class Joyride extends React.Component {
         });
       }
 
-      else if (nextState.index && nextStep) {
+      // There's a next step and the index is > 0
+      // (which means STEP_BEFORE wasn't sent as part of the start handler above)
+      else if (nextStep && nextState.index) {
         this.triggerCallback({
           action: nextState.action,
           index: nextState.index,
@@ -320,7 +326,9 @@ class Joyride extends React.Component {
       }
     }
 
+    // Running, and a tooltip is being turned on/off or the index is changing
     if (nextState.isRunning && (shouldRenderTooltip !== nextState.shouldRenderTooltip || nextState.index !== index)) {
+      // Going to show a tooltip
       if (nextState.shouldRenderTooltip) {
         this.triggerCallback({
           action: nextState.action || (nextState.index === 0 ? 'autostart' : ''),
@@ -329,6 +337,7 @@ class Joyride extends React.Component {
           step: nextStep
         });
       }
+      // Going to show a beacon
       else {
         this.triggerCallback({
           action: nextState.action,
@@ -339,6 +348,7 @@ class Joyride extends React.Component {
       }
     }
 
+    // Joyride was changed to a step index which doesn't exist (hit the end)
     if (nextProps.run && nextSteps.length && index !== nextState.index && !nextStep) {
       this.triggerCallback({
         action: nextState.action,
