@@ -134,6 +134,8 @@ You can change the initial options passing props to the component.
 
 **showOverlay** {bool}: Display an overlay with holes above your steps (for tours only). Defaults to `true`
 
+**allowClicksThruHole** {bool}: Allow mouse and touch events within overlay hole, and prevent `hole:click` callback from being sent.  Defaults to `false`
+
 **showSkipButton** {bool}: Display a link to skip the tour. Defaults to `false`
 
 **showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5* in `continuous` tours. Defaults to `false`
@@ -155,9 +157,10 @@ You can change the initial options passing props to the component.
 * closing a step `{ type: 'step:after', step: {...} }`
 * clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }`
 * clicking on the hole `{ type: 'hole:click', step: {...} }`
+* the target could not be found `{ type: 'error:target_not_found', step: {...} }`
 * the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`
 
-The callback object also receives an `action` string (start|next|back) and the step `index`.
+The callback object also receives an `action` string ('start'|'next'|'back') and the step `index`.
 
 Defaults to `undefined`
 
@@ -259,6 +262,7 @@ There are some usable options but you can pass custom parameters.
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
+- `allowClicksThruHole`: Set to `true` to allow pointer-events (hover, clicks, etc) or touch events within overlay hole. If `true`, the `hole:click` callback will not be sent. Defaults to `false`. Takes precedence over a `allowClicksThruHole` prop provided to `<Joyride />`
 - `style`: An object with stylesheet options.
 
 
