@@ -3,6 +3,7 @@ var sauce = require('../saucelabs');
 
 var wait = 2500;
 var pause = 1000;
+var scrollDelay = 3000;
 
 module.exports = {
   after: function(browser) {
@@ -175,7 +176,7 @@ module.exports = {
 
   'Scroll Container First Project Completed Date - should have scrolled to the element': function(browser) {
     browser
-      .pause(pause)
+      .pause(scrollDelay)
       .getLocation('.table-wrapper', function(result) {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
@@ -213,7 +214,7 @@ module.exports = {
 
   'Scroll Container Mid Random Content - should have scrolled to the element': function(browser) {
     browser
-      .pause(pause)
+      .pause(scrollDelay)
       .getLocation('.table-wrapper', function(result) {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
@@ -251,7 +252,7 @@ module.exports = {
 
   'Scroll Container Last Project - should have scrolled to the element': function(browser) {
     browser
-      .pause(pause)
+      .pause(scrollDelay)
       .getLocation('.table-wrapper', function(result) {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
@@ -289,7 +290,7 @@ module.exports = {
 
   'Scroll Container Last Project - Next Cell - should have scrolled to the element': function(browser) {
     browser
-      .pause(pause)
+      .pause(scrollDelay)
       .getLocation('.table-wrapper', function(result) {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
