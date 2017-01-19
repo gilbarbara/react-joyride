@@ -63,16 +63,16 @@ export default class Demo extends React.Component {
           }
         },
         {
-          title: 'First Project',
-          text: 'First project completed',
+          title: 'First Project Completed Date',
+          text: 'This is when the first project was completed',
           textAlign: 'center',
           selector: '.table table tr:nth-child(1) td:nth-child(3)',
           position: 'top',
           scrollContainerSelector: '.table-wrapper'
         },
         {
-          title: 'Mid Project',
-          text: 'Mid project completed',
+          title: 'Mid Random Content',
+          text: 'Target a cell near the end to scroll the child container down and to the right',
           textAlign: 'center',
           selector: '.table table tr:nth-child(8) td:nth-child(9)',
           position: 'top',
@@ -80,15 +80,15 @@ export default class Demo extends React.Component {
         },
         {
           title: 'Last Project',
-          text: 'Last project completed',
+          text: 'Select a cell towards the front of the table to scroll the child down and to the left',
           textAlign: 'center',
           selector: '.table table tr:nth-child(15) td:nth-child(4)',
           position: 'top',
           scrollContainerSelector: '.table-wrapper'
         },
         {
-          title: 'Last Project 2',
-          text: 'Last project completed other field',
+          title: 'Last Project - Next Cell',
+          text: 'Since this should already be in view, the container should not have scrolled',
           textAlign: 'center',
           selector: '.table table tr:nth-child(15) td:nth-child(5)',
           position: 'top',
