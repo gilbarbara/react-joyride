@@ -177,7 +177,6 @@ module.exports = {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
       .assert.cssProperty('.joyride-tooltip', 'top', '3054px')
       .assert.cssProperty('.joyride-tooltip', 'left', '296px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
@@ -195,7 +194,6 @@ module.exports = {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
       .assert.cssProperty('.joyride-tooltip', 'top', '3110px')
       .assert.cssProperty('.joyride-tooltip', 'left', '404px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
@@ -213,7 +211,6 @@ module.exports = {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
       .assert.cssProperty('.joyride-tooltip', 'top', '3110px')
       .assert.cssProperty('.joyride-tooltip', 'left', '121px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
@@ -231,7 +228,6 @@ module.exports = {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
       .assert.cssProperty('.joyride-tooltip', 'top', '3110px')
       .assert.cssProperty('.joyride-tooltip', 'left', '213px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
