@@ -264,7 +264,7 @@ There are some usable options but you can pass custom parameters.
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
 - `allowClicksThruHole`: Set to `true` to allow pointer-events (hover, clicks, etc) or touch events within overlay hole. If `true`, the `hole:click` callback will not be sent. Defaults to `false`. Takes precedence over a `allowClicksThruHole` prop provided to `<Joyride />`
 - `style`: An object with stylesheet options.
-
+- `scrollContainerSelector`: The parent container selector element that will scroll when step target is out of view. Defaults to ''.
 
 **Extra option for standalone tooltips**
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser } from './utils';
+import { browser, getScrollContainer } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
@@ -137,6 +137,15 @@ export default class JoyrideTooltip extends React.Component {
     document.removeEventListener('mousemove', this.handleMouseMove, false);
   }
 
+  /**
+   * Get the scroll container
+   * @param {Element} defaultElement - Element node
+   * @returns {Element} Element node
+   */
+  getScrollContainer() {
+    return getScrollContainer();
+  }
+
   getArrowPosition(position) {
     let arrowPosition = position;
 
@@ -231,8 +240,8 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - (isFixed ? 0 : document.body.getBoundingClientRect().top)) - holePadding),
-      left: Math.round(opts.rect.left - holePadding),
+      top: Math.round((opts.rect.top - (isFixed ? 0 : this.getScrollContainer().getBoundingClientRect().top)) - holePadding),
+      left: Math.round((opts.rect.left - this.getScrollContainer().getBoundingClientRect().left) - holePadding),
       width: Math.round(opts.rect.width + (holePadding * 2)),
       height: Math.round(opts.rect.height + (holePadding * 2))
     };
@@ -332,7 +341,7 @@ export default class JoyrideTooltip extends React.Component {
       }
 
       opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
-      opts.arrowPosition = (((opts.targetMiddle - xPos) / opts.tooltip.width) * 100).toFixed(2);
+      opts.arrowPosition = (((opts.targetMiddle - xPos) / Math.round(opts.tooltip.width)) * 100).toFixed(2);
       opts.arrowPosition = `${this.getArrowPosition(opts.arrowPosition)}%`;
     }
 
@@ -457,7 +466,7 @@ export default class JoyrideTooltip extends React.Component {
 
     const overlayStyles = {
       cursor: disableOverlay ? 'default' : 'pointer',
-      height: document.body.clientHeight,
+      height: this.getScrollContainer().clientHeight,
       pointerEvents: this.state.mouseOverHole ? 'none' : 'auto',
     };
 

@@ -17,6 +17,9 @@ body {
 }
 
 .demo {
+  overflow: auto;
+  padding-bottom: 6rem;
+
   &__footer {
     background-color: #fff;
     bottom: 0;
@@ -176,4 +179,12 @@ body {
   .about {
     background-color: #ff8145;
   }
+}
+
+.table-wrapper {
+  white-space: nowrap;
+  margin-top: 1rem;
+  width: 500px;
+  height: 150px;
+  overflow: auto;
 }
