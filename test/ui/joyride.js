@@ -194,7 +194,7 @@ module.exports = {
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '155px')
+      .assert.cssProperty('.joyride-tooltip', 'height', '179px')
       .assert.containsText('.joyride-tooltip__main', "Target a cell near the end to scroll the child container down and to the right");
   },
 
@@ -209,7 +209,7 @@ module.exports = {
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '155px')
+      .assert.cssProperty('.joyride-tooltip', 'height', '179px')
       .assert.containsText('.joyride-tooltip__main', "Select a cell towards the front of the table to scroll the child down and to the left");
   },
 
@@ -224,7 +224,7 @@ module.exports = {
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '155px')
+      .assert.cssProperty('.joyride-tooltip', 'height', '179px')
       .assert.containsText('.joyride-tooltip__main', "Since this should already be in view, the container should not have scrolled");
   },
 
