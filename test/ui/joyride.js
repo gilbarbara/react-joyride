@@ -173,11 +173,31 @@ module.exports = {
       .click('.joyride-tooltip__button--primary')
   },
 
+  'Scroll Container First Project Completed Date - should have scrolled to the element': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table-wrapper', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3202);
+      });
+  },
+
+  'Scroll Container First Project Completed Date - should have scrolled child element to target': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table table tr:nth-child(1) td:nth-child(3)', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3298);
+        browser.assert.equal(result.value.x, 450);
+      });
+  },
+
   'Scroll Container First Project Completed Date - should be able to see the tooltip UI': function(browser) {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .pause(pause)
       .assert.cssProperty('.joyride-tooltip', 'top', '3054px')
       .assert.cssProperty('.joyride-tooltip', 'left', '296px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
@@ -191,11 +211,31 @@ module.exports = {
       .click('.joyride-tooltip__button--primary')
   },
 
+  'Scroll Container Mid Random Content - should have scrolled to the element': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table-wrapper', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3202);
+      });
+  },
+
+  'Scroll Container Mid Random Content - should have scrolled child element to target': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table table tr:nth-child(8) td:nth-child(9)', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3298);
+        browser.assert.equal(result.value.x, 582);
+      });
+  },
+
   'Scroll Container Mid Random Content - should be able to see the tooltip UI': function(browser) {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .pause(pause)
       .assert.cssProperty('.joyride-tooltip', 'top', '3110px')
       .assert.cssProperty('.joyride-tooltip', 'left', '404px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
@@ -209,11 +249,31 @@ module.exports = {
       .click('.joyride-tooltip__button--primary')
   },
 
+  'Scroll Container Last Project - should have scrolled to the element': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table-wrapper', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3202);
+      });
+  },
+
+  'Scroll Container Last Project - should have scrolled child element to target': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table table tr:nth-child(15) td:nth-child(4)', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3298);
+        browser.assert.equal(result.value.x, 299);
+      });
+  },
+
   'Scroll Container Last Project - should be able to see the tooltip UI': function(browser) {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .pause(pause)
       .assert.cssProperty('.joyride-tooltip', 'top', '3110px')
       .assert.cssProperty('.joyride-tooltip', 'left', '121px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
@@ -227,11 +287,31 @@ module.exports = {
       .click('.joyride-tooltip__button--primary')
   },
 
+  'Scroll Container Last Project - Next Cell - should have scrolled to the element': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table-wrapper', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3202);
+      });
+  },
+
+  'Scroll Container Last Project - Next Cell - should have scrolled child element to target': function(browser) {
+    browser
+      .pause(pause)
+      .getLocation('.table table tr:nth-child(15) td:nth-child(5)', function(result) {
+        browser.assert.equal(typeof result, 'object');
+        browser.assert.equal(result.status, 0);
+        browser.assert.equal(result.value.y, 3298);
+        browser.assert.equal(result.value.x, 392);
+      });
+  },
+
   'Scroll Container Last Project - Next Cell - should be able to see the tooltip UI': function(browser) {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .pause(pause)
       .assert.cssProperty('.joyride-tooltip', 'top', '3110px')
       .assert.cssProperty('.joyride-tooltip', 'left', '213px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
