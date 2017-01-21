@@ -3,7 +3,6 @@ import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
 import { getRootEl, logger, sanitizeSelector } from './utils';
-
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
 
@@ -391,9 +390,16 @@ class Joyride extends React.Component {
     }
 
     if (Object.keys(listeners.tooltips).length) {
-      Object.keys(listeners.tooltips).forEach((key) => {
-        document.querySelector(key)
-          .removeEventListener(listeners.tooltips[key].event, listeners.tooltips[key].cb);
+      Object.keys(listeners.tooltips)
+      .map(key => ({
+        el: document.querySelector(key),
+        event: listeners.tooltips[key].event,
+        cb: listeners.tooltips[key].cb,
+        key
+      }))
+      .filter(({ el }) => !!el)
+      .forEach(({ el, event, cb, key }) => {
+        el.removeEventListener(event, cb);
         delete listeners.tooltips[key];
       });
     }
