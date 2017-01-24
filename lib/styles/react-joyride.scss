@@ -228,6 +228,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &__close {
+      outline: none;
+      border: none;
+      background: transparent;
+      cursor: pointer;
       color: map-get($joyride-close, 'color');
       font-size: map-get($joyride-close, 'size');
       line-height: 12px;
@@ -280,11 +284,13 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &__button {
+      cursor: pointer;
       &--primary {
         background-color: $joyride-button-bg-color;
         border-radius: $joyride-button-border-radius;
         color: $joyride-button-color;
         outline: none;
+        border: none;
         padding: 6px 12px;
         text-decoration: none;
         transition: background-color 0.2s ease-in-out;
@@ -300,8 +306,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
       &--secondary {
         color: $joyride-back-button-color;
+        background: transparent;
         margin-right: 10px;
         outline: none;
+        border: none;
       }
 
       &--skip {

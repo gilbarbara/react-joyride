@@ -386,14 +386,13 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     if (buttons.skip) {
-      output.skip = (<a
-        href="#"
+      output.skip = (<button
         className="joyride-tooltip__button joyride-tooltip__button--skip"
         style={styles.buttons.skip}
         data-type="skip"
         onClick={onClick}>
         {buttons.skip}
-      </a>);
+      </button>);
     }
     if (!step.text || typeof step.text === 'string') {
       output.main = (<div className="joyride-tooltip__main" dangerouslySetInnerHTML={{ __html: step.text || '' }} />);
@@ -403,14 +402,13 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     if (buttons.secondary) {
-      output.secondary = (<a
-        href="#"
+      output.secondary = (<button
         className="joyride-tooltip__button joyride-tooltip__button--secondary"
         style={styles.buttons.back}
         data-type="back"
         onClick={onClick}>
         {buttons.secondary}
-      </a>);
+      </button>);
     }
 
     if (step.event === 'hover') {
@@ -422,25 +420,23 @@ export default class JoyrideTooltip extends React.Component {
         <div
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
           style={styles.arrow} />
-        <a
-          href="#"
+        <button
           className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
           style={styles.buttons.close}
           data-type="close"
-          onClick={onClick}>×</a>
+          onClick={onClick}>×</button>
         {output.header}
         {output.main}
         <div className="joyride-tooltip__footer">
           {output.skip}
           {output.secondary}
-          <a
-            href="#"
+          <button
             className="joyride-tooltip__button joyride-tooltip__button--primary"
             style={styles.buttons.primary}
             data-type={['single', 'casual'].indexOf(type) > -1 ? 'close' : 'next'}
             onClick={onClick}>
             {buttons.primary}
-          </a>
+          </button>
         </div>
       </div>
     );

@@ -130,6 +130,10 @@
       left: -16px;
       width: 18px; }
   .joyride-tooltip__close {
+    outline: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
     color: rgba(85, 85, 85, 0.5);
     font-size: 30px;
     line-height: 12px;
@@ -161,27 +165,32 @@
     padding-right: 18px; }
   .joyride-tooltip__footer {
     text-align: right; }
-  .joyride-tooltip__button--primary {
-    background-color: #f04;
-    border-radius: 4px;
-    color: #fff;
-    outline: none;
-    padding: 6px 12px;
-    text-decoration: none;
-    -webkit-transition: background-color 0.2s ease-in-out;
-    transition: background-color 0.2s ease-in-out; }
-    .joyride-tooltip__button--primary:active, .joyride-tooltip__button--primary:focus, .joyride-tooltip__button--primary:hover {
-      background-color: #ff1f5a;
+  .joyride-tooltip__button {
+    cursor: pointer; }
+    .joyride-tooltip__button--primary {
+      background-color: #f04;
+      border-radius: 4px;
       color: #fff;
-      text-decoration: none; }
-  .joyride-tooltip__button--secondary {
-    color: #f04;
-    margin-right: 10px;
-    outline: none; }
-  .joyride-tooltip__button--skip {
-    color: #ccc;
-    float: left;
-    margin-right: 10px; }
+      outline: none;
+      border: none;
+      padding: 6px 12px;
+      text-decoration: none;
+      -webkit-transition: background-color 0.2s ease-in-out;
+      transition: background-color 0.2s ease-in-out; }
+      .joyride-tooltip__button--primary:active, .joyride-tooltip__button--primary:focus, .joyride-tooltip__button--primary:hover {
+        background-color: #ff1f5a;
+        color: #fff;
+        text-decoration: none; }
+    .joyride-tooltip__button--secondary {
+      color: #f04;
+      background: transparent;
+      margin-right: 10px;
+      outline: none;
+      border: none; }
+    .joyride-tooltip__button--skip {
+      color: #ccc;
+      float: left;
+      margin-right: 10px; }
   .joyride-tooltip--standalone .joyride-tooltip__main {
     padding-bottom: 0; }
   .joyride-tooltip--standalone .joyride-tooltip__footer {
