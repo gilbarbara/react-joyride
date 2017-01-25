@@ -71,14 +71,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     width: $joyride-beacon-size;
     z-index: $joyride-zindex;
 
-    &__around {
-      height: $joyride-beacon-size;
-      width: $joyride-beacon-size;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
-
     &__inner {
       animation: joyride-beacon-inner 1.2s infinite ease-in-out;
       background-color: $joyride-beacon-color;
@@ -87,7 +79,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       height: 50%;
       left: 50%;
       opacity: 0.7;
-      position: relative;
+      position: absolute;
       top: 50%;
       transform: translate(-50%, -50%);
       width: 50%;
