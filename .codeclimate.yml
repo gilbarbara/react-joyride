@@ -2,7 +2,11 @@
 engines:
   eslint:
     enabled: true
-    channel: "eslint-2"
+    channel: "eslint-3"
+    config:
+      extensions:
+        - .js
+        - .jsx
     checks:
       import/no-duplicates:
         enabled: false
@@ -17,9 +21,12 @@ engines:
 ratings:
   paths:
   - "**.js"
+  - "**.jsx"
   - "**.scss"
 exclude_paths:
   - coverage/**/*
   - documentation/**/*
   - lib/**/*
   - node_modules/**/*
+  - reports/**/*
+  - tests/**/*

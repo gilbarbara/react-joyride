@@ -1,12 +1,13 @@
 .codeclimate.yml
 .editorconfig
+.eslintignore
 .eslintrc
 .hooks
 .gitignore
+.hooks
 .npmignore
 .scss-lint.yml
 .travis.yml
 gulpfile.js
 node_modules
-src
 test
