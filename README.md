@@ -272,7 +272,7 @@ There are some usable options but you can pass custom parameters.
 
 You can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
-Also you can style `button`, `skip`, `back`, `close` and `hole` individually using standard style options. And `beacon` offset, inner and outer colors.
+Also you can style `button`, `skip`, `back`, `close` and `hole` individually using standard style options. Plus `beacon` offset, inner and outer colors and `arrow` visibility.
 
 
 Example:
@@ -292,6 +292,9 @@ Example:
     mainColor: '#ff4456',
     textAlign: 'center',
     width: '29rem',
+    arrow: {
+      display: 'none'
+    },
     beacon: {
       offsetX: 10,
       offsetY: 10,
