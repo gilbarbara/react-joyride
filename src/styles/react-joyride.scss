@@ -58,14 +58,25 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
   @return "data:image/svg+xml,%3Csvg%20width%3D%22#{$width}%22%20height%3D%22#{$height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#{$arrow-color}%22%20transform%3D%22scale%28#{$joyride-tooltip-arrow-scale}%29%20rotate%28#{$rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E";
 }
+@mixin reset-button() {
+  appearance: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  padding: 0;
+
+  &:active,
+  &:focus,
+  &:hover {
+    outline: none;
+  }
+}
 
 .joyride {
   &-beacon {
-    background: transparent;
-    border: none;
-    outline: none;
-    display: inline-block;
-    cursor: pointer;
+    @include reset-button();
     height: $joyride-beacon-size;
     position: relative;
     width: $joyride-beacon-size;
@@ -232,13 +243,10 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &__close {
-      outline: none;
-      border: none;
-      background: transparent;
-      cursor: pointer;
       color: map-get($joyride-close, 'color');
       font-size: map-get($joyride-close, 'size');
       line-height: 12px;
+      @include reset-button();
       position: absolute;
       right: map-get($joyride-close, 'right');
       text-decoration: none;
@@ -255,7 +263,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       &:focus {
         color: darken(map-get($joyride-close, 'color'), 10);
         outline: none;
-        text-decoration: none;
       }
 
       &--header {
@@ -288,15 +295,13 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &__button {
-      cursor: pointer;
+      @include reset-button();
+
       &--primary {
         background-color: $joyride-button-bg-color;
         border-radius: $joyride-button-border-radius;
         color: $joyride-button-color;
-        outline: none;
-        border: none;
         padding: 6px 12px;
-        text-decoration: none;
         transition: background-color 0.2s ease-in-out;
 
         &:active,
@@ -304,16 +309,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
         &:hover {
           background-color: lighten($joyride-button-bg-color, 6);
           color: $joyride-button-color;
-          text-decoration: none;
         }
       }
 
       &--secondary {
         color: $joyride-back-button-color;
-        background: transparent;
         margin-right: 10px;
-        outline: none;
-        border: none;
       }
 
       &--skip {
