@@ -67,6 +67,7 @@
     "react/no-unescaped-entities": 0,
     "react/prefer-stateless-function": 0,
     "react/prop-types": 2,
+    "react/require-default-props": 0,
     "react/sort-prop-types": 1,
     "react/sort-comp": [
       1,

@@ -178,13 +178,13 @@ export default class Demo extends React.Component {
               <h2><span>Projects</span></h2>
               <div className="list">
                 <div>
-                  <img src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS" role="presentation" />
+                  <img src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS" alt="ASBESTOS" />
                 </div>
                 <div>
-                  <img src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW" role="presentation" />
+                  <img src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW" alt="GROW" />
                 </div>
                 <div>
-                  <img src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑" role="presentation" />
+                  <img src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑" alt="∂Vo∑" />
                 </div>
               </div>
             </div>
