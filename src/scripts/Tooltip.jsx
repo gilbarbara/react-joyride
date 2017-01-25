@@ -424,7 +424,7 @@ export default class JoyrideTooltip extends React.Component {
           className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
           style={styles.buttons.close}
           data-type="close"
-          onClick={onClick}>×</button>
+          onClick={onClick} />
         {output.header}
         {output.main}
         <div className="joyride-tooltip__footer">
