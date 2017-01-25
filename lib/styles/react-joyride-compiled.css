@@ -1,36 +1,37 @@
 .joyride-beacon {
-  background: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
   border: none;
-  outline: none;
-  display: inline-block;
   cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  padding: 0;
   height: 36px;
   position: relative;
   width: 36px;
   z-index: 1500; }
-  .joyride-beacon__around {
-    height: 36px;
-    width: 36px;
-    position: absolute;
-    top: 0;
-    left: 0; }
+  .joyride-beacon:active, .joyride-beacon:focus, .joyride-beacon:hover {
+    outline: none; }
   .joyride-beacon__inner {
     -webkit-animation: joyride-beacon-inner 1.2s infinite ease-in-out;
-            animation: joyride-beacon-inner 1.2s infinite ease-in-out;
+    animation: joyride-beacon-inner 1.2s infinite ease-in-out;
     background-color: #f04;
     border-radius: 50%;
     display: block;
     height: 50%;
     left: 50%;
     opacity: 0.7;
-    position: relative;
+    position: absolute;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
     width: 50%; }
   .joyride-beacon__outer {
     -webkit-animation: joyride-beacon-outer 1.2s infinite ease-in-out;
-            animation: joyride-beacon-outer 1.2s infinite ease-in-out;
+    animation: joyride-beacon-outer 1.2s infinite ease-in-out;
     background-color: rgba(255, 0, 68, 0.2);
     border: 2px solid #f04;
     border-radius: 50%;
@@ -42,9 +43,11 @@
     position: absolute;
     top: 0;
     -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
     -webkit-transform-origin: center;
-            transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center;
     width: 100%; }
 
 .joyride-overlay {
@@ -69,11 +72,11 @@
   color: #555;
   cursor: default;
   -webkit-filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
-          filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
   opacity: 0;
   padding: 20px;
   -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   width: 290px;
   z-index: 1510; }
   @media screen and (min-width: 480px) {
@@ -84,9 +87,9 @@
       width: 450px; } }
   .joyride-tooltip--animate {
     -webkit-animation: joyride-tooltip 0.4s forwards;
-            animation: joyride-tooltip 0.4s forwards;
+    animation: joyride-tooltip 0.4s forwards;
     -webkit-animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18);
-            animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
+    animation-timing-function: cubic-bezier(0, 1.05, 0.55, 1.18); }
   .joyride-tooltip__triangle {
     background-repeat: no-repeat;
     position: absolute; }
@@ -98,7 +101,8 @@
       left: 50%;
       top: -16px;
       -webkit-transform: translateX(-50%);
-              transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      transform: translateX(-50%);
       width: 36px; }
   .joyride-tooltip.top, .joyride-tooltip.top-left, .joyride-tooltip.top-right {
     margin-bottom: 18px; }
@@ -108,12 +112,14 @@
       height: 18px;
       left: 50%;
       -webkit-transform: translateX(-50%);
-              transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+      transform: translateX(-50%);
       width: 36px; }
   .joyride-tooltip.bottom-left .joyride-tooltip__triangle, .joyride-tooltip.top-left .joyride-tooltip__triangle {
     left: 3%;
     -webkit-transform: translateX(0);
-            transform: translateX(0); }
+    -ms-transform: translateX(0);
+    transform: translateX(0); }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-left .joyride-tooltip__triangle, .joyride-tooltip.top-left .joyride-tooltip__triangle {
         left: 2%; } }
@@ -121,7 +127,8 @@
     left: auto;
     right: 3%;
     -webkit-transform: translateX(0);
-            transform: translateX(0); }
+    -ms-transform: translateX(0);
+    transform: translateX(0); }
     @media screen and (min-width: 480px) {
       .joyride-tooltip.bottom-right .joyride-tooltip__triangle, .joyride-tooltip.top-right .joyride-tooltip__triangle {
         right: 2%; } }
@@ -140,23 +147,31 @@
       left: -16px;
       width: 18px; }
   .joyride-tooltip__close {
-    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
     border: none;
-    background: transparent;
     cursor: pointer;
-    color: rgba(85, 85, 85, 0.5);
-    font-size: 30px;
-    line-height: 12px;
+    display: inline-block;
+    line-height: 1;
+    padding: 0;
+    background-image: url("data:image/svg+xml,\a%3Csvg%20width%3D%2212px%22%20height%3D%2212px%22%20viewBox%3D%220%200%2016%2016%22%20version%3D%221.1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.117.323l-6.073%206.075-5.449-6.075c-.431-.431-1.131-.431-1.562%200-.431.431-.431%201.131%200%201.562l5.449%206.075-6.159%206.159c-.431.431-.431%201.134%200%201.562.431.431%201.131.431%201.562%200l6.075-6.073%205.449%206.073c.429.431%201.131.431%201.56%200%20.431-.429.431-1.131%200-1.562l-5.452-6.073%206.159-6.161c.431-.431.431-1.131%200-1.562-.431-.431-1.129-.431-1.56%200z%22%20fill%3D%22rgba(85, 85, 85, 0.5)%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 12px;
     position: absolute;
     right: 10px;
     text-decoration: none;
     top: 10px;
+    width: 12px;
     z-index: 10;
     display: block; }
+    .joyride-tooltip__close:active, .joyride-tooltip__close:focus, .joyride-tooltip__close:hover {
+      outline: none; }
     .joyride-tooltip__close:hover, .joyride-tooltip__close:focus {
       color: rgba(60, 60, 60, 0.5);
-      outline: none;
-      text-decoration: none; }
+      outline: none; }
     .joyride-tooltip__close--header {
       right: 20px;
       top: 20px; }
@@ -176,27 +191,29 @@
   .joyride-tooltip__footer {
     text-align: right; }
   .joyride-tooltip__button {
-    cursor: pointer; }
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    line-height: 1;
+    padding: 0; }
+    .joyride-tooltip__button:active, .joyride-tooltip__button:focus, .joyride-tooltip__button:hover {
+      outline: none; }
     .joyride-tooltip__button--primary {
       background-color: #f04;
       border-radius: 4px;
       color: #fff;
-      outline: none;
-      border: none;
       padding: 6px 12px;
-      text-decoration: none;
-      -webkit-transition: background-color 0.2s ease-in-out;
       transition: background-color 0.2s ease-in-out; }
       .joyride-tooltip__button--primary:active, .joyride-tooltip__button--primary:focus, .joyride-tooltip__button--primary:hover {
         background-color: #ff1f5a;
-        color: #fff;
-        text-decoration: none; }
+        color: #fff; }
     .joyride-tooltip__button--secondary {
       color: #f04;
-      background: transparent;
-      margin-right: 10px;
-      outline: none;
-      border: none; }
+      margin-right: 10px; }
     .joyride-tooltip__button--skip {
       color: #ccc;
       float: left;
@@ -209,20 +226,20 @@
 @-webkit-keyframes joyride-tooltip {
   0% {
     -webkit-transform: scale(0.1);
-            transform: scale(0.1); }
+    transform: scale(0.1); }
   100% {
     opacity: 1;
     -webkit-transform: perspective(1px) scale(1);
-            transform: perspective(1px) scale(1); } }
+    transform: perspective(1px) scale(1); } }
 
 @keyframes joyride-tooltip {
   0% {
     -webkit-transform: scale(0.1);
-            transform: scale(0.1); }
+    transform: scale(0.1); }
   100% {
     opacity: 1;
     -webkit-transform: perspective(1px) scale(1);
-            transform: perspective(1px) scale(1); } }
+    transform: perspective(1px) scale(1); } }
 
 @-webkit-keyframes joyride-beacon-inner {
   20% {
@@ -239,25 +256,25 @@
 @-webkit-keyframes joyride-beacon-outer {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1); }
+    transform: scale(1); }
   45% {
     opacity: 0.7;
     -webkit-transform: scale(0.75);
-            transform: scale(0.75); }
+    transform: scale(0.75); }
   100% {
     opacity: 0.9;
     -webkit-transform: scale(1);
-            transform: scale(1); } }
+    transform: scale(1); } }
 
 @keyframes joyride-beacon-outer {
   0% {
     -webkit-transform: scale(1);
-            transform: scale(1); }
+    transform: scale(1); }
   45% {
     opacity: 0.7;
     -webkit-transform: scale(0.75);
-            transform: scale(0.75); }
+    transform: scale(0.75); }
   100% {
     opacity: 0.9;
     -webkit-transform: scale(1);
-            transform: scale(1); } }
+    transform: scale(1); } }
