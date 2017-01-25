@@ -1,9 +1,19 @@
 .joyride-beacon {
+  background: transparent;
+  border: none;
+  outline: none;
   display: inline-block;
+  cursor: pointer;
   height: 36px;
   position: relative;
   width: 36px;
   z-index: 1500; }
+  .joyride-beacon__around {
+    height: 36px;
+    width: 36px;
+    position: absolute;
+    top: 0;
+    left: 0; }
   .joyride-beacon__inner {
     -webkit-animation: joyride-beacon-inner 1.2s infinite ease-in-out;
             animation: joyride-beacon-inner 1.2s infinite ease-in-out;

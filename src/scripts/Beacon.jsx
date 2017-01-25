@@ -68,15 +68,16 @@ export default class JoyrideBeacon extends React.Component {
     }
 
     return (
-      <a
-        href="#"
+      <button
         className="joyride-beacon"
         style={styles.beacon}
         onClick={eventType === 'click' || isTouch ? onTrigger : null}
         onMouseEnter={eventType === 'hover' && !isTouch ? onTrigger : null}>
-        <span className="joyride-beacon__inner" style={styles.inner} />
+        <div className="joyride-beacon__around">
+          <span className="joyride-beacon__inner" style={styles.inner} />
+        </div>
         <span className="joyride-beacon__outer" style={styles.outer} />
-      </a>
+      </button>
     );
   }
 }

@@ -61,11 +61,23 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
 
 .joyride {
   &-beacon {
+    background: transparent;
+    border: none;
+    outline: none;
     display: inline-block;
+    cursor: pointer;
     height: $joyride-beacon-size;
     position: relative;
     width: $joyride-beacon-size;
     z-index: $joyride-zindex;
+
+    &__around {
+      height: $joyride-beacon-size;
+      width: $joyride-beacon-size;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
 
     &__inner {
       animation: joyride-beacon-inner 1.2s infinite ease-in-out;
