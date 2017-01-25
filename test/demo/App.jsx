@@ -49,6 +49,9 @@ export default class Demo extends React.Component {
             beacon: {
               offsetX: 20
             },
+            arrow: {
+              display: 'none'
+            }
           }
         },
         {

@@ -5,6 +5,49 @@ $font-size-base: 1.6rem;
 @import '../../src/styles/react-joyride';
 @import '//fonts.googleapis.com/css?family=Trocchi';
 
+@mixin viewport-unit($property, $value) {
+  #{$property}: $value;
+
+  $unit: unit($value);
+
+  @if (index((vw, vh, vmin, vmax), $unit) != null) {
+    $devices: (
+        (768px, 1024px), // iPad (all versions)
+        (320px, 480px),  // iPhone 4
+        (320px, 568px)   // iPhone 5, 5C, 5S
+    );
+
+    @each $device in $devices {
+      $device-width: nth($device, 1);
+      $device-height: nth($device, 2);
+
+      $device-query: "only screen and (-webkit-min-device-pixel-ratio: 1)";
+      $device-query: "#{$device-query} and (device-width: #{$device-width})";
+      $device-query: "#{$device-query} and (device-height: #{$device-height})";
+
+      $percent: $value / ($value * 0 + 1); // see https://github.com/sass/sass/issues/533
+
+      $percent-width: $device-width * $percent / 100;
+      $percent-height: $device-height * $percent / 100;
+
+      @if ($unit == vmin or $unit == vmax) {
+        @media #{$device-query} {
+          #{$property}: if($unit == vmin, $percent-width, $percent-height);
+        }
+      }
+      @else {
+        @media #{$device-query} and (orientation: portrait) {
+          #{$property}: if($unit == vw, $percent-width, $percent-height);
+        }
+
+        @media #{$device-query} and (orientation: landscape) {
+          #{$property}: if($unit == vw, $percent-height, $percent-width);
+        }
+      }
+    }
+  }
+}
+
 html {
   font-size: 62.5%;
   -webkit-font-smoothing: antialiased;
@@ -75,10 +118,11 @@ body, button {
   }
 
   &__section {
+    @include viewport-unit(height, 100vh);
     color: #fff;
-    height: 100vh;
 
     .container {
+      height: 100%;
       padding-top: 3rem;
     }
 
@@ -98,18 +142,23 @@ body, button {
   }
 
   .hero {
+    @include viewport-unit(height, 100vh);
     background-color: #45c3ff;
     color: #fff;
-    height: 100vh;
 
     .container {
       position: relative;
+      height: 100%;
     }
 
     &__content {
       position: absolute;
-      top: 50vh;
+      top: 40%;
       transform: translateY(-50%);
+
+      @media only screen and (min-device-height: 600px) {
+        top: 50%;
+      }
     }
 
     h1 {
