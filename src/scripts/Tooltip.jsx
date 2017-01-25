@@ -356,7 +356,8 @@ export default class JoyrideTooltip extends React.Component {
   handleMouseMove = (e) => {
     const event = e || window.e;
     const hole = this.state.styles.hole;
-    const inHoleHeight = (event.pageY >= hole.top && event.pageY <= hole.top + hole.height);
+    const offsetY = hole.position == 'fixed' ? event.clientY : event.pageY
+    const inHoleHeight = (offsetY >= hole.top && offsetY <= hole.top + hole.height);
     const inHoleWidth = (event.pageX >= hole.left && event.pageX <= hole.left + hole.width);
     const inHole = inHoleWidth && inHoleHeight;
     if (inHole && !this.state.mouseOverHole) {
