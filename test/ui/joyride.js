@@ -34,7 +34,7 @@ module.exports = {
     browser
       .moveToElement('.hero__tooltip', 10, 10)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '437px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '436px')
       .assert.cssProperty('.joyride-tooltip', 'left', '339px')
       .assert.cssProperty('.joyride-tooltip', 'width', '290px')
       .assert.cssProperty('.joyride-tooltip', 'height', '137px')
@@ -58,14 +58,14 @@ module.exports = {
       .getLocation('.projects', function(result) {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
-        browser.assert.equal(result.value.y, 861);
+        browser.assert.equal(result.value.y, 859);
       });
   },
 
   'Projects - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', wait)
-      .assert.cssProperty('.joyride-beacon', 'top', '913px')
+      .assert.cssProperty('.joyride-beacon', 'top', '911px')
       .assert.cssProperty('.joyride-beacon', 'left', '622px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
@@ -75,10 +75,10 @@ module.exports = {
     browser
       .click('.joyride-beacon')
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '737px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '731px')
       .assert.cssProperty('.joyride-tooltip', 'left', '415px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '161px')
+      .assert.cssProperty('.joyride-tooltip', 'height', '165px')
       .assert.containsText('.joyride-tooltip__header', 'Title only steps — As they say: Make the font bigger!');
   },
 
@@ -95,15 +95,15 @@ module.exports = {
       .getLocation('.mission', (result) => {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
-        browser.assert.equal(result.value.y, 1722);
+        browser.assert.equal(result.value.y, 1718);
       });
   },
 
   'Mission - should be able to see the beacon': function(browser) {
     browser
       .waitForElementVisible('.joyride-beacon', wait)
-      .assert.cssProperty('.joyride-beacon', 'top', '1786px')
-      .assert.cssProperty('.joyride-beacon', 'left', '217px')
+      .assert.cssProperty('.joyride-beacon', 'top', '1782px')
+      .assert.cssProperty('.joyride-beacon', 'left', '220px')
       .assert.cssProperty('.joyride-beacon', 'width', '36px')
       .assert.cssProperty('.joyride-beacon', 'height', '36px');
   },
@@ -112,7 +112,7 @@ module.exports = {
     browser
       .click('.joyride-beacon')
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '1799px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '1795px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '179px')
@@ -133,7 +133,7 @@ module.exports = {
       .getLocation('.about', function(result) {
         browser.assert.equal(typeof result, 'object');
         browser.assert.equal(result.status, 0);
-        browser.assert.equal(result.value.y, 2583);
+        browser.assert.equal(result.value.y, 2577);
       });
   },
 
@@ -141,10 +141,10 @@ module.exports = {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '2423px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '2413px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '155px')
+      .assert.cssProperty('.joyride-tooltip', 'height', '159px')
       .assert.containsText('.joyride-tooltip__header', 'About Us')
       .assert.containsText('.joyride-tooltip__main', 'We are the people');
   },
@@ -160,10 +160,10 @@ module.exports = {
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
-      .assert.cssProperty('.joyride-tooltip', 'top', '656px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '650px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
-      .assert.cssProperty('.joyride-tooltip', 'height', '130px')
+      .assert.cssProperty('.joyride-tooltip', 'height', '134px')
       .assert.containsText('.joyride-tooltip__main', "Text only steps — Because sometimes you don't really need a proper heading");
   },
 
@@ -180,7 +180,7 @@ module.exports = {
       .moveToElement('.demo__footer img', 10, 10)
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'position', 'fixed')
-      .assert.cssProperty('.joyride-tooltip', 'top', '665px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '663px')
       .assert.cssProperty('.joyride-tooltip', 'left', '495px')
       .assert.cssProperty('.joyride-tooltip', 'width', '290px')
       .assert.cssProperty('.joyride-tooltip', 'height', '113px')
