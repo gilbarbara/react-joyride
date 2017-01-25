@@ -81,7 +81,10 @@ gulp.task('styles', function() {
       precision: 4
     }).on('error', $.sass.logError))
     .pipe($.plumber.stop())
-    .pipe($.autoprefixer())
+    .pipe($.autoprefixer({
+      browsers: ['last 4 versions'],
+      cascade: false
+    }))
     .pipe($.rename({ suffix: '-compiled' }))
     .pipe(gulp.dest('lib/styles'));
 });
@@ -90,7 +93,7 @@ gulp.task('clean', function(cb) {
   return del(['lib'], cb);
 });
 
-gulp.task('watch', ['build'], function() {
+gulp.task('watch', ['scripts', 'styles'], function() {
   gulp.watch('src/**/*', function() {
     gulp.start('scripts');
   });
@@ -136,7 +139,10 @@ gulp.task('setup:styles', function() {
       precision: 4
     }).on('error', $.sass.logError))
     .pipe($.plumber.stop())
-    .pipe($.autoprefixer())
+    .pipe($.autoprefixer({
+      browsers: ['last 4 versions'],
+      cascade: false
+    }))
     .pipe($.rename({ basename: 'bundle' }))
     .pipe(gulp.dest('.tmp'))
     .pipe($.connect.reload());
