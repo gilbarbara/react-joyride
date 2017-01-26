@@ -3,7 +3,7 @@
   -moz-appearance: none;
   appearance: none;
   background-color: transparent;
-  border: none;
+  border: 0;
   cursor: pointer;
   display: inline-block;
   line-height: 1;
@@ -35,8 +35,8 @@
     background-color: rgba(255, 0, 68, 0.2);
     border: 2px solid #f04;
     border-radius: 50%;
-    display: block;
     box-sizing: border-box;
+    display: block;
     height: 100%;
     left: 0;
     opacity: 0.9;
@@ -66,7 +66,6 @@
     box-shadow: 0 0 999px 9999px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.5); }
 
 .joyride-tooltip {
-  pointer-events: auto;
   background-color: #fff;
   border-radius: 4px;
   color: #555;
@@ -75,6 +74,7 @@
   filter: drop-shadow(-1px -2px 3px rgba(0, 0, 0, 0.3)) drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.3));
   opacity: 0;
   padding: 20px;
+  pointer-events: auto;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
   width: 290px;
@@ -151,12 +151,12 @@
     -moz-appearance: none;
     appearance: none;
     background-color: transparent;
-    border: none;
+    border: 0;
     cursor: pointer;
     display: inline-block;
     line-height: 1;
     padding: 0;
-    background-image: url("data:image/svg+xml,\a%3Csvg%20width%3D%2212px%22%20height%3D%2212px%22%20viewBox%3D%220%200%2016%2016%22%20version%3D%221.1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.117.323l-6.073%206.075-5.449-6.075c-.431-.431-1.131-.431-1.562%200-.431.431-.431%201.131%200%201.562l5.449%206.075-6.159%206.159c-.431.431-.431%201.134%200%201.562.431.431%201.131.431%201.562%200l6.075-6.073%205.449%206.073c.429.431%201.131.431%201.56%200%20.431-.429.431-1.131%200-1.562l-5.452-6.073%206.159-6.161c.431-.431.431-1.131%200-1.562-.431-.431-1.129-.431-1.56%200z%22%20fill%3D%22rgba(85, 85, 85, 0.5)%22%2F%3E%3C%2Fsvg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2212px%22%20height%3D%2212px%22%20viewBox%3D%220%200%2016%2016%22%20version%3D%221.1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.117.323l-6.073%206.075-5.449-6.075c-.431-.431-1.131-.431-1.562%200-.431.431-.431%201.131%200%201.562l5.449%206.075-6.159%206.159c-.431.431-.431%201.134%200%201.562.431.431%201.131.431%201.562%200l6.075-6.073%205.449%206.073c.429.431%201.131.431%201.56%200%20.431-.429.431-1.131%200-1.562l-5.452-6.073%206.159-6.161c.431-.431.431-1.131%200-1.562-.431-.431-1.129-.431-1.56%200z%22%20fill%3D%22rgba(85, 85, 85, 0.5)%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
     background-size: contain;
     height: 12px;
@@ -195,7 +195,7 @@
     -moz-appearance: none;
     appearance: none;
     background-color: transparent;
-    border: none;
+    border: 0;
     cursor: pointer;
     display: inline-block;
     line-height: 1;
