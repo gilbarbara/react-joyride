@@ -18,7 +18,7 @@ class Cards extends React.Component {
         title: 'Advance customization',
         text: 'You can set individual styling options for beacons, tooltips and the hole. And you can have <a href="#hi">links</a> too',
         selector: '.card-tickets',
-        position: 'bottom-right',
+        position: 'bottom',
         style: {
           backgroundColor: '#ccc',
           mainColor: '#000',

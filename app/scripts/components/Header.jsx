@@ -2,7 +2,6 @@ import React from 'react';
 
 class Header extends React.Component {
   static propTypes = {
-    addSteps: React.PropTypes.func.isRequired,
     addTooltip: React.PropTypes.func.isRequired,
     joyrideOverlay: React.PropTypes.bool.isRequired,
     joyrideType: React.PropTypes.string.isRequired,
@@ -10,12 +9,6 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    /* this.props.addSteps({
-     text: 'React Joyride is a ReactJS component for creating tours for your app.<br/><br/>It is fully responsive and customizable.',
-     selector: '.intro',
-     position: 'bottom'
-     }); */
-
     this.props.addTooltip({
       title: 'Standalone Tooltips',
       text: '<h2 style="margin-bottom: 10px; line-height: 1.6">Now you can open tooltips independently!</h2>And even style them one by one!',
@@ -48,7 +41,11 @@ class Header extends React.Component {
   }
 
   render() {
-    const props = this.props;
+    const {
+      joyrideOverlay,
+      joyrideType,
+      onClickSwitch,
+    } = this.props;
 
     return (
       <header className="main-header">
@@ -68,16 +65,16 @@ class Header extends React.Component {
                 <div className="switch">
                   <a
                     href="#"
-                    className={props.joyrideOverlay ? 'active' : ''}
+                    className={joyrideOverlay ? 'active' : ''}
                     data-key="joyrideOverlay"
                     data-type="active"
-                    onClick={props.onClickSwitch}>On</a>
+                    onClick={onClickSwitch}>On</a>
                   <a
                     href="#"
-                    className={!props.joyrideOverlay ? 'active' : ''}
+                    className={!joyrideOverlay ? 'active' : ''}
                     data-key="joyrideOverlay"
                     data-type="disabled"
-                    onClick={props.onClickSwitch}>Off</a>
+                    onClick={onClickSwitch}>Off</a>
                 </div>
               </div>
             </div>
@@ -87,15 +84,15 @@ class Header extends React.Component {
 
                 <div className="switch">
                   <a
-                    href="#" className={props.joyrideType === 'continuous' ? 'active' : ''}
+                    href="#" className={joyrideType === 'continuous' ? 'active' : ''}
                     data-key="joyrideType"
                     data-type="continuous"
-                    onClick={props.onClickSwitch}>Continuous</a>
+                    onClick={onClickSwitch}>Continuous</a>
                   <a
-                    href="#" className={props.joyrideType === 'single' ? 'active' : ''}
+                    href="#" className={joyrideType === 'single' ? 'active' : ''}
                     data-key="joyrideType"
                     data-type="single"
-                    onClick={props.onClickSwitch}>Single</a>
+                    onClick={onClickSwitch}>Single</a>
                 </div>
               </div>
             </div>

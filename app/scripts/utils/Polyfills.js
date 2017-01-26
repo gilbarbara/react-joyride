@@ -37,7 +37,7 @@
         // This test really should allow any XML Name without
         // colons (and non-uppercase for XHTML)
 
-        if (attribute && attribute.name && /^data-\w[\w\-]*$/.test(attribute.name)) {
+        if (attribute && attribute.name && /^data-\w[\w-]*$/.test(attribute.name)) {
           var name = attribute.name;
           var value = attribute.value;
 

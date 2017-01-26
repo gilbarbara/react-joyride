@@ -75,9 +75,7 @@ gulp.task('scripts', function(cb) {
 
 gulp.task('lint', function() {
   return gulp.src('app/scripts/**/*')
-    .pipe($.eslint({
-      useEslintrc: true
-    }))
+    .pipe($.eslint())
     .pipe($.eslint.format())
     .pipe($.eslint.failAfterError());
 });

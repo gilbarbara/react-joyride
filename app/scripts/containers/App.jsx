@@ -2,11 +2,13 @@ import React from 'react';
 import Joyride from 'react-joyride';
 import { autobind } from 'core-decorators';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import Panels from '../components/Panels';
 import Charts from '../components/Charts';
 import Tables from '../components/Tables';
 import Loader from '../components/Loader';
 
+@autobind
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -27,13 +29,6 @@ class App extends React.Component {
     }, 1000);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.ready && this.state.ready) {
-      this.joyride.start();
-    }
-  }
-
-  @autobind
   addSteps(steps) {
     const joyride = this.joyride;
     let newSteps = steps;
@@ -46,13 +41,13 @@ class App extends React.Component {
       return;
     }
 
+    // Force setState to be synchronous to keep step order.
     this.setState(currentState => {
       currentState.steps = currentState.steps.concat(joyride.parseSteps(newSteps));
       return currentState;
     });
   }
 
-  @autobind
   addTooltip(data) {
     this.joyride.addTooltip(data);
   }
@@ -62,7 +57,6 @@ class App extends React.Component {
     console.log(data); //eslint-disable-line no-console
   }
 
-  @autobind
   onClickSwitch(e) {
     e.preventDefault();
     const el = e.currentTarget;
@@ -95,6 +89,7 @@ class App extends React.Component {
           <Joyride
             ref={c => (this.joyride = c)}
             debug={false}
+            run={!!state.steps.length}
             steps={state.steps}
             type={state.joyrideType}
             locale={{
@@ -121,6 +116,7 @@ class App extends React.Component {
               <Tables addSteps={this.addSteps} />
             </div>
           </div>
+          <Footer />
         </div>
       );
     }

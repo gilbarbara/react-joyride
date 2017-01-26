@@ -137,6 +137,20 @@ a {
   }
 }
 
+.main-footer {
+  align-items: center;
+  background-color: lighten($primary-color, 46);
+  border-top: 0.1rem solid $primary-color;
+  display: flex;
+  line-height: 1;
+  justify-content: space-between;
+  padding: ($grid-gutter-width / 2);
+
+  > div:last-child {
+    text-align: right;
+  }
+}
+
 .card.tasks {
   .card-block {
     height: 29.6rem;
