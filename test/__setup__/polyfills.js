@@ -52,7 +52,8 @@
       function setter(name, value) {
         if (typeof value !== 'undefined') {
           this.setAttribute(name, value);
-        } else {
+        }
+        else {
           this.removeAttribute(name);
         }
       }

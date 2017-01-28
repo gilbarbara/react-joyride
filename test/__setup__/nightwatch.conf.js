@@ -34,28 +34,6 @@ module.exports = {
         'tunnel-identifier': TRAVIS_JOB_NUMBER,
         screenResolution: '1280x960'
       },
-    },
-    local: {
-      launch_url: 'http://localhost',
-      selenium_host: 'localhost',
-      selenium_port: 4444,
-      silent: true,
-      screenshots: {
-        enabled: false,
-        path: 'reports'
-      },
-      desiredCapabilities: {
-        browserName: 'chrome',
-        javascriptEnabled: true,
-        acceptSslCerts: true
-      },
-    },
-    firefox: {
-      desiredCapabilities: {
-        browserName: 'firefox',
-        javascriptEnabled: true,
-        acceptSslCerts: true
-      }
     }
   }
 };

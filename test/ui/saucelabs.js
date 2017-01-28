@@ -12,7 +12,7 @@ module.exports = {
 
   'should be able to init a session': function(browser) {
     browser
-      .url('http://localhost:8888/')
+      .url('http://localhost:3030/')
       .maximizeWindow()
       .waitForElementVisible('#react', wait);
   },
@@ -141,7 +141,7 @@ module.exports = {
     browser
       .pause(pause)
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '2413px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '2431px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '159px')

@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import Demo from './demo/App';
+import Demo from '../demo/src/App';
 
 const mockConsole = jest.fn();
 console.warn = mockConsole; //eslint-disable-line no-console
