@@ -1,19 +1,11 @@
 /*eslint-disable no-var */
-var selenium = require('selenium-server-standalone-jar');
-var chromedriver = require('chromedriver');
-
 const TRAVIS_JOB_NUMBER = process.env.TRAVIS_JOB_NUMBER;
 
 module.exports = {
   src_folders: ['test/ui'],
   output_folder: 'reports',
   selenium: {
-    start_process: false,
-    server_path: selenium.path,
-    cli_args: {
-      'webdriver.chrome.driver': chromedriver.path,
-      'webdriver.ie.driver': ''
-    }
+    start_process: false
   },
   test_settings: {
     default: {
