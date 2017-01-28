@@ -1,5 +1,5 @@
 /*eslint-disable no-console, no-var, no-unused-expressions no-console, func-names, prefer-arrow-callback, object-shorthand */
-var sauce = require('../saucelabs');
+var sauce = require('../__setup__/saucelabs');
 
 var wait = 2500;
 var pause = 1000;
@@ -32,7 +32,7 @@ module.exports = {
 
   'Hero - should be able to show the standalone tooltip': function(browser) {
     browser
-      .moveToElement('.hero__tooltip', 10, 10)
+      .click('.hero__tooltip')
       .waitForElementVisible('.joyride-tooltip', wait)
       .assert.cssProperty('.joyride-tooltip', 'top', '436px')
       .assert.cssProperty('.joyride-tooltip', 'left', '339px')
@@ -44,7 +44,7 @@ module.exports = {
 
   'Hero - should be able to hide the standalone tooltip': function(browser) {
     browser
-      .moveToElement('.hero', 10, 10)
+      .click('.hero__tooltip')
       .waitForElementNotPresent('.joyride-tooltip', wait);
   },
 

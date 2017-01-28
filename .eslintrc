@@ -3,10 +3,9 @@
   "parser": "babel-eslint",
   "env": {
     "browser": true,
-    "mocha": true
+    "jest": true
   },
   "rules": {
-    "arrow-body-style": [1, "as-needed"],
     "brace-style": [1, "stroustrup", { "allowSingleLine": true }],
     "camelcase": 0,
     "class-methods-use-this": 0,
@@ -23,6 +22,7 @@
     "no-multi-spaces": [1, { "exceptions": { "VariableDeclarator": true, "Property": false } }],
     "no-nested-ternary": 1,
     "no-param-reassign": [1, { "props": false }],
+    "no-plusplus": 0,
     "no-trailing-spaces": 1,
     "no-unused-vars": 1,
     "object-shorthand": [1, "always"],

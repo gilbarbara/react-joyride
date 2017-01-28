@@ -89,6 +89,7 @@ export default class JoyrideTooltip extends React.Component {
       showOverlay,
     } = this.props;
 
+    /* istanbul ignore else */
     if (
       nextAnimate !== animate ||
       nextStandalone !== standalone ||
@@ -248,6 +249,7 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     /* Styling */
+    /* istanbul ignore else */
     if (stepStyles) {
       if (stepStyles.backgroundColor) {
         styles.arrow.backgroundImage = `url("${this.generateArrow({
@@ -331,6 +333,7 @@ export default class JoyrideTooltip extends React.Component {
     if ((/^bottom$/.test(opts.positionClass) || /^top$/.test(opts.positionClass)) && xPos > -1) {
       opts.tooltip = { width: 450 };
 
+      /* istanbul ignore else */
       if (tooltip) {
         opts.tooltip = tooltip.getBoundingClientRect();
       }

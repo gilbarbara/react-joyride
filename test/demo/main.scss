@@ -13,17 +13,17 @@ $font-size-base: 1.6rem;
   @if (index((vw, vh, vmin, vmax), $unit) != null) {
     $devices: (
         (768px, 1024px), // iPad (all versions)
-        (320px, 480px),  // iPhone 4
-        (320px, 568px)   // iPhone 5, 5C, 5S
+        (320px, 480px), // iPhone 4
+        (320px, 568px) // iPhone 5, 5C, 5S
     );
 
     @each $device in $devices {
       $device-width: nth($device, 1);
       $device-height: nth($device, 2);
 
-      $device-query: "only screen and (-webkit-min-device-pixel-ratio: 1)";
-      $device-query: "#{$device-query} and (device-width: #{$device-width})";
-      $device-query: "#{$device-query} and (device-height: #{$device-height})";
+      $device-query: 'only screen and (-webkit-min-device-pixel-ratio: 1)';
+      $device-query: '#{$device-query} and (device-width: #{$device-width})';
+      $device-query: '#{$device-query} and (device-height: #{$device-height})';
 
       $percent: $value / ($value * 0 + 1); // see https://github.com/sass/sass/issues/533
 
@@ -34,8 +34,7 @@ $font-size-base: 1.6rem;
         @media #{$device-query} {
           #{$property}: if($unit == vmin, $percent-width, $percent-height);
         }
-      }
-      @else {
+      } @else {
         @media #{$device-query} and (orientation: portrait) {
           #{$property}: if($unit == vw, $percent-width, $percent-height);
         }
@@ -54,7 +53,8 @@ html {
   height: 100%;
 }
 
-body, button {
+body,
+button {
   font-family: Trocchi, serif;
   font-size: 1.6rem;
 }
@@ -128,12 +128,8 @@ body, button {
 
     .list {
       display: flex;
-      justify-content:space-around;
+      justify-content: space-around;
       margin-top: 18px;
-
-      > * {
-
-      }
 
       img {
         max-width: 100%;
@@ -147,8 +143,8 @@ body, button {
     color: #fff;
 
     .container {
-      position: relative;
       height: 100%;
+      position: relative;
     }
 
     &__content {

@@ -4,6 +4,9 @@ node_js:
 before_script:
 - gulp localserver &
 - sleep 20
+script:
+- npm test
+- npm run test:ui
 deploy:
   provider: npm
   email: gilbarbara@gmail.com

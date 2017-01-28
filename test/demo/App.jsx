@@ -55,7 +55,7 @@ export default class Demo extends React.Component {
           }
         },
         {
-          text: "Text only steps — Because sometimes you don't really need a proper heading",
+          text: 'Text only steps — Because sometimes you don\'t really need a proper heading',
           selector: '.demo__footer a',
           position: 'top',
           isFixed: true,
@@ -69,18 +69,34 @@ export default class Demo extends React.Component {
       step: 0,
     };
 
-    this.onClickStart = this.onClickStart.bind(this);
+    this.handleClickStart = this.handleClickStart.bind(this);
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.handleJoyrideCallback = this.handleJoyrideCallback.bind(this);
   }
 
+  static propTypes = {
+    joyride: React.PropTypes.shape({
+      autoStart: React.PropTypes.bool,
+      callback: React.PropTypes.func,
+      run: React.PropTypes.bool,
+    }),
+  };
+
+  static defaultProps = {
+    joyride: {
+      autoStart: false,
+      resizeDebounce: false,
+      run: false,
+    },
+  };
+
   componentDidMount() {
     this.joyride.addTooltip({
       title: 'The classic joyride',
-      text: "Let's go on a magical tour! Just click the big orange button.",
+      text: 'Let\'s go on a magical tour! Just click the big orange button.',
       selector: '.hero__tooltip',
       position: 'bottom',
-      event: 'hover',
+      event: 'click',
       style: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         borderRadius: 0,
@@ -109,7 +125,7 @@ export default class Demo extends React.Component {
     });
   }
 
-  onClickStart(e) {
+  handleClickStart(e) {
     e.preventDefault();
 
     this.setState({
@@ -125,6 +141,8 @@ export default class Demo extends React.Component {
   }
 
   handleJoyrideCallback(result) {
+    const { joyride } = this.props;
+
     if (result.type === 'step:before') {
       // Keep internal state in sync with joyride
       this.setState({ step: result.index });
@@ -145,22 +163,32 @@ export default class Demo extends React.Component {
     if (result.type === 'step:after') {
       this.setState({ autoStart: false });
     }
+
+    if (typeof joyride.callback === 'function') {
+      joyride.callback();
+    }
   }
 
   render() {
+    const { joyride } = this.props;
+    const joyrideProps = {
+      autoStart: joyride.autoStart || this.state.autoStart,
+      callback: this.handleJoyrideCallback,
+      debug: false,
+      disableOverlay: this.state.step === 1,
+      resizeDebounce: joyride.resizeDebounce,
+      run: joyride.run || this.state.running,
+      scrollToFirstStep: joyride.scrollToFirstStep || true,
+      stepIndex: joyride.stepIndex || this.state.step,
+      steps: joyride.steps || this.state.steps,
+      type: joyride.type || 'continuous'
+    };
+
     return (
       <div className="demo">
         <Joyride
-          autoStart={this.state.autoStart}
-          callback={this.handleJoyrideCallback}
-          debug={false}
-          disableOverlay={this.state.step === 1}
-          ref={c => (this.joyride = c)}
-          run={this.state.running}
-          scrollToFirstStep={true}
-          stepIndex={this.state.step}
-          steps={this.state.steps}
-          type="continuous" />
+          {...joyrideProps}
+          ref={c => (this.joyride = c)} />
         <main>
           <div className="hero">
             <div className="container">
@@ -169,7 +197,7 @@ export default class Demo extends React.Component {
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
                   <a href="#" className="hero__tooltip">?</a>
                 </h1>
-                <a href="#" className="hero__start" onClick={this.onClickStart}>Let's Go!</a>
+                <a href="#" className="hero__start" onClick={this.handleClickStart}>Let's Go!</a>
               </div>
             </div>
           </div>

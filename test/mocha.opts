@@ -1,5 +1,0 @@
---compilers js:babel-register
---require test/setup.js
---reporter spec
---colors
-test/*.spec.js

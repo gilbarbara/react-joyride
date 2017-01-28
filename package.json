@@ -53,7 +53,6 @@
     "eslint-plugin-import": "^2.2",
     "eslint-plugin-jsx-a11y": "^3.0",
     "eslint-plugin-react": "^6.9",
-    "expect": "^1.20",
     "gulp": "^3.9",
     "gulp-autoprefixer": "^3.1",
     "gulp-babel": "^6.1",
@@ -80,10 +79,9 @@
     "lint": "eslint --ext .js --ext .jsx src test",
     "build": "gulp build",
     "prepublish": "gulp build",
-    "test": "nightwatch -c test/nightwatch.conf.js",
-    "test:jest": "jest --coverage",
+    "test": "jest --coverage",
     "test:watch": "jest --watch",
-    "test:ui": "gulp test:ui"
+    "test:ui": "nightwatch -c test/__setup__/nightwatch.conf.js"
   },
   "engines": {
     "node": ">=6.0.0",
@@ -100,9 +98,7 @@
     ],
     "moduleDirectories": [
       "node_modules",
-      "bower_components",
-      "app/scripts",
-      "./"
+      "src/scripts"
     ],
     "moduleNameMapper": {
       "^.+\\.(css|scss)$": "<rootDir>/test/__setup__/styleMock.js",
@@ -114,10 +110,7 @@
     "testRegex": "/test/.*?\\.(test|spec)\\.js$",
     "collectCoverage": false,
     "collectCoverageFrom": [
-      "app/scripts/**/*.{js,jsx}",
-      "!app/scripts/**/*.dev.{js,jsx}",
-      "!app/scripts/**/DevTools.jsx",
-      "!app/scripts/vendor/*"
+      "src/scripts/**/*.{js,jsx}"
     ],
     "coverageThreshold": {
       "global": {

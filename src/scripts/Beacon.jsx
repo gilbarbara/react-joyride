@@ -3,6 +3,7 @@ import { hexToRGB } from './utils';
 
 let isTouch = false;
 
+/* istanbul ignore else */
 if (typeof window !== 'undefined') {
   isTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
 }
@@ -41,6 +42,7 @@ export default class JoyrideBeacon extends React.Component {
     const stepStyles = step.style || {};
     let rgb;
 
+    /* istanbul ignore else */
     if (stepStyles.beacon) {
       if (typeof stepStyles.beacon === 'string') {
         rgb = hexToRGB(stepStyles.beacon);

@@ -145,6 +145,7 @@ class Joyride extends React.Component {
     }
     window.addEventListener('resize', this.listeners.resize);
 
+    /* istanbul ignore else */
     if (keyboardNavigation && type === 'continuous') {
       this.listeners.keyboard = this.onKeyboardNavigation;
       document.body.addEventListener('keydown', this.listeners.keyboard);
@@ -183,6 +184,7 @@ class Joyride extends React.Component {
       }
     }
 
+    /* istanbul ignore else */
     if (runChanged) {
       // run prop was changed to off, so stop the joyride
       if (run && nextProps.run === false) {
@@ -199,6 +201,7 @@ class Joyride extends React.Component {
       }
     }
 
+    /* istanbul ignore else */
     if (stepIndexChanged) {
       const hasStep = nextProps.steps[nextProps.stepIndex];
       const shouldDisplay = hasStep && nextProps.autoStart;
@@ -214,13 +217,13 @@ class Joyride extends React.Component {
         this.toggleTooltip({ show: shouldDisplay, index: nextProps.stepIndex, steps: nextProps.steps, action: 'jump' });
       }
     }
-
     // Did not change the index, but need to start up the joyride
     else if (shouldStart) {
       this.start(nextProps.autoStart, nextProps.steps);
     }
 
     // Update keyboard listeners if necessary
+    /* istanbul ignore else */
     if (
       !this.listeners.keyboard &&
       ((!keyboardNavigation && nextProps.keyboardNavigation) || keyboardNavigation)
@@ -285,6 +288,7 @@ class Joyride extends React.Component {
       });
 
       // Not showing a tooltip yet, so we're going to show a beacon instead
+      /* istanbul ignore else */
       if (!nextState.shouldRenderTooltip) {
         this.triggerCallback({
           action: 'start',
@@ -305,6 +309,7 @@ class Joyride extends React.Component {
       });
 
       // Attempted to advance to a step with a target that cannot be found
+      /* istanbul ignore else */
       if (nextStep && !hasRenderedTarget) {
         console.warn('Target not mounted', nextStep, nextState.action); //eslint-disable-line no-console
         this.triggerCallback({
@@ -314,7 +319,6 @@ class Joyride extends React.Component {
           step: nextStep,
         });
       }
-
       // There's a next step and the index is > 0
       // (which means STEP_BEFORE wasn't sent as part of the start handler above)
       else if (nextStep && nextState.index) {
@@ -385,10 +389,12 @@ class Joyride extends React.Component {
   componentWillUnmount() {
     window.removeEventListener('resize', this.listeners.resize);
 
+    /* istanbul ignore else */
     if (this.listeners.keyboard) {
       document.body.removeEventListener('keydown', this.listeners.keyboard);
     }
 
+    /* istanbul ignore else */
     if (Object.keys(this.listeners.tooltips).length) {
       Object.keys(this.listeners.tooltips)
       .map(key => ({
@@ -561,6 +567,7 @@ class Joyride extends React.Component {
     el.setAttribute('data-tooltip', JSON.stringify(data));
     const eventType = data.event || 'click';
 
+    /* istanbul ignore else */
     if (eventType === 'hover') {
       this.listeners.tooltips[`${key}mouseenter`] = { event: 'mouseenter', cb: this.onClickStandaloneTrigger };
       this.listeners.tooltips[`${key}mouseleave`] = { event: 'mouseleave', cb: this.onClickStandaloneTrigger };
@@ -633,12 +640,14 @@ class Joyride extends React.Component {
    * @returns {boolean} - True if one or more stpes, and all steps are valid, false otherwise
    */
   checkStepsValidity(steps) {
+    /* istanbul ignore else */
     if (!Array.isArray(steps) && typeof steps === 'object') {
       return this.checkStepValidity(steps);
     }
     else if (steps.length > 0) {
       return steps.every(this.checkStepValidity);
     }
+
     return false;
   }
 
@@ -684,8 +693,8 @@ class Joyride extends React.Component {
 
     if (el) {
       const styles = window.getComputedStyle(el);
-      height = el.clientHeight + parseInt(styles.marginTop, 10) + parseInt(styles.marginBottom, 10);
-      width = el.clientWidth + parseInt(styles.marginLeft, 10) + parseInt(styles.marginRight, 10);
+      height = el.clientHeight + parseInt(styles.marginTop || 0, 10) + parseInt(styles.marginBottom || 0, 10);
+      width = el.clientWidth + parseInt(styles.marginLeft || 0, 10) + parseInt(styles.marginRight || 0, 10);
     }
 
     return {
@@ -715,6 +724,7 @@ class Joyride extends React.Component {
     const position = this.calcPosition(step);
     let scrollTo = 0;
 
+    /* istanbul ignore else */
     if (/^top/.test(position)) {
       scrollTo = Math.floor(yPos - scrollOffset);
     }
@@ -734,6 +744,7 @@ class Joyride extends React.Component {
   triggerCallback(options) {
     const { callback } = this.props;
 
+    /* istanbul ignore else */
     if (typeof callback === 'function') {
       logger({
         type: 'joyride:triggerCallback',
@@ -787,6 +798,7 @@ class Joyride extends React.Component {
       return;
     }
 
+    /* istanbul ignore else */
     if (tooltipData) {
       tooltipData = JSON.parse(tooltipData);
 
@@ -839,6 +851,7 @@ class Joyride extends React.Component {
     const el = e.currentTarget.className.indexOf('joyride-') === 0 && e.currentTarget.tagName === 'A' ? e.currentTarget : e.target;
     const dataType = el.dataset.type;
 
+    /* istanbul ignore else */
     if (el.className.indexOf('joyride-') === 0) {
       e.preventDefault();
       e.stopPropagation();
@@ -852,6 +865,7 @@ class Joyride extends React.Component {
         newIndex = steps.length + 1;
       }
 
+      /* istanbul ignore else */
       if (tooltip.classList.contains('joyride-tooltip--standalone')) {
         this.setState({
           isRunning: shouldRun,
@@ -935,6 +949,7 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
 
+    /* istanbul ignore else */
     if (!target) {
       return;
     }
@@ -944,6 +959,7 @@ class Joyride extends React.Component {
       y: -1000
     };
 
+    /* istanbul ignore else */
     if (step && (standaloneData || (isRunning && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
@@ -975,6 +991,7 @@ class Joyride extends React.Component {
         placement.y = (rect.top - scrollTop);
       }
 
+      /* istanbul ignore else */
       if (/^bottom|^top/.test(position)) {
         if (/left/.test(position)) {
           placement.x = rect.left - (displayTooltip ? tooltipOffset : component.width / 2);
@@ -1054,6 +1071,7 @@ class Joyride extends React.Component {
     const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
     let newValue = value;
 
+    /* istanbul ignore else */
     if (axis === 'x') {
       if (value + elWidth >= winWidth) {
         newValue = winWidth - elWidth - 15;
@@ -1123,10 +1141,13 @@ class Joyride extends React.Component {
     if (shouldRenderTooltip || standaloneData) {
       const position = this.calcPosition(step);
 
+      /* istanbul ignore else */
       if (!standaloneData) {
+        /* istanbul ignore else */
         if (['continuous', 'guided'].indexOf(type) > -1) {
           buttons.primary = locale.last;
 
+          /* istanbul ignore else */
           if (steps[index + 1]) {
             if (showStepsProgress) {
               let next = locale.next;
