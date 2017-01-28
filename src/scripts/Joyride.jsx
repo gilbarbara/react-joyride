@@ -848,7 +848,7 @@ class Joyride extends React.Component {
   onClickTooltip(e) {
     const { index, shouldRun } = this.state;
     const { steps, type } = this.props;
-    const el = e.currentTarget.className.indexOf('joyride-') === 0 && e.currentTarget.tagName === 'A' ? e.currentTarget : e.target;
+    const el = e.currentTarget.className.includes('joyride-') && ['A', 'BUTTON'].includes(e.currentTarget.tagName) ? e.currentTarget : e.target;
     const dataType = el.dataset.type;
 
     /* istanbul ignore else */
