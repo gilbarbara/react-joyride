@@ -1,9 +1,10 @@
+/* stylelint-disable unit-blacklist, scale-unlimited/declaration-strict-value */
 $headings-font-family: Trocchi;
 $font-size-base: 1.6rem;
 
-@import '../../node_modules/bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap';
 @import '../../src/styles/react-joyride';
-@import '//fonts.googleapis.com/css?family=Trocchi';
+@import url('//fonts.googleapis.com/css?family=Trocchi');
 
 @mixin viewport-unit($property, $value) {
   #{$property}: $value;

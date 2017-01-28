@@ -1,5 +1,7 @@
 import React from 'react';
-import Joyride from '../../src/scripts/Joyride';
+import Joyride from 'scripts/Joyride';
+
+import './styles.scss';
 
 export default class Demo extends React.Component {
   constructor(props) {
@@ -13,12 +15,7 @@ export default class Demo extends React.Component {
           title: 'Title only steps — As they say: Make the font bigger!',
           textAlign: 'center',
           selector: '.projects .list',
-          position: 'top',
-          style: {
-            beacon: {
-              offsetX: 30
-            }
-          }
+          position: 'top'
         },
         {
           title: 'Our Mission',
@@ -47,7 +44,9 @@ export default class Demo extends React.Component {
           position: 'left',
           style: {
             beacon: {
-              offsetX: 20
+              inner: '#27e200',
+              offsetX: 20,
+              outer: '#27e200'
             },
             arrow: {
               display: 'none'
@@ -60,9 +59,7 @@ export default class Demo extends React.Component {
           position: 'top',
           isFixed: true,
           style: {
-            beacon: {
-              offsetY: 15
-            }
+            beacon: '#000'
           }
         }
       ],
@@ -115,10 +112,9 @@ export default class Demo extends React.Component {
       isFixed: true,
       event: 'hover',
       style: {
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
         borderRadius: 0,
-        color: '#fff',
-        mainColor: '#f04',
+        color: '#333',
         textAlign: 'center',
         width: '29rem'
       }
@@ -160,10 +156,6 @@ export default class Demo extends React.Component {
       });
     }
 
-    if (result.type === 'step:after') {
-      this.setState({ autoStart: false });
-    }
-
     if (typeof joyride.callback === 'function') {
       joyride.callback();
     }
@@ -195,9 +187,9 @@ export default class Demo extends React.Component {
               <div className="hero__content">
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
-                  <a href="#" className="hero__tooltip">?</a>
+                  <a href="#tooltip" className="hero__tooltip">?</a>
                 </h1>
-                <a href="#" className="hero__start" onClick={this.handleClickStart}>Let's Go!</a>
+                <a href="#start" className="hero__start" onClick={this.handleClickStart}>Let's Go!</a>
               </div>
             </div>
           </div>
@@ -233,8 +225,8 @@ export default class Demo extends React.Component {
         </main>
         <footer className="demo__footer">
           <div className="container">
-            <a href="#" onClick={e => e.preventDefault()}><span /></a>
-            <img src="/logo.svg" alt="Joyride" />
+            <a href="#menu" onClick={e => e.preventDefault()}><span /></a>
+            <img src={require('../assets/media/logo.svg')} alt="Joyride" />
           </div>
         </footer>
       </div>

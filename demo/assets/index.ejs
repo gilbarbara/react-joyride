@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!--[if IE 9 ]>
+<html lang="en" class="ie9" <% if(htmlWebpackPlugin.files.manifest) { %> manifest="<%= htmlWebpackPlugin.files.manifest %>"<% } %>> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="pt-br"
+  <% if(htmlWebpackPlugin.files.manifest) { %>
+      manifest="<%= htmlWebpackPlugin.files.manifest %>"
+  <% } %>
+> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title><%= htmlWebpackPlugin.options.title || 'React Joyride' %></title>
+  <meta name="description" content="Create tooltips, walkthroughs and guided tours for your ReactJS apps." />
+  <% if (htmlWebpackPlugin.options.mobile) { %>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
+  <% } %>
+  <meta property="og:title" content="React Joyride" />
+  <meta property="og:url" content="https://gilbarbara.github.io/react-joyride/" />
+  <meta property="og:description" content="Create tooltips, walkthroughs and guided tours for your ReactJS apps." />
+  <meta property="og:image" content="https://gilbarbara.github.io/react-joyride/media/og-image-v1.png" />
+  <meta property="og:type" content="website" />
+  <% require('./media/og-image-v1.png') %>
+  <link rel="shortcut icon" href="https://gilbarbara.github.io/react-joyride/media/favicon.ico">
+  <% require('./media/favicon.ico') %>
+  <% if (htmlWebpackPlugin.options.baseHref) { %>
+  <base href="<%= htmlWebpackPlugin.options.baseHref %>" />
+  <% } %>
+</head>
+<body>
+<% if (htmlWebpackPlugin.options.unsupportedBrowser) { %>
+<style>.unsupported-browser {
+    display: none;
+  }</style>
+<div class="unsupported-browser">
+  Sorry, your browser is not supported. Please upgrade to
+  the latest version or switch your browser to use this site.
+  See <a href="http://outdatedbrowser.com/">outdatedbrowser.com</a>
+  for options.
+</div>
+<% } %>
+
+<% if (htmlWebpackPlugin.options.appMountId) { %>
+<div id="<%= htmlWebpackPlugin.options.appMountId %>"></div>
+<% } %>
+
+<% if (htmlWebpackPlugin.options.appMountIds && htmlWebpackPlugin.options.appMountIds.length > 0) { %>
+<% for (var index in htmlWebpackPlugin.options.appMountIds) { %>
+<div id="<%= htmlWebpackPlugin.options.appMountIds[index] %>"></div>
+<% } %>
+<% } %>
+
+<div id="react" style="min-height: 100vh;">
+  <!-- preloader styles -->
+  <style type="text/css">
+    html {
+      -webkit-font-smoothing: antialiased;
+      font-size: 10px;
+      font-family: Roboto, sans-serif;
+      box-sizing: border-box
+    }
+    body {
+      font-size: 14px;
+      line-height: 1.428571429;
+      color: #595959
+    }
+    *, :after, :before {
+      box-sizing: inherit
+    }
+    .loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -ms-transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      width: 200px;
+    }
+    .loader > svg {
+      height: 100%;
+      width: 100%;
+    }
+    .icon {
+      -webkit-animation: dash 2s ease-in-out infinite;
+      animation: dash 2s ease-in-out infinite;
+      fill: transparent;
+      stroke: #000;
+      stroke-width: 1px;
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      stroke-linecap: round;
+    }
+    .unsupported-browser {
+      background-color: #2b9591;
+      color: #fff;
+      padding: 1.5rem 3rem;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      max-width: 90%;
+      -ms-transform: translateX(-50%);
+      -webkit-transform: translateX(-50%);
+      transform: translateX(-50%);
+    }
+    .unsupported-browser a {
+      color: #5fd9b4;
+    }
+    #message {
+      bottom: 5%;
+      padding: 0 5rem;
+      position: absolute;
+      text-align: center;
+      width: 100%;
+    }
+    @-ms-keyframes dash {
+      0% {
+        stroke-dasharray: 1, 500;
+        stroke-dashoffset: 0;
+      }
+      40% {
+        stroke-dasharray: 250, 500;
+        stroke-dashoffset: 0px;
+      }
+      100% {
+        stroke-dasharray: 400, 500;
+        stroke-dashoffset: -250px;
+      }
+    }
+    @-webkit-keyframes dash {
+      0% {
+        stroke-dasharray: 1, 500;
+        stroke-dashoffset: 0;
+      }
+      40% {
+        stroke-dasharray: 250, 500;
+        stroke-dashoffset: 0px;
+      }
+      100% {
+        stroke-dasharray: 400, 500;
+        stroke-dashoffset: -250px;
+      }
+    }
+    @keyframes dash {
+      0% {
+        stroke-dasharray: 1, 500;
+        stroke-dashoffset: 0;
+      }
+      40% {
+        stroke-dasharray: 250, 500;
+        stroke-dashoffset: 0px;
+      }
+      100% {
+        stroke-dasharray: 400, 500;
+        stroke-dashoffset: -250px;
+      }
+    }
+  </style>
+  <div class="loader">
+    <svg width="86px" height="86px" viewBox="0 0 86 86" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M41.0490478,20.6768643 L17.8547908,65.2286127 L25.5897656,65.2286127 L32.3491405,52.3062782 L53.1781012,52.3062782 L60.0257263,65.2286127 L68.1699485,65.2286127 L44.6401475,20.6768643 L41.0490478,20.6768643 L41.0490478,20.6768643 L41.0490478,20.6768643 Z M49.6810702,45.3830102 L35.9780619,45.3830102 L42.8460523,32.2579914 L49.6810702,45.3830102 L49.6810702,45.3830102 L49.6810702,45.3830102 Z" class="icon"></path>
+    </svg>
+  </div>
+  <div id="message"></div>
+</div>
+
+<script>
+  var cb = function() {
+    var l = document.createElement('link');
+    l.rel = 'stylesheet';
+    l.href = '<%= htmlWebpackPlugin.files.css[0] %>';
+    var h = document.getElementsByTagName('head')[0];
+    h.parentNode.insertBefore(l, h);
+  };
+  var raf = window.requestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.msRequestAnimationFrame;
+  if (raf) {
+    raf(cb);
+  }
+  else {
+    window.addEventListener('load', cb);
+  }
+</script>
+
+<% if (htmlWebpackPlugin.options.window) { %>
+<script>
+  <% for (var varName in htmlWebpackPlugin.options.window) { %>
+  window['<%= varName %>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[varName]) %>;
+  <% } %>
+</script>
+<% } %>
+
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+<% } %>
+
+<% if (htmlWebpackPlugin.options.googleAnalytics) { %>
+<script>
+  (function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+
+  <% if (htmlWebpackPlugin.options.googleAnalytics.trackingId) { %>
+  ga('create', '<%= htmlWebpackPlugin.options.googleAnalytics.trackingId %>', 'auto');
+  <% } else {
+    throw new Error("html-webpack-template requires googleAnalytics.trackingId config");
+  } %>
+
+  <% if (htmlWebpackPlugin.options.googleAnalytics.pageViewOnLoad) { %>
+  ga('send', 'pageview');
+  <% } %>
+</script>
+<% } %>
+</body>
+</html>
