@@ -103,7 +103,7 @@ compiler.plugin('emit', function(compilation, callback) {
     });
 
     nightwatch.on('close', () => {
-      spawn('kill', [process.pid]);
+      process.exit(0);
     });
   }
 
