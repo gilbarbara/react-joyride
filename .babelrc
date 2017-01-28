@@ -1,19 +1,48 @@
 {
   "presets": [
-    "es2015",
+    "latest",
     "react",
     "stage-1"
   ],
   "plugins": [
-    "transform-decorators-legacy",
-    "transform-object-assign"
+    [
+      "transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }
+    ]
   ],
   "compact": "true",
   "env": {
     "production": {
+      "presets": [
+        [
+          "latest", {
+          "es2015": {
+            "modules": false
+          }
+        }
+        ],
+        "react",
+        "stage-1"
+      ],
       "plugins": [
-        "transform-inline-environment-variables"
+        "transform-flow-strip-types",
+        [
+          "transform-runtime", {
+          "polyfill": false,
+          "regenerator": true
+        }
+        ]
       ]
+    },
+    "development": {
+      "plugins": [
+        "react-hot-loader/babel"
+      ]
+    },
+    "test": {
+      "sourceMaps": "both"
     }
   }
 }

@@ -22,7 +22,7 @@ $joyride-tooltip-width: (290px, 360px, 450px) !default;
 
 $joyride-close: (color: rgba($joyride-tooltip-color, 0.5), size: 12px, top: 10px, right: 10px) !default;
 $joyride-close-visible: true !default;
-$joyride-close-image: "data:image/svg+xml,%3Csvg%20width%3D%22#{map-get($joyride-close, 'size')}%22%20height%3D%22#{map-get($joyride-close, 'size')}%22%20viewBox%3D%220%200%2016%2016%22%20version%3D%221.1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.117.323l-6.073%206.075-5.449-6.075c-.431-.431-1.131-.431-1.562%200-.431.431-.431%201.131%200%201.562l5.449%206.075-6.159%206.159c-.431.431-.431%201.134%200%201.562.431.431%201.131.431%201.562%200l6.075-6.073%205.449%206.073c.429.431%201.131.431%201.56%200%20.431-.429.431-1.131%200-1.562l-5.452-6.073%206.159-6.161c.431-.431.431-1.131%200-1.562-.431-.431-1.129-.431-1.56%200z%22%20fill%3D%22#{map-get($joyride-close, 'color')}%22%2F%3E%3C%2Fsvg%3E";
+$joyride-close-image: 'data:image/svg+xml,%3Csvg%20width%3D%22#{map-get($joyride-close, 'size')}%22%20height%3D%22#{map-get($joyride-close, 'size')}%22%20viewBox%3D%220%200%2016%2016%22%20version%3D%221.1%22%20%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.117.323l-6.073%206.075-5.449-6.075c-.431-.431-1.131-.431-1.562%200-.431.431-.431%201.131%200%201.562l5.449%206.075-6.159%206.159c-.431.431-.431%201.134%200%201.562.431.431%201.131.431%201.562%200l6.075-6.073%205.449%206.073c.429.431%201.131.431%201.56%200%20.431-.429.431-1.131%200-1.562l-5.452-6.073%206.159-6.161c.431-.431.431-1.131%200-1.562-.431-.431-1.129-.431-1.56%200z%22%20fill%3D%22#{map-get($joyride-close, 'color')}%22%2F%3E%3C%2Fsvg%3E';
 
 $joyride-header-color: $joyride-tooltip-color !default;
 $joyride-header-font-size: 20px !default;
@@ -57,7 +57,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     $rotate: '90 4 4';
   }
 
-  @return "data:image/svg+xml,%3Csvg%20width%3D%22#{$width}%22%20height%3D%22#{$height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#{$arrow-color}%22%20transform%3D%22scale%28#{$joyride-tooltip-arrow-scale}%29%20rotate%28#{$rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E";
+  @return 'data:image/svg+xml,%3Csvg%20width%3D%22#{$width}%22%20height%3D%22#{$height}%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpolygon%20points%3D%220%2C%200%208%2C%208%2016%2C0%22%20fill%3D%22#{$arrow-color}%22%20transform%3D%22scale%28#{$joyride-tooltip-arrow-scale}%29%20rotate%28#{$rotate}%29%22%3E%3C%2Fpolygon%3E%3C%2Fsvg%3E';
 }
 
 @mixin reset-button() {
@@ -148,14 +148,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     width: nth($joyride-tooltip-width, 1);
     z-index: $joyride-zindex + 10;
 
-    @media screen and (min-width: 480px) {
-      width: nth($joyride-tooltip-width, 2);
-    }
-
-    @media screen and (min-width: 960px) {
-      width: nth($joyride-tooltip-width, 3);
-    }
-
     &--animate {
       animation: $joyride-tooltip-animation;
       animation-timing-function: $joyride-tooltip-animation-timing;
@@ -173,7 +165,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       margin-top: $joyride-tooltip-arrow-height;
 
       .joyride-tooltip__triangle {
-        background-image: url(joyride-arrow(bottom));
+        background-image: url('#{joyride-arrow(bottom)}');
         height: $joyride-tooltip-arrow-height;
         left: 50%;
         top: -($joyride-tooltip-arrow-height - 2);
@@ -188,7 +180,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       margin-bottom: $joyride-tooltip-arrow-height;
 
       .joyride-tooltip__triangle {
-        background-image: url(joyride-arrow(top));
+        background-image: url('#{joyride-arrow(top)}');
         bottom: -($joyride-tooltip-arrow-height - 2);
         height: $joyride-tooltip-arrow-height;
         left: 50%;
@@ -226,7 +218,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       margin-right: $joyride-tooltip-arrow-height;
 
       .joyride-tooltip__triangle {
-        background-image: url(joyride-arrow(left));
+        background-image: url('#{joyride-arrow(left)}');
         height: $joyride-tooltip-arrow-size;
         right: -($joyride-tooltip-arrow-height - 2);
         width: $joyride-tooltip-arrow-height;
@@ -237,7 +229,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       margin-left: $joyride-tooltip-arrow-height;
 
       .joyride-tooltip__triangle {
-        background-image: url(joyride-arrow(right));
+        background-image: url('#{joyride-arrow(right)}');
         height: $joyride-tooltip-arrow-size;
         left: -($joyride-tooltip-arrow-height - 2);
         width: $joyride-tooltip-arrow-height;
@@ -257,12 +249,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       width: map-get($joyride-close, 'size');
       z-index: 10;
 
-      @if $joyride-close-visible {
-        display: block;
-      } @else {
-        display: none;
-      }
-
       &:hover,
       &:focus {
         color: darken(map-get($joyride-close, 'color'), 10);
@@ -272,6 +258,12 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       &--header {
         right: $joyride-tooltip-padding;
         top: $joyride-tooltip-padding;
+      }
+
+      @if $joyride-close-visible {
+        display: block;
+      } @else {
+        display: none;
       }
     }
 
@@ -336,6 +328,14 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       .joyride-tooltip__footer {
         display: none;
       }
+    }
+
+    @media screen and (min-width: 480px) {
+      width: nth($joyride-tooltip-width, 2);
+    }
+
+    @media screen and (min-width: 960px) {
+      width: nth($joyride-tooltip-width, 3);
     }
   }
 }

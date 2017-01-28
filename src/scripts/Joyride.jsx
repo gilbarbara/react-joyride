@@ -2,9 +2,12 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl, logger, sanitizeSelector, getDocHeight } from './utils';
-import Beacon from './Beacon';
-import Tooltip from './Tooltip';
+import { getRootEl, logger, sanitizeSelector, getDocHeight } from 'scripts/utils';
+
+import Beacon from 'scripts/Beacon';
+import Tooltip from 'scripts/Tooltip';
+
+import 'styles/react-joyride.scss';
 
 const defaultState = {
   action: '',
@@ -445,6 +448,7 @@ class Joyride extends React.Component {
       type: 'joyride:stop',
       debug: this.props.debug,
     });
+
     this.setState({
       isRunning: false,
       shouldRenderTooltip: false

@@ -1,0 +1,21 @@
+[ignore]
+.*/node_modules/config-chain/test/broken.json
+.*/node_modules/npmconf/test/.*
+.*/node_modules/react-side-effect/.*
+
+[include]
+
+[libs]
+./defs
+
+[options]
+module.name_mapper='^scripts\/?\(.*\)?$' -> '<PROJECT_ROOT>/src/scripts/\1'
+module.name_mapper='^styles\/\(.*\)$' -> '<PROJECT_ROOT>/src/styles/\1'
+
+munge_underscores=true
+
+strip_root=true
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe

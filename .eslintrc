@@ -5,25 +5,57 @@
     "browser": true,
     "jest": true
   },
+  "plugins": [
+    "babel",
+    "flowtype"
+  ],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "config/webpack.config.js"
+      }
+    }
+  },
   "rules": {
+    "arrow-body-style": [
+      1,
+      "as-needed"
+    ],
+    "arrow-parens": 0,
+    "block-spacing": 1,
     "brace-style": [1, "stroustrup", { "allowSingleLine": true }],
     "camelcase": 0,
     "class-methods-use-this": 0,
     "comma-dangle": 0,
     "dot-notation": 1,
+    "generator-star-spacing": 0,
     "global-require": 0,
     "indent": [1, 2, { "SwitchCase": 1 }],
     "max-len": 0,
     "newline-per-chained-call": [1, { "ignoreChainWithDepth": 5 }],
     "no-case-declarations": 1,
-    "no-duplicate-imports": 2,
-    "no-lonely-if": 1,
+    "no-confusing-arrow": [1, { "allowParens": true }],
     "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
-    "no-multi-spaces": [1, { "exceptions": { "VariableDeclarator": true, "Property": false } }],
+    "no-multi-spaces": [
+      1, {
+        "exceptions": {
+          "VariableDeclarator": true,
+          "Property": false
+        }
+      }
+    ],
     "no-nested-ternary": 1,
     "no-param-reassign": [1, { "props": false }],
     "no-plusplus": 0,
+    "no-restricted-syntax": [
+      2,
+      "DebuggerStatement",
+      "LabeledStatement",
+      "WithStatement"
+    ],
+    "no-template-curly-in-string": 1,
     "no-trailing-spaces": 1,
+    "no-underscore-dangle": 0,
     "no-unused-vars": 1,
     "object-shorthand": [1, "always"],
     "one-var": 1,
@@ -32,38 +64,65 @@
     "prefer-template": 1,
     "quotes": [1, "single", "avoid-escape"],
     "require-jsdoc": [
-      0,
-      { "require": { "FunctionDeclaration": true, "MethodDefinition": false, "ClassDeclaration": false } }
+      0, {
+        "require": {
+          "FunctionDeclaration": true,
+          "MethodDefinition": false,
+          "ClassDeclaration": false
+        }
+      }
     ],
     "space-before-function-paren": [1, "never"],
     "space-in-parens": 1,
-    "spaced-comment": [1, "always", { "exceptions": ["-+"], "markers": ["eslint-disable", "eslint-disable-line"] }],
-    "valid-jsdoc": [
+    "spaced-comment": [
       1,
-      {
-        "prefer": { "return": "returns" },
+      "always", {
+        "exceptions": [
+          "-+"
+        ],
+        "markers": [
+          "eslint-disable",
+          "eslint-disable-line"
+        ]
+      }
+    ],
+    "valid-jsdoc": [
+      1, {
+        "prefer": {
+          "return": "returns"
+        },
         "requireReturn": false,
         "requireParamDescription": false,
         "requireReturnDescription": false
       }
     ],
-    "jsx-a11y/href-no-hash": 0,
-    "jsx-a11y/no-static-element-interactions": 0,
+    "flowtype/require-parameter-type": [0, { "excludeArrowFunctions": true }],
+    "import/no-dynamic-require": 0,
     "import/no-extraneous-dependencies": [2, { "devDependencies": true }],
+    "import/no-named-as-default": 0,
+    "import/no-unresolved": 1,
+    "import/no-webpack-loader-syntax": 0,
+    "import/prefer-default-export": 0,
+    "jsx-a11y/label-has-for": 0,
+    "jsx-a11y/no-static-element-interactions": 0,
+    // React
     "jsx-quotes": 1,
     "react/forbid-prop-types": 0,
     "react/jsx-closing-bracket-location": [1, "after-props"],
-    "react/jsx-filename-extension": 0,
+    "react/jsx-first-prop-new-line": [1, "multiline"],
+    "react/jsx-indent": [1, 2],
     "react/jsx-indent-props": [1, 2],
     "react/jsx-key": 1,
     "react/jsx-max-props-per-line": [1, { "maximum": 4 }],
-    "react/jsx-boolean-value": 0,
-    "react/jsx-no-duplicate-props": 1,
-    "react/jsx-pascal-case": 1,
+    "react/jsx-no-target-blank": 0,
     "react/no-danger": 0,
     "react/no-did-mount-set-state": 1,
     "react/no-did-update-set-state": 1,
+    "react/jsx-boolean-value": 0,
+    "react/jsx-no-duplicate-props": 1,
+    "react/jsx-pascal-case": 1,
     "react/no-direct-mutation-state": 1,
+    "react/no-unused-prop-types": 1,
     "react/no-unescaped-entities": 0,
     "react/prefer-stateless-function": 0,
     "react/prop-types": 2,
@@ -72,7 +131,12 @@
     "react/sort-comp": [
       1,
       {
-        "order": ["constructor", "lifecycle", "everything-else", "render"],
+        "order": [
+          "constructor",
+          "lifecycle",
+          "everything-else",
+          "render"
+        ],
         "groups": {
           "lifecycle": [
             "statics",

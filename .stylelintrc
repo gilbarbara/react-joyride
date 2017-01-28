@@ -1,0 +1,70 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": [
+    "stylelint-declaration-strict-value",
+    "stylelint-order",
+    "stylelint-scss"
+  ],
+  "rules": {
+    "at-rule-empty-line-before": [
+      "always",
+      { "except": ["blockless-group", "first-nested"], "ignore": ["after-comment"], "ignoreAtRules": ["else"] }
+    ],
+    "block-closing-brace-newline-after": [
+      "always",
+      { "ignoreAtRules": ["if", "else"] }
+    ],
+    "color-named": "never",
+    "declaration-colon-newline-after": null,
+    "declaration-empty-line-before": null,
+    "declaration-property-value-blacklist": {
+      "/^border/": ["none"]
+    },
+    "function-url-quotes": "always",
+    "indentation": [2, { "ignore": ["value"] }],
+    "max-nesting-depth": 5,
+    "no-duplicate-selectors": true,
+    "no-empty-source": [true, { "severity": "warning" }],
+    "no-missing-end-of-source-newline": true,
+    "number-max-precision": 4,
+    "property-no-vendor-prefix": true,
+    "selector-class-pattern": "^((?:-{1,2}|_{2})?[a-z0-9]+(?:(?:-{1,2}|_{2})[a-z0-9]+)*)(?:-{1,2}|_{2})?$",
+    "selector-max-compound-selectors": 5,
+    "selector-max-specificity": ["0,6,4"],
+    "selector-no-qualifying-type": [true, { "ignore": ["class"] }],
+    "selector-pseudo-element-colon-notation": "single",
+    "string-quotes": "single",
+    "unit-blacklist": [["rem", "em"]],
+    "order/declaration-block-order": [
+      "custom-properties",
+      "dollar-variables",
+      { "type": "at-rule", "name": "extend" },
+      { "type": "at-rule", "name": "include", "hasBlock": false },
+      "declarations",
+      {
+        "type": "at-rule",
+        "name": "include",
+        "hasBlock": true
+      },
+      "rules",
+      "at-rules"
+    ],
+    "order/declaration-block-properties-alphabetical-order": true,
+    "scale-unlimited/declaration-strict-value": [
+      ["/color/"],
+      {
+        "ignoreKeywords": {
+          "/color/": ["transparent", "inherit"]
+        }
+      }
+    ],
+    "scss/at-import-no-partial-leading-underscore": true,
+    "scss/at-import-partial-extension-blacklist": ["scss"],
+    "scss/dollar-variable-colon-space-after": "always",
+    "scss/dollar-variable-colon-space-before": "never",
+    "scss/dollar-variable-no-missing-interpolation": true,
+    "scss/double-slash-comment-whitespace-inside": "always",
+    "scss/operator-no-unspaced": true,
+    "scss/selector-no-redundant-nesting-selector": true
+  }
+}
