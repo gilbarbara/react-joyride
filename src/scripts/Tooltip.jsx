@@ -211,7 +211,7 @@ export default class JoyrideTooltip extends React.Component {
    * @param {Object} opts.rect               BoundingClientRect of target element
    * @param {string} opts.positonBaseClass   Base position of tooltip (top, bottom, left, right)
    * @param {Object} props                   Positioning properties: cssPosition, xPos, and yPos
-   * @returns {Object}                       Calculated styles for arrow, buttons, header, hole, and tooltip
+   * @returns {Object}                       Calculated styles for arrow, buttons, header, main, footer, hole, and tooltip
    */
   setStyles(stepStyles, opts, props) {
     const { holePadding, step, xPos, yPos } = props;
@@ -223,6 +223,8 @@ export default class JoyrideTooltip extends React.Component {
       },
       buttons: {},
       header: {},
+      main: {},
+      footer: {},
       hole: {},
       tooltip: {
         position: isFixed ? 'fixed' : 'absolute',
@@ -287,6 +289,27 @@ export default class JoyrideTooltip extends React.Component {
 
       if (stepStyles.width) {
         styles.tooltip.width = stepStyles.width;
+      }
+
+      if (stepStyles.header) {
+        styles.header = {
+          ...styles.header,
+          ...stepStyles.header
+        };
+      }
+
+      if (stepStyles.main) {
+        styles.main = {
+          ...styles.main,
+          ...stepStyles.main
+        };
+      }
+
+      if (stepStyles.footer) {
+        styles.footer = {
+          ...styles.footer,
+          ...stepStyles.footer
+        };
       }
 
       if (stepStyles.back) {
@@ -421,11 +444,18 @@ export default class JoyrideTooltip extends React.Component {
         {buttons.skip}
       </button>);
     }
+
+    // Why is this here?
     if (!step.text || typeof step.text === 'string') {
-      output.main = (<div className="joyride-tooltip__main" dangerouslySetInnerHTML={{ __html: step.text || '' }} />);
+      output.main = (
+        <div
+          className="joyride-tooltip__main"
+          style={styles.main}
+          dangerouslySetInnerHTML={{ __html: step.text || '' }}
+        />);
     }
     else {
-      output.main = (<div className="joyride-tooltip__main">{step.text}</div>);
+      output.main = (<div className="joyride-tooltip__main" style={styles.main}>{step.text}</div>);
     }
 
     if (buttons.secondary) {
@@ -454,7 +484,7 @@ export default class JoyrideTooltip extends React.Component {
           onClick={onClick} />
         {output.header}
         {output.main}
-        <div className="joyride-tooltip__footer">
+        <div className="joyride-tooltip__footer" style={styles.footer}>
           {output.skip}
           {output.secondary}
           <button
