@@ -16,7 +16,7 @@ engines:
         enabled: false
       import/no-extraneous-dependencies:
         enabled: false
-  scss-lint:
+  stylelint:
     enabled: true
 ratings:
   paths:
@@ -24,9 +24,6 @@ ratings:
   - "**.jsx"
   - "**.scss"
 exclude_paths:
-  - coverage/**/*
-  - documentation/**/*
   - lib/**/*
   - node_modules/**/*
-  - reports/**/*
   - tests/**/*

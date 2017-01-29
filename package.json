@@ -65,12 +65,11 @@
     "flow-bin": "^0.38",
     "html-webpack-plugin": "^2.26",
     "husky": "^0.13",
-    "image-webpack-loader": "^3.1",
+    "image-webpack-loader": "^3.2",
     "jest-cli": "^18.1",
     "jsdom": "^9.9",
     "nightwatch": "^0.9",
-    "node-sass": "^4.3",
-    "normalize.css": "^5.0.0",
+    "node-sass": "^4.4",
     "postcss-loader": "^1.2",
     "react": "^15.4",
     "react-addons-test-utils": "^15.4",
@@ -86,7 +85,7 @@
     "stylelint-scss": "^1.4",
     "webpack": "^2.2.0",
     "webpack-dev-server": "^2.2.0",
-    "webpack-merge": "^2.4"
+    "webpack-merge": "^2.6"
   },
   "scripts": {
     "watch": "webpack --config config/webpack.config.js",
