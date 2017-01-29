@@ -44,14 +44,14 @@ Don't forget to pass a `ref` to the component.
 If you are using **SCSS** (and you should):
 
 ```scss
-@import '../path/to/node-modules/react-joyride/lib/styles/react-joyride'
+@import '~react-joyride/lib/react-joyride'
 
 ```
 
 Or include this directly in your html:
 
 ```html
-<link rel="stylesheet" href="react-joyride/lib/styles/react-joyride-compiled.css" type="text/css">
+<link rel="stylesheet" href="/path/to/react-joyride/lib/react-joyride-compiled.css" type="text/css">
 ```
 
 
@@ -270,9 +270,9 @@ There are some usable options but you can pass custom parameters.
 
 - `trigger`: The DOM element that will trigger the tooltip
 
-You can style tooltips independently with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
+You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`. 
 
-Also you can style `button`, `skip`, `back`, `close` and `hole` individually using standard style options. Plus `beacon` offset, inner and outer colors and `arrow` visibility.
+You can also style `header`, `main`, `footer`, `button`, `skip`, `back`, `close` and `hole` independently using standard style options. Plus `beacon` offset, inner and outer colors and `arrow` visibility.
 
 
 Example:
@@ -285,6 +285,7 @@ Example:
   position: 'bottom-left',
   type: 'hover',
   isFixed: true,
+  // optional styling
   style: {
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     borderRadius: '0',
@@ -301,15 +302,21 @@ Example:
       inner: '#000',
       outer: '#000'
     },
-    button: {
-      display: 'none'
+    header: {
+      textAlign: 'right''
       // or any style attribute
+    },
+    main: {
+      padding: '20px'
+    },
+    footer: {
+      display: 'none'
     },
     skip: {
       color: '#f04'
     },
     hole: {
-      backgroundColor: 'RGBA(201, 23, 33, 0.2)',
+      backgroundColor: 'rgba(201, 23, 33, 0.2)',
     }
     ...
   },
