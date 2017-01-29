@@ -19,7 +19,9 @@ var config = merge.smart(webpackConfig, {
   plugins: [
     new CleanPlugin(['lib'], { root: path.join(__dirname, '../') }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -49,6 +51,20 @@ var config = merge.smart(webpackConfig, {
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
+      mangle: {
+        screw_ie8: true,
+        keep_fnames: false,
+      },
+      compress: {
+        booleans: true,
+        conditionals: true,
+        dead_code: true, // big one--strip code that will never execute
+        evaluate: true,
+        screw_ie8: true,
+        unused: true,
+        warnings: false, // good for prod apps so users can't peek behind curtain
+      },
+      comments: false,
       sourceMap: true,
     }),
   ],

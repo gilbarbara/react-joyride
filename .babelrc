@@ -27,6 +27,7 @@
         "stage-1"
       ],
       "plugins": [
+        "transform-react-remove-prop-types",
         "transform-flow-strip-types",
         [
           "transform-runtime", {
