@@ -1,8 +1,34 @@
 /*eslint-disable no-console, no-var, vars-on-top, func-names */
+/**
+ * @module Polyfills
+ * @desc Add CustomEvent and Dataset for older browsers.
+ */
+
+/**
+ * CustomEvent Polyfill
+ */
+/* istanbul ignore next */
+(function() {
+  if (typeof window.CustomEvent === 'function') {
+    return;
+  }
+
+  function CustomEvent(event, params) {
+    const newParams = params || { bubbles: false, cancelable: false, detail: undefined };
+    const evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(event, newParams.bubbles, newParams.cancelable, newParams.detail);
+    return evt;
+  }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+}());
 
 /**
  * Dataset Polyfill
  */
+/* istanbul ignore next */
 (function() {
   if (!document.documentElement.dataset && (!Object.getOwnPropertyDescriptor(Element.prototype, 'dataset') || !Object.getOwnPropertyDescriptor(Element.prototype, 'dataset').get)) {
     var descriptor = {};
@@ -25,8 +51,7 @@
       function setter(name, value) {
         if (typeof value !== 'undefined') {
           this.setAttribute(name, value);
-        }
-        else {
+        } else {
           this.removeAttribute(name);
         }
       }
@@ -48,7 +73,7 @@
           Object.defineProperty(map, propName, {
             enumerable: this.enumerable,
             get: getter.bind({ value: value || '' }),
-            set: setter.bind(element, name)
+            set: setter.bind(element, name),
           });
         }
       }

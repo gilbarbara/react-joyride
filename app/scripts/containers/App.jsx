@@ -1,12 +1,13 @@
 import React from 'react';
 import Joyride from 'react-joyride';
 import { autobind } from 'core-decorators';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Panels from '../components/Panels';
-import Charts from '../components/Charts';
-import Tables from '../components/Tables';
-import Loader from '../components/Loader';
+
+import Header from 'components/Header';
+import Footer from 'components/Footer';
+import Panels from 'components/Panels';
+import Charts from 'components/Charts';
+import Tables from 'components/Tables';
+import Loader from 'components/Loader';
 
 @autobind
 class App extends React.Component {
