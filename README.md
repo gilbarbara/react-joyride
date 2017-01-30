@@ -303,7 +303,7 @@ Example:
       outer: '#000'
     },
     header: {
-      textAlign: 'right''
+      textAlign: 'right'
       // or any style attribute
     },
     main: {
