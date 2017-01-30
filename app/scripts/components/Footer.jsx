@@ -8,7 +8,8 @@ const Footer = () =>
       <iframe
         src="https://ghbtns.com/github-btn.html?user=gilbarbara&repo=react-joyride&type=star&count=true"
         frameBorder="0"
-        scrolling="0" width="92px" height="20px" />
+        scrolling="0" width="92px" height="20px"
+      />
     </div>
   </div>);
 

@@ -3,132 +3,142 @@
   background-size: $width $height;
 
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 144dpi) {
-    background-image: url($file + '@2x.' + $type);
+    background-image: url('#{$file}@2x.#{$type}');
   }
 }
 
-@mixin background-image-svg($name, $width, $height) {
-  background-image: url('#{$name}.png'); // IE8 & below
-  background-image: none, url('#{$name}.svg');
-  background-size: $width $height;
-}
-
 @mixin truncate($width: 100%) {
-  text-overflow: ellipsis;
   overflow: hidden;
-  width: $width;
+  text-overflow: ellipsis;
   white-space: nowrap;
+  width: $width;
 }
 
-@mixin vertical-align {
+@mixin center-child() {
+  $distance: 50%;
+
   position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+
+  > * {
+    left: $distance;
+    position: absolute;
+    top: $distance;
+    transform: translate(-#{$distance}, -#{$distance});
+  }
 }
 
+@mixin center-child-flex() {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+@mixin vertical-align($top: 50%) {
+  position: relative;
+  top: $top;
+  transform: translateY(-$top);
+}
+
+// Media queries shortcuts...
 @mixin ie10 {
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     @content;
   }
 }
 
-@mixin media-query($media-query) {
-  @if $media-query == outdated {
-    @media (max-height: 540px) { @content; }
-  }
-
-  @if $media-query == xs-only {
-    @media only screen and (max-width: breakpoint-max('xs')) {
-      @content;
-    }
-  }
-
-  @if $media-query == sm {
-    @media only screen and (min-width: breakpoint-min('sm')) {
-      @content;
-    }
-  }
-
-  @if $media-query == sm-only {
-    @media only screen and (max-width: breakpoint-max('md')) {
-      @content;
-    }
-  }
-
-  @if $media-query == md {
-    @media only screen and (min-width: breakpoint-min('md')) {
-      @content;
-    }
-  }
-
-  @if $media-query == lg {
-    @media only screen and (min-width: breakpoint-min('lg')) {
-      @content;
-    }
-  }
-
-  @if $media-query == xl {
-    @media only screen and (min-width: breakpoint-min('xl')) {
-      @content;
-    }
-  }
-
-  @if $media-query == retina {
-    @media (min--moz-device-pixel-ratio: 2), (-o-min-device-pixel-ratio: 2/1), (-webkit-min-device-pixel-ratio: 2), (min-device-pixel-ratio: 2) { @content; }
-  }
-
-  @if $media-query == landscape {
-    @media (orientation: landscape) { @content; }
-  }
-}
-
-// Just mqs helpers...
-
-@mixin outdated {
-  @include media-query(outdated) { @content }
-}
-
-
-@mixin xs {
-  @include media-query(xs) { @content }
-}
-
-@mixin xxs-only {
-  @include media-query(xxs-only) { @content }
-}
-
 @mixin xs-only {
-  @include media-query(xs-only) { @content }
+  @include max-screen(breakpoint-max('xs')) {
+    @content;
+  }
+}
+
+@mixin ix {
+  @include min-screen(breakpoint-min('ix')) {
+    @content;
+  }
+}
+
+@mixin ix-only {
+  @include max-screen(breakpoint-max('ix')) {
+    @content;
+  }
 }
 
 @mixin sm {
-  @include media-query(sm) { @content }
+  @include min-screen(breakpoint-min('sm')) {
+    @content;
+  }
 }
 
 @mixin sm-only {
-  @include media-query(sm-only) { @content }
+  @include max-screen(breakpoint-max('sm')) {
+    @content;
+  }
+}
+
+@mixin is {
+  @include min-screen(breakpoint-min('is')) {
+    @content;
+  }
+}
+
+@mixin is-only {
+  @include max-screen(breakpoint-max('is')) {
+    @content;
+  }
 }
 
 @mixin md {
-  @include media-query(md) { @content }
+  @include min-screen(breakpoint-min('md')) {
+    @content;
+  }
 }
 
 @mixin md-only {
-  @include media-query(md-only) { @content }
+  @include max-screen(breakpoint-max('md')) {
+    @content;
+  }
+}
+
+@mixin im {
+  @include min-screen(breakpoint-min('im')) {
+    @content;
+  }
+}
+
+@mixin im-only {
+  @include max-screen(breakpoint-max('im')) {
+    @content;
+  }
 }
 
 @mixin lg {
-  @include media-query(lg) { @content }
+  @include min-screen(breakpoint-min('lg')) {
+    @content;
+  }
+}
+
+@mixin lg-only {
+  @include max-screen(breakpoint-max('lg')) {
+    @content;
+  }
 }
 
 @mixin xl {
-  @include media-query(xl) { @content }
+  @include min-screen(breakpoint-min('xl')) {
+    @content;
+  }
 }
 
-@mixin retina {
-  @include media-query(retina) { @content }
+@mixin xxl {
+  @include min-screen(breakpoint-min('xxl')) {
+    @content;
+  }
 }
 
-@mixin landscape {
-  @include media-query(landscape) { @content }
+@mixin xxxl {
+  @include min-screen(breakpoint-min('xxxl')) {
+    @content;
+  }
 }

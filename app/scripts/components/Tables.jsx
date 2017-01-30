@@ -2,7 +2,7 @@ import React from 'react';
 
 class Tables extends React.Component {
   static propTypes = {
-    addSteps: React.PropTypes.func.isRequired
+    addSteps: React.PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -15,9 +15,9 @@ class Tables extends React.Component {
         mainColor: '#f07b50',
         beacon: {
           inner: '#f07b50',
-          outer: '#f07b50'
-        }
-      }
+          outer: '#f07b50',
+        },
+      },
     });
 
     setTimeout(() => {
@@ -25,7 +25,7 @@ class Tables extends React.Component {
         title: 'Add steps after it has started',
         text: 'This step was added 2 seconds later in a setTimeout call',
         selector: '.tasks',
-        position: 'right'
+        position: 'right',
       });
     }, 3000);
   }
@@ -34,7 +34,7 @@ class Tables extends React.Component {
     return (
       <div className="tables">
         <div className="row">
-          <div className="col-xs-12 col-md-6">
+          <div className="col-12 col-md-6">
             <div className="card tasks">
               <div className="card-header">
                 <h3>
@@ -111,13 +111,14 @@ class Tables extends React.Component {
               </div>
               <div className="card-footer">
                 <div className="text-right">
-                  <a href="#">View All Activity <i
-                    className="fa fa-arrow-circle-right" /></a>
+                  <a href="#view">View All Activity <i
+                    className="fa fa-arrow-circle-right"
+                  /></a>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-xs-12 col-md-6">
+          <div className="col-12 col-md-6">
             <div className="card transactions">
               <div className="card-header">
                 <h3>
@@ -178,8 +179,9 @@ class Tables extends React.Component {
 
               <div className="card-footer">
                 <div className="text-right">
-                  <a href="#">View All Transactions <i
-                    className="fa fa-arrow-circle-right" /></a>
+                  <a href="#view">View All Transactions <i
+                    className="fa fa-arrow-circle-right"
+                  /></a>
                 </div>
               </div>
             </div>

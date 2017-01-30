@@ -17,15 +17,16 @@ class App extends React.Component {
     this.state = {
       joyrideOverlay: true,
       joyrideType: 'continuous',
-      ready: false,
-      steps: []
+      isReady: false,
+      steps: [],
+      selector: '',
     };
   }
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        ready: true
+        isReady: true,
       });
     }, 1000);
   }
@@ -53,9 +54,17 @@ class App extends React.Component {
     this.joyride.addTooltip(data);
   }
 
+  next() {
+    this.joyride.next();
+  }
+
   callback(data) {
     console.log('%ccallback', 'color: #47AAAC; font-weight: bold; font-size: 13px;'); //eslint-disable-line no-console
     console.log(data); //eslint-disable-line no-console
+
+    this.setState({
+      selector: data.type === 'tooltip:before' ? data.step.selector : '',
+    });
   }
 
   onClickSwitch(e) {
@@ -81,38 +90,47 @@ class App extends React.Component {
   }
 
   render() {
-    const state = this.state;
+    const {
+      isReady,
+      joyrideOverlay,
+      joyrideType,
+      selector,
+      steps,
+    } = this.state;
     let html;
 
-    if (state.ready) {
+    if (isReady) {
       html = (
         <div>
           <Joyride
-            ref={c => (this.joyride = c)}
+            callback={this.callback}
             debug={false}
-            run={!!state.steps.length}
-            steps={state.steps}
-            type={state.joyrideType}
+            disableOverlay={selector === '.card-tickets'}
             locale={{
               back: (<span>Back</span>),
               close: (<span>Close</span>),
               last: (<span>Last</span>),
               next: (<span>Next</span>),
-              skip: (<span>Skip</span>)
+              skip: (<span>Skip</span>),
             }}
+            ref={c => (this.joyride = c)}
+            run={isReady}
+            showOverlay={joyrideOverlay}
             showSkipButton={true}
             showStepsProgress={true}
-            showOverlay={state.joyrideOverlay}
-            callback={this.callback} />
+            steps={steps}
+            type={joyrideType}
+          />
           <Header
-            joyrideType={state.joyrideType}
-            joyrideOverlay={state.joyrideOverlay}
+            joyrideType={joyrideType}
+            joyrideOverlay={joyrideOverlay}
             onClickSwitch={this.onClickSwitch}
             addSteps={this.addSteps}
-            addTooltip={this.addTooltip} />
+            addTooltip={this.addTooltip}
+          />
           <div id="page-wrapper">
             <div className="container-fluid">
-              <Panels addSteps={this.addSteps} />
+              <Panels addSteps={this.addSteps} selector={selector} next={this.next} />
               <Charts addSteps={this.addSteps} />
               <Tables addSteps={this.addSteps} />
             </div>
@@ -120,13 +138,12 @@ class App extends React.Component {
           <Footer />
         </div>
       );
-    }
-    else {
-      html = <Loader />;
+    } else {
+      html = (<Loader />);
     }
 
     return (
-      <div className="app">{html}</div>
+      <div key="App" className="app">{html}</div>
     );
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "react-joyride-demo",
-  "version": "1.9.2",
+  "version": "1.10.0",
   "description": "Create walkthoughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -21,8 +21,8 @@
     "modernizr": "^3.3",
     "react": "^15.4",
     "react-dom": "^15.4",
-    "react-joyride": "^1.9"
     "react-inlinesvg": "^0.5",
+    "react-joyride": "^1.10",
     "sass-mediaqueries": "^1.6"
   },
   "devDependencies": {

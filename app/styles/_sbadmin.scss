@@ -17,14 +17,14 @@
 }
 
 .huge {
-  font-size: 50px;
+  font-size: 5rem;
   line-height: normal;
 }
 
 /* Top Navigation */
 
 .top-nav {
-  padding: 0 15px;
+  padding: 0 1.5rem;
 
   > li {
     display: inline-block;
@@ -32,9 +32,9 @@
 
     > a {
       color: #999;
-      line-height: 20px;
-      padding-bottom: 15px;
-      padding-top: 15px;
+      line-height: 2rem;
+      padding-bottom: 1.5rem;
+      padding-top: 1.5rem;
     }
   }
 
@@ -49,11 +49,10 @@
 
   > .open > .dropdown-menu {
     background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, .15);
+    border: 0.1rem solid rgba(0, 0, 0, 0.15);
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+    box-shadow: 0 0.6rem 1.2rem rgba(0, 0, 0, 0.175);
     float: left;
     margin-top: 0;
     position: absolute;
@@ -65,79 +64,35 @@
 }
 
 ul.message-dropdown {
-  max-height: 250px;
+  max-height: 25rem;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 0;
 }
 
 li.message-preview {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  width: 275px;
+  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.15);
+  width: 27.5rem;
 }
 
 li.message-preview > a {
-  padding-bottom: 15px;
-  padding-top: 15px;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
 }
 
 li.message-footer {
-  margin: 5px 0;
+  margin: 0.5rem 0;
 }
 
 ul.alert-dropdown {
-  width: 200px;
-}
-
-/* Side Navigation */
-
-@media(min-width: 768px) {
-  .side-nav {
-    background-color: #222;
-    border-radius: 0;
-    border: 0;
-    bottom: 0;
-    left: 225px;
-    margin-left: -225px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    padding-bottom: 40px;
-    position: fixed;
-    top: 51px;
-    width: 225px;
-  }
-
-  .side-nav > li > a {
-    width: 225px;
-  }
-
-  .side-nav li a:hover,
-  .side-nav li a:focus {
-    outline: none;
-    background-color: #000 !important;
-  }
-}
-
-.side-nav > li > ul {
-  padding: 0;
-}
-
-.side-nav > li > ul > li > a {
-  color: #999;
-  display: block;
-  padding: 10px 15px 10px 38px;
-  text-decoration: none;
-}
-
-.side-nav > li > ul > li > a:hover {
-  color: #fff;
+  width: 20rem;
 }
 
 /* Flot Chart Containers */
 
 .flot-chart {
   display: block;
-  height: 400px;
+  height: 40rem;
 }
 
 .flot-chart-content {
@@ -163,11 +118,10 @@ ul.alert-dropdown {
   }
 
   &-block {
-    border: 1px solid #dcdcdc;
+    border: 0.1rem solid #dcdcdc;
     padding: $grid-gutter-width / 2;
 
     svg {
-      height: auto;
       max-height: 100%;
       width: 100%;
     }
