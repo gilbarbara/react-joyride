@@ -357,7 +357,7 @@ class Joyride extends React.Component {
     }
 
     // Joyride was changed to a step index which doesn't exist (hit the end)
-    if (nextProps.run && nextSteps.length && index !== nextState.index && !nextStep) {
+    if (!nextState.isRunning && nextSteps.length && index !== nextState.index && !nextStep) {
       this.triggerCallback({
         action: nextState.action,
         type: callbackTypes.FINISHED,
