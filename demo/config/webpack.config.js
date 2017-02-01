@@ -69,7 +69,17 @@ var config = {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,
         use: [
           'file?hash=sha512&digest=hex' + (isProd ? '&name=media/[name].[ext]' : ''),
-          'image-webpack?bypassOnDebug=false&optimizationLevel=7&interlaced=false',
+          {
+            loader: 'image-webpack-loader',
+            query: {
+              optipng: {
+                optimizationLevel: 5,
+              },
+              pngquant: {
+                quality: '75-90',
+              },
+            },
+          },
         ],
         include: /media/,
       },

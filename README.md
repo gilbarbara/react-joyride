@@ -54,7 +54,6 @@ export class App extends React.Component {
         callback={this.callback}
         ...
         />
-        <Joyride ref={c => (this.joyride = c)} run={true} steps={this.state.steps} debug={true} ... />
         <YourComponents .../>
       </div>
     );
