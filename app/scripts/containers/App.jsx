@@ -18,6 +18,8 @@ class App extends React.Component {
       joyrideOverlay: true,
       joyrideType: 'continuous',
       isReady: false,
+      isRunning: false,
+      stepIndex: 0,
       steps: [],
       selector: '',
     };
@@ -27,12 +29,12 @@ class App extends React.Component {
     setTimeout(() => {
       this.setState({
         isReady: true,
+        isRunning: true,
       });
     }, 1000);
   }
 
   addSteps(steps) {
-    const joyride = this.joyride;
     let newSteps = steps;
 
     if (!Array.isArray(newSteps)) {
@@ -45,7 +47,7 @@ class App extends React.Component {
 
     // Force setState to be synchronous to keep step order.
     this.setState(currentState => {
-      currentState.steps = currentState.steps.concat(joyride.parseSteps(newSteps));
+      currentState.steps = currentState.steps.concat(newSteps);
       return currentState;
     });
   }
@@ -76,7 +78,9 @@ class App extends React.Component {
       this.joyride.reset();
 
       setTimeout(() => {
-        this.joyride.start();
+        this.setState({
+          isRunning: true,
+        });
       }, 300);
 
       state.joyrideType = e.currentTarget.dataset.type;
@@ -92,9 +96,11 @@ class App extends React.Component {
   render() {
     const {
       isReady,
+      isRunning,
       joyrideOverlay,
       joyrideType,
       selector,
+      stepIndex,
       steps,
     } = this.state;
     let html;
@@ -103,6 +109,7 @@ class App extends React.Component {
       html = (
         <div>
           <Joyride
+            ref={c => (this.joyride = c)}
             callback={this.callback}
             debug={false}
             disableOverlay={selector === '.card-tickets'}
@@ -113,11 +120,11 @@ class App extends React.Component {
               next: (<span>Next</span>),
               skip: (<span>Skip</span>),
             }}
-            ref={c => (this.joyride = c)}
-            run={isReady}
+            run={isRunning}
             showOverlay={joyrideOverlay}
             showSkipButton={true}
             showStepsProgress={true}
+            stepIndex={stepIndex}
             steps={steps}
             type={joyrideType}
           />

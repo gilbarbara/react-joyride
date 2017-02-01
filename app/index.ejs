@@ -17,10 +17,11 @@
   <meta property="og:title" content="React Joyride" />
   <meta property="og:url" content="https://gilbarbara.github.io/react-joyride" />
   <meta property="og:description" content="Create walkthroughs and guided tours for your ReactJS apps." />
-  <meta property="og:image" content="https://amarofashion.github.io/react-joyride/media/og-image-v1.png" />
+  <meta property="og:image" content="https://gilbarbara.github.io/react-joyride/media/og-image-v1.png" />
   <meta property="og:type" content="website" />
   <% require('assets/media/og-image-v1.png') %>
-  <link rel="shortcut icon" href="https://amarofashion.github.io/react-joyride/media/favicon.ico">
+  <% require('assets/media/example.png') %>
+  <link rel="shortcut icon" href="https://gilbarbara.github.io/react-joyride/media/favicon.ico">
   <% require('assets/media/favicon.ico') %>
   <% if (htmlWebpackPlugin.options.baseHref) { %>
   <base href="<%= htmlWebpackPlugin.options.baseHref %>" />
@@ -49,118 +50,7 @@
 <% } %>
 <% } %>
 
-<div id="react" style="min-height: 100vh;">
-  <!-- preloader styles -->
-  <style type="text/css">
-    html {
-      -webkit-font-smoothing: antialiased;
-      font-size: 10px;
-      font-family: Roboto, sans-serif;
-      box-sizing: border-box
-    }
-    body {
-      font-size: 14px;
-      line-height: 1.428571429;
-      color: #595959
-    }
-    *, :after, :before {
-      box-sizing: inherit
-    }
-    .loader {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      -ms-transform: translate(-50%, -50%);
-      -webkit-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-      width: 200px;
-    }
-    .loader > svg {
-      height: 100%;
-      width: 100%;
-    }
-    .icon {
-      -webkit-animation: dash 2s ease-in-out infinite;
-      animation: dash 2s ease-in-out infinite;
-      fill: transparent;
-      stroke: #000;
-      stroke-width: 1px;
-      stroke-dasharray: 1, 200;
-      stroke-dashoffset: 0;
-      stroke-linecap: round;
-    }
-    .unsupported-browser {
-      background-color: #2b9591;
-      color: #fff;
-      padding: 1.5rem 3rem;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      max-width: 90%;
-      -ms-transform: translateX(-50%);
-      -webkit-transform: translateX(-50%);
-      transform: translateX(-50%);
-    }
-    .unsupported-browser a {
-      color: #5fd9b4;
-    }
-    #message {
-      bottom: 5%;
-      padding: 0 5rem;
-      position: absolute;
-      text-align: center;
-      width: 100%;
-    }
-    @-ms-keyframes dash {
-      0% {
-        stroke-dasharray: 1, 500;
-        stroke-dashoffset: 0;
-      }
-      40% {
-        stroke-dasharray: 250, 500;
-        stroke-dashoffset: 0px;
-      }
-      100% {
-        stroke-dasharray: 400, 500;
-        stroke-dashoffset: -250px;
-      }
-    }
-    @-webkit-keyframes dash {
-      0% {
-        stroke-dasharray: 1, 500;
-        stroke-dashoffset: 0;
-      }
-      40% {
-        stroke-dasharray: 250, 500;
-        stroke-dashoffset: 0px;
-      }
-      100% {
-        stroke-dasharray: 400, 500;
-        stroke-dashoffset: -250px;
-      }
-    }
-    @keyframes dash {
-      0% {
-        stroke-dasharray: 1, 500;
-        stroke-dashoffset: 0;
-      }
-      40% {
-        stroke-dasharray: 250, 500;
-        stroke-dashoffset: 0px;
-      }
-      100% {
-        stroke-dasharray: 400, 500;
-        stroke-dashoffset: -250px;
-      }
-    }
-  </style>
-  <div class="loader">
-    <svg width="86px" height="86px" viewBox="0 0 86 86" version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <path d="M41.0490478,20.6768643 L17.8547908,65.2286127 L25.5897656,65.2286127 L32.3491405,52.3062782 L53.1781012,52.3062782 L60.0257263,65.2286127 L68.1699485,65.2286127 L44.6401475,20.6768643 L41.0490478,20.6768643 L41.0490478,20.6768643 L41.0490478,20.6768643 Z M49.6810702,45.3830102 L35.9780619,45.3830102 L42.8460523,32.2579914 L49.6810702,45.3830102 L49.6810702,45.3830102 L49.6810702,45.3830102 Z" class="icon"></path>
-    </svg>
-  </div>
-  <div id="message"></div>
-</div>
+<div id="react" style="min-height: 100vh;"></div>
 
 <script>
   var cb = function() {

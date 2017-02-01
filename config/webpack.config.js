@@ -70,23 +70,29 @@ var config = {
       },
       {
         test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: ['url?limit=10000&minetype=application/font-woff&name=fonts/[name].[ext]'],
+        use: [
+          'url?limit=10000&minetype=application/font-woff' + (isProd ? '&name=/fonts/[name].[ext]' : ''),
+        ],
         include: /fonts/,
       },
       {
         test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: ['file?name=fonts/[name].[ext]'],
+        use: ['file' + (isProd ? '?name=/fonts/[name].[ext]' : '')],
         include: /fonts/,
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,
         use: [
-          'file?hash=sha512&digest=hex' + (isProd ? '&name=media/[name].[ext]' : ''),
+          'file?hash=sha512&digest=hex' + (isProd ? '&name=/media/[name].[ext]' : ''),
           {
             loader: 'image-webpack',
             query: {
-              optimizationLevel: 7,
-              interlaced: false,
+              optipng: {
+                optimizationLevel: 5,
+              },
+              pngquant: {
+                quality: '75-90',
+              },
             },
           },
         ],
