@@ -53,7 +53,7 @@ var config = merge.smart(webpackConfig, {
     new webpack.optimize.UglifyJsPlugin({
       mangle: {
         screw_ie8: true,
-        keep_fnames: false,
+        keep_fnames: true,
       },
       compress: {
         booleans: true,
