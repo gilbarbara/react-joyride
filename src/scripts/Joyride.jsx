@@ -84,6 +84,7 @@ class Joyride extends React.Component {
     allowClicksThruHole: false,
     autoStart: false,
     debug: false,
+    disableOverlay: false,
     holePadding: 5,
     keyboardNavigation: true,
     locale: {
@@ -96,13 +97,14 @@ class Joyride extends React.Component {
     resizeDebounce: false,
     resizeDebounceDelay: 200,
     run: false,
-    scrollToSteps: true,
     scrollOffset: 20,
     scrollToFirstStep: false,
+    scrollToSteps: true,
     showBackButton: true,
     showOverlay: true,
     showSkipButton: false,
     showStepsProgress: false,
+    stepIndex: 0,
     steps: [],
     tooltipOffset: 15,
     type: 'single'
@@ -168,6 +170,7 @@ class Joyride extends React.Component {
       msg: [nextProps],
       debug: nextProps.debug,
     });
+
     const { isRunning, shouldRun, standaloneData } = this.state;
     const { keyboardNavigation, run, steps, stepIndex } = this.props;
     const stepsChanged = (nextProps.steps !== steps);
@@ -190,7 +193,7 @@ class Joyride extends React.Component {
     /* istanbul ignore else */
     if (runChanged) {
       // run prop was changed to off, so stop the joyride
-      if (run && nextProps.run === false) {
+      if (run && !nextProps.run) {
         this.stop();
         didStop = true;
       }
@@ -417,6 +420,8 @@ class Joyride extends React.Component {
   /**
    * Starts the tour
    *
+   * @private
+   *
    * @param {boolean} [autorun] - Starts with the first tooltip opened
    * @param {Array} [steps] - Array of steps, defaults to this.props.steps
    * @param {number} [startIndex] - Optional step index to start joyride at
@@ -442,6 +447,8 @@ class Joyride extends React.Component {
 
   /**
    * Stop the tour
+   *
+   * @private
    */
   stop() {
     logger({
@@ -565,9 +572,11 @@ class Joyride extends React.Component {
 
     const key = data.trigger || sanitizeSelector(data.selector);
     const el = document.querySelector(key);
+
     if (!el) {
       return;
     }
+
     el.setAttribute('data-tooltip', JSON.stringify(data));
     const eventType = data.event || 'click';
 
@@ -593,12 +602,8 @@ class Joyride extends React.Component {
    * @returns {Array}
    */
   parseSteps(steps) {
-    logger({
-      type: 'joyride:parseSteps',
-      msg: 'joyride.parseSteps() is deprecated.  It is no longer necessary to parse steps before providing them to Joyride.',
-      warn: true,
-      debug: this.props.debug,
-    });
+    console.warn('joyride.parseSteps() is deprecated.  It is no longer necessary to parse steps before providing them to Joyride'); //eslint-disable-line no-console
+
     return steps;
   }
 
@@ -617,6 +622,7 @@ class Joyride extends React.Component {
         warn: true,
         debug: this.props.debug,
       });
+
       return false;
     }
 
@@ -624,6 +630,7 @@ class Joyride extends React.Component {
     const requiredFields = ['selector'];
     const hasRequiredField = (requiredField) => {
       const hasField = Boolean(step[requiredField]);
+
       if (!hasField) {
         logger({
           type: 'joyride:checkStepValidity',
@@ -632,8 +639,10 @@ class Joyride extends React.Component {
           debug: this.props.debug,
         });
       }
+
       return hasField;
     };
+
     return requiredFields.every(hasRequiredField);
   }
 
@@ -669,6 +678,7 @@ class Joyride extends React.Component {
     }
 
     const el = document.querySelector(sanitizeSelector(step.selector));
+
     if (!el) {
       logger({
         type: 'joyride:getStepTargetElement',
@@ -676,8 +686,10 @@ class Joyride extends React.Component {
         warn: true,
         debug: this.props.debug,
       });
+
       return null;
     }
+
     return el;
   }
 
@@ -1017,7 +1029,7 @@ class Joyride extends React.Component {
   }
 
   /**
-   * Update position for small screens.
+   * Update position for overflowing elements.
    *
    * @private
    * @param {Object} step
@@ -1163,9 +1175,11 @@ class Joyride extends React.Component {
           if (steps[index + 1]) {
             if (showStepsProgress) {
               let next = locale.next;
+
               if (typeof locale.next === 'string') {
                 next = (<span>{locale.next}</span>);
               }
+
               buttons.primary = (<span>{next} <span>{`${(index + 1)}/${steps.length}`}</span></span>);
             }
             else {

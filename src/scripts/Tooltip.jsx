@@ -4,6 +4,7 @@ import { browser } from './utils';
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {};
   }
 
@@ -55,12 +56,12 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   componentDidMount() {
-    const { onRender } = this.props;
+    const { onRender, showOverlay, allowClicksThruHole } = this.props;
 
     this.forceUpdate();
     onRender();
 
-    if (this.props.showOverlay && this.props.allowClicksThruHole) {
+    if (showOverlay && allowClicksThruHole) {
       document.addEventListener('mousemove', this.handleMouseMove, false);
     }
   }
@@ -409,16 +410,28 @@ export default class JoyrideTooltip extends React.Component {
     const inHoleHeight = (offsetY >= hole.top && offsetY <= hole.top + hole.height);
     const inHoleWidth = (offsetX >= hole.left && offsetX <= hole.left + hole.width);
     const inHole = inHoleWidth && inHoleHeight;
+
     if (inHole && !this.state.mouseOverHole) {
       this.setState({ mouseOverHole: true });
     }
+
     if (!inHole && this.state.mouseOverHole) {
       this.setState({ mouseOverHole: false });
     }
   };
 
   render() {
-    const { buttons, disableOverlay, onClick, selector, showOverlay, step, target, type } = this.props;
+    const {
+      allowClicksThruHole,
+      buttons,
+      disableOverlay,
+      onClick,
+      selector,
+      showOverlay,
+      step,
+      target,
+      type
+    } = this.props;
 
     if (!target) {
       return undefined;
