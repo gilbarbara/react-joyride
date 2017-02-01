@@ -18,27 +18,6 @@ View the demo [here](http://gilbarbara.github.io/react-joyride/) [[source](https
 npm install --save react-joyride
 ```
 
-Include `Joyride` in the parent component.
-
-
-```javascript
-var react = require('react');
-var Joyride = require('react-joyride');
-
-var App = React.createClass({
-  render: function () {
-    return (
-      <div className="app">
-        <Joyride ref={c => (this.joyride = c)} steps={this.state.steps} debug={true} ... />
-        <YourComponents .../>
-      </div>
-    );
-  }
- ...
-});
-```
-Don't forget to pass a `ref` to the component.
-
 ### Styles
 
 If you are using **SCSS** (and you should):
@@ -57,62 +36,47 @@ Or include this directly in your html:
 
 ## Getting Started
 
-Add a custom method to include steps to your component state (or store).
+Include `Joyride` in the parent component.
+
 
 ```javascript
-addSteps: function (steps) {
-  if (!steps || typeof steps !== 'object') return false;
+import Joyride from 'react-joyride';
 
-  this.setState(function(currentState) {
-    currentState.steps = currentState.steps.concat(steps);
-    return currentState;
-  });
-}
-
-// Render a standalone tooltip
-addTooltip: function(data) {
-  this.joyride.addTooltip(data);
-}
-```
-
-When your component is mounted or his child components, just add steps.
-
-```javascript
-componentDidMount: function () {
-  this.addSteps({...}); // or this.props.addSteps({...}); in your child components
-}
-...  
-render: function () {
-  return (
-   <div>
-     <Joyride
-       ref="joyride"
-       steps={this.state.steps}
-       run={this.state.steps.length} //or some other trigger to start the Joyride
-       ...
-     />
-     <ChildComponent
-       addSteps={this.addSteps}
-       addTooltip={this.addTooltip}
-     />
-    </div>
-  );
+export class App extends React.Component {
+  render: function () {
+    return (
+      <div className="app">
+      <Joyride
+        ref="joyride"
+        steps={[arrayOfSteps]}
+        run={true} // or some other boolean for when you want to start it
+        debug={true}
+        callback={this.callback}
+        ...
+        />
+        <Joyride ref={c => (this.joyride = c)} run={true} steps={this.state.steps} debug={true} ... />
+        <YourComponents .../>
+      </div>
+    );
+  }
 }
 ```
+Don't forget to pass a `ref` to the component.
 
-Please refer to the source code of the demo if you need a practical [example](https://github.com/gilbarbara/react-joyride/tree/demo/app/scripts).
 
-## Options
+**Please refer to the source code of the demo if you need a practical [example](https://github.com/gilbarbara/react-joyride/blob/demo/app/scripts/containers/App.jsx).**
+
+## Props
 
 You can change the initial options passing props to the component.
 
 **steps** {array}: The tour's steps. Defaults to `[]`
 
-**stepIndex** {number}: Jump to a specific step index.
+**stepIndex** {number}: The initial step index. Defaults to `0`
 
-**run** {bool}: Run/stop the tour.
+**run** {bool}: Run/stop the tour. Defaults to `false`
 
-**autoStart** {bool}: Open the tooltip automatically when started, without showing a beacon.
+**autoStart** {bool}: Open the tooltip automatically for the first step, without showing a beacon. Defaults to `false`
 
 **keyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
@@ -142,7 +106,7 @@ You can change the initial options passing props to the component.
 
 **tooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
-**type** {string}: The type of your presentation. It can be `continuous` (played sequencially with the Next button) or `single`. Defaults to `single`
+**type** {string}: The type of your presentation. It can be `continuous` (played sequentially with the Next button) or `single`. Defaults to `single`
 
 **disableOverlay** {bool}: Don't close the tooltip on clicking the overlay. Defaults to `false`
 
@@ -164,33 +128,13 @@ The callback object also receives an `action` string ('start'|'next'|'back') and
 
 Defaults to `undefined`
 
-Example:
-
-```javascript
-<Joyride
-  ref="joyride"
-  steps={this.state.steps}
-  run={this.state.steps.length}
-  debug={true}
-  type="single"
-  callback={this.callback}
-  ...
-/>
-```
-
 ## API
 
-### this.joyride.addTooltip(data)
+### this.joyride.reset(restart)
 
-Add tooltips in your elements.
+Call this method to reset the tour iteration back to 0
 
-- `data` {object} - A step object (check the syntax below)
-
-### this.joyride.start(autorun)
-
-Call this method to start the tour.
-
-- `autorun` {boolean} - Starts the tour with the first tooltip opened.
+- `restart` {boolean} - Starts the tour again
 
 ### this.joyride.next()
 
@@ -200,15 +144,11 @@ Call this method to programmatically advance to the next step.
 
 Call this method to programmatically return to the previous step.
 
-### this.joyride.stop()
+### this.joyride.addTooltip(data)
 
-Call this method to stop/pause the tour.
+Add tooltips in your elements.
 
-### this.joyride.reset(restart)
-
-Call this method to reset the tour iteration back to 0
-
-- `restart` {boolean} - Starts the tour again
+- `data` {object} - A step object (check the syntax below)
 
 ### this.joyride.getProgress()
 Retrieve the current progress of your tour. The object returned looks like this:
@@ -227,31 +167,7 @@ Retrieve the current progress of your tour. The object returned looks like this:
 }}
 ```
 
-### ~~this.joyride.parseSteps(steps)~~ Deprecated
-
-Parse the incoming steps, check if it's already rendered and returns an array with valid items
-
-- `steps ` {array|object}
-
-```javascript
-var steps = this.joyride.parseSteps({
-  title: 'Title',
-  text: 'description',
-  selector: 'my-super-class',
-  position: 'top'
-});
-
-// steps
-[{
-  title: 'Title',
-  text: 'description',
-  selector: '#super-panel',
-  position: 'top'
-}]
-```
-
-### Only start the tour after all target elements (or at least the first step) are rendered in the page.
-
+### Please don't use the `start` and `stop` methods anymore. Instead use a combination of the props `run` and `autoStart`.
 
 ## Step Syntax
 There are some usable options but you can pass custom parameters.
@@ -360,9 +276,6 @@ Example:
 - `$joyride-close`: Sass list for the close button: Defaults to `(color: rgba($joyride-tooltip-color, 0.5), size: 12px, top: 10px, right: 10px)`
 - `$joyride-close-visible`: Default to `true`;
 
-## License
-
-Copyright © 2016 Gil Barbara - [MIT License](LICENSE)
 
 ---
 
