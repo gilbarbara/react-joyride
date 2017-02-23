@@ -16,6 +16,8 @@ engines:
         enabled: false
       import/no-extraneous-dependencies:
         enabled: false
+      import/no-named-as-default-member:
+        enabled: false
   stylelint:
     enabled: true
 ratings:

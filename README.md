@@ -20,7 +20,7 @@ npm install --save react-joyride
 
 ### Styles
 
-If you are using **SCSS** (and you should):
+If you are using **SCSS**:
 
 ```scss
 @import '~react-joyride/lib/react-joyride'
@@ -171,8 +171,8 @@ Retrieve the current progress of your tour. The object returned looks like this:
 ## Step Syntax
 There are some usable options but you can pass custom parameters.
 
-- `title`: The title of the tooltip
-- `text`: The tooltip's body text
+- `title`: The tooltip's title.
+- `text`: The tooltip's content. It can be plain text, html or a React component.
 - `selector`: The target DOM selector of your feature **(required)**
 - `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
@@ -195,7 +195,7 @@ Example:
 ```javascript
 {
   title: 'First Step',
-  text: 'Start using the <strong>joyride</strong>', // supports html tags
+  text: 'Start using the <strong>joyride</strong>',
   selector: '.first-step',
   position: 'bottom-left',
   type: 'hover',
