@@ -13,7 +13,10 @@ const props = {
 };
 
 function setup(ownProps = props) {
-  return mount(<Demo joyride={ownProps} />, { attachTo: document.getElementById('react') });
+  return mount(
+    <Demo joyride={ownProps} />,
+    { attachTo: document.getElementById('react') }
+  );
 }
 
 describe('Joyride', () => {

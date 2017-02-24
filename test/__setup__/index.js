@@ -20,6 +20,16 @@ Object.defineProperty(window, 'open', {
   value: '',
 });
 
+Object.defineProperty(Element.prototype, 'clientHeight', {
+  writable: true,
+  value: '',
+});
+
+Object.defineProperty(Element.prototype, 'clientWidth', {
+  writable: true,
+  value: '',
+});
+
 const react = document.createElement('div');
 react.id = 'react';
 react.style.height = '100vh';

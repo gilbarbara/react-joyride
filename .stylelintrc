@@ -8,7 +8,7 @@
   "rules": {
     "at-rule-empty-line-before": [
       "always",
-      { "except": ["blockless-group", "first-nested"], "ignore": ["after-comment"], "ignoreAtRules": ["else"] }
+      { "except": ["blockless-after-blockless", "first-nested"], "ignore": ["after-comment"], "ignoreAtRules": ["else"] }
     ],
     "block-closing-brace-newline-after": [
       "always",
