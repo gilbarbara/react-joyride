@@ -103,7 +103,6 @@ ul.alert-dropdown {
 .card {
   border: 0;
   border-radius: 0;
-  margin-bottom: $grid-gutter-width;
 
   &-header {
     background-color: #dcdcdc;
@@ -149,13 +148,16 @@ ul.alert-dropdown {
 }
 
 #donut-chart .card-block {
-  text-align: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 
   svg {
+    height: auto;
     width: 50%;
 
     @include md {
-      width: 90%;
+      width: 80%;
     }
   }
 }

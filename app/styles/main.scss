@@ -162,6 +162,7 @@ a {
   }
 }
 
+.card.transactions,
 .card.tasks {
   .card-block {
     height: 29.6rem;
@@ -257,4 +258,8 @@ svg {
 
 #page-wrapper {
   margin-top: 3rem;
+
+  .row {
+    padding-bottom: $grid-gutter-width;
+  }
 }
