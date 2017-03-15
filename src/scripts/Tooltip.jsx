@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser } from './utils';
+import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
@@ -14,6 +14,7 @@ export default class JoyrideTooltip extends React.Component {
     buttons: React.PropTypes.object.isRequired,
     disableOverlay: React.PropTypes.bool,
     holePadding: React.PropTypes.number,
+    offsetParentSelector: React.PropTypes.string,
     onClick: React.PropTypes.func.isRequired,
     onRender: React.PropTypes.func.isRequired,
     // position of tooltip with respect to target
@@ -56,7 +57,7 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   componentDidMount() {
-    const { onRender, showOverlay, allowClicksThruHole } = this.props;
+    const { allowClicksThruHole, onRender, showOverlay } = this.props;
 
     this.forceUpdate();
     onRender();
@@ -360,13 +361,13 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   setOpts(props) {
-    const { animate, position, standalone, target, xPos } = props;
-
+    const { animate, offsetParentSelector, position, standalone, target, xPos } = props;
+    const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
     const tooltip = document.querySelector('.joyride-tooltip');
 
     const opts = {
       classes: ['joyride-tooltip'],
-      rect: target.getBoundingClientRect(),
+      rect: getOffsetBoundingClientRect(target, offsetParent),
       positionClass: position,
     };
 
@@ -377,7 +378,7 @@ export default class JoyrideTooltip extends React.Component {
 
       /* istanbul ignore else */
       if (tooltip) {
-        opts.tooltip = tooltip.getBoundingClientRect();
+        opts.tooltip = getOffsetBoundingClientRect(tooltip, offsetParent);
       }
 
       opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));

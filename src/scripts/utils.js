@@ -118,3 +118,35 @@ export function sanitizeSelector(selector) {
   }
   return selector;
 }
+
+/**
+ * Find the bounding client rect
+ *
+ * @private
+ * @param {Object} element - The target element
+ * @param {string} [offsetParent] - The parent element to calculate offsets from
+ * @returns {DOMRect}
+ */
+export function getOffsetBoundingClientRect(element, offsetParent) {
+  const elementRect = element.getBoundingClientRect();
+
+  if (!offsetParent) return elementRect;
+
+  const offsetParentRect = offsetParent.getBoundingClientRect();
+
+  const offsetTop = offsetParentRect.top > 0 ? elementRect.top - offsetParentRect.top : elementRect.top;
+  const offsetLeft = offsetParentRect.left > 0 ? elementRect.left - offsetParentRect.left : elementRect.left;
+  const offsetRight = offsetParentRect.right > 0 ? offsetParentRect.right - elementRect.right : elementRect.right;
+  const offsetBottom = offsetParentRect.bottom > 0 ? offsetParentRect.bottom - elementRect.bottom : elementRect.bottom;
+
+  return {
+    top: offsetTop,
+    left: offsetLeft,
+    right: offsetRight,
+    bottom: offsetBottom,
+    x: offsetLeft,
+    y: offsetTop,
+    width: elementRect.width,
+    height: elementRect.height
+  };
+}
