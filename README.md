@@ -121,7 +121,7 @@ You can change the initial options passing props to the component.
 * clicking on the overlay (if not disabled) `{ type: 'overlay:click', step: {...} }`
 * clicking on the hole `{ type: 'hole:click', step: {...} }`
 * the target could not be found `{ type: 'error:target_not_found', step: {...} }`
-* the tour ends. `{ type: 'finished', steps: [{...}], skipped: boolean }`
+* the tour ends. `{ type: 'finished', steps: [{...}], isTourSkipped: boolean }`
 
 The callback object also receives an `action` string ('start'|'next'|'back') and the step `index`.
 
