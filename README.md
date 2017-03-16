@@ -269,7 +269,7 @@ Example:
 - `$joyride-header-border-width`: Defaults to `1px`
 - `$joyride-button-bg-color`: Defaults to `$joyride-color`
 - `$joyride-button-color`: Defaults to `#fff`
-- `$joyride-button-border-radius`: Defaults to `4px`
+- `$joyride-button-radius`: Defaults to `4px`
 - `$joyride-back-button-color`: Defaults to `$joyride-color`
 - `$joyride-skip-button-color`: Defaults to `#ccc`
 - `$joyride-close`: Sass list for the close button: Defaults to `(color: rgba($joyride-tooltip-color, 0.5), size: 12px, top: 10px, right: 10px)`
