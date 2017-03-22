@@ -939,6 +939,9 @@ class Joyride extends React.Component {
   toggleTooltip({ show, index = this.state.index, action, steps = this.props.steps }) {
     const nextStep = steps[index];
     const hasMountedTarget = Boolean(this.getStepTargetElement(nextStep));
+    const targetIsUnchanged = Boolean(
+      hasMountedTarget && index !== this.state.index && steps[this.state.index].selector === nextStep.selector
+    );
 
     this.setState({
       action,
@@ -946,7 +949,7 @@ class Joyride extends React.Component {
       // Stop playing if there is no next step or can't find the target
       isRunning: (nextStep && hasMountedTarget) ? this.state.isRunning : false,
       // If we are not showing now, or there is no target, we'll need to redraw eventually
-      shouldRedraw: !show || !hasMountedTarget,
+      shouldRedraw: !show || !hasMountedTarget || targetIsUnchanged,
       shouldRenderTooltip: show && hasMountedTarget,
       xPos: -1000,
       yPos: -1000
