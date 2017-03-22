@@ -61,6 +61,15 @@ export default class Demo extends React.Component {
           style: {
             beacon: '#000'
           }
+        },
+        {
+          text: 'Followup to the previous, with same selector',
+          selector: '.demo__footer a',
+          position: 'top',
+          isFixed: true,
+          style: {
+            beacon: '#000'
+          }
         }
       ],
       step: 0,
