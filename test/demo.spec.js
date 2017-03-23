@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import $ from 'cheerio';
 import Demo from '../demo/src/App';
 
 const mockConsole = jest.fn();
@@ -161,9 +160,9 @@ describe('Joyride', () => {
       expect(wrapper.instance().joyride.props.stepIndex).toBe(4);
       wrapper.find('.joyride-tooltip__button--primary').simulate('click');
       expect(wrapper.instance().joyride.props.stepIndex).toBe(5);
-      const el = $(wrapper.find('.joyride-tooltip').html());
-      expect(el.css('top')).not.toEqual('-1000px');
-      expect(el.css('left')).not.toEqual('-1000px');
+      const el = wrapper.find('.joyride-tooltip').render().children();
+      expect(el.css('top')).toEqual('-15px');
+      expect(el.css('left')).toEqual('287px');
     });
 
     it('should be able to close the 6th step tooltip', () => {
