@@ -101,6 +101,19 @@
     "prepublish": "npm run build",
     "postmerge": "node config/tools update && npm update"
   },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  },
+  "scripts": {
+    "start": "gulp serve",
+    "lint": "gulp lint",
+    "build": "gulp build",
+    "test": "gulp test",
+    "test-watch": "./node_modules/.bin/_mocha -R min --watch --compilers js:babel-register $(find app/scripts/__tests__ -name *.spec.js)"
+  },
   "engines": {
     "node": ">=6.0.0",
     "npm": ">=3.0.0"
