@@ -124,29 +124,22 @@ export function sanitizeSelector(selector) {
  *
  * @private
  * @param {Object} element - The target element
- * @param {string} [offsetParent] - The parent element to calculate offsets from
  * @returns {DOMRect}
  */
-export function getOffsetBoundingClientRect(element, offsetParent) {
-  const elementRect = element.getBoundingClientRect();
-
-  if (!offsetParent) return elementRect;
-
-  const offsetParentRect = offsetParent.getBoundingClientRect();
-
-  const offsetTop = offsetParentRect.top > 0 ? elementRect.top - offsetParentRect.top : elementRect.top;
-  const offsetLeft = offsetParentRect.left > 0 ? elementRect.left - offsetParentRect.left : elementRect.left;
-  const offsetRight = offsetParentRect.right > 0 ? offsetParentRect.right - elementRect.right : elementRect.right;
-  const offsetBottom = offsetParentRect.bottom > 0 ? offsetParentRect.bottom - elementRect.bottom : elementRect.bottom;
-
+export function getBoundingClientRectFromElement(element) {
+  let x = 0;
+  let y = 0;
+  let elem = element;
+  while (elem && !isNaN(elem.offsetLeft) && !isNaN(elem.offsetTop)) {
+    x += elem.offsetLeft - elem.scrollLeft;
+    y += elem.offsetTop - elem.scrollTop;
+    elem = elem.offsetParent;
+  }
+  elem = element;
   return {
-    top: offsetTop,
-    left: offsetLeft,
-    right: offsetRight,
-    bottom: offsetBottom,
-    x: offsetLeft,
-    y: offsetTop,
-    width: elementRect.width,
-    height: elementRect.height
+    top: y,
+    left: x,
+    width: typeof elem.width === 'function' ? elem.width() : elem.offsetWidth,
+    height: typeof elem.height === 'function' ? elem.height() : elem.offsetHeight,
   };
 }
