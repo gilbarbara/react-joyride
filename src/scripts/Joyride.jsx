@@ -2,7 +2,7 @@ import React from 'react';
 import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
-import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight } from 'scripts/utils';
+import { getRootEl, getBoundingClientRectFromElement, logger, sanitizeSelector, getDocHeight } from 'scripts/utils';
 
 import Beacon from 'scripts/Beacon';
 import Tooltip from 'scripts/Tooltip';
@@ -738,7 +738,7 @@ class Joyride extends React.Component {
       return 0;
     }
 
-    const rect = getOffsetBoundingClientRect(target, offsetParent);
+    const rect = getBoundingClientRectFromElement(target);
     const targetTop = rect.top + (window.pageYOffset || document.documentElement.scrollTop);
     const position = this.calcPosition(step);
     let scrollTo = 0;
@@ -987,10 +987,10 @@ class Joyride extends React.Component {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
-      const body = document.body.getBoundingClientRect();
+      const body = getBoundingClientRectFromElement(document.body);
       const scrollTop = step.isFixed === true ? 0 : body.top;
       const component = this.getElementDimensions();
-      const rect = getOffsetBoundingClientRect(target, offsetParent);
+      const rect = getBoundingClientRectFromElement(target);
 
       // Calculate x position
       if (/^left/.test(position)) {
@@ -1045,14 +1045,14 @@ class Joyride extends React.Component {
     const body = document.body;
     const target = this.getStepTargetElement(step);
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
-    const rect = getOffsetBoundingClientRect(target, offsetParent);
+    const rect = getBoundingClientRectFromElement(target);
     const { height, width = DEFAULTS.minWidth } = this.getElementDimensions();
     let position = step.position || DEFAULTS.position;
 
     if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > body.getBoundingClientRect().width) {
+    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > getBoundingClientRectFromElement(body).width) {
       position = 'bottom';
     }
 
@@ -1096,7 +1096,7 @@ class Joyride extends React.Component {
    * @returns {Number}
    */
   preventWindowOverflow(value, axis, elWidth, elHeight) {
-    const winWidth = window.innerWidth;
+    const winWidth = document.body.clientWidth;
     const docHeight = getDocHeight();
     let newValue = value;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
+import { browser, getWindowHeight, getBoundingClientRectFromElement, sanitizeSelector } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
@@ -236,7 +236,7 @@ export default class JoyrideTooltip extends React.Component {
     };
 
     styles.hole = {
-      top: Math.round((opts.rect.top - (isFixed ? 0 : document.body.getBoundingClientRect().top)) - holePadding),
+      top: Math.round((opts.rect.top - (isFixed ? 0 : getBoundingClientRectFromElement(document.body).top)) - holePadding),
       left: Math.round(opts.rect.left - holePadding),
       width: Math.round(opts.rect.width + (holePadding * 2)),
       height: Math.round(opts.rect.height + (holePadding * 2))
@@ -367,7 +367,7 @@ export default class JoyrideTooltip extends React.Component {
 
     const opts = {
       classes: ['joyride-tooltip'],
-      rect: getOffsetBoundingClientRect(target, offsetParent),
+      rect: getBoundingClientRectFromElement(target),
       positionClass: position,
     };
 
@@ -378,7 +378,7 @@ export default class JoyrideTooltip extends React.Component {
 
       /* istanbul ignore else */
       if (tooltip) {
-        opts.tooltip = getOffsetBoundingClientRect(tooltip, offsetParent);
+        opts.tooltip = getBoundingClientRectFromElement(tooltip);
       }
 
       opts.targetMiddle = (opts.rect.left + (opts.rect.width / 2));
@@ -524,7 +524,7 @@ export default class JoyrideTooltip extends React.Component {
 
     const overlayStyles = {
       cursor: disableOverlay ? 'default' : 'pointer',
-      height: document.body.clientHeight,
+      height: getWindowHeight(),
       pointerEvents: this.state.mouseOverHole ? 'none' : 'auto',
     };
 
