@@ -150,3 +150,22 @@ export function getOffsetBoundingClientRect(element, offsetParent) {
     height: elementRect.height
   };
 }
+
+/**
+ * Find the height of document
+ *
+ * This is code from SO and page linked in the answer:
+ * http://stackoverflow.com/a/11077758/2599892
+ *
+ * @private
+ * @returns {Number}
+ */
+export function getDocumentHeight() {
+  return Math.max(
+      document.documentElement.clientHeight,
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight
+  );
+}

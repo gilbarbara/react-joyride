@@ -112,7 +112,7 @@ module.exports = {
     browser
       .click('.joyride-beacon')
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '1795px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '1536px')
       .assert.cssProperty('.joyride-tooltip', 'left', '15px')
       .assert.cssProperty('.joyride-tooltip', 'width', '450px')
       .assert.cssProperty('.joyride-tooltip', 'height', '179px')

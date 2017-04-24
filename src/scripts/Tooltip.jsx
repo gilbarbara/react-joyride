@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
+import { browser, getDocumentHeight, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
@@ -524,7 +524,7 @@ export default class JoyrideTooltip extends React.Component {
 
     const overlayStyles = {
       cursor: disableOverlay ? 'default' : 'pointer',
-      height: document.body.clientHeight,
+      height: getDocumentHeight(),
       pointerEvents: this.state.mouseOverHole ? 'none' : 'auto',
     };
 
