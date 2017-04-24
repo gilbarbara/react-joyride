@@ -143,3 +143,30 @@ export function getBoundingClientRectFromElement(element) {
     height: typeof elem.height === 'function' ? elem.height() : elem.offsetHeight,
   };
 }
+
+/**
+ * Find the height of browser window
+ *
+ * This is code from SO and page linked in the answer:
+ * http://stackoverflow.com/questions/3333329/javascript-get-browser-height?noredirect=1&lq=1
+ * http://www.howtocreate.co.uk/tutorials/javascript/browserwindow
+ *
+ * @private
+ * @returns {Number}
+ */
+export function getWindowHeight() {
+  let height = 0;
+  if (typeof (window.innerWidth) === 'number') {
+    // Non-IE
+    height = window.innerHeight;
+  }
+  else if (document.documentElement && document.documentElement.clientHeight) {
+    // IE 6+ in 'standards compliant mode'
+    height = document.documentElement.clientHeight;
+  }
+  else if (document.body && document.body.clientHeight) {
+    // IE 4 compatible
+    height = document.body.clientHeight;
+  }
+  return height;
+}
