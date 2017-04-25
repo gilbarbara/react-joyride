@@ -34,7 +34,7 @@ module.exports = {
     browser
       .click('.hero__tooltip')
       .waitForElementVisible('.joyride-tooltip', wait)
-      .assert.cssProperty('.joyride-tooltip', 'top', '436px')
+      .assert.cssProperty('.joyride-tooltip', 'top', '509px')
       .assert.cssProperty('.joyride-tooltip', 'left', '339px')
       .assert.cssProperty('.joyride-tooltip', 'width', '290px')
       .assert.cssProperty('.joyride-tooltip', 'height', '137px')
