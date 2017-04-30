@@ -69,6 +69,8 @@ Don't forget to pass a `ref` to the component.
 
 You can change the initial options passing props to the component.
 
+**autoResizeHole** {bool}: Enable autoresizing holes when the content under the hole change its size. Defaults to `false`
+
 **steps** {array}: The tour's steps. Defaults to `[]`
 
 **stepIndex** {number}: The initial step index. Defaults to `0`
@@ -178,6 +180,7 @@ There are some usable options but you can pass custom parameters.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
 - `allowClicksThruHole`: Set to `true` to allow pointer-events (hover, clicks, etc) or touch events within overlay hole. If `true`, the `hole:click` callback will not be sent. Defaults to `false`. Takes precedence over a `allowClicksThruHole` prop provided to `<Joyride />`
+- `autoResizeHole`: Enable autoresizing step hole when the content under the hole change its size. Takes precedence over a `autoResizeHole` prop provided to `<Joyride />`
 - `style`: An object with stylesheet options.
 
 
