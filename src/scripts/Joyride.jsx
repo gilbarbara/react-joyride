@@ -538,6 +538,12 @@ class Joyride extends React.Component {
       msg: ['restart:', shouldRestart],
       debug: this.props.debug,
     });
+
+    if (resizeSensorTargetElem !== null) {
+      ResizeSensor.detach(resizeSensorTargetElem, this.targetResizeCallback);
+      resizeSensorTargetElem = null;
+    }
+
     // Force a re-render if necessary
     if (shouldRestart && isRunning === shouldRestart && index === 0) {
       this.forceUpdate();
