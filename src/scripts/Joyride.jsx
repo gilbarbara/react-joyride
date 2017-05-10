@@ -1136,16 +1136,18 @@ class Joyride extends React.Component {
     const currentStep = standaloneData || steps[index];
     const step = { ...currentStep };
     
-    const locale = {
-      {
+    const defaultLocale = {
         back: 'Back',
         close: 'Close',
         last: 'Last',
         next: 'Next',
-        skip: 'Skip',
-      },
-      ...this.props.locale 
-    }
+        skip: 'Skip'
+    };
+    
+    const locale = {
+        ...defaultLocale,
+        ...this.props.locale,
+    };
     
     const target = this.getStepTargetElement(step);
     let component;
