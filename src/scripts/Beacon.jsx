@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { hexToRGB } from './utils';
 
 let isTouch = false;
@@ -10,16 +11,16 @@ if (typeof window !== 'undefined') {
 
 export default class JoyrideBeacon extends React.Component {
   static propTypes = {
-    eventType: React.PropTypes.string.isRequired,
-    onTrigger: React.PropTypes.func.isRequired,
-    step: React.PropTypes.object.isRequired,
-    xPos: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string
+    eventType: PropTypes.string.isRequired,
+    onTrigger: PropTypes.func.isRequired,
+    step: PropTypes.object.isRequired,
+    xPos: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
     ]).isRequired,
-    yPos: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string
+    yPos: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
     ]).isRequired
   };
 
