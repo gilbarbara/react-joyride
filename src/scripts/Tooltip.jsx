@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
@@ -9,35 +10,35 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   static propTypes = {
-    allowClicksThruHole: React.PropTypes.bool.isRequired,
-    animate: React.PropTypes.bool.isRequired,
-    buttons: React.PropTypes.object.isRequired,
-    disableOverlay: React.PropTypes.bool,
-    holePadding: React.PropTypes.number,
-    offsetParentSelector: React.PropTypes.string,
-    onClick: React.PropTypes.func.isRequired,
-    onRender: React.PropTypes.func.isRequired,
+    allowClicksThruHole: PropTypes.bool.isRequired,
+    animate: PropTypes.bool.isRequired,
+    buttons: PropTypes.object.isRequired,
+    disableOverlay: PropTypes.bool,
+    holePadding: PropTypes.number,
+    offsetParentSelector: PropTypes.string,
+    onClick: PropTypes.func.isRequired,
+    onRender: PropTypes.func.isRequired,
     // position of tooltip with respect to target
-    position: React.PropTypes.oneOf([
+    position: PropTypes.oneOf([
       'top', 'top-left', 'top-right',
       'bottom', 'bottom-left', 'bottom-right',
       'right', 'left',
     ]).isRequired,
     // sanitized selector string
-    selector: React.PropTypes.string.isRequired,
-    showOverlay: React.PropTypes.bool.isRequired,
-    standalone: React.PropTypes.bool,
-    step: React.PropTypes.object.isRequired,
+    selector: PropTypes.string.isRequired,
+    showOverlay: PropTypes.bool.isRequired,
+    standalone: PropTypes.bool,
+    step: PropTypes.object.isRequired,
     // DOM element to target
-    target: React.PropTypes.object.isRequired,
-    type: React.PropTypes.string.isRequired,
-    xPos: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string
+    target: PropTypes.object.isRequired,
+    type: PropTypes.string.isRequired,
+    xPos: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
     ]).isRequired,
-    yPos: React.PropTypes.oneOfType([
-      React.PropTypes.number,
-      React.PropTypes.string
+    yPos: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string
     ]).isRequired
   };
 
