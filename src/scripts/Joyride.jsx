@@ -48,7 +48,10 @@ class Joyride extends React.Component {
     super(props);
     autobind(this);
 
-    this.state = { ...defaultState };
+    this.state = {
+      ...defaultState,
+      index: props.stepIndex || 0
+    };
 
     this.listeners = {
       tooltips: {}
@@ -511,6 +514,7 @@ class Joyride extends React.Component {
 
     const newState = {
       ...defaultState,
+      index: this.props.stepIndex || 0,
       isRunning: shouldRestart,
       shouldRenderTooltip: this.props.autoStart,
     };
