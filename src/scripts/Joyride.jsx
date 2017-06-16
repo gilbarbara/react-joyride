@@ -1186,7 +1186,7 @@ class Joyride extends React.Component {
                 next = (<span>{locale.next}</span>);
               }
 
-              buttons.primary = (<span>{next} <span>{`${(index + 1)}/${steps.length}`}</span></span>);
+              buttons.primary = (<span>{next} <span>{index + 1}/{steps.length}}</span></span>);
             }
             else {
               buttons.primary = locale.next;
