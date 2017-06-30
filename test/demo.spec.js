@@ -156,14 +156,6 @@ describe('Joyride', () => {
       Element.prototype.clientWidth = 450;
       expect(wrapper.find('.joyride-tooltip').html()).toMatchSnapshot();
     });
-
-    it('should be able to close the 5th step tooltip', () => {
-      wrapper.find('.joyride-tooltip__close').simulate('click');
-
-      expect(wrapper.instance().joyride.props.stepIndex).toBe(4);
-      expect(wrapper.find('.joyride-tooltip').length).toBe(0);
-      expect(wrapper.find('.joyride-beacon').length).toBe(0);
-    });
   });
 
   describe('tour with `run` set to true and `type` to "single"', () => {

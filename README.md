@@ -179,13 +179,14 @@ There are some usable options but you can pass custom parameters.
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
 - `allowClicksThruHole`: Set to `true` to allow pointer-events (hover, clicks, etc) or touch events within overlay hole. If `true`, the `hole:click` callback will not be sent. Defaults to `false`. Takes precedence over a `allowClicksThruHole` prop provided to `<Joyride />`
 - `style`: An object with stylesheet options.
+- `parentScrollSelector`: The selector of the scrollable parent container of this step
 
 
 **Extra option for standalone tooltips**
 
 - `trigger`: The DOM element that will trigger the tooltip
 
-You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`. 
+You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
 You can also style `header`, `main`, `footer`, `button`, `skip`, `back`, `close` and `hole` independently using standard style options. Plus `beacon` offset, inner and outer colors and `arrow` visibility.
 

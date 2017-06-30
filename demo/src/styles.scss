@@ -222,4 +222,14 @@ button {
   .about {
     background-color: #ff8145;
   }
+
+  .table {
+    background-color: #c54d4d;
+
+    .table-wrapper {
+      max-height: 300px;
+      max-width: 400px;
+      overflow: auto;
+    }
+  }
 }
