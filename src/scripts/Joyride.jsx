@@ -404,7 +404,10 @@ class Joyride extends React.Component {
     }
 
     if (!isScrolling && isRunning && scrollToSteps && shouldScroll && scrollTop >= 0) {
-      scroll.top(getRootEl(), this.getScrollTop());
+      clearTimeout(this.bodyScrollTimeout);
+      this.bodyScrollTimeout = setTimeout(() => {
+        scroll.top(getRootEl(), scrollTop);
+      }, 100);
     }
 
     if (steps.length && (!isRunning && shouldRun && !standaloneData)) {
@@ -798,7 +801,8 @@ class Joyride extends React.Component {
     const { index } = this.state;
     const { offsetParentSelector: parentSelector, scrollOffset, steps } = this.props;
     const step = steps[index];
-    const offsetParentSelector = scrollParent && step.parentScrollSelector ? step.parentScrollSelector : parentSelector;
+    const hasScrollableParent = scrollParent && step.parentScrollSelector;
+    const offsetParentSelector = hasScrollableParent ? step.parentScrollSelector : parentSelector;
     const target = this.getStepTargetElement(step);
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
     const yAxis = axis === 'y';
@@ -810,19 +814,20 @@ class Joyride extends React.Component {
     const rect = getOffsetBoundingClientRect(target, offsetParent);
     const rectField = yAxis ? 'top' : 'left';
     const otherAxisRectField = yAxis ? 'left' : 'top';
-    const pageOffset = yAxis ? 'pageYOffset' : 'pageXOffset';
-    const scrollField = yAxis ? 'scrollTop' : 'scrollLeft';
-    const targetStart = rect[rectField] + (scrollParent ? offsetParent[scrollField] : (window[pageOffset] || document.documentElement[scrollField]));
-    const position = this.calcPosition(step);
+    const position = this.calcPosition(step, !!scrollParent);
     const axisRegex = new RegExp(`^${rectField}`);
     const otherAxisRegex = new RegExp(`^bottom|^${otherAxisRectField}|^right`);
     let scrollTo = 0;
 
     /* istanbul ignore else */
-    if (axisRegex.test(position)) {
+    if (hasScrollableParent || axisRegex.test(position)) {
       scrollTo = Math.floor(pos - scrollOffset);
     }
     else if (otherAxisRegex.test(position)) {
+      const pageOffset = yAxis ? 'pageYOffset' : 'pageXOffset';
+      const scrollField = yAxis ? 'scrollTop' : 'scrollLeft';
+      const windowOffset = window[pageOffset] || document.documentElement[scrollField];
+      const targetStart = rect[rectField] + windowOffset + (hasScrollableParent ? offsetParent[scrollField] : 0);
       scrollTo = Math.floor(targetStart - scrollOffset);
     }
 
@@ -1092,7 +1097,7 @@ class Joyride extends React.Component {
     if (step && (standaloneData || (isRunning && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
-      const position = this.calcPosition(step);
+      const position = this.calcPosition(step, calculateChild);
       const body = document.body.getBoundingClientRect();
       const elementTop = calculateChild ? -offsetParent.scrollTop : body.top;
       const elementLeft = calculateChild ? -offsetParent.scrollLeft : 0;
@@ -1100,46 +1105,17 @@ class Joyride extends React.Component {
       const scrollLeft = step.isFixed === true ? 0 : elementLeft;
       const component = calculateChild ? { height: 0, width: 0 } : this.getElementDimensions();
       const rect = getOffsetBoundingClientRect(target, offsetParent);
+      const parentElement = calculateChild ? document.querySelector(sanitizeSelector(parentSelector)) : document.body;
+      const scrollParentRect = getOffsetBoundingClientRect(offsetParent, parentElement);
       const tooltipOffset = calculateChild ? 0 : tooltipOffsetAmount;
       const rectLeftMinusScroll = rect.left - scrollLeft;
       const rectTopMinusScroll = rect.top - scrollTop;
 
-      // Calculate x position
-      if (/^left/.test(position)) {
-        placement.x = rectLeftMinusScroll - (displayTooltip ? component.width + tooltipOffset : (component.width / 2) + offsetX);
-      }
-      else if (/^right/.test(position)) {
-        placement.x = rectLeftMinusScroll + (rect.width - (displayTooltip ? -tooltipOffset : (component.width / 2) - offsetX));
-      }
-      else {
-        placement.x = rectLeftMinusScroll + ((rect.width / 2) - (component.width / 2));
-      }
-
-      // Calculate y position
-      if (/^top/.test(position)) {
-        placement.y = rectTopMinusScroll - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
-      }
-      else if (/^bottom/.test(position)) {
-        placement.y = rectTopMinusScroll + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
-      }
-      else {
-        placement.y = rectTopMinusScroll;
-      }
-
-      /* istanbul ignore else */
-      if (/^bottom|^top/.test(position)) {
-        if (/left/.test(position)) {
-          placement.x = rectLeftMinusScroll - (displayTooltip ? tooltipOffset : component.width / 2);
-        }
-        else if (/right/.test(position)) {
-          placement.x = rectLeftMinusScroll + (rect.width - (displayTooltip ? component.width - tooltipOffset : component.width / 2));
-        }
-      }
-
-      const xPos = this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height);
-      const yPos = this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height);
-
+      // Add scroll bar size offset so target isn't cut off by parent scroll bars
       if (calculateChild) {
+        const xPos = rectLeftMinusScroll;
+        const yPos = rectTopMinusScroll - (scrollParentRect.top < 0 ? scrollParentRect.top : 0);
+
         if (isScrolling) {
           this.calcPlacement(true, xPos, yPos);
         }
@@ -1156,6 +1132,41 @@ class Joyride extends React.Component {
         }
       }
       else {
+        // Calculate x position
+        if (/^left/.test(position)) {
+          placement.x = rectLeftMinusScroll - (displayTooltip ? component.width + tooltipOffset : (component.width / 2) + offsetX);
+        }
+        else if (/^right/.test(position)) {
+          placement.x = rectLeftMinusScroll + (rect.width - (displayTooltip ? -tooltipOffset : (component.width / 2) - offsetX));
+        }
+        else {
+          placement.x = rectLeftMinusScroll + ((rect.width / 2) - (component.width / 2));
+        }
+
+        // Calculate y position
+        if (/^top/.test(position)) {
+          placement.y = rectTopMinusScroll - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
+        }
+        else if (/^bottom/.test(position)) {
+          placement.y = rectTopMinusScroll + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
+        }
+        else {
+          placement.y = rectTopMinusScroll;
+        }
+
+        /* istanbul ignore else */
+        if (/^bottom|^top/.test(position)) {
+          if (/left/.test(position)) {
+            placement.x = rectLeftMinusScroll - (displayTooltip ? tooltipOffset : component.width / 2);
+          }
+          else if (/right/.test(position)) {
+            placement.x = rectLeftMinusScroll + (rect.width - (displayTooltip ? component.width - tooltipOffset : component.width / 2));
+          }
+        }
+
+        const xPos = this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height);
+        const yPos = this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height);
+
         this.setState({
           shouldRedraw: false,
           xPos,
@@ -1186,17 +1197,12 @@ class Joyride extends React.Component {
     }
 
     const scrollElement = document.querySelector(sanitizeSelector(step.parentScrollSelector));
-    const bodyElement = document.querySelector(sanitizeSelector('body'));
-    const containerRect = getOffsetBoundingClientRect(scrollElement, bodyElement);
-    const offsetY = scrollElement.scrollTop;
-    const offsetX = scrollElement.scrollLeft;
-    const yOffsetDiff = yPos - offsetY;
-    const xOffsetDiff = xPos - offsetX;
     const target = this.getStepTargetElement(step);
     const stepRect = target.getBoundingClientRect();
+    const parentRect = scrollElement.getBoundingClientRect();
 
-    const outOfYView = yOffsetDiff < 0 || yOffsetDiff + (stepRect.height / 2) > containerRect.height;
-    const outOfXView = xOffsetDiff < 0 || xOffsetDiff + (stepRect.width / 2) > containerRect.width;
+    const outOfYView = stepRect.top < parentRect.top || stepRect.bottom > parentRect.bottom;
+    const outOfXView = stepRect.left < parentRect.left || stepRect.right > parentRect.right;
     return !outOfYView && !outOfXView;
   }
 
@@ -1205,10 +1211,11 @@ class Joyride extends React.Component {
    *
    * @private
    * @param {Object} step
+   * @param {Boolean} calculateChild - If we're calculating for target within scrollable parent
    *
    * @returns {string}
    */
-  calcPosition(step) {
+  calcPosition(step, calculateChild) {
     const { offsetParentSelector, tooltipOffset } = this.props;
     const body = document.body;
     const target = this.getStepTargetElement(step);
@@ -1216,18 +1223,26 @@ class Joyride extends React.Component {
     const rect = getOffsetBoundingClientRect(target, offsetParent);
     const { height, width = DEFAULTS.minWidth } = this.getElementDimensions();
     let position = step.position || DEFAULTS.position;
+    const scrollParent = step.parentScrollSelector;
+    const scrollParentElem = scrollParent && document.querySelector(sanitizeSelector(scrollParent));
+    const scrollParentTopOffset = scrollParentElem ? scrollParentElem.scrollTop : 0;
+    const scrollParentLeftOffset = scrollParentElem ? scrollParentElem.scrollLeft : 0;
+
+    if (calculateChild) {
+      return 'top';
+    }
 
     if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > body.getBoundingClientRect().width) {
+    else if (/^right/.test(position) && ((rect.left + rect.width + (width + tooltipOffset)) - scrollParentLeftOffset) > body.getBoundingClientRect().width) {
       position = 'bottom';
     }
 
     if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0) {
       position = 'bottom';
     }
-    else if (/^bottom/.test(position) && (rect.bottom + body.scrollTop) + (height + tooltipOffset) > getDocHeight()) {
+    else if (/^bottom/.test(position) && (((rect.bottom + body.scrollTop) + (height + tooltipOffset)) - scrollParentTopOffset) > getDocHeight()) {
       position = 'top';
     }
 
