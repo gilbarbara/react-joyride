@@ -1229,6 +1229,7 @@ class Joyride extends React.Component {
     const scrollParentElem = scrollParent && document.querySelector(sanitizeSelector(scrollParent));
     const scrollParentTopOffset = scrollParentElem ? scrollParentElem.scrollTop : 0;
     const scrollParentLeftOffset = scrollParentElem ? scrollParentElem.scrollLeft : 0;
+    const targetBottomIsInView = Math.max(rect.top, 0) + rect.height < window.innerHeight;
 
     if (calculateChild) {
       return 'top';
@@ -1241,7 +1242,7 @@ class Joyride extends React.Component {
       position = 'bottom';
     }
 
-    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0 && rect.height < window.innerHeight) {
+    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0 && targetBottomIsInView) {
       position = 'bottom';
     }
     else if (/^bottom/.test(position) && (((rect.bottom + body.scrollTop) + (height + tooltipOffset)) - scrollParentTopOffset) > getDocHeight()) {
