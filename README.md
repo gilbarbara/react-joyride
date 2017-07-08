@@ -85,6 +85,8 @@ You can change the initial options passing props to the component.
 
 **resizeDebounceDelay** {number}: The amount of delay for the `resizeDebounce` callback. Defaults to `200`
 
+**hideCloseButton** {bool}: If the tooltip close button should not be rendered. Defaults to `false`
+
 **holePadding** {number}: The gap around the target inside the hole. Defaults to `5`
 
 **scrollOffset** {number}: The scrollTop offset used in `scrollToSteps`. Defaults to `20`

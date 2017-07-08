@@ -61,6 +61,7 @@ class Joyride extends React.Component {
     callback: React.PropTypes.func,
     debug: React.PropTypes.bool,
     disableOverlay: React.PropTypes.bool,
+    hideCloseButton: React.PropTypes.bool,
     holePadding: React.PropTypes.number,
     keyboardNavigation: React.PropTypes.bool,
     locale: React.PropTypes.object,
@@ -86,6 +87,7 @@ class Joyride extends React.Component {
     autoStart: false,
     debug: false,
     disableOverlay: false,
+    hideCloseButton: false,
     holePadding: 5,
     keyboardNavigation: true,
     locale: {
@@ -831,7 +833,7 @@ class Joyride extends React.Component {
       scrollTo = Math.floor(targetStart - scrollOffset);
     }
 
-    return scrollTo;
+    return scrollTo > 0 ? scrollTo : 0;
   }
 
   /**
@@ -1239,7 +1241,7 @@ class Joyride extends React.Component {
       position = 'bottom';
     }
 
-    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0) {
+    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0 && rect.height < window.innerHeight) {
       position = 'bottom';
     }
     else if (/^bottom/.test(position) && (((rect.bottom + body.scrollTop) + (height + tooltipOffset)) - scrollParentTopOffset) > getDocHeight()) {
@@ -1314,6 +1316,7 @@ class Joyride extends React.Component {
     const { index, shouldRedraw, shouldRenderTooltip, standaloneData, xPos, yPos } = this.state;
     const {
       disableOverlay,
+      hideCloseButton,
       holePadding,
       locale,
       offsetParentSelector,
@@ -1391,6 +1394,7 @@ class Joyride extends React.Component {
         animate: xPos > -1 && !shouldRedraw,
         buttons,
         disableOverlay,
+        hideCloseButton,
         holePadding,
         offsetParentSelector,
         position,

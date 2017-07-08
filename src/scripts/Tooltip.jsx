@@ -13,6 +13,7 @@ export default class JoyrideTooltip extends React.Component {
     animate: React.PropTypes.bool.isRequired,
     buttons: React.PropTypes.object.isRequired,
     disableOverlay: React.PropTypes.bool,
+    hideCloseButton: React.PropTypes.bool,
     holePadding: React.PropTypes.number,
     offsetParentSelector: React.PropTypes.string,
     onClick: React.PropTypes.func.isRequired,
@@ -426,6 +427,7 @@ export default class JoyrideTooltip extends React.Component {
       allowClicksThruHole,
       buttons,
       disableOverlay,
+      hideCloseButton,
       onClick,
       selector,
       showOverlay,
@@ -490,11 +492,13 @@ export default class JoyrideTooltip extends React.Component {
         <div
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
           style={styles.arrow} />
-        <button
-          className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
-          style={styles.buttons.close}
-          data-type="close"
-          onClick={onClick} />
+        {!hideCloseButton &&
+          <button
+            className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
+            style={styles.buttons.close}
+            data-type="close"
+            onClick={onClick} />
+        }
         {output.header}
         {output.main}
         <div className="joyride-tooltip__footer" style={styles.footer}>
