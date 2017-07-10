@@ -379,16 +379,14 @@ class Joyride extends React.Component {
     const { scrollToFirstStep, scrollToSteps, steps } = this.props;
     const step = steps[index];
     const scrollTop = this.getScrollTop();
+    const scrollingToggled = isScrolling !== prevState.isScrolling;
     const shouldScroll = (
       scrollToFirstStep || (index > 0 || prevState.index > index))
+      && !scrollingToggled && !isScrolling // Don't scroll if already scrolling or if toggling isScrolling
       && (step && !step.isFixed); // fixed steps don't need to scroll
 
-    if (isScrolling !== prevState.isScrolling) {
-      return;
-    }
-
     if (step) {
-      if (shouldRedraw) {
+      if (shouldRedraw && !scrollingToggled) {
         this.calcPlacement();
       }
 
@@ -405,7 +403,7 @@ class Joyride extends React.Component {
       }
     }
 
-    if (!isScrolling && isRunning && scrollToSteps && shouldScroll && scrollTop >= 0) {
+    if (isRunning && scrollToSteps && shouldScroll && scrollTop >= 0) {
       clearTimeout(this.bodyScrollTimeout);
       this.bodyScrollTimeout = setTimeout(() => {
         scroll.top(getRootEl(), scrollTop);
@@ -1104,7 +1102,7 @@ class Joyride extends React.Component {
     if (step && (standaloneData || (isRunning && steps[index]))) {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
-      const position = this.calcPosition(step, calculateChild);
+      const position = this.calcPosition(step);
       const body = document.body.getBoundingClientRect();
       const scrollTop = step.isFixed === true ? 0 : body.top;
       const component = this.getElementDimensions();
