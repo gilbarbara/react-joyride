@@ -1070,13 +1070,12 @@ class Joyride extends React.Component {
    * @param {Number} scrollParentYPos - Reference to step.parentScrollSelector current Y position
    */
   calcPlacement(calculateBody, scrollParentXPos, scrollParentYPos) {
-    const { index, isRunning, standaloneData, shouldRenderTooltip, isScrolling } = this.state;
-    const { offsetParentSelector: parentSelector, steps, tooltipOffset: tooltipOffsetAmount, scrollToSteps } = this.props;
+    const { index, isRunning, standaloneData, shouldRenderTooltip } = this.state;
+    const { offsetParentSelector, steps, tooltipOffset, scrollToSteps } = this.props;
     const step = standaloneData || (steps[index] || {});
     const displayTooltip = standaloneData ? true : shouldRenderTooltip;
     const target = this.getStepTargetElement(step);
     const calculateChild = scrollToSteps && !calculateBody && step.parentScrollSelector;
-    const offsetParentSelector = calculateChild ? step.parentScrollSelector : parentSelector;
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
 
     logger({
@@ -1087,6 +1086,12 @@ class Joyride extends React.Component {
 
     /* istanbul ignore else */
     if (!target) {
+      return;
+    }
+
+    // Handle scrolling target parent element
+    if (calculateChild) {
+      this.calcChildPlacement();
       return;
     }
 
@@ -1101,82 +1106,93 @@ class Joyride extends React.Component {
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step, calculateChild);
       const body = document.body.getBoundingClientRect();
-      const elementTop = calculateChild ? -offsetParent.scrollTop : body.top;
-      const elementLeft = calculateChild ? -offsetParent.scrollLeft : 0;
-      const scrollTop = step.isFixed === true ? 0 : elementTop;
-      const scrollLeft = step.isFixed === true ? 0 : elementLeft;
-      const component = calculateChild ? { height: 0, width: 0 } : this.getElementDimensions();
+      const scrollTop = step.isFixed === true ? 0 : body.top;
+      const component = this.getElementDimensions();
       const rect = getOffsetBoundingClientRect(target, offsetParent);
-      const parentElement = calculateChild ? document.querySelector(sanitizeSelector(parentSelector)) : document.body;
-      const scrollParentRect = getOffsetBoundingClientRect(offsetParent, parentElement);
-      const tooltipOffset = calculateChild ? 0 : tooltipOffsetAmount;
-      const rectLeftMinusScroll = rect.left - scrollLeft;
       const rectTopMinusScroll = rect.top - scrollTop;
 
-      // Add scroll bar size offset so target isn't cut off by parent scroll bars
-      if (calculateChild) {
-        const xPos = rectLeftMinusScroll;
-        const yPos = rectTopMinusScroll - (scrollParentRect.top < 0 ? scrollParentRect.top : 0);
-
-        if (isScrolling) {
-          this.calcPlacement(true, xPos, yPos);
-        }
-        else {
-          this.removeParentScrollEvent(offsetParent);
-
-          // Scroll parent container
-          scroll.top(offsetParent, this.getScrollTop(yPos, true), { duration: 1 }, () => {
-            scroll.left(offsetParent, this.getScrollLeft(xPos, true), { duration: 1 }, () => {
-              this.addParentScrollEvent(offsetParent);
-              this.calcPlacement(true, xPos, yPos);
-            });
-          });
-        }
+      // Calculate x position
+      if (/^left/.test(position)) {
+        placement.x = rect.left - (displayTooltip ? component.width + tooltipOffset : (component.width / 2) + offsetX);
+      }
+      else if (/^right/.test(position)) {
+        placement.x = rect.left + (rect.width - (displayTooltip ? -tooltipOffset : (component.width / 2) - offsetX));
       }
       else {
-        // Calculate x position
-        if (/^left/.test(position)) {
-          placement.x = rectLeftMinusScroll - (displayTooltip ? component.width + tooltipOffset : (component.width / 2) + offsetX);
-        }
-        else if (/^right/.test(position)) {
-          placement.x = rectLeftMinusScroll + (rect.width - (displayTooltip ? -tooltipOffset : (component.width / 2) - offsetX));
-        }
-        else {
-          placement.x = rectLeftMinusScroll + ((rect.width / 2) - (component.width / 2));
-        }
-
-        // Calculate y position
-        if (/^top/.test(position)) {
-          placement.y = rectTopMinusScroll - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
-        }
-        else if (/^bottom/.test(position)) {
-          placement.y = rectTopMinusScroll + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
-        }
-        else {
-          placement.y = rectTopMinusScroll;
-        }
-
-        /* istanbul ignore else */
-        if (/^bottom|^top/.test(position)) {
-          if (/left/.test(position)) {
-            placement.x = rectLeftMinusScroll - (displayTooltip ? tooltipOffset : component.width / 2);
-          }
-          else if (/right/.test(position)) {
-            placement.x = rectLeftMinusScroll + (rect.width - (displayTooltip ? component.width - tooltipOffset : component.width / 2));
-          }
-        }
-
-        const xPos = this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height);
-        const yPos = this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height);
-
-        this.setState({
-          shouldRedraw: false,
-          xPos,
-          yPos,
-          scrollParentXPos: scrollParentXPos || this.state.scrollParentXPos,
-          scrollParentYPos: scrollParentYPos || this.state.scrollParentYPos,
-        });
+        placement.x = rect.left + ((rect.width / 2) - (component.width / 2));
       }
+
+      // Calculate y position
+      if (/^top/.test(position)) {
+        placement.y = rectTopMinusScroll - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
+      }
+      else if (/^bottom/.test(position)) {
+        placement.y = rectTopMinusScroll + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
+      }
+      else {
+        placement.y = rectTopMinusScroll;
+      }
+
+      /* istanbul ignore else */
+      if (/^bottom|^top/.test(position)) {
+        if (/left/.test(position)) {
+          placement.x = rect.left - (displayTooltip ? tooltipOffset : component.width / 2);
+        }
+        else if (/right/.test(position)) {
+          placement.x = rect.left + (rect.width - (displayTooltip ? component.width - tooltipOffset : component.width / 2));
+        }
+      }
+
+      const xPos = this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height);
+      const yPos = this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height);
+
+      this.setState({
+        shouldRedraw: false,
+        xPos,
+        yPos,
+        scrollParentXPos: scrollParentXPos || this.state.scrollParentXPos,
+        scrollParentYPos: scrollParentYPos || this.state.scrollParentYPos,
+      });
+    }
+  }
+
+  /**
+   * Calculate target position relative to the steps parent scroll element selector
+   *
+   * @private
+   */
+  calcChildPlacement() {
+    const { index, standaloneData, isScrolling } = this.state;
+    const { offsetParentSelector, steps } = this.props;
+    const step = standaloneData || (steps[index] || {});
+    const offsetParent = document.querySelector(sanitizeSelector(step.parentScrollSelector));
+    const scrollTop = step.isFixed === true ? 0 : -offsetParent.scrollTop;
+    const scrollLeft = step.isFixed === true ? 0 : -offsetParent.scrollLeft;
+    const parentElement = document.querySelector(sanitizeSelector(offsetParentSelector));
+    const scrollParentRect = getOffsetBoundingClientRect(offsetParent, parentElement);
+    const target = this.getStepTargetElement(step);
+    const rect = getOffsetBoundingClientRect(target, offsetParent);
+
+    const xPos = rect.left - scrollLeft;
+    const yPos = rect.top - scrollTop - (scrollParentRect.top < 0 ? scrollParentRect.top : 0);
+
+    if (isScrolling) {
+      this.calcPlacement(true, xPos, yPos);
+    }
+    else {
+      this.removeParentScrollEvent(offsetParent);
+
+      // Scroll parent container
+      scroll.top(offsetParent, this.getScrollTop(yPos, true), { duration: 1 }, () => {
+        scroll.left(offsetParent, this.getScrollLeft(xPos, true), { duration: 1 }, () => {
+          this.calcPlacement(true, xPos, yPos);
+
+          // Add scroll listener to parent scroll element when done scrolling
+          setTimeout(() => {
+            this.addParentScrollEvent(offsetParent);
+          }, 100);
+        });
+      });
     }
   }
 
