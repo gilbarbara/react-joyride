@@ -12,40 +12,6 @@ export default class Demo extends React.Component {
       running: false,
       steps: [
         {
-          title: 'Selecting big element',
-          text: 'Where does the tooltip position default to?',
-          selector: '.table',
-          position: 'top',
-        },
-        {
-          title: 'Parent Scroll Selector 1 - Row 7, Cell 5',
-          text: 'Target a step to cause it\'s parent wrapper to scroll',
-          selector: '.table .table-wrapper tr:nth-child(7) td:nth-child(5)',
-          parentScrollSelector: '.table-wrapper',
-          position: 'top',
-        },
-        {
-          title: 'Parent Scroll Selector 2 - Row 1, Cell 1',
-          text: 'Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow. Super long text. Wow.',
-          selector: '.table .table-wrapper tr:nth-child(1) td:nth-child(1)',
-          parentScrollSelector: '.table-wrapper',
-          position: 'top',
-        },
-        {
-          title: 'Parent Scroll Selector 3 - Row 3, Cell 2',
-          text: 'It should only scroll if needed.',
-          selector: '.table .table-wrapper tr:nth-child(3) td:nth-child(2)',
-          parentScrollSelector: '.table-wrapper',
-          position: 'top',
-        },
-        {
-          title: 'Parent Scroll Selector 4 - Row 10, Cell 10',
-          text: 'Scroll to the very end.',
-          selector: '.table .table-wrapper tr:nth-child(10) td:nth-child(10)',
-          parentScrollSelector: '.table-wrapper',
-          position: 'top',
-        },
-        {
           title: 'Title only steps — As they say: Make the font bigger!',
           textAlign: 'center',
           selector: '.projects .list',
@@ -200,7 +166,7 @@ export default class Demo extends React.Component {
     const joyrideProps = {
       autoStart: joyride.autoStart || this.state.autoStart,
       callback: this.handleJoyrideCallback,
-      debug: true,
+      debug: false,
       disableOverlay: this.state.step === 1,
       resizeDebounce: joyride.resizeDebounce,
       run: joyride.run || this.state.running,
@@ -230,21 +196,6 @@ export default class Demo extends React.Component {
           {...joyrideProps}
           ref={c => (this.joyride = c)} />
         <main>
-          <div className="demo__section table">
-            <div className="container">
-              <h2><span>Table</span></h2>
-              <div className="table-wrapper">
-                <table>
-                  <thead>
-                    {columns}
-                  </thead>
-                  <tbody>
-                    {rows}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
           <div className="hero">
             <div className="container">
               <div className="hero__content">
