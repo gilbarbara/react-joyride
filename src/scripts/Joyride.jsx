@@ -1236,30 +1236,31 @@ class Joyride extends React.Component {
     const body = document.body;
     const target = this.getStepTargetElement(step);
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
-    const rect = getOffsetBoundingClientRect(target, offsetParent);
+    const relativeRect = getOffsetBoundingClientRect(target, offsetParent);
+    const rect = target.getBoundingClientRect();
     const { height, width = DEFAULTS.minWidth } = this.getElementDimensions();
     let position = step.position || DEFAULTS.position;
     const scrollParent = step.parentScrollSelector;
     const scrollParentElem = scrollParent && document.querySelector(sanitizeSelector(scrollParent));
     const scrollParentTopOffset = scrollParentElem ? scrollParentElem.scrollTop : 0;
     const scrollParentLeftOffset = scrollParentElem ? scrollParentElem.scrollLeft : 0;
-    const targetBottomIsInView = Math.max(rect.top, 0) + rect.height < window.innerHeight;
+    const targetBottomIsInView = Math.max(relativeRect.top, 0) + relativeRect.height < window.innerHeight;
 
     if (calculateChild) {
       return 'top';
     }
 
-    if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
+    if (/^left/.test(position) && relativeRect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && ((rect.left + rect.width + (width + tooltipOffset)) - scrollParentLeftOffset) > body.getBoundingClientRect().width) {
+    else if (/^right/.test(position) && ((relativeRect.left + relativeRect.width + (width + tooltipOffset)) - scrollParentLeftOffset) > body.getBoundingClientRect().width) {
       position = 'bottom';
     }
 
-    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0 && targetBottomIsInView) {
+    if (/^top/.test(position) && (relativeRect.top + body.scrollTop) - (height + tooltipOffset) < 0 && targetBottomIsInView) {
       position = 'bottom';
     }
-    else if (/^bottom/.test(position) && (((rect.bottom + body.scrollTop) + (height + tooltipOffset)) - scrollParentTopOffset) > getDocHeight()) {
+    else if (/^bottom/.test(position) && (((rect.bottom - body.scrollTop) + (height + tooltipOffset)) - scrollParentTopOffset) > window.innerHeight) {
       position = 'top';
     }
 
