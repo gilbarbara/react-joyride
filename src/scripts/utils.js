@@ -150,3 +150,26 @@ export function getOffsetBoundingClientRect(element, offsetParent) {
     height: elementRect.height
   };
 }
+
+/**
+ * Checks the difference between two items
+ *
+ * @param  {Any} item1 - First item to compare
+ * @param  {Any} item2 - Second item to compare
+ *
+ * @return {Boolean} - If the two items are equal
+ */
+export function checkIfSame(item1, item2) {
+  if (!item1 || !item2) {
+    return false;
+  }
+
+  if (typeof item1 !== 'object') {
+    return item1 === item2;
+  }
+
+  const sameType = typeof item1 === typeof item2;
+  const sameLength = Object.keys(item1).length === Object.keys(item2).length;
+
+  return sameType && sameLength && Object.keys(item1).every(key => checkIfSame(item1[key], item2[key]));
+}

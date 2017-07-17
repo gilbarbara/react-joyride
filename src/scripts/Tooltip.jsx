@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
+import { browser, getOffsetBoundingClientRect, sanitizeSelector, checkIfSame } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
@@ -91,12 +91,13 @@ export default class JoyrideTooltip extends React.Component {
       yPos,
       showOverlay,
     } = this.props;
+    const stepChanged = !checkIfSame(nextStep, step);
 
     /* istanbul ignore else */
     if (
       nextAnimate !== animate ||
       nextStandalone !== standalone ||
-      nextStep !== step ||
+      stepChanged ||
       nextHolePadding !== holePadding ||
       nextPosition !== position ||
       nextXPos !== xPos ||
