@@ -395,7 +395,7 @@ class Joyride extends React.Component {
           const prevStep = steps[prevState.index];
 
           // Remove parent scroll event when step is no longer active
-          if (prevStep.parentScrollSelector) {
+          if (prevStep && prevStep.parentScrollSelector) {
             const parentScrollElement = document.querySelector(sanitizeSelector(prevStep.parentScrollSelector));
             this.removeParentScrollEvent(parentScrollElement);
           }
