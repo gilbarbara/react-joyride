@@ -176,20 +176,6 @@ export default class Demo extends React.Component {
       type: joyride.type || 'continuous'
     };
 
-    const rows = [];
-    const columns = [];
-
-    for (let i = 1; i <= 10; i++) {
-      columns.push(<th key={`column_${i}`}>Column {i}</th>);
-      const cells = [];
-
-      for (let j = 1; j <= 10; j++) {
-        cells.push(<td key={`row_${i}_cell_${j}`}>Row {i}, Column {j}</td>);
-      }
-
-      rows.push(<tr key={`row_${i}`}>{cells}</tr>);
-    }
-
     return (
       <div className="demo">
         <Joyride
