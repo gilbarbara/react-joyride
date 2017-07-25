@@ -100,9 +100,5 @@
     "precommit": "node config/tools commits && npm run lint && npm run lint:styles && npm test",
     "prepublish": "npm run build",
     "postmerge": "node config/tools update && npm update"
-  },
-  "engines": {
-    "node": ">=6.0.0",
-    "npm": ">=3.0.0"
   }
 }
