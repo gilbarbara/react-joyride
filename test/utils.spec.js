@@ -10,7 +10,6 @@ const mockLog = jest.fn();
 const mockWarn = jest.fn();
 const mockError = jest.fn();
 
-const consoleLog = console.log; //eslint-disable-line no-console
 console.log = mockLog; //eslint-disable-line no-console
 console.warn = mockWarn; //eslint-disable-line no-console
 console.error = mockError; //eslint-disable-line no-console

@@ -61,6 +61,7 @@ class Joyride extends React.Component {
     callback: React.PropTypes.func,
     debug: React.PropTypes.bool,
     disableOverlay: React.PropTypes.bool,
+    hideCloseButton: React.PropTypes.bool,
     holePadding: React.PropTypes.number,
     keyboardNavigation: React.PropTypes.bool,
     locale: React.PropTypes.object,
@@ -86,6 +87,7 @@ class Joyride extends React.Component {
     autoStart: false,
     debug: false,
     disableOverlay: false,
+    hideCloseButton: false,
     holePadding: 5,
     keyboardNavigation: true,
     locale: {
@@ -373,20 +375,39 @@ class Joyride extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { index, shouldRedraw, isRunning, shouldRun, standaloneData } = this.state;
+    const { index, shouldRedraw, isRunning, shouldRun, standaloneData, isScrolling } = this.state;
     const { scrollToFirstStep, scrollToSteps, steps } = this.props;
     const step = steps[index];
     const scrollTop = this.getScrollTop();
+    const scrollingToggled = isScrolling !== prevState.isScrolling;
     const shouldScroll = (
       scrollToFirstStep || (index > 0 || prevState.index > index))
+      && !scrollingToggled && !isScrolling // Don't scroll if already scrolling or if toggling isScrolling
       && (step && !step.isFixed); // fixed steps don't need to scroll
 
-    if (shouldRedraw && step) {
-      this.calcPlacement();
+    if (step) {
+      if (shouldRedraw && !scrollingToggled) {
+        this.calcPlacement();
+      }
+
+      if (!step.parentScrollSelector) {
+        if (prevState.index) {
+          const prevStep = steps[prevState.index];
+
+          // Remove parent scroll event when step is no longer active
+          if (prevStep && prevStep.parentScrollSelector) {
+            const parentScrollElement = document.querySelector(sanitizeSelector(prevStep.parentScrollSelector));
+            this.removeParentScrollEvent(parentScrollElement);
+          }
+        }
+      }
     }
 
     if (isRunning && scrollToSteps && shouldScroll && scrollTop >= 0) {
-      scroll.top(getRootEl(), this.getScrollTop());
+      clearTimeout(this.bodyScrollTimeout);
+      this.bodyScrollTimeout = setTimeout(() => {
+        scroll.top(getRootEl(), scrollTop);
+      }, 100);
     }
 
     if (steps.length && (!isRunning && shouldRun && !standaloneData)) {
@@ -462,6 +483,51 @@ class Joyride extends React.Component {
       isRunning: false,
       shouldRenderTooltip: false
     });
+  }
+
+  /**
+   * Adds scroll event to step's parent scroll element
+   *
+   * @private
+   * @param {Node} parentScrollElement - Step's parent scroll element
+   */
+  addParentScrollEvent(parentScrollElement) {
+    parentScrollElement.addEventListener('scroll', this.handleParentScroll);
+  }
+
+  /**
+   * Removes scroll event from step's parent scroll element
+   *
+   * @private
+   * @param {Node} parentScrollElement - Step's parent scroll element
+   */
+  removeParentScrollEvent(parentScrollElement) {
+    parentScrollElement.removeEventListener('scroll', this.handleParentScroll);
+  }
+
+  /**
+   * Handle step's parent scroll event
+   * This ensures beacon follows target when parent element is being scrolled
+   * and disappears when outside of scroll viewport
+   *
+   * @private
+   */
+  handleParentScroll() {
+    clearTimeout(this.scrollTimeout);
+    this.scrollTimeout = setTimeout(this.stopScrolling, 50);
+
+    this.setState({ isScrolling: true }, () => {
+      this.calcPlacement();
+    });
+  }
+
+  /**
+   * Toggles isScrolling state off
+   *
+   * @private
+   */
+  stopScrolling() {
+    this.setState({ isScrolling: false });
   }
 
   /**
@@ -722,36 +788,76 @@ class Joyride extends React.Component {
   }
 
   /**
-   * Get the scrollTop position
+   * Get the scroll position for the specified axis
    *
    * @private
+   * @param {Number} pos - Current position of the step element
+   * @param {String} axis - The desired scroll axis, Ex: 'x' or 'y'
+   * @param {Boolean} scrollParent - Whether we're calcluting the scroll position
+   *                                 for the step.parentScrollSelector
    * @returns {number}
    */
-  getScrollTop() {
-    const { index, yPos } = this.state;
-    const { offsetParentSelector, scrollOffset, steps } = this.props;
+  getScrollPosition(pos, axis, scrollParent) {
+    const { index } = this.state;
+    const { offsetParentSelector: parentSelector, scrollOffset, steps } = this.props;
     const step = steps[index];
+    const hasScrollableParent = scrollParent && step.parentScrollSelector;
+    const offsetParentSelector = hasScrollableParent ? step.parentScrollSelector : parentSelector;
     const target = this.getStepTargetElement(step);
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
+    const yAxis = axis === 'y';
 
     if (!target) {
       return 0;
     }
 
     const rect = getOffsetBoundingClientRect(target, offsetParent);
-    const targetTop = rect.top + (window.pageYOffset || document.documentElement.scrollTop);
-    const position = this.calcPosition(step);
+    const rectField = yAxis ? 'top' : 'left';
+    const otherAxisRectField = yAxis ? 'left' : 'top';
+    const position = this.calcPosition(step, !!scrollParent);
+    const axisRegex = new RegExp(`^${rectField}`);
+    const otherAxisRegex = new RegExp(`^bottom|^${otherAxisRectField}|^right`);
     let scrollTo = 0;
 
     /* istanbul ignore else */
-    if (/^top/.test(position)) {
-      scrollTo = Math.floor(yPos - scrollOffset);
+    if (hasScrollableParent || axisRegex.test(position)) {
+      scrollTo = Math.floor(pos - scrollOffset);
     }
-    else if (/^bottom|^left|^right/.test(position)) {
-      scrollTo = Math.floor(targetTop - scrollOffset);
+    else if (otherAxisRegex.test(position)) {
+      const pageOffset = yAxis ? 'pageYOffset' : 'pageXOffset';
+      const scrollField = yAxis ? 'scrollTop' : 'scrollLeft';
+      const windowOffset = window[pageOffset] || document.documentElement[scrollField];
+      const targetStart = rect[rectField] + windowOffset + (hasScrollableParent ? offsetParent[scrollField] : 0);
+      scrollTo = Math.floor(targetStart - scrollOffset);
     }
 
-    return scrollTo;
+    return scrollTo > 0 ? scrollTo : 0;
+  }
+
+  /**
+   * Gets scroll top position
+   *
+   * @private
+   * @param {Number} yPos - Current y position of the step element
+   * @param {Boolean} scrollParent - Whether we're calcluting the scroll position
+   *                                 for the step.parentScrollSelector
+   * @returns {number}
+   */
+  getScrollTop(yPos, scrollParent) {
+    return this.getScrollPosition(yPos || this.state.yPos, 'y', scrollParent);
+  }
+
+  /**
+   * Gets scroll left position
+   *
+   * @private
+   * @param {Number} xPos - Current x position of the step element
+   * @param {Boolean} scrollParent - Whether we're calcluting the scroll position
+   *                                 for the step.parentScrollSelector
+   * @returns {number}
+   */
+  getScrollLeft(xPos, scrollParent) {
+    return this.getScrollPosition(xPos || this.state.xPos, 'x', scrollParent);
   }
 
   /**
@@ -957,13 +1063,17 @@ class Joyride extends React.Component {
    * Position absolute elements next to its target
    *
    * @private
+   * @param {Boolean} calculateBody - Calculate placement relative to body
+   * @param {Number} scrollParentXPos - Reference to step.parentScrollSelector current X position
+   * @param {Number} scrollParentYPos - Reference to step.parentScrollSelector current Y position
    */
-  calcPlacement() {
+  calcPlacement(calculateBody, scrollParentXPos, scrollParentYPos) {
     const { index, isRunning, standaloneData, shouldRenderTooltip } = this.state;
-    const { offsetParentSelector, steps, tooltipOffset } = this.props;
+    const { offsetParentSelector, steps, tooltipOffset, scrollToSteps } = this.props;
     const step = standaloneData || (steps[index] || {});
     const displayTooltip = standaloneData ? true : shouldRenderTooltip;
     const target = this.getStepTargetElement(step);
+    const calculateChild = scrollToSteps && !calculateBody && step.parentScrollSelector;
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
 
     logger({
@@ -974,6 +1084,12 @@ class Joyride extends React.Component {
 
     /* istanbul ignore else */
     if (!target) {
+      return;
+    }
+
+    // Handle scrolling target parent element
+    if (calculateChild) {
+      this.calcChildPlacement();
       return;
     }
 
@@ -991,13 +1107,14 @@ class Joyride extends React.Component {
       const scrollTop = step.isFixed === true ? 0 : body.top;
       const component = this.getElementDimensions();
       const rect = getOffsetBoundingClientRect(target, offsetParent);
+      const rectTopMinusScroll = rect.top - scrollTop;
 
       // Calculate x position
       if (/^left/.test(position)) {
         placement.x = rect.left - (displayTooltip ? component.width + tooltipOffset : (component.width / 2) + offsetX);
       }
       else if (/^right/.test(position)) {
-        placement.x = (rect.left + rect.width) - (displayTooltip ? -tooltipOffset : (component.width / 2) - offsetX);
+        placement.x = rect.left + (rect.width - (displayTooltip ? -tooltipOffset : (component.width / 2) - offsetX));
       }
       else {
         placement.x = rect.left + ((rect.width / 2) - (component.width / 2));
@@ -1005,13 +1122,13 @@ class Joyride extends React.Component {
 
       // Calculate y position
       if (/^top/.test(position)) {
-        placement.y = (rect.top - scrollTop) - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
+        placement.y = rectTopMinusScroll - (displayTooltip ? component.height + tooltipOffset : (component.height / 2) + offsetY);
       }
       else if (/^bottom/.test(position)) {
-        placement.y = (rect.top - scrollTop) + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
+        placement.y = rectTopMinusScroll + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
       }
       else {
-        placement.y = (rect.top - scrollTop);
+        placement.y = rectTopMinusScroll;
       }
 
       /* istanbul ignore else */
@@ -1024,12 +1141,85 @@ class Joyride extends React.Component {
         }
       }
 
+      const xPos = this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height);
+      const yPos = this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height);
+
       this.setState({
         shouldRedraw: false,
-        xPos: this.preventWindowOverflow(Math.ceil(placement.x), 'x', component.width, component.height),
-        yPos: this.preventWindowOverflow(Math.ceil(placement.y), 'y', component.width, component.height)
+        xPos,
+        yPos,
+        scrollParentXPos: scrollParentXPos || this.state.scrollParentXPos,
+        scrollParentYPos: scrollParentYPos || this.state.scrollParentYPos,
       });
     }
+  }
+
+  /**
+   * Calculate target position relative to the steps parent scroll element selector
+   *
+   * @private
+   */
+  calcChildPlacement() {
+    const { index, standaloneData, isScrolling } = this.state;
+    const { offsetParentSelector, steps } = this.props;
+    const step = standaloneData || (steps[index] || {});
+    const offsetParent = document.querySelector(sanitizeSelector(step.parentScrollSelector));
+    const scrollTop = step.isFixed === true ? 0 : -offsetParent.scrollTop;
+    const scrollLeft = step.isFixed === true ? 0 : -offsetParent.scrollLeft;
+    const parentElement = document.querySelector(sanitizeSelector(offsetParentSelector));
+    const scrollParentRect = getOffsetBoundingClientRect(offsetParent, parentElement);
+    const target = this.getStepTargetElement(step);
+    const rect = getOffsetBoundingClientRect(target, offsetParent);
+
+    const xPos = rect.left - scrollLeft;
+    const yPos = rect.top - scrollTop - (scrollParentRect.top < 0 ? scrollParentRect.top : 0);
+
+    if (isScrolling) {
+      this.calcPlacement(true, xPos, yPos);
+    }
+    else {
+      this.removeParentScrollEvent(offsetParent);
+
+      // Scroll parent container
+      scroll.top(offsetParent, this.getScrollTop(yPos, true), { duration: 1 }, () => {
+        scroll.left(offsetParent, this.getScrollLeft(xPos, true), { duration: 1 }, () => {
+          this.calcPlacement(true, xPos, yPos);
+
+          // Add scroll listener to parent scroll element when done scrolling
+          setTimeout(() => {
+            this.addParentScrollEvent(offsetParent);
+          }, 100);
+        });
+      });
+    }
+  }
+
+  /**
+   * Determines if target element is visible in view
+   *
+   * @private
+   * @param {Object} step
+   * @param {Number} currentXPos - X position of step target
+   * @param {Number} currentYPos - Y position of step target
+   *
+   * @returns {Boolean}
+   */
+  isElementInView(step, currentXPos, currentYPos) {
+    const xPos = currentXPos || this.state.scrollParentXPos;
+    const yPos = currentYPos || this.state.scrollParentYPos;
+
+    if (!xPos || !yPos || !step.parentScrollSelector) {
+      return true;
+    }
+
+    const scrollElement = document.querySelector(sanitizeSelector(step.parentScrollSelector));
+    const target = this.getStepTargetElement(step);
+    const stepRect = target.getBoundingClientRect();
+    const parentRect = scrollElement.getBoundingClientRect();
+
+    const outOfYView = stepRect.top < parentRect.top || stepRect.bottom > parentRect.bottom;
+    const outOfXView = stepRect.left < parentRect.left || stepRect.right > parentRect.right;
+    return !outOfYView && !outOfXView;
   }
 
   /**
@@ -1037,29 +1227,40 @@ class Joyride extends React.Component {
    *
    * @private
    * @param {Object} step
+   * @param {Boolean} calculateChild - If we're calculating for target within scrollable parent
    *
    * @returns {string}
    */
-  calcPosition(step) {
+  calcPosition(step, calculateChild) {
     const { offsetParentSelector, tooltipOffset } = this.props;
     const body = document.body;
     const target = this.getStepTargetElement(step);
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
-    const rect = getOffsetBoundingClientRect(target, offsetParent);
+    const relativeRect = getOffsetBoundingClientRect(target, offsetParent);
+    const rect = target.getBoundingClientRect();
     const { height, width = DEFAULTS.minWidth } = this.getElementDimensions();
     let position = step.position || DEFAULTS.position;
+    const scrollParent = step.parentScrollSelector;
+    const scrollParentElem = scrollParent && document.querySelector(sanitizeSelector(scrollParent));
+    const scrollParentTopOffset = scrollParentElem ? scrollParentElem.scrollTop : 0;
+    const scrollParentLeftOffset = scrollParentElem ? scrollParentElem.scrollLeft : 0;
+    const targetBottomIsInView = Math.max(relativeRect.top, 0) + relativeRect.height < window.innerHeight;
 
-    if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
+    if (calculateChild) {
+      return 'top';
+    }
+
+    if (/^left/.test(position) && relativeRect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > body.getBoundingClientRect().width) {
+    else if (/^right/.test(position) && ((relativeRect.left + relativeRect.width + (width + tooltipOffset)) - scrollParentLeftOffset) > body.getBoundingClientRect().width) {
       position = 'bottom';
     }
 
-    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0) {
+    if (/^top/.test(position) && (relativeRect.top + body.scrollTop) - (height + tooltipOffset) < 0 && targetBottomIsInView) {
       position = 'bottom';
     }
-    else if (/^bottom/.test(position) && (rect.bottom + body.scrollTop) + (height + tooltipOffset) > getDocHeight()) {
+    else if (/^bottom/.test(position) && (((rect.bottom - body.scrollTop) + (height + tooltipOffset)) - scrollParentTopOffset) > window.innerHeight) {
       position = 'top';
     }
 
@@ -1131,6 +1332,7 @@ class Joyride extends React.Component {
     const { index, shouldRedraw, shouldRenderTooltip, standaloneData, xPos, yPos } = this.state;
     const {
       disableOverlay,
+      hideCloseButton,
       holePadding,
       locale,
       offsetParentSelector,
@@ -1208,6 +1410,7 @@ class Joyride extends React.Component {
         animate: xPos > -1 && !shouldRedraw,
         buttons,
         disableOverlay,
+        hideCloseButton,
         holePadding,
         offsetParentSelector,
         position,
@@ -1224,6 +1427,11 @@ class Joyride extends React.Component {
       });
     }
     else {
+      // Don't show beacon if target is out of view
+      if (step && step.parentScrollSelector && !this.isElementInView(step)) {
+        return false;
+      }
+
       component = React.createElement(Beacon, {
         step,
         xPos,
