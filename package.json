@@ -24,6 +24,7 @@
   "dependencies": {
     "nested-property": "^0.0.7",
     "react-autobind": "^1.0",
+    "react-bootstrap": "^0.30.10",
     "scroll": "^2.0"
   },
   "peerDependencies": {

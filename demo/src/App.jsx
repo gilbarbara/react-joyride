@@ -1,5 +1,6 @@
 import React from 'react';
 import Joyride from 'scripts/Joyride';
+import Modal from 'react-bootstrap/lib/Modal';
 
 import './styles.scss';
 
@@ -10,6 +11,7 @@ export default class Demo extends React.Component {
     this.state = {
       autoStart: false,
       running: false,
+      modalIsOpen: false,
       steps: [
         {
           title: 'Title only steps — As they say: Make the font bigger!',
@@ -61,7 +63,7 @@ export default class Demo extends React.Component {
           style: {
             beacon: '#000'
           }
-        }
+        },
       ],
       step: 0,
     };
@@ -69,6 +71,9 @@ export default class Demo extends React.Component {
     this.handleClickStart = this.handleClickStart.bind(this);
     this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     this.handleJoyrideCallback = this.handleJoyrideCallback.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.afterOpenModal = this.afterOpenModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
   }
 
   static propTypes = {
@@ -161,6 +166,28 @@ export default class Demo extends React.Component {
     }
   }
 
+  openModal() {
+    this.setState({ modalIsOpen: true });
+  }
+
+  afterOpenModal() {
+    this.setState({ steps: [
+      {
+        title: 'The modal joyride',
+        text: 'Let\'s go on a magical tour even in modal!',
+        selector: '#modal-title',
+        position: 'bottom',
+        event: 'click',
+        isFixed: true,
+      }
+    ] });
+    this.joyride.reset(true);
+  }
+
+  closeModal() {
+    this.setState({ modalIsOpen: false });
+  }
+
   render() {
     const { joyride } = this.props;
     const joyrideProps = {
@@ -220,7 +247,20 @@ export default class Demo extends React.Component {
           <div className="demo__section about">
             <div className="container">
               <h2><span>About</span></h2>
+              <button className="btn btn-secondary modal__button" onClick={this.openModal}>Open modal
+              </button>
             </div>
+            <Modal show={this.state.modalIsOpen} onHide={this.closeModal} onEntered={this.afterOpenModal}>
+              <Modal.Header>
+                <Modal.Title id="modal-title">Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                Here is modal Body
+              </Modal.Body>
+              <Modal.Footer>
+                <button className="btn btn-info" onClick={this.closeModal}>Close</button>
+              </Modal.Footer>
+            </Modal>
           </div>
         </main>
         <footer className="demo__footer">
