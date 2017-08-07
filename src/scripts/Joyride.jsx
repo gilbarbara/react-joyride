@@ -3,6 +3,7 @@ import scroll from 'scroll';
 import autobind from 'react-autobind';
 import nested from 'nested-property';
 import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight } from 'scripts/utils';
+import { ResizeSensor } from 'css-element-queries';
 
 import Beacon from 'scripts/Beacon';
 import Tooltip from 'scripts/Tooltip';
@@ -43,6 +44,8 @@ const DEFAULTS = {
 
 let hasTouch = false;
 
+let resizeSensorTargetElem = null;
+
 class Joyride extends React.Component {
   constructor(props) {
     super(props);
@@ -57,6 +60,7 @@ class Joyride extends React.Component {
 
   static propTypes = {
     allowClicksThruHole: React.PropTypes.bool,
+    autoResizeHole: React.PropTypes.bool,
     autoStart: React.PropTypes.bool,
     callback: React.PropTypes.func,
     debug: React.PropTypes.bool,
@@ -83,6 +87,7 @@ class Joyride extends React.Component {
 
   static defaultProps = {
     allowClicksThruHole: false,
+    autoResizeHole: false,
     autoStart: false,
     debug: false,
     disableOverlay: false,
@@ -180,6 +185,19 @@ class Joyride extends React.Component {
     const runChanged = (nextProps.run !== run);
     let shouldStart = false;
     let didStop = false;
+    const hasNextStep = Boolean(nextProps.steps[nextProps.stepIndex]);
+    const nextStep = hasNextStep ? nextProps.steps[nextProps.stepIndex] : null;
+    const nextTargetElement = hasNextStep ? this.getStepTargetElement(nextStep) : null;
+
+    // if resizeSensor exists and the target element changed - detach sensor from old element
+    if (!hasNextStep || nextStep.autoResizeHole === false ||
+      (nextProps.autoResizeHole === false && nextStep.autoResizeHole !== true) ||
+      resizeSensorTargetElem !== nextTargetElement) {
+      if (resizeSensorTargetElem !== null) {
+        ResizeSensor.detach(resizeSensorTargetElem, this.targetResizeCallback);
+        resizeSensorTargetElem = null;
+      }
+    }
 
     if (stepsChanged && this.checkStepsValidity(nextProps.steps)) {
       // Removed all steps, so reset
@@ -520,6 +538,12 @@ class Joyride extends React.Component {
       msg: ['restart:', shouldRestart],
       debug: this.props.debug,
     });
+
+    if (resizeSensorTargetElem !== null) {
+      ResizeSensor.detach(resizeSensorTargetElem, this.targetResizeCallback);
+      resizeSensorTargetElem = null;
+    }
+
     // Force a re-render if necessary
     if (shouldRestart && isRunning === shouldRestart && index === 0) {
       this.forceUpdate();
@@ -773,6 +797,15 @@ class Joyride extends React.Component {
 
       callback(options);
     }
+  }
+
+  /**
+   * Tooltip target element resize callback.
+   *
+   * @private
+   */
+  targetResizeCallback() {
+    this.forceUpdate();
   }
 
   /**
@@ -1130,6 +1163,7 @@ class Joyride extends React.Component {
   createComponent() {
     const { index, shouldRedraw, shouldRenderTooltip, standaloneData, xPos, yPos } = this.state;
     const {
+      autoResizeHole,
       disableOverlay,
       holePadding,
       locale,
@@ -1200,6 +1234,14 @@ class Joyride extends React.Component {
 
         if (showSkipButton) {
           buttons.skip = locale.skip;
+        }
+      }
+
+      // if autoResizeHole is enabled and target element exists, attach resize senzor
+      if (step.autoResizeHole === true || (step.autoResizeHole !== true && autoResizeHole)) {
+        if (resizeSensorTargetElem === null) {
+          ResizeSensor(target, this.targetResizeCallback);
+          resizeSensorTargetElem = target;
         }
       }
 

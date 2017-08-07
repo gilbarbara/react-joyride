@@ -22,6 +22,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "css-element-queries": "^0.4.0",
     "nested-property": "^0.0.7",
     "react-autobind": "^1.0",
     "scroll": "^2.0"
