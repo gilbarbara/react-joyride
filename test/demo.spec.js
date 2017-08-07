@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-
 import Demo from '../demo/src/App';
 
 const mockConsole = jest.fn();
@@ -157,10 +156,18 @@ describe('Joyride', () => {
       expect(wrapper.find('.joyride-tooltip').html()).toMatchSnapshot();
     });
 
-    it('should be able to close the 5th step tooltip', () => {
-      wrapper.find('.joyride-tooltip__close').simulate('click');
-
+    it('will advance to the next step and reposition itself', () => {
       expect(wrapper.instance().joyride.props.stepIndex).toBe(4);
+      wrapper.find('.joyride-tooltip__button--primary').simulate('click');
+      expect(wrapper.instance().joyride.props.stepIndex).toBe(5);
+      const el = wrapper.find('.joyride-tooltip').render().children();
+      expect(el.css('top')).toEqual('-15px');
+      expect(el.css('left')).toEqual('287px');
+    });
+
+    it('should be able to close the 6th step tooltip', () => {
+      wrapper.find('.joyride-tooltip__close').simulate('click');
+      expect(wrapper.instance().joyride.props.stepIndex).toBe(5);
       expect(wrapper.find('.joyride-tooltip').length).toBe(0);
       expect(wrapper.find('.joyride-beacon').length).toBe(0);
     });
