@@ -1,5 +1,5 @@
 import React from 'react';
-import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
+import { browser, getDocumentHeight, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
   constructor(props) {
@@ -47,7 +47,8 @@ export default class JoyrideTooltip extends React.Component {
     },
     step: {},
     xPos: -1000,
-    yPos: -1000
+    yPos: -1000,
+    mouseOverHole: false
   };
 
   componentWillMount() {
@@ -113,6 +114,7 @@ export default class JoyrideTooltip extends React.Component {
       }
       else {
         document.removeEventListener('mousemove', this.handleMouseMove, false);
+        this.setState({ mouseOverHole: false });
       }
     }
 
@@ -123,6 +125,7 @@ export default class JoyrideTooltip extends React.Component {
       }
       else {
         document.removeEventListener('mousemove', this.handleMouseMove, false);
+        this.setState({ mouseOverHole: false });
       }
     }
   }
@@ -138,6 +141,7 @@ export default class JoyrideTooltip extends React.Component {
 
   componentWillUnmount() {
     document.removeEventListener('mousemove', this.handleMouseMove, false);
+    this.setState({ mouseOverHole: false });
   }
 
   getArrowPosition(position) {
@@ -524,7 +528,7 @@ export default class JoyrideTooltip extends React.Component {
 
     const overlayStyles = {
       cursor: disableOverlay ? 'default' : 'pointer',
-      height: document.body.clientHeight,
+      height: getDocumentHeight(),
       pointerEvents: this.state.mouseOverHole ? 'none' : 'auto',
     };
 
