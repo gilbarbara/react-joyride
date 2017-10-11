@@ -15,7 +15,6 @@ export default class JoyrideTooltip extends React.Component {
     buttons: PropTypes.object.isRequired,
     disableOverlay: PropTypes.bool,
     holePadding: PropTypes.number,
-    offsetParentSelector: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onRender: PropTypes.func.isRequired,
     // position of tooltip with respect to target
@@ -424,7 +423,6 @@ export default class JoyrideTooltip extends React.Component {
 
   render() {
     const {
-      allowClicksThruHole,
       buttons,
       disableOverlay,
       onClick,
