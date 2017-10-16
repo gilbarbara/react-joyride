@@ -63,6 +63,7 @@
     "eslint-plugin-jsx-a11y": "^4.0",
     "eslint-plugin-react": "^6.10",
     "extract-text-webpack-plugin": "^2.0.0-beta",
+    "file-loader": "^1.1.5",
     "flow-bin": "^0.40",
     "html-webpack-plugin": "^2.28",
     "husky": "^0.13",
