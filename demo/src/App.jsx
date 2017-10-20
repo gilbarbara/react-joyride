@@ -180,7 +180,7 @@ export default class Demo extends React.Component {
       <div className="demo">
         <Joyride
           {...joyrideProps}
-          ref={c => (this.joyride = c)} />
+          ref={c => { this.joyride = c; }} />
         <main>
           <div className="hero">
             <div className="container">
