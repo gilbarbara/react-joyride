@@ -87,13 +87,6 @@ class Joyride extends React.Component {
     disableOverlay: false,
     holePadding: 5,
     keyboardNavigation: true,
-    locale: {
-      back: 'Back',
-      close: 'Close',
-      last: 'Last',
-      next: 'Next',
-      skip: 'Skip'
-    },
     offsetParentSelector: 'body',
     resizeDebounce: false,
     resizeDebounceDelay: 200,
@@ -1144,7 +1137,6 @@ class Joyride extends React.Component {
     const {
       disableOverlay,
       holePadding,
-      locale,
       offsetParentSelector,
       showBackButton,
       showOverlay,
@@ -1155,7 +1147,20 @@ class Joyride extends React.Component {
     } = this.props;
     const currentStep = standaloneData || steps[index];
     const step = { ...currentStep };
-
+    
+    const defaultLocale = {
+        back: 'Back',
+        close: 'Close',
+        last: 'Last',
+        next: 'Next',
+        skip: 'Skip'
+    };
+    
+    const locale = {
+        ...defaultLocale,
+        ...this.props.locale,
+    };
+    
     const target = this.getStepTargetElement(step);
     let component;
 
