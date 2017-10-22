@@ -23,8 +23,7 @@
   "license": "MIT",
   "dependencies": {
     "nested-property": "^0.0.7",
-    "react-autobind": "^1.0",
-    "scroll": "^2.0"
+    "scroll": "^2.0.1"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
