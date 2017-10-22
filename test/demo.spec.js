@@ -34,8 +34,7 @@ describe('Joyride', () => {
         left: 15,
         bottom: 200,
         right: 100,
-      })
-    );
+      }));
 
     const style = document.createElement('style');
     style.type = 'text/css';
@@ -51,25 +50,29 @@ describe('Joyride', () => {
     });
 
     it('should be able to trigger the 1st tooltip', () => {
-      wrapper.find('.hero__tooltip').get(0).dispatchEvent(new Event('click', { bubbles: true }));
+      wrapper.find('.hero__tooltip').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      wrapper.update();
 
       expect(wrapper.find('.joyride-tooltip--standalone').html()).toMatchSnapshot();
     });
 
     it('should be able to hide the 1st tooltip', () => {
-      wrapper.find('.hero__tooltip').get(0).dispatchEvent(new Event('click', { bubbles: true }));
+      wrapper.find('.hero__tooltip').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      wrapper.update();
 
       expect(wrapper.find('.joyride-tooltip--standalone').length).toBe(0);
     });
 
     it('should be able to trigger the 2nd tooltip', () => {
-      wrapper.find('.demo__footer img').get(0).dispatchEvent(new Event('click', { bubbles: true }));
+      wrapper.find('.demo__footer img').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      wrapper.update();
 
       expect(wrapper.find('.joyride-tooltip--standalone').html()).toMatchSnapshot();
     });
 
     it('should be able to hide the 2nd tooltip', () => {
-      wrapper.find('.demo__footer img').get(0).dispatchEvent(new Event('mouseleave', { bubbles: true }));
+      wrapper.find('.demo__footer img').instance().dispatchEvent(new Event('mouseleave', { bubbles: true }));
+      wrapper.update();
 
       expect(wrapper.find('.joyride-tooltip--standalone').length).toBe(0);
     });
