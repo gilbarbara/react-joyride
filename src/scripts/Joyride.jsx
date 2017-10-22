@@ -9,9 +9,9 @@ import Tooltip from 'scripts/Tooltip';
 
 import 'styles/react-joyride.scss';
 
-const defaultState = {
+const getDefaultState = props => ({
   action: '',
-  index: 0,
+  index: props.stepIndex || 0,
   isRunning: false,
   isTourSkipped: false,
   shouldRedraw: true,
@@ -20,7 +20,7 @@ const defaultState = {
   standaloneData: false, // The standalone tooltip data
   xPos: -1000,
   yPos: -1000
-};
+});
 
 const callbackTypes = {
   STEP_BEFORE: 'step:before',
@@ -47,7 +47,7 @@ class Joyride extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { ...defaultState };
+    this.state = { ...getDefaultState(props) };
 
     this.listeners = {
       tooltips: {}
