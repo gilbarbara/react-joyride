@@ -986,8 +986,8 @@ class Joyride extends React.Component {
       const offsetX = nested.get(step, 'style.beacon.offsetX') || 0;
       const offsetY = nested.get(step, 'style.beacon.offsetY') || 0;
       const position = this.calcPosition(step);
-      const body = document.body.getBoundingClientRect();
-      const scrollTop = step.isFixed === true ? 0 : body.top;
+      const scrollingElement = getRootEl().getBoundingClientRect();
+      const scrollTop = step.isFixed === true ? 0 : scrollingElement.top;
       const component = this.getElementDimensions();
       const rect = getOffsetBoundingClientRect(target, offsetParent);
 
@@ -1041,7 +1041,8 @@ class Joyride extends React.Component {
    */
   calcPosition(step) {
     const { offsetParentSelector, tooltipOffset } = this.props;
-    const body = document.body;
+    const scrollingElement = getRootEl();
+    const scrollingElementRect = scrollingElement.getBoundingClientRect();
     const target = this.getStepTargetElement(step);
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
     const rect = getOffsetBoundingClientRect(target, offsetParent);
@@ -1051,14 +1052,26 @@ class Joyride extends React.Component {
     if (/^left/.test(position) && rect.left - (width + tooltipOffset) < 0) {
       position = 'top';
     }
-    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > body.getBoundingClientRect().width) {
+    else if (/^right/.test(position) && (rect.left + rect.width + (width + tooltipOffset)) > scrollingElementRect.width) {
       position = 'bottom';
     }
 
-    if (/^top/.test(position) && (rect.top + body.scrollTop) - (height + tooltipOffset) < 0) {
+    if (
+      /^top/.test(position) &&
+      (
+        ((rect.top + scrollingElement.scrollTop) - (height + tooltipOffset) < 0) ||
+        (step.isFixed && rect.top - height < 0)
+      )
+    ) {
       position = 'bottom';
     }
-    else if (/^bottom/.test(position) && (rect.bottom + body.scrollTop) + (height + tooltipOffset) > getDocHeight()) {
+    else if (
+      /^bottom/.test(position) &&
+      (
+        (rect.top + scrollingElement.scrollTop) + (height + tooltipOffset) > getDocHeight() ||
+        (step.isFixed && rect.top + rect.height + height > scrollingElementRect.height)
+      )
+    ) {
       position = 'top';
     }
 
