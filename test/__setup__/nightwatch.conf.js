@@ -20,8 +20,8 @@ module.exports = {
       },
       desiredCapabilities: {
         browserName: 'chrome',
-        platform: 'OS X 10.11',
-        version: '55.0',
+        platform: 'macOS 10.12',
+        version: '61.0',
         build: `build-${TRAVIS_JOB_NUMBER}`,
         'tunnel-identifier': TRAVIS_JOB_NUMBER,
         screenResolution: '1280x960'

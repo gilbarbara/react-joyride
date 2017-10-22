@@ -223,3 +223,21 @@ button {
     background-color: #ff8145;
   }
 }
+
+button {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-family: $font-family-sans-serif;
+  font-weight: $font-weight-base;
+  line-height: 1;
+  padding: 0;
+
+  &:active,
+  &:focus,
+  &:hover {
+    outline: none;
+  }
+}

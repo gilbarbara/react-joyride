@@ -188,7 +188,7 @@ export default class Demo extends React.Component {
               <div className="hero__content">
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
-                  <a href="#tooltip" className="hero__tooltip">?</a>
+                  <button className="hero__tooltip">?</button>
                 </h1>
                 <a href="#start" className="hero__start" onClick={this.handleClickStart}>Let's Go!</a>
               </div>
