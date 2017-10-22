@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Tables extends React.Component {
   constructor(props) {
@@ -152,8 +153,8 @@ class Tables extends React.Component {
   }
 
   static propTypes = {
-    addSteps: React.PropTypes.func.isRequired,
-  }
+    addSteps: PropTypes.func.isRequired,
+  };
 
   componentDidMount() {
     this.props.addSteps({
@@ -192,22 +193,22 @@ class Tables extends React.Component {
             </div>
             <div className="card-block">
               <ul className="list-group">
-                {this.tasks.map((d, i) =>
-                  (<li key={i} className="list-group-item" style={{ justifyContent: 'space-between' }}>
+                {this.tasks.map((d, i) => (
+                  <li key={i} className="list-group-item" style={{ justifyContent: 'space-between' }}>
                     <div>
                       <i className={`fa fa-fw ${d.icon}`} />{' '}
                       <span>{d.text}</span>
                     </div>
                     <span className="badge badge-pill badge-default">{d.date}</span>
-                  </li>)
-                )}
+                  </li>
+                ))}
               </ul>
             </div>
             <div className="card-footer">
               <div className="text-right">
-                <a href="#view">View All Activity <i
-                  className="fa fa-arrow-circle-right"
-                /></a>
+                <a href="#view">
+                  View All Activity <i className="fa fa-arrow-circle-right" />
+                </a>
               </div>
             </div>
           </div>
@@ -216,7 +217,8 @@ class Tables extends React.Component {
           <div className="card transactions">
             <div className="card-header">
               <h3>
-                <i className="fa fa-money fa-fw" /> Transactions Panel</h3>
+                <i className="fa fa-money fa-fw" /> Transactions Panel
+              </h3>
             </div>
             <div className="card-block">
               <div className="table-responsive">
@@ -230,14 +232,14 @@ class Tables extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {this.orders.map(d =>
-                      (<tr key={d.order}>
+                    {this.orders.map(d => (
+                      <tr key={d.order}>
                         <td>{d.order}</td>
                         <td>{d.date}</td>
                         <td>{d.time}</td>
                         <td>{d.amount}</td>
-                      </tr>)
-                    )}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -245,9 +247,9 @@ class Tables extends React.Component {
 
             <div className="card-footer">
               <div className="text-right">
-                <a href="#view">View All Transactions <i
-                  className="fa fa-arrow-circle-right"
-                /></a>
+                <a href="#view">
+                  View All Transactions <i className="fa fa-arrow-circle-right" />
+                </a>
               </div>
             </div>
           </div>

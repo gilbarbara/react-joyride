@@ -77,6 +77,10 @@ class App extends React.Component {
     if (el.dataset.key === 'joyrideType') {
       this.joyride.reset();
 
+      this.setState({
+        isRunning: false,
+      });
+
       setTimeout(() => {
         this.setState({
           isRunning: true,
@@ -135,14 +139,14 @@ class App extends React.Component {
             addSteps={this.addSteps}
             addTooltip={this.addTooltip}
           />
-          <div id="page-wrapper">
+          <Footer addTooltip={this.addTooltip} />
+          <main className="main-content">
             <div className="container-fluid">
               <Panels addSteps={this.addSteps} selector={selector} next={this.next} />
               <Charts addSteps={this.addSteps} />
               <Tables addSteps={this.addSteps} />
             </div>
-          </div>
-          <Footer />
+          </main>
         </div>
       );
     } else {

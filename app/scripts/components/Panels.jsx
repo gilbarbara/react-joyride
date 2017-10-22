@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Cards extends React.Component {
   static propTypes = {
-    addSteps: React.PropTypes.func.isRequired,
-    next: React.PropTypes.func.isRequired,
-    selector: React.PropTypes.string.isRequired,
-  }
+    addSteps: PropTypes.func.isRequired,
+    next: PropTypes.func.isRequired,
+    selector: PropTypes.string.isRequired,
+  };
 
   componentDidMount() {
     const steps = [
@@ -66,7 +67,7 @@ class Cards extends React.Component {
     const { next } = this.props;
 
     next();
-  }
+  };
 
   render() {
     const { selector } = this.props;

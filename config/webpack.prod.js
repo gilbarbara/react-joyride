@@ -1,15 +1,15 @@
-/*eslint-disable no-var, func-names, prefer-arrow-callback, object-shorthand, no-console, prefer-template, vars-on-top */
-var path = require('path');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
-var CleanPlugin = require('clean-webpack-plugin');
-var ExtractText = require('extract-text-webpack-plugin');
-var HtmlPlugin = require('html-webpack-plugin');
-var autoprefixer = require('autoprefixer');
+/*eslint-disable func-names, prefer-arrow-callback, object-shorthand, no-console, prefer-template */
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const CleanPlugin = require('clean-webpack-plugin');
+const ExtractText = require('extract-text-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
-var webpackConfig = require('./webpack.config');
+const webpackConfig = require('./webpack.config');
 
-var config = merge.smart(webpackConfig, {
+const config = merge.smart(webpackConfig, {
   entry: {
     'scripts/app': './scripts/index.jsx',
     'scripts/modernizr': './scripts/vendor/modernizr-custom.js',

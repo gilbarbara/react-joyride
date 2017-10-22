@@ -1,13 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import SVG from 'react-inlinesvg';
 
 class Header extends React.Component {
   static propTypes = {
-    addTooltip: React.PropTypes.func.isRequired,
-    joyrideOverlay: React.PropTypes.bool.isRequired,
-    joyrideType: React.PropTypes.string.isRequired,
-    onClickSwitch: React.PropTypes.func.isRequired,
-  }
+    addTooltip: PropTypes.func.isRequired,
+    joyrideOverlay: PropTypes.bool.isRequired,
+    joyrideType: PropTypes.string.isRequired,
+    onClickSwitch: PropTypes.func.isRequired,
+  };
 
   componentDidMount() {
     this.props.addTooltip({
@@ -52,12 +53,13 @@ class Header extends React.Component {
       <header className="main-header">
         <div className="container">
           <div className="intro">
-            <SVG src={require('assets/media/logo.svg')}>
+            <SVG src={require('assets/media/logo.svg')} className="main-header__logo">
               <img src={require('assets/media/logo.png')} alt="React Joyride" />
             </SVG>
             <h2>Create walkthroughs and guided tours for your ReactJS apps.</h2>
             <h3>Now with standalone tooltips!
-              <a href="#tooltip"><i className="fa fa-question-circle" /></a></h3>
+              <a href="#tooltip"><i className="fa fa-question-circle" /></a>
+            </h3>
           </div>
 
           <div className="row row-menu">
@@ -71,14 +73,18 @@ class Header extends React.Component {
                     data-key="joyrideOverlay"
                     data-type="active"
                     onClick={onClickSwitch}
-                  >On</a>
+                  >
+                    On
+                  </a>
                   <a
                     href="#overlay"
                     className={!joyrideOverlay ? 'active' : ''}
                     data-key="joyrideOverlay"
                     data-type="disabled"
                     onClick={onClickSwitch}
-                  >Off</a>
+                  >
+                    Off
+                  </a>
                 </div>
               </div>
             </div>
@@ -92,13 +98,17 @@ class Header extends React.Component {
                     data-key="joyrideType"
                     data-type="continuous"
                     onClick={onClickSwitch}
-                  >Continuous</a>
+                  >
+                    Continuous
+                  </a>
                   <a
                     href="#type" className={joyrideType === 'single' ? 'active' : ''}
                     data-key="joyrideType"
                     data-type="single"
                     onClick={onClickSwitch}
-                  >Single</a>
+                  >
+                    Single
+                  </a>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 /*eslint-disable no-var, vars-on-top, no-console */
 const path = require('path');
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 const chalk = require('chalk');
 const ghPages = require('gh-pages');
 
@@ -11,8 +11,8 @@ if (!args[0]) {
   • publish (push to github)
   • deploy (build & publish)
   • update (if package.json has changed run \`npm update\`)
-  • commits (has new remote commits)`
-  );
+  • commits (has new remote commits)
+  `);
 }
 
 function getCommit() {

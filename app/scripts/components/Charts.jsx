@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Inline from './Inline';
 
 class Charts extends React.Component {
   static propTypes = {
-    addSteps: React.PropTypes.func.isRequired,
-  }
+    addSteps: PropTypes.func.isRequired,
+  };
 
   componentDidMount() {
     this.props.addSteps([
