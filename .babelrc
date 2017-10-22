@@ -1,6 +1,11 @@
 {
   "presets": [
-    "latest",
+    ["env", {
+      "targets": {
+        "browsers": ["last 2 versions", "safari >= 7"]
+      },
+      "modules": false
+    }],
     "react",
     "stage-1"
   ],
@@ -15,20 +20,10 @@
   "compact": "true",
   "env": {
     "production": {
-      "presets": [
-        [
-          "latest", {
-          "es2015": {
-            "modules": false
-          }
-        }
-        ],
-        "react",
-        "stage-1"
-      ],
       "plugins": [
         "transform-react-remove-prop-types",
         "transform-flow-strip-types",
+        "array-includes",
         [
           "transform-runtime", {
           "polyfill": false,
@@ -43,6 +38,9 @@
       ]
     },
     "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ],
       "sourceMaps": "both"
     }
   }

@@ -1,11 +1,48 @@
-/*eslint-disable no-var, one-var, func-names, indent, prefer-arrow-callback, object-shorthand, no-console, newline-per-chained-call, one-var-declaration-per-line, prefer-template, vars-on-top */
-var path = require('path');
-var webpack = require('webpack');
-var ExtractText = require('extract-text-webpack-plugin');
-var CopyPlugin = require('copy-webpack-plugin');
-var autoprefixer = require('autoprefixer');
+/*eslint-disable func-names, object-shorthand */
+const path = require('path');
+const webpack = require('webpack');
+const ExtractText = require('extract-text-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
-var config = {
+const cssLoaders = [
+  {
+    loader: 'css',
+    options: {
+      sourceMap: true,
+    },
+  },
+  {
+    loader: 'postcss',
+    options: {
+      plugins: [
+        autoprefixer({
+          browsers: [
+            'ie >= 10',
+            'ie_mob >= 10',
+            'ff >= 30',
+            'chrome >= 34',
+            'safari >= 7',
+            'opera >= 23',
+            'ios >= 7',
+            'android >= 4.4',
+            'bb >= 10'
+          ],
+        }),
+      ],
+      sourceMap: true,
+    },
+  },
+  {
+    loader: 'sass',
+    options: {
+      sourceMap: true,
+      outputStyle: 'compact',
+    },
+  },
+];
+
+const config = {
   context: path.join(__dirname, '../src'),
   resolve: {
     alias: {
@@ -36,7 +73,7 @@ var config = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractText.extract(['css?sourceMap', 'postcss?pack=custom', 'sass?sourceMap'].join('!')),
+        loader: ExtractText.extract(cssLoaders),
       },
       {
         test: /\.json$/,
@@ -50,31 +87,6 @@ var config = {
     new CopyPlugin([
       { from: 'styles/react-joyride.scss' },
     ]),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: '/',
-        postcss: function() {
-          return {
-            defaults: [autoprefixer],
-            custom: [
-              autoprefixer({
-                browsers: [
-                  'ie >= 11',
-                  'ie_mob >= 10',
-                  'ff >= 30',
-                  'chrome >= 34',
-                  'safari >= 7',
-                  'opera >= 23',
-                  'ios >= 7',
-                  'android >= 4.4',
-                  'bb >= 10',
-                ],
-              }),
-            ],
-          };
-        },
-      },
-    }),
   ],
   watch: true,
 };

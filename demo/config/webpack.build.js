@@ -1,16 +1,16 @@
-/*eslint-disable no-var, one-var, func-names, indent, prefer-arrow-callback, object-shorthand, no-console, newline-per-chained-call, one-var-declaration-per-line, prefer-template, vars-on-top */
-var path = require('path');
-var webpack = require('webpack');
-var merge = require('webpack-merge');
-var autoprefixer = require('autoprefixer');
-var CleanPlugin = require('clean-webpack-plugin');
-var ExtractText = require('extract-text-webpack-plugin');
-var HtmlPlugin = require('html-webpack-plugin');
+/*eslint-disable func-names, object-shorthand, prefer-template */
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const autoprefixer = require('autoprefixer');
+const CleanPlugin = require('clean-webpack-plugin');
+const ExtractText = require('extract-text-webpack-plugin');
+const HtmlPlugin = require('html-webpack-plugin');
 
-var webpackConfig = require('./webpack.config');
-var NPMPackage = require('../../package');
+const webpackConfig = require('./webpack.config');
+const NPMPackage = require('../../package');
 
-var config = merge.smart(webpackConfig, {
+const config = merge.smart(webpackConfig, {
   entry: {
     demo: './index.jsx',
   },

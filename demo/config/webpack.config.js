@@ -1,13 +1,37 @@
-/*eslint-disable no-var, one-var, func-names, indent, prefer-arrow-callback, object-shorthand, no-console, newline-per-chained-call, one-var-declaration-per-line, prefer-template, vars-on-top */
-var path = require('path');
-var webpack = require('webpack');
-var ExtractText = require('extract-text-webpack-plugin');
-var autoprefixer = require('autoprefixer');
+/*eslint-disable  func-names, object-shorthand, prefer-template */
+const path = require('path');
+const webpack = require('webpack');
+const ExtractText = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
-var isProd = process.env.NODE_ENV === 'production';
-var cssLoaders = ['css?sourceMap', 'postcss?pack=custom', 'sass?sourceMap'];
+const isProd = process.env.NODE_ENV === 'production';
+const cssLoaders = [
+  'style',
+  {
+    loader: 'css',
+    options: {
+      sourceMap: true,
+    },
+  },
+  {
+    loader: 'postcss',
+    options: {
+      sourceMap: true,
+      plugins: [
+        autoprefixer(),
+      ],
+    },
+  },
+  {
+    loader: 'sass',
+    options: {
+      sourceMap: true,
+      outputStyle: 'compact',
+    },
+  },
+];
 
-var config = {
+const config = {
   context: path.join(__dirname, '../'),
   resolve: {
     modules: [path.join(__dirname, '../../src'), 'node_modules'],
@@ -25,31 +49,6 @@ var config = {
   devtool: '#inline-source-map',
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        context: '/',
-        postcss: function() {
-          return {
-            defaults: [autoprefixer],
-            custom: [
-              autoprefixer({
-                browsers: [
-                  'ie >= 9',
-                  'ie_mob >= 10',
-                  'ff >= 30',
-                  'chrome >= 34',
-                  'safari >= 7',
-                  'opera >= 23',
-                  'ios >= 7',
-                  'android >= 4.4',
-                  'bb >= 10',
-                ],
-              }),
-            ],
-          };
-        },
-      },
-    }),
   ],
   module: {
     rules: [
@@ -63,7 +62,9 @@ var config = {
       },
       {
         test: /\.scss$/,
-        loader: isProd ? ExtractText.extract(cssLoaders.join('!')) : ['style'].concat(cssLoaders).join('!'),
+        loader: isProd ? ExtractText.extract({
+          use: cssLoaders.slice(1),
+        }) : cssLoaders,
       },
       {
         test: /\.(jpe?g|png|gif|svg|ico)$/i,

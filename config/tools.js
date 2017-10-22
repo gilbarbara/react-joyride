@@ -1,5 +1,5 @@
 /*eslint-disable no-var, vars-on-top, no-console */
-const exec = require('child_process').exec;
+const { exec } = require('child_process');
 const chalk = require('chalk');
 
 const args = process.argv.slice(2);
@@ -8,8 +8,7 @@ if (!args[0]) {
   console.log(`Valid arguments:
   • docs (rebuild documentation)
   • update (if package.json has changed run \`npm update\`)
-  • commits (has new remote commits)`
-  );
+  • commits (has new remote commits)`);
 }
 
 if (args[0] === 'update') {
@@ -65,7 +64,8 @@ if (args[0] === 'commits') {
 
         if ($local === $remote) {
           console.log(chalk.green('✔ Repo is up-to-date!'));
-        } else if ($local === $base) {
+        }
+        else if ($local === $base) {
           console.error(chalk.red('⊘ Error: You need to pull, there are new commits.'));
           process.exit(1);
         }
