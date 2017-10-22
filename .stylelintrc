@@ -8,14 +8,17 @@
   "rules": {
     "at-rule-empty-line-before": [
       "always",
-      { "except": ["blockless-after-blockless", "first-nested"], "ignore": ["after-comment"], "ignoreAtRules": ["else"] }
+      {
+        "except": ["blockless-after-blockless", "first-nested"],
+        "ignore": ["after-comment"],
+        "ignoreAtRules": ["else"]
+      }
     ],
-    "block-closing-brace-newline-after": [
-      "always",
-      { "ignoreAtRules": ["if", "else"] }
-    ],
+    "at-rule-no-unknown": null,
+    "block-closing-brace-newline-after": ["always", { "ignoreAtRules": ["if", "else"] }],
     "color-named": "never",
     "declaration-colon-newline-after": null,
+    "declaration-block-no-redundant-longhand-properties": null,
     "declaration-empty-line-before": null,
     "declaration-property-value-blacklist": {
       "/^border/": ["none"]
@@ -35,7 +38,7 @@
     "selector-pseudo-element-colon-notation": "single",
     "string-quotes": "single",
     "unit-blacklist": [["rem", "em"]],
-    "order/declaration-block-order": [
+    "order/order": [
       "custom-properties",
       "dollar-variables",
       { "type": "at-rule", "name": "extend" },
@@ -49,7 +52,7 @@
       "rules",
       "at-rules"
     ],
-    "order/declaration-block-properties-alphabetical-order": true,
+    "order/properties-alphabetical-order": true,
     "scale-unlimited/declaration-strict-value": [
       ["/color/"],
       {
@@ -60,6 +63,7 @@
     ],
     "scss/at-import-no-partial-leading-underscore": true,
     "scss/at-import-partial-extension-blacklist": ["scss"],
+    "scss/at-rule-no-unknown": true,
     "scss/dollar-variable-colon-space-after": "always",
     "scss/dollar-variable-colon-space-before": "never",
     "scss/dollar-variable-no-missing-interpolation": true,

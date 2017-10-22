@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Joyride from 'scripts/Joyride';
 
 import './styles.scss';
@@ -72,10 +73,10 @@ export default class Demo extends React.Component {
   }
 
   static propTypes = {
-    joyride: React.PropTypes.shape({
-      autoStart: React.PropTypes.bool,
-      callback: React.PropTypes.func,
-      run: React.PropTypes.bool,
+    joyride: PropTypes.shape({
+      autoStart: PropTypes.bool,
+      callback: PropTypes.func,
+      run: PropTypes.bool,
     }),
   };
 
@@ -180,7 +181,7 @@ export default class Demo extends React.Component {
       <div className="demo">
         <Joyride
           {...joyrideProps}
-          ref={c => { this.joyride = c; }} />
+          ref={c => (this.joyride = c)} />
         <main>
           <div className="hero">
             <div className="container">

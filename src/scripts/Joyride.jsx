@@ -1179,7 +1179,7 @@ class Joyride extends React.Component {
           /* istanbul ignore else */
           if (steps[index + 1]) {
             if (showStepsProgress) {
-              let next = locale.next;
+              let { next } = locale;
 
               if (typeof locale.next === 'string') {
                 next = (<span>{locale.next}</span>);

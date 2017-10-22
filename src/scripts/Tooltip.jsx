@@ -15,6 +15,7 @@ export default class JoyrideTooltip extends React.Component {
     buttons: PropTypes.object.isRequired,
     disableOverlay: PropTypes.bool,
     holePadding: PropTypes.number,
+    offsetParentSelector: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onRender: PropTypes.func.isRequired,
     // position of tooltip with respect to target
@@ -51,7 +52,7 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   componentWillMount() {
-    const opts = this.setOpts(this.props);
+    const opts = this.setOpts();
     const styles = this.setStyles(this.props.step.style, opts, this.props);
     this.setState({ styles, opts });
   }
@@ -170,10 +171,6 @@ export default class JoyrideTooltip extends React.Component {
   }
 
   generateArrow(opts = {}) {
-    let width;
-    let height;
-    let rotate;
-
     opts.location = opts.location || 'top';
     opts.color = opts.color || '#f04';
     opts.color = opts.color.replace('#', '%23');
@@ -183,9 +180,7 @@ export default class JoyrideTooltip extends React.Component {
     opts.scale = opts.width / 16;
     opts.rotate = '0';
 
-    height = opts.height;
-    rotate = opts.rotate;
-    width = opts.width;
+    let { height, rotate, width } = opts;
 
     if (opts.location === 'bottom') {
       rotate = '180 8 4';
@@ -360,7 +355,7 @@ export default class JoyrideTooltip extends React.Component {
     return styles;
   }
 
-  setOpts(props) {
+  setOpts(props = this.props) {
     const { animate, offsetParentSelector, position, standalone, target, xPos } = props;
     const offsetParent = document.querySelector(sanitizeSelector(offsetParentSelector));
     const tooltip = document.querySelector('.joyride-tooltip');
@@ -405,7 +400,7 @@ export default class JoyrideTooltip extends React.Component {
 
   handleMouseMove = (e) => {
     const event = e || window.e;
-    const hole = this.state.styles.hole;
+    const { hole } = this.state.styles;
     const offsetY = hole.position === 'fixed' ? event.clientY : event.pageY;
     const offsetX = hole.position === 'fixed' ? event.clientX : event.pageX;
     const inHoleHeight = (offsetY >= hole.top && offsetY <= hole.top + hole.height);
@@ -437,25 +432,27 @@ export default class JoyrideTooltip extends React.Component {
       return undefined;
     }
 
-    const opts = this.state.opts;
-    const styles = this.state.styles;
+    const { opts, styles } = this.state;
     const output = {};
 
     if (step.title) {
       output.header = (
         <div className="joyride-tooltip__header" style={styles.header}>
-          {step.title}</div>
+          {step.title}
+        </div>
       );
     }
 
     if (buttons.skip) {
-      output.skip = (<button
-        className="joyride-tooltip__button joyride-tooltip__button--skip"
-        style={styles.buttons.skip}
-        data-type="skip"
-        onClick={onClick}>
-        {buttons.skip}
-      </button>);
+      output.skip = (
+        <button
+          className="joyride-tooltip__button joyride-tooltip__button--skip"
+          style={styles.buttons.skip}
+          data-type="skip"
+          onClick={onClick}>
+          {buttons.skip}
+        </button>
+      );
     }
 
     // Why is this here?
@@ -471,13 +468,15 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     if (buttons.secondary) {
-      output.secondary = (<button
-        className="joyride-tooltip__button joyride-tooltip__button--secondary"
-        style={styles.buttons.back}
-        data-type="back"
-        onClick={onClick}>
-        {buttons.secondary}
-      </button>);
+      output.secondary = (
+        <button
+          className="joyride-tooltip__button joyride-tooltip__button--secondary"
+          style={styles.buttons.back}
+          data-type="back"
+          onClick={onClick}>
+          {buttons.secondary}
+        </button>
+      );
     }
 
     if (step.event === 'hover') {

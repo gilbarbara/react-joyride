@@ -38,16 +38,11 @@ function getBrowser() {
   const isChrome = !!window.chrome && !!window.chrome.webstore;
   // Safari <= 9 "[object HTMLElementConstructor]"
   const isSafari = (Object.prototype.toString.call(window.HTMLElement)
-      .indexOf('Constructor') > 0 || !isChrome) && !isOpera && window.webkitAudioContext !== undefined;
+    .indexOf('Constructor') > 0 || !isChrome) && !isOpera && window.webkitAudioContext !== undefined;
   // Internet Explorer 6-11
   const isIE = Boolean(document.documentMode); // At least IE6
 
-  return isOpera ? 'opera' :
-         isFirefox ? 'firefox' :
-         isChrome ? 'chrome' :
-         isSafari ? 'safari' :
-         isIE ? 'ie' :
-         '';
+  return isOpera ? 'opera' : isFirefox ? 'firefox' : isChrome ? 'chrome' : isSafari ? 'safari' : isIE ? 'ie' : '';
 }
 
 export const browser = getBrowser();
@@ -57,8 +52,7 @@ export const browser = getBrowser();
  * @returns {Number}
  */
 export function getDocHeight() {
-  const body = document.body;
-  const html = document.documentElement;
+  const { body, documentElement: html } = document;
 
   return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
 }
@@ -68,8 +62,13 @@ export function getDocHeight() {
  * @returns {Element}
  */
 export function getRootEl() {
-  const scrollingElement = document.scrollingElement || document.body;
-  return ['ie', 'firefox'].indexOf(browser) > -1 ? document.documentElement : scrollingElement;
+  const { scrollingElement } = document;
+
+  if (!scrollingElement) {
+    return ['ie', 'firefox'].indexOf(browser) > -1 ? document.documentElement : document.body;
+  }
+
+  return scrollingElement;
 }
 
 /**
@@ -131,7 +130,9 @@ export function sanitizeSelector(selector) {
 export function getOffsetBoundingClientRect(element, offsetParent) {
   const elementRect = element.getBoundingClientRect();
 
-  if (!offsetParent) return elementRect;
+  if (!offsetParent) {
+    return elementRect;
+  }
 
   const offsetParentRect = offsetParent.getBoundingClientRect();
 
