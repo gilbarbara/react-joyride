@@ -1,40 +1,27 @@
 {
   "presets": [
     ["env", {
+      "useBuiltIns": true,
+      "modules": false,
       "targets": {
         "browsers": ["last 2 versions", "safari >= 7"]
-      },
-      "modules": false
+      }
     }],
     "react",
     "stage-1"
   ],
-  "plugins": [
-    [
-      "transform-runtime", {
-      "polyfill": false,
-      "regenerator": true
-    }
-    ]
-  ],
-  "compact": "true",
+  "plugins": [],
+  "compact": "false",
   "env": {
     "production": {
       "plugins": [
-        "transform-react-remove-prop-types",
         "transform-flow-strip-types",
-        "array-includes",
-        [
-          "transform-runtime", {
-          "polyfill": false,
-          "regenerator": true
-        }
-        ]
+        "array-includes"
       ]
     },
-    "development": {
+    "commonjs": {
       "plugins": [
-        "react-hot-loader/babel"
+        ["transform-es2015-modules-commonjs", { "loose": true }]
       ]
     },
     "test": {

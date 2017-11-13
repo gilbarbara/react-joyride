@@ -1,5 +1,7 @@
 .tmp
 coverage
 dist
+es
+lib
 node_modules
 reports

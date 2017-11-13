@@ -24,14 +24,14 @@ module.exports = {
   testRegex: '/test/.*?\\.(test|spec)\\.js$',
   collectCoverage: false,
   collectCoverageFrom: [
-    'app/scripts/**/*.{js,jsx}',
+    'src/scripts/**/*.{js,jsx}',
   ],
   coverageThreshold: {
     global: {
-      branches: 50,
-      functions: 50,
-      lines: 50,
-      statements: 50
+      branches: 65,
+      functions: 65,
+      lines: 65,
+      statements: 65
     },
   },
   verbose: true,

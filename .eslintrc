@@ -9,13 +9,6 @@
     "babel",
     "flowtype"
   ],
-  "settings": {
-    "import/resolver": {
-      "webpack": {
-        "config": "config/webpack.config.js"
-      }
-    }
-  },
   "rules": {
     "arrow-body-style": [
       1,

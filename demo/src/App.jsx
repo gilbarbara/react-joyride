@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Joyride from 'scripts/Joyride';
+import Joyride from '../../src/scripts';
 
 import './styles.scss';
 

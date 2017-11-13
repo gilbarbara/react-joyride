@@ -2,12 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import scroll from 'scroll';
 import nested from 'nested-property';
-import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight } from 'scripts/utils';
+import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight } from './utils';
 
-import Beacon from 'scripts/Beacon';
-import Tooltip from 'scripts/Tooltip';
-
-import 'styles/react-joyride.scss';
+import Beacon from './Beacon';
+import Tooltip from './Tooltip';
 
 const defaultState = {
   action: '',
