@@ -2,7 +2,7 @@
 engines:
   eslint:
     enabled: true
-    channel: "eslint-3"
+    channel: "eslint-4"
     config:
       extensions:
         - .js
