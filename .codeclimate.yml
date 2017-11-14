@@ -26,6 +26,9 @@ ratings:
   - "**.jsx"
   - "**.scss"
 exclude_paths:
+  - coverage/**/*
+  - cypress/**/*
+  - es/**/*
   - lib/**/*
   - node_modules/**/*
-  - tests/**/*
+  - test/**/*
