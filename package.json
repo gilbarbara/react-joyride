@@ -87,6 +87,7 @@
     "react-dom": "^16.1.0",
     "react-hot-loader": "^3.1.2",
     "react-test-renderer": "^16.1.0",
+    "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "source-map-support": "^0.5.0",
     "style-loader": "^0.19.0",

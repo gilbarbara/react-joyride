@@ -1,9 +1,10 @@
 React Joyride
 ===
 
-[![NPM version](https://badge.fury.io/js/react-joyride.svg)](https://badge.fury.io/js/react-joyride.svg)
-[![build status](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride)
-[![Code Climate status](https://codeclimate.com/github/gilbarbara/react-joyride/badges/gpa.svg)](https://codeclimate.com/github/gilbarbara/react-joyride)
+[![NPM version](https://badge.fury.io/js/react-inlinesvg.svg)](https://www.npmjs.com/package/react-inlinesvg) 
+[![build status](https://travis-ci.org/gilbarbara/react-inlinesvg.svg)](https://travis-ci.org/gilbarbara/react-inlinesvg) 
+[![Maintainability](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/maintainability)](https://codeclimate.com/github/gilbarbara/react-joyride/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/test_coverage)](https://codeclimate.com/github/gilbarbara/react-joyride/test_coverage)
 [![Join the chat at https://gitter.im/gilbarbara/react-joyride](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gilbarbara/react-joyride?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Joyride example image](http://gilbarbara.github.io/react-joyride/media/example.png)](http://gilbarbara.github.io/react-joyride/)
