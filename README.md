@@ -11,7 +11,7 @@ React Joyride
 
 View the demo [here](http://gilbarbara.github.io/react-joyride/) [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
 
-[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/React-Joyride/)
+[![Code Sponsor](https://app.codesponsor.io/embed/aVyak7F2JA5ZCo4usjUoY8he/gilbarbara/react-joyride.svg)](https://app.codesponsor.io/link/aVyak7F2JA5ZCo4usjUoY8he/gilbarbara/react-joyride)
 
 ## Setup
 
@@ -276,6 +276,8 @@ Example:
 - `$joyride-close`: Sass list for the close button: Defaults to `(color: rgba($joyride-tooltip-color, 0.5), size: 12px, top: 10px, right: 10px)`
 - `$joyride-close-visible`: Default to `true`;
 
+
+[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg)](https://gratipay.com/React-Joyride/)
 
 ---
 
