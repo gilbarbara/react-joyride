@@ -8,8 +8,8 @@ $joyride-beacon-size: 36px !default;
 $joyride-hole-border-radius: 4px !default;
 $joyride-hole-shadow: 0 0 15px rgba(#000, 0.5) !default;
 
-$joyride-tooltip-animation: joyride-tooltip 0.4s forwards;
-$joyride-tooltip-animation-timing: cubic-bezier(0, 1.05, 0.55, 1.18);
+$joyride-tooltip-animation: joyride-tooltip 0.4s forwards !default;
+$joyride-tooltip-animation-timing: cubic-bezier(0, 1.05, 0.55, 1.18) !default;
 
 $joyride-tooltip-arrow-size: 36px !default;
 $joyride-tooltip-bg-color: #fff !default;
