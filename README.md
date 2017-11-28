@@ -11,8 +11,6 @@ React Joyride
 
 View the demo [here](http://gilbarbara.github.io/react-joyride/) [[source](https://github.com/gilbarbara/react-joyride/tree/demo)]
 
-[![Code Sponsor](https://app.codesponsor.io/embed/aVyak7F2JA5ZCo4usjUoY8he/gilbarbara/react-joyride.svg)](https://app.codesponsor.io/link/aVyak7F2JA5ZCo4usjUoY8he/gilbarbara/react-joyride)
-
 ## Setup
 
 ```javascript
