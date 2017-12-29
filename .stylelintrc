@@ -26,6 +26,7 @@
     "function-url-quotes": "always",
     "indentation": [2, { "ignore": ["value"] }],
     "max-nesting-depth": 5,
+    "no-descending-specificity": null,
     "no-duplicate-selectors": true,
     "no-empty-source": [true, { "severity": "warning" }],
     "no-missing-end-of-source-newline": true,
