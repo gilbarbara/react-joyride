@@ -28,11 +28,12 @@
     "src"
   ],
   "peerDependencies": {
+    "prop-types": "^15.0.0",
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0",
-    "prop-types": "^15.0.0"
+    "react-dom": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "nested-property": "^0.0.7",
     "scroll": "^2.0.1"
   },
