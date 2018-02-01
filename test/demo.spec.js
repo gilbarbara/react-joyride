@@ -76,6 +76,24 @@ describe('Joyride', () => {
 
       expect(wrapper.find('.joyride-tooltip--standalone').length).toBe(0);
     });
+
+    it('should render custom tooltip', () => {
+      const CustomTooltip = () => <div id="custom-tooltip" />;
+      const modifiedWrapper = setup({ ...props, tooltipComponent: CustomTooltip });
+
+      modifiedWrapper.find('.hero__tooltip').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      modifiedWrapper.update();
+
+      expect(modifiedWrapper.find(CustomTooltip).exists()).toBe(true);
+    });
+
+    it('should render custom beacon', () => {
+      const CustomBeacon = () => <div id="custom-beacon" />;
+      const modifiedWrapper = setup({ ...props, beaconComponent: CustomBeacon });
+      modifiedWrapper.find('.hero__start').simulate('click');
+
+      expect(modifiedWrapper.find(CustomBeacon).exists()).toBe(true);
+    });
   });
 
   describe('tour with `run` set to false', () => {
