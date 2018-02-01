@@ -55,7 +55,7 @@ class Joyride extends React.Component {
   static propTypes = {
     allowClicksThruHole: PropTypes.bool,
     autoStart: PropTypes.bool,
-    beaconComponent: PropTypes.element,
+    beaconComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     callback: PropTypes.func,
     debug: PropTypes.bool,
     disableOverlay: PropTypes.bool,
@@ -75,7 +75,7 @@ class Joyride extends React.Component {
     showStepsProgress: PropTypes.bool,
     stepIndex: PropTypes.number,
     steps: PropTypes.array,
-    tooltipComponent: PropTypes.element,
+    tooltipComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     tooltipOffset: PropTypes.number,
     type: PropTypes.string
   };
