@@ -864,14 +864,15 @@ class Joyride extends React.Component {
   handleClickTooltip = (e) => {
     const { index, shouldRun } = this.state;
     const { steps, type } = this.props;
-    const el = e.currentTarget.className.includes('joyride-') && [
-      'A',
-      'BUTTON'
-    ].includes(e.currentTarget.tagName) ? e.currentTarget : e.target;
+    const el =
+      e.currentTarget.className.includes('joyride-')
+      && ['A', 'BUTTON'].includes(e.currentTarget.tagName)
+        ? e.currentTarget
+        : e.target;
     const dataType = el.dataset.type;
 
     /* istanbul ignore else */
-    if (el.className.indexOf('joyride-') === 0) {
+    if (typeof el.className === 'string' && el.className.startsWith('joyride-')) {
       e.preventDefault();
       e.stopPropagation();
       const tooltip = document.querySelector('.joyride-tooltip');
