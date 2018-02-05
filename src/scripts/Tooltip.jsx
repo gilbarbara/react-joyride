@@ -26,6 +26,7 @@ export default class JoyrideTooltip extends React.Component {
       'bottom', 'bottom-left', 'bottom-right',
       'right', 'left',
     ]).isRequired,
+    render: PropTypes.func,
     // sanitized selector string
     selector: PropTypes.string.isRequired,
     showOverlay: PropTypes.bool.isRequired,
@@ -418,24 +419,18 @@ export default class JoyrideTooltip extends React.Component {
     }
   };
 
-  render() {
+  renderComponent() {
     const {
       buttons,
       className,
-      disableOverlay,
       onClick,
       selector,
-      showOverlay,
       step,
-      target,
       type
     } = this.props;
 
-    if (!target) {
-      return undefined;
-    }
-
     const { opts, styles } = this.state;
+
     const output = {};
 
     if (step.title) {
@@ -512,15 +507,37 @@ export default class JoyrideTooltip extends React.Component {
       </div>
     );
 
-    if (showOverlay) {
-      // Empty onClick handler is for iOS touch devices (https://github.com/gilbarbara/react-joyride/issues/204)
-      output.hole = (
-        <div className={`joyride-hole ${browser}`} style={styles.hole} onClick={() => {}} />
-      );
+    return output.tooltipComponent;
+  }
+
+  render() {
+    const {
+      disableOverlay,
+      onClick,
+      render,
+      showOverlay,
+      target,
+    } = this.props;
+
+    if (!target) {
+      return undefined;
     }
 
+    if (render) {
+      return render(this.props, this.state);
+    }
+
+    const { styles } = this.state;
+
+    // Empty onClick handler is for iOS touch devices (https://github.com/gilbarbara/react-joyride/issues/204)
+    const hole = showOverlay ? (
+      <div className={`joyride-hole ${browser}`} style={styles.hole} onClick={() => {}} />
+    ) : null;
+
+    const tooltipComponent = render ? render(this.props, this.state) : this.renderComponent();
+
     if (!showOverlay) {
-      return output.tooltipComponent;
+      return tooltipComponent;
     }
 
     const overlayStyles = {
@@ -535,8 +552,8 @@ export default class JoyrideTooltip extends React.Component {
         style={overlayStyles}
         data-type="close"
         onClick={!disableOverlay ? onClick : undefined}>
-        {output.hole}
-        {output.tooltipComponent}
+        {hole}
+        {tooltipComponent}
       </div>
     );
   }

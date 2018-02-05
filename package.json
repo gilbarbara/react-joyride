@@ -1,6 +1,6 @@
 {
-  "name": "react-joyride",
-  "version": "1.11.1",
+  "name": "@invisionag/react-joyride",
+  "version": "1.12.1",
   "description": "Create walkthroughs and guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
