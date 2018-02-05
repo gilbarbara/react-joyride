@@ -76,6 +76,8 @@ You can change the initial options passing props to the component.
 
 **autoStart** {bool}: Open the tooltip automatically for the first step, without showing a beacon. Defaults to `false`
 
+**beaconComponent** {function}: An alternative component to be used by Joyride instead of the default Beacon
+
 **keyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
 **locale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`
@@ -101,6 +103,8 @@ You can change the initial options passing props to the component.
 **showSkipButton** {bool}: Display a link to skip the tour. Defaults to `false`
 
 **showStepsProgress** {bool}: Display the tour progress in the next button *e.g. 2/5* in `continuous` tours. Defaults to `false`
+
+**tooltipComponent** {function}: An alternative component to be used by Joyride instead of the default Tooltip
 
 **tooltipOffset** {number}: The tooltip offset from the target. Defaults to `30`
 
@@ -238,6 +242,29 @@ Example:
   name: 'my-first-step',
   parent: 'MyComponentName'
 }
+```
+
+## Custom tooltips
+react-joyride provides a way to pass your own rendering logic to its tour components.
+Be aware that this requires working knowledge of how the [Tooltip](src/scripts/Tooltip.jsx) component works internally.
+
+Example:
+```jsx
+import Joyride from 'react-joyride';
+import Tooltip from 'react-joyride/lib/Tooltip';
+
+const CustomTooltip = (
+  <Tooltip
+    render={(tooltipProps, tooltipState) => (<div>
+        <span className="custom-header" style={tooltipState.styles.header}>
+          {tooltipProps.step.title}
+        </span>
+      </div>)
+    }
+  />
+);
+
+return <Joyride /* ... other Joyride props */ tooltipComponent={CustomTooltip} />;
 ```
 
 ## SCSS Options

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { browser, getOffsetBoundingClientRect, sanitizeSelector } from './utils';
 
 export default class JoyrideTooltip extends React.Component {
@@ -13,6 +14,7 @@ export default class JoyrideTooltip extends React.Component {
     allowClicksThruHole: PropTypes.bool.isRequired,
     animate: PropTypes.bool.isRequired,
     buttons: PropTypes.object.isRequired,
+    className: PropTypes.string,
     disableOverlay: PropTypes.bool,
     holePadding: PropTypes.number,
     offsetParentSelector: PropTypes.string, //eslint-disable-line react/no-unused-prop-types
@@ -24,6 +26,7 @@ export default class JoyrideTooltip extends React.Component {
       'bottom', 'bottom-left', 'bottom-right',
       'right', 'left',
     ]).isRequired,
+    render: PropTypes.func,
     // sanitized selector string
     selector: PropTypes.string.isRequired,
     showOverlay: PropTypes.bool.isRequired,
@@ -416,23 +419,18 @@ export default class JoyrideTooltip extends React.Component {
     }
   };
 
-  render() {
+  renderComponent() {
     const {
       buttons,
-      disableOverlay,
+      className,
       onClick,
       selector,
-      showOverlay,
       step,
-      target,
       type
     } = this.props;
 
-    if (!target) {
-      return undefined;
-    }
-
     const { opts, styles } = this.state;
+
     const output = {};
 
     if (step.title) {
@@ -484,7 +482,7 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     output.tooltipComponent = (
-      <div className={opts.classes.join(' ')} style={styles.tooltip} data-target={selector}>
+      <div className={classnames(opts.classes.join(' '), className)} style={styles.tooltip} data-target={selector}>
         <div
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
           style={styles.arrow} />
@@ -509,15 +507,33 @@ export default class JoyrideTooltip extends React.Component {
       </div>
     );
 
-    if (showOverlay) {
-      // Empty onClick handler is for iOS touch devices (https://github.com/gilbarbara/react-joyride/issues/204)
-      output.hole = (
-        <div className={`joyride-hole ${browser}`} style={styles.hole} onClick={() => {}} />
-      );
+    return output.tooltipComponent;
+  }
+
+  render() {
+    const {
+      disableOverlay,
+      onClick,
+      render,
+      showOverlay,
+      target,
+    } = this.props;
+
+    if (!target) {
+      return undefined;
     }
 
+    const { styles } = this.state;
+
+    // Empty onClick handler is for iOS touch devices (https://github.com/gilbarbara/react-joyride/issues/204)
+    const hole = showOverlay ? (
+      <div className={`joyride-hole ${browser}`} style={styles.hole} onClick={() => {}} />
+    ) : null;
+
+    const tooltipComponent = render ? render(this.props, this.state) : this.renderComponent();
+
     if (!showOverlay) {
-      return output.tooltipComponent;
+      return tooltipComponent;
     }
 
     const overlayStyles = {
@@ -532,8 +548,8 @@ export default class JoyrideTooltip extends React.Component {
         style={overlayStyles}
         data-type="close"
         onClick={!disableOverlay ? onClick : undefined}>
-        {output.hole}
-        {output.tooltipComponent}
+        {hole}
+        {tooltipComponent}
       </div>
     );
   }

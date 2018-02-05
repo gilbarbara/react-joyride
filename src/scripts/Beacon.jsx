@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import { hexToRGB } from './utils';
 
 let isTouch = false;
@@ -11,6 +12,7 @@ if (typeof window !== 'undefined') {
 
 export default class JoyrideBeacon extends React.Component {
   static propTypes = {
+    className: PropTypes.string,
     eventType: PropTypes.string.isRequired,
     onTrigger: PropTypes.func.isRequired,
     step: PropTypes.object.isRequired,
@@ -30,7 +32,7 @@ export default class JoyrideBeacon extends React.Component {
   };
 
   render() {
-    const { eventType, onTrigger, step, xPos, yPos } = this.props;
+    const { className, eventType, onTrigger, step, xPos, yPos } = this.props;
     const styles = {
       beacon: {
         left: xPos,
@@ -72,7 +74,7 @@ export default class JoyrideBeacon extends React.Component {
 
     return (
       <button
-        className="joyride-beacon"
+        className={classnames('joyride-beacon', className)}
         style={styles.beacon}
         onClick={eventType === 'click' || isTouch ? onTrigger : null}
         onMouseEnter={eventType === 'hover' && !isTouch ? onTrigger : null}>

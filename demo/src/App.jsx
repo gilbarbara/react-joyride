@@ -183,6 +183,7 @@ export default class Demo extends React.Component {
     const { joyride } = this.props;
     const joyrideProps = {
       autoStart: joyride.autoStart || this.state.autoStart,
+      beaconComponent: joyride.beaconComponent,
       callback: this.handleJoyrideCallback,
       debug: false,
       disableOverlay: this.state.step === 1,
@@ -191,6 +192,7 @@ export default class Demo extends React.Component {
       scrollToFirstStep: joyride.scrollToFirstStep || true,
       stepIndex: joyride.stepIndex || this.state.step,
       steps: joyride.steps || this.state.steps,
+      tooltipComponent: joyride.tooltipComponent,
       type: joyride.type || 'continuous'
     };
 

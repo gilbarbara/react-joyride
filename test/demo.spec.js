@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import Demo from '../demo/src/App';
+import JoyrideTooltip from '../src/scripts/Tooltip';
 
 const mockConsole = jest.fn();
 console.warn = mockConsole; //eslint-disable-line no-console
@@ -75,6 +76,45 @@ describe('Joyride', () => {
       wrapper.update();
 
       expect(wrapper.find('.joyride-tooltip--standalone').length).toBe(0);
+    });
+
+    it('should render custom tooltip', () => {
+      const CustomTooltip = () => <div id="custom-tooltip" />;
+      const modifiedWrapper = setup({ ...props, tooltipComponent: CustomTooltip });
+
+      modifiedWrapper.find('.hero__tooltip').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      modifiedWrapper.update();
+
+      expect(modifiedWrapper.find(CustomTooltip).exists()).toBe(true);
+    });
+
+    it('should render custom beacon', () => {
+      const CustomBeacon = () => <div id="custom-beacon" />;
+      const modifiedWrapper = setup({ ...props, beaconComponent: CustomBeacon });
+      modifiedWrapper.find('.hero__start').simulate('click');
+
+      expect(modifiedWrapper.find(CustomBeacon).exists()).toBe(true);
+    });
+
+    it('should render tooltip with render prop', () => {
+      const CustomTooltip = tooltipProps => (
+        <JoyrideTooltip
+          render={(currentProps, tooltipState) => (
+            <div>
+              <span className="custom-header" style={tooltipState.styles.header}>
+                {currentProps.step.title}
+              </span>
+            </div>)
+          }
+          {...tooltipProps} />);
+
+      const modifiedWrapper = setup({ ...props, tooltipComponent: CustomTooltip });
+
+      modifiedWrapper.find('.hero__tooltip').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      modifiedWrapper.update();
+
+      expect(modifiedWrapper.find(CustomTooltip).exists()).toBe(true);
+      expect(modifiedWrapper.find('.custom-header').exists()).toBe(true);
     });
   });
 

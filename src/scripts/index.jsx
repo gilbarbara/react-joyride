@@ -55,6 +55,7 @@ class Joyride extends React.Component {
   static propTypes = {
     allowClicksThruHole: PropTypes.bool,
     autoStart: PropTypes.bool,
+    beaconComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     callback: PropTypes.func,
     debug: PropTypes.bool,
     disableOverlay: PropTypes.bool,
@@ -74,6 +75,7 @@ class Joyride extends React.Component {
     showStepsProgress: PropTypes.bool,
     stepIndex: PropTypes.number,
     steps: PropTypes.array,
+    tooltipComponent: PropTypes.oneOfType([PropTypes.func, PropTypes.element]),
     tooltipOffset: PropTypes.number,
     type: PropTypes.string
   };
@@ -81,6 +83,7 @@ class Joyride extends React.Component {
   static defaultProps = {
     allowClicksThruHole: false,
     autoStart: false,
+    beaconComponent: Beacon,
     debug: false,
     disableOverlay: false,
     holePadding: 5,
@@ -105,6 +108,7 @@ class Joyride extends React.Component {
     showStepsProgress: false,
     stepIndex: 0,
     steps: [],
+    tooltipComponent: Tooltip,
     tooltipOffset: 15,
     type: 'single'
   };
@@ -1141,6 +1145,7 @@ class Joyride extends React.Component {
   createComponent() {
     const { index, shouldRedraw, shouldRenderTooltip, standaloneData, xPos, yPos } = this.state;
     const {
+      beaconComponent,
       disableOverlay,
       holePadding,
       locale,
@@ -1150,6 +1155,7 @@ class Joyride extends React.Component {
       showSkipButton,
       showStepsProgress,
       steps,
+      tooltipComponent,
       type
     } = this.props;
     const currentStep = standaloneData || steps[index];
@@ -1214,7 +1220,7 @@ class Joyride extends React.Component {
         }
       }
 
-      component = React.createElement(Tooltip, {
+      component = React.createElement(tooltipComponent, {
         allowClicksThruHole,
         animate: xPos > -1 && !shouldRedraw,
         buttons,
@@ -1235,7 +1241,7 @@ class Joyride extends React.Component {
       });
     }
     else {
-      component = React.createElement(Beacon, {
+      component = React.createElement(beaconComponent, {
         step,
         xPos,
         yPos,
