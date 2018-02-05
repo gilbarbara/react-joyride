@@ -244,6 +244,29 @@ Example:
 }
 ```
 
+## Custom tooltips
+react-joyride provides a way to pass your own rendering logic to its tour components.
+Be aware that this requires working knowledge of how the [Tooltip](src/scripts/Tooltip.jsx) component works internally.
+
+Example:
+```jsx
+import Joyride from 'react-joyride';
+import Tooltip from 'react-joyride/lib/Tooltip';
+
+const CustomTooltip = (
+  <Tooltip
+    render={(tooltipProps, tooltipState) => (<div>
+        <span className="custom-header" style={tooltipState.styles.header}>
+          {tooltipProps.step.title}
+        </span>
+      </div>)
+    }
+  />
+);
+
+return <Joyride /* ... other Joyride props */ tooltipComponent={CustomTooltip} />;
+```
+
 ## SCSS Options
 
 #### Basic
