@@ -523,10 +523,6 @@ export default class JoyrideTooltip extends React.Component {
       return undefined;
     }
 
-    if (render) {
-      return render(this.props, this.state);
-    }
-
     const { styles } = this.state;
 
     // Empty onClick handler is for iOS touch devices (https://github.com/gilbarbara/react-joyride/issues/204)
