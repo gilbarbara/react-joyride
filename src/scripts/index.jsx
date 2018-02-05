@@ -785,14 +785,14 @@ class Joyride extends React.Component {
     let hasSteps;
 
     if (shouldRenderTooltip) {
-      if ([32, 38, 40].indexOf(intKey) > -1) {
+      if ([32, 38, 40].includes(intKey)) {
         e.preventDefault();
       }
 
       if (intKey === 27) {
         this.toggleTooltip({ show: false, index: index + 1, action: 'esc' });
       }
-      else if ([13, 32].indexOf(intKey) > -1) {
+      else if ([13, 32].includes(intKey)) {
         hasSteps = Boolean(steps[index + 1]);
         this.toggleTooltip({ show: hasSteps, index: index + 1, action: 'next' });
       }
@@ -895,8 +895,8 @@ class Joyride extends React.Component {
         });
       }
       else if (dataType) {
-        const shouldDisplay = ['continuous', 'guided'].indexOf(type) > -1
-          && ['close', 'skip'].indexOf(dataType) === -1
+        const shouldDisplay = ['continuous', 'guided'].includes(type)
+          && !['close', 'skip'].includes(dataType)
           && Boolean(steps[newIndex]);
 
         this.toggleTooltip({ show: shouldDisplay, index: newIndex, action: dataType });
@@ -1185,7 +1185,7 @@ class Joyride extends React.Component {
       /* istanbul ignore else */
       if (!standaloneData) {
         /* istanbul ignore else */
-        if (['continuous', 'guided'].indexOf(type) > -1) {
+        if (['continuous', 'guided'].includes(type)) {
           buttons.primary = locale.last;
 
           /* istanbul ignore else */

@@ -15,7 +15,7 @@ export default class JoyrideTooltip extends React.Component {
     buttons: PropTypes.object.isRequired,
     disableOverlay: PropTypes.bool,
     holePadding: PropTypes.number,
-    offsetParentSelector: PropTypes.string,
+    offsetParentSelector: PropTypes.string, //eslint-disable-line react/no-unused-prop-types
     onClick: PropTypes.func.isRequired,
     onRender: PropTypes.func.isRequired,
     // position of tooltip with respect to target
@@ -501,7 +501,7 @@ export default class JoyrideTooltip extends React.Component {
           <button
             className="joyride-tooltip__button joyride-tooltip__button--primary"
             style={styles.buttons.primary}
-            data-type={['single', 'casual'].indexOf(type) > -1 ? 'close' : 'next'}
+            data-type={['single', 'casual'].includes(type) ? 'close' : 'next'}
             onClick={onClick}>
             {buttons.primary}
           </button>
