@@ -875,7 +875,7 @@ class Joyride extends React.Component {
     const dataType = el.dataset.type;
 
     /* istanbul ignore else */
-    if (el.className.indexOf('joyride-') === 0) {
+    if (el.className.split(' ').some(v => /joyride-.*/.test(v))) {
       e.preventDefault();
       e.stopPropagation();
       const tooltip = document.querySelector('.joyride-tooltip');
