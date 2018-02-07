@@ -17,6 +17,7 @@ export default class JoyrideTooltip extends React.Component {
     className: PropTypes.string,
     disableOverlay: PropTypes.bool,
     holePadding: PropTypes.number,
+    index: PropTypes.number,
     offsetParentSelector: PropTypes.string,
     onClick: PropTypes.func.isRequired,
     onRender: PropTypes.func.isRequired,
@@ -32,6 +33,7 @@ export default class JoyrideTooltip extends React.Component {
     showOverlay: PropTypes.bool.isRequired,
     standalone: PropTypes.bool,
     step: PropTypes.object.isRequired,
+    steps: PropTypes.arrayOf(PropTypes.object),
     // DOM element to target
     target: PropTypes.object.isRequired,
     type: PropTypes.string.isRequired,
