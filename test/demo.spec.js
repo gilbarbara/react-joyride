@@ -78,6 +78,18 @@ describe('Joyride', () => {
       expect(wrapper.find('.joyride-tooltip--standalone').length).toBe(0);
     });
 
+
+    it('should propagate index and steps to tooltip', () => {
+      const CustomTooltip = () => <div id="custom-tooltip" />;
+      const modifiedWrapper = setup({ ...props, tooltipComponent: CustomTooltip });
+
+      modifiedWrapper.find('.hero__tooltip').instance().dispatchEvent(new Event('click', { bubbles: true }));
+      modifiedWrapper.update();
+
+      expect(modifiedWrapper.find(CustomTooltip).prop('index')).toBe(0);
+      expect(modifiedWrapper.find(CustomTooltip).prop('steps')).toHaveLength(5);
+    });
+
     it('should render custom tooltip', () => {
       const CustomTooltip = () => <div id="custom-tooltip" />;
       const modifiedWrapper = setup({ ...props, tooltipComponent: CustomTooltip });
