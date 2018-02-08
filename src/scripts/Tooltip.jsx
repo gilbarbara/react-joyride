@@ -446,6 +446,7 @@ export default class JoyrideTooltip extends React.Component {
     if (buttons.skip) {
       output.skip = (
         <button
+          tabIndex={0}
           className="joyride-tooltip__button joyride-tooltip__button--skip"
           style={styles.buttons.skip}
           data-type="skip"
@@ -470,6 +471,7 @@ export default class JoyrideTooltip extends React.Component {
     if (buttons.secondary) {
       output.secondary = (
         <button
+          tabIndex={0}
           className="joyride-tooltip__button joyride-tooltip__button--secondary"
           style={styles.buttons.back}
           data-type="back"
@@ -489,6 +491,7 @@ export default class JoyrideTooltip extends React.Component {
           className={`joyride-tooltip__triangle joyride-tooltip__triangle-${opts.positionClass}`}
           style={styles.arrow} />
         <button
+          tabIndex={0}
           className={`joyride-tooltip__close${(output.header ? ' joyride-tooltip__close--header' : '')}`}
           style={styles.buttons.close}
           data-type="close"
@@ -499,6 +502,7 @@ export default class JoyrideTooltip extends React.Component {
           {output.skip}
           {output.secondary}
           <button
+            tabIndex={0}
             className="joyride-tooltip__button joyride-tooltip__button--primary"
             style={styles.buttons.primary}
             data-type={['single', 'casual'].indexOf(type) > -1 ? 'close' : 'next'}

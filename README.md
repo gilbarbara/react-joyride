@@ -1,9 +1,9 @@
 React Joyride
 ===
 
-[![NPM version](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) 
-[![build status](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride) 
-[![dependencies Status](https://david-dm.org/gilbarbara/react-joyride/status.svg)](https://david-dm.org/gilbarbara/react-joyride) 
+[![NPM version](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride)
+[![build status](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride)
+[![dependencies Status](https://david-dm.org/gilbarbara/react-joyride/status.svg)](https://david-dm.org/gilbarbara/react-joyride)
 [![Maintainability](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/maintainability)](https://codeclimate.com/github/gilbarbara/react-joyride/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/test_coverage)](https://codeclimate.com/github/gilbarbara/react-joyride/test_coverage)
 
@@ -75,8 +75,6 @@ You can change the initial options passing props to the component.
 **run** {bool}: Run/stop the tour. Defaults to `false`
 
 **autoStart** {bool}: Open the tooltip automatically for the first step, without showing a beacon. Defaults to `false`
-
-**keyboardNavigation** {bool}: Toggle keyboard navigation (esc, space bar, return). Defaults to `true`
 
 **locale** {object}: The strings used in the tooltip. Defaults to `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`
 
@@ -184,7 +182,7 @@ There are some usable options but you can pass custom parameters.
 
 - `trigger`: The DOM element that will trigger the tooltip
 
-You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`. 
+You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
 You can also style `header`, `main`, `footer`, `button`, `skip`, `back`, `close` and `hole` independently using standard style options. Plus `beacon` offset, inner and outer colors and `arrow` visibility.
 

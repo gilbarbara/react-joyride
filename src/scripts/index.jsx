@@ -2,10 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import scroll from 'scroll';
 import nested from 'nested-property';
-import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight } from './utils';
+import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight, LockFocus } from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
+
+const EnhancedToolTip = LockFocus(Tooltip);
 
 const defaultState = {
   action: '',
@@ -59,7 +61,6 @@ class Joyride extends React.Component {
     debug: PropTypes.bool,
     disableOverlay: PropTypes.bool,
     holePadding: PropTypes.number,
-    keyboardNavigation: PropTypes.bool,
     locale: PropTypes.object,
     offsetParentSelector: PropTypes.string,
     resizeDebounce: PropTypes.bool,
@@ -84,7 +85,6 @@ class Joyride extends React.Component {
     debug: false,
     disableOverlay: false,
     holePadding: 5,
-    keyboardNavigation: true,
     locale: {
       back: 'Back',
       close: 'Close',
@@ -112,7 +112,6 @@ class Joyride extends React.Component {
   componentDidMount() {
     const {
       autoStart,
-      keyboardNavigation,
       resizeDebounce,
       resizeDebounceDelay,
       run,
@@ -150,10 +149,8 @@ class Joyride extends React.Component {
     window.addEventListener('resize', this.listeners.resize);
 
     /* istanbul ignore else */
-    if (keyboardNavigation && type === 'continuous') {
-      this.listeners.keyboard = this.handleKeyboardNavigation;
-      document.body.addEventListener('keydown', this.listeners.keyboard);
-    }
+    this.listeners.keyboard = this.handleKeyboardNavigation;
+    document.body.addEventListener('keydown', this.listeners.keyboard);
 
     window.addEventListener('touchstart', function setHasTouch() {
       hasTouch = true;
@@ -171,7 +168,7 @@ class Joyride extends React.Component {
     });
 
     const { isRunning, shouldRun, standaloneData } = this.state;
-    const { keyboardNavigation, run, steps, stepIndex } = this.props;
+    const { run, steps, stepIndex } = this.props;
     const stepsChanged = (nextProps.steps !== steps);
     const stepIndexChanged = (nextProps.stepIndex !== stepIndex && nextProps.stepIndex !== this.state.index);
     const runChanged = (nextProps.run !== run);
@@ -225,24 +222,6 @@ class Joyride extends React.Component {
     // Did not change the index, but need to start up the joyride
     else if (shouldStart) {
       this.start(nextProps.autoStart, nextProps.steps);
-    }
-
-    // Update keyboard listeners if necessary
-    /* istanbul ignore else */
-    if (
-      !this.listeners.keyboard &&
-      ((!keyboardNavigation && nextProps.keyboardNavigation) || keyboardNavigation)
-      && nextProps.type === 'continuous'
-    ) {
-      this.listeners.keyboard = this.handleKeyboardNavigation;
-      document.body.addEventListener('keydown', this.listeners.keyboard);
-    }
-    else if (
-      this.listeners.keyboard && keyboardNavigation &&
-      (!nextProps.keyboardNavigation || nextProps.type !== 'continuous')
-    ) {
-      document.body.removeEventListener('keydown', this.listeners.keyboard);
-      delete this.listeners.keyboard;
     }
   }
 
@@ -785,16 +764,8 @@ class Joyride extends React.Component {
     let hasSteps;
 
     if (shouldRenderTooltip) {
-      if ([32, 38, 40].indexOf(intKey) > -1) {
-        e.preventDefault();
-      }
-
       if (intKey === 27) {
         this.toggleTooltip({ show: false, index: index + 1, action: 'esc' });
-      }
-      else if ([13, 32].indexOf(intKey) > -1) {
-        hasSteps = Boolean(steps[index + 1]);
-        this.toggleTooltip({ show: hasSteps, index: index + 1, action: 'next' });
       }
     }
   };
@@ -1213,7 +1184,8 @@ class Joyride extends React.Component {
         }
       }
 
-      component = React.createElement(Tooltip, {
+      component = React.createElement(EnhancedToolTip, {
+        focusTarget: 'joyride-overlay',
         allowClicksThruHole,
         animate: xPos > -1 && !shouldRedraw,
         buttons,

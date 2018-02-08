@@ -234,10 +234,4 @@ button {
   font-weight: $font-weight-base;
   line-height: 1;
   padding: 0;
-
-  &:active,
-  &:focus,
-  &:hover {
-    outline: none;
-  }
 }

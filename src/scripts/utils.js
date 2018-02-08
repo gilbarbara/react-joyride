@@ -1,3 +1,5 @@
+import { compose, withPropsOnChange, withState } from 'recompose';
+
 /*eslint-disable no-nested-ternary */
 
 /**
@@ -152,3 +154,61 @@ export function getOffsetBoundingClientRect(element, offsetParent) {
     height: elementRect.height
   };
 }
+
+const captureTabs = (first, last) => event => {
+  if (event.target === first && event.shiftKey && event.keyCode === 9) {
+    last.focus();
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
+  }
+  if (event.target === last && !event.shiftKey && event.keyCode === 9) {
+    first.focus();
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
+  }
+  return event;
+};
+
+export const LockFocus = compose(
+  withState('focusedElement', 'setFocusedElement', null),
+  withPropsOnChange(
+    ['target'],
+    ({ target, focusTarget, focusedElement, setFocusedElement }) => {
+      setFocusedElement(document.activeElement);
+      if (typeof document === 'object' && 'getElementById' in document) {
+        setTimeout(() => {
+          const container = document.querySelectorAll(`#${focusTarget}, .${focusTarget}`)[0];
+          const links = Array.from(document.querySelectorAll(`#${focusTarget} [tabindex], .${focusTarget} [tabindex]`)).filter(l => l.style.display !== 'none');
+          const first = links[0];
+          const last = links[links.length - 1];
+
+          if (document && target) {
+            if (container) {
+              container.addEventListener('keydown', captureTabs(first, last));
+            }
+            if (first) {
+              setTimeout(() => first.focus());
+            }
+          }
+          if (document && !target) {
+            if (container) {
+              container.removeEventListener(
+                'keydown',
+                captureTabs(first, last),
+              );
+            }
+            if (links) {
+              setTimeout(() => links.forEach(link => link.blur()));
+            }
+            if (focusedElement) {
+              focusedElement.focus();
+            }
+          }
+        }, 250);
+      }
+      return { target, tabIndex: target ? 1 : -1 };
+    },
+  ),
+);

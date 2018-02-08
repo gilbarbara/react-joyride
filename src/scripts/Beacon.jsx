@@ -72,6 +72,7 @@ export default class JoyrideBeacon extends React.Component {
 
     return (
       <button
+        tabIndex={0}
         className="joyride-beacon"
         style={styles.beacon}
         onClick={eventType === 'click' || isTouch ? onTrigger : null}

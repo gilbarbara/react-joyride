@@ -68,12 +68,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
   display: inline-block;
   line-height: 1;
   padding: 0;
-
-  &:active,
-  &:focus,
-  &:hover {
-    outline: none;
-  }
 }
 
 .joyride {
@@ -252,7 +246,6 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
       &:hover,
       &:focus {
         color: darken(map-get($joyride-close, 'color'), 10);
-        outline: none;
       }
 
       &--header {
