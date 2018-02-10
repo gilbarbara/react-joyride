@@ -2,7 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import scroll from 'scroll';
 import nested from 'nested-property';
-import { getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector, getDocHeight } from './utils';
+import {
+  getRootEl, getOffsetBoundingClientRect, logger, sanitizeSelector,
+  getDocHeight, isNode, isElement
+} from './utils';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -127,7 +130,7 @@ class Joyride extends React.Component {
     });
 
     const stepsAreValid = this.checkStepsValidity(steps);
-    if (steps && stepsAreValid && run) {
+    if (steps && stepsAreValid && run && !this.stepsSelectorUnmounted(steps)) {
       this.start(autoStart);
     }
 
@@ -180,11 +183,15 @@ class Joyride extends React.Component {
 
     if (stepsChanged && this.checkStepsValidity(nextProps.steps)) {
       // Removed all steps, so reset
-      if (!nextProps.steps || !nextProps.steps.length) {
+      if (!nextProps.steps || !nextProps.steps.length || this.stepsSelectorChanged(steps, nextProps.steps)) {
         this.reset();
       }
       // Start the joyride if steps were added for the first time, and run prop is true
-      else if (!steps.length && nextProps.run) {
+      else if (!steps.length && nextProps.run && !this.stepsSelectorUnmounted(steps)) {
+        shouldStart = true;
+      }
+      // Start the joyride if a selector was missing and is now present
+      if (nextProps.run && this.stepsSelectorUnmounted(steps) && !this.stepsSelectorUnmounted(nextProps.steps)) {
         shouldStart = true;
       }
     }
@@ -416,6 +423,13 @@ class Joyride extends React.Component {
     }
   }
 
+  stepsSelectorChanged = (currentSteps, nextSteps) => currentSteps.find((step, index) => {
+    if (!nextSteps[index]) return true;
+    return nextSteps[index].selector !== step.selector;
+  });
+
+  stepsSelectorUnmounted = currentSteps => currentSteps.find(step => step.selector === '{not-mounted}');
+
   /**
    * Starts the tour
    *
@@ -569,6 +583,7 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
 
+    // TODO: change da things
     const key = data.trigger || sanitizeSelector(data.selector);
     const el = document.querySelector(key);
 
@@ -675,8 +690,9 @@ class Joyride extends React.Component {
     if (!isValidStep) {
       return null;
     }
-
-    const el = document.querySelector(sanitizeSelector(step.selector));
+    const el = (isNode(step.selector) || isElement(step.selector))
+      ? step.selector
+      : document.querySelector(sanitizeSelector(step.selector));
 
     if (!el) {
       logger({
