@@ -583,9 +583,10 @@ class Joyride extends React.Component {
       debug: this.props.debug,
     });
 
-    // TODO: change da things
     const key = data.trigger || sanitizeSelector(data.selector);
-    const el = document.querySelector(key);
+    const el = (isNode(key) || isElement(key))
+      ? key
+      : document.querySelector(key);
 
     if (!el) {
       return;
