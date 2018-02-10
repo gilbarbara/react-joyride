@@ -1,6 +1,32 @@
 /*eslint-disable no-nested-ternary */
 
 /**
+ * Returns true if it is a DOM node
+ *
+ * @param   {string|Object} o - The selector provided in a step object
+ * @returns {boolean}
+ */
+function isNode(o) {
+  return (
+    typeof Node === 'object' ? o instanceof Node :
+      o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
+  );
+}
+
+/**
+ * Returns true if it is a DOM element
+ *
+ * @param   {string|Object} o - The selector provided in a step object
+ * @returns {boolean}
+ */
+function isElement(o) {
+  return (
+    typeof HTMLElement === 'object' ? o instanceof HTMLElement :
+      o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
+  );
+}
+
+/**
  * Convert hex to RGB
  *
  * @param {string} hex
@@ -104,6 +130,8 @@ export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
  * @returns {string}                   A cleaned-up selector string
  */
 export function sanitizeSelector(selector) {
+  if (isNode(selector) || isElement(selector)) return selector;
+
   if (selector.dataset && selector.dataset.reactid) {
     console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
     return `[data-reactid="${selector.dataset.reactid}"]`;
