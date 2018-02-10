@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import Joyride from '../src/scripts';
 
 import Demo from '../demo/src/App';
 
@@ -17,6 +18,46 @@ function setup(ownProps = props) {
     <Demo joyride={ownProps} />,
     { attachTo: document.getElementById('react') }
   );
+}
+
+function setupWithRefs(ownProps = {}) {
+  class RefDemo extends React.Component {
+    state = { selectorRef: null, joyride: true };
+
+    componentDidMount() {
+      this.setState(prevState => ({
+        ...prevState,
+        selectorRef: this.selectorRef,
+        joyride: true
+      }));
+    }
+
+    render() {
+      const joyrideProps = {
+        autoStart: true,
+        run: true,
+        steps: [
+          {
+            text: 'Tooltip Text.',
+            selector: this.state.selectorRef || '{not-mounted}',
+          },
+        ],
+        type: 'single'
+      };
+
+      return (
+        <div className="demo">
+          {this.state.joyride && <Joyride {...joyrideProps} />}
+          <div
+            ref={c => { this.selectorRef = c; }}
+            className="mission">
+            Tour Anchor
+          </div>
+        </div>
+      );
+    }
+  }
+  return mount(<RefDemo />, { attachTo: document.getElementById('react') });
 }
 
 describe('Joyride', () => {
@@ -195,5 +236,16 @@ describe('Joyride', () => {
       expect(wrapper.find('JoyrideTooltip').length).toBe(1);
       expect(wrapper.find('.joyride-tooltip').html()).toMatchSnapshot();
     });
+  });
+
+  it('tour with ref as selector', () => {
+    const customWrapper = setupWithRefs();
+    const stateRef = customWrapper.state('selectorRef');
+    const toolTipWrapper = customWrapper.find('.joyride-tooltip');
+
+    expect(stateRef).not.toBeUndefined();
+    expect(toolTipWrapper.length).toBe(1);
+
+    customWrapper.detach();
   });
 });
