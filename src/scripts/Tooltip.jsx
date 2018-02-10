@@ -24,8 +24,8 @@ export default class JoyrideTooltip extends React.Component {
       'bottom', 'bottom-left', 'bottom-right',
       'right', 'left',
     ]).isRequired,
-    // sanitized selector string
-    selector: PropTypes.string.isRequired,
+    // sanitized selector string or dom reference
+    selector: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     showOverlay: PropTypes.bool.isRequired,
     standalone: PropTypes.bool,
     step: PropTypes.object.isRequired,
