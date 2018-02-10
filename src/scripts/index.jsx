@@ -428,7 +428,7 @@ class Joyride extends React.Component {
     return nextSteps[index].selector !== step.selector;
   });
 
-  stepsSelectorUnmounted = currentSteps => currentSteps.find(step => step.selector === '{not-mounted}');
+  stepsSelectorUnmounted = currentSteps => currentSteps.find(step => sanitizeSelector(step.selector) === '{not-mounted}');
 
   /**
    * Starts the tour
@@ -672,7 +672,7 @@ class Joyride extends React.Component {
       return this.checkStepValidity(steps);
     }
     else if (steps.length > 0) {
-      return steps.every(this.checkStepValidity);
+      return steps.every(step => this.checkStepValidity({ ...step, selector: sanitizeSelector(step.selector) }));
     }
 
     return false;

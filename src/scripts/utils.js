@@ -130,6 +130,7 @@ export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
  * @returns {string}                   A cleaned-up selector string
  */
 export function sanitizeSelector(selector) {
+  if (selector == null) return '{not-mounted}';
   if (isNode(selector) || isElement(selector)) return selector;
 
   if (selector.dataset && selector.dataset.reactid) {

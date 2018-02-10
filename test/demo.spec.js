@@ -22,13 +22,13 @@ function setup(ownProps = props) {
 
 function setupWithRefs(ownProps = {}) {
   class RefDemo extends React.Component {
-    state = { selectorRef: null, joyride: true };
+    state = { selectorRef: null };
 
+    // this is so we can access the references from the test later on
     componentDidMount() {
       this.setState(prevState => ({
         ...prevState,
         selectorRef: this.selectorRef,
-        joyride: true
       }));
     }
 
@@ -39,15 +39,16 @@ function setupWithRefs(ownProps = {}) {
         steps: [
           {
             text: 'Tooltip Text.',
-            selector: this.state.selectorRef || '{not-mounted}',
+            selector: this.selectorRef,
           },
         ],
-        type: 'single'
+        type: 'single',
+        ...ownProps,
       };
 
       return (
         <div className="demo">
-          {this.state.joyride && <Joyride {...joyrideProps} />}
+          <Joyride {...joyrideProps} />
           <div
             ref={c => { this.selectorRef = c; }}
             className="mission">
