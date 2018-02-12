@@ -65,5 +65,10 @@ describe('utils', () => {
       .toBe('Unsupported error: React 15.0+ doesn’t write reactid to the DOM anymore, please use a plain class in your step.');
 
     expect(sanitizeSelector('.classy')).toEqual('.classy');
+
+    expect(sanitizeSelector(undefined)).toEqual('{not-mounted}');
+
+    const htmlElement = document.createElement('div');
+    expect(sanitizeSelector(htmlElement)).toEqual(htmlElement);
   });
 });

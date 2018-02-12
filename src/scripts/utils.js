@@ -1,6 +1,32 @@
 /*eslint-disable no-nested-ternary */
 
 /**
+ * Returns true if it is a DOM node
+ *
+ * @param   {string|Object} o - The selector provided in a step object
+ * @returns {boolean}
+ */
+export function isNode(o) {
+  return (
+    typeof Node === 'object' ? o instanceof Node :
+      o && typeof o === 'object' && typeof o.nodeType === 'number' && typeof o.nodeName === 'string'
+  );
+}
+
+/**
+ * Returns true if it is a DOM element
+ *
+ * @param   {string|Object} o - The selector provided in a step object
+ * @returns {boolean}
+ */
+export function isElement(o) {
+  return (
+    typeof HTMLElement === 'object' ? o instanceof HTMLElement :
+      o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
+  );
+}
+
+/**
  * Convert hex to RGB
  *
  * @param {string} hex
@@ -97,6 +123,20 @@ export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
   }
 }
 
+function sanitizeObjectSelector(selector) {
+  if (isNode(selector) || isElement(selector)) return selector;
+
+  if (selector.dataset) {
+    if (selector.dataset.reactid) {
+      console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
+      return `[data-reactid="${selector.dataset.reactid}"]`;
+    }
+    // eslint-disable-next-line no-console
+    console.error('Unsupported error: React 15.0+ doesn’t write reactid to the DOM anymore, please use a plain class in your step.', selector);
+  }
+  return selector.className ? `.${selector.className.replace(' ', '.')}` : selector;
+}
+
 /**
  * Check for deprecated selector styles, return stringified, safer versions
  *
@@ -104,19 +144,8 @@ export function logger({ type = 'joyride', msg, warn = false, debug = false }) {
  * @returns {string}                   A cleaned-up selector string
  */
 export function sanitizeSelector(selector) {
-  if (selector.dataset && selector.dataset.reactid) {
-    console.warn('Deprecation warning: React 15.0 removed reactid. Update your code.'); //eslint-disable-line no-console
-    return `[data-reactid="${selector.dataset.reactid}"]`;
-  }
-  else if (selector.dataset) {
-    console.error('Unsupported error: React 15.0+ doesn’t write reactid to the DOM anymore, please use a plain class in your step.', selector); //eslint-disable-line no-console
-
-    /* istanbul ignore else */
-    if (selector.className) {
-      return `.${selector.className.replace(' ', '.')}`;
-    }
-  }
-  return selector;
+  if (selector == null) return '{not-mounted}';
+  return typeof selector === 'string' ? selector : sanitizeObjectSelector(selector);
 }
 
 /**

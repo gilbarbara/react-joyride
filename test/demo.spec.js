@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import Joyride from '../src/scripts';
 
 import Demo from '../demo/src/App';
 
@@ -14,6 +15,47 @@ function setup(ownProps = props) {
     <Demo joyride={ownProps} />,
     { attachTo: document.getElementById('react') }
   );
+}
+
+function setupWithRefs(ownProps = {}) {
+  class RefDemo extends React.Component {
+    state = { selectorRef: null };
+
+    // this is so we can access the references from the test later on
+    componentDidMount() {
+      this.setState(prevState => ({
+        ...prevState,
+        selectorRef: this.selectorRef,
+      }));
+    }
+
+    render() {
+      const joyrideProps = {
+        autoStart: true,
+        run: true,
+        steps: [
+          {
+            text: 'Tooltip Text.',
+            selector: this.selectorRef,
+          },
+        ],
+        type: 'single',
+        ...ownProps,
+      };
+
+      return (
+        <div className="demo">
+          <Joyride {...joyrideProps} />
+          <div
+            ref={c => { this.selectorRef = c; }}
+            className="mission">
+            Tour Anchor
+          </div>
+        </div>
+      );
+    }
+  }
+  return mount(<RefDemo />, { attachTo: document.getElementById('react') });
 }
 
 describe('Joyride', () => {
@@ -239,5 +281,16 @@ describe('Joyride', () => {
       expect(joyride.state.index).toBe(5);
       expect(joyride.state.isRunning).toBe(false);
     });
+  });
+
+  it('tour with ref as selector', () => {
+    const customWrapper = setupWithRefs();
+    const stateRef = customWrapper.state('selectorRef');
+    const toolTipWrapper = customWrapper.find('.joyride-tooltip');
+
+    expect(stateRef).not.toBeUndefined();
+    expect(toolTipWrapper.length).toBe(1);
+
+    customWrapper.detach();
   });
 });
