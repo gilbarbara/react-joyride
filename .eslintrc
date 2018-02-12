@@ -137,6 +137,7 @@
         ],
         "groups": {
           "lifecycle": [
+            "state",
             "statics",
             "contextTypes",
             "childContextTypes",

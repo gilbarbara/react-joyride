@@ -77,6 +77,8 @@
     "husky": "^0.14.3",
     "image-webpack-loader": "^4.0.0",
     "jest": "^22.1.4",
+    "jest-environment-jsdom-global": "^1.0.3",
+    "jest-enzyme": "^4.1.1",
     "jsdom": "^11.6.2",
     "nightwatch": "^0.9.19",
     "node-sass": "^4.7.2",
