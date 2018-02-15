@@ -96,6 +96,10 @@ class App extends React.Component {
 
     this.setState(state);
   }
+  
+  setJoyrideRef(c) {
+    this.joyride = c;
+  }
 
   render() {
     const {
@@ -113,7 +117,7 @@ class App extends React.Component {
       html = (
         <div>
           <Joyride
-            ref={c => (this.joyride = c)}
+            ref={this.setJoyrideRef}
             callback={this.callback}
             debug={false}
             disableOverlay={selector === '.card-tickets'}
