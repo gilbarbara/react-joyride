@@ -10,7 +10,6 @@ before_script:
   - ./cc-test-reporter before-build
 script:
   - npm test
-  - npm run test:ui
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 deploy:
@@ -20,10 +19,7 @@ deploy:
     secure: udTSoiJXNkpRBrbwNtzflguIc/QvRbW/xdajwJqYUxitA409jBO+VhsxwlDJBl0HHHKW7yOwTUXvKAxr92y/6FByVM9yLuduQLOvG9J++l12Lc7fehKXbuNBZZDwjUF3MwftF9mCj4gJTUPrajZjXxUx78hI7dTCjJuJkpXHfZSr00Xu8In59rzr9OhDGBITlMSynE0yEIVBEfboxf9q5uSuJtp6qaK5ohbZqQnz2KIVoI2TUZ9KXpU8765mAd5xxvF4kgpmLYFN9TSd49oipZYPZs4UjlfVrPmKq2nmzepew9HuaXEvg0DLpcI9YjzBkR4AGlRIal2t4gNmy9m2XbaeyTS5q5Aoa+UchR9GS+LLsBIfl+1bI9yqijURZp68xMdQRC2iUrPcJeTKY9WpXEYFjxPmJXqfQl2BAiOlaxCzvNnD2i8th6PpeI+2aU79pWRSwUSQqV4PLjDN+M86cEpVRxZePLte6RIVqtRBes9HY8sQph0MAdzLUTbmMehnB1XzSRbuR77687NrbW8epRsxqRSK2Uqman8ZWSJan9apwP4niVciDJbfVL9M1J7pUZX8HKvfC3l5NJWO69xzQFouSVhtkZZWU4bxGtgS5gM+H/AHKv9/qktoA/K8hGPEFR1S7OoWSP310wetGHMHuXniKQh7glDh/IkpFp8QF14=
   on:
     tags: true
+    branch: master
     repo: gilbarbara/react-joyride
 addons:
   code_climate: true
-  sauce_connect:
-    username: react-joyride
-  jwt:
-    secure: iSxsgqQnUtWhQ8vfYYXqGvvLA3OIOM+Ny9/R3VW5LMEQaxgsczcIkCQfSAmiBsg7CEZg20+cx+w73mz6cVc/buHe+hoSOZHyu2FrDBQXkikAEH9pce6fVNHZO7GRcCufj7whvZCSwsgc5EzWgfTklYRG6s26s+Ulsw0BZowuypw+ttC6Se6Ks34H5A+LccjcxnlMliuK+WmtBGG63uvA3RhNSU7xNFRjyOVw5mgMOp/l2oSgHRUEi/WgLBFKLfFl/9MnjL7d0F7F24I+4dT54ja2ujcC/wbVyU101E7Rv5DT31ysb4JpUcFaP8u4BqYFsvsM/sclV+pT4nPvXSjyHG180UHS1lcfi2O9CduxiZtjbsfmgL+o5UwzNImfyHuogrXQXqLHznDQQUtxk9CXyYy33IY/U9OZrN2BQM/AYEnr4ZrFkacZinaOXm0XjIqkbLlnwsYSo1Aj80Te7W8MBwt8fl28rIVV9xxRdK2kW8gSu3LgUYhvrq1fknrfQyLzWADhSu5YP8yowUvBGRUGTBb2yq1Rs4Pzsh/CDuaOT3wU5IDXhUHmx7n4k3pQ11cZbGmKRzTmf8PGbIglPc6wo3J6aj01dTg1aPxxaeXMfKAtjoh+Yf6lziVTqt6HImuLksybBKvSQTGILmqQUsEupwk8qCLYtYQoZLW5t0d/U7s=
