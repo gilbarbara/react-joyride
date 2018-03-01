@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "nested-property": "^0.0.7",
-    "scroll": "^2.0.1"
+    "scroll": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.2.5",
