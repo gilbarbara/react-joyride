@@ -1,7 +1,6 @@
 module.exports = {
-  rootDir: '../',
   transform: {
-    '.*': 'babel-jest',
+    '^.+\\.jsx?$': 'babel-jest',
   },
   moduleFileExtensions: [
     'js',
@@ -15,7 +14,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^.+\\.(css|scss)$': '<rootDir>/test/__setup__/styleMock.js',
-    '^(.+\\.(jpe?g|png|gif|ttf|eot|svg|md)|bootstrap.*)$': '<rootDir>/test/__setup__/fileMock.js',
+    '^.+\\.(jpe?g|png|gif|ttf|eot|svg|md)$': '<rootDir>/test/__setup__/fileMock.js',
   },
   setupFiles: [
     '<rootDir>/test/__setup__/shim.js',
@@ -30,14 +29,14 @@ module.exports = {
   testURL: 'http://localhost:3000',
   collectCoverage: false,
   collectCoverageFrom: [
-    'src/scripts/**/*.{js,jsx}',
+    'src/**/*.{js,jsx}',
   ],
   coverageThreshold: {
     global: {
-      branches: 65,
-      functions: 65,
-      lines: 65,
-      statements: 65
+      branches: 15,
+      functions: 15,
+      lines: 15,
+      statements: 15,
     },
   },
   verbose: true,

@@ -1,27 +1,25 @@
 {
   "presets": [
-    ["env", {
+    [
+      "env", {
       "useBuiltIns": true,
       "modules": false,
       "targets": {
         "browsers": ["last 2 versions", "safari >= 7"]
       }
-    }],
+    }
+    ],
     "react",
     "stage-1"
   ],
   "plugins": [],
-  "compact": "false",
   "env": {
     "production": {
       "plugins": [
+        "array-includes",
+        "external-helpers",
         "transform-flow-strip-types",
-        "array-includes"
-      ]
-    },
-    "commonjs": {
-      "plugins": [
-        ["transform-es2015-modules-commonjs", { "loose": true }]
+        "transform-node-env-inline"
       ]
     },
     "test": {
