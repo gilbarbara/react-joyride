@@ -1,0 +1,16 @@
+export default {
+  TOUR_START: 'tour:start',
+  STEP_BEFORE: 'step:before',
+  BEACON: 'beacon',
+  BEACON_TRIGGER: 'beacon:trigger',
+  TOOLTIP: 'tooltip',
+  TOOLTIP_SKIP: 'tooltip:skip',
+  TOOLTIP_CLOSE: 'tooltip:close',
+  OVERLAY_CLICK: 'overlay:click',
+  HOLE_CLICK: 'hole:click',
+  STEP_AFTER: 'step:after',
+  TOUR_STATUS: 'tour:status',
+  TARGET_NOT_FOUND: 'error:target_not_found',
+  ERROR: 'error',
+  TOUR_END: 'tour:end',
+};
