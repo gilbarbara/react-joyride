@@ -20,7 +20,7 @@ const defaultState = {
   yPos: -1000
 };
 
-const callbackTypes = {
+export const callbackTypes = {
   STEP_BEFORE: 'step:before',
   BEACON_BEFORE: 'beacon:before',
   BEACON_TRIGGER: 'beacon:trigger',
