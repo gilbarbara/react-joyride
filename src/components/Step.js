@@ -176,7 +176,7 @@ export default class JoyrideStep extends React.Component {
           target={step.target}
           {...step.tooltipOptions}
         >
-          <Beacon onClickOrHover={this.handleClickHoverBeacon} styles={step.styles} />
+          <Beacon beaconComponent={step.beaconComponent} onClickOrHover={this.handleClickHoverBeacon} styles={step.styles} />
         </ReactTooltips>
         <Overlay
           {...step}

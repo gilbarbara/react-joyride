@@ -44,23 +44,49 @@ export default class JoyrideTooltip extends React.Component {
 
   render() {
     const { continuous, index, isLastStep, step } = this.props;
+    const { content, locale, title, tooltipComponent } = step;
+    const { back, close, last, next, skip } = locale;
+    let primaryText = continuous ? next : close;
 
-    if (step.tooltipComponent) {
-      console.log(step.tooltipComponent);
-      return null;
+    if (isLastStep) {
+      primaryText = last;
     }
 
-    return (
-      <Container
-        continuous={continuous}
-        handleClickBack={this.handleClickBack}
-        handleClickClose={this.handleClickClose}
-        handleClickPrimary={this.handleClickPrimary}
-        handleClickSkip={this.handleClickSkip}
-        index={index}
-        isLastStep={isLastStep}
-        step={step}
-      />
-    );
+    let component;
+    const props = {
+      backProps: { 'aria-label': back, onClick: this.handleClickBack, role: 'button', title: back },
+      closeProps: { 'aria-label': close, onClick: this.handleClickClose, role: 'button', title: close },
+      primaryProps: { 'aria-label': primaryText, onClick: this.handleClickPrimary, role: 'button', title: primaryText },
+      skipProps: { 'aria-label': skip, onClick: this.handleClickSkip, role: 'button', title: skip },
+    };
+
+    if (tooltipComponent) {
+      const richProps = {
+        ...props,
+        content,
+        locale,
+        title,
+      };
+
+      if (React.isValidElement(tooltipComponent)) {
+        component = React.cloneElement(tooltipComponent, richProps);
+      }
+      else {
+        component = tooltipComponent(richProps);
+      }
+    }
+    else {
+      component = (
+        <Container
+          continuous={continuous}
+          index={index}
+          isLastStep={isLastStep}
+          step={step}
+          {...props}
+        />
+      );
+    }
+
+    return component;
   }
 }

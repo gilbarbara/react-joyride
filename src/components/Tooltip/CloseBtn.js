@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CloseBtn = ({ handleClick, styles }) => {
+const CloseBtn = ({ styles, ...props }) => {
   const { color, height, width, ...style } = styles;
 
   return (
-    <button style={style} onClick={handleClick}>
+    <button style={style} {...props}>
       <svg
         width={`${width}px`}
         height={`${height}px`}

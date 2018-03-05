@@ -5,10 +5,10 @@ import CloseBtn from './CloseBtn';
 
 const JoyrideTooltipContainer = ({
   continuous,
-  handleClickBack,
-  handleClickClose,
-  handleClickPrimary,
-  handleClickSkip,
+  backProps,
+  closeProps,
+  primaryProps,
+  skipProps,
   index,
   isLastStep,
   step,
@@ -29,14 +29,14 @@ const JoyrideTooltipContainer = ({
   }
 
   if (showSkipButton && !isLastStep) {
-    output.skip = (<button style={styles.buttonSkip} onClick={handleClickSkip}>{skip}</button>);
+    output.skip = (<button style={styles.buttonSkip} {...skipProps}>{skip}</button>);
   }
 
   if (!hideBackButton && index > 0) {
-    output.back = (<button style={styles.buttonBack} onClick={handleClickBack}>{back}</button>);
+    output.back = (<button style={styles.buttonBack} {...backProps}>{back}</button>);
   }
 
-  output.close = (<CloseBtn handleClick={handleClickClose} styles={styles.buttonClose} />);
+  output.close = (<CloseBtn {...closeProps} styles={styles.buttonClose} />);
 
   return (
     <div
@@ -55,7 +55,7 @@ const JoyrideTooltipContainer = ({
       <div style={styles.tooltipFooter}>
         {output.skip}
         {output.back}
-        <button style={styles.buttonNext} onClick={handleClickPrimary}>{output.primary}</button>
+        <button style={styles.buttonNext} {...primaryProps}>{output.primary}</button>
       </div>
     </div>
   );
@@ -63,13 +63,13 @@ const JoyrideTooltipContainer = ({
 
 
 JoyrideTooltipContainer.propTypes = {
+  backProps: PropTypes.object.isRequired,
+  closeProps: PropTypes.object.isRequired,
   continuous: PropTypes.bool.isRequired,
-  handleClickBack: PropTypes.func.isRequired,
-  handleClickClose: PropTypes.func.isRequired,
-  handleClickPrimary: PropTypes.func.isRequired,
-  handleClickSkip: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   isLastStep: PropTypes.bool.isRequired,
+  primaryProps: PropTypes.object.isRequired,
+  skipProps: PropTypes.object.isRequired,
   step: PropTypes.object.isRequired,
 };
 
