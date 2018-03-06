@@ -26,7 +26,6 @@ const CloseBtn = ({ styles, ...props }) => {
 };
 
 CloseBtn.propTypes = {
-  handleClick: PropTypes.func.isRequired,
   styles: PropTypes.object.isRequired,
 };
 

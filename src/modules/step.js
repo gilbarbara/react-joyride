@@ -8,10 +8,11 @@ import DEFAULTS from '../config/defaults';
 
 import type { StepObject, TourObject } from '../config/types';
 
-const validKeys = [
+const validTourKeys = [
   'allowClicksThruHole',
   'beaconComponent',
   'disableBeacon',
+  'disableCloseOnEsc',
   'disableOverlay',
   'disableOverlayClicks',
   'hideBackButton',
@@ -81,9 +82,9 @@ export function validateSteps(steps: Array<Object>, debug: boolean = false): boo
   return steps.every(d => validateStep(d, debug));
 }
 
-function getSharedProps(props: TourObject): TourObject {
+function getTourProps(props: TourObject): TourObject {
   return Object.keys(props)
-    .filter(d => validKeys.includes(d))
+    .filter(d => validTourKeys.includes(d))
     .reduce((acc, i) => {
       acc[i] = props[i];
 
@@ -101,7 +102,7 @@ export function getMergedStep(step: StepObject, props: TourObject): StepObject {
   }
 
   return {
-    ...deepmerge.all([getSharedProps(props), DEFAULTS.step, step]),
+    ...deepmerge.all([getTourProps(props), DEFAULTS.step, step]),
     locale: deepmerge(DEFAULTS.locale, props.locale || {}),
     tooltipOptions,
     styles: getMergedStyles(step.styles),

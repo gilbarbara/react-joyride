@@ -124,7 +124,11 @@ export default class JoyrideStep extends React.Component {
   };
 
   handleClickOverlay = () => {
-    this.props.helpers.close();
+    const { step } = this.props;
+
+    if (!step.disableOverlayClicks) {
+      this.props.helpers.close();
+    }
   };
 
   getPopper = (popper, type) => {

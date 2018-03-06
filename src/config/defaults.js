@@ -11,7 +11,6 @@ export default {
     placement: 'bottom',
   },
   tooltipOptions: {
-    disableFlip: true,
     offset: 15,
     wrapperOptions: {
       offset: -18,

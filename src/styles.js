@@ -82,6 +82,7 @@ export default function getMergedStyles(styles) {
     },
     tooltip: {
       borderRadius: 5,
+      boxSizing: 'border-box',
       fontSize: 16,
       backgroundColor: '#fff',
       padding: 15,

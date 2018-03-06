@@ -114,7 +114,7 @@ class Joyride extends React.Component {
 
     /* istanbul ignore else */
     if (!disableCloseOnEsc) {
-      document.body.addEventListener('keydown', this.handleKeyboardNavigation);
+      document.body.addEventListener('keydown', this.handleKeyboard, { passive: true });
     }
 
     window.addEventListener('touchstart', function setHasTouch() {
@@ -313,7 +313,7 @@ class Joyride extends React.Component {
 
     /* istanbul ignore else */
     if (!disableCloseOnEsc) {
-      document.body.removeEventListener('keydown', this.handleKeyboardNavigation);
+      document.body.removeEventListener('keydown', this.handleKeyboard);
     }
   }
 
@@ -388,12 +388,14 @@ class Joyride extends React.Component {
    * @private
    * @param {Event} e - Keyboard event
    */
-  handleKeyboardNavigation = (e) => {
-    const { lifecycle } = this.state;
+  handleKeyboard = (e) => {
+    const { index, lifecycle } = this.state;
+    const { steps } = this.props;
+    const step = steps[index];
     const intKey = window.Event ? e.which : e.keyCode;
 
     if (lifecycle === LIFECYCLE.TOOLTIP) {
-      if (intKey === 27) {
+      if (intKey === 27 && (step && !step.disableCloseOnEsc)) {
         this.store.close();
       }
     }
