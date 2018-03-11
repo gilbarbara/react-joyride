@@ -1,5 +1,4 @@
 // @flow
-import is from '@sindresorhus/is';
 import scroll from 'scroll';
 import scrollDoc from 'scroll-doc';
 

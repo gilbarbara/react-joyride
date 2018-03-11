@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import isRequiredIf from 'react-proptype-conditional-require';
 import ReactTooltips from 'react-tooltips';
 import treeChanges from 'tree-changes';
-import is from '@sindresorhus/is';
+import is from 'is-lite';
 
 import ACTIONS from '../constants/actions';
 import LIFECYCLE from '../constants/lifecycle';

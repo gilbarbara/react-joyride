@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import deep from 'deep-diff';
 import treeChanges from 'tree-changes';
-import is from '@sindresorhus/is';
+import is from 'is-lite';
 
 import State from '../modules/state';
 import { getElement, getElementScrollY, isFixed, scrollTo } from '../modules/dom';

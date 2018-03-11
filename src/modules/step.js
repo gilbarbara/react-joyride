@@ -1,5 +1,5 @@
 // @flow
-import is from '@sindresorhus/is';
+import is from 'is-lite';
 import deepmerge from 'deepmerge';
 
 import { log } from './helpers';

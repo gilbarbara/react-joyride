@@ -1,7 +1,7 @@
 // @flow
 import ReactDOM from 'react-dom';
 import ExecutionEnvironment from 'exenv';
-import is from '@sindresorhus/is';
+import is from 'is-lite';
 
 export const { canUseDOM } = ExecutionEnvironment;
 export const isReact16 = ReactDOM.createPortal !== undefined;

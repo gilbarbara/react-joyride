@@ -1,5 +1,5 @@
 // @flow
-import is from '@sindresorhus/is';
+import is from 'is-lite';
 import STATUS from '../constants/status';
 import ACTIONS from '../constants/actions';
 import LIFECYCLE from '../constants/lifecycle';
