@@ -15,6 +15,7 @@ import { validateStep } from '../modules/step';
 import Beacon from './Beacon';
 import Overlay from './Overlay';
 import Tooltip from './Tooltip/index';
+import JoyridePortal from './Portal';
 
 export default class JoyrideStep extends React.Component {
   static propTypes = {
@@ -160,6 +161,13 @@ export default class JoyrideStep extends React.Component {
 
     return (
       <div key={`JoyrideStep-${index}`} className="joyride-step">
+        <JoyridePortal>
+          <Overlay
+            {...step}
+            onClickOverlay={this.handleClickOverlay}
+            lifecycle={lifecycle}
+          />
+        </JoyridePortal>
         <ReactTooltips
           component={(
             <Tooltip
@@ -182,11 +190,6 @@ export default class JoyrideStep extends React.Component {
         >
           <Beacon beaconComponent={step.beaconComponent} onClickOrHover={this.handleClickHoverBeacon} styles={step.styles} />
         </ReactTooltips>
-        <Overlay
-          {...step}
-          onClickOverlay={this.handleClickOverlay}
-          lifecycle={lifecycle}
-        />
       </div>
     );
   }

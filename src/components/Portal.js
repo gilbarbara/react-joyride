@@ -19,17 +19,9 @@ export default class JoyridePortal extends React.Component {
 
   static propTypes = {
     children: PropTypes.element,
-    hasChildren: PropTypes.bool,
     id: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-    ]),
-    placement: PropTypes.string,
-    setRef: PropTypes.func.isRequired,
-    status: PropTypes.string,
-    target: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
     ]),
   };
 
@@ -37,20 +29,15 @@ export default class JoyridePortal extends React.Component {
     if (!canUseDOM) return;
 
     if (!isReact16) {
-      this.renderPortal();
+      this.renderReact15();
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     if (!canUseDOM) return;
 
-    const { placement, status } = this.props;
-
-    if (
-      !isReact16
-      && (prevProps.status !== status || prevProps.placement !== placement)
-    ) {
-      this.renderPortal();
+    if (!isReact16) {
+      this.renderReact15();
     }
   }
 
@@ -64,42 +51,29 @@ export default class JoyridePortal extends React.Component {
     document.body.removeChild(this.node);
   }
 
-  renderPortal() {
+  renderReact15() {
     if (!canUseDOM) return null;
 
-    const { children, setRef } = this.props;
+    const { children } = this.props;
 
-    /* istanbul ignore else */
-    if (isReact16) {
-      return ReactDOM.createPortal(
-        children,
-        this.node,
-      );
-    }
-
-    const portal = ReactDOM.unstable_renderSubtreeIntoContainer(
+    ReactDOM.unstable_renderSubtreeIntoContainer(
       this,
       children,
       this.node,
     );
 
-    setRef(portal);
-
     return null;
   }
 
   renderReact16() {
-    const { hasChildren, placement, target } = this.props;
+    if (!canUseDOM || !isReact16) return null;
 
-    if (!hasChildren) {
-      if ((target || placement === 'center')) {
-        return this.renderPortal();
-      }
+    const { children } = this.props;
 
-      return null;
-    }
-
-    return this.renderPortal();
+    return ReactDOM.createPortal(
+      children,
+      this.node,
+    );
   }
 
   render() {

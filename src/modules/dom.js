@@ -3,6 +3,20 @@ import scroll from 'scroll';
 import scrollDoc from 'scroll-doc';
 
 /**
+ * Helper function to get the browser-normalized "document height"
+ * @returns {Number}
+ */
+export function getDocumentHeight(): number {
+  const { body, documentElement: html } = document;
+
+  if (!body || !html) {
+    return 0;
+  }
+
+  return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+}
+
+/**
  * Find and return the target DOM element based on a step's 'target'.
  *
  * @private

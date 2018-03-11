@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import treeChanges from 'tree-changes';
 
-import { getElement, getOffsetBoundingClientRect, isFixed } from '../modules/dom';
+import { getDocumentHeight, getElement, getOffsetBoundingClientRect, isFixed } from '../modules/dom';
 import { isLegacy } from '../modules/helpers';
 
 import LIFECYCLE from '../constants/lifecycle';
@@ -117,7 +117,7 @@ export default class Overlay extends React.Component {
 
     const stylesOverlay = {
       cursor: disableOverlay ? 'default' : 'pointer',
-      height: document.body.clientHeight,
+      height: getDocumentHeight(),
       pointerEvents: this.state.mouseOverHole ? 'none' : 'auto',
       ...(isLegacy() ? styles.overlayLegacy : styles.overlay),
     };
