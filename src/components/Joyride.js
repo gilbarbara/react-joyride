@@ -53,6 +53,7 @@ class Joyride extends React.Component {
     ]),
     run: PropTypes.bool,
     scrollOffset: PropTypes.number,
+    scrollParent: PropTypes.string,
     scrollToFirstStep: PropTypes.bool,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,

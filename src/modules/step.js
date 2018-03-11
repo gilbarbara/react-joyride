@@ -20,6 +20,7 @@ const validTourKeys = [
   'isFixed',
   'locale',
   'offsetParent',
+  'scrollParent',
   'showProgress',
   'showSkipButton',
   'styles',
@@ -96,9 +97,14 @@ export function getMergedStep(step: StepObject, props: TourObject): StepObject {
   if (!step) return undefined;
 
   const tooltipOptions = deepmerge.all([DEFAULTS.tooltipOptions, props.tooltipOptions || {}, step.tooltipOptions || {}]);
+  const scrollParent = step.scrollParent || props.scrollParent;
 
   if (step.placementBeacon) {
     tooltipOptions.wrapperOptions.placement = step.placementBeacon;
+  }
+
+  if (scrollParent) {
+    tooltipOptions.options.preventOverflow.boundariesElement = scrollParent;
   }
 
   return {

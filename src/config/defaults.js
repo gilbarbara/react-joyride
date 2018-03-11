@@ -12,6 +12,11 @@ export default {
   },
   tooltipOptions: {
     offset: 15,
+    options: {
+      preventOverflow: {
+        boundariesElement: 'scrollParent',
+      },
+    },
     wrapperOptions: {
       offset: -18,
       position: true,
