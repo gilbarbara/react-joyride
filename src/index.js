@@ -1,3 +1,3 @@
-import Joyride from './components/Joyride';
+import Joyride from './components';
 
 export default Joyride;
