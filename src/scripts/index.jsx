@@ -383,7 +383,7 @@ class Joyride extends React.Component {
     }
 
     if (isRunning && scrollToSteps && shouldScroll && scrollTop >= 0) {
-      scroll.top(getRootEl(), this.getScrollTop());
+      scroll.top(getRootEl(), scrollTop);
     }
 
     if (steps.length && (!isRunning && shouldRun && !standaloneData)) {
