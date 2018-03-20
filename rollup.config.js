@@ -9,7 +9,6 @@ export default {
     format: 'es',
     exports: 'named',
   },
-  sourcemap: false,
   external: [
     ...Object.keys(packageJSON.peerDependencies),
     ...Object.keys(packageJSON.dependencies),
