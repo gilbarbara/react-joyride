@@ -44,10 +44,7 @@ export default class JoyrideStep extends React.Component {
       holePadding: PropTypes.number,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
-      offsetParent: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.string,
-      ]).isRequired,
+      offset: PropTypes.number.isRequired,
       placement: PropTypes.oneOf([
         'top', 'top-start', 'top-end',
         'bottom', 'bottom-start', 'bottom-end',

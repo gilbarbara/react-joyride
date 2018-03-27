@@ -13,6 +13,7 @@ export type StateHelpers = {
   start: Function,
   stop: Function,
 };
+
 export type StateInstance = {
   ...StateHelpers,
   update: Function,
@@ -34,18 +35,18 @@ type placement = 'top' | 'top-start' | 'top-end' |
   'auto' | 'center';
 
 export type StepObject = {
-  allowClicksThruHole: ?boolean,
+  allowClicksThruHole: boolean,
   beaconComponent: ?Node,
-  content: ?Node,
-  disableBeacon: ?boolean,
-  disableOverlay: ?boolean,
-  disableOverlayClicks: ?boolean,
-  event: ?string,
+  content: Node | string,
+  disableBeacon: boolean,
+  disableOverlay: boolean,
+  disableOverlayClicks: boolean,
+  event: string,
   hideBackButton: ?boolean,
-  holePadding: ?number,
+  holePadding: number,
   isFixed: ?boolean,
-  placement: ?placement,
-  scrollParent: ?string,
+  offset: number,
+  placement: placement,
   showProgress: ?boolean,
   showSkipButton: ?boolean,
   styles: ?Object,
@@ -56,22 +57,18 @@ export type StepObject = {
 }
 
 export type TourObject = {
-  allowClicksThruHole: ?boolean,
+  allowClicksThruHole: boolean,
   beaconComponent: ?Node,
   callback: ?Function,
-  continuous: boolean,
-  controlled: boolean,
   debug: boolean,
   disableBeacon: boolean,
   disableCloseOnEsc: boolean,
   disableOverlay: boolean,
   disableOverlayClicks: boolean,
-  disableScrollToSteps: boolean,
+  disableScrolling: boolean,
   hideBackButton: boolean,
   holePadding: boolean,
-  locale: Object,
-  offsetParentSelector: any,
-  offsetParent: string | HTMLElement,
+  locale: ?Object,
   run: boolean,
   scrollOffset: number,
   scrollToFirstStep: boolean,
@@ -80,5 +77,5 @@ export type TourObject = {
   stepIndex: ?number,
   steps: Array<StepObject>,
   tooltipComponent: ?Node,
-  tooltipOptions: Object,
+  tooltipOptions: ?Object,
 }

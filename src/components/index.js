@@ -43,17 +43,12 @@ class Joyride extends React.Component {
     disableCloseOnEsc: PropTypes.bool,
     disableOverlay: PropTypes.bool,
     disableOverlayClicks: PropTypes.bool,
-    disableScrollToSteps: PropTypes.bool,
+    disableScrolling: PropTypes.bool,
     hideBackButton: PropTypes.bool,
     holePadding: PropTypes.number,
     locale: PropTypes.object,
-    offsetParent: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
-    ]),
     run: PropTypes.bool,
     scrollOffset: PropTypes.number,
-    scrollParent: PropTypes.string,
     scrollToFirstStep: PropTypes.bool,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
@@ -76,10 +71,9 @@ class Joyride extends React.Component {
     disableCloseOnEsc: false,
     disableOverlay: false,
     disableOverlayClicks: false,
-    disableScrollToSteps: false,
+    disableScrolling: false,
     hideBackButton: false,
     holePadding: 10,
-    offsetParent: 'body',
     run: false,
     scrollOffset: 20,
     scrollToFirstStep: false,
@@ -342,7 +336,7 @@ class Joyride extends React.Component {
       const target = getElement(step.target);
 
       const shouldScroll = step
-        && !disableScrollToSteps
+        && !disableScrolling
         && (!step.isFixed || !isFixed(target)) // fixed steps don't need to scroll
         && (prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
         && (scrollToFirstStep || prevState.index !== index);
@@ -431,7 +425,7 @@ class Joyride extends React.Component {
 
   render() {
     const { index, status } = this.state;
-    const { continuous, debug, steps } = this.props;
+    const { continuous, debug, disableScrolling, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
     let output;
 
@@ -441,9 +435,10 @@ class Joyride extends React.Component {
           {...this.state}
           continuous={continuous}
           debug={debug}
+          disableScrolling={disableScrolling}
+          getPopper={this.getPopper}
           helpers={this.helpers}
           locale={this.locale}
-          getPopper={this.getPopper}
           step={step}
           update={this.store.update}
         />
