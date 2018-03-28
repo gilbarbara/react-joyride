@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import treeChanges from 'tree-changes';
 
-import { getDocumentHeight, getElement, getOffsetBoundingClientRect, isFixed } from '../modules/dom';
+import {
+  getClientRect,
+  getDocumentHeight,
+  getElement,
+  getElementPosition,
+  getScrollParent,
+  hasCustomScrollParent,
+  isFixed,
+} from '../modules/dom';
 import { isLegacy } from '../modules/helpers';
 
 import LIFECYCLE from '../constants/lifecycle';
@@ -10,19 +18,22 @@ import LIFECYCLE from '../constants/lifecycle';
 import Hole from './Hole';
 
 export default class Overlay extends React.Component {
-  state = {
-    mouseOverHole: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      mouseOverHole: false,
+      isScrolling: false,
+      showHole: false,
+    };
+  }
 
   static propTypes = {
     allowClicksThruHole: PropTypes.bool.isRequired,
     disableOverlay: PropTypes.bool.isRequired,
+    disableScrolling: PropTypes.bool.isRequired,
     holePadding: PropTypes.number,
     lifecycle: PropTypes.string.isRequired,
-    offsetParent: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
-    ]).isRequired,
     onClickOverlay: PropTypes.func.isRequired,
     styles: PropTypes.object.isRequired,
     target: PropTypes.oneOfType([
@@ -32,38 +43,45 @@ export default class Overlay extends React.Component {
   };
 
   componentDidMount() {
-    const { allowClicksThruHole, disableOverlay } = this.props;
+    const { disableScrolling, target } = this.props;
 
-    if (!disableOverlay && allowClicksThruHole) {
-      document.addEventListener('mousemove', this.handleMouseMove, false);
+    if (!disableScrolling) {
+      const element = getElement(target);
+      this.scrollParent = hasCustomScrollParent(element) ? getScrollParent(element) : document;
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { allowClicksThruHole, disableOverlay } = nextProps;
-    const { changed } = treeChanges(this.props, nextProps);
+    const { isScrolling } = this.state;
+    const { allowClicksThruHole, disableScrolling, lifecycle } = nextProps;
+    const { changed, changedTo } = treeChanges(this.props, nextProps);
 
-    if (changed('disableOverlay')) {
-      if (!disableOverlay && allowClicksThruHole) {
-        document.addEventListener('mousemove', this.handleMouseMove, false);
-      }
-      else {
-        document.removeEventListener('mousemove', this.handleMouseMove, false);
+    if (!disableScrolling) {
+      if (changedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
+        this.scrollParent.addEventListener('scroll', this.handleScroll, { passive: true });
+
+        setTimeout(() => {
+          if (!isScrolling) {
+            this.setState({ showHole: true });
+          }
+        }, 30);
       }
     }
 
-    if (changed('allowClicksThruHole')) {
-      if (allowClicksThruHole) {
+    if (changed('allowClicksThruHole') || changed('disableOverlay') || changed('lifecycle')) {
+      if (allowClicksThruHole && lifecycle === LIFECYCLE.TOOLTIP) {
         document.addEventListener('mousemove', this.handleMouseMove, false);
       }
-      else {
-        document.removeEventListener('mousemove', this.handleMouseMove, false);
+      else if (lifecycle !== LIFECYCLE.TOOLTIP) {
+        document.removeEventListener('mousemove', this.handleMouseMove);
       }
     }
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousemove', this.handleMouseMove, false);
+    clearTimeout(this.scrollTimeout);
+    document.removeEventListener('mousemove', this.handleMouseMove);
+    this.scrollParent.removeEventListener('scroll', this.handleScroll);
   }
 
   handleMouseMove = (e) => {
@@ -81,30 +99,48 @@ export default class Overlay extends React.Component {
     }
   };
 
-  get stylesHole() {
-    const { allowClicksThruHole, holePadding, offsetParent, target, styles } = this.props;
+  handleScroll = () => {
+    if (!this.state.isScrolling) {
+      this.setState({ isScrolling: true, showHole: false });
+    }
 
-    const rect = getOffsetBoundingClientRect(getElement(target), getElement(offsetParent));
+    clearTimeout(this.scrollTimeout);
+
+    this.scrollTimeout = setTimeout(() => {
+      clearTimeout(this.scrollTimeout);
+      this.setState({ isScrolling: false, showHole: true });
+      this.scrollParent.removeEventListener('scroll', this.handleScroll);
+    }, 50);
+  };
+
+  get stylesHole() {
+    const { showHole } = this.state;
+    const { allowClicksThruHole, holePadding, styles, target } = this.props;
+    const element = getElement(target);
+    const elementRect = getClientRect(element);
     const isFixedTarget = isFixed(target);
+    const top = getElementPosition(element, holePadding);
 
     return {
       ...(isLegacy() ? styles.holeLegacy : styles.hole),
-      height: Math.round(rect.height + (holePadding * 2)),
-      left: Math.round(rect.left - holePadding),
+      height: Math.round(elementRect.height + (holePadding * 2)),
+      left: Math.round(elementRect.left - holePadding),
+      opacity: showHole ? 1 : 0,
       pointerEvents: allowClicksThruHole ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
-      top: Math.round((rect.top - (isFixedTarget ? 0 : document.body.getBoundingClientRect().top)) - holePadding),
-      width: Math.round(rect.width + (holePadding * 2)),
+      top,
+      transition: 'opacity 0.2s',
+      width: Math.round(elementRect.width + (holePadding * 2)),
     };
   }
 
   render() {
+    const { showHole } = this.state;
     const {
       allowClicksThruHole,
       disableOverlay,
       holePadding,
       lifecycle,
-      offsetParent,
       onClickOverlay,
       target,
       styles,
@@ -128,13 +164,14 @@ export default class Overlay extends React.Component {
         style={stylesOverlay}
         onClick={onClickOverlay}
       >
-        <Hole
-          allowClicksThruHole={allowClicksThruHole}
-          holePadding={holePadding}
-          offsetParent={offsetParent}
-          target={target}
-          styles={this.stylesHole}
-        />
+        {showHole && (
+          <Hole
+            allowClicksThruHole={allowClicksThruHole}
+            holePadding={holePadding}
+            target={target}
+            styles={this.stylesHole}
+          />
+        )}
         {output.hole}
       </div>
     );

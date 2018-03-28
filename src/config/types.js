@@ -41,6 +41,7 @@ export type StepObject = {
   disableBeacon: boolean,
   disableOverlay: boolean,
   disableOverlayClicks: boolean,
+  disableScrolling: boolean,
   event: string,
   hideBackButton: ?boolean,
   holePadding: number,

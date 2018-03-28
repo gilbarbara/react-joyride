@@ -9,9 +9,9 @@ export default {
   step: {
     event: 'click',
     placement: 'bottom',
+    offset: 10,
   },
   tooltipOptions: {
-    offset: 15,
     options: {
       preventOverflow: {
         boundariesElement: 'scrollParent',

@@ -5,7 +5,14 @@ import treeChanges from 'tree-changes';
 import is from 'is-lite';
 
 import State from '../modules/state';
-import { getElement, getElementScrollY, isFixed, scrollTo } from '../modules/dom';
+import {
+  getElement,
+  getScrollTo,
+  getScrollParent,
+  hasCustomScrollParent,
+  isFixed,
+  scrollTo,
+} from '../modules/dom';
 import { log } from '../modules/helpers';
 import { getMergedStep, validateSteps } from '../modules/step';
 
@@ -329,7 +336,7 @@ class Joyride extends React.Component {
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrollToSteps, scrollToFirstStep, scrollOffset, steps } = this.props;
+    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     if (step) {
@@ -342,7 +349,9 @@ class Joyride extends React.Component {
         && (scrollToFirstStep || prevState.index !== index);
 
       if (status === STATUS.RUNNING && shouldScroll) {
-        let scrollY = 0;
+        const hasCustomScroll = hasCustomScrollParent(target);
+        const scrollParent = getScrollParent(target);
+        let scrollY = Math.floor(getScrollTo(target, scrollOffset));
 
         log({
           title: 'scrollToStep',
@@ -354,24 +363,26 @@ class Joyride extends React.Component {
           debug,
         });
 
-        scrollY = Math.floor(getElementScrollY(target, getElement(step.offsetParent)));
-
         if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
           const { placement, popper } = this.beaconPopper;
-          if (placement === 'top') {
-            scrollY = Math.floor(popper.top);
+
+          if (!['bottom'].includes(placement) && !hasCustomScroll) {
+            scrollY = Math.floor(popper.top - scrollOffset);
           }
         }
         else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
-          const { placement, popper } = this.tooltipPopper;
+          const { flipped, placement, popper } = this.tooltipPopper;
 
-          if (['top', 'right'].includes(placement)) {
-            scrollY = Math.floor(popper.top);
+          if (['top', 'right'].includes(placement) && !flipped && !hasCustomScroll) {
+            scrollY = Math.floor(popper.top - scrollOffset);
+          }
+          else {
+            scrollY -= step.holePadding;
           }
         }
 
         if (status === STATUS.RUNNING && shouldScroll && scrollY >= 0) {
-          scrollTo(scrollY - scrollOffset);
+          scrollTo(scrollY, scrollParent);
         }
       }
     }
