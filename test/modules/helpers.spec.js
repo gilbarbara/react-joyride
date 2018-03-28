@@ -1,5 +1,4 @@
 import {
-  browser,
   hexToRGB,
   log,
 } from '../../src/modules/helpers';
@@ -14,9 +13,8 @@ console.error = mockError; //eslint-disable-line no-console
 
 describe('utils', () => {
   it('should be able to call `hexToRGB`', () => {
-    expect(hexToRGB('#ff0044')).toEqual({ b: 68, g: 0, r: 255 });
-
-    expect(hexToRGB('#0f4')).toEqual({ b: 68, g: 255, r: 0 });
+    expect(hexToRGB('#ff0044')).toEqual([255, 0, 68]);
+    expect(hexToRGB('#0f4')).toEqual([0, 255, 68]);
   });
 
   xit('should be able to call `log`', () => {

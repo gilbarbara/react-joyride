@@ -1,11 +1,13 @@
 import deepmerge from 'deepmerge';
+import { hexToRGB } from './modules/helpers';
 
-const color = '#f04';
-const colorRGB = [255, 0, 68];
-const overlayColor = 'rgba(0, 0, 0, 0.5)';
-const holeShadow = '0 0 15px rgba(0, 0, 0, 0.5)';
-const beaconSize = 36;
-const zIndex = 100;
+const defaultOptions = {
+  color: '#f04',
+  overlayColor: 'rgba(0, 0, 0, 0.5)',
+  holeShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+  beaconSize: 36,
+  zIndex: 100,
+};
 
 const buttonReset = {
   backgroundColor: 'transparent',
@@ -32,28 +34,32 @@ const hole = {
   position: 'absolute',
 };
 
-const overlay = {
-  bottom: 0,
-  left: 0,
-  position: 'absolute',
-  right: 0,
-  top: 0,
-  zIndex,
-};
+export default function getStyles(styles) {
+  const options = deepmerge(defaultOptions, styles.options || {});
+  delete styles.options;
 
-export default function getMergedStyles(styles) {
+  const overlay = {
+    bottom: 0,
+    left: 0,
+    overflow: 'hidden',
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: options.zIndex,
+  };
+
   const defaultStyles = {
     beacon: {
       ...buttonReset,
       display: 'inline-block',
-      height: beaconSize,
+      height: options.beaconSize,
       position: 'relative',
-      width: beaconSize,
-      zIndex,
+      width: options.beaconSize,
+      zIndex: options.zIndex,
     },
     beaconInner: {
       animation: 'joyride-beacon-inner 1.2s infinite ease-in-out',
-      backgroundColor: color,
+      backgroundColor: options.color,
       borderRadius: '50%',
       display: 'block',
       height: '50%',
@@ -66,8 +72,8 @@ export default function getMergedStyles(styles) {
     },
     beaconOuter: {
       animation: 'joyride-beacon-outer 1.2s infinite ease-in-out',
-      backgroundColor: `rgba(${colorRGB.join(',')}, 0.2)`,
-      border: `2px solid ${color}`,
+      backgroundColor: `rgba(${hexToRGB(options.color).join(',')}, 0.2)`,
+      border: `2px solid ${options.color}`,
       borderRadius: '50%',
       boxSizing: 'border-box',
       display: 'block',
@@ -76,7 +82,6 @@ export default function getMergedStyles(styles) {
       opacity: 0.9,
       position: 'absolute',
       top: 0,
-      // transform: 'translateY(-50%)',
       transformOrigin: 'center',
       width: '100%',
     },
@@ -107,13 +112,13 @@ export default function getMergedStyles(styles) {
     },
     buttonNext: {
       ...buttonReset,
-      backgroundColor: color,
+      backgroundColor: options.color,
       borderRadius: 4,
       color: '#fff',
     },
     buttonBack: {
       ...buttonReset,
-      color,
+      color: options.color,
       marginLeft: 'auto',
       marginRight: 5,
     },
@@ -132,7 +137,7 @@ export default function getMergedStyles(styles) {
     },
     overlay: {
       ...overlay,
-      backgroundColor: overlayColor,
+      backgroundColor: options.overlayColor,
       mixBlendMode: 'hard-light',
     },
     overlayLegacy: {
@@ -144,7 +149,7 @@ export default function getMergedStyles(styles) {
     },
     holeLegacy: {
       ...hole,
-      boxShadow: `0 0 0 9999px ${overlayColor}, ${holeShadow}`,
+      boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.holeShadow}`,
     },
   };
 
