@@ -1,32 +1,14 @@
 // @flow
-import is from 'is-lite';
 import deepmerge from 'deepmerge';
+import is from 'is-lite';
 
+import { getElement, hasCustomScrollParent } from './dom';
 import { log } from './helpers';
-import getMergedStyles from '../styles';
+import getStyles from '../styles';
+
 import DEFAULTS from '../config/defaults';
 
 import type { StepObject, TourObject } from '../config/types';
-
-const validTourKeys = [
-  'allowClicksThruHole',
-  'beaconComponent',
-  'disableBeacon',
-  'disableCloseOnEsc',
-  'disableOverlay',
-  'disableOverlayClicks',
-  'hideBackButton',
-  'holePadding',
-  'isFixed',
-  'locale',
-  'offsetParent',
-  'scrollParent',
-  'showProgress',
-  'showSkipButton',
-  'styles',
-  'tooltipComponent',
-  'tooltipOptions',
-];
 
 /**
  * Validate if a step is valid
@@ -84,8 +66,26 @@ export function validateSteps(steps: Array<Object>, debug: boolean = false): boo
 }
 
 function getTourProps(props: TourObject): TourObject {
+  const sharedTourProps = [
+    'allowClicksThruHole',
+    'beaconComponent',
+    'disableBeacon',
+    'disableCloseOnEsc',
+    'disableOverlay',
+    'disableOverlayClicks',
+    'disableScrolling',
+    'hideBackButton',
+    'holePadding',
+    'locale',
+    'showProgress',
+    'showSkipButton',
+    'styles',
+    'tooltipComponent',
+    'tooltipOptions',
+  ];
+
   return Object.keys(props)
-    .filter(d => validTourKeys.includes(d))
+    .filter(d => sharedTourProps.includes(d))
     .reduce((acc, i) => {
       acc[i] = props[i];
 
@@ -96,21 +96,28 @@ function getTourProps(props: TourObject): TourObject {
 export function getMergedStep(step: StepObject, props: TourObject): StepObject {
   if (!step) return undefined;
 
-  const tooltipOptions = deepmerge.all([DEFAULTS.tooltipOptions, props.tooltipOptions || {}, step.tooltipOptions || {}]);
-  const scrollParent = step.scrollParent || props.scrollParent;
+  const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
+  const tooltipOptions = deepmerge(DEFAULTS.tooltipOptions, step.tooltipOptions || {});
+  const scrollParent = hasCustomScrollParent(getElement(step.target));
+
+  tooltipOptions.offset = mergedStep.offset || 0;
+
+  if (!mergedStep.disableScrolling) {
+    tooltipOptions.offset += props.holePadding || step.holePadding || 0;
+  }
 
   if (step.placementBeacon) {
     tooltipOptions.wrapperOptions.placement = step.placementBeacon;
   }
 
   if (scrollParent) {
-    tooltipOptions.options.preventOverflow.boundariesElement = scrollParent;
+    tooltipOptions.options.preventOverflow.boundariesElement = 'window';
   }
 
   return {
-    ...deepmerge.all([getTourProps(props), DEFAULTS.step, step]),
+    ...mergedStep,
     locale: deepmerge(DEFAULTS.locale, props.locale || {}),
     tooltipOptions,
-    styles: getMergedStyles(step.styles),
+    styles: getStyles(deepmerge(props.styles || {}, step.styles || {})),
   };
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isRequiredIf from 'react-proptype-conditional-require';
-import ReactTooltips from 'react-tooltips';
+import Floater from 'react-floater';
 import treeChanges from 'tree-changes';
 import is from 'is-lite';
 
@@ -149,7 +149,16 @@ export default class JoyrideStep extends React.Component {
   }
 
   render() {
-    const { continuous, controlled, debug, helpers, index, lifecycle, size, step } = this.props;
+    const {
+      continuous,
+      controlled,
+      debug,
+      helpers,
+      index,
+      lifecycle,
+      size,
+      step,
+    } = this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
@@ -161,11 +170,11 @@ export default class JoyrideStep extends React.Component {
         <JoyridePortal>
           <Overlay
             {...step}
-            onClickOverlay={this.handleClickOverlay}
             lifecycle={lifecycle}
+            onClickOverlay={this.handleClickOverlay}
           />
         </JoyridePortal>
-        <ReactTooltips
+        <Floater
           component={(
             <Tooltip
               continuous={continuous}
@@ -186,7 +195,7 @@ export default class JoyrideStep extends React.Component {
           {...step.tooltipOptions}
         >
           <Beacon beaconComponent={step.beaconComponent} onClickOrHover={this.handleClickHoverBeacon} styles={step.styles} />
-        </ReactTooltips>
+        </Floater>
       </div>
     );
   }
