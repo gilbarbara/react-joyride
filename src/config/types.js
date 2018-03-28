@@ -39,6 +39,7 @@ export type StepObject = {
   beaconComponent: ?Node,
   content: Node | string,
   disableBeacon: boolean,
+  disableCloseOnEsc: boolean,
   disableOverlay: boolean,
   disableOverlayClicks: boolean,
   disableScrolling: boolean,

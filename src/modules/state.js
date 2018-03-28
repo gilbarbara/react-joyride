@@ -106,14 +106,14 @@ export default function createState(props: StateObject): StateInstance {
       return before !== after;
     }
 
-    setSteps(steps: Array<Object>) {
+    setSteps = (steps: Array<Object>) => {
       const { size, status } = this.getState();
       data.set('steps', steps);
 
       if (status === STATUS.WAITING && !size && steps.length) {
         this.setState({ status: STATUS.RUNNING });
       }
-    }
+    };
 
     getSteps(): Array<Object> {
       const steps = data.get('steps');

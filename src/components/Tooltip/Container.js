@@ -61,7 +61,6 @@ const JoyrideTooltipContainer = ({
   );
 };
 
-
 JoyrideTooltipContainer.propTypes = {
   backProps: PropTypes.object.isRequired,
   closeProps: PropTypes.object.isRequired,
