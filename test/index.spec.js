@@ -23,7 +23,7 @@ describe('ReactJoyride', () => {
     });
 
     it('should render properly', () => {
-      expect(joyride.find('Joyride')).toBePresent();
+      expect(joyride.find('Joyride')).toExist();
     });
   });
 });
