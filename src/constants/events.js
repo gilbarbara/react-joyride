@@ -7,7 +7,7 @@ export default {
   TOOLTIP_SKIP: 'tooltip:skip',
   TOOLTIP_CLOSE: 'tooltip:close',
   OVERLAY_CLICK: 'overlay:click',
-  HOLE_CLICK: 'hole:click',
+  SPOTLIGHT_CLICK: 'spotlight:click',
   STEP_AFTER: 'step:after',
   TOUR_STATUS: 'tour:status',
   TARGET_NOT_FOUND: 'error:target_not_found',

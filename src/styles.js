@@ -4,7 +4,7 @@ import { hexToRGB } from './modules/helpers';
 const defaultOptions = {
   color: '#f04',
   overlayColor: 'rgba(0, 0, 0, 0.5)',
-  holeShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   beaconSize: 36,
   zIndex: 100,
 };
@@ -29,7 +29,7 @@ else if (window.innerWidth > 768) {
   width = 490;
 }
 
-const hole = {
+const spotlight = {
   borderRadius: 4,
   position: 'absolute',
 };
@@ -143,13 +143,13 @@ export default function getStyles(styles) {
     overlayLegacy: {
       ...overlay,
     },
-    hole: {
-      ...hole,
+    spotlight: {
+      ...spotlight,
       backgroundColor: 'gray',
     },
-    holeLegacy: {
-      ...hole,
-      boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.holeShadow}`,
+    spotlightLegacy: {
+      ...spotlight,
+      boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
     },
   };
 

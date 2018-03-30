@@ -38,7 +38,6 @@ class Joyride extends React.Component {
   }
 
   static propTypes = {
-    allowClicksThruHole: PropTypes.bool,
     beaconComponent: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.element,
@@ -52,13 +51,14 @@ class Joyride extends React.Component {
     disableOverlayClicks: PropTypes.bool,
     disableScrolling: PropTypes.bool,
     hideBackButton: PropTypes.bool,
-    holePadding: PropTypes.number,
     locale: PropTypes.object,
     run: PropTypes.bool,
     scrollOffset: PropTypes.number,
     scrollToFirstStep: PropTypes.bool,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
+    spotlightClicks: PropTypes.bool,
+    spotlightPadding: PropTypes.number,
     stepIndex: PropTypes.number,
     steps: PropTypes.array,
     tooltipComponent: PropTypes.oneOfType([
@@ -71,7 +71,6 @@ class Joyride extends React.Component {
   };
 
   static defaultProps = {
-    allowClicksThruHole: false,
     continuous: false,
     debug: false,
     disableBeacon: false,
@@ -80,12 +79,13 @@ class Joyride extends React.Component {
     disableOverlayClicks: false,
     disableScrolling: false,
     hideBackButton: false,
-    holePadding: 10,
     run: false,
     scrollOffset: 20,
     scrollToFirstStep: false,
     showSkipButton: false,
     showProgress: false,
+    spotlightClicks: false,
+    spotlightPadding: 10,
     steps: [],
   };
 
@@ -377,7 +377,7 @@ class Joyride extends React.Component {
             scrollY = Math.floor(popper.top - scrollOffset);
           }
           else {
-            scrollY -= step.holePadding;
+            scrollY -= step.spotlightPadding;
           }
         }
 

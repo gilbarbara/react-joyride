@@ -30,7 +30,6 @@ export default class JoyrideStep extends React.Component {
     size: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     step: PropTypes.shape({
-      allowClicksThruHole: PropTypes.bool,
       beaconComponent: PropTypes.oneOfType([
         PropTypes.func,
         PropTypes.element,
@@ -41,7 +40,6 @@ export default class JoyrideStep extends React.Component {
       disableOverlayClicks: PropTypes.bool,
       event: PropTypes.string,
       hideBackButton: PropTypes.bool,
-      holePadding: PropTypes.number,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
       offset: PropTypes.number.isRequired,
@@ -52,6 +50,8 @@ export default class JoyrideStep extends React.Component {
         'right', 'right-start', 'right-end',
         'auto', 'center',
       ]),
+      spotlightClicks: PropTypes.bool,
+      spotlightPadding: PropTypes.number,
       target: PropTypes.oneOfType([
         PropTypes.object,
         PropTypes.string,

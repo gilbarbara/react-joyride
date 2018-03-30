@@ -8,7 +8,7 @@ import getStyles from '../styles';
 
 import DEFAULTS from '../config/defaults';
 
-import type { StepObject, TourObject } from '../config/types';
+import type { StepProps, JoyrideProps } from '../config/types';
 
 /**
  * Validate if a step is valid
@@ -18,7 +18,7 @@ import type { StepObject, TourObject } from '../config/types';
  *
  * @returns {boolean} - True if the step is valid, false otherwise
  */
-export function validateStep(step: StepObject, debug: boolean = false): boolean {
+export function validateStep(step: StepProps, debug: boolean = false): boolean {
   if (!is.plainObject(step)) {
     log({
       title: 'validateStep',
@@ -65,9 +65,8 @@ export function validateSteps(steps: Array<Object>, debug: boolean = false): boo
   return steps.every(d => validateStep(d, debug));
 }
 
-function getTourProps(props: TourObject): TourObject {
+function getTourProps(props: JoyrideProps): JoyrideProps {
   const sharedTourProps = [
-    'allowClicksThruHole',
     'beaconComponent',
     'disableBeacon',
     'disableCloseOnEsc',
@@ -75,10 +74,11 @@ function getTourProps(props: TourObject): TourObject {
     'disableOverlayClicks',
     'disableScrolling',
     'hideBackButton',
-    'holePadding',
     'locale',
     'showProgress',
     'showSkipButton',
+    'spotlightClicks',
+    'spotlightPadding',
     'styles',
     'tooltipComponent',
     'tooltipOptions',
@@ -93,7 +93,7 @@ function getTourProps(props: TourObject): TourObject {
     }, {});
 }
 
-export function getMergedStep(step: StepObject, props: TourObject): StepObject {
+export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
   if (!step) return undefined;
 
   const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
@@ -103,7 +103,7 @@ export function getMergedStep(step: StepObject, props: TourObject): StepObject {
   tooltipOptions.offset = mergedStep.offset || 0;
 
   if (!mergedStep.disableScrolling) {
-    tooltipOptions.offset += props.holePadding || step.holePadding || 0;
+    tooltipOptions.offset += props.spotlightPadding || step.spotlightPadding || 0;
   }
 
   if (step.placementBeacon) {

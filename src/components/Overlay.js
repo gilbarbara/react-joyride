@@ -15,26 +15,26 @@ import { isLegacy } from '../modules/helpers';
 
 import LIFECYCLE from '../constants/lifecycle';
 
-import Hole from './Hole';
+import Spotlight from './Spotlight';
 
 export default class Overlay extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      mouseOverHole: false,
+      mouseOverSpotlight: false,
       isScrolling: false,
-      showHole: false,
+      showSpotlight: false,
     };
   }
 
   static propTypes = {
-    allowClicksThruHole: PropTypes.bool.isRequired,
     disableOverlay: PropTypes.bool.isRequired,
     disableScrolling: PropTypes.bool.isRequired,
-    holePadding: PropTypes.number,
     lifecycle: PropTypes.string.isRequired,
     onClickOverlay: PropTypes.func.isRequired,
+    spotlightClicks: PropTypes.bool.isRequired,
+    spotlightPadding: PropTypes.number,
     styles: PropTypes.object.isRequired,
     target: PropTypes.oneOfType([
       PropTypes.object,
@@ -53,7 +53,7 @@ export default class Overlay extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const { isScrolling } = this.state;
-    const { allowClicksThruHole, disableScrolling, lifecycle } = nextProps;
+    const { spotlightClicks, disableScrolling, lifecycle } = nextProps;
     const { changed, changedTo } = treeChanges(this.props, nextProps);
 
     if (!disableScrolling) {
@@ -62,14 +62,14 @@ export default class Overlay extends React.Component {
 
         setTimeout(() => {
           if (!isScrolling) {
-            this.setState({ showHole: true });
+            this.setState({ showSpotlight: true });
           }
         }, 30);
       }
     }
 
-    if (changed('allowClicksThruHole') || changed('disableOverlay') || changed('lifecycle')) {
-      if (allowClicksThruHole && lifecycle === LIFECYCLE.TOOLTIP) {
+    if (changed('spotlightClicks') || changed('disableOverlay') || changed('lifecycle')) {
+      if (spotlightClicks && lifecycle === LIFECYCLE.TOOLTIP) {
         document.addEventListener('mousemove', this.handleMouseMove, false);
       }
       else if (lifecycle !== LIFECYCLE.TOOLTIP) {
@@ -85,61 +85,61 @@ export default class Overlay extends React.Component {
   }
 
   handleMouseMove = (e) => {
-    const { mouseOverHole } = this.state;
-    const { height, left, position, top, width } = this.stylesHole;
+    const { mouseOverSpotlight } = this.state;
+    const { height, left, position, top, width } = this.stylesSpotlight;
 
     const offsetY = position === 'fixed' ? e.clientY : e.pageY;
     const offsetX = position === 'fixed' ? e.clientX : e.pageX;
-    const inHoleHeight = (offsetY >= top && offsetY <= top + height);
-    const inHoleWidth = (offsetX >= left && offsetX <= left + width);
-    const inHole = inHoleWidth && inHoleHeight;
+    const inSpotlightHeight = (offsetY >= top && offsetY <= top + height);
+    const inSpotlightWidth = (offsetX >= left && offsetX <= left + width);
+    const inSpotlight = inSpotlightWidth && inSpotlightHeight;
 
-    if (inHole !== mouseOverHole) {
-      this.setState({ mouseOverHole: inHole });
+    if (inSpotlight !== mouseOverSpotlight) {
+      this.setState({ mouseOverSpotlight: inSpotlight });
     }
   };
 
   handleScroll = () => {
     if (!this.state.isScrolling) {
-      this.setState({ isScrolling: true, showHole: false });
+      this.setState({ isScrolling: true, showSpotlight: false });
     }
 
     clearTimeout(this.scrollTimeout);
 
     this.scrollTimeout = setTimeout(() => {
       clearTimeout(this.scrollTimeout);
-      this.setState({ isScrolling: false, showHole: true });
+      this.setState({ isScrolling: false, showSpotlight: true });
       this.scrollParent.removeEventListener('scroll', this.handleScroll);
     }, 50);
   };
 
-  get stylesHole() {
-    const { showHole } = this.state;
-    const { allowClicksThruHole, holePadding, styles, target } = this.props;
+  get stylesSpotlight() {
+    const { showSpotlight } = this.state;
+    const { spotlightClicks, spotlightPadding, styles, target } = this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
     const isFixedTarget = isFixed(target);
-    const top = getElementPosition(element, holePadding);
+    const top = getElementPosition(element, spotlightPadding);
 
     return {
-      ...(isLegacy() ? styles.holeLegacy : styles.hole),
-      height: Math.round(elementRect.height + (holePadding * 2)),
-      left: Math.round(elementRect.left - holePadding),
-      opacity: showHole ? 1 : 0,
-      pointerEvents: allowClicksThruHole ? 'none' : 'auto',
+      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
+      height: Math.round(elementRect.height + (spotlightPadding * 2)),
+      left: Math.round(elementRect.left - spotlightPadding),
+      opacity: showSpotlight ? 1 : 0,
+      pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
       transition: 'opacity 0.2s',
-      width: Math.round(elementRect.width + (holePadding * 2)),
+      width: Math.round(elementRect.width + (spotlightPadding * 2)),
     };
   }
 
   render() {
-    const { showHole } = this.state;
+    const { showSpotlight } = this.state;
     const {
-      allowClicksThruHole,
+      spotlightClicks,
       disableOverlay,
-      holePadding,
+      spotlightPadding,
       lifecycle,
       onClickOverlay,
       target,
@@ -154,7 +154,7 @@ export default class Overlay extends React.Component {
     const stylesOverlay = {
       cursor: disableOverlay ? 'default' : 'pointer',
       height: getDocumentHeight(),
-      pointerEvents: this.state.mouseOverHole ? 'none' : 'auto',
+      pointerEvents: this.state.mouseOverSpotlight ? 'none' : 'auto',
       ...(isLegacy() ? styles.overlayLegacy : styles.overlay),
     };
 
@@ -164,15 +164,15 @@ export default class Overlay extends React.Component {
         style={stylesOverlay}
         onClick={onClickOverlay}
       >
-        {showHole && (
-          <Hole
-            allowClicksThruHole={allowClicksThruHole}
-            holePadding={holePadding}
+        {showSpotlight && (
+          <Spotlight
+            spotlightClicks={spotlightClicks}
+            spotlightPadding={spotlightPadding}
             target={target}
-            styles={this.stylesHole}
+            styles={this.stylesSpotlight}
           />
         )}
-        {output.hole}
+        {output.spotlight}
       </div>
     );
   }

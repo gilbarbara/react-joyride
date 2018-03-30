@@ -34,8 +34,7 @@ type placement = 'top' | 'top-start' | 'top-end' |
   'right' | 'right-start' | 'right-end' |
   'auto' | 'center';
 
-export type StepObject = {
-  allowClicksThruHole: boolean,
+export type StepProps = {
   beaconComponent: ?Node,
   content: Node | string,
   disableBeacon: boolean,
@@ -45,12 +44,13 @@ export type StepObject = {
   disableScrolling: boolean,
   event: string,
   hideBackButton: ?boolean,
-  holePadding: number,
   isFixed: ?boolean,
   offset: number,
   placement: placement,
   showProgress: ?boolean,
   showSkipButton: ?boolean,
+  spotlightPadding: number,
+  spotlightClicks: boolean,
   styles: ?Object,
   target: string | HTMLElement,
   title: ?Node,
@@ -58,8 +58,7 @@ export type StepObject = {
   tooltipOptions: ?Object,
 }
 
-export type TourObject = {
-  allowClicksThruHole: boolean,
+export type JoyrideProps = {
   beaconComponent: ?Node,
   callback: ?Function,
   debug: boolean,
@@ -69,13 +68,14 @@ export type TourObject = {
   disableOverlayClicks: boolean,
   disableScrolling: boolean,
   hideBackButton: boolean,
-  holePadding: boolean,
   locale: ?Object,
   run: boolean,
   scrollOffset: number,
   scrollToFirstStep: boolean,
   showProgress: boolean,
   showSkipButton: boolean,
+  spotlightPadding: boolean,
+  spotlightClicks: boolean,
   stepIndex: ?number,
   steps: Array<StepObject>,
   tooltipComponent: ?Node,
