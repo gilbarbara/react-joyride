@@ -2,15 +2,11 @@ export default {
   TOUR_START: 'tour:start',
   STEP_BEFORE: 'step:before',
   BEACON: 'beacon',
-  BEACON_TRIGGER: 'beacon:trigger',
   TOOLTIP: 'tooltip',
-  TOOLTIP_SKIP: 'tooltip:skip',
-  TOOLTIP_CLOSE: 'tooltip:close',
-  OVERLAY_CLICK: 'overlay:click',
-  SPOTLIGHT_CLICK: 'spotlight:click',
   STEP_AFTER: 'step:after',
+  TOUR_END: 'tour:end',
+  // these usually don't happen in a normal tour
   TOUR_STATUS: 'tour:status',
   TARGET_NOT_FOUND: 'error:target_not_found',
   ERROR: 'error',
-  TOUR_END: 'tour:end',
 };

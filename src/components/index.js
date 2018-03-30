@@ -172,15 +172,7 @@ class Joyride extends React.Component {
       if (stepIndexChanged) {
         const nextAction = stepIndex < nextStepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
 
-        if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-          update({
-            action: ACTIONS.START,
-            index: nextStepIndex,
-            lifecycle: LIFECYCLE.INIT,
-            status: run && STATUS.RUNNING,
-          });
-        }
-        else {
+        if (![STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
           update({
             action: action === ACTIONS.CLOSE ? ACTIONS.CLOSE : nextAction,
             index: nextStepIndex,
@@ -448,7 +440,6 @@ class Joyride extends React.Component {
           disableScrolling={disableScrolling}
           getPopper={this.getPopper}
           helpers={this.helpers}
-          locale={this.locale}
           step={step}
           update={this.store.update}
         />

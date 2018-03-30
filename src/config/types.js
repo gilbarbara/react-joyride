@@ -61,8 +61,8 @@ export type StepProps = {
 export type JoyrideProps = {
   beaconComponent: ?Node,
   callback: ?Function,
+  continuous: boolean,
   debug: boolean,
-  disableBeacon: boolean,
   disableCloseOnEsc: boolean,
   disableOverlay: boolean,
   disableOverlayClose: boolean,
@@ -77,7 +77,19 @@ export type JoyrideProps = {
   spotlightPadding: boolean,
   spotlightClicks: boolean,
   stepIndex: ?number,
-  steps: Array<StepObject>,
+  steps: Array<StepProps>,
+  styles: ?Object,
   tooltipComponent: ?Node,
   tooltipOptions: ?Object,
+}
+
+export type CallBackProps = {
+  action: string,
+  controlled: boolean,
+  index: number,
+  lifecycle: string,
+  size: number,
+  status: string,
+  step: StepProps,
+  type: string,
 }

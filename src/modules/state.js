@@ -170,7 +170,9 @@ export default function createState(props: StateObject): StateInstance {
     };
 
     stop = (advance = false) => {
-      const { index } = this.getState();
+      const { index, status } = this.getState();
+
+      if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) return;
 
       this.setState({
         ...this.getNextState({ action: ACTIONS.STOP, index: index + (advance ? 1 : 0) }),
