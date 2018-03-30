@@ -1,7 +1,6 @@
 # Step
 
-The step is an plain object that only requires two properties to be valid: `target` and `content` \(unless you are using  `tooltipComponent`\).  
-
+The step is an plain object that only requires two properties to be valid: `target` and `content` \(unless you are using  `tooltipComponent`\).
 
 ```
 {
@@ -10,7 +9,7 @@ The step is an plain object that only requires two properties to be valid: `targ
 }
 ```
 
-It will inherit some properties from the Joyride's own [props](/docs/Props.md) but they can be overridden per step:
+It will inherit some properties from the Joyride's own [props](/docs/Props.md) that can be overridden per step:
 
 * beaconComponent
 * disableCloseOnEsc
@@ -27,7 +26,7 @@ It will inherit some properties from the Joyride's own [props](/docs/Props.md) b
 * tooltipComponent
 * tooltipOptions
 
-### And you customize it with these properties
+### And you customize it with these
 
 **content** {React.Node\|string}  
 The tooltip's body.
@@ -45,7 +44,7 @@ Force the step to be fixed.
 The distance from the target to the tooltip.
 
 **placement** {string} ▶︎ `bottom`  
-The placement of the Tooltip. It will re-position itself if there's no space available.  
+The placement of the beacon and tooltip. It will re-position itself if there's no space available.  
 It can be:
 
 * top \(top-start, top-end\)
@@ -56,6 +55,9 @@ It can be:
 * center
 
 Check [react-floater](https://github.com/gilbarbara/react-floater) for more information.
+
+**placementBeacon** {string} ▶︎ placement  
+The placement of the beacon. It will use the placement if nothing is passed and it can be: `top, bottom, left, right`.
 
 **target** {Element\|string} - **required**  
 The target for the step. It can be a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) or an HtmlElement directly \(but using refs created in the same render would required an additional render afterwards\).

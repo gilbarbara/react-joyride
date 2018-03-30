@@ -1,4 +1,62 @@
 # Styling
 
-ss
+Version 2 uses inline styles instead of the previous CSS/SCSS files but you can also use you own components for the beacon and tooltip and style them anyway you want.
+
+To update the default theme, just pass a `styles` prop to the Joyride component or directly in a [step](/docs/Step.md).  
+You can control the overall theme with the special `options` object.
+
+```
+const defaultOptions = {
+  arrowColor: '#fff',
+  backgroundColor: '#fff',
+  primaryColor: '#f04',
+  textColor: '#333',
+  overlayColor: 'rgba(0, 0, 0, 0.5)',
+  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+  beaconSize: 36,
+  zIndex: 100,
+};
+```
+
+### Example
+
+```js
+import Joyride from 'react-joyride';
+import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
+
+export class App extends React.Component {
+  state = {
+    run: false,
+    steps: [],
+  };
+
+  render () {
+    const { run, stepIndex, steps } = this.state;
+
+    return (
+      <div className="app">
+        <Joyride
+          run={run}
+          steps={steps}
+          styles={{
+            options: {
+              arrowColor: '#e3ffeb',
+              backgroundColor: '#e3ffeb',
+              primaryColor: '#000',
+              textColor: '#004a14',
+              overlayColor: 'rgba(79, 26, 0, 0.4)',
+            }
+          }}
+          ...
+        />
+        ...
+      </div>
+    );
+  }
+}
+```
+
+You can also customize any element independently. Check [styles.js](/src/styles.js) for more information.
+
+If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
 
