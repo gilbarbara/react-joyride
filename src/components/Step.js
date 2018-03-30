@@ -37,7 +37,7 @@ export default class JoyrideStep extends React.Component {
       content: isRequiredIf(PropTypes.node, props => !props.tooltipComponent && !props.title),
       disableBeacon: PropTypes.bool,
       disableOverlay: PropTypes.bool,
-      disableOverlayClicks: PropTypes.bool,
+      disableOverlayClose: PropTypes.bool,
       event: PropTypes.string,
       hideBackButton: PropTypes.bool,
       isFixed: PropTypes.bool,
@@ -124,7 +124,7 @@ export default class JoyrideStep extends React.Component {
   handleClickOverlay = () => {
     const { step } = this.props;
 
-    if (!step.disableOverlayClicks) {
+    if (!step.disableOverlayClose) {
       this.props.helpers.close();
     }
   };

@@ -68,10 +68,9 @@ export function validateSteps(steps: Array<Object>, debug: boolean = false): boo
 function getTourProps(props: JoyrideProps): JoyrideProps {
   const sharedTourProps = [
     'beaconComponent',
-    'disableBeacon',
     'disableCloseOnEsc',
     'disableOverlay',
-    'disableOverlayClicks',
+    'disableOverlayClose',
     'disableScrolling',
     'hideBackButton',
     'locale',
