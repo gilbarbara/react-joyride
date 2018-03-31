@@ -96,10 +96,12 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
   if (!step) return undefined;
 
   const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
+  const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
   const tooltipOptions = deepmerge(DEFAULTS.tooltipOptions, step.tooltipOptions || {});
   const scrollParent = hasCustomScrollParent(getElement(step.target));
 
   tooltipOptions.offset = mergedStep.offset || 0;
+  tooltipOptions.styles.arrow = mergedStyles.arrow;
 
   if (!mergedStep.disableScrolling) {
     tooltipOptions.offset += props.spotlightPadding || step.spotlightPadding || 0;
@@ -117,6 +119,6 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
     ...mergedStep,
     locale: deepmerge(DEFAULTS.locale, props.locale || {}),
     tooltipOptions,
-    styles: getStyles(deepmerge(props.styles || {}, step.styles || {})),
+    styles: mergedStyles,
   };
 }

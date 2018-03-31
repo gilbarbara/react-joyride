@@ -2,7 +2,10 @@ import deepmerge from 'deepmerge';
 import { hexToRGB } from './modules/helpers';
 
 const defaultOptions = {
-  color: '#f04',
+  arrowColor: '#fff',
+  backgroundColor: '#fff',
+  primaryColor: '#f04',
+  textColor: '#333',
   overlayColor: 'rgba(0, 0, 0, 0.5)',
   spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   beaconSize: 36,
@@ -34,9 +37,8 @@ const spotlight = {
   position: 'absolute',
 };
 
-export default function getStyles(styles) {
-  const options = deepmerge(defaultOptions, styles.options || {});
-  delete styles.options;
+export default function getStyles(stepStyles) {
+  const options = deepmerge(defaultOptions, stepStyles.options || {});
 
   const overlay = {
     bottom: 0,
@@ -59,7 +61,7 @@ export default function getStyles(styles) {
     },
     beaconInner: {
       animation: 'joyride-beacon-inner 1.2s infinite ease-in-out',
-      backgroundColor: options.color,
+      backgroundColor: options.primaryColor,
       borderRadius: '50%',
       display: 'block',
       height: '50%',
@@ -72,8 +74,8 @@ export default function getStyles(styles) {
     },
     beaconOuter: {
       animation: 'joyride-beacon-outer 1.2s infinite ease-in-out',
-      backgroundColor: `rgba(${hexToRGB(options.color).join(',')}, 0.2)`,
-      border: `2px solid ${options.color}`,
+      backgroundColor: `rgba(${hexToRGB(options.primaryColor).join(',')}, 0.2)`,
+      border: `2px solid ${options.primaryColor}`,
       borderRadius: '50%',
       boxSizing: 'border-box',
       display: 'block',
@@ -86,10 +88,11 @@ export default function getStyles(styles) {
       width: '100%',
     },
     tooltip: {
+      backgroundColor: options.backgroundColor,
       borderRadius: 5,
       boxSizing: 'border-box',
+      color: options.textColor,
       fontSize: 16,
-      backgroundColor: '#fff',
       padding: 15,
       position: 'relative',
       width,
@@ -112,18 +115,19 @@ export default function getStyles(styles) {
     },
     buttonNext: {
       ...buttonReset,
-      backgroundColor: options.color,
+      backgroundColor: options.primaryColor,
       borderRadius: 4,
       color: '#fff',
     },
     buttonBack: {
       ...buttonReset,
-      color: options.color,
+      color: options.primaryColor,
       marginLeft: 'auto',
       marginRight: 5,
     },
     buttonClose: {
       ...buttonReset,
+      color: options.textColor,
       height: 14,
       padding: 15,
       position: 'absolute',
@@ -133,6 +137,7 @@ export default function getStyles(styles) {
     },
     buttonSkip: {
       ...buttonReset,
+      color: options.textColor,
       fontSize: 14,
     },
     overlay: {
@@ -151,7 +156,10 @@ export default function getStyles(styles) {
       ...spotlight,
       boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
     },
+    arrow: {
+      color: options.arrowColor,
+    },
   };
 
-  return deepmerge(defaultStyles, styles || {});
+  return deepmerge(defaultStyles, stepStyles || {});
 }

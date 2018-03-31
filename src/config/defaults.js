@@ -17,6 +17,7 @@ export default {
         boundariesElement: 'scrollParent',
       },
     },
+    styles: {},
     wrapperOptions: {
       offset: -18,
       position: true,
