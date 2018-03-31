@@ -155,55 +155,7 @@ export function getElementPosition(element: HTMLElement, offset: number): number
   const scrollParent = getScrollParent(element);
   const hasScrollParent = hasCustomScrollParent(element);
 
-  const top = elementRect.top + (!hasScrollParent ? scrollParent.scrollTop : 0);
-  /*
-  const { offsetParent } = element;
-  const scrollParent = getScrollParent(element);
-  const hasOffsetParent = hasCustomOffsetParent(element);
-  const hasScrollParent = hasCustomScrollParent(element);
-  const scrollToStep = getScrollTo(element, scrollOffset);
-
-  let overflowHeight = element.offsetTop + scrollToStep > scrollParent.scrollHeight;
-  let top = element.offsetTop;
-
-  console.group('getElementPosition');
-  console.log('element', elementRect.top, element.offsetTop, offset, scrollOffset);
-  console.log('scrollParent', scrollParent.offsetTop, scrollParent.offsetHeight, scrollParent.scrollHeight);
-  console.log('customOffset', hasOffsetParent, 'customScroll', hasScrollParent);
-  console.log('scrollToStep', scrollToStep, 'overflowHeight', overflowHeight);
-
-  if (hasOffsetParent && offsetParent instanceof HTMLElement) {
-    top = element.offsetTop + offsetParent.offsetTop;
-    console.log('hasOffsetParent', top);
-
-    if (isFixed(element)) {
-      top += scrollParent.scrollTop;
-      console.log('isFixed', top);
-    }
-    else if (scrollParent.scrollHeight > scrollParent.offsetHeight) {
-      if (overflowHeight) {
-        top -= scrollParent.scrollHeight - element.offsetTop;
-      }
-      else {
-        top -= scrollToStep;
-      }
-
-      console.log('top: scrollHeight > offsetHeight', top, scrollToStep);
-    }
-  }
-  else if (hasScrollParent) {
-    top = element.offsetTop - scrollToStep;
-    overflowHeight = (element.offsetTop - scrollParent.offsetTop) + scrollToStep > scrollParent.scrollHeight;
-  }
-
-  console.log('top:before', top);
-
-  top += !hasScrollParent ? -offset : 0;
-
-  console.log('top:after', top);
-
-  console.groupEnd();
-  */
+  const top = elementRect.top + (!hasScrollParent && !isFixed(element) ? scrollParent.scrollTop : 0);
 
   return Math.floor(top - offset);
 }

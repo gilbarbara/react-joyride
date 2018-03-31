@@ -34,6 +34,8 @@ type placement = 'top' | 'top-start' | 'top-end' |
   'right' | 'right-start' | 'right-end' |
   'auto' | 'center';
 
+type placementBeacon = 'top' | 'bottom' | 'left' | 'right';
+
 export type StepProps = {
   beaconComponent: ?Node,
   content: Node | string,
@@ -47,6 +49,7 @@ export type StepProps = {
   isFixed: ?boolean,
   offset: number,
   placement: placement,
+  placementBeacon: placementBeacon,
   showProgress: ?boolean,
   showSkipButton: ?boolean,
   spotlightPadding: number,

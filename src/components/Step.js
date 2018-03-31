@@ -188,7 +188,7 @@ export default class JoyrideStep extends React.Component {
           debug={debug}
           getPopper={this.getPopper}
           id={`react-joyride:${index}`}
-          positionFixed={step.isFixed || isFixed(target)}
+          isPositioned={step.isFixed || isFixed(target)}
           open={this.open}
           placement={step.placement}
           target={step.target}

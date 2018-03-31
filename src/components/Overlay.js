@@ -24,7 +24,7 @@ export default class Overlay extends React.Component {
     this.state = {
       mouseOverSpotlight: false,
       isScrolling: false,
-      showSpotlight: false,
+      showSpotlight: props.disableScrolling,
     };
   }
 
@@ -52,7 +52,6 @@ export default class Overlay extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isScrolling } = this.state;
     const { spotlightClicks, disableScrolling, lifecycle } = nextProps;
     const { changed, changedTo } = treeChanges(this.props, nextProps);
 
@@ -61,10 +60,11 @@ export default class Overlay extends React.Component {
         this.scrollParent.addEventListener('scroll', this.handleScroll, { passive: true });
 
         setTimeout(() => {
-          if (!isScrolling) {
+          if (!this.state.isScrolling) {
             this.setState({ showSpotlight: true });
+            this.scrollParent.removeEventListener('scroll', this.handleScroll);
           }
-        }, 30);
+        }, 100);
       }
     }
 
@@ -79,9 +79,13 @@ export default class Overlay extends React.Component {
   }
 
   componentWillUnmount() {
+    const { disableScrolling } = this.props;
     clearTimeout(this.scrollTimeout);
     document.removeEventListener('mousemove', this.handleMouseMove);
-    this.scrollParent.removeEventListener('scroll', this.handleScroll);
+
+    if (!disableScrolling) {
+      this.scrollParent.removeEventListener('scroll', this.handleScroll);
+    }
   }
 
   handleMouseMove = (e) => {
@@ -103,7 +107,6 @@ export default class Overlay extends React.Component {
     if (!this.state.isScrolling) {
       this.setState({ isScrolling: true, showSpotlight: false });
     }
-
     clearTimeout(this.scrollTimeout);
 
     this.scrollTimeout = setTimeout(() => {
@@ -118,7 +121,7 @@ export default class Overlay extends React.Component {
     const { spotlightClicks, spotlightPadding, styles, target } = this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
-    const isFixedTarget = isFixed(target);
+    const isFixedTarget = isFixed(element);
     const top = getElementPosition(element, spotlightPadding);
 
     return {
