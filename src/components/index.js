@@ -13,7 +13,7 @@ import {
   isFixed,
   scrollTo,
 } from '../modules/dom';
-import { log } from '../modules/helpers';
+import { canUseDOM, log } from '../modules/helpers';
 import { getMergedStep, validateSteps } from '../modules/step';
 
 import ACTIONS from '../constants/actions';
@@ -89,6 +89,8 @@ class Joyride extends React.Component {
   };
 
   componentDidMount() {
+    if (!canUseDOM) return;
+
     const {
       debug,
       disableCloseOnEsc,
@@ -127,6 +129,8 @@ class Joyride extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (!canUseDOM) return;
+
     const { action, status } = this.state;
     const { steps, stepIndex } = this.props;
     const { debug, run, steps: nextSteps, stepIndex: nextStepIndex } = nextProps;
@@ -213,6 +217,8 @@ class Joyride extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (!canUseDOM) return;
+
     const { action, index } = this.state;
     const { steps, stepIndex } = this.props;
     const step = getMergedStep(steps[index], this.props);
@@ -426,6 +432,8 @@ class Joyride extends React.Component {
   };
 
   render() {
+    if (!canUseDOM) return null;
+
     const { index, status } = this.state;
     const { continuous, debug, disableScrolling, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
