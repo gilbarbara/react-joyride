@@ -156,8 +156,13 @@ export default function getStyles(stepStyles) {
       ...spotlight,
       boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
     },
-    arrow: {
-      color: options.arrowColor,
+    floater: {
+      arrow: {
+        color: options.arrowColor,
+      },
+      tooltip: {
+        zIndex: options.zIndex,
+      },
     },
   };
 

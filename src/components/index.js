@@ -49,6 +49,9 @@ class Joyride extends React.Component {
     disableOverlay: PropTypes.bool,
     disableOverlayClose: PropTypes.bool,
     disableScrolling: PropTypes.bool,
+    floaterProps: PropTypes.shape({
+      offset: PropTypes.number,
+    }),
     hideBackButton: PropTypes.bool,
     locale: PropTypes.object,
     run: PropTypes.bool,
@@ -65,9 +68,6 @@ class Joyride extends React.Component {
       PropTypes.func,
       PropTypes.element,
     ]),
-    tooltipOptions: PropTypes.shape({
-      offset: PropTypes.number,
-    }),
   };
 
   static defaultProps = {

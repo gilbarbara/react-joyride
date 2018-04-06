@@ -1,4 +1,15 @@
 export default {
+  floaterProps: {
+    options: {
+      preventOverflow: {
+        boundariesElement: 'scrollParent',
+      },
+    },
+    wrapperOptions: {
+      offset: -18,
+      position: true,
+    },
+  },
   locale: {
     back: 'Back',
     close: 'Close',
@@ -10,17 +21,5 @@ export default {
     event: 'click',
     placement: 'bottom',
     offset: 10,
-  },
-  tooltipOptions: {
-    options: {
-      preventOverflow: {
-        boundariesElement: 'scrollParent',
-      },
-    },
-    styles: {},
-    wrapperOptions: {
-      offset: -18,
-      position: true,
-    },
   },
 };

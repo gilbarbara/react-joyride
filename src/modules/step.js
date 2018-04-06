@@ -72,6 +72,7 @@ function getTourProps(props: JoyrideProps): JoyrideProps {
     'disableOverlay',
     'disableOverlayClose',
     'disableScrolling',
+    'floaterProps',
     'hideBackButton',
     'locale',
     'showProgress',
@@ -80,7 +81,6 @@ function getTourProps(props: JoyrideProps): JoyrideProps {
     'spotlightPadding',
     'styles',
     'tooltipComponent',
-    'tooltipOptions',
   ];
 
   return Object.keys(props)
@@ -97,28 +97,29 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
 
   const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
-  const tooltipOptions = deepmerge(DEFAULTS.tooltipOptions, step.tooltipOptions || {});
   const scrollParent = hasCustomScrollParent(getElement(step.target));
+  const floaterProps = deepmerge(DEFAULTS.floaterProps, mergedStep.floaterProps || {});
 
-  tooltipOptions.offset = mergedStep.offset || 0;
-  tooltipOptions.styles.arrow = mergedStyles.arrow;
+  // Set react-floater props
+  floaterProps.offset = mergedStep.offset || 0;
+  floaterProps.styles = mergedStyles.floater;
 
   if (!mergedStep.disableScrolling) {
-    tooltipOptions.offset += props.spotlightPadding || step.spotlightPadding || 0;
+    floaterProps.offset += props.spotlightPadding || step.spotlightPadding || 0;
   }
 
   if (step.placementBeacon) {
-    tooltipOptions.wrapperOptions.placement = step.placementBeacon;
+    floaterProps.wrapperOptions.placement = step.placementBeacon;
   }
 
   if (scrollParent) {
-    tooltipOptions.options.preventOverflow.boundariesElement = 'window';
+    floaterProps.options.preventOverflow.boundariesElement = 'window';
   }
 
   return {
     ...mergedStep,
     locale: deepmerge(DEFAULTS.locale, props.locale || {}),
-    tooltipOptions,
+    floaterProps,
     styles: mergedStyles,
   };
 }

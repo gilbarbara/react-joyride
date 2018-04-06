@@ -45,6 +45,7 @@ export type StepProps = {
   disableOverlayClose: boolean,
   disableScrolling: boolean,
   event: string,
+  floaterProps: ?Object,
   hideBackButton: ?boolean,
   isFixed: ?boolean,
   offset: number,
@@ -58,7 +59,6 @@ export type StepProps = {
   target: string | HTMLElement,
   title: ?Node,
   tooltipComponent: ?Node,
-  tooltipOptions: ?Object,
 }
 
 export type JoyrideProps = {
@@ -70,6 +70,7 @@ export type JoyrideProps = {
   disableOverlay: boolean,
   disableOverlayClose: boolean,
   disableScrolling: boolean,
+  floaterProps: ?Object,
   hideBackButton: boolean,
   locale: ?Object,
   run: boolean,
@@ -83,7 +84,6 @@ export type JoyrideProps = {
   steps: Array<StepProps>,
   styles: ?Object,
   tooltipComponent: ?Node,
-  tooltipOptions: ?Object,
 }
 
 export type CallBackProps = {

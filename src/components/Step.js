@@ -39,6 +39,9 @@ export default class JoyrideStep extends React.Component {
       disableOverlay: PropTypes.bool,
       disableOverlayClose: PropTypes.bool,
       event: PropTypes.string,
+      floaterProps: PropTypes.shape({
+        offset: PropTypes.number,
+      }),
       hideBackButton: PropTypes.bool,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
@@ -62,9 +65,6 @@ export default class JoyrideStep extends React.Component {
         PropTypes.func,
         PropTypes.element,
       ]), props => !props.content && !props.title),
-      tooltipOptions: PropTypes.shape({
-        offset: PropTypes.number,
-      }),
     }).isRequired,
     update: PropTypes.func.isRequired,
   };
@@ -192,7 +192,7 @@ export default class JoyrideStep extends React.Component {
           open={this.open}
           placement={step.placement}
           target={step.target}
-          {...step.tooltipOptions}
+          {...step.floaterProps}
         >
           <Beacon beaconComponent={step.beaconComponent} onClickOrHover={this.handleClickHoverBeacon} styles={step.styles} />
         </Floater>
