@@ -23,15 +23,6 @@ const buttonReset = {
   WebkitAppearance: 'none',
 };
 
-let width = 290;
-
-if (window.innerWidth > 480) {
-  width = 380;
-}
-else if (window.innerWidth > 768) {
-  width = 490;
-}
-
 const spotlight = {
   borderRadius: 4,
   position: 'absolute',
@@ -39,6 +30,14 @@ const spotlight = {
 
 export default function getStyles(stepStyles) {
   const options = deepmerge(defaultOptions, stepStyles.options || {});
+  let width = 290;
+
+  if (window.innerWidth > 480) {
+    width = 380;
+  }
+  else if (window.innerWidth > 768) {
+    width = 490;
+  }
 
   const overlay = {
     bottom: 0,
