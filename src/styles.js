@@ -97,6 +97,7 @@ export default function getStyles(stepStyles) {
       width,
     },
     tooltipContainer: {
+      lineHeight: 1.4,
       textAlign: 'center',
     },
     tooltipTitle: {
@@ -159,7 +160,7 @@ export default function getStyles(stepStyles) {
       arrow: {
         color: options.arrowColor,
       },
-      tooltip: {
+      floater: {
         zIndex: options.zIndex,
       },
     },

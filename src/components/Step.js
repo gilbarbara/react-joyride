@@ -10,6 +10,7 @@ import LIFECYCLE from '../constants/lifecycle';
 
 import { getElement, isFixed } from '../modules/dom';
 import { log } from '../modules/helpers';
+import { setScope, removeScope } from '../modules/scope';
 import { validateStep } from '../modules/step';
 
 import Beacon from './Beacon';
@@ -106,6 +107,17 @@ export default class JoyrideStep extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { changedTo, changedFrom } = treeChanges(prevProps, this.props);
+
+    if (changedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
+      setScope(this.tooltip);
+    }
+    else if (changedFrom('lifecycle', LIFECYCLE.TOOLTIP, LIFECYCLE.INIT)) {
+      removeScope();
+    }
+  }
+
   /**
    * Beacon click/hover event listener
    *
@@ -127,6 +139,10 @@ export default class JoyrideStep extends React.Component {
     if (!step.disableOverlayClose) {
       this.props.helpers.close();
     }
+  };
+
+  setTooltipRef = (c) => {
+    this.tooltip = c;
   };
 
   getPopper = (popper, type) => {
@@ -181,6 +197,8 @@ export default class JoyrideStep extends React.Component {
               controlled={controlled}
               helpers={helpers}
               index={index}
+              setTooltipRef={this.setTooltipRef}
+              size={size}
               isLastStep={index + 1 === size}
               step={step}
             />

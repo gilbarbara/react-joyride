@@ -11,6 +11,8 @@ const JoyrideTooltipContainer = ({
   skipProps,
   index,
   isLastStep,
+  setTooltipRef,
+  size,
   step,
 }) => {
   const { content, hideBackButton, locale, showSkipButton, title, styles } = step;
@@ -41,6 +43,7 @@ const JoyrideTooltipContainer = ({
   return (
     <div
       key="JoyrideTooltip"
+      ref={setTooltipRef}
       style={styles.tooltip}
     >
       <div style={styles.tooltipContainer}>
@@ -68,6 +71,7 @@ JoyrideTooltipContainer.propTypes = {
   index: PropTypes.number.isRequired,
   isLastStep: PropTypes.bool.isRequired,
   primaryProps: PropTypes.object.isRequired,
+  setTooltipRef: PropTypes.func.isRequired,
   skipProps: PropTypes.object.isRequired,
   step: PropTypes.object.isRequired,
 };

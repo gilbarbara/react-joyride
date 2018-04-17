@@ -101,8 +101,12 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
   const floaterProps = deepmerge(DEFAULTS.floaterProps, mergedStep.floaterProps || {});
 
   // Set react-floater props
-  floaterProps.offset = mergedStep.offset || 0;
+  floaterProps.offset = mergedStep.offset;
   floaterProps.styles = mergedStyles.floater;
+
+  if (mergedStep.floaterProps && mergedStep.floaterProps.offset) {
+    floaterProps.offset = mergedStep.floaterProps.offset;
+  }
 
   if (!mergedStep.disableScrolling) {
     floaterProps.offset += props.spotlightPadding || step.spotlightPadding || 0;

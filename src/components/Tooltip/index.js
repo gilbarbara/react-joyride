@@ -9,6 +9,8 @@ export default class JoyrideTooltip extends React.Component {
     helpers: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     isLastStep: PropTypes.bool.isRequired,
+    setTooltipRef: PropTypes.func.isRequired,
+    size: PropTypes.number.isRequired,
     step: PropTypes.object.isRequired,
   };
 
@@ -43,7 +45,7 @@ export default class JoyrideTooltip extends React.Component {
   };
 
   render() {
-    const { continuous, index, isLastStep, step } = this.props;
+    const { continuous, index, isLastStep, setTooltipRef, size, step } = this.props;
     const { content, locale, title, tooltipComponent } = step;
     const { back, close, last, next, skip } = locale;
     let primaryText = continuous ? next : close;
@@ -53,7 +55,7 @@ export default class JoyrideTooltip extends React.Component {
     }
 
     let component;
-    const props = {
+    const buttonProps = {
       backProps: { 'aria-label': back, onClick: this.handleClickBack, role: 'button', title: back },
       closeProps: { 'aria-label': close, onClick: this.handleClickClose, role: 'button', title: close },
       primaryProps: { 'aria-label': primaryText, onClick: this.handleClickPrimary, role: 'button', title: primaryText },
@@ -62,12 +64,14 @@ export default class JoyrideTooltip extends React.Component {
 
     if (tooltipComponent) {
       const renderProps = {
-        ...props,
+        ...buttonProps,
         content,
         continuous,
         index,
         isLastStep,
         locale,
+        setTooltipRef,
+        size,
         title,
       };
 
@@ -84,8 +88,10 @@ export default class JoyrideTooltip extends React.Component {
           continuous={continuous}
           index={index}
           isLastStep={isLastStep}
+          setTooltipRef={setTooltipRef}
+          size={size}
           step={step}
-          {...props}
+          {...buttonProps}
         />
       );
     }
