@@ -23,8 +23,6 @@ import STATUS from '../constants/status';
 
 import Step from './Step';
 
-let hasTouch = false;
-
 class Joyride extends React.Component {
   constructor(props) {
     super(props);
@@ -119,13 +117,6 @@ class Joyride extends React.Component {
     if (!disableCloseOnEsc) {
       document.body.addEventListener('keydown', this.handleKeyboard, { passive: true });
     }
-
-    window.addEventListener('touchstart', function setHasTouch() {
-      hasTouch = true;
-      // Remove event listener once fired, otherwise it'll kill scrolling
-      // performance
-      window.removeEventListener('touchstart', setHasTouch);
-    }, false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -191,31 +182,6 @@ class Joyride extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    const { index } = this.state;
-    const { stepIndex, steps } = nextProps;
-    const { changed, changedFrom } = treeChanges(this.state, nextState);
-    const step = getMergedStep(steps[index], nextProps);
-
-    const isControlled = is.number(stepIndex);
-    const hasChangedIndex = changed('index') && changedFrom('lifecycle', LIFECYCLE.TOOLTIP, LIFECYCLE.INIT);
-    const isAfterAction = changed('action') && [
-      ACTIONS.NEXT,
-      ACTIONS.PREV,
-      ACTIONS.SKIP,
-      ACTIONS.CLOSE,
-    ].includes(nextState.action);
-
-    if ((isControlled && isAfterAction) || hasChangedIndex) {
-      this.callback({
-        ...nextState,
-        lifecycle: LIFECYCLE.COMPLETE,
-        step,
-        type: EVENTS.STEP_AFTER,
-      });
-    }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     if (!canUseDOM) return;
 
@@ -225,6 +191,23 @@ class Joyride extends React.Component {
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = deep.diff(prevState, this.state);
     const isControlled = is.number(stepIndex);
+    const isAfterAction = changed('action') && [
+      ACTIONS.NEXT,
+      ACTIONS.PREV,
+      ACTIONS.SKIP,
+      ACTIONS.CLOSE,
+    ].includes(action);
+    const hasChangedIndex = changed('index') && changedFrom('lifecycle', LIFECYCLE.TOOLTIP, LIFECYCLE.INIT);
+
+
+    if ((isControlled && isAfterAction) || hasChangedIndex) {
+      this.callback({
+        ...prevState,
+        lifecycle: LIFECYCLE.COMPLETE,
+        step,
+        type: EVENTS.STEP_AFTER,
+      });
+    }
 
     if (diffState) {
       log({
