@@ -15,7 +15,7 @@ const JoyrideTooltipContainer = ({
   size,
   step,
 }) => {
-  const { content, hideBackButton, locale, showSkipButton, title, styles } = step;
+  const { content, hideBackButton, locale, showProgress, showSkipButton, title, styles } = step;
   const { back, close, last, next, skip } = locale;
   const output = {
     primary: close,
@@ -27,6 +27,10 @@ const JoyrideTooltipContainer = ({
     }
     else {
       output.primary = next;
+    }
+
+    if (showProgress) {
+      output.primary += ` (${index + 1}/${size})`;
     }
   }
 
@@ -72,6 +76,7 @@ JoyrideTooltipContainer.propTypes = {
   isLastStep: PropTypes.bool.isRequired,
   primaryProps: PropTypes.object.isRequired,
   setTooltipRef: PropTypes.func.isRequired,
+  size: PropTypes.number.isRequired,
   skipProps: PropTypes.object.isRequired,
   step: PropTypes.object.isRequired,
 };
