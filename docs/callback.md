@@ -6,7 +6,7 @@ It will receive a plain object with the state changes.
 
 Example data:
 
-```
+```text
 {
   action: 'start',
   controlled: true,
@@ -19,7 +19,7 @@ Example data:
 }
 ```
 
-```
+```text
 {
   action: 'update',
   controlled: true,
@@ -32,7 +32,7 @@ Example data:
 }
 ```
 
-```
+```text
 {
   action: 'next',
   controlled: true,
@@ -45,7 +45,7 @@ Example data:
 }
 ```
 
-```js
+```javascript
 import Joyride from 'react-joyride';
 import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
@@ -90,5 +90,5 @@ export class App extends React.Component {
 }
 ```
 
-You can read more about the constants [here](/docs/Constants.md)
+You can read more about the constants [here](constants.md)
 

@@ -1,15 +1,15 @@
 # Step
 
-The step is an plain object that only requires two properties to be valid: `target` and `content` \(unless you are using  `tooltipComponent`\).
+The step is an plain object that only requires two properties to be valid: `target` and `content` \(unless you are using `tooltipComponent`\).
 
-```
+```text
 {
   target: '.my-selector',
   content: 'This is my super awesome feature!'
 }
 ```
 
-It will inherit some properties from the Joyride's own [props](/docs/Props.md) that can be overridden per step:
+It will inherit some properties from the Joyride's own [props](props.md) that can be overridden per step:
 
 * beaconComponent
 * disableCloseOnEsc
@@ -26,7 +26,7 @@ It will inherit some properties from the Joyride's own [props](/docs/Props.md) t
 * tooltipComponent
 * tooltipOptions
 
-### And you customize it with these
+## And you customize it with these
 
 **content** {React.Node\|string}  
 The tooltip's body.

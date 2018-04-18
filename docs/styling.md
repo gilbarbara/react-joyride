@@ -2,10 +2,10 @@
 
 Version 2 uses inline styles instead of the previous CSS/SCSS files but you can also use you own components for the beacon and tooltip and style them anyway you want.
 
-To update the default theme, just pass a `styles` prop to the Joyride component or directly in a [step](/docs/Step.md).  
+To update the default theme, just pass a `styles` prop to the Joyride component or directly in a [step](step.md).  
 You can control the overall theme with the special `options` object.
 
-```
+```text
 const defaultOptions = {
   arrowColor: '#fff',
   backgroundColor: '#fff',
@@ -18,9 +18,9 @@ const defaultOptions = {
 };
 ```
 
-### Example
+## Example
 
-```js
+```javascript
 import Joyride from 'react-joyride';
 import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
 
@@ -56,7 +56,7 @@ export class App extends React.Component {
 }
 ```
 
-You can also customize any element independently. Check [styles.js](/src/styles.js) for more information.
+You can also customize any element independently. Check [styles.js](https://github.com/gilbarbara/react-joyride/tree/3e08384415a831b20ce21c8423b6c271ad419fbf/src/styles.js) for more information.
 
 If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
 
