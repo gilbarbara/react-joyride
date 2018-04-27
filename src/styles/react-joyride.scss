@@ -160,6 +160,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &.bottom,
+    &.center,
     &.bottom-left,
     &.bottom-right {
       margin-top: $joyride-tooltip-arrow-height;
@@ -190,6 +191,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &.bottom-left,
+    &.center-left,
     &.top-left {
       .joyride-tooltip__triangle {
         left: 3%;
@@ -202,6 +204,7 @@ $joyride-tooltip-arrow-scale: ($joyride-tooltip-arrow-size / ($joyride-tooltip-a
     }
 
     &.bottom-right,
+    &.center-right,
     &.top-right {
       .joyride-tooltip__triangle {
         left: auto;

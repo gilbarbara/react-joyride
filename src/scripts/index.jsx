@@ -1008,12 +1008,15 @@ class Joyride extends React.Component {
       else if (/^bottom/.test(position)) {
         placement.y = (rect.top - scrollTop) + (rect.height - (displayTooltip ? -tooltipOffset : (component.height / 2) - offsetY));
       }
+      else if (/^center/.test(position)) {
+        placement.y = (rect.top - scrollTop - (component.height / 2) - tooltipOffset - offsetY) + (rect.height / 2);
+      }
       else {
         placement.y = (rect.top - scrollTop);
       }
 
       /* istanbul ignore else */
-      if (/^bottom|^top/.test(position)) {
+      if (/^bottom|^top|^center/.test(position)) {
         if (/left/.test(position)) {
           placement.x = rect.left - (displayTooltip ? tooltipOffset : component.width / 2);
         }
