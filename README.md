@@ -1,9 +1,9 @@
 React Joyride
 ===
 
-[![NPM version](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) 
-[![build status](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride) 
-[![dependencies Status](https://david-dm.org/gilbarbara/react-joyride/status.svg)](https://david-dm.org/gilbarbara/react-joyride) 
+[![NPM version](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride)
+[![build status](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride)
+[![dependencies Status](https://david-dm.org/gilbarbara/react-joyride/status.svg)](https://david-dm.org/gilbarbara/react-joyride)
 [![Maintainability](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/maintainability)](https://codeclimate.com/github/gilbarbara/react-joyride/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/test_coverage)](https://codeclimate.com/github/gilbarbara/react-joyride/test_coverage)
 
@@ -173,7 +173,7 @@ There are some usable options but you can pass custom parameters.
 - `title`: The tooltip's title.
 - `text`: The tooltip's content. It can be plain text, html or a React component.
 - `selector`: The target DOM selector of your feature **(required)**
-- `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `right` and `left`. This defaults to `top`.
+- `position`: Relative position of you beacon and tooltip. It can be one of these:`top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `center`, `center-left`, `center-right`, `right` and `left`. This defaults to `top`.
 - `type`: The event type that trigger the tooltip: `click` or `hover`. Defaults to `click`
 - `isFixed`: If `true`, the tooltip will remain in a fixed position within the viewport. Defaults to `false`.
 - `allowClicksThruHole`: Set to `true` to allow pointer-events (hover, clicks, etc) or touch events within overlay hole. If `true`, the `hole:click` callback will not be sent. Defaults to `false`. Takes precedence over a `allowClicksThruHole` prop provided to `<Joyride />`
@@ -184,7 +184,7 @@ There are some usable options but you can pass custom parameters.
 
 - `trigger`: The DOM element that will trigger the tooltip
 
-You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`. 
+You can style the tooltip UI for each step with these options: `backgroundColor`, `borderRadius`, `color`, `mainColor`, `textAlign` and `width`.
 
 You can also style `header`, `main`, `footer`, `button`, `skip`, `back`, `close` and `hole` independently using standard style options. Plus `beacon` offset, inner and outer colors and `arrow` visibility.
 
