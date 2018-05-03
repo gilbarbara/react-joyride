@@ -21,6 +21,7 @@ const buttonReset = {
   lineHeight: 1,
   padding: 8,
   WebkitAppearance: 'none',
+  cursor: 'pointer'
 };
 
 const spotlight = {
