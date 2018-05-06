@@ -1,4 +1,4 @@
-import createState from '../../src/modules/state';
+import createStore from '../../src/modules/store';
 
 import ACTIONS from '../../src/constants/actions';
 import LIFECYCLE from '../../src/constants/lifecycle';
@@ -6,15 +6,15 @@ import STATUS from '../../src/constants/status';
 
 import stepsData from '../__fixtures__/steps';
 
-const mockSyncState = jest.fn();
+const mockSyncStore = jest.fn();
 
-describe('state', () => {
+describe('store', () => {
   beforeEach(() => {
-    mockSyncState.mockClear();
+    mockSyncStore.mockClear();
   });
 
   describe('without initial values', () => {
-    const state = createState();
+    const store = createStore();
 
     const {
       go,
@@ -28,10 +28,10 @@ describe('state', () => {
       steps,
       stop,
       update,
-    } = state;
+    } = store;
 
-    it('should have initiated a new state', () => {
-      expect(state.constructor.name).toBe('State');
+    it('should have initiated a new store', () => {
+      expect(store.constructor.name).toBe('Store');
 
       expect(info()).toEqual({
         action: ACTIONS.INIT,
@@ -57,16 +57,16 @@ describe('state', () => {
     });
 
     it('should ignore all back/forward methods', () => {
-      const initialState = info();
+      const initialStore = info();
 
       next();
-      expect(info()).toEqual(initialState);
+      expect(info()).toEqual(initialStore);
 
       prev();
-      expect(info()).toEqual(initialState);
+      expect(info()).toEqual(initialStore);
 
       go(2);
-      expect(info()).toEqual(initialState);
+      expect(info()).toEqual(initialStore);
     });
 
     it('should be able to add steps', () => {
@@ -254,7 +254,7 @@ describe('state', () => {
       });
     });
 
-    it('should be able to call next again but there\'s no change to the state', () => {
+    it('should be able to call next again but there\'s no change to the store', () => {
       next();
       expect(info()).toEqual({
         action: ACTIONS.NEXT,
@@ -372,15 +372,15 @@ describe('state', () => {
   });
 
   describe('with initial steps', () => {
-    const state = createState({ steps: stepsData });
+    const store = createStore({ steps: stepsData });
 
     const {
       info,
       update,
-    } = state;
+    } = store;
 
-    it('should have initiated a new state', () => {
-      expect(state.constructor.name).toBe('State');
+    it('should have initiated a new store', () => {
+      expect(store.constructor.name).toBe('Store');
 
       expect(info()).toEqual({
         action: ACTIONS.INIT,
@@ -393,25 +393,25 @@ describe('state', () => {
     });
 
     it('should handle listeners', () => {
-      state.addListener(mockSyncState);
+      store.addListener(mockSyncStore);
 
       update({ status: STATUS.READY });
       update({ status: STATUS.READY });
-      expect(mockSyncState).toHaveBeenCalledTimes(1);
+      expect(mockSyncStore).toHaveBeenCalledTimes(1);
 
       update({ status: STATUS.IDLE });
       update({ status: STATUS.READY });
 
-      expect(mockSyncState).toHaveBeenCalledTimes(3);
+      expect(mockSyncStore).toHaveBeenCalledTimes(3);
     });
   });
 
   describe('with controlled prop', () => {
-    const state = createState({ controlled: true });
+    const store = createStore({ controlled: true });
 
     const {
       update,
-    } = state;
+    } = store;
 
     it('should throw an error if try to update the `controlled` prop', () => {
       expect(() => update({ controlled: false })).toThrow();

@@ -4,7 +4,7 @@ import deep from 'deep-diff';
 import treeChanges from 'tree-changes';
 import is from 'is-lite';
 
-import State from '../modules/state';
+import Store from '../modules/store';
 import {
   getElement,
   getScrollTo,
@@ -27,7 +27,7 @@ class Joyride extends React.Component {
   constructor(props) {
     super(props);
 
-    this.store = new State({
+    this.store = new Store({
       ...props,
       controlled: props.run && is.number(props.stepIndex),
     });

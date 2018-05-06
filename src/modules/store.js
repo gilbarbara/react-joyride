@@ -19,11 +19,11 @@ const defaultState: StateObject = {
 
 const validKeys = ['action', 'index', 'lifecycle', 'status'];
 
-export default function createState(props: StateObject): StateInstance {
+export default function createStore(props: StateObject): StateInstance {
   const store: Map<string, any> = new Map();
   const data: Map<string, any> = new Map();
 
-  class State {
+  class Store {
     listener: Function;
 
     constructor({ continuous = false, stepIndex, steps = [] }: Object = {}) {
@@ -63,6 +63,7 @@ export default function createState(props: StateObject): StateInstance {
 
       /* istanbul ignore else */
       if (this.listener && this.hasUpdatedState(state)) {
+        // console.log('▶ ▶ ▶ NEW STATE', this.getState());
         this.listener(this.getState());
       }
     }
@@ -260,5 +261,5 @@ export default function createState(props: StateObject): StateInstance {
     info = (): Object => this.getState()
   }
 
-  return new State(props);
+  return new Store(props);
 }
