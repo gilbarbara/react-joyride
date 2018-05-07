@@ -76,7 +76,7 @@ class Joyride extends React.Component {
     disableOverlayClose: false,
     disableScrolling: false,
     hideBackButton: false,
-    run: false,
+    run: true,
     scrollOffset: 20,
     scrollToFirstStep: false,
     showSkipButton: false,
@@ -154,6 +154,10 @@ class Joyride extends React.Component {
         }
       }
 
+      if (shouldStart) {
+        start();
+      }
+
       if (stepsChanged) {
         if (validateSteps(nextSteps, debug)) {
           setSteps(nextSteps);
@@ -165,7 +169,11 @@ class Joyride extends React.Component {
 
       /* istanbul ignore else */
       if (stepIndexChanged) {
-        const nextAction = stepIndex < nextStepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
+        let nextAction = stepIndex < nextStepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
+
+        if (action === ACTIONS.STOP) {
+          nextAction = ACTIONS.START;
+        }
 
         if (![STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
           update({
@@ -175,39 +183,17 @@ class Joyride extends React.Component {
           });
         }
       }
-
-      if (shouldStart) {
-        start();
-      }
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (!canUseDOM) return;
 
-    const { action, index } = this.state;
-    const { steps, stepIndex } = this.props;
+    const { index, lifecycle, status } = this.state;
+    const { steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = deep.diff(prevState, this.state);
-    const isControlled = is.number(stepIndex);
-    const isAfterAction = changed('action') && [
-      ACTIONS.NEXT,
-      ACTIONS.PREV,
-      ACTIONS.SKIP,
-      ACTIONS.CLOSE,
-    ].includes(action);
-    const hasChangedIndex = changed('index') && changedFrom('lifecycle', LIFECYCLE.TOOLTIP, LIFECYCLE.INIT);
-
-
-    if ((isControlled && isAfterAction) || hasChangedIndex) {
-      this.callback({
-        ...prevState,
-        lifecycle: LIFECYCLE.COMPLETE,
-        step,
-        type: EVENTS.STEP_AFTER,
-      });
-    }
 
     if (diffState) {
       log({
@@ -237,48 +223,12 @@ class Joyride extends React.Component {
         });
       }
 
-      // There's a step to use, but there's no target in the DOM
       if (step) {
-        const hasRenderedTarget = Boolean(getElement(step.target));
+        this.scrollToStep(prevState);
 
-        if (hasRenderedTarget) {
-          if (changedFrom('status', STATUS.READY, STATUS.RUNNING) || changed('index')) {
-            this.callback({
-              ...this.state,
-              step,
-              type: EVENTS.STEP_BEFORE,
-            });
-          }
+        if (step.placement === 'center' && status === STATUS.RUNNING && lifecycle === LIFECYCLE.INIT) {
+          this.store.update({ lifecycle: LIFECYCLE.READY });
         }
-        else {
-          console.warn('Target not mounted', step); //eslint-disable-line no-console
-          this.callback({
-            ...this.state,
-            type: EVENTS.TARGET_NOT_FOUND,
-            step,
-          });
-
-          if (!isControlled) {
-            this.store.update({ index: index + ([ACTIONS.PREV].includes(action) ? -1 : 1) });
-          }
-        }
-      }
-
-      /* istanbul ignore else */
-      if (changedTo('lifecycle', LIFECYCLE.BEACON)) {
-        this.callback({
-          ...this.state,
-          step,
-          type: EVENTS.BEACON,
-        });
-      }
-
-      if (changedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
-        this.callback({
-          ...this.state,
-          step,
-          type: EVENTS.TOOLTIP,
-        });
       }
 
       if (changedTo('lifecycle', LIFECYCLE.INIT)) {
@@ -286,8 +236,6 @@ class Joyride extends React.Component {
         delete this.tooltipPopper;
       }
     }
-
-    this.scrollToStep(prevState);
   }
 
   componentWillUnmount() {
@@ -296,21 +244,6 @@ class Joyride extends React.Component {
     /* istanbul ignore else */
     if (!disableCloseOnEsc) {
       document.body.removeEventListener('keydown', this.handleKeyboard);
-    }
-  }
-
-  /**
-   * Trigger the callback.
-   *
-   * @private
-   * @param {Object} data
-   */
-  callback(data) {
-    const { callback } = this.props;
-
-    /* istanbul ignore else */
-    if (is.function(callback)) {
-      callback(data);
     }
   }
 
@@ -369,6 +302,21 @@ class Joyride extends React.Component {
   }
 
   /**
+   * Trigger the callback.
+   *
+   * @private
+   * @param {Object} data
+   */
+  callback = (data) => {
+    const { callback } = this.props;
+
+    /* istanbul ignore else */
+    if (is.function(callback)) {
+      callback(data);
+    }
+  };
+
+  /**
    * Keydown event listener
    *
    * @private
@@ -403,15 +351,6 @@ class Joyride extends React.Component {
     else {
       this.tooltipPopper = popper;
     }
-
-    if (this.beaconPopper && this.tooltipPopper) {
-      const { action } = this.state;
-
-      this.store.update({
-        action: action === ACTIONS.CLOSE ? ACTIONS.CLOSE : action,
-        lifecycle: LIFECYCLE.READY,
-      });
-    }
   };
 
   render() {
@@ -426,6 +365,7 @@ class Joyride extends React.Component {
       output = (
         <Step
           {...this.state}
+          callback={this.callback}
           continuous={continuous}
           debug={debug}
           disableScrolling={disableScrolling}

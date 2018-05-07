@@ -33,6 +33,7 @@ export default class Overlay extends React.Component {
     disableScrolling: PropTypes.bool.isRequired,
     lifecycle: PropTypes.string.isRequired,
     onClickOverlay: PropTypes.func.isRequired,
+    placement: PropTypes.string.isRequired,
     spotlightClicks: PropTypes.bool.isRequired,
     spotlightPadding: PropTypes.number,
     styles: PropTypes.object.isRequired,
@@ -52,7 +53,7 @@ export default class Overlay extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { spotlightClicks, disableScrolling, lifecycle } = nextProps;
+    const { disableScrolling, lifecycle, spotlightClicks } = nextProps;
     const { changed, changedTo } = treeChanges(this.props, nextProps);
 
     if (!disableScrolling) {
@@ -80,10 +81,11 @@ export default class Overlay extends React.Component {
 
   componentWillUnmount() {
     const { disableScrolling } = this.props;
-    clearTimeout(this.scrollTimeout);
+
     document.removeEventListener('mousemove', this.handleMouseMove);
 
     if (!disableScrolling) {
+      clearTimeout(this.scrollTimeout);
       this.scrollParent.removeEventListener('scroll', this.handleScroll);
     }
   }
@@ -140,15 +142,12 @@ export default class Overlay extends React.Component {
   render() {
     const { showSpotlight } = this.state;
     const {
-      spotlightClicks,
       disableOverlay,
-      spotlightPadding,
       lifecycle,
       onClickOverlay,
-      target,
+      placement,
       styles,
     } = this.props;
-    const output = {};
 
     if (disableOverlay || lifecycle !== LIFECYCLE.TOOLTIP) {
       return null;
@@ -167,15 +166,9 @@ export default class Overlay extends React.Component {
         style={stylesOverlay}
         onClick={onClickOverlay}
       >
-        {showSpotlight && (
-          <Spotlight
-            spotlightClicks={spotlightClicks}
-            spotlightPadding={spotlightPadding}
-            target={target}
-            styles={this.stylesSpotlight}
-          />
+        {placement !== 'center' && showSpotlight && (
+          <Spotlight styles={this.stylesSpotlight} />
         )}
-        {output.spotlight}
       </div>
     );
   }

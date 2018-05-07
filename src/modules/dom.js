@@ -134,11 +134,11 @@ export function getScrollTo(element: HTMLElement, offset: number): number {
  * @returns {HTMLElement|undefined}
  */
 export function getElement(element: string | HTMLElement): ?HTMLElement {
-  if (typeof element === 'string') {
-    return document.querySelector(element);
+  if (typeof element !== 'string') {
+    return element;
   }
 
-  return element;
+  return element ? document.querySelector(element) : null;
 }
 
 /**
