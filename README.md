@@ -4,20 +4,26 @@
 
 [![Joyride example image](http://gilbarbara.github.io/react-joyride/media/example.png)](http://gilbarbara.github.io/react-joyride/)
 
-React-Joyride is React component to create a tour for your app for new users or explain functionality of new features.  
-It uses [react-floater](https://github.com/gilbarbara/react-floater) \(with popper.js for positioning and styling\) and you can use your own components if you want.
+Create a tour for your app!  
+Use it to showcase your app for new users! Or explain functionality of complex features!  
 
 #### View the demo [here](https://2zpjporp4p.codesandbox.io/)
 
 You can edit the demo [here](https://codesandbox.io/s/2zpjporp4p)
 
+>  If you are looking for the documentation for the old 1.x version, go [here](https://github.com/gilbarbara/react-joyride/tree/v1.11.4)
+
 ## Setup
 
 ```bash
-npm install --save react-joyride
+npm i react-joyride@next
 ```
 
 ## Getting Started
+
+Just set a `steps` array to the Joyride component and you're good to go!
+
+You can use your own component for the tooltip body or beacon, if you want.
 
 ```js
 import Joyride from 'react-joyride';
@@ -56,7 +62,6 @@ export class App extends React.Component {
         <Joyride
           steps={steps}
           run={run}
-          debug={true}
           callback={this.callback}
           ...
         />
@@ -81,5 +86,5 @@ export class App extends React.Component {
 
 [Migration from 1.x](docs/migration.md)
 
-
+This library uses [react-floater](https://github.com/gilbarbara/react-floater) and [popper.js](https://github.com/FezVrasta/popper.js) for positioning and styling.
 
