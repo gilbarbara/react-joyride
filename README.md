@@ -33,12 +33,12 @@ export class App extends React.Component {
     run: false,
     steps: [
       {
-        target: '.my-first-step',
+        selector: '.my-first-step',
         content: 'This if my awesome feature!',
         placement: 'bottom',
       },
       {
-        target: '.my-other-step',
+        selector: '.my-other-step',
         content: 'This if my awesome feature!',
         placement: 'bottom',
       },
