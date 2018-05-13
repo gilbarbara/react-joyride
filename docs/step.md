@@ -4,7 +4,7 @@ The step is an plain object that only requires two properties to be valid: `targ
 
 ```text
 {
-  target: '.my-selector',
+  selector: '.my-selector',
   content: 'This is my super awesome feature!'
 }
 ```
@@ -59,7 +59,7 @@ Check [react-floater](https://github.com/gilbarbara/react-floater) for more info
 **placementBeacon** {string} ▶︎ placement  
 The placement of the beacon. It will use the placement if nothing is passed and it can be: `top, bottom, left, right`.
 
-**target** {Element\|string} - **required**  
+**selector** {Element\|string} - **required**  
 The target for the step. It can be a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) or an HtmlElement directly \(but using refs created in the same render would required an additional render afterwards\).
 
 **title** {React.Node\|string}  
