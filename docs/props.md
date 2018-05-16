@@ -24,6 +24,9 @@ Don't close the tooltip when clicking the overlay.
 **disableScrolling** {boolean} ▶︎ `false`  
 Disable auto scrolling between steps.
 
+**floaterProps** {Object}  
+Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater).
+
 **hideBackButton** {boolean} ▶︎ `false`  
 Hide the "back" button.
 
@@ -64,6 +67,4 @@ Override the styling of the Tooltip.
 **tooltipComponent** {React.Node}  
 A React component or function to be used instead the default Tooltip excluding the arrow.
 
-**tooltipOptions** {Object}  
-Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater) \(and popper.js if needed\).
 

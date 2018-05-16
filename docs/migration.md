@@ -21,7 +21,7 @@ the space, return and tab keys are now controlled with tabIndex
 
 **showStepsProgress** `false` ▶︎ **showProgress** `false`
 
-**tooltipOffset** `30` ▶︎ **tooltipOptions.offset** `15`
+**tooltipOffset** `30` ▶︎ Use the step **floaterProps.offset**
 
 **type** `'single'` ▶︎ **continuous** `false`
 

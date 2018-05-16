@@ -1,6 +1,6 @@
 # Step
 
-The step is an plain object that only requires two properties to be valid: `target` and `content` \(unless you are using `tooltipComponent`\).
+The step is an plain object that only requires two properties to be valid: `target` and `content` \(or `tooltipComponent`\).
 
 ```text
 {
@@ -16,6 +16,7 @@ It will inherit some properties from the Joyride's own [props](props.md) that ca
 * disableOverlay
 * disableOverlayClose
 * disableScrolling
+* floaterProps (check the [getMergedStep](../src/modules/step.js) function for more information)
 * hideBackButton
 * locale
 * showProgress
@@ -24,9 +25,8 @@ It will inherit some properties from the Joyride's own [props](props.md) that ca
 * spotlightPadding
 * styles
 * tooltipComponent
-* tooltipOptions
 
-## And you customize it with these
+## And you can use these
 
 **content** {React.Node\|string}  
 The tooltip's body.
