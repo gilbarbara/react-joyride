@@ -53,7 +53,7 @@ const JoyrideTooltipContainer = ({
       <div style={styles.tooltipContainer}>
         {output.close}
         {title && (<h4 style={styles.tooltipTitle}>{title}</h4>)}
-        {content && (
+        {!!content && (
           <div style={styles.tooltipContent}>
             {content}
           </div>

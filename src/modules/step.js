@@ -98,11 +98,11 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
   const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
   const scrollParent = hasCustomScrollParent(getElement(step.target));
-  const floaterProps = deepmerge(DEFAULTS.floaterProps, mergedStep.floaterProps || {});
+  const floaterProps = deepmerge.all([props.floaterProps || {}, DEFAULTS.floaterProps, mergedStep.floaterProps || {}]);
 
   // Set react-floater props
   floaterProps.offset = mergedStep.offset;
-  floaterProps.styles = mergedStyles.floater;
+  floaterProps.styles = deepmerge(floaterProps.styles || {}, mergedStyles.floater || {});
 
   if (mergedStep.floaterProps && mergedStep.floaterProps.offset) {
     floaterProps.offset = mergedStep.floaterProps.offset;
