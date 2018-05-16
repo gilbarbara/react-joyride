@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import deep from 'deep-diff';
 import treeChanges from 'tree-changes';
 import is from 'is-lite';
 
@@ -13,7 +12,7 @@ import {
   isFixed,
   scrollTo,
 } from '../modules/dom';
-import { canUseDOM, log } from '../modules/helpers';
+import { canUseDOM, isEqual, log } from '../modules/helpers';
 import { getMergedStep, validateSteps } from '../modules/step';
 
 import ACTIONS from '../constants/actions';
@@ -121,26 +120,24 @@ class Joyride extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (!canUseDOM) return;
-
     const { action, status } = this.state;
     const { steps, stepIndex } = this.props;
     const { debug, run, steps: nextSteps, stepIndex: nextStepIndex } = nextProps;
     const { setSteps, start, stop, update } = this.store;
-
+    const diffProps = !isEqual(this.props, nextProps);
     const { changed } = treeChanges(this.props, nextProps);
-    const diffProps = deep.diff(this.props, nextProps);
 
     if (diffProps) {
       log({
         title: 'props',
         data: [
           { key: 'nextProps', value: nextProps },
-          { key: 'changed', value: diffProps },
+          { key: 'props', value: this.props },
         ],
         debug,
       });
 
-      const stepsChanged = deep.diff(nextSteps, steps);
+      const stepsChanged = !isEqual(nextSteps, steps);
       const stepIndexChanged = is.number(nextStepIndex) && changed('stepIndex');
       let shouldStart = false;
 
@@ -153,7 +150,6 @@ class Joyride extends React.Component {
           stop();
         }
       }
-
       if (shouldStart) {
         start();
       }
@@ -193,7 +189,7 @@ class Joyride extends React.Component {
     const { steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
-    const diffState = deep.diff(prevState, this.state);
+    const diffState = !isEqual(prevState, this.state);
 
     if (diffState) {
       log({

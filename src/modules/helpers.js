@@ -114,7 +114,9 @@ export function hasKey(value: Object, key: string): boolean {
 }
 
 export function hasValidKeys(value: Object, keys: string | Array<any>): boolean {
-  if (!is.plainObject(value) || !is.array(keys)) return false;
+  if (!is.plainObject(value) || !is.array(keys)) {
+    return false;
+  }
   let validKeys = keys;
 
   if (is.string(keys)) {
@@ -122,4 +124,43 @@ export function hasValidKeys(value: Object, keys: string | Array<any>): boolean 
   }
 
   return Object.keys(value).every(d => validKeys.includes(d));
+}
+
+export function isEqual(a: any, b: any): boolean {
+  let p;
+  let t;
+
+  for (p in a) {
+    if (Object.prototype.hasOwnProperty.call(a, p)) {
+      if (typeof b[p] === 'undefined') {
+        return false;
+      }
+
+      if (b[p] && !a[p]) {
+        return false;
+      }
+
+      t = typeof a[p];
+
+      if (t === 'object' && !isEqual(a[p], b[p])) {
+        return false;
+      }
+
+      if (t === 'function' && (typeof b[p] === 'undefined' || a[p].toString() !== b[p].toString())) {
+        return false;
+      }
+
+      if (a[p] !== b[p]) {
+        return false;
+      }
+    }
+  }
+
+  for (p in b) {
+    if (typeof a[p] === 'undefined') {
+      return false;
+    }
+  }
+
+  return true;
 }
