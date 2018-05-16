@@ -57,7 +57,7 @@ export class App extends React.Component {
   };
 
   callback = (tour) => {
-    const { action, index, type } = data;
+    const { action, index, type } = tour;
 
     if (type === EVENTS.TOUR_END) {
       // Update user preferences with completed tour flag
