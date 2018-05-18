@@ -46,14 +46,16 @@ class Joyride extends React.Component {
     disableOverlay: PropTypes.bool,
     disableOverlayClose: PropTypes.bool,
     disableScrolling: PropTypes.bool,
+    enableScrollX: PropTypes.bool,
     floaterProps: PropTypes.shape({
       offset: PropTypes.number,
     }),
     hideBackButton: PropTypes.bool,
     locale: PropTypes.object,
     run: PropTypes.bool,
-    scrollOffset: PropTypes.number,
     scrollToFirstStep: PropTypes.bool,
+    scrollXOffset: PropTypes.number,
+    scrollYOffset: PropTypes.number,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
     spotlightClicks: PropTypes.bool,
@@ -74,10 +76,12 @@ class Joyride extends React.Component {
     disableOverlay: false,
     disableOverlayClose: false,
     disableScrolling: false,
+    enableScrollX: false,
     hideBackButton: false,
     run: true,
-    scrollOffset: 20,
     scrollToFirstStep: false,
+    scrollXOffset: 20,
+    scrollYOffset: 20,
     showSkipButton: false,
     showProgress: false,
     spotlightClicks: false,
@@ -187,7 +191,7 @@ class Joyride extends React.Component {
 
     const { index, lifecycle, status } = this.state;
     const { steps } = this.props;
-    const step = getMergedStep(steps[index], this.props);
+    let step = getMergedStep(steps[index], this.props);
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = !isEqual(prevState, this.state);
 
@@ -207,6 +211,8 @@ class Joyride extends React.Component {
 
         if (changedTo('status', STATUS.FINISHED) || changedTo('status', STATUS.SKIPPED)) {
           type = EVENTS.TOUR_END;
+          // Return the last step when the tour is finished
+          step = getMergedStep(steps[prevState.index], this.props);
         }
         else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
           type = EVENTS.TOUR_START;
@@ -245,7 +251,7 @@ class Joyride extends React.Component {
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps } = this.props;
+    const { debug, disableScrolling, scrollToFirstStep, scrollYOffset, scrollXOffset, steps, enableScrollX } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     if (step) {
@@ -260,7 +266,8 @@ class Joyride extends React.Component {
       if (status === STATUS.RUNNING && shouldScroll) {
         const hasCustomScroll = hasCustomScrollParent(target);
         const scrollParent = getScrollParent(target);
-        let scrollY = Math.floor(getScrollTo(target, scrollOffset));
+        let scrollY = Math.floor(getScrollTo(target, scrollYOffset));
+        let scrollX = Math.floor(getScrollTo(target, scrollXOffset, 'x'));
 
         log({
           title: 'scrollToStep',
@@ -273,28 +280,63 @@ class Joyride extends React.Component {
         });
 
         if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
-          const { placement, popper } = this.beaconPopper;
+          if (!hasCustomScroll) {
+            const { placement, popper } = this.beaconPopper;
 
-          if (!['bottom'].includes(placement) && !hasCustomScroll) {
-            scrollY = Math.floor(popper.top - scrollOffset);
+            if (!['bottom'].includes(placement)) {
+              scrollY = Math.floor(popper.top - scrollYOffset);
+            }
+
+            if (enableScrollX && !['right'].includes(placement)) {
+              scrollX = Math.floor(popper.left - scrollXOffset);
+            }
           }
         }
         else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
           const { flipped, placement, popper } = this.tooltipPopper;
 
           if (['top', 'right'].includes(placement) && !flipped && !hasCustomScroll) {
-            scrollY = Math.floor(popper.top - scrollOffset);
+            scrollY = Math.floor(popper.top - scrollYOffset);
           }
-          else {
+          else if (scrollY - step.spotlightPadding >= 0) {
             scrollY -= step.spotlightPadding;
+          }
+
+          if (enableScrollX) {
+            if (['left', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
+              scrollX = Math.floor(popper.left - scrollXOffset);
+            }
+            else if (scrollX - step.spotlightPadding >= 0) {
+              scrollX -= step.spotlightPadding;
+            }
           }
         }
 
-        if (status === STATUS.RUNNING && shouldScroll && scrollY >= 0) {
-          scrollTo(scrollY, scrollParent);
+        if (status === STATUS.RUNNING && shouldScroll) {
+          const promises = [];
+
+          if (scrollY >= 0) {
+            promises.push(scrollTo(scrollY, scrollParent));
+          }
+
+          if (scrollX >= 0) {
+            promises.push(scrollTo(scrollX, scrollParent, 'x'));
+          }
+
+          if (promises.length) {
+            this.setState({ scrolling: true });
+
+            Promise.all(promises).then(() => {
+              this.setState({ scrolling: false });
+            });
+          }
         }
       }
     }
+  }
+
+  reset = () => {
+    this.store.reset();
   }
 
   /**

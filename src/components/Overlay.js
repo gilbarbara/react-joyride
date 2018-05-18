@@ -125,15 +125,16 @@ export default class Overlay extends React.Component {
     const elementRect = getClientRect(element);
     const isFixedTarget = isFixed(element);
     const top = getElementPosition(element, spotlightPadding);
+    const left = getElementPosition(element, spotlightPadding, 'x');
 
     return {
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
       height: Math.round(elementRect.height + (spotlightPadding * 2)),
-      left: Math.round(elementRect.left - spotlightPadding),
       opacity: showSpotlight ? 1 : 0,
       pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
+      left,
       transition: 'opacity 0.2s',
       width: Math.round(elementRect.width + (spotlightPadding * 2)),
     };

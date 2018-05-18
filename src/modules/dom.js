@@ -103,26 +103,31 @@ export function isFixed(el: ?HTMLElement | Node): boolean {
 }
 
 /**
- * Get the scrollTop position
+ * Get the scroll position
  *
  * @param {HTMLElement} element
  * @param {number} offset
+ * @param {string} axis
  *
  * @returns {number}
  */
-export function getScrollTo(element: HTMLElement, offset: number): number {
+export function getScrollTo(element: HTMLElement, offset: number, axis: string = 'y'): number {
   if (!element) {
     return 0;
   }
 
   const parent = getScrollParent(element);
-  let top = element.offsetTop;
+  const scrollKey = axis === 'y' ? 'scrollTop' : 'scrollLeft';
+  const offsetKey = axis === 'y' ? 'top' : 'left';
+  const parentPos = parent.getBoundingClientRect()[offsetKey];
+  const elementOffset = element.getBoundingClientRect()[offsetKey];
+  let scrollToPos = (parent[scrollKey] + elementOffset) - parentPos;
 
   if (hasCustomScrollParent(element) && !hasCustomOffsetParent(element)) {
-    top -= parent.offsetTop;
+    scrollToPos -= parentPos;
   }
 
-  return Math.floor(top - offset);
+  return scrollToPos > offset ? Math.floor(scrollToPos - offset) : scrollToPos;
 }
 
 /**
@@ -142,31 +147,48 @@ export function getElement(element: string | HTMLElement): ?HTMLElement {
 }
 
 /**
- * Find and return the target DOM element based on a step's 'target'.
+ * Find and return the target DOM element's position based on a step's 'target'.
  *
  * @private
  * @param {string|HTMLElement} element
  * @param {number} offset
+ * @param {string} axis
  *
  * @returns {HTMLElement|undefined}
  */
-export function getElementPosition(element: HTMLElement, offset: number): number {
+export function getElementPosition(element: HTMLElement, offset: number, axis: string = 'y'): number {
   const elementRect = getClientRect(element);
   const scrollParent = getScrollParent(element);
   const hasScrollParent = hasCustomScrollParent(element);
+  const isYAxis = axis === 'y';
+  const rectKey = isYAxis ? 'top' : 'left';
+  const scrollKey = isYAxis ? 'scrollTop' : 'scrollLeft';
 
-  const top = elementRect.top + (!hasScrollParent && !isFixed(element) ? scrollParent.scrollTop : 0);
+  const position = elementRect[rectKey] + (!hasScrollParent && !isFixed(element) ? scrollParent[scrollKey] : 0);
 
-  return Math.floor(top - offset);
+  return Math.floor(position - offset);
 }
 
-export function scrollTo(value: number, element: HTMLElement = scrollDoc()): Promise<*> {
+/**
+ * Scroll the element to the position value
+ *
+ * @private
+ * @param  {number} value - Position value to scroll the element to
+ * @param  {HTMLElement} element - The element to scroll
+ * @param  {string} axis - The axis to scroll
+ *
+ * @returns {Promise}
+ */
+export function scrollTo(value: number, element: HTMLElement = scrollDoc(), axis: string = 'y'): Promise<*> {
   return new Promise((resolve, reject) => {
-    const { scrollTop } = element;
+    const isYAxis = axis === 'y';
+    const scrollMethod = isYAxis ? 'top' : 'left';
+    const scrollKey = isYAxis ? 'scrollTop' : 'scrollLeft';
+    const scrollValue = element[scrollKey];
 
-    const limit = value > scrollTop ? value - scrollTop : scrollTop - value;
+    const limit = value > scrollValue ? value - scrollValue : scrollValue - value;
 
-    scroll.top(element, value, { duration: limit < 100 ? 50 : 300 }, (error) => {
+    scroll[scrollMethod](element, value, { duration: limit < 100 ? 50 : 300 }, (error) => {
       if (error && error.message !== 'Element already at target scroll position') {
         return reject(error);
       }

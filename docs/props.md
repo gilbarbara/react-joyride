@@ -33,11 +33,17 @@ Hide the "back" button.
 **locale** {Object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`  
 The strings used in the tooltip.
 
-**run** {boolean} ▶︎ `false`  
+**run** {boolean} ▶︎ `true`  
 Run/stop the tour.
 
-**scrollOffset** {number} ▶︎ `20`  
+**scrollYOffset** {number} ▶︎ `20`  
 The scroll distance from the element scrollTop value.
+
+**scrollXOffset** {number} ▶︎ `20`  
+The scroll distance from the element scrollLeft value. Used if `enableScrollX` is true.
+
+**enableScrollX** {boolean} ▶︎ `false`  
+Scroll horizontally if target is out of view.
 
 **scrollToFirstStep** {boolean} ▶︎ `false`  
 Scroll the page for the first step.
@@ -66,5 +72,3 @@ Override the styling of the Tooltip.
 
 **tooltipComponent** {React.Node}  
 A React component or function to be used instead the default Tooltip excluding the arrow.
-
-
