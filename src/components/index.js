@@ -54,8 +54,7 @@ class Joyride extends React.Component {
     locale: PropTypes.object,
     run: PropTypes.bool,
     scrollToFirstStep: PropTypes.bool,
-    scrollXOffset: PropTypes.number,
-    scrollYOffset: PropTypes.number,
+    scrollOffset: PropTypes.number,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
     spotlightClicks: PropTypes.bool,
@@ -80,8 +79,7 @@ class Joyride extends React.Component {
     hideBackButton: false,
     run: true,
     scrollToFirstStep: false,
-    scrollXOffset: 20,
-    scrollYOffset: 20,
+    scrollOffset: 20,
     showSkipButton: false,
     showProgress: false,
     spotlightClicks: false,
@@ -251,7 +249,7 @@ class Joyride extends React.Component {
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrolling, scrollToFirstStep, scrollYOffset, scrollXOffset, steps, enableScrollX } = this.props;
+    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps, enableScrollX } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     if (step) {
@@ -266,8 +264,8 @@ class Joyride extends React.Component {
       if (status === STATUS.RUNNING && shouldScroll) {
         const hasCustomScroll = hasCustomScrollParent(target);
         const scrollParent = getScrollParent(target);
-        let scrollY = Math.floor(getScrollTo(target, scrollYOffset));
-        let scrollX = Math.floor(getScrollTo(target, scrollXOffset, 'x'));
+        let scrollY = Math.floor(getScrollTo(target, scrollOffset));
+        let scrollX = Math.floor(getScrollTo(target, scrollOffset, 'x'));
 
         log({
           title: 'scrollToStep',
@@ -284,11 +282,11 @@ class Joyride extends React.Component {
             const { placement, popper } = this.beaconPopper;
 
             if (!['bottom'].includes(placement)) {
-              scrollY = Math.floor(popper.top - scrollYOffset);
+              scrollY = Math.floor(popper.top - scrollOffset);
             }
 
             if (enableScrollX && !['right'].includes(placement)) {
-              scrollX = Math.floor(popper.left - scrollXOffset);
+              scrollX = Math.floor(popper.left - scrollOffset);
             }
           }
         }
@@ -296,7 +294,7 @@ class Joyride extends React.Component {
           const { flipped, placement, popper } = this.tooltipPopper;
 
           if (['top', 'right'].includes(placement) && !flipped && !hasCustomScroll) {
-            scrollY = Math.floor(popper.top - scrollYOffset);
+            scrollY = Math.floor(popper.top - scrollOffset);
           }
           else if (scrollY - step.spotlightPadding >= 0) {
             scrollY -= step.spotlightPadding;
@@ -304,7 +302,7 @@ class Joyride extends React.Component {
 
           if (enableScrollX) {
             if (['left', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
-              scrollX = Math.floor(popper.left - scrollXOffset);
+              scrollX = Math.floor(popper.left - scrollOffset);
             }
             else if (scrollX - step.spotlightPadding >= 0) {
               scrollX -= step.spotlightPadding;

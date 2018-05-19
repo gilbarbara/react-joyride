@@ -36,11 +36,8 @@ The strings used in the tooltip.
 **run** {boolean} ▶︎ `true`  
 Run/stop the tour.
 
-**scrollYOffset** {number} ▶︎ `20`  
+**scrollOffset** {number} ▶︎ `20`  
 The scroll distance from the element scrollTop value.
-
-**scrollXOffset** {number} ▶︎ `20`  
-The scroll distance from the element scrollLeft value. Used if `enableScrollX` is true.
 
 **enableScrollX** {boolean} ▶︎ `false`  
 Scroll horizontally if target is out of view.
