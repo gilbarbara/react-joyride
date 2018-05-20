@@ -33,7 +33,7 @@ Hide the "back" button.
 **locale** {Object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`  
 The strings used in the tooltip.
 
-**run** {boolean} ▶︎ `false`  
+**run** {boolean} ▶︎ `true`  
 Run/stop the tour.
 
 **scrollOffset** {number} ▶︎ `20`  
