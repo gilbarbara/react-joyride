@@ -250,11 +250,11 @@ class Joyride extends React.Component {
     let scrollValue = Math.floor(getScrollTo(target, scrollOffset, axis));
 
     const isYAxis = axis === 'y';
-    const rectEnd = isYAxis ? 'bottom' : 'right';
     const rectStart = isYAxis ? 'top' : 'left';
 
     if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
       const { placement, popper } = this.beaconPopper;
+      const rectEnd = isYAxis ? 'bottom' : 'right';
 
       if (!hasCustomScroll && ![rectEnd].includes(placement)) {
         scrollValue = Math.floor(popper[rectStart] - scrollOffset);
