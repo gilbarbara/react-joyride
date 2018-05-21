@@ -282,12 +282,14 @@ class Joyride extends React.Component {
 
     if (step) {
       const target = getElement(step.target);
+      const scrollToStep = scrollToFirstStep || prevState.index !== index;
+      const fixedStep = step.isFixed || isFixed(target);
+      const lifecycleReady = prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle);
 
-      const shouldScroll = step
-        && !disableScrolling
-        && (!step.isFixed || !isFixed(target)) // fixed steps don't need to scroll
-        && (prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
-        && (scrollToFirstStep || prevState.index !== index);
+      const shouldScroll = !disableScrolling
+        && !fixedStep // fixed steps don't need to scroll
+        && lifecycleReady
+        && scrollToStep;
 
       if (status === STATUS.RUNNING && shouldScroll) {
         const scrollParent = getScrollParent(target);
