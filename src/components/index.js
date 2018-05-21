@@ -243,9 +243,41 @@ class Joyride extends React.Component {
     }
   }
 
+  getScrollValue(step, target, axis) {
+    const { lifecycle } = this.state;
+    const { scrollOffset } = this.props;
+    const hasCustomScroll = hasCustomScrollParent(target);
+    let scrollValue = Math.floor(getScrollTo(target, scrollOffset, axis));
+
+    const isYAxis = axis === 'y';
+    const rectEnd = isYAxis ? 'bottom' : 'right';
+    const rectStart = isYAxis ? 'top' : 'left';
+
+    if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
+      const { placement, popper } = this.beaconPopper;
+
+      if (!hasCustomScroll && ![rectEnd].includes(placement)) {
+        scrollValue = Math.floor(popper[rectStart] - scrollOffset);
+      }
+    }
+    else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
+      const { flipped, placement, popper } = this.tooltipPopper;
+      const edgeSides = isYAxis ? ['top', 'right'] : ['left', 'top'];
+
+      if (edgeSides.includes(placement) && !flipped && !hasCustomScroll) {
+        scrollValue = Math.floor(popper[rectStart] - scrollOffset);
+      }
+      else if (scrollValue - step.spotlightPadding >= 0) {
+        scrollValue -= step.spotlightPadding;
+      }
+    }
+
+    return scrollValue;
+  }
+
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps } = this.props;
+    const { debug, disableScrolling, scrollToFirstStep, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     if (step) {
@@ -258,10 +290,9 @@ class Joyride extends React.Component {
         && (scrollToFirstStep || prevState.index !== index);
 
       if (status === STATUS.RUNNING && shouldScroll) {
-        const hasCustomScroll = hasCustomScrollParent(target);
         const scrollParent = getScrollParent(target);
-        let scrollY = Math.floor(getScrollTo(target, scrollOffset));
-        let scrollX = Math.floor(getScrollTo(target, scrollOffset, 'x'));
+        const scrollY = this.getScrollValue(step, target, 'y');
+        const scrollX = this.getScrollValue(step, target, 'x');
 
         log({
           title: 'scrollToStep',
@@ -272,35 +303,6 @@ class Joyride extends React.Component {
           ],
           debug,
         });
-
-        if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
-          const { placement, popper } = this.beaconPopper;
-
-          if (!hasCustomScroll && !['bottom'].includes(placement)) {
-            scrollY = Math.floor(popper.top - scrollOffset);
-          }
-
-          if (!hasCustomScroll && !['right'].includes(placement)) {
-            scrollX = Math.floor(popper.left - scrollOffset);
-          }
-        }
-        else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
-          const { flipped, placement, popper } = this.tooltipPopper;
-
-          if (['top', 'right'].includes(placement) && !flipped && !hasCustomScroll) {
-            scrollY = Math.floor(popper.top - scrollOffset);
-          }
-          else if (scrollY - step.spotlightPadding >= 0) {
-            scrollY -= step.spotlightPadding;
-          }
-
-          if (['left', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
-            scrollX = Math.floor(popper.left - scrollOffset);
-          }
-          else if (scrollX - step.spotlightPadding >= 0) {
-            scrollX -= step.spotlightPadding;
-          }
-        }
 
         if (status === STATUS.RUNNING && shouldScroll) {
           const promises = [];
