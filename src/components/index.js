@@ -46,7 +46,6 @@ class Joyride extends React.Component {
     disableOverlay: PropTypes.bool,
     disableOverlayClose: PropTypes.bool,
     disableScrolling: PropTypes.bool,
-    enableScrollX: PropTypes.bool,
     floaterProps: PropTypes.shape({
       offset: PropTypes.number,
     }),
@@ -75,7 +74,6 @@ class Joyride extends React.Component {
     disableOverlay: false,
     disableOverlayClose: false,
     disableScrolling: false,
-    enableScrollX: false,
     hideBackButton: false,
     run: true,
     scrollOffset: 20,
@@ -189,7 +187,7 @@ class Joyride extends React.Component {
 
     const { index, lifecycle, status } = this.state;
     const { steps } = this.props;
-    let step = getMergedStep(steps[index], this.props);
+    const step = getMergedStep(steps[index], this.props);
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = !isEqual(prevState, this.state);
 
@@ -209,8 +207,6 @@ class Joyride extends React.Component {
 
         if (changedTo('status', STATUS.FINISHED) || changedTo('status', STATUS.SKIPPED)) {
           type = EVENTS.TOUR_END;
-          // Return the last step when the tour is finished
-          step = getMergedStep(steps[prevState.index], this.props);
         }
         else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
           type = EVENTS.TOUR_START;
@@ -249,7 +245,7 @@ class Joyride extends React.Component {
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps, enableScrollX } = this.props;
+    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     if (step) {
@@ -285,7 +281,7 @@ class Joyride extends React.Component {
               scrollY = Math.floor(popper.top - scrollOffset);
             }
 
-            if (enableScrollX && !['right'].includes(placement)) {
+            if (!['right'].includes(placement)) {
               scrollX = Math.floor(popper.left - scrollOffset);
             }
           }
@@ -300,13 +296,11 @@ class Joyride extends React.Component {
             scrollY -= step.spotlightPadding;
           }
 
-          if (enableScrollX) {
-            if (['left', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
-              scrollX = Math.floor(popper.left - scrollOffset);
-            }
-            else if (scrollX - step.spotlightPadding >= 0) {
-              scrollX -= step.spotlightPadding;
-            }
+          if (['left', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
+            scrollX = Math.floor(popper.left - scrollOffset);
+          }
+          else if (scrollX - step.spotlightPadding >= 0) {
+            scrollX -= step.spotlightPadding;
           }
         }
 
@@ -331,10 +325,6 @@ class Joyride extends React.Component {
         }
       }
     }
-  }
-
-  reset = () => {
-    this.store.reset();
   }
 
   /**

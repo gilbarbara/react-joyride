@@ -39,9 +39,6 @@ Run/stop the tour.
 **scrollOffset** {number} ▶︎ `20`  
 The scroll distance from the element scrollTop value.
 
-**enableScrollX** {boolean} ▶︎ `false`  
-Scroll horizontally if target is out of view.
-
 **scrollToFirstStep** {boolean} ▶︎ `false`  
 Scroll the page for the first step.
 
