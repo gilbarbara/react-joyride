@@ -57,7 +57,7 @@ export default class JoyrideBeacon extends React.Component {
     const style = document.getElementById('joyride-beacon-animation');
 
     if (style) {
-      style.remove();
+      style.parentNode.removeChild(style);
     }
   }
 
