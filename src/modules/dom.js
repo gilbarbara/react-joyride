@@ -123,7 +123,7 @@ export function getScrollTo(element: HTMLElement, offset: number, axis: string =
   const elementOffset = element.getBoundingClientRect()[offsetKey];
   let scrollToPos = parent[scrollKey] + elementOffset;
 
-  if (hasCustomScrollParent(element) && hasCustomOffsetParent(element)) {
+  if (hasCustomScrollParent(element) || hasCustomOffsetParent(element)) {
     scrollToPos -= parentPos;
   }
 
