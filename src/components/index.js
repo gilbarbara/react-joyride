@@ -280,50 +280,52 @@ class Joyride extends React.Component {
     const { debug, disableScrolling, scrollToFirstStep, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
-    if (step) {
-      const target = getElement(step.target);
-      const scrollToStep = scrollToFirstStep || prevState.index !== index;
-      const fixedStep = step.isFixed || isFixed(target);
-      const lifecycleReady = prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle);
+    if (!step) {
+      return;
+    }
 
-      const shouldScroll = !disableScrolling
-        && !fixedStep // fixed steps don't need to scroll
-        && lifecycleReady
-        && scrollToStep;
+    const target = getElement(step.target);
+    const scrollToStep = scrollToFirstStep || prevState.index !== index;
+    const fixedStep = step.isFixed || isFixed(target);
+    const lifecycleReady = prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle);
+
+    const shouldScroll = !disableScrolling
+      && !fixedStep // fixed steps don't need to scroll
+      && lifecycleReady
+      && scrollToStep;
+
+    if (status === STATUS.RUNNING && shouldScroll) {
+      const scrollParent = getScrollParent(target);
+      const scrollY = this.getScrollValue(step, target, 'y');
+      const scrollX = this.getScrollValue(step, target, 'x');
+
+      log({
+        title: 'scrollToStep',
+        data: [
+          { key: 'index', value: index },
+          { key: 'lifecycle', value: lifecycle },
+          { key: 'status', value: status },
+        ],
+        debug,
+      });
 
       if (status === STATUS.RUNNING && shouldScroll) {
-        const scrollParent = getScrollParent(target);
-        const scrollY = this.getScrollValue(step, target, 'y');
-        const scrollX = this.getScrollValue(step, target, 'x');
+        const promises = [];
 
-        log({
-          title: 'scrollToStep',
-          data: [
-            { key: 'index', value: index },
-            { key: 'lifecycle', value: lifecycle },
-            { key: 'status', value: status },
-          ],
-          debug,
-        });
+        if (scrollY >= 0) {
+          promises.push(scrollTo(scrollY, scrollParent));
+        }
 
-        if (status === STATUS.RUNNING && shouldScroll) {
-          const promises = [];
+        if (scrollX >= 0) {
+          promises.push(scrollTo(scrollX, scrollParent, 'x'));
+        }
 
-          if (scrollY >= 0) {
-            promises.push(scrollTo(scrollY, scrollParent));
-          }
+        if (promises.length) {
+          this.setState({ scrolling: true });
 
-          if (scrollX >= 0) {
-            promises.push(scrollTo(scrollX, scrollParent, 'x'));
-          }
-
-          if (promises.length) {
-            this.setState({ scrolling: true });
-
-            Promise.all(promises).then(() => {
-              this.setState({ scrolling: false });
-            });
-          }
+          Promise.all(promises).then(() => {
+            this.setState({ scrolling: false });
+          });
         }
       }
     }
