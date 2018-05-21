@@ -274,16 +274,14 @@ class Joyride extends React.Component {
         });
 
         if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
-          if (!hasCustomScroll) {
-            const { placement, popper } = this.beaconPopper;
+          const { placement, popper } = this.beaconPopper;
 
-            if (!['bottom'].includes(placement)) {
-              scrollY = Math.floor(popper.top - scrollOffset);
-            }
+          if (!hasCustomScroll && !['bottom'].includes(placement)) {
+            scrollY = Math.floor(popper.top - scrollOffset);
+          }
 
-            if (!['right'].includes(placement)) {
-              scrollX = Math.floor(popper.left - scrollOffset);
-            }
+          if (!hasCustomScroll && !['right'].includes(placement)) {
+            scrollX = Math.floor(popper.left - scrollOffset);
           }
         }
         else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
