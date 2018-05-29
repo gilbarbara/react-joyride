@@ -17,6 +17,26 @@ import LIFECYCLE from '../constants/lifecycle';
 
 import Spotlight from './Spotlight';
 
+(() => {
+  const throttle = (type, name, obj = window) => {
+    let running = false;
+    const func = () => {
+      if (running) {
+        return;
+      }
+      running = true;
+      requestAnimationFrame(() => {
+        obj.dispatchEvent(new CustomEvent(name));
+        running = false;
+      });
+    };
+    obj.addEventListener(type, func);
+  };
+
+  // IE 11: you'll need the CustomEvent polyfill
+  throttle('resize', 'optimizedResize');
+})();
+
 export default class Overlay extends React.Component {
   constructor(props) {
     super(props);
@@ -37,10 +57,7 @@ export default class Overlay extends React.Component {
     spotlightClicks: PropTypes.bool.isRequired,
     spotlightPadding: PropTypes.number,
     styles: PropTypes.object.isRequired,
-    target: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
-    ]).isRequired,
+    target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   };
 
   componentDidMount() {
@@ -50,6 +67,8 @@ export default class Overlay extends React.Component {
       const element = getElement(target);
       this.scrollParent = hasCustomScrollParent(element) ? getScrollParent(element) : document;
     }
+
+    window.addEventListener('optimizedResize', this.handleResize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -88,16 +107,18 @@ export default class Overlay extends React.Component {
       clearTimeout(this.scrollTimeout);
       this.scrollParent.removeEventListener('scroll', this.handleScroll);
     }
+
+    window.removeEventListener('optimizedResize', this.handleResize);
   }
 
-  handleMouseMove = (e) => {
+  handleMouseMove = e => {
     const { mouseOverSpotlight } = this.state;
     const { height, left, position, top, width } = this.stylesSpotlight;
 
     const offsetY = position === 'fixed' ? e.clientY : e.pageY;
     const offsetX = position === 'fixed' ? e.clientX : e.pageX;
-    const inSpotlightHeight = (offsetY >= top && offsetY <= top + height);
-    const inSpotlightWidth = (offsetX >= left && offsetX <= left + width);
+    const inSpotlightHeight = offsetY >= top && offsetY <= top + height;
+    const inSpotlightWidth = offsetX >= left && offsetX <= left + width;
     const inSpotlight = inSpotlightWidth && inSpotlightHeight;
 
     if (inSpotlight !== mouseOverSpotlight) {
@@ -118,6 +139,10 @@ export default class Overlay extends React.Component {
     }, 50);
   };
 
+  handleResize = () => {
+    this.forceUpdate();
+  };
+
   get stylesSpotlight() {
     const { showSpotlight } = this.state;
     const { spotlightClicks, spotlightPadding, styles, target } = this.props;
@@ -128,26 +153,20 @@ export default class Overlay extends React.Component {
 
     return {
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
-      height: Math.round(elementRect.height + (spotlightPadding * 2)),
+      height: Math.round(elementRect.height + spotlightPadding * 2),
       left: Math.round(elementRect.left - spotlightPadding),
       opacity: showSpotlight ? 1 : 0,
       pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
       transition: 'opacity 0.2s',
-      width: Math.round(elementRect.width + (spotlightPadding * 2)),
+      width: Math.round(elementRect.width + spotlightPadding * 2),
     };
   }
 
   render() {
     const { showSpotlight } = this.state;
-    const {
-      disableOverlay,
-      lifecycle,
-      onClickOverlay,
-      placement,
-      styles,
-    } = this.props;
+    const { disableOverlay, lifecycle, onClickOverlay, placement, styles } = this.props;
 
     if (disableOverlay || lifecycle !== LIFECYCLE.TOOLTIP) {
       return null;
@@ -161,14 +180,8 @@ export default class Overlay extends React.Component {
     };
 
     return (
-      <div
-        className="joyride-overlay"
-        style={stylesOverlay}
-        onClick={onClickOverlay}
-      >
-        {placement !== 'center' && showSpotlight && (
-          <Spotlight styles={this.stylesSpotlight} />
-        )}
+      <div className="joyride-overlay" style={stylesOverlay} onClick={onClickOverlay}>
+        {placement !== 'center' && showSpotlight && <Spotlight styles={this.stylesSpotlight} />}
       </div>
     );
   }
