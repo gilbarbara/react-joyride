@@ -9,6 +9,7 @@ You can control the overall theme with the special `options` object.
 const defaultOptions = {
   arrowColor: '#fff',
   backgroundColor: '#fff',
+  floaterWidth: 250,
   primaryColor: '#f04',
   textColor: '#333',
   overlayColor: 'rgba(0, 0, 0, 0.5)',
@@ -59,4 +60,3 @@ export class App extends React.Component {
 You can also customize any element independently. Check [styles.js](https://github.com/gilbarbara/react-joyride/tree/3e08384415a831b20ce21c8423b6c271ad419fbf/src/styles.js) for more information.
 
 If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
-

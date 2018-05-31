@@ -40,6 +40,10 @@ export default function getStyles(stepStyles) {
     width = 490;
   }
 
+  if (options.floaterWidth) {
+    width = options.floaterWidth;
+  }
+
   const overlay = {
     bottom: 0,
     left: 0,
