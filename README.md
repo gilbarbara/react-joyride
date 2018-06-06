@@ -50,7 +50,7 @@ export class App extends React.Component {
     this.setState({ run: true });
   }
 
-  callback = (tour) => {
+  callback = (data) => {
     const { action, index, type } = data;
   };
 
