@@ -102,7 +102,9 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
 
   // Set react-floater props
   floaterProps.offset = mergedStep.offset;
-  floaterProps.styles = deepmerge(floaterProps.styles || {}, mergedStyles.floater || {});
+  floaterProps.styles = deepmerge(floaterProps.styles || {}, mergedStyles.floaterStyles || {});
+
+  delete mergedStyles.floaterStyles;
 
   if (mergedStep.floaterProps && mergedStep.floaterProps.offset) {
     floaterProps.offset = mergedStep.floaterProps.offset;
