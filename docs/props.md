@@ -62,7 +62,7 @@ You will receive the state events in the `callback` and you'll have to update th
 The tour's steps.
 
 **styles** {Object}  
-Override the styling of the Tooltip.
+Override the [styling](styling.md) of the Tooltip globally
 
 **tooltipComponent** {React.Node}  
 A React component or function to be used instead the default Tooltip excluding the arrow.
