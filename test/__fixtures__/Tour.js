@@ -88,7 +88,7 @@ export default class Tour extends React.Component {
               <div className="hero__content">
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
-                  <button className="hero__tooltip">?</button>
+                  <button className="hero__tooltip" type="button">?</button>
                 </h1>
                 <a href="#start" className="hero__start" onClick={this.handleClickStart}>Let's Go!</a>
               </div>
@@ -114,7 +114,12 @@ export default class Tour extends React.Component {
           <div className="demo__section mission">
             <div className="container">
               <h2><span>Mission</span></h2>
-              <button className="btn btn-secondary mission__button" onClick={this.handleClickNextButton}>Advance
+              <button
+                className="btn btn-secondary mission__button"
+                onClick={this.handleClickNextButton}
+                type="button"
+              >
+                Advance
               </button>
             </div>
           </div>

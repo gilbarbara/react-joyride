@@ -35,11 +35,27 @@ const JoyrideTooltipContainer = ({
   }
 
   if (showSkipButton && !isLastStep) {
-    output.skip = (<button style={styles.buttonSkip} {...skipProps}>{skip}</button>);
+    output.skip = (
+      <button
+        style={styles.buttonSkip}
+        type="button"
+        {...skipProps}
+      >
+        {skip}
+      </button>
+    );
   }
 
   if (!hideBackButton && index > 0) {
-    output.back = (<button style={styles.buttonBack} {...backProps}>{back}</button>);
+    output.back = (
+      <button
+        style={styles.buttonBack}
+        type="button"
+        {...backProps}
+      >
+        {back}
+      </button>
+    );
   }
 
   output.close = (<CloseBtn {...closeProps} styles={styles.buttonClose} />);
@@ -62,7 +78,13 @@ const JoyrideTooltipContainer = ({
       <div style={styles.tooltipFooter}>
         {output.skip}
         {output.back}
-        <button style={styles.buttonNext} {...primaryProps}>{output.primary}</button>
+        <button
+          style={styles.buttonNext}
+          type="button"
+          {...primaryProps}
+        >
+          {output.primary}
+        </button>
       </div>
     </div>
   );

@@ -9,11 +9,12 @@ You can control the overall theme with the special `options` object.
 const defaultOptions = {
   arrowColor: '#fff',
   backgroundColor: '#fff',
-  primaryColor: '#f04',
-  textColor: '#333',
-  overlayColor: 'rgba(0, 0, 0, 0.5)',
-  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   beaconSize: 36,
+  overlayColor: 'rgba(0, 0, 0, 0.5)',
+  primaryColor: '#f04',
+  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+  textColor: '#333',
+  width: undefined,
   zIndex: 100,
 };
 ```
@@ -42,9 +43,10 @@ export class App extends React.Component {
             options: {
               arrowColor: '#e3ffeb',
               backgroundColor: '#e3ffeb',
+              overlayColor: 'rgba(79, 26, 0, 0.4)',
               primaryColor: '#000',
               textColor: '#004a14',
-              overlayColor: 'rgba(79, 26, 0, 0.4)',
+              width: 900,
             }
           }}
           ...

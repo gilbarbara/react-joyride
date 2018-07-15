@@ -141,6 +141,7 @@
     "react/no-did-update-set-state": "warn",
     "react/jsx-boolean-value": "off",
     "react/jsx-no-duplicate-props": "warn",
+    "react/jsx-one-expression-per-line": "off",
     "react/jsx-pascal-case": "warn",
     "react/no-direct-mutation-state": "warn",
     "react/no-unused-prop-types": "warn",

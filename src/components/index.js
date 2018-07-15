@@ -186,10 +186,10 @@ class Joyride extends React.Component {
     if (!canUseDOM) return;
 
     const { index, lifecycle, status } = this.state;
-    const { steps } = this.props;
-    let step = getMergedStep(steps[index], this.props);
+    const { debug, steps } = this.props;
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = !isEqual(prevState, this.state);
+    let step = getMergedStep(steps[index], this.props);
 
     if (diffState) {
       log({
@@ -199,7 +199,7 @@ class Joyride extends React.Component {
           { key: 'changed', value: diffState },
           { key: 'step', value: step },
         ],
-        debug: this.props.debug,
+        debug,
       });
 
       if (changed('status')) {

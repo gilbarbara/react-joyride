@@ -86,7 +86,7 @@ function getTourProps(props: JoyrideProps): JoyrideProps {
   return Object.keys(props)
     .filter(d => sharedTourProps.includes(d))
     .reduce((acc, i) => {
-      acc[i] = props[i];
+      acc[i] = props[i]; //eslint-disable-line react/destructuring-assignment
 
       return acc;
     }, {});
@@ -102,7 +102,9 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
 
   // Set react-floater props
   floaterProps.offset = mergedStep.offset;
-  floaterProps.styles = deepmerge(floaterProps.styles || {}, mergedStyles.floater || {});
+  floaterProps.styles = deepmerge(floaterProps.styles || {}, mergedStyles.floaterStyles || {});
+
+  delete mergedStyles.floaterStyles;
 
   if (mergedStep.floaterProps && mergedStep.floaterProps.offset) {
     floaterProps.offset = mergedStep.floaterProps.offset;

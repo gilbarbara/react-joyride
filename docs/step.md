@@ -59,6 +59,9 @@ Check [react-floater](https://github.com/gilbarbara/react-floater) for more info
 **placementBeacon** {string} ▶︎ placement  
 The placement of the beacon. It will use the placement if nothing is passed and it can be: `top, bottom, left, right`.
 
+**styles** {Object}  
+Override the [styling](styling.md) of the step's Tooltip
+
 **target** {Element\|string} - **required**  
 The target for the step. It can be a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) or an HtmlElement directly \(but using refs created in the same render would required an additional render afterwards\).
 

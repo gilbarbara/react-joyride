@@ -5,7 +5,11 @@ const CloseBtn = ({ styles, ...props }) => {
   const { color, height, width, ...style } = styles;
 
   return (
-    <button style={style} {...props}>
+    <button
+      style={style}
+      type="button"
+      {...props}
+    >
       <svg
         width={`${width}px`}
         height={`${height}px`}

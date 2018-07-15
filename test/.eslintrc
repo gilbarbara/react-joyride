@@ -1,7 +1,8 @@
 {
   "rules": {
-    "prefer-destructuring": 0,
-    "react/jsx-filename-extension": 0,
-    "react/prop-types": 0
+    "prefer-destructuring": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off"
   }
 }

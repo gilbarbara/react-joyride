@@ -16,32 +16,35 @@ export default class JoyrideTooltip extends React.Component {
 
   handleClickBack = (e) => {
     e.preventDefault();
+    const { helpers } = this.props;
 
-    this.props.helpers.prev();
+    helpers.prev();
   };
 
   handleClickClose = (e) => {
     e.preventDefault();
+    const { helpers } = this.props;
 
-    this.props.helpers.close();
+    helpers.close();
   };
 
   handleClickPrimary = (e) => {
     e.preventDefault();
-    const { continuous } = this.props;
+    const { continuous, helpers } = this.props;
 
     if (!continuous) {
-      this.props.helpers.close();
+      helpers.close();
       return;
     }
 
-    this.props.helpers.next();
+    helpers.next();
   };
 
   handleClickSkip = (e) => {
     e.preventDefault();
+    const { helpers } = this.props;
 
-    this.props.helpers.skip();
+    helpers.skip();
   };
 
   render() {

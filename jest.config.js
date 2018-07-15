@@ -20,13 +20,17 @@ module.exports = {
     '<rootDir>/test/__setup__/shim.js',
     '<rootDir>/test/__setup__/index.js',
   ],
-  setupTestFrameworkScriptFile: 'jest-enzyme/lib/index.js',
+  setupTestFrameworkScriptFile: '<rootDir>/test/__setup__/setupTests.js',
   testEnvironment: 'jest-environment-jsdom-global',
   testEnvironmentOptions: {
     resources: 'usable',
   },
   testRegex: '/test/.*?\\.(test|spec)\\.js$',
   testURL: 'http://localhost:3000',
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname',
+  ],
   collectCoverage: false,
   collectCoverageFrom: [
     'src/**/*.{js,jsx}',

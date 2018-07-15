@@ -4,11 +4,11 @@ import { hexToRGB } from './modules/helpers';
 const defaultOptions = {
   arrowColor: '#fff',
   backgroundColor: '#fff',
-  primaryColor: '#f04',
-  textColor: '#333',
-  overlayColor: 'rgba(0, 0, 0, 0.5)',
-  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   beaconSize: 36,
+  overlayColor: 'rgba(0, 0, 0, 0.5)',
+  primaryColor: '#f04',
+  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
+  textColor: '#333',
   zIndex: 100,
 };
 
@@ -38,6 +38,15 @@ export default function getStyles(stepStyles) {
   }
   else if (window.innerWidth > 768) {
     width = 490;
+  }
+
+  if (options.width) {
+    if (window.innerWidth < options.width) {
+      width = window.innerWidth - 30;
+    }
+    else {
+      width = options.width; //eslint-disable-line prefer-destructuring
+    }
   }
 
   const overlay = {
@@ -93,6 +102,7 @@ export default function getStyles(stepStyles) {
       boxSizing: 'border-box',
       color: options.textColor,
       fontSize: 16,
+      maxWidth: '100%',
       padding: 15,
       position: 'relative',
       width,
@@ -157,7 +167,7 @@ export default function getStyles(stepStyles) {
       ...spotlight,
       boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
     },
-    floater: {
+    floaterStyles: {
       arrow: {
         color: options.arrowColor,
       },
