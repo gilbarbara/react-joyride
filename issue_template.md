@@ -18,7 +18,12 @@
 
 
 
->Error stack
+>Browser name and version
 
 
-*If you are having UI issues, make sure to send a public URL or codesandbox example.*
+
+>Error stack (if available)
+
+
+
+*If you want to get this issue fixed quickly, make sure to send a public URL or codesandbox example.*
