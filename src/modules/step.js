@@ -86,7 +86,7 @@ function getTourProps(props: JoyrideProps): JoyrideProps {
   return Object.keys(props)
     .filter(d => sharedTourProps.includes(d))
     .reduce((acc, i) => {
-      acc[i] = props[i];
+      acc[i] = props[i]; //eslint-disable-line react/destructuring-assignment
 
       return acc;
     }, {});

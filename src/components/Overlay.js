@@ -61,7 +61,9 @@ export default class Overlay extends React.Component {
         this.scrollParent.addEventListener('scroll', this.handleScroll, { passive: true });
 
         setTimeout(() => {
-          if (!this.state.isScrolling) {
+          const { isScrolling } = this.state;
+
+          if (!isScrolling) {
             this.setState({ showSpotlight: true });
             this.scrollParent.removeEventListener('scroll', this.handleScroll);
           }
@@ -106,9 +108,12 @@ export default class Overlay extends React.Component {
   };
 
   handleScroll = () => {
-    if (!this.state.isScrolling) {
+    const { isScrolling } = this.state;
+
+    if (!isScrolling) {
       this.setState({ isScrolling: true, showSpotlight: false });
     }
+
     clearTimeout(this.scrollTimeout);
 
     this.scrollTimeout = setTimeout(() => {
@@ -140,7 +145,7 @@ export default class Overlay extends React.Component {
   }
 
   render() {
-    const { showSpotlight } = this.state;
+    const { mouseOverSpotlight, showSpotlight } = this.state;
     const {
       disableOverlay,
       lifecycle,
@@ -156,7 +161,7 @@ export default class Overlay extends React.Component {
     const stylesOverlay = {
       cursor: disableOverlay ? 'default' : 'pointer',
       height: getDocumentHeight(),
-      pointerEvents: this.state.mouseOverSpotlight ? 'none' : 'auto',
+      pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
       ...(isLegacy() ? styles.overlayLegacy : styles.overlay),
     };
 

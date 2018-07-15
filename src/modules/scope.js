@@ -23,9 +23,8 @@ function isVisible(element) {
 
 function canHaveFocus(element, isTabIndexNotNaN) {
   const nodeName = element.nodeName.toLowerCase();
-  const res =
-    (validTabNodes.test(nodeName) && !element.disabled) ||
-    (nodeName === 'a' ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
+  const res = (validTabNodes.test(nodeName) && !element.disabled)
+    || (nodeName === 'a' ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
   return res && isVisible(element);
 }
 
