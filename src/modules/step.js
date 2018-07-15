@@ -124,7 +124,7 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
 
   return {
     ...mergedStep,
-    locale: deepmerge(DEFAULTS.locale, props.locale || {}),
+    locale: deepmerge.all([DEFAULTS.locale, props.locale || {}, mergedStep.locale || {}]),
     floaterProps,
     styles: mergedStyles,
   };
