@@ -19,7 +19,6 @@ const buttonReset = {
   color: '#555',
   cursor: 'pointer',
   lineHeight: 1,
-  outline: 'none',
   padding: 8,
   WebkitAppearance: 'none',
 };

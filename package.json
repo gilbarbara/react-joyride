@@ -38,7 +38,7 @@
     "exenv": "^1.2.2",
     "is-lite": "^0.2.0",
     "nested-property": "^0.0.7",
-    "react-floater": "^0.5.4",
+    "react-floater": "^0.5.5",
     "react-proptype-conditional-require": "^1.0.4",
     "scroll": "^2.0.3",
     "scroll-doc": "^0.2.1",
