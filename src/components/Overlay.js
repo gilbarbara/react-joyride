@@ -50,6 +50,8 @@ export default class Overlay extends React.Component {
       const element = getElement(target);
       this.scrollParent = hasCustomScrollParent(element) ? getScrollParent(element) : document;
     }
+
+    window.addEventListener('resize', this.handleResize);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,10 +75,10 @@ export default class Overlay extends React.Component {
 
     if (changed('spotlightClicks') || changed('disableOverlay') || changed('lifecycle')) {
       if (spotlightClicks && lifecycle === LIFECYCLE.TOOLTIP) {
-        document.addEventListener('mousemove', this.handleMouseMove, false);
+        window.addEventListener('mousemove', this.handleMouseMove, false);
       }
       else if (lifecycle !== LIFECYCLE.TOOLTIP) {
-        document.removeEventListener('mousemove', this.handleMouseMove);
+        window.removeEventListener('mousemove', this.handleMouseMove);
       }
     }
   }
@@ -84,7 +86,8 @@ export default class Overlay extends React.Component {
   componentWillUnmount() {
     const { disableScrolling } = this.props;
 
-    document.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('mousemove', this.handleMouseMove);
+    window.removeEventListener('resize', this.handleResize);
 
     if (!disableScrolling) {
       clearTimeout(this.scrollTimeout);
@@ -121,6 +124,15 @@ export default class Overlay extends React.Component {
       this.setState({ isScrolling: false, showSpotlight: true });
       this.scrollParent.removeEventListener('scroll', this.handleScroll);
     }, 50);
+  };
+
+  handleResize = () => {
+    clearTimeout(this.resizeTimeout);
+
+    this.resizeTimeout = setTimeout(() => {
+      clearTimeout(this.resizeTimeout);
+      this.forceUpdate();
+    }, 100);
   };
 
   get stylesSpotlight() {
