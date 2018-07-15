@@ -40,25 +40,31 @@ export function getBrowser(): string {
     return 'node';
   }
 
+  if (document.documentMode) {
+    return 'ie';
+  }
+
+  if (/Edge/.test(navigator.userAgent)) {
+    return 'edge';
+  }
+
   // Opera 8.0+
   if (Boolean(window.opera) || navigator.userAgent.indexOf(' OPR/') >= 0) {
     return 'opera';
   }
+
   // Firefox 1.0+
   if (typeof window.InstallTrigger !== 'undefined') {
     return 'firefox';
   }
+
   // Chrome 1+
-  if (!!window.chrome && !!window.chrome.webstore) {
+  if (window.chrome) {
     return 'chrome';
   }
 
   if (/Version\/([0-9._]+).*Safari/.test(navigator.userAgent)) {
     return 'safari';
-  }
-
-  if (document.documentMode) {
-    return 'ie';
   }
 
   return navigator.userAgent;
@@ -70,7 +76,7 @@ export function getBrowser(): string {
  * @returns {boolean}
  */
 export function isLegacy(): boolean {
-  return !['chrome', 'safari', 'firefox', 'opera'].includes(getBrowser());
+  return !['chrome', 'safari', 'firefox', 'opera', 'edge'].includes(getBrowser());
 }
 
 /**
