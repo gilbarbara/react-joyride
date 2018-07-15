@@ -15,6 +15,7 @@ export default {
     close: 'Close',
     last: 'Last',
     next: 'Next',
+    open: 'Open',
     skip: 'Skip',
   },
   step: {

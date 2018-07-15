@@ -289,6 +289,7 @@ export default class JoyrideStep extends React.Component {
         >
           <Beacon
             beaconComponent={step.beaconComponent}
+            locale={step.locale}
             onClickOrHover={this.handleClickHoverBeacon}
             styles={step.styles}
           />

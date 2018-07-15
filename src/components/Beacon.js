@@ -49,6 +49,7 @@ export default class JoyrideBeacon extends React.Component {
       PropTypes.func,
       PropTypes.element,
     ]),
+    locale: PropTypes.object.isRequired,
     onClickOrHover: PropTypes.func.isRequired,
     styles: PropTypes.object.isRequired,
   };
@@ -62,12 +63,12 @@ export default class JoyrideBeacon extends React.Component {
   }
 
   render() {
-    const { beaconComponent, onClickOrHover, styles } = this.props;
+    const { beaconComponent, locale, onClickOrHover, styles } = this.props;
     const props = {
-      'aria-label': 'Open',
+      'aria-label': locale.open,
       onClick: onClickOrHover,
       onMouseEnter: onClickOrHover,
-      title: 'Open',
+      title: locale.open,
     };
     let component;
 
