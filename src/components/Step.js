@@ -124,7 +124,7 @@ export default class JoyrideStep extends React.Component {
         ...state,
         index: prevProps.index,
         lifecycle: LIFECYCLE.COMPLETE,
-        step,
+        step: prevProps.step,
         type: EVENTS.STEP_AFTER,
       });
     }
