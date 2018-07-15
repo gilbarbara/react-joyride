@@ -175,6 +175,7 @@ export default function getStyles(stepStyles) {
         zIndex: options.zIndex,
       },
     },
+    options,
   };
 
   return deepmerge(defaultStyles, stepStyles || {});

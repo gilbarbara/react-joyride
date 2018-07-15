@@ -11,7 +11,7 @@ import {
   hasCustomScrollParent,
   isFixed,
 } from '../modules/dom';
-import { isLegacy } from '../modules/helpers';
+import { getBrowser, isLegacy } from '../modules/helpers';
 
 import LIFECYCLE from '../constants/lifecycle';
 
@@ -177,15 +177,29 @@ export default class Overlay extends React.Component {
       ...(isLegacy() ? styles.overlayLegacy : styles.overlay),
     };
 
+    let spotlight = placement !== 'center' && showSpotlight && (
+      <Spotlight styles={this.stylesSpotlight} />
+    );
+
+    // Hack for Safari bug with mix-blend-mode with z-index
+    if (getBrowser() === 'safari') {
+      const { mixBlendMode, zIndex, ...safarOverlay } = stylesOverlay;
+
+      spotlight = (
+        <div style={{ ...safarOverlay }}>
+          {spotlight}
+        </div>
+      );
+      delete stylesOverlay.backgroundColor;
+    }
+
     return (
       <div
         className="joyride-overlay"
         style={stylesOverlay}
         onClick={onClickOverlay}
       >
-        {placement !== 'center' && showSpotlight && (
-          <Spotlight styles={this.stylesSpotlight} />
-        )}
+        {spotlight}
       </div>
     );
   }
