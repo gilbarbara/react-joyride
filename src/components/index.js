@@ -139,19 +139,15 @@ class Joyride extends React.Component {
 
       const stepsChanged = !isEqual(nextSteps, steps);
       const stepIndexChanged = is.number(nextStepIndex) && changed('stepIndex');
-      let shouldStart = false;
 
       /* istanbul ignore else */
       if (changed('run')) {
         if (run) {
-          shouldStart = true;
+          start(nextStepIndex);
         }
         else {
           stop();
         }
-      }
-      if (shouldStart) {
-        start();
       }
 
       if (stepsChanged) {
@@ -202,6 +198,8 @@ class Joyride extends React.Component {
         debug,
       });
 
+      let currentIndex = index;
+
       if (changed('status')) {
         let type = EVENTS.TOUR_STATUS;
 
@@ -209,6 +207,7 @@ class Joyride extends React.Component {
           type = EVENTS.TOUR_END;
           // Return the last step when the tour is finished
           step = getMergedStep(steps[prevState.index], this.props);
+          currentIndex = prevState.index;
         }
         else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
           type = EVENTS.TOUR_START;
@@ -216,6 +215,7 @@ class Joyride extends React.Component {
 
         this.callback({
           ...this.state,
+          index: currentIndex,
           step,
           type,
         });

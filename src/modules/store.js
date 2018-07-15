@@ -165,7 +165,7 @@ export default function createStore(props: StateObject): StateInstance {
         ...this.getNextState({
           action: ACTIONS.START,
           index: is.number(nextIndex) ? nextIndex : index,
-        }),
+        }, true),
         status: size ? STATUS.RUNNING : STATUS.WAITING,
       });
     };
