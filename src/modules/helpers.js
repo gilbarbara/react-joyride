@@ -63,7 +63,8 @@ export function getBrowser(): string {
     return 'chrome';
   }
 
-  if (/Version\/([0-9._]+).*Safari/.test(navigator.userAgent)) {
+  // Safari (and Chrome iOS)
+  if (/(Version\/([0-9._]+).*Safari|CriOS)/.test(navigator.userAgent)) {
     return 'safari';
   }
 
