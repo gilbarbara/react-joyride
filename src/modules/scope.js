@@ -68,7 +68,7 @@ function handleKeyDown(e) {
   }
 
   if (e.keyCode === TAB_KEY) {
-    interceptTab(modalElement, event);
+    interceptTab(modalElement, e);
   }
 }
 
