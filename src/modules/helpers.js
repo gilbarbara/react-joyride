@@ -77,7 +77,7 @@ export function getBrowser(): string {
  * @returns {boolean}
  */
 export function isLegacy(): boolean {
-  return !['chrome', 'safari', 'firefox', 'opera', 'edge'].includes(getBrowser());
+  return !['chrome', 'safari', 'firefox', 'opera'].includes(getBrowser());
 }
 
 /**
