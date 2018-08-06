@@ -11,8 +11,8 @@ const CloseBtn = ({ styles, ...props }) => {
       {...props}
     >
       <svg
-        width={`${width}px`}
-        height={`${height}px`}
+        width={typeof width === 'number' ? `${width}px` : width}
+        height={typeof height === 'number' ? `${height}px` : height}
         viewBox="0 0 18 18"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
