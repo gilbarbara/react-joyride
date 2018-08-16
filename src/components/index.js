@@ -21,7 +21,6 @@ import LIFECYCLE from '../constants/lifecycle';
 import STATUS from '../constants/status';
 
 import Step from './Step';
-import { removeScope } from '../modules/scope';
 
 class Joyride extends React.Component {
   constructor(props) {
@@ -244,7 +243,6 @@ class Joyride extends React.Component {
     if (!disableCloseOnEsc) {
       document.body.removeEventListener('keydown', this.handleKeyboard);
     }
-    removeScope();
   }
 
   scrollToStep(prevState) {
