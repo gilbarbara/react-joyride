@@ -16,6 +16,7 @@ import { getBrowser, isLegacy } from '../modules/helpers';
 import LIFECYCLE from '../constants/lifecycle';
 
 import Spotlight from './Spotlight';
+import { removeScope } from '../modules/scope';
 
 export default class Overlay extends React.Component {
   constructor(props) {
@@ -88,6 +89,7 @@ export default class Overlay extends React.Component {
 
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('resize', this.handleResize);
+    removeScope();
 
     if (!disableScrolling) {
       clearTimeout(this.scrollTimeout);
