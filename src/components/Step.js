@@ -186,6 +186,10 @@ export default class JoyrideStep extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    removeScope();
+  }
+
   /**
    * Beacon click/hover event listener
    *
