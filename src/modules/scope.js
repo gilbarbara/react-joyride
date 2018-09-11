@@ -8,7 +8,8 @@ function isHidden(element) {
   if (noSize && !element.innerHTML) return true;
 
   const style = window.getComputedStyle(element);
-  return noSize ? style.getPropertyValue('overflow') !== 'visible' : style.getPropertyValue('display') === 'none';
+  return (noSize && style.getPropertyValue('overflow') !== 'visible')
+    || style.getPropertyValue('display') === 'none';
 }
 
 function isVisible(element) {
