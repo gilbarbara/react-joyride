@@ -18,6 +18,7 @@
       "plugins": [
         "array-includes",
         "external-helpers",
+        "transform-runtime",
         "transform-flow-strip-types",
         "transform-node-env-inline"
       ]
