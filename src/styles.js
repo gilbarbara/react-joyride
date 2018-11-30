@@ -26,6 +26,7 @@ const buttonReset = {
 const spotlight = {
   borderRadius: 4,
   position: 'absolute',
+  transition: 'opacity 0.2s',
 };
 
 export default function getStyles(stepStyles) {

@@ -151,7 +151,6 @@ export default class Overlay extends React.Component {
       pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
-      transition: 'opacity 0.2s',
       width: Math.round(elementRect.width + (spotlightPadding * 2)),
     };
   }
