@@ -11,7 +11,7 @@ And you can use your own components if you want.
 ## Setup
 
 ```bash
-npm i react-joyride
+npm i react-joyride@next
 ```
 
 ## Getting Started
