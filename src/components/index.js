@@ -158,6 +158,7 @@ class Joyride extends React.Component {
 
     const { index, lifecycle, status } = this.state;
     const { debug, steps } = this.props;
+    const { reset } = this.store;
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = !isEqual(prevState, this.state);
     let step = getMergedStep(steps[index], this.props);
@@ -178,11 +179,12 @@ class Joyride extends React.Component {
       if (changed('status')) {
         let type = EVENTS.TOUR_STATUS;
 
-        if (changedTo('status', STATUS.FINISHED) || changedTo('status', STATUS.SKIPPED)) {
+        if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
           type = EVENTS.TOUR_END;
           // Return the last step when the tour is finished
           step = getMergedStep(steps[prevState.index], this.props);
           currentIndex = prevState.index;
+          reset();
         }
         else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
           type = EVENTS.TOUR_START;
