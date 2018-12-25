@@ -160,6 +160,27 @@ export function getElementPosition(element: HTMLElement, offset: number): number
   return Math.floor(top - offset);
 }
 
+export function isElementVisible(element: ?HTMLElement): boolean {
+  if (!element) return false;
+
+  let parentElement = element;
+
+  while (parentElement) {
+    if (parentElement === document.body) break;
+
+    if (parentElement instanceof HTMLElement) {
+      const { display, visibility } = getComputedStyle(parentElement);
+
+      if (display === 'none' || visibility === 'hidden') {
+        return false;
+      }
+    }
+
+    parentElement = parentElement.parentNode;
+  }
+  return true;
+}
+
 export function scrollTo(value: number, element: HTMLElement = scrollDoc()): Promise<*> {
   return new Promise((resolve, reject) => {
     const { scrollTop } = element;

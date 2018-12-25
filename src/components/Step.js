@@ -8,8 +8,8 @@ import is from 'is-lite';
 import ACTIONS from '../constants/actions';
 import LIFECYCLE from '../constants/lifecycle';
 
-import { getElement, isFixed } from '../modules/dom';
-import { log } from '../modules/helpers';
+import { getElement, isElementVisible, isFixed } from '../modules/dom';
+import { log, hideBeacon } from '../modules/helpers';
 import { setScope, removeScope } from '../modules/scope';
 import { validateStep } from '../modules/step';
 
@@ -91,7 +91,7 @@ export default class JoyrideStep extends React.Component {
     const skipBeacon = continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
 
     if (changedFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)) {
-      update({ lifecycle: step.disableBeacon || skipBeacon ? LIFECYCLE.TOOLTIP : LIFECYCLE.BEACON });
+      update({ lifecycle: hideBeacon(step) || skipBeacon ? LIFECYCLE.TOOLTIP : LIFECYCLE.BEACON });
     }
 
     if (changed('index')) {
@@ -117,7 +117,7 @@ export default class JoyrideStep extends React.Component {
       ACTIONS.CLOSE,
     ].includes(action) && changed('action');
 
-    const hasChangedIndex = changed('index') && changedFrom('lifecycle', LIFECYCLE.TOOLTIP, LIFECYCLE.INIT);
+    const hasChangedIndex = changed('index') && changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
 
     if (!changed('status') && (hasChangedIndex || (controlled && isAfterAction))) {
       callback({
@@ -131,7 +131,8 @@ export default class JoyrideStep extends React.Component {
 
     // There's a step to use, but there's no target in the DOM
     if (step) {
-      const hasRenderedTarget = !!getElement(step.target);
+      const element = getElement(step.target);
+      const hasRenderedTarget = !!element && isElementVisible(element);
 
       if (hasRenderedTarget) {
         if (changedFrom('status', STATUS.READY, STATUS.RUNNING) || changed('index')) {
@@ -176,11 +177,11 @@ export default class JoyrideStep extends React.Component {
       setScope(this.tooltip);
     }
 
-    if (changedFrom('lifecycle', LIFECYCLE.TOOLTIP, LIFECYCLE.INIT)) {
+    if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
       removeScope();
     }
 
-    if (changedTo('lifecycle', LIFECYCLE.INIT)) {
+    if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
       delete this.beaconPopper;
       delete this.tooltipPopper;
     }
@@ -240,13 +241,12 @@ export default class JoyrideStep extends React.Component {
   get open() {
     const { step, lifecycle } = this.props;
 
-    return !!(step.disableBeacon || lifecycle === LIFECYCLE.TOOLTIP);
+    return !!(hideBeacon(step) || lifecycle === LIFECYCLE.TOOLTIP);
   }
 
   render() {
     const {
       continuous,
-      controlled,
       debug,
       helpers,
       index,
@@ -273,12 +273,11 @@ export default class JoyrideStep extends React.Component {
           component={(
             <Tooltip
               continuous={continuous}
-              controlled={controlled}
               helpers={helpers}
               index={index}
+              isLastStep={index + 1 === size}
               setTooltipRef={this.setTooltipRef}
               size={size}
-              isLastStep={index + 1 === size}
               step={step}
             />
           )}

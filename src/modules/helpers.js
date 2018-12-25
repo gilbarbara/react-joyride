@@ -80,6 +80,10 @@ export function isLegacy(): boolean {
   return !['chrome', 'safari', 'firefox', 'opera'].includes(getBrowser());
 }
 
+export function hideBeacon(step: Object): boolean {
+  return step.disableBeacon || step.placement === 'center';
+}
+
 /**
  * Log method calls if debug is enabled
  *

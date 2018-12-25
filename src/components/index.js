@@ -228,11 +228,6 @@ class Joyride extends React.Component {
           this.store.update({ lifecycle: LIFECYCLE.READY });
         }
       }
-
-      if (changedTo('lifecycle', LIFECYCLE.INIT)) {
-        delete this.beaconPopper;
-        delete this.tooltipPopper;
-      }
     }
   }
 
