@@ -170,7 +170,7 @@ export default function getStyles(stepStyles) {
       arrow: {
         color: options.arrowColor,
       },
-      floater: {
+      options: {
         zIndex: options.zIndex,
       },
     },
