@@ -251,9 +251,9 @@ class Joyride extends React.Component {
 
     if (step) {
       const target = getElement(step.target);
-
       const shouldScroll = step
         && !disableScrolling
+        && step.placement !== 'center'
         && (!step.isFixed || !isFixed(target)) // fixed steps don't need to scroll
         && (prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
         && (scrollToFirstStep || prevState.index !== index);
@@ -261,7 +261,7 @@ class Joyride extends React.Component {
       if (status === STATUS.RUNNING && shouldScroll) {
         const hasCustomScroll = hasCustomScrollParent(target);
         const scrollParent = getScrollParent(target);
-        let scrollY = Math.floor(getScrollTo(target, scrollOffset));
+        let scrollY = Math.floor(getScrollTo(target, scrollOffset)) || 0;
 
         log({
           title: 'scrollToStep',
@@ -291,7 +291,9 @@ class Joyride extends React.Component {
           }
         }
 
-        if (status === STATUS.RUNNING && shouldScroll && scrollY >= 0) {
+        scrollY = scrollY >= 0 ? scrollY : 0;
+
+        if (status === STATUS.RUNNING && shouldScroll) {
           scrollTo(scrollY, scrollParent);
         }
       }
