@@ -26,12 +26,7 @@ class Joyride extends React.Component {
   constructor(props) {
     super(props);
 
-    this.store = new Store({
-      ...props,
-      controlled: props.run && is.number(props.stepIndex),
-    });
-    this.state = this.store.getState();
-    this.helpers = this.store.getHelpers();
+    this.state = {};
   }
 
   static propTypes = {
@@ -88,29 +83,9 @@ class Joyride extends React.Component {
   componentDidMount() {
     if (!canUseDOM) return;
 
-    const {
-      debug,
-      disableCloseOnEsc,
-      run,
-      steps,
-    } = this.props;
-    const { start } = this.store;
+    const { disableCloseOnEsc } = this.props;
 
-    log({
-      title: 'init',
-      data: [
-        { key: 'props', value: this.props },
-        { key: 'state', value: this.state },
-      ],
-      debug,
-    });
-
-    // Sync the store to this component state.
-    this.store.addListener(this.syncState);
-
-    if (validateSteps(steps, debug) && run) {
-      start();
-    }
+    this.initStore();
 
     /* istanbul ignore else */
     if (!disableCloseOnEsc) {
@@ -239,6 +214,33 @@ class Joyride extends React.Component {
       document.body.removeEventListener('keydown', this.handleKeyboard);
     }
   }
+
+  initStore = () => {
+    const { debug, run, stepIndex, steps } = this.props;
+    this.store = new Store({
+      ...this.props,
+      controlled: run && is.number(stepIndex),
+    });
+    this.helpers = this.store.getHelpers();
+    this.setState({ ...this.store.getState() }, () => {
+      log({
+        title: 'init',
+        data: [
+          { key: 'props', value: this.props },
+          { key: 'state', value: this.state },
+        ],
+        debug,
+      });
+      const { addListener, start } = this.store;
+
+      // Sync the store to this component's state.
+      addListener(this.syncState);
+
+      if (validateSteps(steps, debug) && run) {
+        start();
+      }
+    });
+  };
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
