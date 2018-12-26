@@ -39,14 +39,10 @@ export default function createStore(props: StateObject): StateInstance {
       this.setSteps(steps);
     }
 
-    addListener(listener: Function) {
-      this.listener = listener;
-    }
-
     setState(nextState: Object, initial: boolean = false) {
       const state = this.getState();
 
-      const { action, index, lifecycle, status } = {
+      const { action, index, lifecycle, size, status } = {
         ...state,
         ...nextState,
       };
@@ -54,6 +50,7 @@ export default function createStore(props: StateObject): StateInstance {
       store.set('action', action);
       store.set('index', index);
       store.set('lifecycle', lifecycle);
+      store.set('size', size);
       store.set('status', status);
 
       if (initial) {
@@ -73,16 +70,12 @@ export default function createStore(props: StateObject): StateInstance {
         return { ...defaultState };
       }
 
-      const index = parseInt(store.get('index'), 10);
-      const steps = this.getSteps();
-      const size = steps.length;
-
       return {
         action: store.get('action'),
         controlled: store.get('controlled'),
-        index,
+        index: parseInt(store.get('index'), 10),
         lifecycle: store.get('lifecycle'),
-        size,
+        size: store.get('size'),
         status: store.get('status'),
       };
     }
@@ -96,6 +89,7 @@ export default function createStore(props: StateObject): StateInstance {
         action: state.action || action,
         index: nextIndex,
         lifecycle: state.lifecycle || LIFECYCLE.INIT,
+        size: state.size || size,
         status: nextIndex === size ? STATUS.FINISHED : (state.status || status),
       };
     }
@@ -106,15 +100,6 @@ export default function createStore(props: StateObject): StateInstance {
 
       return before !== after;
     }
-
-    setSteps = (steps: Array<Object>) => {
-      const { size, status } = this.getState();
-      data.set('steps', steps);
-
-      if (status === STATUS.WAITING && !size && steps.length) {
-        this.setState({ status: STATUS.RUNNING });
-      }
-    };
 
     getSteps(): Array<Object> {
       const steps = data.get('steps');
@@ -137,6 +122,26 @@ export default function createStore(props: StateObject): StateInstance {
         info: this.info,
       };
     }
+
+    setSteps = (steps: Array<Object>) => {
+      const { size, status } = this.getState();
+      const state = {
+        size: steps.length,
+        status,
+      };
+
+      data.set('steps', steps);
+
+      if (status === STATUS.WAITING && !size && steps.length) {
+        state.status = STATUS.RUNNING;
+      }
+
+      this.setState(state);
+    };
+
+    addListener = (listener: Function) => {
+      this.listener = listener;
+    };
 
     update = (state: StateObject) => {
       if (!hasValidKeys(state, validKeys)) {
