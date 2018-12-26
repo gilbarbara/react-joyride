@@ -78,12 +78,8 @@ export default class JoyrideTooltip extends React.Component {
         title,
       };
 
-      if (React.isValidElement(tooltipComponent)) {
-        component = React.cloneElement(tooltipComponent, renderProps);
-      }
-      else {
-        component = tooltipComponent(renderProps);
-      }
+      const TooltipComponent = tooltipComponent;
+      component = <TooltipComponent {...renderProps} />;
     }
     else {
       component = (
