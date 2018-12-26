@@ -158,6 +158,10 @@ export default function getStyles(stepStyles) {
     overlayLegacy: {
       ...overlay,
     },
+    overlayLegacyCenter: {
+      ...overlay,
+      backgroundColor: options.overlayColor,
+    },
     spotlight: {
       ...spotlight,
       backgroundColor: 'gray',

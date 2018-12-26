@@ -170,11 +170,17 @@ export default class Overlay extends React.Component {
       return null;
     }
 
+    let baseStyles = styles.overlay;
+
+    if (isLegacy()) {
+      baseStyles = placement === 'center' ? styles.overlayLegacyCenter : styles.overlayLegacy;
+    }
+
     const stylesOverlay = {
       cursor: disableOverlay ? 'default' : 'pointer',
       height: getDocumentHeight(),
       pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
-      ...(isLegacy() ? styles.overlayLegacy : styles.overlay),
+      ...baseStyles,
     };
 
     let spotlight = placement !== 'center' && showSpotlight && (
