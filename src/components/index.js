@@ -283,7 +283,7 @@ class Joyride extends React.Component {
         else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
           const { flipped, placement, popper } = this.tooltipPopper;
 
-          if (['top', 'right'].includes(placement) && !flipped && !hasCustomScroll) {
+          if (['top', 'right', 'left'].includes(placement) && !flipped && !hasCustomScroll) {
             scrollY = Math.floor(popper.top - scrollOffset);
           }
           else {
