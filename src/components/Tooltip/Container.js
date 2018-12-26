@@ -22,15 +22,10 @@ const JoyrideTooltipContainer = ({
   };
 
   if (continuous) {
-    if (isLastStep) {
-      output.primary = last;
-    }
-    else {
-      output.primary = next;
-    }
+    output.primary = isLastStep ? last : next;
 
     if (showProgress) {
-      output.primary += ` (${index + 1}/${size})`;
+      output.primary = <span>{output.primary} ({index + 1}/{size})</span>;
     }
   }
 
