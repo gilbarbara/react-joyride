@@ -111,12 +111,10 @@ export default function createStore(props: StateObject): StateInstance {
       return {
         start: this.start,
         stop: this.stop,
-        restart: this.restart,
         reset: this.reset,
         prev: this.prev,
         next: this.next,
         go: this.go,
-        index: this.index,
         close: this.close,
         skip: this.skip,
         info: this.info,
@@ -186,26 +184,6 @@ export default function createStore(props: StateObject): StateInstance {
       });
     };
 
-    restart = () => {
-      const { controlled } = this.getState();
-      if (controlled) return;
-
-      this.setState({
-        ...this.getNextState({ action: ACTIONS.RESTART, index: 0 }),
-        status: STATUS.RUNNING,
-      });
-    };
-
-    reset = () => {
-      const { controlled } = this.getState();
-      if (controlled) return;
-
-      this.setState({
-        ...this.getNextState({ action: ACTIONS.RESET, index: 0 }),
-        status: STATUS.READY,
-      });
-    };
-
     prev = () => {
       const { index, status } = this.getState();
       if (status !== STATUS.RUNNING) return;
@@ -217,28 +195,20 @@ export default function createStore(props: StateObject): StateInstance {
 
     next = () => {
       const { index, status } = this.getState();
+
       if (status !== STATUS.RUNNING) return;
 
       this.setState(this.getNextState({ action: ACTIONS.NEXT, index: index + 1 }));
     };
 
-    go = (number) => {
-      const { index, status } = this.getState();
-      if (status !== STATUS.RUNNING) return;
-
-      this.setState({
-        ...this.getNextState({ action: ACTIONS.GO, index: index + number }),
-      });
-    };
-
-    index = (nextIndex) => {
-      const { status } = this.getState();
-      if (status !== STATUS.RUNNING) return;
+    go = (nextIndex) => {
+      const { controlled, status } = this.getState();
+      if (controlled || status !== STATUS.RUNNING) return;
 
       const step = this.getSteps()[nextIndex];
 
       this.setState({
-        ...this.getNextState({ action: ACTIONS.INDEX, index: nextIndex }),
+        ...this.getNextState({ action: ACTIONS.GO, index: nextIndex }),
         status: step ? status : STATUS.FINISHED,
       });
     };
@@ -260,6 +230,16 @@ export default function createStore(props: StateObject): StateInstance {
         action: ACTIONS.SKIP,
         lifecycle: LIFECYCLE.INIT,
         status: STATUS.SKIPPED,
+      });
+    };
+
+    reset = (restart = false) => {
+      const { controlled } = this.getState();
+      if (controlled) return;
+
+      this.setState({
+        ...this.getNextState({ action: ACTIONS.RESET, index: 0 }),
+        status: restart ? STATUS.RUNNING : STATUS.READY,
       });
     };
 

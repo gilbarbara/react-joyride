@@ -18,12 +18,10 @@ describe('store', () => {
 
     const {
       go,
-      index,
       info,
       next,
       prev,
       reset,
-      restart,
       start,
       steps,
       stop,
@@ -266,19 +264,6 @@ describe('store', () => {
       });
     });
 
-    it('should be able to call restart', () => {
-      restart();
-
-      expect(info()).toEqual({
-        action: ACTIONS.RESTART,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
-    });
-
     it('should be able to call reset', () => {
       reset();
 
@@ -292,6 +277,19 @@ describe('store', () => {
       });
     });
 
+    it('should be able to call reset to restart', () => {
+      reset(true);
+
+      expect(info()).toEqual({
+        action: ACTIONS.RESET,
+        controlled: false,
+        index: 0,
+        lifecycle: LIFECYCLE.INIT,
+        size: stepsData.length,
+        status: STATUS.RUNNING,
+      });
+    });
+
     it('should be able to call start with custom index and lifecycle', () => {
       start(2);
 
@@ -299,19 +297,6 @@ describe('store', () => {
         action: ACTIONS.START,
         controlled: false,
         index: 2,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
-    });
-
-    it('should be able to call index [1st step]', () => {
-      index(0);
-
-      expect(info()).toEqual({
-        action: ACTIONS.INDEX,
-        controlled: false,
-        index: 0,
         lifecycle: LIFECYCLE.INIT,
         size: stepsData.length,
         status: STATUS.RUNNING,
@@ -332,25 +317,12 @@ describe('store', () => {
     });
 
     it('should be able to call go [3rd step]', () => {
-      go(-1);
+      go(1);
 
       expect(info()).toEqual({
         action: ACTIONS.GO,
         controlled: false,
         index: 1,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
-    });
-
-    it('should be able to call go with a big negative number [1st step]', () => {
-      go(-10);
-
-      expect(info()).toEqual({
-        action: ACTIONS.GO,
-        controlled: false,
-        index: 0,
         lifecycle: LIFECYCLE.INIT,
         size: stepsData.length,
         status: STATUS.RUNNING,

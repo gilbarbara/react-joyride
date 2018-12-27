@@ -3,7 +3,6 @@ export default {
   STEP_BEFORE: 'step:before',
   BEACON: 'beacon',
   TOOLTIP: 'tooltip',
-  TOOLTIP_CLOSE: 'close',
   STEP_AFTER: 'step:after',
   TOUR_END: 'tour:end',
   TOUR_STATUS: 'tour:status',
