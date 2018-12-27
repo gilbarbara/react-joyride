@@ -49,8 +49,8 @@ export default class JoyrideTooltip extends React.Component {
 
   render() {
     const { continuous, index, isLastStep, setTooltipRef, size, step } = this.props;
-    const { content, locale, title, tooltipComponent } = step;
-    const { back, close, last, next, skip } = locale;
+    const { beaconComponent, tooltipComponent, ...cleanStep } = step;
+    const { back, close, last, next, skip } = step.locale;
     let primaryText = continuous ? next : close;
 
     if (isLastStep) {
@@ -68,14 +68,12 @@ export default class JoyrideTooltip extends React.Component {
     if (tooltipComponent) {
       const renderProps = {
         ...buttonProps,
-        content,
         continuous,
         index,
         isLastStep,
-        locale,
         setTooltipRef,
         size,
-        title,
+        step: cleanStep,
       };
 
       const TooltipComponent = tooltipComponent;
