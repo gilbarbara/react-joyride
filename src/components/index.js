@@ -44,6 +44,7 @@ class Joyride extends React.Component {
     floaterProps: PropTypes.shape({
       offset: PropTypes.number,
     }),
+    getHelpers: PropTypes.func,
     hideBackButton: PropTypes.bool,
     locale: PropTypes.object,
     run: PropTypes.bool,
@@ -69,6 +70,7 @@ class Joyride extends React.Component {
     disableOverlay: false,
     disableOverlayClose: false,
     disableScrolling: false,
+    getHelpers: () => {},
     hideBackButton: false,
     run: true,
     scrollOffset: 20,
@@ -238,12 +240,17 @@ class Joyride extends React.Component {
   }
 
   initStore = () => {
-    const { debug, run, stepIndex, steps } = this.props;
+    const { debug, getHelpers, run, stepIndex, steps } = this.props;
+
     this.store = new Store({
       ...this.props,
       controlled: run && is.number(stepIndex),
     });
     this.helpers = this.store.getHelpers();
+
+    const { addListener } = this.store;
+    const { start, stop, ...publicHelpers } = this.helpers;
+
     this.setState({ ...this.store.getState() }, () => {
       log({
         title: 'init',
@@ -253,7 +260,6 @@ class Joyride extends React.Component {
         ],
         debug,
       });
-      const { addListener, start } = this.store;
 
       // Sync the store to this component's state.
       addListener(this.syncState);
@@ -261,6 +267,8 @@ class Joyride extends React.Component {
       if (validateSteps(steps, debug) && run) {
         start();
       }
+
+      getHelpers(publicHelpers);
     });
   };
 
