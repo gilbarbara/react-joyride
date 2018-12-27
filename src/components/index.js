@@ -161,7 +161,7 @@ class Joyride extends React.Component {
     const { reset } = this.store;
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
     const diffState = !isEqual(prevState, this.state);
-    let step = getMergedStep(steps[index], this.props);
+    const step = getMergedStep(steps[index], this.props);
 
     if (diffState) {
       log({
@@ -174,27 +174,47 @@ class Joyride extends React.Component {
         debug,
       });
 
-      let currentIndex = index;
+      const callbackData = {
+        ...this.state,
+        index,
+        step,
+      };
 
-      if (changed('status')) {
-        let type = EVENTS.TOUR_STATUS;
-
-        if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
-          type = EVENTS.TOUR_END;
-          // Return the last step when the tour is finished
-          step = getMergedStep(steps[prevState.index], this.props);
-          currentIndex = prevState.index;
-          reset();
-        }
-        else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
-          type = EVENTS.TOUR_START;
-        }
+      if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+        const prevStep = getMergedStep(steps[prevState.index], this.props);
 
         this.callback({
-          ...this.state,
-          index: currentIndex,
-          step,
-          type,
+          ...callbackData,
+          index: prevState.index,
+          lifecycle: LIFECYCLE.COMPLETE,
+          step: prevStep,
+          type: EVENTS.STEP_AFTER,
+        });
+        this.callback({
+          ...callbackData,
+          type: EVENTS.TOUR_END,
+          // Return the last step when the tour is finished
+          step: prevStep,
+          index: prevState.index,
+        });
+        reset();
+      }
+      else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
+        this.callback({
+          ...callbackData,
+          type: EVENTS.TOUR_START,
+        });
+      }
+      else if (changed('status')) {
+        this.callback({
+          ...callbackData,
+          type: EVENTS.TOUR_STATUS,
+        });
+      }
+      else if (changedTo('action', ACTIONS.RESET)) {
+        this.callback({
+          ...callbackData,
+          type: EVENTS.TOUR_STATUS,
         });
       }
 

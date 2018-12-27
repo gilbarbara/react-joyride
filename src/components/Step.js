@@ -109,17 +109,16 @@ export default class JoyrideStep extends React.Component {
     const { action, callback, controlled, index, lifecycle, size, status, step, update } = this.props;
     const { changed, changedTo, changedFrom } = treeChanges(prevProps, this.props);
     const state = { action, controlled, index, lifecycle, size, status };
+    const isAfterAction = changed('action')
+      && [
+        ACTIONS.NEXT,
+        ACTIONS.PREV,
+        ACTIONS.SKIP,
+        ACTIONS.CLOSE,
+      ].includes(action);
+    const hasStarted = changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
 
-    const isAfterAction = [
-      ACTIONS.NEXT,
-      ACTIONS.PREV,
-      ACTIONS.SKIP,
-      ACTIONS.CLOSE,
-    ].includes(action) && changed('action');
-
-    const hasChangedIndex = changed('index') && changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
-
-    if (!changed('status') && (hasChangedIndex || (controlled && isAfterAction))) {
+    if (isAfterAction && (hasStarted || controlled)) {
       callback({
         ...state,
         index: prevProps.index,
@@ -135,7 +134,7 @@ export default class JoyrideStep extends React.Component {
       const hasRenderedTarget = !!element && isElementVisible(element);
 
       if (hasRenderedTarget) {
-        if (changedFrom('status', STATUS.READY, STATUS.RUNNING) || changed('index')) {
+        if (changedFrom('status', STATUS.READY, STATUS.RUNNING) || changedFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)) {
           callback({
             ...state,
             step,
@@ -143,8 +142,7 @@ export default class JoyrideStep extends React.Component {
           });
         }
       }
-
-      if (!hasRenderedTarget) {
+      else {
         console.warn('Target not mounted', step); //eslint-disable-line no-console
         callback({
           ...state,
@@ -179,9 +177,6 @@ export default class JoyrideStep extends React.Component {
 
     if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
       removeScope();
-    }
-
-    if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
       delete this.beaconPopper;
       delete this.tooltipPopper;
     }
