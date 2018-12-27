@@ -111,12 +111,12 @@ export default function createStore(props: StateObject): StateInstance {
       return {
         start: this.start,
         stop: this.stop,
-        reset: this.reset,
         prev: this.prev,
         next: this.next,
         go: this.go,
         close: this.close,
         skip: this.skip,
+        reset: this.reset,
         info: this.info,
       };
     }

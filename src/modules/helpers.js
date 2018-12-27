@@ -137,39 +137,40 @@ export function hasValidKeys(value: Object, keys: string | Array<any>): boolean 
   return Object.keys(value).every(d => validKeys.includes(d));
 }
 
-export function isEqual(a: any, b: any): boolean {
-  let p;
+export function isEqual(left: any, right: any): boolean {
   let t;
 
-  for (p in a) {
-    if (Object.prototype.hasOwnProperty.call(a, p)) {
-      if (typeof b[p] === 'undefined') {
+  for (const p in left) {
+    if (Object.prototype.hasOwnProperty.call(left, p)) {
+      if (typeof right[p] === 'undefined') {
         return false;
       }
 
-      if (b[p] && !a[p]) {
+      if (right[p] && !left[p]) {
         return false;
       }
 
-      t = typeof a[p];
+      t = typeof left[p];
 
-      if (t === 'object' && !isEqual(a[p], b[p])) {
+      if (t === 'object' && !isEqual(left[p], right[p])) {
         return false;
       }
 
-      if (t === 'function' && (typeof b[p] === 'undefined' || a[p].toString() !== b[p].toString())) {
+      if (t === 'function' && (typeof right[p] === 'undefined' || left[p].toString() !== right[p].toString())) {
         return false;
       }
 
-      if (a[p] !== b[p]) {
+      if (left[p] !== right[p]) {
         return false;
       }
     }
   }
 
-  for (p in b) {
-    if (typeof a[p] === 'undefined') {
-      return false;
+  for (const p in right) {
+    if (Object.prototype.hasOwnProperty.call(right, p)) {
+      if (typeof left[p] === 'undefined') {
+        return false;
+      }
     }
   }
 

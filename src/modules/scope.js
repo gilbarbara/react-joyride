@@ -4,12 +4,11 @@ let modalElement = null;
 
 function isHidden(element) {
   const noSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
+  const style = window.getComputedStyle(element);
 
   if (noSize && !element.innerHTML) return true;
 
-  const style = window.getComputedStyle(element);
-  return (noSize && style.getPropertyValue('overflow') !== 'visible')
-    || style.getPropertyValue('display') === 'none';
+  return (noSize && style.getPropertyValue('overflow') !== 'visible') || style.getPropertyValue('display') === 'none';
 }
 
 function isVisible(element) {

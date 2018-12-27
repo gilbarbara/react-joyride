@@ -39,21 +39,22 @@ export default class Tour extends React.Component {
 
   handleJoyrideCallback = (result) => {
     const { joyride } = this.props;
+    const { action, index, type } = result;
 
-    if (result.type === 'step:before') {
+    if (type === 'step:before') {
       // Keep internal state in sync with joyride
-      this.setState({ stepIndex: result.index });
+      this.setState({ stepIndex: index });
     }
 
-    if (result.type === 'finished' && this.state.run) {
+    if (type === 'finished' && this.state.run) {
       // Need to set our running state to false, so we can restart if we click start again.
       this.setState({ run: false });
     }
 
-    if (result.type === 'error:target_not_found') {
+    if (type === 'error:target_not_found') {
       this.setState({
-        stepIndex: result.action === 'back' ? result.index - 1 : result.index + 1,
-        autoStart: result.action !== 'close' && result.action !== 'esc',
+        stepIndex: action === 'back' ? index - 1 : index + 1,
+        autoStart: action !== 'close' && action !== 'esc',
       });
     }
 
@@ -90,7 +91,7 @@ export default class Tour extends React.Component {
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
                   <button className="hero__tooltip" type="button">?</button>
                 </h1>
-                <a href="#start" className="hero__start" onClick={this.handleClickStart}>Let's Go!</a>
+                <button className="hero__start" onClick={this.handleClickStart} type="button">Let's Go!</button>
               </div>
             </div>
           </div>
@@ -131,8 +132,8 @@ export default class Tour extends React.Component {
         </main>
         <footer className="demo__footer">
           <div className="container">
-            <a href="#menu" onClick={e => e.preventDefault()}><span /></a>
-            <img src={require('../assets/media/logo.svg')} alt="Joyride" />
+            <button onClick={e => e.preventDefault()} type="button"><span /></button>
+            JOYRIDE
           </div>
         </footer>
       </div>
