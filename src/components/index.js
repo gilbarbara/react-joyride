@@ -15,10 +15,7 @@ import {
 import { canUseDOM, isEqual, log } from '../modules/helpers';
 import { getMergedStep, validateSteps } from '../modules/step';
 
-import ACTIONS from '../constants/actions';
-import EVENTS from '../constants/events';
-import LIFECYCLE from '../constants/lifecycle';
-import STATUS from '../constants/status';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
 
 import Step from './Step';
 

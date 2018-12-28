@@ -5,8 +5,7 @@ import Floater from 'react-floater';
 import treeChanges from 'tree-changes';
 import is from 'is-lite';
 
-import ACTIONS from '../constants/actions';
-import LIFECYCLE from '../constants/lifecycle';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
 
 import { getElement, isElementVisible, isFixed } from '../modules/dom';
 import { log, hideBeacon } from '../modules/helpers';
@@ -16,9 +15,7 @@ import { validateStep } from '../modules/step';
 import Beacon from './Beacon';
 import Overlay from './Overlay';
 import Tooltip from './Tooltip/index';
-import JoyridePortal from './Portal';
-import EVENTS from '../constants/events';
-import STATUS from '../constants/status';
+import Portal from './Portal';
 
 export default class JoyrideStep extends React.Component {
   static propTypes = {
@@ -257,13 +254,13 @@ export default class JoyrideStep extends React.Component {
 
     return (
       <div key={`JoyrideStep-${index}`} className="joyride-step">
-        <JoyridePortal>
+        <Portal>
           <Overlay
             {...step}
             lifecycle={lifecycle}
             onClickOverlay={this.handleClickOverlay}
           />
-        </JoyridePortal>
+        </Portal>
         <Floater
           component={(
             <Tooltip
