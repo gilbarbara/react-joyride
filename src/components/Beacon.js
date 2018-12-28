@@ -9,31 +9,31 @@ export default class JoyrideBeacon extends React.Component {
       const head = document.head || document.getElementsByTagName('head')[0];
       const style = document.createElement('style');
       const css = `
-@keyframes joyride-beacon-inner {
-  20% {
-    opacity: 0.9;
-  }
-
-  90% {
-    opacity: 0.7;
-  }
-}
-
-@keyframes joyride-beacon-outer {
-  0% {
-    transform: scale(1);
-  }
-
-  45% {
-    opacity: 0.7;
-    transform: scale(0.75);
-  }
-
-  100% {
-    opacity: 0.9;
-    transform: scale(1);
-  }
-}
+        @keyframes joyride-beacon-inner {
+          20% {
+            opacity: 0.9;
+          }
+        
+          90% {
+            opacity: 0.7;
+          }
+        }
+        
+        @keyframes joyride-beacon-outer {
+          0% {
+            transform: scale(1);
+          }
+        
+          45% {
+            opacity: 0.7;
+            transform: scale(0.75);
+          }
+        
+          100% {
+            opacity: 0.9;
+            transform: scale(1);
+          }
+        }
       `;
 
       style.type = 'text/css';
@@ -73,12 +73,8 @@ export default class JoyrideBeacon extends React.Component {
     let component;
 
     if (beaconComponent) {
-      if (React.isValidElement(beaconComponent)) {
-        component = React.cloneElement(beaconComponent, props);
-      }
-      else {
-        component = beaconComponent(props);
-      }
+      const BeaconComponent = beaconComponent;
+      component = <BeaconComponent {...props} />;
     }
     else {
       component = (
