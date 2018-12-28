@@ -1,10 +1,15 @@
 # Migration
 
-Version 2 changed radically and you will need to update your component.
+If you are coming from V1 make sure to follow this guide to upgrade your setup.
+
+## Styling
+
+V2 uses iniline styles instead of SCSS/CSS so you need to remove the imports.
+Check [Styling](styling.md) for more information.
 
 ## Props
 
-### Renamed \(breaking\)
+#### Renamed \(breaking\)
 
 **allowClicksThruHole** ▶︎ **spotlightClicks**
 
@@ -25,7 +30,7 @@ the space, return and tab keys are now controlled with tabIndex
 
 **type** `'single'` ▶︎ **continuous** `false`
 
-### Removed \(breaking\)
+#### Removed \(breaking\)
 
 **autoStart** \(use the `disableBeacon` prop on the first step\)
 
@@ -39,11 +44,11 @@ the space, return and tab keys are now controlled with tabIndex
 
 There are a few changes to the step syntax too:
 
-**selector** ▶︎ **target   
-**Now it supports HTMLElement and string.
+**selector** ▶︎ **target**  
+Now it supports HTMLElement and string.
 
-**position** ▶︎ **placement  
-**The default is** `bottom` **now
+**position** ▶︎ **placement**  
+The default is **bottom** now
 
 **text** ▶︎ **content**
 

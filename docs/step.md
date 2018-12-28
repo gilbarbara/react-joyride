@@ -1,6 +1,6 @@
 # Step
 
-The step is an plain object that only requires two properties to be valid: `target` and `content` \(or `tooltipComponent`\).
+The step is an plain object that only requires two properties to be valid: `target` and `content`.
 
 ```text
 {
@@ -9,26 +9,9 @@ The step is an plain object that only requires two properties to be valid: `targ
 }
 ```
 
-It will inherit some properties from the Joyride's own [props](props.md) that can be overridden per step:
+## Props
 
-* beaconComponent
-* disableCloseOnEsc
-* disableOverlay
-* disableOverlayClose
-* disableScrolling
-* floaterProps (check the [getMergedStep](../src/modules/step.js) function for more information)
-* hideBackButton
-* locale
-* showProgress
-* showSkipButton
-* spotlightClicks
-* spotlightPadding
-* styles
-* tooltipComponent
-
-## And you can use these
-
-**content** {React.Node\|string}  
+**content** {React.Node}  
 The tooltip's body.
 
 **disableBeacon** {boolean} ▶︎ `false`  
@@ -47,12 +30,12 @@ The distance from the target to the tooltip.
 The placement of the beacon and tooltip. It will re-position itself if there's no space available.  
 It can be:
 
-* top \(top-start, top-end\)
-* bottom \(bottom-start, bottom-end\)
-* left \(left-start, left-end\)
-* right \(right-start, right-end
-* auto
-* center
+* top, top-start, top-end
+* bottom, bottom-start, bottom-end
+* left, left-start, left-end
+* right, right-start, right-end
+* auto (it will choose the best position)
+* center (set the target to `body`)
 
 Check [react-floater](https://github.com/gilbarbara/react-floater) for more information.
 
@@ -63,8 +46,26 @@ The placement of the beacon. It will use the placement if nothing is passed and 
 Override the [styling](styling.md) of the step's Tooltip
 
 **target** {Element\|string} - **required**  
-The target for the step. It can be a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) or an HtmlElement directly \(but using refs created in the same render would required an additional render afterwards\).
+The target for the step. It can be a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) or an HTMLElement directly \(but using refs created in the same render would required an additional render afterwards\).
 
-**title** {React.Node\|string}  
+**title** {React.Node}  
 The tooltip's title.
 
+## Props Inheritance
+
+It will inherit some properties from Joyride's own [props](props.md) that can be overridden per step:
+
+* beaconComponent
+* disableCloseOnEsc
+* disableOverlay
+* disableOverlayClose
+* disableScrolling
+* floaterProps (check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information)
+* hideBackButton
+* locale
+* showProgress
+* showSkipButton
+* spotlightClicks
+* spotlightPadding
+* styles
+* tooltipComponent

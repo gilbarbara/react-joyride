@@ -65,7 +65,7 @@ export class App extends React.Component {
       // pause the tour, load a new route and start it again once is done.
       this.setState({ run: false });
     } 
-    else if ([EVENTS.STEP_AFTER, EVENTS.CLOSE, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+    else if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
       // Sunce this is a controlled tour you'll need to update the state to advance the tour
       this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
     }

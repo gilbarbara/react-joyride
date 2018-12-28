@@ -8,7 +8,5 @@ When the tooltip is opened, the TAB key will be hijacked to only focus on form e
 
 When the tooltip is closed the focus returns to the default.
 
-## ARIA attributes
 
-Soon
 
