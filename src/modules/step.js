@@ -65,7 +65,7 @@ export function validateSteps(steps: Array<Object>, debug: boolean = false): boo
   return steps.every(d => validateStep(d, debug));
 }
 
-function getTourProps(props: JoyrideProps): JoyrideProps {
+function getTourProps(props: JoyrideProps): Object {
   const sharedTourProps = [
     'beaconComponent',
     'disableCloseOnEsc',

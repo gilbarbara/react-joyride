@@ -1,14 +1,12 @@
 // @flow
 import is from 'is-lite';
-import STATUS from '../constants/status';
-import ACTIONS from '../constants/actions';
-import LIFECYCLE from '../constants/lifecycle';
+import { ACTIONS, LIFECYCLE, STATUS } from '../constants';
 
 import { hasValidKeys } from './helpers';
 
-import type { StateHelpers, StateInstance, StateObject } from '../config/types';
+import type { StoreHelpers, StoreInstance, StoreState } from '../config/types';
 
-const defaultState: StateObject = {
+const defaultState: StoreState = {
   action: '',
   controlled: false,
   index: 0,
@@ -19,7 +17,7 @@ const defaultState: StateObject = {
 
 const validKeys = ['action', 'index', 'lifecycle', 'status'];
 
-export default function createStore(props: StateObject): StateInstance {
+export default function createStore(props: StoreState): StoreInstance {
   const store: Map<string, any> = new Map();
   const data: Map<string, any> = new Map();
 
@@ -80,7 +78,7 @@ export default function createStore(props: StateObject): StateInstance {
       };
     }
 
-    getNextState(state: StateObject, force: ?boolean = false): Object {
+    getNextState(state: StoreState, force: ?boolean = false): Object {
       const { action, controlled, index, size, status } = this.getState();
       const newIndex = is.number(state.index) ? state.index : index;
       const nextIndex = controlled && !force ? index : Math.min(Math.max(newIndex, 0), size);
@@ -94,7 +92,7 @@ export default function createStore(props: StateObject): StateInstance {
       };
     }
 
-    hasUpdatedState(oldState: StateObject): boolean {
+    hasUpdatedState(oldState: StoreState): boolean {
       const before = JSON.stringify(oldState);
       const after = JSON.stringify(this.getState());
 
@@ -107,7 +105,7 @@ export default function createStore(props: StateObject): StateInstance {
       return Array.isArray(steps) ? steps : [];
     }
 
-    getHelpers(): StateHelpers {
+    getHelpers(): StoreHelpers {
       return {
         start: this.start,
         stop: this.stop,
@@ -141,7 +139,7 @@ export default function createStore(props: StateObject): StateInstance {
       this.listener = listener;
     };
 
-    update = (state: StateObject) => {
+    update = (state: StoreState) => {
       if (!hasValidKeys(state, validKeys)) {
         throw new Error('state is not valid');
       }

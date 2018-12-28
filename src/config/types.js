@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export type StateHelpers = {
+export interface StoreHelpers {
   close: Function,
   go: Function,
   info: Function,
@@ -10,21 +10,20 @@ export type StateHelpers = {
   skip: Function,
   start: Function,
   stop: Function,
-};
+}
 
-export type StateInstance = {
-  ...StateHelpers,
+export interface StoreInstance extends StoreHelpers {
   update: Function,
-};
+}
 
-export type StateObject = {
+export interface StoreState {
   action: string,
   controlled: boolean,
   index: number,
   lifecycle: string,
   size: number,
   status: string,
-};
+}
 
 type placement = 'top' | 'top-start' | 'top-end' |
   'bottom' | 'bottom-start' | 'bottom-end' |
@@ -34,7 +33,7 @@ type placement = 'top' | 'top-start' | 'top-end' |
 
 type placementBeacon = 'top' | 'bottom' | 'left' | 'right';
 
-export type StepProps = {
+export interface StepProps {
   beaconComponent?: ReactNode,
   content: ReactNode,
   disableBeacon?: boolean,
@@ -59,9 +58,20 @@ export type StepProps = {
   tooltipComponent?: ReactNode,
 }
 
-export type JoyrideProps = {
+export interface CallBackProps {
+  action: string,
+  controlled: boolean,
+  index: number,
+  lifecycle: string,
+  size: number,
+  status: string,
+  step: StepProps,
+  type: string,
+}
+
+export interface JoyrideProps {
   beaconComponent?: ReactNode,
-  callback?: Function,
+  callback?: (data: CallBackProps) => void,
   continuous?: boolean,
   debug?: boolean,
   disableCloseOnEsc?: boolean,
@@ -71,7 +81,7 @@ export type JoyrideProps = {
   floaterProps?: Object,
   hideBackButton?: boolean,
   locale?: Object,
-  run?: boolean,
+  run: boolean,
   scrollOffset?: number,
   scrollToFirstStep?: boolean,
   showProgress?: boolean,
@@ -82,15 +92,4 @@ export type JoyrideProps = {
   steps: Array<StepProps>,
   styles?: Object,
   tooltipComponent?: ReactNode,
-}
-
-export type CallBackProps = {
-  action: string,
-  controlled: boolean,
-  index: number,
-  lifecycle: string,
-  size: number,
-  status: string,
-  step: StepProps,
-  type: string,
 }
