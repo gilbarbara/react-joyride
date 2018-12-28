@@ -3,10 +3,10 @@
 * [Overview](README.md)
 * [Props](props.md)
 * [Step](step.md)
-* [Customization](customization.md)
 * [Styling](styling.md)
+* [Customization](customization.md)
 * [Callback](callback.md)
-* [Accessibility](accessibility.md)
 * [Constants](constants.md)
+* [Accessibility](accessibility.md)
 * [Migration](migration.md)
 

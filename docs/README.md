@@ -1,9 +1,14 @@
 # React Joyride
 
-A React component to create tours for your app!
+[![](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) [![](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride) [![](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/maintainability)](https://codeclimate.com/github/gilbarbara/react-joyride/maintainability) [![](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/test_coverage)](https://codeclimate.com/github/gilbarbara/react-joyride/test_coverage)
 
-You can use it to showcase your app to new users or explain functionality of new features.  
-It uses [react-floater](https://github.com/gilbarbara/react-floater) \(with [popper.js](https://github.com/FezVrasta/popper.js) for positioning and styling\).  
+[![Joyride example image](http://gilbarbara.github.io/react-joyride/media/example.png)](http://gilbarbara.github.io/react-joyride/)
+
+#### Create awesome tours for your app!
+
+Use it to showcase your app to new users or explain functionality of new features.  
+
+It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
 And you can use your own components if you want.
 
 ### View the demo [here](https://2zpjporp4p.codesandbox.io/)
@@ -25,13 +30,11 @@ export class App extends React.Component {
     steps: [
       {
         target: '.my-first-step',
-        content: 'This if my awesome feature!',
-        placement: 'bottom',
+        content: 'This is my awesome feature!',
       },
       {
         target: '.my-other-step',
-        content: 'This if my awesome feature!',
-        placement: 'bottom',
+        content: 'This another awesome feature!',
       },
       ...
     ]
@@ -41,20 +44,14 @@ export class App extends React.Component {
     this.setState({ run: true });
   }
 
-  callback = (tour) => {
-    const { action, index, type } = data;
-  };
-
   render () {
     const { steps, run } = this.state;
 
     return (
       <div className="app">
         <Joyride
-          steps={steps}
           run={run}
-          debug={true}
-          callback={this.callback}
+          steps={steps}
           ...
         />
         ...
@@ -72,9 +69,13 @@ export class App extends React.Component {
 
 [Styling](styling.md)
 
+[Customization](customization.md)
+
 [Callback](callback.md)
 
 [Constants](constants.md)
+
+[Accessibility](accessibility.md)
 
 [Migration from 1.x](migration.md)
 

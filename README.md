@@ -4,14 +4,14 @@
 
 [![Joyride example image](http://gilbarbara.github.io/react-joyride/media/example.png)](http://gilbarbara.github.io/react-joyride/)
 
-Create a tour for your app!  
-Use it to showcase your app for new users! Or explain functionality of complex features!  
+#### Create awesome tours for your app!
 
-#### View the demo [here](https://2zpjporp4p.codesandbox.io/)
+Use it to showcase your app to new users or explain functionality of new features.  
 
-You can edit the demo [here](https://codesandbox.io/s/2zpjporp4p)
+It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
+And you can use your own components if you want.
 
->  If you are looking for the documentation for the old 1.x version, go [here](https://github.com/gilbarbara/react-joyride/tree/v1.11.4)
+### View the demo [here](https://2zpjporp4p.codesandbox.io/)
 
 ## Setup
 
@@ -21,11 +21,7 @@ npm i react-joyride@next
 
 ## Getting Started
 
-Just set a `steps` array to the Joyride component and you're good to go!
-
-You can use your own component for the tooltip body or beacon, if you want.
-
-```js
+```javascript
 import Joyride from 'react-joyride';
 
 export class App extends React.Component {
@@ -34,13 +30,11 @@ export class App extends React.Component {
     steps: [
       {
         target: '.my-first-step',
-        content: 'This if my awesome feature!',
-        placement: 'bottom',
+        content: 'This is my awesome feature!',
       },
       {
         target: '.my-other-step',
-        content: 'This if my awesome feature!',
-        placement: 'bottom',
+        content: 'This another awesome feature!',
       },
       ...
     ]
@@ -50,19 +44,14 @@ export class App extends React.Component {
     this.setState({ run: true });
   }
 
-  callback = (data) => {
-    const { action, index, type } = data;
-  };
-
   render () {
     const { steps, run } = this.state;
 
     return (
       <div className="app">
         <Joyride
-          steps={steps}
           run={run}
-          callback={this.callback}
+          steps={steps}
           ...
         />
         ...
@@ -74,17 +63,19 @@ export class App extends React.Component {
 
 ## Documentation
 
-[Props](docs/props.md)
+[Props](props.md)
 
-[Step](docs/step.md)
+[Step](step.md)
 
-[Styling](docs/styling.md)
+[Styling](styling.md)
 
-[Callback](docs/callback.md)
+[Customization](customization.md)
 
-[Constants](docs/constants.md)
+[Callback](callback.md)
 
-[Migration from 1.x](docs/migration.md)
+[Constants](constants.md)
 
-This library uses [react-floater](https://github.com/gilbarbara/react-floater) and [popper.js](https://github.com/FezVrasta/popper.js) for positioning and styling.
+[Accessibility](accessibility.md)
+
+[Migration from 1.x](migration.md)
 
