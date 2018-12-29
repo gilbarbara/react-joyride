@@ -12,12 +12,13 @@ const defaultOptions = {
   zIndex: 100,
 };
 
-const buttonReset = {
+const buttonBase = {
   backgroundColor: 'transparent',
   border: 0,
   borderRadius: 0,
   color: '#555',
   cursor: 'pointer',
+  fontSize: 16,
   lineHeight: 1,
   padding: 8,
   WebkitAppearance: 'none',
@@ -60,7 +61,7 @@ export default function getStyles(stepStyles) {
 
   const defaultStyles = {
     beacon: {
-      ...buttonReset,
+      ...buttonBase,
       display: 'inline-block',
       height: options.beaconSize,
       position: 'relative',
@@ -124,19 +125,19 @@ export default function getStyles(stepStyles) {
       marginTop: 15,
     },
     buttonNext: {
-      ...buttonReset,
+      ...buttonBase,
       backgroundColor: options.primaryColor,
       borderRadius: 4,
       color: '#fff',
     },
     buttonBack: {
-      ...buttonReset,
+      ...buttonBase,
       color: options.primaryColor,
       marginLeft: 'auto',
       marginRight: 5,
     },
     buttonClose: {
-      ...buttonReset,
+      ...buttonBase,
       color: options.textColor,
       height: 14,
       padding: 15,
@@ -146,7 +147,7 @@ export default function getStyles(stepStyles) {
       width: 14,
     },
     buttonSkip: {
-      ...buttonReset,
+      ...buttonBase,
       color: options.textColor,
       fontSize: 14,
     },
