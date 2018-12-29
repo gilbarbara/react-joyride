@@ -54,6 +54,7 @@ export interface Step {
   disableOverlay?: boolean;
   disableOverlayClose?: boolean;
   disableScrolling?: boolean;
+  disableScrollParentFix?: boolean;
   event?: string;
   floaterProps?: object;
   hideBackButton?: boolean;
@@ -97,6 +98,7 @@ export interface Props {
   disableOverlay?: boolean;
   disableOverlayClose?: boolean;
   disableScrolling?: boolean;
+  disableScrollParentFix?: boolean;
   floaterProps?: object;
   getHelpers?: () => StoreHelpers;
   hideBackButton?: boolean;

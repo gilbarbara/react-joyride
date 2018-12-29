@@ -11,7 +11,7 @@ import {
   hasCustomScrollParent,
   isFixed,
 } from '../modules/dom';
-import { getBrowser, isLegacy } from '../modules/helpers';
+import { getBrowser, isLegacy, log } from '../modules/helpers';
 
 import LIFECYCLE from '../constants/lifecycle';
 
@@ -29,8 +29,10 @@ export default class Overlay extends React.Component {
   }
 
   static propTypes = {
+    debug: PropTypes.bool.isRequired,
     disableOverlay: PropTypes.bool.isRequired,
     disableScrolling: PropTypes.bool.isRequired,
+    disableScrollParentFix: PropTypes.bool.isRequired,
     lifecycle: PropTypes.string.isRequired,
     onClickOverlay: PropTypes.func.isRequired,
     placement: PropTypes.string.isRequired,
@@ -44,11 +46,21 @@ export default class Overlay extends React.Component {
   };
 
   componentDidMount() {
-    const { disableScrolling, target } = this.props;
+    const { debug, disableScrolling, disableScrollParentFix, target } = this.props;
 
     if (!disableScrolling) {
       const element = getElement(target);
-      this.scrollParent = hasCustomScrollParent(element) ? getScrollParent(element) : document;
+      this.scrollParent = getScrollParent(element, disableScrollParentFix);
+
+      if (hasCustomScrollParent(element, true)) {
+        log({
+          title: 'step has a custom scroll parent and can cause trouble with scrolling',
+          data: [
+            { key: 'parent', value: this.scrollParent },
+          ],
+          debug,
+        });
+      }
     }
 
     window.addEventListener('resize', this.handleResize);
@@ -112,7 +124,6 @@ export default class Overlay extends React.Component {
 
   handleScroll = () => {
     const { isScrolling } = this.state;
-
     if (!isScrolling) {
       this.setState({ isScrolling: true, showSpotlight: false });
     }
@@ -120,7 +131,6 @@ export default class Overlay extends React.Component {
     clearTimeout(this.scrollTimeout);
 
     this.scrollTimeout = setTimeout(() => {
-      clearTimeout(this.scrollTimeout);
       this.setState({ isScrolling: false, showSpotlight: true });
       this.scrollParent.removeEventListener('scroll', this.handleScroll);
     }, 50);
@@ -137,11 +147,11 @@ export default class Overlay extends React.Component {
 
   get stylesSpotlight() {
     const { showSpotlight } = this.state;
-    const { spotlightClicks, spotlightPadding, styles, target } = this.props;
+    const { disableScrollParentFix, spotlightClicks, spotlightPadding, styles, target } = this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
     const isFixedTarget = isFixed(element);
-    const top = getElementPosition(element, spotlightPadding);
+    const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
 
     return {
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),

@@ -72,6 +72,7 @@ function getTourProps(props: JoyrideProps): Object {
     'disableOverlay',
     'disableOverlayClose',
     'disableScrolling',
+    'disableScrollParentFix',
     'floaterProps',
     'hideBackButton',
     'locale',
@@ -97,7 +98,7 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
 
   const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
-  const scrollParent = hasCustomScrollParent(getElement(step.target));
+  const scrollParent = hasCustomScrollParent(getElement(step.target), mergedStep.disableScrollParentFix);
   const floaterProps = deepmerge.all([props.floaterProps || {}, DEFAULTS.floaterProps, mergedStep.floaterProps || {}]);
 
   // Set react-floater props

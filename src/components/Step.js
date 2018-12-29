@@ -39,6 +39,8 @@ export default class JoyrideStep extends React.Component {
       disableBeacon: PropTypes.bool,
       disableOverlay: PropTypes.bool,
       disableOverlayClose: PropTypes.bool,
+      disableScrolling: PropTypes.bool,
+      disableScrollParentFix: PropTypes.bool,
       event: PropTypes.string,
       floaterProps: PropTypes.shape({
         offset: PropTypes.number,
@@ -257,6 +259,7 @@ export default class JoyrideStep extends React.Component {
         <Portal>
           <Overlay
             {...step}
+            debug={debug}
             lifecycle={lifecycle}
             onClickOverlay={this.handleClickOverlay}
           />

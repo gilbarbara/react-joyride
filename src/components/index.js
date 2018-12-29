@@ -6,8 +6,8 @@ import is from 'is-lite';
 import Store from '../modules/store';
 import {
   getElement,
-  getScrollTo,
   getScrollParent,
+  getScrollTo,
   hasCustomScrollParent,
   isFixed,
   scrollTo,
@@ -38,6 +38,7 @@ class Joyride extends React.Component {
     disableOverlay: PropTypes.bool,
     disableOverlayClose: PropTypes.bool,
     disableScrolling: PropTypes.bool,
+    disableScrollParentFix: PropTypes.bool,
     floaterProps: PropTypes.shape({
       offset: PropTypes.number,
     }),
@@ -67,6 +68,7 @@ class Joyride extends React.Component {
     disableOverlay: false,
     disableOverlayClose: false,
     disableScrolling: false,
+    disableScrollParentFix: false,
     getHelpers: () => {},
     hideBackButton: false,
     run: true,
@@ -270,7 +272,7 @@ class Joyride extends React.Component {
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrolling, scrollToFirstStep, scrollOffset, steps } = this.props;
+    const { debug, disableScrolling, disableScrollParentFix, scrollToFirstStep, scrollOffset, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     if (step) {
@@ -283,9 +285,9 @@ class Joyride extends React.Component {
         && (scrollToFirstStep || prevState.index !== index);
 
       if (status === STATUS.RUNNING && shouldScroll) {
-        const hasCustomScroll = hasCustomScrollParent(target);
-        const scrollParent = getScrollParent(target);
-        let scrollY = Math.floor(getScrollTo(target, scrollOffset)) || 0;
+        const hasCustomScroll = hasCustomScrollParent(target, disableScrollParentFix);
+        const scrollParent = getScrollParent(target, disableScrollParentFix);
+        let scrollY = Math.floor(getScrollTo(target, scrollOffset, disableScrollParentFix)) || 0;
 
         log({
           title: 'scrollToStep',
@@ -380,7 +382,7 @@ class Joyride extends React.Component {
     if (!canUseDOM) return null;
 
     const { index, status } = this.state;
-    const { continuous, debug, disableScrolling, steps } = this.props;
+    const { continuous, debug, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
     let output;
 
@@ -391,7 +393,6 @@ class Joyride extends React.Component {
           callback={this.callback}
           continuous={continuous}
           debug={debug}
-          disableScrolling={disableScrolling}
           getPopper={this.getPopper}
           helpers={this.helpers}
           step={step}
