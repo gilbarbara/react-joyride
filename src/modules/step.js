@@ -96,7 +96,7 @@ function getTourProps(props: JoyrideProps): Object {
 export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
   if (!step) return undefined;
 
-  const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step]);
+  const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step], { isMergeableObject: is.plainObject });
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
   const scrollParent = hasCustomScrollParent(getElement(step.target), mergedStep.disableScrollParentFix);
   const floaterProps = deepmerge.all([props.floaterProps || {}, DEFAULTS.floaterProps, mergedStep.floaterProps || {}]);

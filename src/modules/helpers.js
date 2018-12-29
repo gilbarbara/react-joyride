@@ -98,24 +98,28 @@ export function log({ title, data, warn = false, debug = false }: Object) {
   /* eslint-disable no-console */
   const logFn = warn ? console.warn || console.error : console.log;
 
-  if (debug && title && data) {
-    console.groupCollapsed(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
+  if (debug) {
+    if (title && data) {
+      console.groupCollapsed(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
 
-    if (Array.isArray(data)) {
-      data.forEach(d => {
-        if (is.plainObject(d) && d.key) {
-          logFn.apply(console, [d.key, d.value]);
-        }
-        else {
-          logFn.apply(console, [d]);
-        }
-      });
-    }
-    else {
-      logFn.apply(console, [data]);
-    }
+      if (Array.isArray(data)) {
+        data.forEach(d => {
+          if (is.plainObject(d) && d.key) {
+            logFn.apply(console, [d.key, d.value]);
+          }
+          else {
+            logFn.apply(console, [d]);
+          }
+        });
+      }
+      else {
+        logFn.apply(console, [data]);
+      }
 
-    console.groupEnd();
+      console.groupEnd();
+    } else {
+      console.error('log', 'Missing title or data props');
+    }
   }
   /* eslint-enable */
 }
@@ -139,6 +143,16 @@ export function hasValidKeys(value: Object, keys: string | Array<any>): boolean 
 
 export function isEqual(left: any, right: any): boolean {
   let t;
+  const leftIsDOM = is.domElement(left);
+  const rightIsDom = is.domElement(right);
+
+  if (leftIsDOM && rightIsDom) {
+    return left.isSameNode(right);
+  }
+
+  if ((leftIsDOM && !rightIsDom) || (!leftIsDOM && rightIsDom)) {
+    return true;
+  }
 
   for (const p in left) {
     if (Object.prototype.hasOwnProperty.call(left, p)) {
