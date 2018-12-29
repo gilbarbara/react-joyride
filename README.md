@@ -63,19 +63,19 @@ export class App extends React.Component {
 
 ## Documentation
 
-[Props](props.md)
+[Props](docs/props.md)
 
-[Step](step.md)
+[Step](docs/step.md)
 
-[Styling](styling.md)
+[Styling](docs/styling.md)
 
-[Customization](customization.md)
+[Customization](docs/customization.md)
 
-[Callback](callback.md)
+[Callback](docs/callback.md)
 
-[Constants](constants.md)
+[Constants](docs/constants.md)
 
-[Accessibility](accessibility.md)
+[Accessibility](docs/accessibility.md)
 
-[Migration from 1.x](migration.md)
+[Migration from 1.x](docs/migration.md)
 
