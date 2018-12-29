@@ -23,7 +23,7 @@ class Joyride extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = this.initStore();
   }
 
   static propTypes = {
@@ -82,9 +82,12 @@ class Joyride extends React.Component {
   componentDidMount() {
     if (!canUseDOM) return;
 
-    const { disableCloseOnEsc } = this.props;
+    const { disableCloseOnEsc, debug, run, steps } = this.props;
+    const { start } = this.helpers;
 
-    this.initStore();
+    if (validateSteps(steps, debug) && run) {
+      start();
+    }
 
     /* istanbul ignore else */
     if (!disableCloseOnEsc) {
@@ -114,6 +117,15 @@ class Joyride extends React.Component {
       const stepsChanged = !isEqual(nextSteps, steps);
       const stepIndexChanged = is.number(nextStepIndex) && changed('stepIndex');
 
+      if (stepsChanged) {
+        if (validateSteps(nextSteps, debug)) {
+          setSteps(nextSteps);
+        }
+        else {
+          console.warn('Steps are not valid', nextSteps); //eslint-disable-line no-console
+        }
+      }
+
       /* istanbul ignore else */
       if (changed('run')) {
         if (run) {
@@ -121,15 +133,6 @@ class Joyride extends React.Component {
         }
         else {
           stop();
-        }
-      }
-
-      if (stepsChanged) {
-        if (validateSteps(nextSteps, debug)) {
-          setSteps(nextSteps);
-        }
-        else {
-          console.warn('Steps are not valid', nextSteps); //eslint-disable-line no-console
         }
       }
 
@@ -198,7 +201,7 @@ class Joyride extends React.Component {
         });
         reset();
       }
-      else if (changedFrom('status', STATUS.READY, STATUS.RUNNING)) {
+      else if (changedFrom('status', [STATUS.IDLE, STATUS.READY], STATUS.RUNNING)) {
         this.callback({
           ...callbackData,
           type: EVENTS.TOUR_START,
@@ -237,7 +240,7 @@ class Joyride extends React.Component {
   }
 
   initStore = () => {
-    const { debug, getHelpers, run, stepIndex, steps } = this.props;
+    const { debug, getHelpers, run, stepIndex } = this.props;
 
     this.store = new Store({
       ...this.props,
@@ -248,25 +251,21 @@ class Joyride extends React.Component {
     const { addListener } = this.store;
     const { start, stop, ...publicHelpers } = this.helpers;
 
-    this.setState({ ...this.store.getState() }, () => {
-      log({
-        title: 'init',
-        data: [
-          { key: 'props', value: this.props },
-          { key: 'state', value: this.state },
-        ],
-        debug,
-      });
-
-      // Sync the store to this component's state.
-      addListener(this.syncState);
-
-      if (validateSteps(steps, debug) && run) {
-        start();
-      }
-
-      getHelpers(publicHelpers);
+    log({
+      title: 'init',
+      data: [
+        { key: 'props', value: this.props },
+        { key: 'state', value: this.state },
+      ],
+      debug,
     });
+
+    // Sync the store to this component's state.
+    addListener(this.syncState);
+
+    getHelpers(publicHelpers);
+
+    return this.store.getState();
   };
 
   scrollToStep(prevState) {
