@@ -58,6 +58,8 @@ export interface Step {
   event?: string;
   floaterProps?: object;
   hideBackButton?: boolean;
+  hideCloseButton?: boolean;
+  hideFooter?: boolean;
   isFixed?: boolean;
   locale?: object;
   offset?: number;
@@ -65,8 +67,8 @@ export interface Step {
   placementBeacon?: placementBeacon;
   showProgress?: boolean;
   showSkipButton?: boolean;
-  spotlightPadding?: number;
   spotlightClicks?: boolean;
+  spotlightPadding?: number;
   styles?: object;
   target: string | HTMLElement;
   title?: React.ReactNode;
@@ -108,8 +110,8 @@ export interface Props {
   scrollToFirstStep?: boolean;
   showProgress?: boolean;
   showSkipButton?: boolean;
-  spotlightPadding?: boolean;
   spotlightClicks?: boolean;
+  spotlightPadding?: boolean;
   stepIndex?: number;
   steps: Array<Step>;
   styles?: object;

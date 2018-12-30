@@ -15,7 +15,17 @@ const JoyrideTooltipContainer = ({
   size,
   step,
 }) => {
-  const { content, hideBackButton, locale, showProgress, showSkipButton, title, styles } = step;
+  const {
+    content,
+    hideBackButton,
+    hideCloseButton,
+    hideFooter,
+    locale,
+    showProgress,
+    showSkipButton,
+    title,
+    styles,
+  } = step;
   const { back, close, last, next, skip } = locale;
   const output = {
     primary: close,
@@ -53,7 +63,7 @@ const JoyrideTooltipContainer = ({
     );
   }
 
-  output.close = (<CloseBtn {...closeProps} styles={styles.buttonClose} />);
+  output.close = !hideCloseButton && <CloseBtn {...closeProps} styles={styles.buttonClose} />;
 
   return (
     <div
@@ -70,17 +80,19 @@ const JoyrideTooltipContainer = ({
           </div>
         )}
       </div>
-      <div style={styles.tooltipFooter}>
-        {output.skip}
-        {output.back}
-        <button
-          style={styles.buttonNext}
-          type="button"
-          {...primaryProps}
-        >
-          {output.primary}
-        </button>
-      </div>
+      {!hideFooter && (
+        <div style={styles.tooltipFooter}>
+          {output.skip}
+          {output.back}
+          <button
+            style={styles.buttonNext}
+            type="button"
+            {...primaryProps}
+          >
+            {output.primary}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

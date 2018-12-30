@@ -46,6 +46,8 @@ export default class JoyrideStep extends React.Component {
         offset: PropTypes.number,
       }),
       hideBackButton: PropTypes.bool,
+      hideCloseButton: PropTypes.bool,
+      hideFooter: PropTypes.bool,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
       offset: PropTypes.number.isRequired,
