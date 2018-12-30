@@ -160,7 +160,7 @@ class Joyride extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (!canUseDOM) return;
 
-    const { index, lifecycle, status } = this.state;
+    const { action, controlled, index, lifecycle, status } = this.state;
     const { debug, steps } = this.props;
     const { reset } = this.store;
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
@@ -183,8 +183,14 @@ class Joyride extends React.Component {
         index,
         step,
       };
+      const isAfterAction = changedTo('action', [
+        ACTIONS.NEXT,
+        ACTIONS.PREV,
+        ACTIONS.SKIP,
+        ACTIONS.CLOSE,
+      ]);
 
-      if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+      if (isAfterAction && changedTo('status', STATUS.PAUSED)) {
         const prevStep = getMergedStep(steps[prevState.index], this.props);
 
         this.callback({
@@ -194,6 +200,20 @@ class Joyride extends React.Component {
           step: prevStep,
           type: EVENTS.STEP_AFTER,
         });
+      }
+
+      if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+        const prevStep = getMergedStep(steps[prevState.index], this.props);
+
+        if (!controlled) {
+          this.callback({
+            ...callbackData,
+            index: prevState.index,
+            lifecycle: LIFECYCLE.COMPLETE,
+            step: prevStep,
+            type: EVENTS.STEP_AFTER,
+          });
+        }
         this.callback({
           ...callbackData,
           type: EVENTS.TOUR_END,

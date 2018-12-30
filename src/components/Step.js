@@ -108,15 +108,14 @@ export default class JoyrideStep extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { action, callback, controlled, index, lifecycle, size, status, step, update } = this.props;
-    const { changed, changedTo, changedFrom } = treeChanges(prevProps, this.props);
+    const { changedTo, changedFrom } = treeChanges(prevProps, this.props);
     const state = { action, controlled, index, lifecycle, size, status };
-    const isAfterAction = changed('action')
-      && [
-        ACTIONS.NEXT,
-        ACTIONS.PREV,
-        ACTIONS.SKIP,
-        ACTIONS.CLOSE,
-      ].includes(action);
+    const isAfterAction = changedTo('action', [
+      ACTIONS.NEXT,
+      ACTIONS.PREV,
+      ACTIONS.SKIP,
+      ACTIONS.CLOSE,
+    ]);
     const hasStarted = changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
 
     if (isAfterAction && (hasStarted || controlled)) {
