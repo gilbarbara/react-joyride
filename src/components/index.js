@@ -97,41 +97,45 @@ class Joyride extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (!canUseDOM) return;
-    const { action, status } = this.state;
-    const { steps, stepIndex } = this.props;
-    const { debug, run, steps: nextSteps, stepIndex: nextStepIndex } = nextProps;
-    const { setSteps, start, stop, update } = this.store;
-    const diffProps = !isEqual(this.props, nextProps);
-    const { changed } = treeChanges(this.props, nextProps);
+
+    const { action, controlled, index, lifecycle, status } = this.state;
+    const { debug, run, stepIndex, steps } = this.props;
+    const { steps: prevSteps, stepIndex: prevStepIndex } = prevProps;
+    const { setSteps, reset, start, stop, update } = this.store;
+    const { changed: changedProps } = treeChanges(prevProps, this.props);
+    const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
+    const diffProps = !isEqual(prevProps, this.props);
+    const diffState = !isEqual(prevState, this.state);
+    const step = getMergedStep(steps[index], this.props);
 
     if (diffProps) {
       log({
         title: 'props',
         data: [
-          { key: 'nextProps', value: nextProps },
-          { key: 'props', value: this.props },
+          { key: 'nextProps', value: this.props },
+          { key: 'props', value: prevProps },
         ],
         debug,
       });
 
-      const stepsChanged = !isEqual(nextSteps, steps);
-      const stepIndexChanged = is.number(nextStepIndex) && changed('stepIndex');
+      const stepsChanged = !isEqual(prevSteps, steps);
+      const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
 
       if (stepsChanged) {
-        if (validateSteps(nextSteps, debug)) {
-          setSteps(nextSteps);
+        if (validateSteps(steps, debug)) {
+          setSteps(steps);
         }
         else {
-          console.warn('Steps are not valid', nextSteps); //eslint-disable-line no-console
+          console.warn('Steps are not valid', steps); //eslint-disable-line no-console
         }
       }
 
       /* istanbul ignore else */
-      if (changed('run')) {
+      if (changedProps('run')) {
         if (run) {
-          start(nextStepIndex);
+          start(stepIndex);
         }
         else {
           stop();
@@ -140,7 +144,7 @@ class Joyride extends React.Component {
 
       /* istanbul ignore else */
       if (stepIndexChanged) {
-        let nextAction = stepIndex < nextStepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
+        let nextAction = prevStepIndex < stepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
 
         if (action === ACTIONS.STOP) {
           nextAction = ACTIONS.START;
@@ -149,23 +153,12 @@ class Joyride extends React.Component {
         if (![STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
           update({
             action: action === ACTIONS.CLOSE ? ACTIONS.CLOSE : nextAction,
-            index: nextStepIndex,
+            index: stepIndex,
             lifecycle: LIFECYCLE.INIT,
           });
         }
       }
     }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!canUseDOM) return;
-
-    const { action, controlled, index, lifecycle, status } = this.state;
-    const { debug, steps } = this.props;
-    const { reset } = this.store;
-    const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
-    const diffState = !isEqual(prevState, this.state);
-    const step = getMergedStep(steps[index], this.props);
 
     if (diffState) {
       log({

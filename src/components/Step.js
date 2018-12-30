@@ -86,30 +86,12 @@ export default class JoyrideStep extends React.Component {
     });
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { action, continuous, debug, index, lifecycle, step, update } = this.props;
-    const { changed, changedFrom } = treeChanges(this.props, nextProps);
+  componentDidUpdate(prevProps) {
+    const { action, callback, continuous, controlled, debug, index, lifecycle, size, status, step, update } = this.props;
+    const { changed, changedTo, changedFrom } = treeChanges(prevProps, this.props);
+    const state = { action, controlled, index, lifecycle, size, status };
     const skipBeacon = continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
 
-    if (changedFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)) {
-      update({ lifecycle: hideBeacon(step) || skipBeacon ? LIFECYCLE.TOOLTIP : LIFECYCLE.BEACON });
-    }
-
-    if (changed('index')) {
-      log({
-        title: `step:${lifecycle}`,
-        data: [
-          { key: 'props', value: this.props },
-        ],
-        debug,
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { action, callback, controlled, index, lifecycle, size, status, step, update } = this.props;
-    const { changedTo, changedFrom } = treeChanges(prevProps, this.props);
-    const state = { action, controlled, index, lifecycle, size, status };
     const isAfterAction = changedTo('action', [
       ACTIONS.NEXT,
       ACTIONS.PREV,
@@ -154,6 +136,20 @@ export default class JoyrideStep extends React.Component {
           update({ index: index + ([ACTIONS.PREV].includes(action) ? -1 : 1) });
         }
       }
+    }
+
+    if (changedFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)) {
+      update({ lifecycle: hideBeacon(step) || skipBeacon ? LIFECYCLE.TOOLTIP : LIFECYCLE.BEACON });
+    }
+
+    if (changed('index')) {
+      log({
+        title: `step:${lifecycle}`,
+        data: [
+          { key: 'props', value: this.props },
+        ],
+        debug,
+      });
     }
 
     /* istanbul ignore else */

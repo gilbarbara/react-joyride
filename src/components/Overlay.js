@@ -66,9 +66,9 @@ export default class Overlay extends React.Component {
     window.addEventListener('resize', this.handleResize);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { disableScrolling, lifecycle, spotlightClicks } = nextProps;
-    const { changed, changedTo } = treeChanges(this.props, nextProps);
+  componentDidUpdate(prevProps) {
+    const { disableScrolling, lifecycle, spotlightClicks } = this.props;
+    const { changed, changedTo } = treeChanges(prevProps, this.props);
 
     if (!disableScrolling) {
       if (changedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
