@@ -24,10 +24,10 @@ export default class JoyrideStep extends React.Component {
     continuous: PropTypes.bool.isRequired,
     controlled: PropTypes.bool.isRequired,
     debug: PropTypes.bool.isRequired,
-    getPopper: PropTypes.func.isRequired,
     helpers: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     lifecycle: PropTypes.string.isRequired,
+    setPopper: PropTypes.func.isRequired,
     size: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     step: PropTypes.shape({
@@ -90,15 +90,16 @@ export default class JoyrideStep extends React.Component {
     const { action, callback, continuous, controlled, debug, index, lifecycle, size, status, step, update } = this.props;
     const { changed, changedTo, changedFrom } = treeChanges(prevProps, this.props);
     const state = { action, controlled, index, lifecycle, size, status };
-    const skipBeacon = continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
 
+    const skipBeacon = continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
+    const hasStoreChanged = changed('action') || changed('index') || changed('lifecycle') || changed('status');
+    const hasStarted = changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
     const isAfterAction = changedTo('action', [
       ACTIONS.NEXT,
       ACTIONS.PREV,
       ACTIONS.SKIP,
       ACTIONS.CLOSE,
     ]);
-    const hasStarted = changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
 
     if (isAfterAction && (hasStarted || controlled)) {
       callback({
@@ -111,7 +112,7 @@ export default class JoyrideStep extends React.Component {
     }
 
     // There's a step to use, but there's no target in the DOM
-    if (step) {
+    if (hasStoreChanged && step) {
       const element = getElement(step.target);
       const hasRenderedTarget = !!element && isElementVisible(element);
 
@@ -210,7 +211,7 @@ export default class JoyrideStep extends React.Component {
   };
 
   setPopper = (popper, type) => {
-    const { action, getPopper, update } = this.props;
+    const { action, setPopper, update } = this.props;
 
     if (type === 'wrapper') {
       this.beaconPopper = popper;
@@ -219,7 +220,7 @@ export default class JoyrideStep extends React.Component {
       this.tooltipPopper = popper;
     }
 
-    getPopper(popper, type);
+    setPopper(popper, type);
 
     if (this.beaconPopper && this.tooltipPopper) {
       update({

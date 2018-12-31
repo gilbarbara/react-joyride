@@ -1,85 +1,88 @@
 const validTabNodes = /input|select|textarea|button|object/;
 const TAB_KEY = 9;
-let modalElement = null;
 
-function isHidden(element) {
-  const noSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
-  const style = window.getComputedStyle(element);
-
-  if (noSize && !element.innerHTML) return true;
-
-  return (noSize && style.getPropertyValue('overflow') !== 'visible') || style.getPropertyValue('display') === 'none';
-}
-
-function isVisible(element) {
-  let parentElement = element;
-  while (parentElement) {
-    if (parentElement === document.body) break;
-    if (isHidden(parentElement)) return false;
-    parentElement = parentElement.parentNode;
+class Scope {
+  constructor(tooltip) {
+    this.tooltip = tooltip;
   }
-  return true;
-}
 
-function canHaveFocus(element, isTabIndexNotNaN) {
-  const nodeName = element.nodeName.toLowerCase();
-  const res = (validTabNodes.test(nodeName) && !element.disabled)
-    || (nodeName === 'a' ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
-  return res && isVisible(element);
-}
+  canBeTabbed = (element) => {
+    let tabIndex = element.getAttribute('tabindex');
+    if (tabIndex === null) tabIndex = undefined;
+    const isTabIndexNaN = isNaN(tabIndex);
+    return (isTabIndexNaN || tabIndex >= 0) && this.canHaveFocus(element, !isTabIndexNaN);
+  };
 
-function canBeTabbed(element) {
-  let tabIndex = element.getAttribute('tabindex');
-  if (tabIndex === null) tabIndex = undefined;
-  const isTabIndexNaN = isNaN(tabIndex);
-  return (isTabIndexNaN || tabIndex >= 0) && canHaveFocus(element, !isTabIndexNaN);
-}
+  canHaveFocus = (element, isTabIndexNotNaN) => {
+    const nodeName = element.nodeName.toLowerCase();
+    const res = (validTabNodes.test(nodeName) && !element.disabled)
+      || (nodeName === 'a' ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
+    return res && this.isVisible(element);
+  };
 
-function findValidTabElements(element) {
-  return [].slice.call(element.querySelectorAll('*'), 0).filter(canBeTabbed);
-}
+  findValidTabElements = (element) => [].slice.call(element.querySelectorAll('*'), 0).filter(this.canBeTabbed);
 
-function interceptTab(node, event) {
-  const elements = findValidTabElements(node);
-  const { shiftKey } = event;
+  handleKeyDown = (e) => {
+    if (!this.tooltip) {
+      return;
+    }
 
-  if (!elements.length) {
+    if (e.keyCode === TAB_KEY) {
+      this.interceptTab(this.tooltip, e);
+    }
+  };
+
+  interceptTab = (node, event) => {
+    const elements = this.findValidTabElements(node);
+    const { shiftKey } = event;
+
+    if (!elements.length) {
+      event.preventDefault();
+      return;
+    }
+
+    let x = elements.indexOf(document.activeElement);
+
+    if (x === -1 || (!shiftKey && x + 1 === elements.length)) {
+      x = 0;
+    }
+    else {
+      x += shiftKey ? -1 : 1;
+    }
+
     event.preventDefault();
-    return;
-  }
 
-  let x = elements.indexOf(document.activeElement);
+    elements[x].focus();
+  };
 
-  if (x === -1 || (!shiftKey && x + 1 === elements.length)) {
-    x = 0;
-  }
-  else {
-    x += shiftKey ? -1 : 1;
-  }
+  isHidden = (element) => {
+    const noSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
+    const style = window.getComputedStyle(element);
 
-  event.preventDefault();
+    if (noSize && !element.innerHTML) return true;
 
-  elements[x].focus();
+    return (noSize && style.getPropertyValue('overflow') !== 'visible') || style.getPropertyValue('display') === 'none';
+  };
+
+  isVisible = (element) => {
+    let parentElement = element;
+    while (parentElement) {
+      if (parentElement === document.body) break;
+      if (this.isHidden(parentElement)) return false;
+      parentElement = parentElement.parentNode;
+    }
+    return true;
+  };
 }
 
-function handleKeyDown(e) {
-  if (!modalElement) {
-    return;
-  }
-
-  if (e.keyCode === TAB_KEY) {
-    interceptTab(modalElement, e);
-  }
-}
+let scope;
 
 export function setScope(element) {
-  modalElement = element;
+  scope = new Scope(element);
 
-  window.addEventListener('keydown', handleKeyDown, false);
+  window.addEventListener('keydown', scope.handleKeyDown, false);
 }
 
 export function removeScope() {
-  modalElement = null;
-
-  window.removeEventListener('keydown', handleKeyDown);
+  window.removeEventListener('keydown', scope.handleKeyDown);
 }

@@ -382,7 +382,7 @@ class Joyride extends React.Component {
     this.setState(state);
   };
 
-  getPopper = (popper, type) => {
+  setPopper = (popper, type) => {
     if (type === 'wrapper') {
       this.beaconPopper = popper;
     }
@@ -406,7 +406,7 @@ class Joyride extends React.Component {
           callback={this.callback}
           continuous={continuous}
           debug={debug}
-          getPopper={this.getPopper}
+          setPopper={this.setPopper}
           helpers={this.helpers}
           step={step}
           update={this.store.update}

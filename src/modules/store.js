@@ -153,12 +153,6 @@ export default function createStore(props: StoreState): StoreInstance {
       });
     };
 
-    steps = (nextSteps) => {
-      if (!is.array(nextSteps)) return;
-
-      this.setSteps(nextSteps);
-    };
-
     start = (nextIndex: number) => {
       const { index, size } = this.getState();
 

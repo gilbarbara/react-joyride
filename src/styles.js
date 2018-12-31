@@ -113,7 +113,7 @@ export default function getStyles(stepStyles) {
     },
     tooltipTitle: {
       fontSize: 18,
-      margin: '0 0 10px 0',
+      margin: 0,
     },
     tooltipContent: {
       padding: '20px 10px',

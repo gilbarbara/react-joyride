@@ -10,61 +10,6 @@ import DEFAULTS from '../config/defaults';
 
 import type { StepProps, JoyrideProps } from '../config/types';
 
-/**
- * Validate if a step is valid
- *
- * @param {Object} step - A step object
- * @param {boolean} debug
- *
- * @returns {boolean} - True if the step is valid, false otherwise
- */
-export function validateStep(step: StepProps, debug: boolean = false): boolean {
-  if (!is.plainObject(step)) {
-    log({
-      title: 'validateStep',
-      data: 'step must be an object',
-      warn: true,
-      debug,
-    });
-    return false;
-  }
-
-  if (!step.target) {
-    log({
-      title: 'validateStep',
-      data: 'target is missing from the step',
-      warn: true,
-      debug,
-    });
-    return false;
-  }
-
-  return true;
-}
-
-/**
- * Validate if steps is valid
- *
- * @param {Array} steps - A steps array
- * @param {boolean} debug
- *
- * @returns {boolean} - True if the steps are valid, false otherwise
- */
-export function validateSteps(steps: Array<Object>, debug: boolean = false): boolean {
-  if (!is.array(steps)) {
-    log({
-      title: 'validateSteps',
-      data: 'steps must be an array',
-      warn: true,
-      debug,
-    });
-
-    return false;
-  }
-
-  return steps.every(d => validateStep(d, debug));
-}
-
 function getTourProps(props: JoyrideProps): Object {
   const sharedTourProps = [
     'beaconComponent',
@@ -129,4 +74,59 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
     floaterProps,
     styles: mergedStyles,
   };
+}
+
+/**
+ * Validate if a step is valid
+ *
+ * @param {Object} step - A step object
+ * @param {boolean} debug
+ *
+ * @returns {boolean} - True if the step is valid, false otherwise
+ */
+export function validateStep(step: StepProps, debug: boolean = false): boolean {
+  if (!is.plainObject(step)) {
+    log({
+      title: 'validateStep',
+      data: 'step must be an object',
+      warn: true,
+      debug,
+    });
+    return false;
+  }
+
+  if (!step.target) {
+    log({
+      title: 'validateStep',
+      data: 'target is missing from the step',
+      warn: true,
+      debug,
+    });
+    return false;
+  }
+
+  return true;
+}
+
+/**
+ * Validate if steps is valid
+ *
+ * @param {Array} steps - A steps array
+ * @param {boolean} debug
+ *
+ * @returns {boolean} - True if the steps are valid, false otherwise
+ */
+export function validateSteps(steps: Array<Object>, debug: boolean = false): boolean {
+  if (!is.array(steps)) {
+    log({
+      title: 'validateSteps',
+      data: 'steps must be an array',
+      warn: true,
+      debug,
+    });
+
+    return false;
+  }
+
+  return steps.every(d => validateStep(d, debug));
 }

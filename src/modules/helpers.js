@@ -6,10 +6,6 @@ import is from 'is-lite';
 export const { canUseDOM } = ExecutionEnvironment;
 export const isReact16 = ReactDOM.createPortal !== undefined;
 
-export function isMobile(): boolean {
-  return ('ontouchstart' in window) && /Mobi/.test(navigator.userAgent);
-}
-
 /**
  * Convert hex to RGB
  *
@@ -71,59 +67,6 @@ export function getBrowser(): string {
   return navigator.userAgent;
 }
 
-/**
- * Detect legacy browsers
- *
- * @returns {boolean}
- */
-export function isLegacy(): boolean {
-  return !['chrome', 'safari', 'firefox', 'opera'].includes(getBrowser());
-}
-
-export function hideBeacon(step: Object): boolean {
-  return step.disableBeacon || step.placement === 'center';
-}
-
-/**
- * Log method calls if debug is enabled
- *
- * @private
- * @param {Object}       arg
- * @param {string}       arg.title    - The title the logger was called from
- * @param {Object|Array} [arg.data]   - The data to be logged
- * @param {boolean}      [arg.warn]  - If true, the message will be a warning
- * @param {boolean}      [arg.debug] - Nothing will be logged unless debug is true
- */
-export function log({ title, data, warn = false, debug = false }: Object) {
-  /* eslint-disable no-console */
-  const logFn = warn ? console.warn || console.error : console.log;
-
-  if (debug) {
-    if (title && data) {
-      console.groupCollapsed(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
-
-      if (Array.isArray(data)) {
-        data.forEach(d => {
-          if (is.plainObject(d) && d.key) {
-            logFn.apply(console, [d.key, d.value]);
-          }
-          else {
-            logFn.apply(console, [d]);
-          }
-        });
-      }
-      else {
-        logFn.apply(console, [data]);
-      }
-
-      console.groupEnd();
-    } else {
-      console.error('log', 'Missing title or data props');
-    }
-  }
-  /* eslint-enable */
-}
-
 export function hasKey(value: Object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(value, key);
 }
@@ -139,6 +82,10 @@ export function hasValidKeys(value: Object, keys: string | Array<any>): boolean 
   }
 
   return Object.keys(value).every(d => validKeys.includes(d));
+}
+
+export function hideBeacon(step: Object): boolean {
+  return step.disableBeacon || step.placement === 'center';
 }
 
 export function isEqual(left: any, right: any): boolean {
@@ -189,4 +136,58 @@ export function isEqual(left: any, right: any): boolean {
   }
 
   return true;
+}
+
+/**
+ * Detect legacy browsers
+ *
+ * @returns {boolean}
+ */
+export function isLegacy(): boolean {
+  return !['chrome', 'safari', 'firefox', 'opera'].includes(getBrowser());
+}
+
+export function isMobile(): boolean {
+  return ('ontouchstart' in window) && /Mobi/.test(navigator.userAgent);
+}
+
+/**
+ * Log method calls if debug is enabled
+ *
+ * @private
+ * @param {Object}       arg
+ * @param {string}       arg.title    - The title the logger was called from
+ * @param {Object|Array} [arg.data]   - The data to be logged
+ * @param {boolean}      [arg.warn]  - If true, the message will be a warning
+ * @param {boolean}      [arg.debug] - Nothing will be logged unless debug is true
+ */
+export function log({ title, data, warn = false, debug = false }: Object) {
+  /* eslint-disable no-console */
+  const logFn = warn ? console.warn || console.error : console.log;
+
+  if (debug) {
+    if (title && data) {
+      console.groupCollapsed(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
+
+      if (Array.isArray(data)) {
+        data.forEach(d => {
+          if (is.plainObject(d) && d.key) {
+            logFn.apply(console, [d.key, d.value]);
+          }
+          else {
+            logFn.apply(console, [d]);
+          }
+        });
+      }
+      else {
+        logFn.apply(console, [data]);
+      }
+
+      console.groupEnd();
+    }
+    else {
+      console.error('log', 'Missing title or data props');
+    }
+  }
+  /* eslint-enable */
 }
