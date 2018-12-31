@@ -68,6 +68,7 @@ const JoyrideTooltipContainer = ({
   return (
     <div
       key="JoyrideTooltip"
+      className="react-joyride__tooltip"
       ref={setTooltipRef}
       style={styles.tooltip}
     >

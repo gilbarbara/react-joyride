@@ -415,7 +415,7 @@ class Joyride extends React.Component {
     }
 
     return (
-      <div className="joyride">
+      <div className="react-joyride">
         {output}
       </div>
     );

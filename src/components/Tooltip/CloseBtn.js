@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CloseBtn = ({ styles, ...props }) => {
+const JoyrideTooltipCloseBtn = ({ styles, ...props }) => {
   const { color, height, width, ...style } = styles;
 
   return (
@@ -29,8 +29,8 @@ const CloseBtn = ({ styles, ...props }) => {
   );
 };
 
-CloseBtn.propTypes = {
+JoyrideTooltipCloseBtn.propTypes = {
   styles: PropTypes.object.isRequired,
 };
 
-export default CloseBtn;
+export default JoyrideTooltipCloseBtn;

@@ -17,7 +17,7 @@ import LIFECYCLE from '../constants/lifecycle';
 
 import Spotlight from './Spotlight';
 
-export default class Overlay extends React.Component {
+export default class JoyrideOverlay extends React.Component {
   constructor(props) {
     super(props);
 
@@ -211,7 +211,7 @@ export default class Overlay extends React.Component {
 
     return (
       <div
-        className="joyride-overlay"
+        className="react-joyride__overlay"
         style={stylesOverlay}
         onClick={onClickOverlay}
       >

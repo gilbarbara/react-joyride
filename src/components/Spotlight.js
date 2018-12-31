@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 const JoyrideSpotlight = ({ styles }) => (
   <div
     key="JoyrideSpotlight"
-    className="joyride-spotlight"
+    className="react-joyride__spotlight"
     style={styles}
   />
 );

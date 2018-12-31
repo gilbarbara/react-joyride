@@ -252,8 +252,8 @@ export default class JoyrideStep extends React.Component {
     }
 
     return (
-      <div key={`JoyrideStep-${index}`} className="joyride-step">
-        <Portal>
+      <div key={`JoyrideStep-${index}`} className="react-joyride__step">
+        <Portal id="react-joyride-portal">
           <Overlay
             {...step}
             debug={debug}
@@ -275,7 +275,7 @@ export default class JoyrideStep extends React.Component {
           )}
           debug={debug}
           getPopper={this.setPopper}
-          id={`react-joyride:${index}`}
+          id={`react-joyride-step-${index}`}
           isPositioned={step.isFixed || isFixed(target)}
           open={this.open}
           placement={step.placement}
