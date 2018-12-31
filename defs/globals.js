@@ -1,3 +1,4 @@
+// @flow
 import type { ReactNode } from 'react';
 
 export interface StoreHelpers {
@@ -8,8 +9,6 @@ export interface StoreHelpers {
   prev: Function,
   reset: Function,
   skip: Function,
-  start: Function,
-  stop: Function,
 }
 
 export interface StoreInstance extends StoreHelpers {

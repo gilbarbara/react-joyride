@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "plugin:flowtype/recommended"],
   "parser": "babel-eslint",
   "env": {
     "browser": true,

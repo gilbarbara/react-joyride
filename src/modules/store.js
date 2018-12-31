@@ -4,8 +4,6 @@ import { ACTIONS, LIFECYCLE, STATUS } from '../constants';
 
 import { hasValidKeys } from './helpers';
 
-import type { StoreHelpers, StoreInstance, StoreState } from '../config/types';
-
 const defaultState: StoreState = {
   action: '',
   controlled: false,
@@ -63,28 +61,29 @@ export default function createStore(props: StoreState): StoreInstance {
       }
     }
 
-    getState(): Object {
+    getState(): StoreState {
       if (!store.size) {
         return { ...defaultState };
       }
 
       return {
-        action: store.get('action'),
-        controlled: store.get('controlled'),
+        action: store.get('action') || '',
+        controlled: store.get('controlled') || false,
         index: parseInt(store.get('index'), 10),
-        lifecycle: store.get('lifecycle'),
-        size: store.get('size'),
-        status: store.get('status'),
+        lifecycle: store.get('lifecycle') || '',
+        size: store.get('size') || 0,
+        status: store.get('status') || '',
       };
     }
 
-    getNextState(state: StoreState, force: ?boolean = false): Object {
+    getNextState(state: Object, force: ?boolean = false): StoreState {
       const { action, controlled, index, size, status } = this.getState();
       const newIndex = is.number(state.index) ? state.index : index;
       const nextIndex = controlled && !force ? index : Math.min(Math.max(newIndex, 0), size);
 
       return {
         action: state.action || action,
+        controlled,
         index: nextIndex,
         lifecycle: state.lifecycle || LIFECYCLE.INIT,
         size: state.size || size,

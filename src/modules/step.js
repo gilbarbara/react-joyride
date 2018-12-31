@@ -8,9 +8,7 @@ import getStyles from '../styles';
 
 import DEFAULTS from '../config/defaults';
 
-import type { StepProps, JoyrideProps } from '../config/types';
-
-function getTourProps(props: JoyrideProps): Object {
+function getTourProps(props: Object): Object {
   const sharedTourProps = [
     'beaconComponent',
     'disableCloseOnEsc',
@@ -38,8 +36,8 @@ function getTourProps(props: JoyrideProps): Object {
     }, {});
 }
 
-export function getMergedStep(step: StepProps, props: JoyrideProps): StepProps {
-  if (!step) return undefined;
+export function getMergedStep(step: StepProps, props: JoyrideProps): ?StepProps {
+  if (!step) return null;
 
   const mergedStep = deepmerge.all([getTourProps(props), DEFAULTS.step, step], { isMergeableObject: is.plainObject });
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
