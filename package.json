@@ -107,7 +107,8 @@
     "rollup-plugin-babel": "^4.1.0",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-filesize": "^5.0.1",
-    "rollup-plugin-node-resolve": "^4.0.0"
+    "rollup-plugin-node-resolve": "^4.0.0",
+    "yargs": "^12.0.5"
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production npm run clean && rollup -c",
@@ -115,10 +116,10 @@
     "clean": "rimraf es && rimraf lib",
     "lint": "eslint --ext .js --ext .jsx src test",
     "test": "jest --coverage",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watch --verbose",
     "bundlesize": "bundlesize",
-    "precommit": "node tools commits && npm run lint && npm test && npm run bundlesize",
-    "prepublishOnly": "npm run build"
+    "validate": "npm run lint && npm test && flow && npm run build && npm run bundlesize",
+    "prepublishOnly": "npm run validate"
   },
   "bundlesize": [
     {
@@ -132,8 +133,8 @@
   ],
   "husky": {
     "hooks": {
-      "post-merge": "node tools update && npm update",
-      "pre-commit": "npm run precommit"
+      "post-merge": "node tools update",
+      "pre-commit": "node tools upstream && npm run validate"
     }
   }
 }

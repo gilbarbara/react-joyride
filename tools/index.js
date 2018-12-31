@@ -1,77 +1,91 @@
 /*eslint-disable no-var, vars-on-top, no-console */
+const { promisify } = require('util');
 const { exec } = require('child_process');
 const chalk = require('chalk');
+const yargs = require('yargs');
 
-const args = process.argv.slice(2);
+const run = promisify(exec);
 
-if (!args[0]) {
-  console.log(`Valid arguments:
-  • docs (rebuild documentation)
-  • update (if package.json has changed run \`npm update\`)
-  • commits (has new remote commits)`);
+function updateDependencies() {
+  return run('git rev-parse --is-inside-work-tree')
+    .then(() => run('git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD')
+      .then(({ stdout }) => {
+        if (stdout.match('package.json')) {
+          console.log(chalk.yellow('▼ Updating...'));
+          exec('npm update').stdout.pipe(process.stdout);
+        }
+        else {
+          console.log(chalk.green('✔ Nothing to update'));
+        }
+      })
+      .catch(err => {
+        throw new Error(err);
+      }),
+    )
+    .catch(() => {
+      console.log('not under git');
+    });
 }
 
-if (args[0] === 'update') {
-  exec('git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD', (err, stdout) => {
+function checkUpstream() {
+  return run('git rev-parse --is-inside-work-tree')
+    .then(() => run('git remote -v update')
+      .then(() => {
+        Promise.all([
+          run('git rev-parse @'),
+          run('git rev-parse @{u}'),
+          run('git merge-base @ @{u}'),
+        ])
+          .then(([{ stdout: $local }, { stdout: $remote }, { stdout: $base }]) => {
+            if ($local === $remote) {
+              console.log(chalk.green('✔ Repo is up-to-date!'));
+            }
+            else if ($local === $base) {
+              console.log(chalk.red('⊘ Error'), 'You need to pull, there are new commits.');
+              process.exit(1);
+            }
+          })
+          .catch(err => {
+            if (err.message.includes('no upstream configured ')) {
+              console.log(chalk.yellow('⚠ Warning'), 'No upstream. Is this a new branch?');
+              return;
+            }
+
+            console.log(chalk.yellow('⚠ Warning'), err.message);
+          });
+      })
+      .catch(err => {
+        throw new Error(err);
+      }),
+    )
+    .catch(() => {
+      console.log('not under git');
+    });
+}
+
+module.exports = yargs
+  .command({
+    command: 'upstream',
+    desc: 'has new remote commits',
+    handler: checkUpstream,
+  })
+  .command({
+    command: 'update',
+    desc: 'run `npm update` if package.json has changed',
+    handler: updateDependencies,
+  })
+  .demandCommand()
+  .help()
+  .wrap(72)
+  .version(false)
+  .strict()
+  .fail((msg, err, instance) => {
     if (err) {
       throw new Error(err);
     }
 
-    if (stdout.match('package.json')) {
-      exec('npm update').stdout.pipe(process.stdout);
-    }
-  });
-}
-
-if (args[0] === 'commits') {
-  exec('git remote -v update', errRemote => {
-    if (errRemote) {
-      throw new Error(errRemote);
-    }
-
-    const local = new Promise((resolve, reject) => {
-      exec('git rev-parse @', (err, stdout) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(stdout);
-      });
-    });
-
-    const remote = new Promise((resolve, reject) => {
-      exec('git rev-parse @{u}', (err, stdout) => {
-        if (err) {
-          return reject(err);
-        }
-
-        return resolve(stdout);
-      });
-    });
-
-    const base = new Promise((resolve, reject) => {
-      exec('git merge-base @ @{u}', (err, stdout) => {
-        if (err) {
-          return reject(err);
-        }
-        return resolve(stdout);
-      });
-    });
-
-    Promise.all([local, remote, base])
-      .then(values => {
-        const [$local, $remote, $base] = values;
-
-        if ($local === $remote) {
-          console.log(chalk.green('✔ Repo is up-to-date!'));
-        }
-        else if ($local === $base) {
-          console.error(chalk.red('⊘ Error: You need to pull, there are new commits.'));
-          process.exit(1);
-        }
-      })
-      .catch(err => {
-        console.log(chalk.red('⊘ Error: Commits failed'), err);
-      });
-  });
-}
+    console.error(`${chalk.red(msg)}
+    `);
+    console.log(instance.help());
+    process.exit(1);
+  }).argv;

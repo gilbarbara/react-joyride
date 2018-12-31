@@ -40,5 +40,5 @@ module.exports = {
       statements: 15,
     },
   },
-  verbose: true,
+  verbose: false,
 };
