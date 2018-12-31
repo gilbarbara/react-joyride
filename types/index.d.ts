@@ -125,7 +125,7 @@ export interface Props {
   getHelpers?: () => StoreHelpers;
   hideBackButton?: boolean;
   locale?: Locale;
-  run: boolean;
+  run?: boolean;
   scrollOffset?: number;
   scrollToFirstStep?: boolean;
   showProgress?: boolean;
