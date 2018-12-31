@@ -85,7 +85,7 @@ class Joyride extends React.Component {
     if (!canUseDOM) return;
 
     const { disableCloseOnEsc, debug, run, steps } = this.props;
-    const { start } = this.helpers;
+    const { start } = this.store;
 
     if (validateSteps(steps, debug) && run) {
       start();
@@ -263,7 +263,7 @@ class Joyride extends React.Component {
     });
     this.helpers = this.store.getHelpers();
 
-    const { addListener, start } = this.store;
+    const { addListener } = this.store;
 
     log({
       title: 'init',
