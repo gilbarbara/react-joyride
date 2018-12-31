@@ -263,8 +263,7 @@ class Joyride extends React.Component {
     });
     this.helpers = this.store.getHelpers();
 
-    const { addListener } = this.store;
-    const { start, stop, ...publicHelpers } = this.helpers;
+    const { addListener, start } = this.store;
 
     log({
       title: 'init',
@@ -278,7 +277,7 @@ class Joyride extends React.Component {
     // Sync the store to this component's state.
     addListener(this.syncState);
 
-    getHelpers(publicHelpers);
+    getHelpers(this.helpers);
 
     return this.store.getState();
   };

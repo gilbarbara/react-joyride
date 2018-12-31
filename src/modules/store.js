@@ -106,8 +106,6 @@ export default function createStore(props: StoreState): StoreInstance {
 
     getHelpers(): StoreHelpers {
       return {
-        start: this.start,
-        stop: this.stop,
         prev: this.prev,
         next: this.next,
         go: this.go,
