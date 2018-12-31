@@ -45,7 +45,7 @@ export class App extends React.Component {
               primaryColor: '#000',
               textColor: '#004a14',
               width: 900,
-              z-index: 1000,
+              zIndex: 1000,
             }
           }}
           ...
