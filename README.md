@@ -23,7 +23,7 @@ npm i react-joyride
 
 ## Getting Started
 
-```javascript
+```jsx
 import Joyride from 'react-joyride';
 
 export class App extends React.Component {
@@ -56,22 +56,3 @@ export class App extends React.Component {
   }
 }
 ```
-
-## Documentation
-
-[Props](docs/props.md)
-
-[Step](docs/step.md)
-
-[Styling](docs/styling.md)
-
-[Customization](docs/customization.md)
-
-[Callback](docs/callback.md)
-
-[Constants](docs/constants.md)
-
-[Accessibility](docs/accessibility.md)
-
-[Migration from 1.x](docs/migration.md)
-
