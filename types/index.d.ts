@@ -8,25 +8,6 @@ export type placement = 'top' | 'top-start' | 'top-end' |
 
 export type placementBeacon = 'top' | 'bottom' | 'left' | 'right';
 
-export interface Locale {
-  back?: string;
-  close?: string;
-  last?: string;
-  next?: string;
-  skip?: string;
-}
-
-export interface CallBackProps {
-  action: string;
-  controlled: boolean;
-  index: number;
-  lifecycle: string;
-  size: number;
-  status: string;
-  step: Step;
-  type: string;
-}
-
 export interface StoreState {
   action: string;
   controlled: boolean;
@@ -46,6 +27,25 @@ export interface StoreHelpers {
   skip: () => void;
 }
 
+export interface Locale {
+  back?: React.ReactNode;
+  close?: React.ReactNode;
+  last?: React.ReactNode;
+  next?: React.ReactNode;
+  skip?: React.ReactNode;
+}
+
+export interface CallBackProps {
+  action: string;
+  controlled: boolean;
+  index: number;
+  lifecycle: string;
+  size: number;
+  status: string;
+  step: Step;
+  type: string;
+}
+
 export interface Step {
   beaconComponent?: (renderProps: BeaconRenderProps) => React.ReactNode;
   content: React.ReactNode;
@@ -61,7 +61,7 @@ export interface Step {
   hideCloseButton?: boolean;
   hideFooter?: boolean;
   isFixed?: boolean;
-  locale?: object;
+  locale?: Locale;
   offset?: number;
   placement?: placement;
   placementBeacon?: placementBeacon;
@@ -85,10 +85,30 @@ export interface BeaconRenderProps {
 }
 
 export interface TooltipRenderProps extends BeaconRenderProps {
-  backProps: { 'aria-label': string, onClick: string, role: string, title: React.ReactNode };
-  closeProps: { 'aria-label': string, onClick: string, role: string, title: React.ReactNode };
-  primaryProps: { 'aria-label': string, onClick: string, role: string, title: React.ReactNode };
-  skipProps: { 'aria-label': string, onClick: string, role: string, title: React.ReactNode };
+  backProps: {
+    'aria-label': string,
+    onClick: () => void,
+    role: string,
+    title: React.ReactNode
+  };
+  closeProps: {
+    'aria-label': string,
+    onClick: () => void,
+    role: string,
+    title: React.ReactNode
+  };
+  primaryProps: {
+    'aria-label': string,
+    onClick: () => void,
+    role: string,
+    title: React.ReactNode
+  };
+  skipProps: {
+    'aria-label': string,
+    onClick: () => void,
+    role: string,
+    title: React.ReactNode
+  };
 }
 
 export interface Props {
@@ -104,7 +124,7 @@ export interface Props {
   floaterProps?: object;
   getHelpers?: () => StoreHelpers;
   hideBackButton?: boolean;
-  locale?: object;
+  locale?: Locale;
   run: boolean;
   scrollOffset?: number;
   scrollToFirstStep?: boolean;
@@ -122,7 +142,7 @@ export default class ReactJoyride extends React.Component<Props, StoreState> {
 }
 
 export interface actions {
-  INIT: string;
+  INIT: 'init';
   START: 'start';
   STOP: 'stop';
   RESET: 'reset';
