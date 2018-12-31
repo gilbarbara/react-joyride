@@ -6,17 +6,19 @@
 
 #### Create awesome tours for your app!
 
-Use it to showcase your app to new users or explain functionality of new features.  
+Showcase your app to new users or explain functionality of new features.  
 
 It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
-And you can use your own components if you want.
+And you can use your own components too!
 
-### View the demo [here](https://2zpjporp4p.codesandbox.io/)
+**View the demo [here](https://2zpjporp4p.codesandbox.io/)**
+
+**Read the [docs](https://gilbarbara.gitbook.io/react-joyride/)**
 
 ## Setup
 
 ```bash
-npm i react-joyride@next
+npm i react-joyride
 ```
 
 ## Getting Started
@@ -26,7 +28,6 @@ import Joyride from 'react-joyride';
 
 export class App extends React.Component {
   state = {
-    run: false,
     steps: [
       {
         target: '.my-first-step',
@@ -40,17 +41,12 @@ export class App extends React.Component {
     ]
   };
 
-  componentDidMount() {
-    this.setState({ run: true });
-  }
-
   render () {
-    const { steps, run } = this.state;
+    const { steps } = this.state;
 
     return (
       <div className="app">
         <Joyride
-          run={run}
           steps={steps}
           ...
         />

@@ -1,12 +1,12 @@
 # Callback
 
-You can get Joyride's state change using the `callback` prop.
+You can get Joyride's state changes using the `callback` prop.
 
-It will receive a plain object with the state changes.
+It will receive an object with the current state.
 
-Example data:
+## Example data
 
-```text
+```js
 {
   action: 'start',
   controlled: true,
@@ -19,7 +19,7 @@ Example data:
 }
 ```
 
-```text
+```js
 {
   action: 'update',
   controlled: true,
@@ -32,7 +32,7 @@ Example data:
 }
 ```
 
-```text
+```js
 {
   action: 'next',
   controlled: true,
@@ -45,30 +45,38 @@ Example data:
 }
 ```
 
-```javascript
-import Joyride from 'react-joyride';
-import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
+## Usage
+
+```jsx
+import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
 
 export class App extends React.Component {
   state = {
     run: false,
-    steps: [],
+  	steps: [
+      {
+        target: '.my-first-step',
+        content: 'This is my awesome feature!',
+      },
+    ],
     stepIndex: 0, // a controlled tour
   };
 
-  callback = (tour) => {
-    const { action, index, type } = tour;
+  handleJoyrideCallback = data => {
+    const { action, index, status, type } = data;
 
-    if (type === EVENTS.TOUR_END) {
-      // Update user preferences with completed tour flag
-    } else if (type === EVENTS.STEP_AFTER && index === 1) {
-      // pause the tour, load a new route and start it again once is done.
-      this.setState({ run: false });
-    } 
-    else if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
-      // Sunce this is a controlled tour you'll need to update the state to advance the tour
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      // Update state to advance the tour
       this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
     }
+    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      // Need to set our running state to false, so we can restart if we click start again.
+      this.setState({ run: false });
+    }
+
+    console.groupCollapsed(type);
+    console.log(data); //eslint-disable-line no-console
+    console.groupEnd();
   };
 
   render () {
@@ -77,7 +85,7 @@ export class App extends React.Component {
     return (
       <div className="app">
         <Joyride
-          callback={this.callback}
+          callback={this.handleJoyrideCallback}
           run={run}
           stepIndex={stepIndex}
           steps={steps}

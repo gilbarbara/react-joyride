@@ -1,9 +1,15 @@
 # Props
 
-**beaconComponent** {ReactNode}  
-A React component or function to be used instead the default Beacon. Check [Customization](customization.md) for details.
+The only required prop is `steps` with an array of [steps](docs/step.md).
 
-**callback** {function}  
+Below is the complete list of possible props and options:
+
+> ▶︎ indicates the default value if there's one
+
+**beaconComponent** {ReactNode}  
+A React component or function to be used instead the default Beacon. Check [custom components](custom-components.md) for details.
+
+**callback** {() => CallbackProps)}  
 It will be called when Joyride's state changes. it returns a single parameter with the state.
 
 **continuous** {boolean} ▶︎ `false`  
@@ -24,10 +30,13 @@ Don't close the tooltip when clicking the overlay.
 **disableScrolling** {boolean} ▶︎ `false`  
 Disable auto scrolling between steps.
 
+**disableScrollParentFix** {boolean} ▶︎ `false`  
+Disable the fix to handle "unused" overflow parents
+
 **floaterProps** {object}  
 Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater).
 
-**getHelpers** {function}
+**getHelpers** {() => StoreHelpers)}
 Get the store methods to control the tour programatically.
 `prev, next, go, close, skip, reset, info`
 
@@ -59,16 +68,21 @@ Allow mouse and touch events thru the spotlight. You can click links in your app
 The padding of the spotlight.
 
 **stepIndex** {number}  
-Setting a number here will turn Joyride into `controlled` mode.  
-You will receive the state events in the `callback` and you'll have to update this prop by yourself.
+Setting a number here will turn Joyride into `controlled` mode.
 
-**steps** {Array&lt;StepProps&gt;} - **required**  
-The tour's steps.
+You'll have to keep an internal state by yourself and update it with the events in the `callback`.
+
+> **Do not use this if you don't need it.** 
+
+**steps** {Array&lt;Step&gt;} - **required**  
+The tour's steps.  
+Check the [step](docs/step.md) docs for more information.
 
 **styles** {object}  
 Override the [styling](styling.md) of the Tooltip globally
 
 **tooltipComponent** {React.Node}  
-A React component or function to be used instead the default Tooltip excluding the arrow. Check [Customization](customization.md) for details.
+A React component or function to be used instead the default Tooltip excluding the arrow.  
+Check [custom components](custom-components.md) for details.
 
 

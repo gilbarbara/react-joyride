@@ -4,7 +4,7 @@
 * [Props](props.md)
 * [Step](step.md)
 * [Styling](styling.md)
-* [Customization](customization.md)
+* [Custom Components](custom-components.md)
 * [Callback](callback.md)
 * [Constants](constants.md)
 * [Accessibility](accessibility.md)

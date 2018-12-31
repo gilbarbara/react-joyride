@@ -1,11 +1,9 @@
-# Customization
+# Custom components
 
-When you set custom components to have complete control of the UI.
+When you set custom components to have complete control of the UI.  
 They will receive data through props.
 
 > If you are looking to customize the default UI, check the [styling](styling.md) docs.
-
-
 
 ## beaconComponent
 

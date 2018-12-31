@@ -20,8 +20,7 @@ const defaultOptions = {
 ## Example
 
 ```javascript
-import Joyride from 'react-joyride';
-import { ACTIONS, EVENTS } from 'react-joyride/es/constants';
+import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
 
 export class App extends React.Component {
   state = {
@@ -63,7 +62,7 @@ Check [styles.js](https://github.com/gilbarbara/react-joyride/tree/3e08384415a83
 
 
 
-Or if you need finer control you can use you own components for the beacon and tooltip. Check the [Customization](customization.md) documentation.
+Or if you need finer control you can use you own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
 
 
 
