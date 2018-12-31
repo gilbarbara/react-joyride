@@ -83,6 +83,7 @@ export default class JoyrideBeacon extends React.Component {
           className="react-joyride__beacon"
           style={styles.beacon}
           type="button"
+          data-test-id="button-beacon"
           {...props}
         >
           <span style={styles.beaconInner} />

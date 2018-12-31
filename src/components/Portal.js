@@ -10,6 +10,8 @@ export default class JoyridePortal extends React.Component {
     if (!canUseDOM) return;
 
     this.node = document.createElement('div');
+
+    /* istanbul ignore else */
     if (props.id) {
       this.node.id = props.id;
     }

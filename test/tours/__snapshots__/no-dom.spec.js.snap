@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Joyride > NO-DOM should have initiated the Joyride 1`] = `
+Object {
+  "action": "init",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "ready",
+}
+`;

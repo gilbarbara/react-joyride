@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Joyride > Skipped should be able to click STEP 1 Beacon 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "tooltip",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Skipped should be able to click STEP 1 Skip button 1`] = `
+Object {
+  "action": "stop",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "paused",
+}
+`;
+
+exports[`Joyride > Skipped should be able to start the tour 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Skipped should have initiated the Joyride 1`] = `
+Object {
+  "action": "init",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "ready",
+}
+`;

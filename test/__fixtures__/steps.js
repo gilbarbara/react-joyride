@@ -2,33 +2,22 @@ import React from 'react';
 
 export default [
   {
+    target: '.projects .list',
+    placement: 'top',
     title: 'Title only steps — As they say: Make the font bigger!',
     textAlign: 'center',
-    selector: '.projects .list',
-    position: 'top',
   },
   {
+    target: '.mission button',
+    placement: 'bottom',
+    content: 'Can be advanced by clicking an element through the overlay hole.',
     title: 'Our Mission',
-    text: 'Can be advanced by clicking an element through the overlay hole.',
-    selector: '.mission button',
-    position: 'bottom',
-    allowClicksThruHole: true,
-    style: {
-      beacon: {
-        offsetY: 20,
-      },
-      button: {
-        display: 'none',
-      },
-    },
+    spotlightClicks: true,
   },
   {
-    title: 'Unmounted target',
-    text: 'This step tests what happens when a target is missing',
-    selector: '.not-mounted',
-  },
-  {
-    text: (
+    target: '.about h2 span',
+    placement: 'left',
+    content: (
       <div>
         <h3>We are the people</h3>
         <svg
@@ -48,26 +37,15 @@ export default [
         </svg>
       </div>
     ),
-    selector: '.about h2 span',
-    position: 'left',
-    style: {
-      beacon: {
-        inner: '#27e200',
-        offsetX: 20,
-        outer: '#27e200',
-      },
-      arrow: {
-        display: 'none',
-      },
-    },
   },
   {
-    text: 'Text only steps — Because sometimes you don\'t really need a proper heading',
-    selector: '.demo__footer a',
-    position: 'top',
-    isFixed: true,
-    style: {
-      beacon: '#000',
-    },
+    target: '.not-mounted',
+    content: 'This step tests what happens when a target is missing',
+    title: 'Unmounted target',
+  },
+  {
+    target: '.demo__footer button',
+    placement: 'top',
+    content: 'Text only steps — Because sometimes you don\'t really need a proper heading',
   },
 ];

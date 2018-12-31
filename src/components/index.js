@@ -288,6 +288,7 @@ class Joyride extends React.Component {
     const { debug, disableScrolling, disableScrollParentFix, scrollToFirstStep, scrollOffset, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
+    /* istanbul ignore else */
     if (step) {
       const target = getElement(step.target);
       const shouldScroll = step
@@ -312,9 +313,11 @@ class Joyride extends React.Component {
           debug,
         });
 
+        /* istanbul ignore else */
         if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
           const { placement, popper } = this.beaconPopper;
 
+          /* istanbul ignore else */
           if (!['bottom'].includes(placement) && !hasCustomScroll) {
             scrollY = Math.floor(popper.top - scrollOffset);
           }
@@ -332,6 +335,7 @@ class Joyride extends React.Component {
 
         scrollY = scrollY >= 0 ? scrollY : 0;
 
+        /* istanbul ignore else */
         if (status === STATUS.RUNNING && shouldScroll) {
           scrollTo(scrollY, scrollParent);
         }

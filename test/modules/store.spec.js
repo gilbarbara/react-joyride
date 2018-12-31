@@ -22,8 +22,8 @@ describe('store', () => {
       next,
       prev,
       reset,
+      setSteps,
       start,
-      steps,
       stop,
       update,
     } = store;
@@ -68,7 +68,7 @@ describe('store', () => {
     });
 
     it('should be able to add steps', () => {
-      steps(stepsData);
+      setSteps(stepsData);
 
       expect(info()).toEqual({
         action: ACTIONS.START,

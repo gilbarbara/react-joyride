@@ -40,7 +40,8 @@
     "production": {
       "plugins": [
         "array-includes",
-        "transform-node-env-inline"
+        "transform-node-env-inline",
+        "jsx-remove-data-test-id"
       ]
     },
     "test": {

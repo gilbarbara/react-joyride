@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Joyride > Standard should be able to click STEP 1 Beacon 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "tooltip",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 1 Primary button 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 2 Primary button 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 2 Primary button AGAIN 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 3 Back button 1`] = `
+Object {
+  "action": "prev",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 3 Primary button 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 3,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 4 Primary button 1`] = `
+Object {
+  "action": "stop",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "paused",
+}
+`;
+
+exports[`Joyride > Standard should be able to start the tour 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should have initiated the Joyride 1`] = `
+Object {
+  "action": "init",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 4,
+  "status": "ready",
+}
+`;
+
+exports[`Joyride > Standard should have rendered the STEP 3 Tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "tooltip",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should have rendered the STEP 3 Tooltip AGAIN 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "tooltip",
+  "size": 4,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should have rendered the STEP 4 Tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 3,
+  "lifecycle": "tooltip",
+  "size": 4,
+  "status": "running",
+}
+`;

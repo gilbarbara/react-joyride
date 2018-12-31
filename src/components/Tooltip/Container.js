@@ -44,6 +44,7 @@ const JoyrideTooltipContainer = ({
       <button
         style={styles.buttonSkip}
         type="button"
+        data-test-id="button-skip"
         {...skipProps}
       >
         {skip}
@@ -56,6 +57,7 @@ const JoyrideTooltipContainer = ({
       <button
         style={styles.buttonBack}
         type="button"
+        data-test-id="button-back"
         {...backProps}
       >
         {back}
@@ -63,7 +65,13 @@ const JoyrideTooltipContainer = ({
     );
   }
 
-  output.close = !hideCloseButton && <CloseBtn {...closeProps} styles={styles.buttonClose} />;
+  output.close = !hideCloseButton && (
+    <CloseBtn
+      styles={styles.buttonClose}
+      data-test-id="button-close"
+      {...closeProps}
+    />
+  );
 
   return (
     <div
@@ -88,6 +96,7 @@ const JoyrideTooltipContainer = ({
           <button
             style={styles.buttonNext}
             type="button"
+            data-test-id="button-primary"
             {...primaryProps}
           >
             {output.primary}

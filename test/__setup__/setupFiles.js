@@ -18,10 +18,12 @@ react.id = 'react';
 react.style.height = '100vh';
 document.body.appendChild(react);
 
+window.requestAnimationFrame = (callback) => {
+  setTimeout(callback, 0);
+};
+
 window.matchMedia = () => ({
   matches: false,
-  addListener: () => {
-  },
-  removeListener: () => {
-  },
+  addListener: () => {},
+  removeListener: () => {},
 });

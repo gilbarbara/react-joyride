@@ -1,86 +1,61 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Joyride from '../../src/index';
+import Joyride, { STATUS } from '../../src/index';
 
-import steps from './steps';
+import tourSteps from './steps';
 
-export default class Tour extends React.Component {
-  state = {
-    autoStart: false,
-    run: false,
-    steps,
-    stepIndex: 0,
-  };
+const filteredSteps = tourSteps
+  .filter((d, i) => i !== 3)
+  .map(d => {
+    if (d.target === '.mission button') {
+      d.target = '.mission h2';
+    }
+
+    return d;
+  });
+
+export default class Standard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      run: false,
+      steps: filteredSteps,
+    };
+  }
 
   static propTypes = {
-    joyride: PropTypes.shape({
-      callback: PropTypes.func,
-    }),
+    callback: PropTypes.func.isRequired,
   };
 
-  static defaultProps = {
-    joyride: {},
-  };
-
-  handleClickStart = (e) => {
-    e.preventDefault();
-
+  handleClickStart = () => {
     this.setState({
       run: true,
-      stepIndex: 0,
     });
   };
 
-  handleClickNextButton = () => {
-    if (this.state.stepIndex === 1) {
-      this.joyride.next();
-    }
-  };
+  handleJoyrideCallback = (data) => {
+    const { callback } = this.props;
+    const { status } = data;
 
-  handleJoyrideCallback = (result) => {
-    const { joyride } = this.props;
-    const { action, index, type } = result;
-
-    if (type === 'step:before') {
-      // Keep internal state in sync with joyride
-      this.setState({ stepIndex: index });
-    }
-
-    if (type === 'finished' && this.state.run) {
-      // Need to set our running state to false, so we can restart if we click start again.
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       this.setState({ run: false });
     }
 
-    if (type === 'error:target_not_found') {
-      this.setState({
-        stepIndex: action === 'back' ? index - 1 : index + 1,
-        autoStart: action !== 'close' && action !== 'esc',
-      });
-    }
-
-    if (typeof joyride.callback === 'function') {
-      joyride.callback(result);
-    }
-    else {
-      console.log(result); //eslint-disable-line no-console
-    }
+    callback(data);
   };
 
   render() {
-    const props = {
-      ...this.state,
-      ...this.props.joyride,
-    };
+    const { run, steps } = this.state;
 
     return (
       <div className="demo">
         <Joyride
-          debug={false}
-          disableOverlay={this.state.stepIndex === 1}
+          run={run}
+          steps={steps}
+          continuous
           scrollToFirstStep
-          type="continuous"
-          {...props}
-          ref={c => (this.joyride = c)}
+          showSkipButton={true}
           callback={this.handleJoyrideCallback}
         />
         <main>
@@ -89,7 +64,6 @@ export default class Tour extends React.Component {
               <div className="hero__content">
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
-                  <button className="hero__tooltip" type="button">?</button>
                 </h1>
                 <button className="hero__start" onClick={this.handleClickStart} type="button">Let's Go!</button>
               </div>
@@ -115,13 +89,6 @@ export default class Tour extends React.Component {
           <div className="demo__section mission">
             <div className="container">
               <h2><span>Mission</span></h2>
-              <button
-                className="btn btn-secondary mission__button"
-                onClick={this.handleClickNextButton}
-                type="button"
-              >
-                Advance
-              </button>
             </div>
           </div>
           <div className="demo__section about">
@@ -132,7 +99,7 @@ export default class Tour extends React.Component {
         </main>
         <footer className="demo__footer">
           <div className="container">
-            <button onClick={e => e.preventDefault()} type="button"><span /></button>
+            <button type="button"><span /></button>
             JOYRIDE
           </div>
         </footer>

@@ -16,10 +16,7 @@ module.exports = {
     '^.+\\.(css|scss)$': '<rootDir>/test/__setup__/styleMock.js',
     '^.+\\.(jpe?g|png|gif|ttf|eot|svg|md)$': '<rootDir>/test/__setup__/fileMock.js',
   },
-  setupFiles: [
-    '<rootDir>/test/__setup__/shim.js',
-    '<rootDir>/test/__setup__/index.js',
-  ],
+  setupFiles: ['<rootDir>/test/__setup__/setupFiles.js'],
   setupTestFrameworkScriptFile: '<rootDir>/test/__setup__/setupTests.js',
   testEnvironment: 'jest-environment-jsdom-global',
   testEnvironmentOptions: {
