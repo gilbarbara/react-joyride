@@ -1,6 +1,6 @@
 # React Joyride
 
-[![Joyride example image](http://gilbarbara.github.io/react-joyride/media/example.png)](http://gilbarbara.github.io/react-joyride/)
+[![Joyride example image](http://gilbarbara.com/files/react-joyride.png)](https://react-joyride.com/)
 
 #### Create awesome tours for your app!
 
