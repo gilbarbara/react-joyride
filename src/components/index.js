@@ -290,8 +290,7 @@ class Joyride extends React.Component {
     /* istanbul ignore else */
     if (step) {
       const target = getElement(step.target);
-      const shouldScroll = step
-        && !disableScrolling
+      const shouldScroll = !disableScrolling
         && step.placement !== 'center'
         && (!step.isFixed || !isFixed(target)) // fixed steps don't need to scroll
         && (prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
@@ -335,7 +334,7 @@ class Joyride extends React.Component {
         scrollY = scrollY >= 0 ? scrollY : 0;
 
         /* istanbul ignore else */
-        if (status === STATUS.RUNNING && shouldScroll) {
+        if (status === STATUS.RUNNING) {
           scrollTo(scrollY, scrollParent);
         }
       }

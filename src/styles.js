@@ -29,15 +29,12 @@ const spotlight = {
   position: 'absolute',
 };
 
-export default function getStyles(stepStyles) {
+export default function getStyles(stepStyles = {}) {
   const options = deepmerge(defaultOptions, stepStyles.options || {});
   let width = 290;
 
   if (window.innerWidth > 480) {
     width = 380;
-  }
-  else if (window.innerWidth > 768) {
-    width = 490;
   }
 
   if (options.width) {
@@ -182,5 +179,5 @@ export default function getStyles(stepStyles) {
     options,
   };
 
-  return deepmerge(defaultStyles, stepStyles || {});
+  return deepmerge(defaultStyles, stepStyles);
 }

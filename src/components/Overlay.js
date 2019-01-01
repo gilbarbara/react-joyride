@@ -192,7 +192,7 @@ export default class JoyrideOverlay extends React.Component {
     }
 
     const stylesOverlay = {
-      cursor: disableOverlay ? 'default' : 'pointer',
+      cursor: 'pointer',
       height: getDocumentHeight(),
       pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
       ...baseStyles,
