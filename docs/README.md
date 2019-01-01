@@ -9,7 +9,7 @@ Showcase your app to new users or explain functionality of new features.
 It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
 And you can use your own components too.
 
-**Open the [demo](https://2zpjporp4p.codesandbox.io/)**
+**Open the [demo](https://react-joyride.com/)**
 
 **Open GitHub [repo](https://github.com/gilbarbara/react-joyride)**
 

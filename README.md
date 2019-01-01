@@ -11,9 +11,9 @@ Showcase your app to new users or explain functionality of new features.
 It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
 And you can use your own components too!
 
-**View the demo [here](https://2zpjporp4p.codesandbox.io/)**
+**View the demo [here](https://react-joyride.com/)**
 
-**Read the [docs](https://gilbarbara.gitbook.io/react-joyride/)**
+**Read the [docs](https://docs.react-joyride.com/)**
 
 ## Setup
 
