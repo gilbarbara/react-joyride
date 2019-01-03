@@ -79,6 +79,9 @@ const JoyrideTooltipContainer = ({
       className="react-joyride__tooltip"
       ref={setTooltipRef}
       style={styles.tooltip}
+      tabIndex={-1}
+      role="region"
+      aria-live="polite"
     >
       <div style={styles.tooltipContainer}>
         {output.close}

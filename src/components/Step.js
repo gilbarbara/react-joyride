@@ -77,6 +77,7 @@ export default class JoyrideStep extends React.Component {
   componentDidMount() {
     const { debug, lifecycle } = this.props;
 
+    this.focus();
     log({
       title: `step:${lifecycle}`,
       data: [
@@ -144,6 +145,7 @@ export default class JoyrideStep extends React.Component {
     }
 
     if (changed('index')) {
+      this.focus();
       log({
         title: `step:${lifecycle}`,
         data: [
@@ -234,6 +236,10 @@ export default class JoyrideStep extends React.Component {
     const { step, lifecycle } = this.props;
 
     return !!(hideBeacon(step) || lifecycle === LIFECYCLE.TOOLTIP);
+  }
+
+  focus = (e) => {
+    this.tooltip.focus();
   }
 
   render() {
