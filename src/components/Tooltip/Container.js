@@ -82,10 +82,11 @@ const JoyrideTooltipContainer = ({
       tabIndex={-1}
       role="region"
       aria-live="polite"
+      aria-label={title}
     >
       <div style={styles.tooltipContainer}>
         {output.close}
-        {title && (<h4 style={styles.tooltipTitle}>{title}</h4>)}
+        {title && (<h4 style={styles.tooltipTitle} aria-hidden>{title}</h4>)}
         {!!content && (
           <div style={styles.tooltipContent}>
             {content}
