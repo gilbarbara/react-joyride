@@ -1,43 +1,58 @@
-const validTabNodes = /input|select|textarea|button|object/;
-const TAB_KEY = 9;
+// @flow
 
-class Scope {
-  constructor(tooltip) {
-    this.tooltip = tooltip;
+export default class Scope {
+  element: HTMLElement;
+  options: Object;
+
+  constructor(element: HTMLElement, options: ?Object) {
+    if (!(element instanceof HTMLElement)) {
+      throw new Error('Invalid parameter: element must be an HTMLElement');
+    }
+
+    this.element = element;
+    this.options = options;
+
+    window.addEventListener('keydown', this.handleKeyDown, false);
+
+    this.setFocus();
   }
 
-  canBeTabbed = (element) => {
-    let tabIndex = element.getAttribute('tabindex');
-    if (tabIndex === null) tabIndex = undefined;
+  canBeTabbed = (element: HTMLElement): boolean => {
+    const tabIndex = element.getAttribute('tabindex') || undefined;
     const isTabIndexNaN = isNaN(tabIndex);
-    return (isTabIndexNaN || tabIndex >= 0) && this.canHaveFocus(element, !isTabIndexNaN);
+
+    return (isTabIndexNaN || !!tabIndex) && this.canHaveFocus(element, !isTabIndexNaN);
   };
 
-  canHaveFocus = (element, isTabIndexNotNaN) => {
+  canHaveFocus = (element: HTMLElement, isTabIndexNotNaN: boolean): boolean => {
+    const validTabNodes = /input|select|textarea|button|object/;
     const nodeName = element.nodeName.toLowerCase();
-    const res = (validTabNodes.test(nodeName) && !element.disabled)
-      || (nodeName === 'a' ? element.href || isTabIndexNotNaN : isTabIndexNotNaN);
+    const res = (validTabNodes.test(nodeName) && !element.getAttribute('disabled'))
+      || (nodeName === 'a' ? element.getAttribute('href') || isTabIndexNotNaN : isTabIndexNotNaN);
+
     return res && this.isVisible(element);
   };
 
-  findValidTabElements = (element) => [].slice.call(element.querySelectorAll('*'), 0).filter(this.canBeTabbed);
+  findValidTabElements = () => [].slice.call(this.element.querySelectorAll('*'), 0).filter(this.canBeTabbed);
 
-  handleKeyDown = (e) => {
-    if (!this.tooltip) {
+  handleKeyDown = (e: KeyboardEvent) => {
+    const { keyCode = 9 } = this.options;
+
+    if (!this.element) {
       return;
     }
 
-    if (e.keyCode === TAB_KEY) {
-      this.interceptTab(this.tooltip, e);
+    if (e.keyCode === keyCode) {
+      this.interceptTab(e);
     }
   };
 
-  interceptTab = (node, event) => {
-    const elements = this.findValidTabElements(node);
+  interceptTab = (event: KeyboardEvent) => {
+    event.preventDefault();
+    const elements = this.findValidTabElements();
     const { shiftKey } = event;
 
     if (!elements.length) {
-      event.preventDefault();
       return;
     }
 
@@ -46,16 +61,17 @@ class Scope {
     if (x === -1 || (!shiftKey && x + 1 === elements.length)) {
       x = 0;
     }
+    else if (shiftKey && x === 0) {
+      x = elements.length - 1;
+    }
     else {
       x += shiftKey ? -1 : 1;
     }
 
-    event.preventDefault();
-
     elements[x].focus();
   };
 
-  isHidden = (element) => {
+  isHidden = (element: HTMLElement) => {
     const noSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
     const style = window.getComputedStyle(element);
 
@@ -64,25 +80,32 @@ class Scope {
     return (noSize && style.getPropertyValue('overflow') !== 'visible') || style.getPropertyValue('display') === 'none';
   };
 
-  isVisible = (element) => {
+  isVisible = (element: HTMLElement) => {
     let parentElement = element;
+
     while (parentElement) {
-      if (parentElement === document.body) break;
-      if (this.isHidden(parentElement)) return false;
-      parentElement = parentElement.parentNode;
+      if (parentElement instanceof HTMLElement) {
+        if (parentElement === document.body) break;
+        if (this.isHidden(parentElement)) return false;
+        parentElement = parentElement.parentNode;
+      }
     }
+
     return true;
   };
-}
 
-let scope;
+  removeScope = () => {
+    window.removeEventListener('keydown', this.handleKeyDown);
+  };
 
-export function setScope(element) {
-  scope = new Scope(element);
+  setFocus = () => {
+    const { selector } = this.options;
+    if (!selector) return;
 
-  window.addEventListener('keydown', scope.handleKeyDown, false);
-}
+    const target = this.element.querySelector(selector);
 
-export function removeScope() {
-  window.removeEventListener('keydown', scope.handleKeyDown);
+    if (target) {
+      target.focus();
+    }
+  };
 }

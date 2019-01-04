@@ -9,7 +9,7 @@ import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
 
 import { getElement, isElementVisible, isFixed } from '../modules/dom';
 import { log, hideBeacon } from '../modules/helpers';
-import { setScope, removeScope } from '../modules/scope';
+import Scope from '../modules/scope';
 import { validateStep } from '../modules/step';
 
 import Beacon from './Beacon';
@@ -18,6 +18,8 @@ import Tooltip from './Tooltip/index';
 import Portal from './Portal';
 
 export default class JoyrideStep extends React.Component {
+  scope = { removeScope: () => {} };
+
   static propTypes = {
     action: PropTypes.string.isRequired,
     callback: PropTypes.func.isRequired,
@@ -169,18 +171,19 @@ export default class JoyrideStep extends React.Component {
         type: EVENTS.TOOLTIP,
       });
 
-      setScope(this.tooltip);
+      this.scope = new Scope(this.tooltip, { selector: '[data-action=primary]' });
+      this.scope.setFocus();
     }
 
     if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
-      removeScope();
+      this.scope.removeScope();
       delete this.beaconPopper;
       delete this.tooltipPopper;
     }
   }
 
   componentWillUnmount() {
-    removeScope();
+    this.scope.removeScope();
   }
 
   /**
