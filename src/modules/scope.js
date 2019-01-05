@@ -4,9 +4,9 @@ export default class Scope {
   element: HTMLElement;
   options: Object;
 
-  constructor(element: HTMLElement, options: ?Object) {
+  constructor(element: HTMLElement, options: ?Object = {}) {
     if (!(element instanceof HTMLElement)) {
-      throw new Error('Invalid parameter: element must be an HTMLElement');
+      throw new TypeError('Invalid parameter: element must be an HTMLElement');
     }
 
     this.element = element;
@@ -18,10 +18,12 @@ export default class Scope {
   }
 
   canBeTabbed = (element: HTMLElement): boolean => {
-    const tabIndex = element.getAttribute('tabindex') || undefined;
+    let { tabIndex } = element;
+    if (tabIndex === null || tabIndex < 0) tabIndex = undefined;
+
     const isTabIndexNaN = isNaN(tabIndex);
 
-    return (isTabIndexNaN || !!tabIndex) && this.canHaveFocus(element, !isTabIndexNaN);
+    return (!isTabIndexNaN) && this.canHaveFocus(element, true);
   };
 
   canHaveFocus = (element: HTMLElement, isTabIndexNotNaN: boolean): boolean => {
@@ -38,10 +40,7 @@ export default class Scope {
   handleKeyDown = (e: KeyboardEvent) => {
     const { keyCode = 9 } = this.options;
 
-    if (!this.element) {
-      return;
-    }
-
+    /* istanbul ignore else */
     if (e.keyCode === keyCode) {
       this.interceptTab(e);
     }
@@ -84,8 +83,10 @@ export default class Scope {
     let parentElement = element;
 
     while (parentElement) {
+      /* istanbul ignore else */
       if (parentElement instanceof HTMLElement) {
         if (parentElement === document.body) break;
+        /* istanbul ignore else */
         if (this.isHidden(parentElement)) return false;
         parentElement = parentElement.parentNode;
       }
@@ -104,6 +105,7 @@ export default class Scope {
 
     const target = this.element.querySelector(selector);
 
+    /* istanbul ignore else */
     if (target) {
       target.focus();
     }

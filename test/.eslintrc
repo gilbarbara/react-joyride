@@ -1,7 +1,14 @@
 {
+  "globals": {
+    "mount": false,
+    "render": false,
+    "shallow": false
+  },
   "rules": {
     "no-console": "off",
     "prefer-destructuring": "off",
+    "jsx-a11y/anchor-has-content": "off",
+    "jsx-a11y/anchor-is-valid": "off",
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": "off",
     "react/prop-types": "off"

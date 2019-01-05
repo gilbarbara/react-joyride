@@ -4,7 +4,7 @@ export default [
   {
     target: '.projects .list',
     placement: 'top',
-    title: 'Title only steps — As they say: Make the font bigger!',
+    content: 'THe first step of many! Keep walking!',
     textAlign: 'center',
   },
   {

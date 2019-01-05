@@ -1,4 +1,4 @@
-import Enzyme from 'enzyme';
+import Enzyme, { shallow, mount, render } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 Enzyme.configure({ adapter: new Adapter() });
@@ -12,6 +12,10 @@ Object.defineProperty(Element.prototype, 'clientWidth', {
   writable: true,
   value: '',
 });
+
+global.shallow = shallow;
+global.mount = mount;
+global.render = render;
 
 const react = document.createElement('div');
 react.id = 'react';

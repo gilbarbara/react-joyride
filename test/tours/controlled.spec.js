@@ -1,5 +1,4 @@
 import React from 'react';
-import { mount } from 'enzyme';
 
 import Controlled from '../__fixtures__/Controlled';
 
