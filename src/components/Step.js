@@ -71,10 +71,10 @@ export default class JoyrideStep extends React.Component {
   };
 
   componentDidMount() {
-    const { debug, lifecycle } = this.props;
+    const { debug, index } = this.props;
 
     log({
-      title: `step:${lifecycle}`,
+      title: `step:${index}`,
       data: [
         { key: 'props', value: this.props },
       ],

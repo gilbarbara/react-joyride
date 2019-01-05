@@ -62,6 +62,7 @@
     "no-template-curly-in-string": "warn",
     "no-trailing-spaces": "warn",
     "no-underscore-dangle": "off",
+    "no-unused-expressions": ["error", { "allowShortCircuit": true }],
     "no-unused-vars": "warn",
     "object-curly-newline": "off",
     "object-shorthand": ["warn", "always"],
@@ -156,6 +157,7 @@
       "warn",
       {
         "order": [
+          "instance-variables",
           "constructor",
           "lifecycle",
           "everything-else",

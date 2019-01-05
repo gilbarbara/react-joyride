@@ -112,7 +112,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production npm run clean && rollup -c",
-    "watch": "cross-env NODE_ENV=production rollup -cw",
+    "watch": "cross-env NODE_ENV=development rollup -cw",
     "clean": "rimraf es && rimraf lib",
     "lint": "eslint --ext .js --ext .jsx src test",
     "test": "jest --coverage",

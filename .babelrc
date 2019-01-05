@@ -40,8 +40,9 @@
     "production": {
       "plugins": [
         "array-includes",
+        "jsx-remove-data-test-id",
         "transform-node-env-inline",
-        "jsx-remove-data-test-id"
+        "transform-react-remove-prop-types"
       ]
     },
     "test": {

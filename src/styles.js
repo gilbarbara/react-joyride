@@ -118,7 +118,7 @@ export default function getStyles(stepStyles = {}) {
     tooltipFooter: {
       alignItems: 'center',
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
       marginTop: 15,
     },
     buttonNext: {
@@ -147,6 +147,7 @@ export default function getStyles(stepStyles = {}) {
       ...buttonBase,
       color: options.textColor,
       fontSize: 14,
+      marginRight: 'auto',
     },
     overlay: {
       ...overlay,

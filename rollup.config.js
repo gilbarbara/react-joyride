@@ -1,6 +1,5 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
-import filesize from 'rollup-plugin-filesize';
 import packageJSON from './package.json';
 
 const plugins = () => [
@@ -8,7 +7,6 @@ const plugins = () => [
     exclude: 'node_modules/**',
   }),
   commonjs(),
-  filesize(),
 ];
 
 export default {
