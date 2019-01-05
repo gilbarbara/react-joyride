@@ -49,38 +49,43 @@ export default class JoyrideTooltip extends React.Component {
 
   getElementsProps = () => {
     const { continuous, isLastStep, setTooltipRef, step } = this.props;
-    const { back, close, last, next, skip } = step.locale;
 
-    let primaryText = getText(continuous ? next : close);
+    const back = getText(step.locale.back);
+    const close = getText(step.locale.close);
+    const last = getText(step.locale.last);
+    const next = getText(step.locale.next);
+    const skip = getText(step.locale.skip);
+
+    let primaryText = continuous ? next : close;
 
     if (isLastStep) {
-      primaryText = getText(last);
+      primaryText = last;
     }
 
     return {
       backProps: {
-        'aria-label': getText(back),
+        'aria-label': back,
         'data-action': 'back',
         onClick: this.handleClickBack,
         role: 'button',
         title: back,
       },
       closeProps: {
-        'aria-label': getText(close),
+        'aria-label': close,
         'data-action': 'close',
         onClick: this.handleClickClose,
         role: 'button',
         title: close,
       },
       primaryProps: {
-        'aria-label': getText(primaryText),
+        'aria-label': primaryText,
         'data-action': 'primary',
         onClick: this.handleClickPrimary,
         role: 'button',
         title: primaryText,
       },
       skipProps: {
-        'aria-label': getText(skip),
+        'aria-label': skip,
         'data-action': 'skip',
         onClick: this.handleClickSkip,
         role: 'button',
