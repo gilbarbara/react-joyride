@@ -83,7 +83,6 @@ export default class JoyrideBeacon extends React.Component {
     const { beaconComponent, locale, onClickOrHover, styles } = this.props;
     const props = {
       'aria-label': locale.open,
-      'aria-haspopup': 'dialog',
       onClick: onClickOrHover,
       onMouseEnter: onClickOrHover,
       ref: this.setBeaconRef,
