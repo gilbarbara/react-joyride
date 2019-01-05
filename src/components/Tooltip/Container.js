@@ -102,8 +102,8 @@ export default class JoyrideTooltipContainer extends React.Component {
           </div>
         </div>
         {!hideFooter && (
-          <div style={styles.tooltipFooter} aria-relevant="additions">
-            {output.skip}
+          <div style={styles.tooltipFooter}>
+            <div style={styles.tooltipFooterSpacer}>{output.skip}</div>
             {output.back}
             <button
               style={styles.buttonNext}

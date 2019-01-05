@@ -121,6 +121,9 @@ export default function getStyles(stepStyles = {}) {
       justifyContent: 'flex-end',
       marginTop: 15,
     },
+    tooltipFooterSpacer: {
+      flex: 1,
+    },
     buttonNext: {
       ...buttonBase,
       backgroundColor: options.primaryColor,
@@ -147,7 +150,6 @@ export default function getStyles(stepStyles = {}) {
       ...buttonBase,
       color: options.textColor,
       fontSize: 14,
-      marginRight: 'auto',
     },
     overlay: {
       ...overlay,
