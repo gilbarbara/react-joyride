@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import isRequiredIf from 'react-proptype-conditional-require';
 import Floater from 'react-floater';
 import treeChanges from 'tree-changes';
 import is from 'is-lite';
@@ -9,6 +8,7 @@ import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
 
 import { getElement, isElementVisible, isFixed } from '../modules/dom';
 import { log, hideBeacon } from '../modules/helpers';
+import { componentTypeWithRefs } from '../modules/propTypes';
 import Scope from '../modules/scope';
 import { validateStep } from '../modules/step';
 
@@ -33,11 +33,8 @@ export default class JoyrideStep extends React.Component {
     size: PropTypes.number.isRequired,
     status: PropTypes.string.isRequired,
     step: PropTypes.shape({
-      beaconComponent: PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-      ]),
-      content: isRequiredIf(PropTypes.node, props => !props.tooltipComponent && !props.title),
+      beaconComponent: componentTypeWithRefs,
+      content: PropTypes.node.isRequired,
       disableBeacon: PropTypes.bool,
       disableOverlay: PropTypes.bool,
       disableOverlayClose: PropTypes.bool,
@@ -68,10 +65,7 @@ export default class JoyrideStep extends React.Component {
         PropTypes.string,
       ]).isRequired,
       title: PropTypes.node,
-      tooltipComponent: isRequiredIf(PropTypes.oneOfType([
-        PropTypes.func,
-        PropTypes.element,
-      ]), props => !props.content && !props.title),
+      tooltipComponent: componentTypeWithRefs,
     }).isRequired,
     update: PropTypes.func.isRequired,
   };

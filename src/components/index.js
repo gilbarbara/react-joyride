@@ -13,6 +13,7 @@ import {
   scrollTo,
 } from '../modules/dom';
 import { canUseDOM, isEqual, log } from '../modules/helpers';
+import { componentTypeWithRefs } from '../modules/propTypes';
 import { getMergedStep, validateSteps } from '../modules/step';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
@@ -27,10 +28,7 @@ class Joyride extends React.Component {
   }
 
   static propTypes = {
-    beaconComponent: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.element,
-    ]),
+    beaconComponent: componentTypeWithRefs,
     callback: PropTypes.func,
     continuous: PropTypes.bool,
     debug: PropTypes.bool,
@@ -55,10 +53,7 @@ class Joyride extends React.Component {
     stepIndex: PropTypes.number,
     steps: PropTypes.array,
     styles: PropTypes.object,
-    tooltipComponent: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.element,
-    ]),
+    tooltipComponent: componentTypeWithRefs,
   };
 
   static defaultProps = {

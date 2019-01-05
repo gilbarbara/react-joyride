@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { componentTypeWithRefs } from '../modules/propTypes';
 
 export default class JoyrideBeacon extends React.Component {
   constructor(props) {
@@ -45,10 +46,7 @@ export default class JoyrideBeacon extends React.Component {
   }
 
   static propTypes = {
-    beaconComponent: PropTypes.oneOfType([
-      PropTypes.func,
-      PropTypes.element,
-    ]),
+    beaconComponent: componentTypeWithRefs,
     locale: PropTypes.object.isRequired,
     onClickOrHover: PropTypes.func.isRequired,
     styles: PropTypes.object.isRequired,
