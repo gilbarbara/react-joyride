@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import is from 'is-lite';
 import { componentTypeWithRefs } from '../modules/propTypes';
 
 export default class JoyrideBeacon extends React.Component {
@@ -52,6 +53,20 @@ export default class JoyrideBeacon extends React.Component {
     styles: PropTypes.object.isRequired,
   };
 
+  componentDidMount() {
+    if (process.env.NODE_ENV !== 'production') {
+      if (!is.domElement(this.beacon)) {
+        console.warn('beacon is not a valid DOM element'); //eslint-disable-line no-console
+      }
+    }
+
+    if (is.domElement(this.beacon)) {
+      setTimeout(() => {
+        this.beacon.focus();
+      }, 0);
+    }
+  }
+
   componentWillUnmount() {
     const style = document.getElementById('joyride-beacon-animation');
 
@@ -60,12 +75,17 @@ export default class JoyrideBeacon extends React.Component {
     }
   }
 
+  setBeaconRef = (c) => {
+    this.beacon = c;
+  };
+
   render() {
     const { beaconComponent, locale, onClickOrHover, styles } = this.props;
     const props = {
       'aria-label': locale.open,
       onClick: onClickOrHover,
       onMouseEnter: onClickOrHover,
+      ref: this.setBeaconRef,
       title: locale.open,
     };
     let component;

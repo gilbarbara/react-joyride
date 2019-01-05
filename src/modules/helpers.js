@@ -67,6 +67,33 @@ export function getBrowser(): string {
   return navigator.userAgent;
 }
 
+export function getText(rootChild: any): string {
+  let res = '';
+
+  const recurse = (child) => {
+    if (typeof child === 'string' || typeof child === 'number') {
+      res += child;
+    }
+    else if (Array.isArray(child)) {
+      child.forEach(c => recurse(c));
+    }
+    else if (child && child.props) {
+      const { children } = child.props;
+
+      if (Array.isArray(children)) {
+        children.forEach(c => recurse(c));
+      }
+      else {
+        recurse(children);
+      }
+    }
+  };
+
+  recurse(rootChild);
+
+  return res;
+}
+
 export function hasKey(value: Object, key: string): boolean {
   return Object.prototype.hasOwnProperty.call(value, key);
 }
