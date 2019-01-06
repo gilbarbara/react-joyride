@@ -39,6 +39,7 @@
     "newline-per-chained-call": ["warn", { "ignoreChainWithDepth": 5 }],
     "no-case-declarations": "warn",
     "no-confusing-arrow": ["warn", { "allowParens": true }],
+    "no-continue": "off",
     "no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
     "no-multi-spaces": [
       "warn", {
