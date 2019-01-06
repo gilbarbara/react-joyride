@@ -2,7 +2,9 @@
 
 You can use custom components to have complete control of the UI. They will receive data through props and need to be a React class or forwardRef since it needs to set `ref`
 
-> If you are looking to customize the default UI, check the [styling](styling.md) docs.
+{% hint style="info" %}
+If you are looking to customize the default UI, check the [styling](styling.md) docs.
+{% endhint %}
 
 ## beaconComponent
 
