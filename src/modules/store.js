@@ -138,7 +138,7 @@ export default function createStore(props: StoreState): StoreInstance {
 
     update = (state: StoreState) => {
       if (!hasValidKeys(state, validKeys)) {
-        throw new Error('state is not valid');
+        throw new Error(`State is not valid. Valid keys: ${validKeys.join(', ')}`);
       }
 
       this.setState({

@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`store without initial values should throw an error with \`update\` with invalid keys 1`] = `"State is not valid. Valid keys: action, index, lifecycle, status"`;
