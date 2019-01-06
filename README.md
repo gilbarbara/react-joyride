@@ -6,7 +6,7 @@
 
 #### Create awesome tours for your app!
 
-Showcase your app to new users or explain functionality of new features.  
+Showcase your app to new users or explain functionality of new features.
 
 It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
 And you can use your own components too!
@@ -14,6 +14,8 @@ And you can use your own components too!
 **View the demo [here](https://react-joyride.com/)**
 
 **Read the [docs](https://docs.react-joyride.com/)**
+
+Chat about it in our [Spectrum community](https://spectrum.chat/react-joyride)
 
 ## Setup
 
@@ -78,4 +80,3 @@ npm start
 ```
 
 **Start coding!** 🎉
-
