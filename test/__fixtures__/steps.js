@@ -46,6 +46,6 @@ export default [
   {
     target: '.demo__footer button',
     placement: 'top',
-    content: 'Text only steps — Because sometimes you don\'t really need a proper heading',
+    content: "Text only steps — Because sometimes you don't really need a proper heading",
   },
 ];

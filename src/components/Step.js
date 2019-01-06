@@ -51,19 +51,25 @@ export default class JoyrideStep extends React.Component {
       locale: PropTypes.object,
       offset: PropTypes.number.isRequired,
       placement: PropTypes.oneOf([
-        'top', 'top-start', 'top-end',
-        'bottom', 'bottom-start', 'bottom-end',
-        'left', 'left-start', 'left-end',
-        'right', 'right-start', 'right-end',
-        'auto', 'center',
+        'top',
+        'top-start',
+        'top-end',
+        'bottom',
+        'bottom-start',
+        'bottom-end',
+        'left',
+        'left-start',
+        'left-end',
+        'right',
+        'right-start',
+        'right-end',
+        'auto',
+        'center',
       ]),
       spotlightClicks: PropTypes.bool,
       spotlightPadding: PropTypes.number,
       styles: PropTypes.object,
-      target: PropTypes.oneOfType([
-        PropTypes.object,
-        PropTypes.string,
-      ]).isRequired,
+      target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
       title: PropTypes.node,
       tooltipComponent: componentTypeWithRefs,
     }).isRequired,
@@ -75,21 +81,37 @@ export default class JoyrideStep extends React.Component {
 
     log({
       title: `step:${index}`,
-      data: [
-        { key: 'props', value: this.props },
-      ],
+      data: [{ key: 'props', value: this.props }],
       debug,
     });
   }
 
   componentDidUpdate(prevProps) {
-    const { action, callback, continuous, controlled, debug, index, lifecycle, size, status, step, update } = this.props;
+    const {
+      action,
+      callback,
+      continuous,
+      controlled,
+      debug,
+      index,
+      lifecycle,
+      size,
+      status,
+      step,
+      update,
+    } = this.props;
     const { changed, changedTo, changedFrom } = treeChanges(prevProps, this.props);
     const state = { action, controlled, index, lifecycle, size, status };
 
-    const skipBeacon = continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
-    const hasStoreChanged = changed('action') || changed('index') || changed('lifecycle') || changed('status');
-    const hasStarted = changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT);
+    const skipBeacon =
+      continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
+    const hasStoreChanged =
+      changed('action') || changed('index') || changed('lifecycle') || changed('status');
+    const hasStarted = changedFrom(
+      'lifecycle',
+      [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT],
+      LIFECYCLE.INIT,
+    );
     const isAfterAction = changedTo('action', [
       ACTIONS.NEXT,
       ACTIONS.PREV,
@@ -113,15 +135,17 @@ export default class JoyrideStep extends React.Component {
       const hasRenderedTarget = !!element && isElementVisible(element);
 
       if (hasRenderedTarget) {
-        if (changedFrom('status', STATUS.READY, STATUS.RUNNING) || changedFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)) {
+        if (
+          changedFrom('status', STATUS.READY, STATUS.RUNNING) ||
+          changedFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)
+        ) {
           callback({
             ...state,
             step,
             type: EVENTS.STEP_BEFORE,
           });
         }
-      }
-      else {
+      } else {
         console.warn('Target not mounted', step); //eslint-disable-line no-console
         callback({
           ...state,
@@ -142,9 +166,7 @@ export default class JoyrideStep extends React.Component {
     if (changed('index')) {
       log({
         title: `step:${lifecycle}`,
-        data: [
-          { key: 'props', value: this.props },
-        ],
+        data: [{ key: 'props', value: this.props }],
         debug,
       });
     }
@@ -185,7 +207,7 @@ export default class JoyrideStep extends React.Component {
    *
    * @param {Event} e
    */
-  handleClickHoverBeacon = (e) => {
+  handleClickHoverBeacon = e => {
     const { step, update } = this.props;
 
     if (e.type === 'mouseenter' && step.event !== 'hover') {
@@ -203,7 +225,7 @@ export default class JoyrideStep extends React.Component {
     }
   };
 
-  setTooltipRef = (c) => {
+  setTooltipRef = c => {
     this.tooltip = c;
   };
 
@@ -212,8 +234,7 @@ export default class JoyrideStep extends React.Component {
 
     if (type === 'wrapper') {
       this.beaconPopper = popper;
-    }
-    else {
+    } else {
       this.tooltipPopper = popper;
     }
 
@@ -234,15 +255,7 @@ export default class JoyrideStep extends React.Component {
   }
 
   render() {
-    const {
-      continuous,
-      debug,
-      helpers,
-      index,
-      lifecycle,
-      size,
-      step,
-    } = this.props;
+    const { continuous, debug, helpers, index, lifecycle, size, step } = this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
@@ -260,7 +273,7 @@ export default class JoyrideStep extends React.Component {
           />
         </Portal>
         <Floater
-          component={(
+          component={
             <Tooltip
               continuous={continuous}
               helpers={helpers}
@@ -270,7 +283,7 @@ export default class JoyrideStep extends React.Component {
               size={size}
               step={step}
             />
-          )}
+          }
           debug={debug}
           getPopper={this.setPopper}
           id={`react-joyride-step-${index}`}

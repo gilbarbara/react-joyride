@@ -1,10 +1,20 @@
 import * as React from 'react';
 
-export type placement = 'top' | 'top-start' | 'top-end' |
-  'bottom' | 'bottom-start' | 'bottom-end' |
-  'left' | 'left-start' | 'left-end' |
-  'right' | 'right-start' | 'right-end' |
-  'auto' | 'center';
+export type placement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'auto'
+  | 'center';
 
 export type placementBeacon = 'top' | 'bottom' | 'left' | 'right';
 
@@ -86,28 +96,28 @@ export interface BeaconRenderProps {
 
 export interface TooltipRenderProps extends BeaconRenderProps {
   backProps: {
-    'aria-label': string,
-    onClick: () => void,
-    role: string,
-    title: React.ReactNode
+    'aria-label': string;
+    onClick: () => void;
+    role: string;
+    title: React.ReactNode;
   };
   closeProps: {
-    'aria-label': string,
-    onClick: () => void,
-    role: string,
-    title: React.ReactNode
+    'aria-label': string;
+    onClick: () => void;
+    role: string;
+    title: React.ReactNode;
   };
   primaryProps: {
-    'aria-label': string,
-    onClick: () => void,
-    role: string,
-    title: React.ReactNode
+    'aria-label': string;
+    onClick: () => void;
+    role: string;
+    title: React.ReactNode;
   };
   skipProps: {
-    'aria-label': string,
-    onClick: () => void,
-    role: string,
-    title: React.ReactNode
+    'aria-label': string;
+    onClick: () => void;
+    role: string;
+    title: React.ReactNode;
   };
 }
 
@@ -138,8 +148,7 @@ export interface Props {
   tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
 }
 
-export default class ReactJoyride extends React.Component<Props, StoreState> {
-}
+export default class ReactJoyride extends React.Component<Props, StoreState> {}
 
 export interface actions {
   INIT: 'init';

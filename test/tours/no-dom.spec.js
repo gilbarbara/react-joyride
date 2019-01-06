@@ -18,10 +18,7 @@ describe('Joyride > NO-DOM', () => {
   let joyride;
 
   beforeAll(() => {
-    wrapper = mount(
-      <Standard {...props} />,
-      { attachTo: document.getElementById('react') }
-    );
+    wrapper = mount(<Standard {...props} />, { attachTo: document.getElementById('react') });
     joyride = wrapper.find('Joyride').instance();
   });
 

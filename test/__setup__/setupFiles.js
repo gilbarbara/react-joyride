@@ -22,7 +22,7 @@ react.id = 'react';
 react.style.height = '100vh';
 document.body.appendChild(react);
 
-window.requestAnimationFrame = (callback) => {
+window.requestAnimationFrame = callback => {
   setTimeout(callback, 0);
 };
 

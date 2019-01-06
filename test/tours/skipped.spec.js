@@ -12,8 +12,8 @@ jest.mock('popper.js', () => {
 
     constructor() {
       return {
-        destroy: () => { },
-        scheduleUpdate: () => { },
+        destroy: () => {},
+        scheduleUpdate: () => {},
       };
     }
   };
@@ -37,10 +37,7 @@ describe('Joyride > Skipped', () => {
   let joyride;
 
   beforeAll(() => {
-    wrapper = mount(
-      <Standard {...props} />,
-      { attachTo: document.getElementById('react') }
-    );
+    wrapper = mount(<Standard {...props} />, { attachTo: document.getElementById('react') });
     joyride = wrapper.find('Joyride').instance();
   });
 

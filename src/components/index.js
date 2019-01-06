@@ -109,8 +109,7 @@ class Joyride extends React.Component {
     if (stepsChanged) {
       if (validateSteps(steps, debug)) {
         setSteps(steps);
-      }
-      else {
+      } else {
         console.warn('Steps are not valid', steps); //eslint-disable-line no-console
       }
     }
@@ -119,8 +118,7 @@ class Joyride extends React.Component {
     if (changedProps('run')) {
       if (run) {
         start(stepIndex);
-      }
-      else {
+      } else {
         stop();
       }
     }
@@ -186,20 +184,17 @@ class Joyride extends React.Component {
         index: prevState.index,
       });
       reset();
-    }
-    else if (changedFrom('status', [STATUS.IDLE, STATUS.READY], STATUS.RUNNING)) {
+    } else if (changedFrom('status', [STATUS.IDLE, STATUS.READY], STATUS.RUNNING)) {
       this.callback({
         ...callbackData,
         type: EVENTS.TOUR_START,
       });
-    }
-    else if (changed('status')) {
+    } else if (changed('status')) {
       this.callback({
         ...callbackData,
         type: EVENTS.TOUR_STATUS,
       });
-    }
-    else if (changedTo('action', ACTIONS.RESET)) {
+    } else if (changedTo('action', ACTIONS.RESET)) {
       this.callback({
         ...callbackData,
         type: EVENTS.TOUR_STATUS,
@@ -209,7 +204,11 @@ class Joyride extends React.Component {
     if (step) {
       this.scrollToStep(prevState);
 
-      if (step.placement === 'center' && status === STATUS.RUNNING && lifecycle === LIFECYCLE.INIT) {
+      if (
+        step.placement === 'center' &&
+        status === STATUS.RUNNING &&
+        lifecycle === LIFECYCLE.INIT
+      ) {
         this.store.update({ lifecycle: LIFECYCLE.READY });
       }
     }
@@ -237,10 +236,7 @@ class Joyride extends React.Component {
 
     log({
       title: 'init',
-      data: [
-        { key: 'props', value: this.props },
-        { key: 'state', value: this.state },
-      ],
+      data: [{ key: 'props', value: this.props }, { key: 'state', value: this.state }],
       debug,
     });
 
@@ -254,17 +250,26 @@ class Joyride extends React.Component {
 
   scrollToStep(prevState) {
     const { index, lifecycle, status } = this.state;
-    const { debug, disableScrolling, disableScrollParentFix, scrollToFirstStep, scrollOffset, steps } = this.props;
+    const {
+      debug,
+      disableScrolling,
+      disableScrollParentFix,
+      scrollToFirstStep,
+      scrollOffset,
+      steps,
+    } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
     /* istanbul ignore else */
     if (step) {
       const target = getElement(step.target);
-      const shouldScroll = !disableScrolling
-        && step.placement !== 'center'
-        && (!step.isFixed || !isFixed(target)) // fixed steps don't need to scroll
-        && (prevState.lifecycle !== lifecycle && [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
-        && (scrollToFirstStep || prevState.index !== index);
+      const shouldScroll =
+        !disableScrolling &&
+        step.placement !== 'center' &&
+        (!step.isFixed || !isFixed(target)) && // fixed steps don't need to scroll
+        (prevState.lifecycle !== lifecycle &&
+          [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle)) &&
+        (scrollToFirstStep || prevState.index !== index);
 
       if (status === STATUS.RUNNING && shouldScroll) {
         const hasCustomScroll = hasCustomScrollParent(target, disableScrollParentFix);
@@ -289,14 +294,12 @@ class Joyride extends React.Component {
           if (!['bottom'].includes(placement) && !hasCustomScroll) {
             scrollY = Math.floor(popper.top - scrollOffset);
           }
-        }
-        else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
+        } else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
           const { flipped, placement, popper } = this.tooltipPopper;
 
           if (['top', 'right', 'left'].includes(placement) && !flipped && !hasCustomScroll) {
             scrollY = Math.floor(popper.top - scrollOffset);
-          }
-          else {
+          } else {
             scrollY -= step.spotlightPadding;
           }
         }
@@ -317,7 +320,7 @@ class Joyride extends React.Component {
    * @private
    * @param {Object} data
    */
-  callback = (data) => {
+  callback = data => {
     const { callback } = this.props;
 
     /* istanbul ignore else */
@@ -332,7 +335,7 @@ class Joyride extends React.Component {
    * @private
    * @param {Event} e - Keyboard event
    */
-  handleKeyboard = (e) => {
+  handleKeyboard = e => {
     const { index, lifecycle } = this.state;
     const { steps } = this.props;
     const step = steps[index];
@@ -350,15 +353,14 @@ class Joyride extends React.Component {
    *
    * @param {Object} state
    */
-  syncState = (state) => {
+  syncState = state => {
     this.setState(state);
   };
 
   setPopper = (popper, type) => {
     if (type === 'wrapper') {
       this.beaconPopper = popper;
-    }
-    else {
+    } else {
       this.tooltipPopper = popper;
     }
   };
@@ -386,11 +388,7 @@ class Joyride extends React.Component {
       );
     }
 
-    return (
-      <div className="react-joyride">
-        {output}
-      </div>
-    );
+    return <div className="react-joyride">{output}</div>;
   }
 }
 

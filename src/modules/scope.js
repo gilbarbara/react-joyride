@@ -23,19 +23,21 @@ export default class Scope {
 
     const isTabIndexNaN = isNaN(tabIndex);
 
-    return (!isTabIndexNaN) && this.canHaveFocus(element, true);
+    return !isTabIndexNaN && this.canHaveFocus(element, true);
   };
 
   canHaveFocus = (element: HTMLElement, isTabIndexNotNaN: boolean): boolean => {
     const validTabNodes = /input|select|textarea|button|object/;
     const nodeName = element.nodeName.toLowerCase();
-    const res = (validTabNodes.test(nodeName) && !element.getAttribute('disabled'))
-      || (nodeName === 'a' ? element.getAttribute('href') || isTabIndexNotNaN : isTabIndexNotNaN);
+    const res =
+      (validTabNodes.test(nodeName) && !element.getAttribute('disabled')) ||
+      (nodeName === 'a' ? element.getAttribute('href') || isTabIndexNotNaN : isTabIndexNotNaN);
 
     return res && this.isVisible(element);
   };
 
-  findValidTabElements = () => [].slice.call(this.element.querySelectorAll('*'), 0).filter(this.canBeTabbed);
+  findValidTabElements = () =>
+    [].slice.call(this.element.querySelectorAll('*'), 0).filter(this.canBeTabbed);
 
   handleKeyDown = (e: KeyboardEvent) => {
     const { keyCode = 9 } = this.options;
@@ -59,11 +61,9 @@ export default class Scope {
 
     if (x === -1 || (!shiftKey && x + 1 === elements.length)) {
       x = 0;
-    }
-    else if (shiftKey && x === 0) {
+    } else if (shiftKey && x === 0) {
       x = elements.length - 1;
-    }
-    else {
+    } else {
       x += shiftKey ? -1 : 1;
     }
 
@@ -76,7 +76,10 @@ export default class Scope {
 
     if (noSize && !element.innerHTML) return true;
 
-    return (noSize && style.getPropertyValue('overflow') !== 'visible') || style.getPropertyValue('display') === 'none';
+    return (
+      (noSize && style.getPropertyValue('overflow') !== 'visible') ||
+      style.getPropertyValue('display') === 'none'
+    );
   };
 
   isVisible = (element: HTMLElement) => {
