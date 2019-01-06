@@ -16,17 +16,7 @@ describe('store', () => {
   describe('without initial values', () => {
     const store = createStore();
 
-    const {
-      go,
-      info,
-      next,
-      prev,
-      reset,
-      setSteps,
-      start,
-      stop,
-      update,
-    } = store;
+    const { go, info, next, prev, reset, setSteps, start, stop, update } = store;
 
     it('should have initiated a new store', () => {
       expect(store.constructor.name).toBe('Store');
@@ -41,7 +31,7 @@ describe('store', () => {
       });
     });
 
-    it('shouldn\'t be able to start without steps', () => {
+    it("shouldn't be able to start without steps", () => {
       start();
 
       expect(info()).toEqual({
@@ -119,7 +109,9 @@ describe('store', () => {
     });
 
     it('should throw an error with `update` with invalid keys', () => {
-      expect(() => update({ valid: true, lifecycle: LIFECYCLE.TOOLTIP })).toThrowErrorMatchingSnapshot();
+      expect(() =>
+        update({ valid: true, lifecycle: LIFECYCLE.TOOLTIP }),
+      ).toThrowErrorMatchingSnapshot();
     });
 
     it('should be able to call `next` [2nd step]', () => {
@@ -181,7 +173,6 @@ describe('store', () => {
         status: STATUS.PAUSED,
       });
     });
-
 
     it('should be able to call `start` [2nd step]', () => {
       start();
@@ -256,7 +247,7 @@ describe('store', () => {
       });
     });
 
-    it('should be able to call `next` again but there\'s no change to the store', () => {
+    it("should be able to call `next` again but there's no change to the store", () => {
       next();
       expect(info()).toEqual({
         action: ACTIONS.NEXT,
@@ -350,10 +341,7 @@ describe('store', () => {
   describe('with initial steps', () => {
     const store = createStore({ steps: stepsData });
 
-    const {
-      info,
-      update,
-    } = store;
+    const { info, update } = store;
 
     it('should have initiated a new store', () => {
       expect(store.constructor.name).toBe('Store');

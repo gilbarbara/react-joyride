@@ -5,11 +5,7 @@ const JoyrideTooltipCloseBtn = ({ styles, ...props }) => {
   const { color, height, width, ...style } = styles;
 
   return (
-    <button
-      style={style}
-      type="button"
-      {...props}
-    >
+    <button style={style} type="button" {...props}>
       <svg
         width={typeof width === 'number' ? `${width}px` : width}
         height={typeof height === 'number' ? `${height}px` : height}

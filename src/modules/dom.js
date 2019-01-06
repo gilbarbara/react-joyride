@@ -29,7 +29,13 @@ export function getDocumentHeight(): number {
     return 0;
   }
 
-  return Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+  return Math.max(
+    body.scrollHeight,
+    body.offsetHeight,
+    html.clientHeight,
+    html.scrollHeight,
+    html.offsetHeight,
+  );
 }
 
 /**
@@ -64,8 +70,8 @@ export function getRelativeClientRect(element: HTMLElement, parent: HTMLElement)
   }
 
   const parentRect = getClientRect(parent);
-  const offsetTop = (elementRect.top - parentRect.top) + parent.scrollTop;
-  const offsetLeft = (elementRect.left - parentRect.left) + parent.scrollLeft;
+  const offsetTop = elementRect.top - parentRect.top + parent.scrollTop;
+  const offsetLeft = elementRect.left - parentRect.left + parent.scrollLeft;
 
   return {
     top: offsetTop,
@@ -253,7 +259,7 @@ export function scrollTo(value: number, element: HTMLElement = scrollDoc()): Pro
 
     const limit = value > scrollTop ? value - scrollTop : scrollTop - value;
 
-    scroll.top(element, value, { duration: limit < 100 ? 50 : 300 }, (error) => {
+    scroll.top(element, value, { duration: limit < 100 ? 50 : 300 }, error => {
       if (error && error.message !== 'Element already at target scroll position') {
         return reject(error);
       }

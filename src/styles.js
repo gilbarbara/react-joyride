@@ -40,8 +40,7 @@ export default function getStyles(stepStyles = {}) {
   if (options.width) {
     if (window.innerWidth < options.width) {
       width = window.innerWidth - 30;
-    }
-    else {
+    } else {
       width = options.width; //eslint-disable-line prefer-destructuring
     }
   }

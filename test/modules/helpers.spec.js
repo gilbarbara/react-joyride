@@ -76,23 +76,35 @@ describe('helpers', () => {
 
     describe('with safari', () => {
       it('should identify Safari desktop', () => {
-        expect(getBrowser('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.1 Safari/605.1.15'))
-          .toBe('safari');
+        expect(
+          getBrowser(
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.1 Safari/605.1.15',
+          ),
+        ).toBe('safari');
       });
 
       it('should identify Safari mobile', () => {
-        expect(getBrowser('Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1'))
-          .toBe('safari');
+        expect(
+          getBrowser(
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1',
+          ),
+        ).toBe('safari');
       });
 
       it('should identify Chrome on iOS', () => {
-        expect(getBrowser('Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1'))
-          .toBe('safari');
+        expect(
+          getBrowser(
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1',
+          ),
+        ).toBe('safari');
       });
 
       it('should identify Firefox on iOS', () => {
-        expect(getBrowser('Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) FxiOS/1.0 Mobile/12F69 Safari/600.1.4'))
-          .toBe('safari');
+        expect(
+          getBrowser(
+            'Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) FxiOS/1.0 Mobile/12F69 Safari/600.1.4',
+          ),
+        ).toBe('safari');
       });
     });
   });
@@ -197,20 +209,16 @@ describe('helpers', () => {
       expect(isEqual({ name: 'One' }, { name: 'One' })).toBeTrue();
       expect(isEqual({ name: 'One', fn: A }, { name: 'One', fn: A })).toBeTrue();
       expect(isEqual({ name: 'One', fn: A }, { name: 'One' })).toBeFalse();
-      expect(isEqual(
-        { name: 'One', step: { target: 'test' } },
-        { name: 'One', step: { target: 'test' } })
+      expect(
+        isEqual(
+          { name: 'One', step: { target: 'test' } },
+          { name: 'One', step: { target: 'test' } },
+        ),
       ).toBeTrue();
 
-      expect(isEqual(
-        { name: 'One', step: { target: 'test' } },
-        { name: 'One' })
-      ).toBeFalse();
+      expect(isEqual({ name: 'One', step: { target: 'test' } }, { name: 'One' })).toBeFalse();
 
-      expect(isEqual(
-        { name: 'One' },
-        { name: 'One', step: { target: 'test' } })
-      ).toBeFalse();
+      expect(isEqual({ name: 'One' }, { name: 'One', step: { target: 'test' } })).toBeFalse();
     });
 
     it('should work with strings', () => {
@@ -241,7 +249,7 @@ describe('helpers', () => {
     });
 
     it('should skip React elements', () => {
-      const A = () => (<div>A</div>);
+      const A = () => <div>A</div>;
 
       expect(isEqual(<A />, <A />)).toBeFalse();
     });
@@ -302,8 +310,11 @@ describe('helpers', () => {
         debug: true,
       });
 
-      expect(console.groupCollapsed)
-        .toHaveBeenNthCalledWith(1, '%creact-joyride: Hello', 'color: #ff0044; font-weight: bold; font-size: 12px;');
+      expect(console.groupCollapsed).toHaveBeenNthCalledWith(
+        1,
+        '%creact-joyride: Hello',
+        'color: #ff0044; font-weight: bold; font-size: 12px;',
+      );
       expect(console.log).toHaveBeenNthCalledWith(1, 'World');
 
       log({
@@ -312,8 +323,11 @@ describe('helpers', () => {
         debug: true,
       });
 
-      expect(console.groupCollapsed)
-        .toHaveBeenNthCalledWith(1, '%creact-joyride: Hello', 'color: #ff0044; font-weight: bold; font-size: 12px;');
+      expect(console.groupCollapsed).toHaveBeenNthCalledWith(
+        1,
+        '%creact-joyride: Hello',
+        'color: #ff0044; font-weight: bold; font-size: 12px;',
+      );
       expect(console.log).toHaveBeenNthCalledWith(1, 'World');
     });
 
@@ -327,8 +341,11 @@ describe('helpers', () => {
 
       expect(console.warn).toHaveBeenNthCalledWith(1, 'hi');
       expect(console.warn).toHaveBeenNthCalledWith(2, 'valid', true);
-      expect(console.groupCollapsed)
-        .toHaveBeenNthCalledWith(3, '%creact-joyride: Warn', 'color: #ff0044; font-weight: bold; font-size: 12px;');
+      expect(console.groupCollapsed).toHaveBeenNthCalledWith(
+        3,
+        '%creact-joyride: Warn',
+        'color: #ff0044; font-weight: bold; font-size: 12px;',
+      );
     });
 
     it('should call error with missing title', () => {

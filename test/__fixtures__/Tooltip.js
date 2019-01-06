@@ -23,7 +23,9 @@ export default class Tooltip extends React.Component {
   componentDidMount() {
     const { setScope, Scope, useSelector } = this.props;
 
-    this.scope = new Scope(this.tooltip.current, { selector: useSelector ? '.primary' : undefined });
+    this.scope = new Scope(this.tooltip.current, {
+      selector: useSelector ? '.primary' : undefined,
+    });
     setScope(this.scope);
   }
 
@@ -35,11 +37,19 @@ export default class Tooltip extends React.Component {
     return (
       <React.Fragment>
         <footer>
-          <button type="button" className="skip">SKIP</button>
-          <button type="button" className="back">BACK</button>
-          <button type="button" className="primary">GO</button>
+          <button type="button" className="skip">
+            SKIP
+          </button>
+          <button type="button" className="back">
+            BACK
+          </button>
+          <button type="button" className="primary">
+            GO
+          </button>
         </footer>
-        <a href="#close" className="close">X</a>
+        <a href="#close" className="close">
+          X
+        </a>
         <a name="end" />
       </React.Fragment>
     );

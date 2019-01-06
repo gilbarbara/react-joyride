@@ -34,7 +34,7 @@ export default class Standard extends React.Component {
     });
   };
 
-  handleJoyrideCallback = (data) => {
+  handleJoyrideCallback = data => {
     const { callback } = this.props;
     const { status } = data;
 
@@ -65,22 +65,35 @@ export default class Standard extends React.Component {
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
                 </h1>
-                <button className="hero__start" onClick={this.handleClickStart} type="button">Let's Go!</button>
+                <button className="hero__start" onClick={this.handleClickStart} type="button">
+                  Let's Go!
+                </button>
               </div>
             </div>
           </div>
           <div className="demo__section projects">
             <div className="container">
-              <h2><span>Projects</span></h2>
+              <h2>
+                <span>Projects</span>
+              </h2>
               <div className="list">
                 <div>
-                  <img src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS" alt="ASBESTOS" />
+                  <img
+                    src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS"
+                    alt="ASBESTOS"
+                  />
                 </div>
                 <div>
-                  <img src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW" alt="GROW" />
+                  <img
+                    src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW"
+                    alt="GROW"
+                  />
                 </div>
                 <div>
-                  <img src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑" alt="∂Vo∑" />
+                  <img
+                    src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑"
+                    alt="∂Vo∑"
+                  />
                 </div>
               </div>
             </div>
@@ -88,18 +101,24 @@ export default class Standard extends React.Component {
 
           <div className="demo__section mission">
             <div className="container">
-              <h2><span>Mission</span></h2>
+              <h2>
+                <span>Mission</span>
+              </h2>
             </div>
           </div>
           <div className="demo__section about">
             <div className="container">
-              <h2><span>About</span></h2>
+              <h2>
+                <span>About</span>
+              </h2>
             </div>
           </div>
         </main>
         <footer className="demo__footer">
           <div className="container">
-            <button type="button"><span /></button>
+            <button type="button">
+              <span />
+            </button>
             JOYRIDE
           </div>
         </footer>

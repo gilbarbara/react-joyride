@@ -1,5 +1,4 @@
-.tmp
-_book/
+_book
 coverage
 es
 lib

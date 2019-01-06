@@ -30,14 +30,13 @@ export default class Controlled extends React.Component {
     this.setState({ stepIndex: 2 });
   };
 
-  handleJoyrideCallback = (data) => {
+  handleJoyrideCallback = data => {
     const { callback } = this.props;
     const { action, index, status, type } = data;
 
     if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       this.setState({ run: false, stepIndex: 0 });
-    }
-    else if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+    } else if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
       // Keep internal state in sync with joyride
       this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
     }
@@ -66,22 +65,35 @@ export default class Controlled extends React.Component {
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
                 </h1>
-                <button className="hero__start" onClick={this.handleClickStart} type="button">Let's Go!</button>
+                <button className="hero__start" onClick={this.handleClickStart} type="button">
+                  Let's Go!
+                </button>
               </div>
             </div>
           </div>
           <div className="demo__section projects">
             <div className="container">
-              <h2><span>Projects</span></h2>
+              <h2>
+                <span>Projects</span>
+              </h2>
               <div className="list">
                 <div>
-                  <img src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS" alt="ASBESTOS" />
+                  <img
+                    src="http://placehold.it/800x600/ff0044/ffffff?txtsize=50&text=ASBESTOS"
+                    alt="ASBESTOS"
+                  />
                 </div>
                 <div>
-                  <img src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW" alt="GROW" />
+                  <img
+                    src="http://placehold.it/800x600/00ff44/ffffff?txtsize=50&text=GROW"
+                    alt="GROW"
+                  />
                 </div>
                 <div>
-                  <img src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑" alt="∂Vo∑" />
+                  <img
+                    src="http://placehold.it/800x600/333/ffffff?txtsize=50&text=∂Vo∑"
+                    alt="∂Vo∑"
+                  />
                 </div>
               </div>
             </div>
@@ -89,7 +101,9 @@ export default class Controlled extends React.Component {
 
           <div className="demo__section mission">
             <div className="container">
-              <h2><span>Mission</span></h2>
+              <h2>
+                <span>Mission</span>
+              </h2>
               {stepIndex === 1 && (
                 <button
                   className="btn btn-secondary mission__button"
@@ -103,13 +117,17 @@ export default class Controlled extends React.Component {
           </div>
           <div className="demo__section about">
             <div className="container">
-              <h2><span>About</span></h2>
+              <h2>
+                <span>About</span>
+              </h2>
             </div>
           </div>
         </main>
         <footer className="demo__footer">
           <div className="container">
-            <button type="button"><span /></button>
+            <button type="button">
+              <span />
+            </button>
             JOYRIDE
           </div>
         </footer>

@@ -19,11 +19,9 @@ export function getBrowser(userAgent: string = navigator.userAgent): string {
 
   if (typeof window === 'undefined') {
     browser = 'node';
-  }
-  else if (document.documentMode) {
+  } else if (document.documentMode) {
     browser = 'ie';
-  }
-  else if (/Edge/.test(userAgent)) {
+  } else if (/Edge/.test(userAgent)) {
     browser = 'edge';
   }
   // Opera 8.0+
@@ -52,7 +50,10 @@ export function getBrowser(userAgent: string = navigator.userAgent): string {
  * @returns {string}
  */
 export function getObjectType(value: any): string {
-  return Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
+  return Object.prototype.toString
+    .call(value)
+    .slice(8, -1)
+    .toLowerCase();
 }
 
 /**
@@ -65,21 +66,18 @@ export function getObjectType(value: any): string {
 export function getText(root: any): string {
   const content = [];
 
-  const recurse = (child) => {
+  const recurse = child => {
     /* istanbul ignore else */
     if (typeof child === 'string' || typeof child === 'number') {
       content.push(child);
-    }
-    else if (Array.isArray(child)) {
+    } else if (Array.isArray(child)) {
       child.forEach(c => recurse(c));
-    }
-    else if (child && child.props) {
+    } else if (child && child.props) {
       const { children } = child.props;
 
       if (Array.isArray(children)) {
         children.forEach(c => recurse(c));
-      }
-      else {
+      } else {
         recurse(children);
       }
     }
@@ -110,14 +108,10 @@ export function hasValidKeys(value: Object, keys: Array<any>): boolean {
  */
 export function hexToRGB(hex: string): Array<number> {
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  const properHex = hex.replace(shorthandRegex, (m, r, g, b) => (r + r + g + g + b + b));
+  const properHex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
 
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(properHex);
-  return result ? [
-    parseInt(result[1], 16),
-    parseInt(result[2], 16),
-    parseInt(result[3], 16),
-  ] : [];
+  return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [];
 }
 
 /**
@@ -143,11 +137,7 @@ export function isEqual(left: any, right: any): boolean {
   const hasReactElement = isValidElement(left) || isValidElement(right);
   const hasUndefined = is.undefined(left) || is.undefined(right);
 
-  if (
-    getObjectType(left) !== getObjectType(right)
-    || hasReactElement
-    || hasUndefined
-  ) {
+  if (getObjectType(left) !== getObjectType(right) || hasReactElement || hasUndefined) {
     return false;
   }
 
@@ -223,25 +213,25 @@ export function log({ title, data, warn = false, debug = false }: Object) {
 
   if (debug) {
     if (title && data) {
-      console.groupCollapsed(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
+      console.groupCollapsed(
+        `%creact-joyride: ${title}`,
+        'color: #ff0044; font-weight: bold; font-size: 12px;',
+      );
 
       if (Array.isArray(data)) {
         data.forEach(d => {
           if (is.plainObject(d) && d.key) {
             logFn.apply(console, [d.key, d.value]);
-          }
-          else {
+          } else {
             logFn.apply(console, [d]);
           }
         });
-      }
-      else {
+      } else {
         logFn.apply(console, [data]);
       }
 
       console.groupEnd();
-    }
-    else {
+    } else {
       console.error('Missing title or data props');
     }
   }

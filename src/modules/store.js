@@ -23,14 +23,17 @@ export default function createStore(props: StoreState): StoreInstance {
     listener: Function;
 
     constructor({ continuous = false, stepIndex, steps = [] }: Object = {}) {
-      this.setState({
-        action: ACTIONS.INIT,
-        controlled: is.number(stepIndex),
-        continuous,
-        index: is.number(stepIndex) ? stepIndex : 0,
-        lifecycle: LIFECYCLE.INIT,
-        status: steps.length ? STATUS.READY : STATUS.IDLE,
-      }, true);
+      this.setState(
+        {
+          action: ACTIONS.INIT,
+          controlled: is.number(stepIndex),
+          continuous,
+          index: is.number(stepIndex) ? stepIndex : 0,
+          lifecycle: LIFECYCLE.INIT,
+          status: steps.length ? STATUS.READY : STATUS.IDLE,
+        },
+        true,
+      );
 
       this.setSteps(steps);
     }
@@ -87,7 +90,7 @@ export default function createStore(props: StoreState): StoreInstance {
         index: nextIndex,
         lifecycle: state.lifecycle || LIFECYCLE.INIT,
         size: state.size || size,
-        status: nextIndex === size ? STATUS.FINISHED : (state.status || status),
+        status: nextIndex === size ? STATUS.FINISHED : state.status || status,
       };
     }
 
@@ -142,11 +145,14 @@ export default function createStore(props: StoreState): StoreInstance {
       }
 
       this.setState({
-        ...this.getNextState({
-          ...this.getState(),
-          ...state,
-          action: state.action || ACTIONS.UPDATE,
-        }, true),
+        ...this.getNextState(
+          {
+            ...this.getState(),
+            ...state,
+            action: state.action || ACTIONS.UPDATE,
+          },
+          true,
+        ),
       });
     };
 
@@ -154,10 +160,13 @@ export default function createStore(props: StoreState): StoreInstance {
       const { index, size } = this.getState();
 
       this.setState({
-        ...this.getNextState({
-          action: ACTIONS.START,
-          index: is.number(nextIndex) ? nextIndex : index,
-        }, true),
+        ...this.getNextState(
+          {
+            action: ACTIONS.START,
+            index: is.number(nextIndex) ? nextIndex : index,
+          },
+          true,
+        ),
         status: size ? STATUS.RUNNING : STATUS.WAITING,
       });
     };
@@ -190,7 +199,7 @@ export default function createStore(props: StoreState): StoreInstance {
       this.setState(this.getNextState({ action: ACTIONS.NEXT, index: index + 1 }));
     };
 
-    go = (nextIndex) => {
+    go = nextIndex => {
       const { controlled, status } = this.getState();
       if (controlled || status !== STATUS.RUNNING) return;
 
@@ -232,7 +241,7 @@ export default function createStore(props: StoreState): StoreInstance {
       });
     };
 
-    info = (): Object => this.getState()
+    info = (): Object => this.getState();
   }
 
   return new Store(props);

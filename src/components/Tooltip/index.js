@@ -14,21 +14,21 @@ export default class JoyrideTooltip extends React.Component {
     step: PropTypes.object.isRequired,
   };
 
-  handleClickBack = (e) => {
+  handleClickBack = e => {
     e.preventDefault();
     const { helpers } = this.props;
 
     helpers.prev();
   };
 
-  handleClickClose = (e) => {
+  handleClickClose = e => {
     e.preventDefault();
     const { helpers } = this.props;
 
     helpers.close();
   };
 
-  handleClickPrimary = (e) => {
+  handleClickPrimary = e => {
     e.preventDefault();
     const { continuous, helpers } = this.props;
 
@@ -40,7 +40,7 @@ export default class JoyrideTooltip extends React.Component {
     helpers.next();
   };
 
-  handleClickSkip = (e) => {
+  handleClickSkip = e => {
     e.preventDefault();
     const { helpers } = this.props;
 
@@ -116,8 +116,7 @@ export default class JoyrideTooltip extends React.Component {
 
       const TooltipComponent = tooltipComponent;
       component = <TooltipComponent {...renderProps} />;
-    }
-    else {
+    } else {
       component = (
         <Container
           {...this.getElementsProps()}

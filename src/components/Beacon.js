@@ -75,7 +75,7 @@ export default class JoyrideBeacon extends React.Component {
     }
   }
 
-  setBeaconRef = (c) => {
+  setBeaconRef = c => {
     this.beacon = c;
   };
 
@@ -93,8 +93,7 @@ export default class JoyrideBeacon extends React.Component {
     if (beaconComponent) {
       const BeaconComponent = beaconComponent;
       component = <BeaconComponent {...props} />;
-    }
-    else {
+    } else {
       component = (
         <button
           key="JoyrideBeacon"

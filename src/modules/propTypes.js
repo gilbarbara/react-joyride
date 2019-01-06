@@ -20,21 +20,14 @@ function createChainableTypeChecker(validate: Function): Function {
     if (props[propName] == null) {
       if (isRequired) {
         return new Error(
-          `Required ${location} \`${propFullNameSafe}\` was not specified in \`${componentNameSafe}\`.`
+          `Required ${location} \`${propFullNameSafe}\` was not specified in \`${componentNameSafe}\`.`,
         );
       }
 
       return null;
     }
 
-    return validate(
-      props,
-      propName,
-      componentNameSafe,
-      location,
-      propFullNameSafe,
-      ...args
-    );
+    return validate(props, propName, componentNameSafe, location, propFullNameSafe, ...args);
   }
 
   const chainedCheckType = checkType.bind(null, false);
@@ -49,7 +42,7 @@ export const componentTypeWithRefs = createChainableTypeChecker(
     propName: string,
     componentName: string,
     location: string,
-    propFullName: string
+    propFullName: string,
   ): any => {
     const propValue = props[propName];
     let Component = propValue;
@@ -63,16 +56,16 @@ export const componentTypeWithRefs = createChainableTypeChecker(
     }
 
     if (
-      is.string(propValue)
-      || is.number(propValue)
-      || !isValidElementType(propValue)
-      || ![Element, ForwardRef].includes(typeOf(Component))
+      is.string(propValue) ||
+      is.number(propValue) ||
+      !isValidElementType(propValue) ||
+      ![Element, ForwardRef].includes(typeOf(Component))
     ) {
       return new Error(
-        `Invalid ${location} \`${propFullName}\` supplied to \`${componentName}\`. Expected a React class or forwardRef.`
+        `Invalid ${location} \`${propFullName}\` supplied to \`${componentName}\`. Expected a React class or forwardRef.`,
       );
     }
 
     return undefined;
-  }
+  },
 );

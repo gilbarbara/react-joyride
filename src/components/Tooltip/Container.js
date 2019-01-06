@@ -49,7 +49,11 @@ export default class JoyrideTooltipContainer extends React.Component {
       output.primary = isLastStep ? last : next;
 
       if (showProgress) {
-        output.primary = <span>{output.primary} ({index + 1}/{size})</span>;
+        output.primary = (
+          <span>
+            {output.primary} ({index + 1}/{size})
+          </span>
+        );
       }
     }
 
@@ -69,23 +73,14 @@ export default class JoyrideTooltipContainer extends React.Component {
 
     if (!hideBackButton && index > 0) {
       output.back = (
-        <button
-          style={styles.buttonBack}
-          type="button"
-          data-test-id="button-back"
-          {...backProps}
-        >
+        <button style={styles.buttonBack} type="button" data-test-id="button-back" {...backProps}>
           {back}
         </button>
       );
     }
 
     output.close = !hideCloseButton && (
-      <CloseBtn
-        styles={styles.buttonClose}
-        data-test-id="button-close"
-        {...closeProps}
-      />
+      <CloseBtn styles={styles.buttonClose} data-test-id="button-close" {...closeProps} />
     );
 
     return (
@@ -96,10 +91,12 @@ export default class JoyrideTooltipContainer extends React.Component {
         {...tooltipProps}
       >
         <div style={styles.tooltipContainer}>
-          {title && (<h4 style={styles.tooltipTitle} aria-label={title}>{title}</h4>)}
-          <div style={styles.tooltipContent}>
-            {content}
-          </div>
+          {title && (
+            <h4 style={styles.tooltipTitle} aria-label={title}>
+              {title}
+            </h4>
+          )}
+          <div style={styles.tooltipContent}>{content}</div>
         </div>
         {!hideFooter && (
           <div style={styles.tooltipFooter}>
