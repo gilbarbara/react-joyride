@@ -101,86 +101,75 @@ class Joyride extends React.Component {
     const { setSteps, reset, start, stop, update } = this.store;
     const { changed: changedProps } = treeChanges(prevProps, this.props);
     const { changed, changedFrom, changedTo } = treeChanges(prevState, this.state);
-    const diffProps = !isEqual(prevProps, this.props);
-    const diffState = !isEqual(prevState, this.state);
     const step = getMergedStep(steps[index], this.props);
 
-    if (diffProps) {
-      log({
-        title: 'props',
-        data: [
-          { key: 'nextProps', value: this.props },
-          { key: 'props', value: prevProps },
-        ],
-        debug,
-      });
+    const stepsChanged = !isEqual(prevSteps, steps);
+    const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
 
-      const stepsChanged = !isEqual(prevSteps, steps);
-      const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
-
-      if (stepsChanged) {
-        if (validateSteps(steps, debug)) {
-          setSteps(steps);
-        }
-        else {
-          console.warn('Steps are not valid', steps); //eslint-disable-line no-console
-        }
+    if (stepsChanged) {
+      if (validateSteps(steps, debug)) {
+        setSteps(steps);
       }
-
-      /* istanbul ignore else */
-      if (changedProps('run')) {
-        if (run) {
-          start(stepIndex);
-        }
-        else {
-          stop();
-        }
-      }
-
-      /* istanbul ignore else */
-      if (stepIndexChanged) {
-        let nextAction = prevStepIndex < stepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
-
-        if (action === ACTIONS.STOP) {
-          nextAction = ACTIONS.START;
-        }
-
-        if (![STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-          update({
-            action: action === ACTIONS.CLOSE ? ACTIONS.CLOSE : nextAction,
-            index: stepIndex,
-            lifecycle: LIFECYCLE.INIT,
-          });
-        }
+      else {
+        console.warn('Steps are not valid', steps); //eslint-disable-line no-console
       }
     }
 
-    if (diffState) {
-      log({
-        title: 'state',
-        data: [
-          { key: 'state', value: this.state },
-          { key: 'changed', value: diffState },
-          { key: 'step', value: step },
-        ],
-        debug,
+    /* istanbul ignore else */
+    if (changedProps('run')) {
+      if (run) {
+        start(stepIndex);
+      }
+      else {
+        stop();
+      }
+    }
+
+    /* istanbul ignore else */
+    if (stepIndexChanged) {
+      let nextAction = prevStepIndex < stepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
+
+      if (action === ACTIONS.STOP) {
+        nextAction = ACTIONS.START;
+      }
+
+      if (![STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+        update({
+          action: action === ACTIONS.CLOSE ? ACTIONS.CLOSE : nextAction,
+          index: stepIndex,
+          lifecycle: LIFECYCLE.INIT,
+        });
+      }
+    }
+
+    const callbackData = {
+      ...this.state,
+      index,
+      step,
+    };
+    const isAfterAction = changedTo('action', [
+      ACTIONS.NEXT,
+      ACTIONS.PREV,
+      ACTIONS.SKIP,
+      ACTIONS.CLOSE,
+    ]);
+
+    if (isAfterAction && changedTo('status', STATUS.PAUSED)) {
+      const prevStep = getMergedStep(steps[prevState.index], this.props);
+
+      this.callback({
+        ...callbackData,
+        index: prevState.index,
+        lifecycle: LIFECYCLE.COMPLETE,
+        step: prevStep,
+        type: EVENTS.STEP_AFTER,
       });
+    }
 
-      const callbackData = {
-        ...this.state,
-        index,
-        step,
-      };
-      const isAfterAction = changedTo('action', [
-        ACTIONS.NEXT,
-        ACTIONS.PREV,
-        ACTIONS.SKIP,
-        ACTIONS.CLOSE,
-      ]);
+    if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+      const prevStep = getMergedStep(steps[prevState.index], this.props);
 
-      if (isAfterAction && changedTo('status', STATUS.PAUSED)) {
-        const prevStep = getMergedStep(steps[prevState.index], this.props);
-
+      if (!controlled) {
         this.callback({
           ...callbackData,
           index: prevState.index,
@@ -189,53 +178,39 @@ class Joyride extends React.Component {
           type: EVENTS.STEP_AFTER,
         });
       }
+      this.callback({
+        ...callbackData,
+        type: EVENTS.TOUR_END,
+        // Return the last step when the tour is finished
+        step: prevStep,
+        index: prevState.index,
+      });
+      reset();
+    }
+    else if (changedFrom('status', [STATUS.IDLE, STATUS.READY], STATUS.RUNNING)) {
+      this.callback({
+        ...callbackData,
+        type: EVENTS.TOUR_START,
+      });
+    }
+    else if (changed('status')) {
+      this.callback({
+        ...callbackData,
+        type: EVENTS.TOUR_STATUS,
+      });
+    }
+    else if (changedTo('action', ACTIONS.RESET)) {
+      this.callback({
+        ...callbackData,
+        type: EVENTS.TOUR_STATUS,
+      });
+    }
 
-      if (changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
-        const prevStep = getMergedStep(steps[prevState.index], this.props);
+    if (step) {
+      this.scrollToStep(prevState);
 
-        if (!controlled) {
-          this.callback({
-            ...callbackData,
-            index: prevState.index,
-            lifecycle: LIFECYCLE.COMPLETE,
-            step: prevStep,
-            type: EVENTS.STEP_AFTER,
-          });
-        }
-        this.callback({
-          ...callbackData,
-          type: EVENTS.TOUR_END,
-          // Return the last step when the tour is finished
-          step: prevStep,
-          index: prevState.index,
-        });
-        reset();
-      }
-      else if (changedFrom('status', [STATUS.IDLE, STATUS.READY], STATUS.RUNNING)) {
-        this.callback({
-          ...callbackData,
-          type: EVENTS.TOUR_START,
-        });
-      }
-      else if (changed('status')) {
-        this.callback({
-          ...callbackData,
-          type: EVENTS.TOUR_STATUS,
-        });
-      }
-      else if (changedTo('action', ACTIONS.RESET)) {
-        this.callback({
-          ...callbackData,
-          type: EVENTS.TOUR_STATUS,
-        });
-      }
-
-      if (step) {
-        this.scrollToStep(prevState);
-
-        if (step.placement === 'center' && status === STATUS.RUNNING && lifecycle === LIFECYCLE.INIT) {
-          this.store.update({ lifecycle: LIFECYCLE.READY });
-        }
+      if (step.placement === 'center' && status === STATUS.RUNNING && lifecycle === LIFECYCLE.INIT) {
+        this.store.update({ lifecycle: LIFECYCLE.READY });
       }
     }
   }
