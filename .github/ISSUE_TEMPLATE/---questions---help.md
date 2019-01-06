@@ -13,6 +13,6 @@ assignees: ''
 
 For questions or help please see:
 
-- [The README documentation](https://github.com/gilbarbara/react-floater/blob/master/README.md)
-- [The Reactiflux #library channel on discord](https://discord.gg/W7yyNU)
+- [The documentation](https://docs.react-joyride.com/)
+- [Our chat on Spectrum](https://spectrum.chat/react-joyride)
 - The [react-joyride](https://stackoverflow.com/questions/tagged/react-joyride) tag on [StackOverflow](https://stackoverflow.com/questions/ask)
