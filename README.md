@@ -56,3 +56,26 @@ export class App extends React.Component {
   }
 }
 ```
+
+## Development
+
+Setting up a local development environment is easy!
+
+Clone (or fork) this repo on your machine, navigate to its location in the terminal and run:
+
+```bash
+npm install
+npm link # link your local repo to your global packages
+npm run watch # build the files and watch for changes
+```
+
+Now clone https://github.com/gilbarbara/react-joyride-demo and run:
+
+```bash
+npm install
+npm link react-joyride # just link your local copy into this project's node_modules
+npm start
+```
+
+**Start coding!** 🎉
+
