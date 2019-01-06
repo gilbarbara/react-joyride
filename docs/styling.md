@@ -1,6 +1,7 @@
 # Styling
 
-Version 2 uses inline styles. To update the default theme, just pass a `styles` prop to the Joyride component,  
+Version 2 uses inline styles instead of V1 SCSS.  
+To update the default theme, just pass a `styles` prop to the Joyride component,  
 You can control the overall theme with the special `options` object.
 
 ```text
@@ -60,11 +61,7 @@ You can customize the styles per step too.
 
 Check [styles.js](https://github.com/gilbarbara/react-joyride/tree/3e08384415a831b20ce21c8423b6c271ad419fbf/src/styles.js) for more information.
 
-
-
 Or if you need finer control you can use you own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
-
-
 
 If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
 

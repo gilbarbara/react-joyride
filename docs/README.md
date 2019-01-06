@@ -1,17 +1,16 @@
-# React Joyride
+# Overview
 
 [![Joyride example image](http://gilbarbara.com/files/react-joyride.png)](https://react-joyride.com/)
 
-#### Create awesome tours for your app!
+### Create awesome tours for your app!
 
-Showcase your app to new users or explain functionality of new features.  
+Showcase your app to new users or explain functionality of new features.
 
 It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
 And you can use your own components too.
 
-**Open the [demo](https://react-joyride.com/)**
-
-**Open GitHub [repo](https://github.com/gilbarbara/react-joyride)**
+**Open the** [**demo**](https://react-joyride.com/)  
+**Open GitHub** [**repo**](https://github.com/gilbarbara/react-joyride)
 
 ## Setup
 
@@ -54,3 +53,4 @@ export class App extends React.Component {
   }
 }
 ```
+

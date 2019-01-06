@@ -1,7 +1,7 @@
 # Constants
 
 Joyride uses a few constants to keep its state and lifecycle.  
-You can use these in your component for the callback events.
+You should use them in your component for the callback events.
 
 ```javascript
 import Joyride, { ACTIONS, EVENTS, LIFECYCLE, STATUS } from 'react-joyride';

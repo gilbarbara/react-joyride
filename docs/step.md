@@ -1,6 +1,6 @@
 # Step
 
-The step is an plain object that only requires two properties to be valid: `target` and `content`.
+The step is a plain object that only requires two properties to be valid: `target` and `content`.
 
 ```text
 {
@@ -9,7 +9,11 @@ The step is an plain object that only requires two properties to be valid: `targ
 }
 ```
 
-## Props
+## Options
+
+{% hint style="info" %}
+▶︎ indicates the default value if there's one
+{% endhint %}
 
 **content** {React.Node}  
 The tooltip's body.
@@ -34,8 +38,8 @@ It can be:
 * bottom, bottom-start, bottom-end
 * left, left-start, left-end
 * right, right-start, right-end
-* auto (it will choose the best position)
-* center (set the target to `body`)
+* auto \(it will choose the best position\)
+* center \(set the target to `body`\)
 
 Check [react-floater](https://github.com/gilbarbara/react-floater) for more information.
 
@@ -60,7 +64,7 @@ It will inherit some properties from Joyride's own [props](props.md) that can be
 * disableOverlay
 * disableOverlayClose
 * disableScrolling
-* floaterProps (check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information)
+* floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information\)
 * hideBackButton
 * locale
 * showProgress
@@ -69,3 +73,4 @@ It will inherit some properties from Joyride's own [props](props.md) that can be
 * spotlightPadding
 * styles
 * tooltipComponent
+

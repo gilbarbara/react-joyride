@@ -1,25 +1,24 @@
-# Custom components
+# Custom Components
 
-When you set custom components to have complete control of the UI.  
-They will receive data through props.
+You can use custom components to have complete control of the UI. They will receive data through props and need to be a React class or forwardRef since it needs to set `ref`
 
 > If you are looking to customize the default UI, check the [styling](styling.md) docs.
 
 ## beaconComponent
 
-#### Props
+### Props
 
-**aria-label** {string}: from the `locale.open` prop
+**aria-label** {string}: the _open_ property in the `locale` object.
 
 **onClick** {function}: internal method to call when clicking
 
 **onMouseEnter** {function}: internal method to call when hovering
 
-**title** {string}: from the `locale.open` prop
+**title** {string}: the _open_ property in the `locale` object.
 
+**ref** {function}: set the beacon ref
 
-
-#### Example with styled-components
+### Example with styled-components
 
 ```jsx
 const pulse = keyframes`
@@ -54,49 +53,45 @@ export () => (
 );
 ```
 
-
-
 ## tooltipComponent
 
-#### Props
+### Props
 
 **continuous** {boolean}: If the tour is continuous or not
 
-**index** {number}: The current step's index.
+**index** {number}: The current step's index
 
 **isLastStep** {boolean}: The name says it all
 
-**setTooltipRef** {function}: Set the ref for your component
+**size** {number}: The number of steps in the tour
 
-**size** {number}: The number of steps in the tour.
-
-**step** {object}: The current step data.
+**step** {object}: The current step data
 
 **backProps** {object}: The back button's props
 
 **closeProps** {object}: The close button's props
 
-**primaryProps** {object}: The primary button's props (Close or Next if the tour is continuous)
+**primaryProps** {object}: The primary button's props \(Close or Next if the tour is continuous\)
 
 **skipProps** {object}: The skip button's props
 
+**tooltipProps** {object}: The root element props \(including `ref`\)
 
-
-#### Example with styled-components
+### Example with styled-components
 
 ```jsx
 const Tooltip = ({
   continuous,
+  index,
+  step,
   backProps,
   closeProps,
-  index,
   primaryProps,
-  setTooltipRef,
-  step,
+  tooltipProps,
 }) => (
-  <TooltipBody ref={setTooltipRef}>
+  <TooltipBody {...tooltipProps}>
     {step.title && <TooltipTitle>{step.title}</TooltipTitle>}
-    {step.content && <TooltipContent>{step.content}</TooltipContent>}
+    <TooltipContent>{step.content}</TooltipContent>
     <TooltipFooter>
       {index > 0 && (
         <Button {...backProps}>

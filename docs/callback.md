@@ -1,12 +1,11 @@
 # Callback
 
-You can get Joyride's state changes using the `callback` prop.
-
+You can get Joyride's state changes using the `callback` prop.  
 It will receive an object with the current state.
 
 ## Example data
 
-```js
+```javascript
 {
   action: 'start',
   controlled: true,
@@ -19,7 +18,7 @@ It will receive an object with the current state.
 }
 ```
 
-```js
+```javascript
 {
   action: 'update',
   controlled: true,
@@ -32,7 +31,7 @@ It will receive an object with the current state.
 }
 ```
 
-```js
+```javascript
 {
   action: 'next',
   controlled: true,
@@ -53,7 +52,7 @@ import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
 export class App extends React.Component {
   state = {
     run: false,
-  	steps: [
+      steps: [
       {
         target: '.my-first-step',
         content: 'This is my awesome feature!',
