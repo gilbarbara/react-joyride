@@ -12,6 +12,8 @@ const defaultOptions = {
   zIndex: 100,
 };
 
+const tooltipBorderRadius = 5;
+
 const buttonBase = {
   backgroundColor: 'transparent',
   border: 0,
@@ -28,6 +30,26 @@ const spotlight = {
   borderRadius: 4,
   position: 'absolute',
 };
+
+function getArrowMargin(styles) {
+  const tooltipHasGotBorderRadius = styles.tooltip && styles.tooltip.borderRadius;
+  const arrowHasNotGotMargin = !(
+    styles.floaterStyles &&
+    styles.floaterStyles.arrow &&
+    styles.floaterStyles.arrow.margin
+  );
+
+  if (tooltipHasGotBorderRadius && arrowHasNotGotMargin) {
+    return {
+      floaterStyles: {
+        arrow: {
+          margin: styles.tooltip.borderRadius,
+        },
+      },
+    };
+  }
+  return {};
+}
 
 export default function getStyles(stepStyles = {}) {
   const options = deepmerge(defaultOptions, stepStyles.options || {});
@@ -94,7 +116,7 @@ export default function getStyles(stepStyles = {}) {
     },
     tooltip: {
       backgroundColor: options.backgroundColor,
-      borderRadius: 5,
+      borderRadius: tooltipBorderRadius,
       boxSizing: 'border-box',
       color: options.textColor,
       fontSize: 16,
@@ -173,6 +195,7 @@ export default function getStyles(stepStyles = {}) {
     floaterStyles: {
       arrow: {
         color: options.arrowColor,
+        margin: tooltipBorderRadius,
       },
       options: {
         zIndex: options.zIndex,
@@ -181,5 +204,5 @@ export default function getStyles(stepStyles = {}) {
     options,
   };
 
-  return deepmerge(defaultStyles, stepStyles);
+  return deepmerge.all([defaultStyles, stepStyles, getArrowMargin(stepStyles)]);
 }
