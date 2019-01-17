@@ -8,7 +8,7 @@ description: >-
 
 ## Styling
 
-V2 uses iniline styles instead of SCSS/CSS so you need to remove the imports. Check [Styling](styling.md) for more information.
+V2 uses inline styles instead of SCSS/CSS so you need to remove the imports. Check [Styling](styling.md) for more information.
 
 ## Props
 
