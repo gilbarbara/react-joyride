@@ -63,6 +63,7 @@ export interface StepProps {
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
   spotlightPadding?: number;
+  spotlightTarget: string | HTMLElement;
   styles?: Object;
   target: string | HTMLElement;
   title?: ReactNode;

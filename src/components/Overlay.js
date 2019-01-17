@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import treeChanges from 'tree-changes';
+import is from 'is-lite';
 
 import {
   getClientRect,
@@ -38,6 +39,7 @@ export default class JoyrideOverlay extends React.Component {
     placement: PropTypes.string.isRequired,
     spotlightClicks: PropTypes.bool.isRequired,
     spotlightPadding: PropTypes.number,
+    spotlightTarget: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
     styles: PropTypes.object.isRequired,
     target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   };
@@ -149,10 +151,17 @@ export default class JoyrideOverlay extends React.Component {
       disableScrollParentFix,
       spotlightClicks,
       spotlightPadding,
+      spotlightTarget,
       styles,
       target,
     } = this.props;
-    const element = getElement(target);
+
+    let targetToSpotlight = target;
+    if (spotlightTarget && is.domElement(getElement(spotlightTarget))) {
+      targetToSpotlight = spotlightTarget;
+    }
+
+    const element = getElement(targetToSpotlight);
     const elementRect = getClientRect(element);
     const isFixedTarget = isFixed(element);
     const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
