@@ -79,7 +79,7 @@ export interface Step {
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
   spotlightPadding?: number;
-  spotlightTarget: string | HTMLElement;
+  spotlightTarget?: string | HTMLElement;
   styles?: object;
   target: string | HTMLElement;
   title?: React.ReactNode;

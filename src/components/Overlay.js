@@ -156,12 +156,12 @@ export default class JoyrideOverlay extends React.Component {
       target,
     } = this.props;
 
-    let targetToSpotlight = target;
+    let currentTarget = target;
     if (spotlightTarget && is.domElement(getElement(spotlightTarget))) {
-      targetToSpotlight = spotlightTarget;
+      currentTarget = spotlightTarget;
     }
 
-    const element = getElement(targetToSpotlight);
+    const element = getElement(currentTarget);
     const elementRect = getClientRect(element);
     const isFixedTarget = isFixed(element);
     const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
