@@ -49,7 +49,7 @@ export const componentTypeWithRefs = createChainableTypeChecker(
 
     if (!React.isValidElement(propValue) && isValidElementType(propValue)) {
       const ownProps = {
-        ref: React.createRef(),
+        ref: () => {},
         step: {},
       };
       Component = <Component {...ownProps} />;

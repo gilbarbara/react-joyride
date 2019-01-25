@@ -141,7 +141,7 @@ export interface Props {
   showProgress?: boolean;
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
-  spotlightPadding?: boolean;
+  spotlightPadding?: number;
   stepIndex?: number;
   steps: Array<Step>;
   styles?: object;
