@@ -9,7 +9,7 @@ module.exports = {
     '^.+\\.(jpe?g|png|gif|ttf|eot|svg|md)$': '<rootDir>/test/__setup__/fileMock.js',
   },
   setupFiles: ['<rootDir>/test/__setup__/setupFiles.js'],
-  setupTestFrameworkScriptFile: '<rootDir>/test/__setup__/setupTests.js',
+  setupFilesAfterEnv: ['<rootDir>/test/__setup__/setupTests.js'],
   testEnvironment: 'jest-environment-jsdom-global',
   testEnvironmentOptions: {
     resources: 'usable',
