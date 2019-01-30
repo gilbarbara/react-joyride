@@ -60,11 +60,11 @@ export default class JoyrideBeacon extends React.Component {
       }
     }
 
-    if (is.domElement(this.beacon)) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (is.domElement(this.beacon)) {
         this.beacon.focus();
-      }, 0);
-    }
+      }
+    }, 0);
   }
 
   componentWillUnmount() {
