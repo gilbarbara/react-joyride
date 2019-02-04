@@ -25,7 +25,6 @@
   "files": [
     "es",
     "lib",
-    "src",
     "types/*.ts"
   ],
   "types": "./types/index.d.ts",
@@ -123,8 +122,8 @@
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --bail --coverage",
     "test:watch": "jest --watch --verbose",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
     "validate": "npm run lint && npm run test:coverage && flow && npm run build && npm run bundlesize",
-    "format": "prettier \"**/*.{js,jsx,ts}\" --write",
     "bundlesize": "bundlesize",
     "prepublishOnly": "npm run validate"
   },
