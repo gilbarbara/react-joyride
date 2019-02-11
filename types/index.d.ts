@@ -97,27 +97,36 @@ export interface BeaconRenderProps {
 export interface TooltipRenderProps extends BeaconRenderProps {
   backProps: {
     'aria-label': string;
+    'data-action': string;
     onClick: () => void;
     role: string;
-    title: React.ReactNode;
+    title: string;
   };
   closeProps: {
     'aria-label': string;
+    'data-action': string;
     onClick: () => void;
     role: string;
-    title: React.ReactNode;
+    title: string;
   };
   primaryProps: {
     'aria-label': string;
+    'data-action': string;
     onClick: () => void;
     role: string;
-    title: React.ReactNode;
+    title: string;
   };
   skipProps: {
     'aria-label': string;
+    'data-action': string;
     onClick: () => void;
     role: string;
-    title: React.ReactNode;
+    title: string;
+  };
+  tooltipProps: {
+    'aria-modal': boolean;
+    ref: () => void;
+    role: string;
   };
 }
 

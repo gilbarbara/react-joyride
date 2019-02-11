@@ -92,9 +92,9 @@ export default class JoyrideTooltip extends React.Component {
         title: skip,
       },
       tooltipProps: {
-        role: 'alertdialog',
         'aria-modal': true,
         ref: setTooltipRef,
+        role: 'alertdialog',
       },
     };
   };
