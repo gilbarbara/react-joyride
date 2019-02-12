@@ -56,6 +56,43 @@ export interface CallBackProps {
   type: string;
 }
 
+export interface FloaterProps {
+  options?: object;
+  styles?: object;
+  wrapperOptions?: object;
+}
+
+export interface Styles {
+  beacon?: React.CSSProperties;
+  beaconInner?: React.CSSProperties;
+  beaconOuter?: React.CSSProperties;
+  buttonBack?: React.CSSProperties;
+  buttonClose?: React.CSSProperties;
+  buttonNext?: React.CSSProperties;
+  buttonSkip?: React.CSSProperties;
+  options?: {
+    arrowColor?: string;
+    backgroundColor?: string;
+    beaconSize?: number;
+    overlayColor?: string;
+    primaryColor?: string;
+    spotlightShadow?: string;
+    textColor?: string;
+    zIndex?: number;
+  };
+  overlay?: React.CSSProperties;
+  overlayLegacy?: React.CSSProperties;
+  overlayLegacyCenter?: React.CSSProperties;
+  spotlight?: React.CSSProperties;
+  spotlightLegacy?: React.CSSProperties;
+  tooltip?: React.CSSProperties;
+  tooltipContainer?: React.CSSProperties;
+  tooltipContent?: React.CSSProperties;
+  tooltipFooter?: React.CSSProperties;
+  tooltipFooterSpacer?: React.CSSProperties;
+  tooltipTitle?: React.CSSProperties;
+}
+
 export interface Step {
   beaconComponent?: (renderProps: BeaconRenderProps) => React.ReactNode;
   content: React.ReactNode;
@@ -66,7 +103,7 @@ export interface Step {
   disableScrolling?: boolean;
   disableScrollParentFix?: boolean;
   event?: string;
-  floaterProps?: object;
+  floaterProps?: FloaterProps;
   hideBackButton?: boolean;
   hideCloseButton?: boolean;
   hideFooter?: boolean;
@@ -79,7 +116,7 @@ export interface Step {
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
   spotlightPadding?: number;
-  styles?: object;
+  styles?: Styles;
   target: string | HTMLElement;
   title?: React.ReactNode;
   tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
@@ -140,7 +177,7 @@ export interface Props {
   disableOverlayClose?: boolean;
   disableScrolling?: boolean;
   disableScrollParentFix?: boolean;
-  floaterProps?: object;
+  floaterProps?: FloaterProps;
   getHelpers?: () => StoreHelpers;
   hideBackButton?: boolean;
   locale?: Locale;
@@ -153,7 +190,7 @@ export interface Props {
   spotlightPadding?: number;
   stepIndex?: number;
   steps: Array<Step>;
-  styles?: object;
+  styles?: Styles;
   tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
 }
 
