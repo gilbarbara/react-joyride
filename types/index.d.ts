@@ -79,7 +79,7 @@ export interface Step {
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
   spotlightPadding?: number;
-  styles?: object;
+  styles?: React.CSSProperties;
   target: string | HTMLElement;
   title?: React.ReactNode;
   tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
@@ -153,7 +153,7 @@ export interface Props {
   spotlightPadding?: number;
   stepIndex?: number;
   steps: Array<Step>;
-  styles?: object;
+  styles?: React.CSSProperties;
   tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
 }
 
