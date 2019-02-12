@@ -38,7 +38,9 @@ class Joyride extends React.Component {
     disableScrolling: PropTypes.bool,
     disableScrollParentFix: PropTypes.bool,
     floaterProps: PropTypes.shape({
-      offset: PropTypes.number,
+      options: PropTypes.object,
+      styles: PropTypes.object,
+      wrapperOptions: PropTypes.object,
     }),
     getHelpers: PropTypes.func,
     hideBackButton: PropTypes.bool,

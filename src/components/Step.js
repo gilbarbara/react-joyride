@@ -42,7 +42,9 @@ export default class JoyrideStep extends React.Component {
       disableScrollParentFix: PropTypes.bool,
       event: PropTypes.string,
       floaterProps: PropTypes.shape({
-        offset: PropTypes.number,
+        options: PropTypes.object,
+        styles: PropTypes.object,
+        wrapperOptions: PropTypes.object,
       }),
       hideBackButton: PropTypes.bool,
       hideCloseButton: PropTypes.bool,

@@ -59,10 +59,6 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): ?StepProps 
 
   delete mergedStyles.floaterStyles;
 
-  if (mergedStep.floaterProps && mergedStep.floaterProps.offset) {
-    floaterProps.offset = mergedStep.floaterProps.offset;
-  }
-
   if (!mergedStep.disableScrolling) {
     floaterProps.offset += props.spotlightPadding || step.spotlightPadding || 0;
   }
