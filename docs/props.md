@@ -1,6 +1,6 @@
 # Props
 
-The only required prop is `steps` with an array of [steps](https://github.com/gilbarbara/react-joyride/tree/018d02f512db8684bc4ae846caa1839e75dcffc6/docs/docs/step.md).  
+The only required prop is `steps` with an array of [steps](step.md).  
 Below is the complete list of possible props and options:
 
 {% hint style="info" %}
@@ -75,7 +75,7 @@ You'll have to keep an internal state by yourself and update it with the events 
 
 **steps** {Array&lt;Step&gt;} - **required**  
 The tour's steps.  
-Check the [step](https://github.com/gilbarbara/react-joyride/tree/018d02f512db8684bc4ae846caa1839e75dcffc6/docs/docs/step.md) docs for more information.
+Check the [step](step.md) docs for more information.
 
 **styles** {object}  
 Override the [styling](styling.md) of the Tooltip globally
