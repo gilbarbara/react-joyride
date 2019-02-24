@@ -1,6 +1,6 @@
 ---
 name: "\U0001F4AC Questions / Help"
-about: If you have questions, please check the Discord or StackOverflow
+about: If you have questions, please check the Spectrum channel or StackOverflow
 title: ''
 labels: ''
 assignees: ''
