@@ -180,6 +180,7 @@ export interface Props {
   floaterProps?: FloaterProps;
   getHelpers?: () => StoreHelpers;
   hideBackButton?: boolean;
+  hideCloseButton?: boolean; // Hide close button in ALL steps
   locale?: Locale;
   run?: boolean;
   scrollOffset?: number;

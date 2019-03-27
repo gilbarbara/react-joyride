@@ -18,6 +18,7 @@ function getTourProps(props: Object): Object {
     'disableScrollParentFix',
     'floaterProps',
     'hideBackButton',
+    'hideCloseButton',
     'locale',
     'showProgress',
     'showSkipButton',
