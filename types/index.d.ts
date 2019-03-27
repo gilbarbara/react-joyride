@@ -60,6 +60,7 @@ export interface FloaterProps {
   options?: object;
   styles?: object;
   wrapperOptions?: object;
+  disableAnimation?: boolean;
 }
 
 export interface Styles {
