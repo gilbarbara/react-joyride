@@ -57,6 +57,7 @@ export interface CallBackProps {
 }
 
 export interface FloaterProps {
+  disableAnimation?: boolean;
   options?: object;
   styles?: object;
   wrapperOptions?: object;
