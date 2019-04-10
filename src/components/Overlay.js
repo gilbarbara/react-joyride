@@ -95,6 +95,10 @@ export default class JoyrideOverlay extends React.Component {
   componentWillUnmount() {
     const { disableScrolling } = this.props;
 
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('resize', this.handleResize);
 
