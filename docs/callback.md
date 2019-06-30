@@ -47,7 +47,7 @@ It will receive an object with the current state.
 ## Usage
 
 ```jsx
-import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
+import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
 
 export class App extends React.Component {
   state = {
@@ -98,4 +98,3 @@ export class App extends React.Component {
 ```
 
 You can read more about the constants [here](constants.md)
-

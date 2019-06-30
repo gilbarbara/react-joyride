@@ -60,10 +60,10 @@ Display the tour progress in the next button \_e.g. 2/5 \_in `continuous` tours.
 **showSkipButton** {boolean} ▶︎ `false`  
 Display a button to skip the tour.
 
-**spotlightClicks** {number} ▶︎ `false`  
+**spotlightClicks** {boolean} ▶︎ `false`  
 Allow mouse and touch events thru the spotlight. You can click links in your app.
 
-**spotlightPadding** {boolean} ▶︎ `10`  
+**spotlightPadding** {number} ▶︎ `10`  
 The padding of the spotlight.
 
 **stepIndex** {number}  
@@ -83,4 +83,3 @@ Override the [styling](styling.md) of the Tooltip globally
 **tooltipComponent** {React.Node}  
 A React component or function to be used instead the default Tooltip excluding the arrow.  
 Check [custom components](custom-components.md) for details.
-
