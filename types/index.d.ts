@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-export type placement =
+export type valueof<T> = T[keyof T];
+
+export type Placement =
   | 'top'
   | 'top-start'
   | 'top-end'
@@ -16,7 +18,7 @@ export type placement =
   | 'auto'
   | 'center';
 
-export type placementBeacon = 'top' | 'bottom' | 'left' | 'right';
+export type PlacementBeacon = 'top' | 'bottom' | 'left' | 'right';
 
 export interface StoreState {
   action: string;
@@ -29,11 +31,11 @@ export interface StoreState {
 
 export interface StoreHelpers {
   close: () => void;
-  go: () => void;
+  go: (nextIndex: number) => void;
   info: () => StoreState;
   next: () => void;
   prev: () => void;
-  reset: () => void;
+  reset: (restart: boolean) => void;
   skip: () => void;
 }
 
@@ -51,16 +53,20 @@ export interface CallBackProps {
   index: number;
   lifecycle: string;
   size: number;
-  status: string;
+  status: valueof<status>;
   step: Step;
   type: string;
 }
 
+export interface GenericObject {
+  [key: string]: any;
+}
+
 export interface FloaterProps {
   disableAnimation?: boolean;
-  options?: object;
-  styles?: object;
-  wrapperOptions?: object;
+  options?: GenericObject;
+  styles?: GenericObject;
+  wrapperOptions?: GenericObject;
 }
 
 export interface Styles {
@@ -79,6 +85,7 @@ export interface Styles {
     primaryColor?: string;
     spotlightShadow?: string;
     textColor?: string;
+    width?: string | number;
     zIndex?: number;
   };
   overlay?: React.CSSProperties;
@@ -94,33 +101,22 @@ export interface Styles {
   tooltipTitle?: React.CSSProperties;
 }
 
-export interface Step {
-  beaconComponent?: (renderProps: BeaconRenderProps) => React.ReactNode;
-  content: React.ReactNode;
-  disableBeacon?: boolean;
+export interface CommonProps {
+  beaconComponent?: React.ElementType<BeaconRenderProps>;
   disableCloseOnEsc?: boolean;
   disableOverlay?: boolean;
   disableOverlayClose?: boolean;
   disableScrolling?: boolean;
   disableScrollParentFix?: boolean;
-  event?: string;
   floaterProps?: FloaterProps;
   hideBackButton?: boolean;
-  hideCloseButton?: boolean;
-  hideFooter?: boolean;
-  isFixed?: boolean;
   locale?: Locale;
-  offset?: number;
-  placement?: placement;
-  placementBeacon?: placementBeacon;
   showProgress?: boolean;
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
   spotlightPadding?: number;
   styles?: Styles;
-  target: string | HTMLElement;
-  title?: React.ReactNode;
-  tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
+  tooltipComponent?: React.ElementType<TooltipRenderProps>;
 }
 
 export interface BeaconRenderProps {
@@ -168,31 +164,31 @@ export interface TooltipRenderProps extends BeaconRenderProps {
   };
 }
 
-export interface Props {
-  beaconComponent?: (renderProps: BeaconRenderProps) => React.ReactNode;
+export interface Step extends CommonProps {
+  content: React.ReactNode;
+  disableBeacon?: boolean;
+  event?: string;
+  floaterProps?: FloaterProps;
+  hideCloseButton?: boolean;
+  hideFooter?: boolean;
+  isFixed?: boolean;
+  offset?: number;
+  placement?: Placement;
+  placementBeacon?: PlacementBeacon;
+  target: string | HTMLElement;
+  title?: React.ReactNode;
+}
+
+export interface Props extends CommonProps {
   callback?: (data: CallBackProps) => void;
   continuous?: boolean;
   debug?: boolean;
-  disableCloseOnEsc?: boolean;
-  disableOverlay?: boolean;
-  disableOverlayClose?: boolean;
-  disableScrolling?: boolean;
-  disableScrollParentFix?: boolean;
-  floaterProps?: FloaterProps;
-  getHelpers?: () => StoreHelpers;
-  hideBackButton?: boolean;
-  locale?: Locale;
+  getHelpers?: (helpers: StoreHelpers) => any;
   run?: boolean;
   scrollOffset?: number;
   scrollToFirstStep?: boolean;
-  showProgress?: boolean;
-  showSkipButton?: boolean;
-  spotlightClicks?: boolean;
-  spotlightPadding?: number;
   stepIndex?: number;
   steps: Array<Step>;
-  styles?: Styles;
-  tooltipComponent?: (renderProps: TooltipRenderProps) => React.ReactNode;
 }
 
 export default class ReactJoyride extends React.Component<Props, StoreState> {}

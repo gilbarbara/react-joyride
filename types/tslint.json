@@ -2,8 +2,8 @@
   "extends": "dtslint/dtslint.json",
   "rules": {
     "array-type": [true, "generic"],
-    "file-name-casing": false,
-
-    "no-unnecessary-generics": false
+    "file-name-casing": [true, "camel-case"],
+    "no-unnecessary-generics": false,
+    "strict-export-declare-modifiers": false
   }
 }
