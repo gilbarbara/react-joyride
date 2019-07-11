@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Scope from '../../src/modules/scope';
 import Tooltip from '../__fixtures__/Tooltip';
 
@@ -9,6 +10,11 @@ const elements = 8;
 const validElements = 4;
 
 describe('modules/scope', () => {
+  beforeAll(() => {
+    addEventListener.mockClear();
+    removeEventListener.mockClear();
+  });
+
   describe('without parameters', () => {
     let scope;
 
@@ -51,7 +57,7 @@ describe('modules/scope', () => {
     });
 
     it('should have initialized', () => {
-      expect(addEventListener).toHaveBeenLastCalledWith('keydown', expect.any(Function), false);
+      expect(addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function), false);
       expect(scope.element.className).toBe('tooltip');
     });
 
@@ -155,7 +161,7 @@ describe('modules/scope', () => {
     });
 
     it('should have initialized', () => {
-      expect(addEventListener).toHaveBeenLastCalledWith('keydown', expect.any(Function), false);
+      expect(addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function), false);
       expect(scope.element.className).toBe('tooltip');
       expect(scope.options.selector).toBe('.primary');
     });
@@ -186,7 +192,7 @@ describe('modules/scope', () => {
     });
 
     it('should have initialized', () => {
-      expect(addEventListener).toHaveBeenLastCalledWith('keydown', expect.any(Function), false);
+      expect(addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function), false);
       expect(scope.element.className).toBe('tooltip');
     });
 
