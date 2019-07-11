@@ -105,13 +105,22 @@ export function getStyleComputedProperty(el: HTMLElement): Object {
  *
  * @param {HTMLElement} element
  * @param {boolean} skipFix
+ * @param {boolean} [forListener]
  *
  * @returns {*}
  */
-export function getScrollParent(element: HTMLElement, skipFix: boolean): HTMLElement {
+export function getScrollParent(
+  element: HTMLElement,
+  skipFix: boolean,
+  forListener: ?boolean,
+): HTMLElement | Document {
   const parent = scrollParent(element);
 
   if (parent.isSameNode(scrollDoc())) {
+    if (forListener) {
+      return document;
+    }
+
     return scrollDoc();
   }
 
