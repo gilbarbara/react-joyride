@@ -18,15 +18,12 @@ import LIFECYCLE from '../constants/lifecycle';
 import Spotlight from './Spotlight';
 
 export default class JoyrideOverlay extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      mouseOverSpotlight: false,
-      isScrolling: false,
-      showSpotlight: true,
-    };
-  }
+  _isMounted = false;
+  state = {
+    mouseOverSpotlight: false,
+    isScrolling: false,
+    showSpotlight: true,
+  };
 
   static propTypes = {
     debug: PropTypes.bool.isRequired,
@@ -45,7 +42,9 @@ export default class JoyrideOverlay extends React.Component {
   componentDidMount() {
     const { debug, disableScrolling, disableScrollParentFix, target } = this.props;
     const element = getElement(target);
+
     this.scrollParent = getScrollParent(element, disableScrollParentFix, true);
+    this._isMounted = true;
 
     /* istanbul ignore else */
     if (!disableScrolling) {
@@ -74,7 +73,7 @@ export default class JoyrideOverlay extends React.Component {
         const { isScrolling } = this.state;
 
         if (!isScrolling) {
-          this.setState({ showSpotlight: true });
+          this.updateState({ showSpotlight: true });
         }
       }, 100);
     }
@@ -89,9 +88,12 @@ export default class JoyrideOverlay extends React.Component {
   }
 
   componentWillUnmount() {
+    this._isMounted = false;
+
     window.removeEventListener('mousemove', this.handleMouseMove);
     window.removeEventListener('resize', this.handleResize);
 
+    clearTimeout(this.resizeTimeout);
     clearTimeout(this.scrollTimeout);
     this.scrollParent.removeEventListener('scroll', this.handleScroll);
   }
@@ -134,7 +136,7 @@ export default class JoyrideOverlay extends React.Component {
     const inSpotlight = inSpotlightWidth && inSpotlightHeight;
 
     if (inSpotlight !== mouseOverSpotlight) {
-      this.setState({ mouseOverSpotlight: inSpotlight });
+      this.updateState({ mouseOverSpotlight: inSpotlight });
     }
   };
 
@@ -146,16 +148,16 @@ export default class JoyrideOverlay extends React.Component {
       const { isScrolling } = this.state;
 
       if (!isScrolling) {
-        this.setState({ isScrolling: true, showSpotlight: false });
+        this.updateState({ isScrolling: true, showSpotlight: false });
       }
 
       clearTimeout(this.scrollTimeout);
 
       this.scrollTimeout = setTimeout(() => {
-        this.setState({ isScrolling: false, showSpotlight: true });
+        this.updateState({ isScrolling: false, showSpotlight: true });
       }, 50);
     } else if (hasPosition(element, 'sticky')) {
-      this.setState({});
+      this.updateState({});
     }
   };
 
@@ -163,10 +165,21 @@ export default class JoyrideOverlay extends React.Component {
     clearTimeout(this.resizeTimeout);
 
     this.resizeTimeout = setTimeout(() => {
-      clearTimeout(this.resizeTimeout);
+      if (!this._isMounted) {
+        return;
+      }
+
       this.forceUpdate();
     }, 100);
   };
+
+  updateState(state) {
+    if (!this._isMounted) {
+      return;
+    }
+
+    this.setState(state);
+  }
 
   render() {
     const { mouseOverSpotlight, showSpotlight } = this.state;
