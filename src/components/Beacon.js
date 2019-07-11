@@ -50,10 +50,12 @@ export default class JoyrideBeacon extends React.Component {
     beaconComponent: componentTypeWithRefs,
     locale: PropTypes.object.isRequired,
     onClickOrHover: PropTypes.func.isRequired,
+    shouldFocus: PropTypes.bool.isRequired,
     styles: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
+    const { shouldFocus } = this.props;
     if (process.env.NODE_ENV !== 'production') {
       if (!is.domElement(this.beacon)) {
         console.warn('beacon is not a valid DOM element'); //eslint-disable-line no-console
@@ -61,7 +63,7 @@ export default class JoyrideBeacon extends React.Component {
     }
 
     setTimeout(() => {
-      if (is.domElement(this.beacon)) {
+      if (is.domElement(this.beacon) && shouldFocus) {
         this.beacon.focus();
       }
     }, 0);
