@@ -9,7 +9,7 @@ import {
   getScrollParent,
   getScrollTo,
   hasCustomScrollParent,
-  isFixed,
+  hasPosition,
   scrollTo,
 } from '../modules/dom';
 import { canUseDOM, isEqual, log } from '../modules/helpers';
@@ -268,7 +268,7 @@ class Joyride extends React.Component {
       const shouldScroll =
         !disableScrolling &&
         step.placement !== 'center' &&
-        (!step.isFixed || !isFixed(target)) && // fixed steps don't need to scroll
+        (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
         (prevState.lifecycle !== lifecycle &&
           [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle)) &&
         (scrollToFirstStep || prevState.index !== index);

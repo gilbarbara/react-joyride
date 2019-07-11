@@ -9,7 +9,7 @@ import {
   getElementPosition,
   getScrollParent,
   hasCustomScrollParent,
-  isFixed,
+  hasPosition,
 } from '../modules/dom';
 import { getBrowser, isLegacy, log } from '../modules/helpers';
 
@@ -154,7 +154,7 @@ export default class JoyrideOverlay extends React.Component {
     } = this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
-    const isFixedTarget = isFixed(element);
+    const isFixedTarget = hasPosition(element);
     const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
 
     return {

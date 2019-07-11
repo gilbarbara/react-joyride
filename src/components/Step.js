@@ -6,7 +6,7 @@ import is from 'is-lite';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
 
-import { getElement, isElementVisible, isFixed } from '../modules/dom';
+import { getElement, isElementVisible, hasPosition } from '../modules/dom';
 import { log, hideBeacon } from '../modules/helpers';
 import { componentTypeWithRefs } from '../modules/propTypes';
 import Scope from '../modules/scope';
@@ -289,7 +289,7 @@ export default class JoyrideStep extends React.Component {
           debug={debug}
           getPopper={this.setPopper}
           id={`react-joyride-step-${index}`}
-          isPositioned={step.isFixed || isFixed(target)}
+          isPositioned={step.isFixed || hasPosition(target)}
           open={this.open}
           placement={step.placement}
           target={step.target}

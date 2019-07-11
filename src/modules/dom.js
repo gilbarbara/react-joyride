@@ -153,6 +153,31 @@ export function hasCustomOffsetParent(element: HTMLElement): boolean {
 }
 
 /**
+ * Check if an element has fixed/sticky position
+ * @param {HTMLElement|Node} el
+ * @param {string} [type]
+ *
+ * @returns {boolean}
+ */
+export function hasPosition(el: ?HTMLElement | Node, type: string = 'fixed'): boolean {
+  if (!el || !(el instanceof HTMLElement)) {
+    return false;
+  }
+
+  const { nodeName } = el;
+
+  if (nodeName === 'BODY' || nodeName === 'HTML') {
+    return false;
+  }
+
+  if (getStyleComputedProperty(el).position === type) {
+    return true;
+  }
+
+  return hasPosition(el.parentNode, type);
+}
+
+/**
  * Check if the element is visible
  *
  * @param {HTMLElement} element
@@ -181,29 +206,6 @@ export function isElementVisible(element: ?HTMLElement): boolean {
 }
 
 /**
- * Check if the element is fixed
- * @param {HTMLElement} el
- * @returns {boolean}
- */
-export function isFixed(el: ?HTMLElement | Node): boolean {
-  if (!el || !(el instanceof HTMLElement)) {
-    return false;
-  }
-
-  const { nodeName } = el;
-
-  if (nodeName === 'BODY' || nodeName === 'HTML') {
-    return false;
-  }
-
-  if (getStyleComputedProperty(el).position === 'fixed') {
-    return true;
-  }
-
-  return isFixed(el.parentNode);
-}
-
-/**
  * Find and return the target DOM element based on a step's 'target'.
  *
  * @private
@@ -217,8 +219,13 @@ export function getElementPosition(element: HTMLElement, offset: number, skipFix
   const elementRect = getClientRect(element);
   const parent = getScrollParent(element, skipFix);
   const hasScrollParent = hasCustomScrollParent(element, skipFix);
+  let parentTop = 0;
 
-  const top = elementRect.top + (!hasScrollParent && !isFixed(element) ? parent.scrollTop : 0);
+  if (parent instanceof HTMLElement) {
+    parentTop = parent.scrollTop;
+  }
+
+  const top = elementRect.top + (!hasScrollParent && !hasPosition(element) ? parentTop : 0);
 
   return Math.floor(top - offset);
 }
