@@ -34,12 +34,12 @@ The distance from the target to the tooltip.
 The placement of the beacon and tooltip. It will re-position itself if there's no space available.  
 It can be:
 
-* top, top-start, top-end
-* bottom, bottom-start, bottom-end
-* left, left-start, left-end
-* right, right-start, right-end
-* auto \(it will choose the best position\)
-* center \(set the target to `body`\)
+- top, top-start, top-end
+- bottom, bottom-start, bottom-end
+- left, left-start, left-end
+- right, right-start, right-end
+- auto \(it will choose the best position\)
+- center \(set the target to `body`\)
 
 Check [react-floater](https://github.com/gilbarbara/react-floater) for more information.
 
@@ -55,22 +55,21 @@ The target for the step. It can be a [CSS selector](https://developer.mozilla.or
 **title** {React.Node}  
 The tooltip's title.
 
-## Props Inheritance
+## Common Props Inheritance
 
-It will inherit some properties from Joyride's own [props](props.md) that can be overridden per step:
+Step will inherit some properties from Joyride's own [props](props.md) but you can override them:
 
-* beaconComponent
-* disableCloseOnEsc
-* disableOverlay
-* disableOverlayClose
-* disableScrolling
-* floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information\)
-* hideBackButton
-* locale
-* showProgress
-* showSkipButton
-* spotlightClicks
-* spotlightPadding
-* styles
-* tooltipComponent
-
+- beaconComponent
+- disableCloseOnEsc
+- disableOverlay
+- disableOverlayClose
+- disableScrolling
+- floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information\)
+- hideBackButton
+- locale
+- showProgress
+- showSkipButton
+- spotlightClicks
+- spotlightPadding
+- styles
+- tooltipComponent

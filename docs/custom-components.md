@@ -23,6 +23,8 @@ If you are looking to customize the default UI, check the [styling](styling.md) 
 ### Example with styled-components
 
 ```jsx
+import Joyride, { BeaconRenderProps, TooltipRenderProps } from 'react-joyride';
+
 const pulse = keyframes`
   0% {
     transform: scale(1);
@@ -43,12 +45,11 @@ const Beacon = styled.span`
   width: 3rem;
 `;
 
-const BeaconComponent = props => <Beacon {...props} />;
-
 export () => (
   <div>
     <ReactJoyride
       beaconComponent={BeaconComponent}
+      // beaconComponent={BeaconComponent as React.ElementType<BeaconRenderProps>} for TS
       ...
     />
   </div>
@@ -123,4 +124,3 @@ export () => (
   </div>
 );
 ```
-
