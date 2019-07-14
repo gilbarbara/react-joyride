@@ -45,6 +45,7 @@ export interface Locale {
   last?: React.ReactNode;
   next?: React.ReactNode;
   skip?: React.ReactNode;
+  open?: React.ReactNode;
 }
 
 export interface CallBackProps {
