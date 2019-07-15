@@ -1,6 +1,5 @@
 import createStore from '../../src/modules/store';
 
-import ACTIONS from '../../src/constants/actions';
 import LIFECYCLE from '../../src/constants/lifecycle';
 import STATUS from '../../src/constants/status';
 
@@ -16,32 +15,18 @@ describe('store', () => {
   describe('without initial values', () => {
     const store = createStore();
 
-    const { go, info, next, prev, reset, setSteps, start, stop, update } = store;
+    const { close, go, info, next, open, prev, reset, setSteps, start, stop, update } = store;
 
     it('should have initiated a new store', () => {
       expect(store.constructor.name).toBe('Store');
 
-      expect(info()).toEqual({
-        action: ACTIONS.INIT,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: 0,
-        status: STATUS.IDLE,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
     it("shouldn't be able to start without steps", () => {
       start();
 
-      expect(info()).toEqual({
-        action: ACTIONS.START,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: 0,
-        status: STATUS.WAITING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
     it('should ignore all back/forward methods', () => {
@@ -60,52 +45,25 @@ describe('store', () => {
     it('should be able to add steps', () => {
       setSteps(stepsData);
 
-      expect(info()).toEqual({
-        action: ACTIONS.START,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `prev` but no changes [1st step]', () => {
+    it('should handle "prev" but no changes [1st step]', () => {
       prev();
-      expect(info()).toEqual({
-        action: ACTIONS.PREV,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it(`should be able to \`update\` lifecycle to ${LIFECYCLE.BEACON}`, () => {
+    it(`should handle "update" the lifecycle to ${LIFECYCLE.BEACON}`, () => {
       update({ lifecycle: LIFECYCLE.BEACON });
 
-      expect(info()).toEqual({
-        action: ACTIONS.UPDATE,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.BEACON,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it(`should be able to \`update\` lifecycle to ${LIFECYCLE.TOOLTIP}`, () => {
+    it(`should handle "update" the lifecycle to ${LIFECYCLE.TOOLTIP}`, () => {
       update({ lifecycle: LIFECYCLE.TOOLTIP });
 
-      expect(info()).toEqual({
-        action: ACTIONS.UPDATE,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.TOOLTIP,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
     it('should throw an error with `update` with invalid keys', () => {
@@ -114,227 +72,124 @@ describe('store', () => {
       ).toThrowErrorMatchingSnapshot();
     });
 
-    it('should be able to call `next` [2nd step]', () => {
+    it('should handle "next" [2nd step]', () => {
       next();
-      expect(info()).toEqual({
-        action: ACTIONS.NEXT,
-        controlled: false,
-        index: 1,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `prev` [1st step]', () => {
+    it('should handle "prev" [1st step]', () => {
       prev();
-      expect(info()).toEqual({
-        action: ACTIONS.PREV,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `stop`', () => {
+    it('should handle `stop`', () => {
       stop();
-      expect(info()).toEqual({
-        action: ACTIONS.STOP,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.PAUSED,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `start` [1st step]', () => {
+    it('should handle `start` [1st step]', () => {
       start();
-      expect(info()).toEqual({
-        action: ACTIONS.START,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `stop` again but with `advance`', () => {
+    it('should handle `stop` again but with `advance`', () => {
       stop(true);
-      expect(info()).toEqual({
-        action: ACTIONS.STOP,
-        controlled: false,
-        index: 1,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.PAUSED,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `start` [2nd step]', () => {
+    it('should handle `start` [2nd step]', () => {
       start();
-      expect(info()).toEqual({
-        action: ACTIONS.START,
-        controlled: false,
-        index: 1,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `next` [3rd step]', () => {
+    it('should handle "next" [3rd step]', () => {
       next();
-      expect(info()).toEqual({
-        action: ACTIONS.NEXT,
-        controlled: false,
-        index: 2,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `next` [4th step]', () => {
+    it('should handle "next" [4th step]', () => {
       next();
-      expect(info()).toEqual({
-        action: ACTIONS.NEXT,
-        controlled: false,
-        index: 3,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `next` [5th step]', () => {
+    it('should handle "next" [5th step]', () => {
       next();
-      expect(info()).toEqual({
-        action: ACTIONS.NEXT,
-        controlled: false,
-        index: 4,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it(`should be able to \`update\` lifecycle to ${LIFECYCLE.BEACON}`, () => {
+    it(`should handle "update" the lifecycle to ${LIFECYCLE.BEACON}`, () => {
       update({ lifecycle: LIFECYCLE.BEACON });
 
-      expect(info()).toEqual({
-        action: ACTIONS.UPDATE,
-        controlled: false,
-        index: 4,
-        lifecycle: LIFECYCLE.BEACON,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `next` again but the tour has finished', () => {
+    it('should handle "next" again but the tour has finished', () => {
       next();
-      expect(info()).toEqual({
-        action: ACTIONS.NEXT,
-        controlled: false,
-        index: 5,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.FINISHED,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it("should be able to call `next` again but there's no change to the store", () => {
+    it('should handle "next" again but there\'s no change to the store', () => {
       next();
-      expect(info()).toEqual({
-        action: ACTIONS.NEXT,
-        controlled: false,
-        index: 5,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.FINISHED,
-      });
+
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `reset`', () => {
+    it('should handle "reset"', () => {
       reset();
 
-      expect(info()).toEqual({
-        action: ACTIONS.RESET,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.READY,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `reset` to restart', () => {
+    it('should handle "reset" to restart', () => {
       reset(true);
 
-      expect(info()).toEqual({
-        action: ACTIONS.RESET,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `start` with custom index and lifecycle', () => {
+    it('should handle "start" with custom index and lifecycle', () => {
       start(2);
 
-      expect(info()).toEqual({
-        action: ACTIONS.START,
-        controlled: false,
-        index: 2,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `go` [2nd step]', () => {
+    it('should handle "go" [2nd step]', () => {
       go(2);
 
-      expect(info()).toEqual({
-        action: ACTIONS.GO,
-        controlled: false,
-        index: 2,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `go` [3rd step]', () => {
+    it('should handle "go" [3rd step]', () => {
       go(1);
 
-      expect(info()).toEqual({
-        action: ACTIONS.GO,
-        controlled: false,
-        index: 1,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.RUNNING,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
-    it('should be able to call `go` with a big number and finish the tour', () => {
+    it('should handle "close"', () => {
+      close();
+
+      expect(info()).toMatchSnapshot();
+    });
+
+    it('should handle "open"', () => {
+      open();
+
+      expect(info()).toMatchSnapshot();
+    });
+
+    it('should handle "go" with a number higher that the steps length and finish the tour', () => {
       go(10);
 
-      expect(info()).toEqual({
-        action: ACTIONS.GO,
-        controlled: false,
-        index: 5,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.FINISHED,
-      });
+      expect(info()).toMatchSnapshot();
     });
   });
 
@@ -346,14 +201,7 @@ describe('store', () => {
     it('should have initiated a new store', () => {
       expect(store.constructor.name).toBe('Store');
 
-      expect(info()).toEqual({
-        action: ACTIONS.INIT,
-        controlled: false,
-        index: 0,
-        lifecycle: LIFECYCLE.INIT,
-        size: stepsData.length,
-        status: STATUS.READY,
-      });
+      expect(info()).toMatchSnapshot();
     });
 
     it('should handle listeners', () => {

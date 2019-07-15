@@ -109,13 +109,14 @@ export default function createStore(props: StoreState): StoreInstance {
 
     getHelpers(): StoreHelpers {
       return {
-        prev: this.prev,
-        next: this.next,
-        go: this.go,
         close: this.close,
-        skip: this.skip,
-        reset: this.reset,
+        go: this.go,
         info: this.info,
+        next: this.next,
+        open: this.open,
+        prev: this.prev,
+        reset: this.reset,
+        skip: this.skip,
       };
     }
 
@@ -182,21 +183,13 @@ export default function createStore(props: StoreState): StoreInstance {
       });
     };
 
-    prev = () => {
+    close = () => {
       const { index, status } = this.getState();
       if (status !== STATUS.RUNNING) return;
 
       this.setState({
-        ...this.getNextState({ action: ACTIONS.PREV, index: index - 1 }),
+        ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1 }),
       });
-    };
-
-    next = () => {
-      const { index, status } = this.getState();
-
-      if (status !== STATUS.RUNNING) return;
-
-      this.setState(this.getNextState({ action: ACTIONS.NEXT, index: index + 1 }));
     };
 
     go = nextIndex => {
@@ -211,23 +204,31 @@ export default function createStore(props: StoreState): StoreInstance {
       });
     };
 
-    close = () => {
+    info = (): Object => this.getState();
+
+    next = () => {
       const { index, status } = this.getState();
+
       if (status !== STATUS.RUNNING) return;
 
-      this.setState({
-        ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1 }),
-      });
+      this.setState(this.getNextState({ action: ACTIONS.NEXT, index: index + 1 }));
     };
 
-    skip = () => {
+    open = () => {
       const { status } = this.getState();
       if (status !== STATUS.RUNNING) return;
 
       this.setState({
-        action: ACTIONS.SKIP,
-        lifecycle: LIFECYCLE.INIT,
-        status: STATUS.SKIPPED,
+        ...this.getNextState({ action: ACTIONS.UPDATE, lifecycle: LIFECYCLE.TOOLTIP }),
+      });
+    };
+
+    prev = () => {
+      const { index, status } = this.getState();
+      if (status !== STATUS.RUNNING) return;
+
+      this.setState({
+        ...this.getNextState({ action: ACTIONS.PREV, index: index - 1 }),
       });
     };
 
@@ -241,7 +242,16 @@ export default function createStore(props: StoreState): StoreInstance {
       });
     };
 
-    info = (): Object => this.getState();
+    skip = () => {
+      const { status } = this.getState();
+      if (status !== STATUS.RUNNING) return;
+
+      this.setState({
+        action: ACTIONS.SKIP,
+        lifecycle: LIFECYCLE.INIT,
+        status: STATUS.SKIPPED,
+      });
+    };
   }
 
   return new Store(props);

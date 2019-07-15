@@ -1,3 +1,300 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`store with initial steps should have initiated a new store 1`] = `
+Object {
+  "action": "init",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "ready",
+}
+`;
+
+exports[`store without initial values should be able to add steps 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "close" 1`] = `
+Object {
+  "action": "close",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "go" [2nd step] 1`] = `
+Object {
+  "action": "go",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "go" [3rd step] 1`] = `
+Object {
+  "action": "go",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "go" with a number higher that the steps length and finish the tour 1`] = `
+Object {
+  "action": "go",
+  "controlled": false,
+  "index": 5,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "finished",
+}
+`;
+
+exports[`store without initial values should handle "next" [2nd step] 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "next" [3rd step] 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "next" [4th step] 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 3,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "next" [5th step] 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "next" again but the tour has finished 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 5,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "finished",
+}
+`;
+
+exports[`store without initial values should handle "next" again but there's no change to the store 1`] = `
+Object {
+  "action": "next",
+  "controlled": false,
+  "index": 5,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "finished",
+}
+`;
+
+exports[`store without initial values should handle "open" 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "prev" [1st step] 1`] = `
+Object {
+  "action": "prev",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "prev" but no changes [1st step] 1`] = `
+Object {
+  "action": "prev",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "reset" 1`] = `
+Object {
+  "action": "reset",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "ready",
+}
+`;
+
+exports[`store without initial values should handle "reset" to restart 1`] = `
+Object {
+  "action": "reset",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "start" with custom index and lifecycle 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "update" the lifecycle to beacon 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "beacon",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "update" the lifecycle to beacon 2`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "beacon",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "update" the lifecycle to tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle \`start\` [1st step] 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle \`start\` [2nd step] 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle \`stop\` 1`] = `
+Object {
+  "action": "stop",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "paused",
+}
+`;
+
+exports[`store without initial values should handle \`stop\` again but with \`advance\` 1`] = `
+Object {
+  "action": "stop",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "paused",
+}
+`;
+
+exports[`store without initial values should have initiated a new store 1`] = `
+Object {
+  "action": "init",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 0,
+  "status": "idle",
+}
+`;
+
 exports[`store without initial values should throw an error with \`update\` with invalid keys 1`] = `"State is not valid. Valid keys: action, index, lifecycle, status"`;
+
+exports[`store without initial values shouldn't be able to start without steps 1`] = `
+Object {
+  "action": "start",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 0,
+  "status": "waiting",
+}
+`;

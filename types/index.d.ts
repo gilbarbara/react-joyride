@@ -34,6 +34,7 @@ export interface StoreHelpers {
   go: (nextIndex: number) => void;
   info: () => StoreState;
   next: () => void;
+  open: () => void;
   prev: () => void;
   reset: (restart: boolean) => void;
   skip: () => void;
@@ -44,8 +45,8 @@ export interface Locale {
   close?: React.ReactNode;
   last?: React.ReactNode;
   next?: React.ReactNode;
-  skip?: React.ReactNode;
   open?: React.ReactNode;
+  skip?: React.ReactNode;
 }
 
 export interface CallBackProps {
