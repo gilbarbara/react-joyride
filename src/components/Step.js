@@ -29,6 +29,10 @@ export default class JoyrideStep extends React.Component {
     helpers: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     lifecycle: PropTypes.string.isRequired,
+    /**
+     * Portal to an existing DOM node.
+     */
+    nodeId: PropTypes.string,
     setPopper: PropTypes.func.isRequired,
     shouldScroll: PropTypes.bool.isRequired,
     size: PropTypes.number.isRequired,
@@ -258,7 +262,17 @@ export default class JoyrideStep extends React.Component {
   }
 
   render() {
-    const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step } = this.props;
+    const {
+      continuous,
+      debug,
+      helpers,
+      index,
+      lifecycle,
+      shouldScroll,
+      size,
+      step,
+      nodeId,
+    } = this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
@@ -267,7 +281,7 @@ export default class JoyrideStep extends React.Component {
 
     return (
       <div key={`JoyrideStep-${index}`} className="react-joyride__step">
-        <Portal id="react-joyride-portal">
+        <Portal id="react-joyride-portal" nodeId={nodeId}>
           <Overlay
             {...step}
             debug={debug}

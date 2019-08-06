@@ -9,19 +9,27 @@ export default class JoyridePortal extends React.Component {
 
     if (!canUseDOM) return;
 
-    this.node = document.createElement('div');
+    /**
+     * Portal to an existing DOM node.
+     */
+    const { nodeId } = this.props;
+    this.node = nodeId ? document.getElementById(nodeId) : document.createElement('div');
 
     /* istanbul ignore else */
-    if (props.id) {
+    if (props.id && !nodeId) {
       this.node.id = props.id;
     }
 
-    document.body.appendChild(this.node);
+    /**
+     * Append DOM node only if it's a newly created one.
+     */
+    if (!nodeId) document.body.appendChild(this.node);
   }
 
   static propTypes = {
     children: PropTypes.element,
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    nodeId: PropTypes.string,
   };
 
   componentDidMount() {
@@ -47,7 +55,11 @@ export default class JoyridePortal extends React.Component {
       ReactDOM.unmountComponentAtNode(this.node);
     }
 
-    document.body.removeChild(this.node);
+    const { nodeId } = this.props;
+    /**
+     * If it's an existing DOM node, don't remove it.
+     */
+    if (!nodeId) document.body.removeChild(this.node);
   }
 
   renderReact15() {
