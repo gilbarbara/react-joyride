@@ -1,5 +1,4 @@
-
-version: "2"
+version: '2'
 checks:
   argument-count:
     config:
@@ -21,7 +20,7 @@ checks:
       threshold: 20
   method-lines:
     config:
-      threshold: 50
+      threshold: 100
   similar-code:
     config:
       threshold: 100
