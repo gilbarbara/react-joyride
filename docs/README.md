@@ -76,7 +76,7 @@ const OnboardingSteps = () => {
 export default OnboardingSteps
 ```
 
-**4. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:**
+**4. In ```./src/App.js```, import the OnboardingSteps component and display it by adding the following two lines:**
 
 ```jsx
 import React from 'react';
