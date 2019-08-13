@@ -21,20 +21,20 @@ Chat about it in our [Spectrum community](https://spectrum.chat/react-joyride)
 ## Getting Started
 
 
-1. Create a sample app:
+### 1. Create a sample app:
 
 ```bash
 npx create-react-app joyride-sample
 cd joyride-sample
 ```
 
-2. Setup
+### 2. Setup
 
 ```bash
 npm i react-joyride
 ```
 
-3. In ```./src```, create a file called ```Onboarding.jsx``` with the following content:
+### 3. In ```./src```, create a file called ```OnboardingSteps.js```:
 
 ```jsx
 import React, { useState } from 'react';
@@ -82,19 +82,19 @@ const OnboardingSteps = () => {
 export default OnboardingSteps
 ```
 
-3. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:
+### 4. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:
 
 ```jsx
 import React from 'react';
 import logo from './logo.svg';
-import OnboardingSteps from './OnboardingSteps' // <------- ADD THIS LINE.
+import OnboardingSteps from './OnboardingSteps' // <------- ADD THIS LINE ...
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-      <OnboardingSteps />                       { "<------- ... AND THIS LINE." }
+	        <OnboardingSteps />                       { /* <------- ... AND THIS LINE. */ }
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -116,12 +116,12 @@ export default App;
 
 ```
 
-4. Start the app with ```npm start```:
+### 5. Start the app with ```npm start```:
 
 
 ![Take The Tour button](docs/take-the-tour.png)
 
-Click the button to start the tour:
+Start the tour:
 
 ![Tour Start](docs/tour-start.png)
 
