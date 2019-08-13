@@ -21,7 +21,11 @@ Chat about it in our [Spectrum community](https://spectrum.chat/react-joyride)
 ## Getting Started
 
 
+<<<<<<< HEAD
 ** 1. Create a sample app:
+=======
+### 1. Create a sample app:
+>>>>>>> ea8dd30a673a95eca7640877e7b02de6b40efee6
 
 ```bash
 npx create-react-app joyride-sample
