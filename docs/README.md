@@ -9,25 +9,26 @@ Showcase your app to new users or explain functionality of new features.
 It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
 And you can use your own components too.
 
-**Open the** [**demo**](https://react-joyride.com/)  
-**Open GitHub** [**repo**](https://github.com/gilbarbara/react-joyride)
+**Open the** [**demo**](https://react-joyride.com/) **
+**Open GitHub### [**repo**](https://github.com/gilbarbara/react-joyride) **
 
 ## Getting Started
 
-** 1. Create a sample app:
+
+**1. Create a sample app:**
 
 ```bash
 npx create-react-app joyride-sample
 cd joyride-sample
 ```
 
-** 2. Setup
+**2. Setup**
 
 ```bash
 npm i react-joyride
 ```
 
-** 3. In ```./src```, create a file called ```OnboardingSteps.js```:
+**3. In ```./src```, create a file called ```OnboardingSteps.js```:**
 
 ```jsx
 import React, { useState } from 'react';
@@ -75,7 +76,7 @@ const OnboardingSteps = () => {
 export default OnboardingSteps
 ```
 
-** 4. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:
+**4. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:**
 
 ```jsx
 import React from 'react';
@@ -87,7 +88,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-	        <OnboardingSteps />                       { /* <------- ... AND THIS LINE. */ }
+	      <OnboardingSteps />               { /* <------- ... AND THIS LINE. */ }
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -109,7 +110,7 @@ export default App;
 
 ```
 
-** 5. Start the app with ```npm start```:
+**5. Start the app with ```npm start```:**
 
 
 ![Take The Tour button](take-the-tour.png)
@@ -117,4 +118,3 @@ export default App;
 Start the tour:
 
 ![Tour Start](tour-start.png)
-

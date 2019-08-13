@@ -4,7 +4,7 @@
 
 [![Joyride example image](http://gilbarbara.com/files/react-joyride.png)](https://react-joyride.com/)
 
-#** Create awesome tours for your app!
+#### Create awesome tours for your app!
 
 Showcase your app to new users or explain functionality of new features.
 
@@ -21,20 +21,20 @@ Chat about it in our [Spectrum community](https://spectrum.chat/react-joyride)
 ## Getting Started
 
 
-** 1. Create a sample app:
+**1. Create a sample app:**
 
 ```bash
 npx create-react-app joyride-sample
 cd joyride-sample
 ```
 
-** 2. Setup
+**2. Setup**
 
 ```bash
 npm i react-joyride
 ```
 
-** 3. In ```./src```, create a file called ```OnboardingSteps.js```:
+**3. In ```./src```, create a file called ```OnboardingSteps.js```:**
 
 ```jsx
 import React, { useState } from 'react';
@@ -82,7 +82,7 @@ const OnboardingSteps = () => {
 export default OnboardingSteps
 ```
 
-** 4. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:
+**4. In ```./src/App.js```, import the Onboarding component and display it by adding the following two lines:**
 
 ```jsx
 import React from 'react';
@@ -116,7 +116,7 @@ export default App;
 
 ```
 
-** 5. Start the app with ```npm start```:
+**5. Start the app with ```npm start```:**
 
 
 ![Take The Tour button](docs/take-the-tour.png)
@@ -145,4 +145,4 @@ npm link react-joyride # just link your local copy into this project's node_modu
 npm start
 ```
 
-**Start coding!** 🎉
+**Start coding!**🎉
