@@ -268,10 +268,10 @@ export default class JoyrideStep extends React.Component {
       helpers,
       index,
       lifecycle,
+      nodeId,
       shouldScroll,
       size,
       step,
-      nodeId,
     } = this.props;
     const target = getElement(step.target);
 
