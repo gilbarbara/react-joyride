@@ -47,6 +47,7 @@ class Joyride extends React.Component {
     locale: PropTypes.object,
     run: PropTypes.bool,
     scrollOffset: PropTypes.number,
+    scrollDuration: PropTypes.number,
     scrollToFirstStep: PropTypes.bool,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
@@ -70,6 +71,7 @@ class Joyride extends React.Component {
     hideBackButton: false,
     run: true,
     scrollOffset: 20,
+    scrollDuration: 300,
     scrollToFirstStep: false,
     showSkipButton: false,
     showProgress: false,
@@ -258,6 +260,7 @@ class Joyride extends React.Component {
       disableScrollParentFix,
       scrollToFirstStep,
       scrollOffset,
+      scrollDuration,
       steps,
     } = this.props;
     const step = getMergedStep(steps[index], this.props);
@@ -310,7 +313,7 @@ class Joyride extends React.Component {
 
         /* istanbul ignore else */
         if (status === STATUS.RUNNING) {
-          scrollTo(scrollY, scrollParent);
+          scrollTo(scrollY, scrollParent, scrollDuration);
         }
       }
     }
