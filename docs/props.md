@@ -52,7 +52,7 @@ Run/stop the tour.
 The scroll distance from the element scrollTop value.
 
 **scrollDuration** {number} ▶︎ `300`  
-The Duration for scroll to element.
+The duration for scroll to element.
 
 **scrollToFirstStep** {boolean} ▶︎ `false`  
 Scroll the page for the first step.
