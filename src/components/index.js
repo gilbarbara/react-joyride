@@ -269,12 +269,7 @@ class Joyride extends React.Component {
     if (step) {
       const target = getElement(step.target);
       const shouldScroll =
-        !disableScrolling &&
-        (index !== 0 || (scrollToFirstStep || lifecycle === LIFECYCLE.TOOLTIP)) &&
-        step.placement !== 'center' &&
-        (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
-        (prevState.lifecycle !== lifecycle &&
-          [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle));
+        this.shouldScroll(disableScrolling, index, scrollToFirstStep, lifecycle, step, target, prevState);
 
       if (status === STATUS.RUNNING && shouldScroll) {
         const hasCustomScroll = hasCustomScrollParent(target, disableScrollParentFix);
@@ -369,6 +364,15 @@ class Joyride extends React.Component {
       this.tooltipPopper = popper;
     }
   };
+
+  shouldScroll = (disableScrolling, index, scrollToFirstStep, lifecycle, step, target, prevState) => {
+    return !disableScrolling &&
+      (index !== 0 || (scrollToFirstStep || lifecycle === LIFECYCLE.TOOLTIP)) &&
+      step.placement !== 'center' &&
+      (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
+      (prevState.lifecycle !== lifecycle &&
+        [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle));
+  }
 
   render() {
     if (!canUseDOM) return null;
