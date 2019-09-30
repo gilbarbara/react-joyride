@@ -268,8 +268,15 @@ class Joyride extends React.Component {
     /* istanbul ignore else */
     if (step) {
       const target = getElement(step.target);
-      const shouldScroll =
-        this.shouldScroll(disableScrolling, index, scrollToFirstStep, lifecycle, step, target, prevState);
+      const shouldScroll = this.shouldScroll(
+        disableScrolling,
+        index,
+        scrollToFirstStep,
+        lifecycle,
+        step,
+        target,
+        prevState,
+      );
 
       if (status === STATUS.RUNNING && shouldScroll) {
         const hasCustomScroll = hasCustomScrollParent(target, disableScrollParentFix);
@@ -365,14 +372,24 @@ class Joyride extends React.Component {
     }
   };
 
-  shouldScroll = (disableScrolling, index, scrollToFirstStep, lifecycle, step, target, prevState) => {
-    return !disableScrolling &&
+  shouldScroll = (
+    disableScrolling,
+    index,
+    scrollToFirstStep,
+    lifecycle,
+    step,
+    target,
+    prevState,
+  ) => {
+    return (
+      !disableScrolling &&
       (index !== 0 || (scrollToFirstStep || lifecycle === LIFECYCLE.TOOLTIP)) &&
       step.placement !== 'center' &&
       (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
       (prevState.lifecycle !== lifecycle &&
-        [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle));
-  }
+        [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
+    );
+  };
 
   render() {
     if (!canUseDOM) return null;
