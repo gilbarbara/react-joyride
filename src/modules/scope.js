@@ -110,13 +110,11 @@ export default class Scope {
 
     /* istanbul ignore else */
     if (target) {
+      target.focus();
 
-      target.focus()
-
-      if(document.activeElement !== target) {
+      if (document.activeElement !== target) {
         setTimeout(() => target.focus(), 1);
       }
-
     }
   };
 }
