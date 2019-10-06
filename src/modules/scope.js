@@ -105,9 +105,8 @@ export default class Scope {
   checkFocus = (target: HTMLElement) => {
     if (document.activeElement !== target) {
       target.focus();
+      window.requestAnimationFrame(() => this.checkFocus(target));
     }
-
-    window.requestAnimationFrame(() => this.checkFocus(target));
   };
 
   setFocus = () => {
@@ -118,8 +117,6 @@ export default class Scope {
 
     /* istanbul ignore else */
     if (target) {
-      target.focus();
-
       window.requestAnimationFrame(() => this.checkFocus(target));
     }
   };

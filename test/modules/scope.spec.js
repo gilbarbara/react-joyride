@@ -167,7 +167,10 @@ describe('modules/scope', () => {
     });
 
     it('should have focused the selector', () => {
-      expect(wrapper.find('.primary').instance() === document.activeElement).toBeTrue();
+      setTimeout(
+        () => expect(wrapper.find('.primary').instance() === document.activeElement).toBeTrue(),
+        100,
+      );
     });
   });
 
