@@ -102,6 +102,14 @@ export default class Scope {
     window.removeEventListener('keydown', this.handleKeyDown);
   };
 
+  checkFocus = (target: HTMLElement) => {
+    if (document.activeElement !== target) {
+      target.focus();
+    }
+
+    window.requestAnimationFrame(() => this.checkFocus(target));
+  };
+
   setFocus = () => {
     const { selector } = this.options;
     if (!selector) return;
@@ -112,9 +120,7 @@ export default class Scope {
     if (target) {
       target.focus();
 
-      if (document.activeElement !== target) {
-        setTimeout(() => target.focus(), 1);
-      }
+      window.requestAnimationFrame(() => this.checkFocus(target));
     }
   };
 }
