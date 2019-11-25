@@ -165,6 +165,8 @@ export default function getStyles(stepStyles = {}) {
     spotlight: {
       ...spotlight,
       backgroundColor: 'gray',
+      width: '100%',
+      height: '100%',
     },
     spotlightLegacy: {
       ...spotlight,
