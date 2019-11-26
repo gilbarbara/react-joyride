@@ -31,3 +31,7 @@ window.matchMedia = () => ({
   addListener: () => {},
   removeListener: () => {},
 });
+
+document.scrollingElement = {
+  isSameNode: () => true,
+};
