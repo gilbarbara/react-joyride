@@ -1,12 +1,10 @@
 // @flow
 import scroll from 'scroll';
-import 'scrollingelement';
 import scrollParent from 'scrollparent';
 
-const scrollDoc = (): HTMLElement => {
-  const { scrollingElement } = document;
-  return scrollingElement || document.createElement('body');
-};
+export function scrollDoc(): HTMLElement {
+  return document.scrollingElement || document.createElement('body');
+}
 
 /**
  * Find the bounding client rect
