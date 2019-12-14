@@ -42,7 +42,6 @@
     "react-floater": "^0.6.5",
     "react-is": "^16.8.6",
     "scroll": "^3.0.1",
-    "scroll-doc": "^0.2.1",
     "scrollparent": "^2.0.1",
     "tree-changes": "^0.4.0"
   },

@@ -54,3 +54,4 @@ export class App extends React.Component {
 }
 ```
 
+> If you need to support legacy browsers you need to include the [scrollingelement](https://github.com/mathiasbynens/document.scrollingElement) polyfill.
