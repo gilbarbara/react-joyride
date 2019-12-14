@@ -271,15 +271,20 @@ export function getScrollTo(element: HTMLElement, offset: number, skipFix: boole
  * Scroll to position
  * @param {number} value
  * @param {HTMLElement} element
+ * @param {number} scrollDuration
  * @returns {Promise<*>}
  */
-export function scrollTo(value: number, element: HTMLElement = scrollDoc()): Promise<*> {
+export function scrollTo(
+  value: number,
+  element: HTMLElement = scrollDoc(),
+  scrollDuration: number,
+): Promise<*> {
   return new Promise((resolve, reject) => {
     const { scrollTop } = element;
 
     const limit = value > scrollTop ? value - scrollTop : scrollTop - value;
 
-    scroll.top(element, value, { duration: limit < 100 ? 50 : 300 }, error => {
+    scroll.top(element, value, { duration: limit < 100 ? 50 : scrollDuration }, error => {
       if (error && error.message !== 'Element already at target scroll position') {
         return reject(error);
       }

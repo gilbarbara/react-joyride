@@ -51,6 +51,9 @@ Run/stop the tour.
 **scrollOffset** {number} ▶︎ `20`  
 The scroll distance from the element scrollTop value.
 
+**scrollDuration** {number} ▶︎ `300`  
+The duration for scroll to element.
+
 **scrollToFirstStep** {boolean} ▶︎ `false`  
 Scroll the page for the first step.
 
