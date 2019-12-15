@@ -46,8 +46,8 @@ class Joyride extends React.Component {
     hideBackButton: PropTypes.bool,
     locale: PropTypes.object,
     run: PropTypes.bool,
-    scrollOffset: PropTypes.number,
     scrollDuration: PropTypes.number,
+    scrollOffset: PropTypes.number,
     scrollToFirstStep: PropTypes.bool,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
@@ -240,7 +240,10 @@ class Joyride extends React.Component {
 
     log({
       title: 'init',
-      data: [{ key: 'props', value: this.props }, { key: 'state', value: this.state }],
+      data: [
+        { key: 'props', value: this.props },
+        { key: 'state', value: this.state },
+      ],
       debug,
     });
 
@@ -349,7 +352,7 @@ class Joyride extends React.Component {
     const intKey = window.Event ? e.which : e.keyCode;
 
     if (lifecycle === LIFECYCLE.TOOLTIP) {
-      if (intKey === 27 && (step && !step.disableCloseOnEsc)) {
+      if (intKey === 27 && step && !step.disableCloseOnEsc) {
         this.store.close();
       }
     }
@@ -372,24 +375,13 @@ class Joyride extends React.Component {
     }
   };
 
-  shouldScroll = (
-    disableScrolling,
-    index,
-    scrollToFirstStep,
-    lifecycle,
-    step,
-    target,
-    prevState,
-  ) => {
-    return (
-      !disableScrolling &&
-      (index !== 0 || (scrollToFirstStep || lifecycle === LIFECYCLE.TOOLTIP)) &&
-      step.placement !== 'center' &&
-      (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
-      (prevState.lifecycle !== lifecycle &&
-        [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle))
-    );
-  };
+  shouldScroll = (disableScrolling, index, scrollToFirstStep, lifecycle, step, target, prevState) =>
+    !disableScrolling &&
+    (index !== 0 || scrollToFirstStep || lifecycle === LIFECYCLE.TOOLTIP) &&
+    step.placement !== 'center' &&
+    (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
+    prevState.lifecycle !== lifecycle &&
+    [LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP].includes(lifecycle);
 
   render() {
     if (!canUseDOM) return null;
