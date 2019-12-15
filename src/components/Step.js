@@ -135,7 +135,8 @@ export default class JoyrideStep extends React.Component {
     // There's a step to use, but there's no target in the DOM
     if (hasStoreChanged && step) {
       const element = getElement(step.target);
-      const hasRenderedTarget = !!element && isElementVisible(element);
+      const elementExists = !!element;
+      const hasRenderedTarget = elementExists && isElementVisible(element);
 
       if (hasRenderedTarget) {
         if (
@@ -149,7 +150,7 @@ export default class JoyrideStep extends React.Component {
           });
         }
       } else {
-        console.warn('Target not mounted', step); //eslint-disable-line no-console
+        console.warn(elementExists ? 'Target not visible' : 'Target not mounted', step); //eslint-disable-line no-console
         callback({
           ...state,
           type: EVENTS.TARGET_NOT_FOUND,
