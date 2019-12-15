@@ -12,11 +12,7 @@
     "browser": true,
     "jest": true
   },
-  "plugins": [
-    "babel",
-    "flowtype",
-    "prettier"
-  ],
+  "plugins": ["babel", "flowtype", "prettier"],
   "settings": {
     "flowtype": {
       "onlyFilesWithFlowAnnotation": true
@@ -29,7 +25,8 @@
     "camelcase": "off",
     "class-methods-use-this": "off",
     "comma-dangle": [
-      "warn", {
+      "warn",
+      {
         "arrays": "always-multiline",
         "imports": "always-multiline",
         "objects": "always-multiline",
@@ -40,7 +37,6 @@
     "function-paren-newline": "off",
     "generator-star-spacing": "off",
     "global-require": "off",
-    "indent": ["warn", 2, { "SwitchCase": 1 }],
     "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
     "newline-per-chained-call": ["warn", { "ignoreChainWithDepth": 5 }],
     "no-case-declarations": "warn",
@@ -48,7 +44,8 @@
     "no-continue": "off",
     "no-mixed-spaces-and-tabs": ["warn", "smart-tabs"],
     "no-multi-spaces": [
-      "warn", {
+      "warn",
+      {
         "exceptions": {
           "VariableDeclarator": true,
           "Property": false
@@ -59,12 +56,7 @@
     "no-param-reassign": ["warn", { "props": false }],
     "no-plusplus": "off",
     "no-restricted-globals": ["error", "fdescribe", "fit"],
-    "no-restricted-syntax": [
-      "error",
-      "DebuggerStatement",
-      "LabeledStatement",
-      "WithStatement"
-    ],
+    "no-restricted-syntax": ["error", "DebuggerStatement", "LabeledStatement", "WithStatement"],
     "no-return-assign": ["error", "except-parens"],
     "no-template-curly-in-string": "warn",
     "no-trailing-spaces": "warn",
@@ -81,7 +73,8 @@
     "prefer-promise-reject-errors": "off",
     "quotes": ["warn", "single", "avoid-escape"],
     "require-jsdoc": [
-      0, {
+      0,
+      {
         "require": {
           "FunctionDeclaration": true,
           "MethodDefinition": false,
@@ -90,7 +83,8 @@
       }
     ],
     "space-before-function-paren": [
-      "warn", {
+      "warn",
+      {
         "anonymous": "never",
         "named": "never",
         "asyncArrow": "always"
@@ -99,10 +93,9 @@
     "space-in-parens": "warn",
     "spaced-comment": [
       "warn",
-      "always", {
-        "exceptions": [
-          "-+"
-        ],
+      "always",
+      {
+        "exceptions": ["-+"],
         "markers": [
           "eslint-disable",
           "eslint-disable-line",
@@ -112,7 +105,8 @@
       }
     ],
     "valid-jsdoc": [
-      "warn", {
+      "warn",
+      {
         "prefer": {
           "return": "returns"
         },
@@ -136,26 +130,28 @@
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-quotes": "warn",
     "react/forbid-prop-types": "off",
+    "react/jsx-boolean-value": "off",
     "react/jsx-closing-bracket-location": ["warn", "line-aligned"],
     "react/jsx-filename-extension": "off",
     "react/jsx-first-prop-new-line": ["warn", "multiline"],
+    "react/jsx-fragments": "off",
     "react/jsx-indent": ["warn", 2],
     "react/jsx-indent-props": ["warn", 2],
     "react/jsx-key": "warn",
     "react/jsx-max-props-per-line": ["warn", { "maximum": 4 }],
+    "react/jsx-no-duplicate-props": "warn",
     "react/jsx-no-target-blank": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-pascal-case": "warn",
+    "react/jsx-props-no-spreading": "off",
     "react/no-array-index-key": "off",
     "react/no-danger": "off",
     "react/no-did-mount-set-state": "warn",
     "react/no-did-update-set-state": "warn",
-    "react/jsx-boolean-value": "off",
-    "react/jsx-no-duplicate-props": "warn",
-    "react/jsx-one-expression-per-line": "off",
-    "react/jsx-pascal-case": "warn",
     "react/no-direct-mutation-state": "warn",
+    "react/no-unescaped-entities": "off",
     "react/no-unused-prop-types": "warn",
     "react/no-unused-state": "warn",
-    "react/no-unescaped-entities": "off",
     "react/prefer-stateless-function": "off",
     "react/prop-types": "error",
     "react/require-default-props": "off",
@@ -163,13 +159,7 @@
     "react/sort-comp": [
       "warn",
       {
-        "order": [
-          "instance-variables",
-          "constructor",
-          "lifecycle",
-          "everything-else",
-          "render"
-        ],
+        "order": ["instance-variables", "constructor", "lifecycle", "everything-else", "render"],
         "groups": {
           "lifecycle": [
             "state",
@@ -189,6 +179,8 @@
           ]
         }
       }
-    ]
+    ],
+    "react/state-in-constructor": "off",
+    "react/static-property-placement": "off"
   }
 }
