@@ -28,6 +28,7 @@ export default class JoyrideOverlay extends React.Component {
   static propTypes = {
     debug: PropTypes.bool.isRequired,
     disableOverlay: PropTypes.bool.isRequired,
+    disableOverlayClose: PropTypes.bool,
     disableScrolling: PropTypes.bool.isRequired,
     disableScrollParentFix: PropTypes.bool.isRequired,
     lifecycle: PropTypes.string.isRequired,
@@ -183,7 +184,14 @@ export default class JoyrideOverlay extends React.Component {
 
   render() {
     const { mouseOverSpotlight, showSpotlight } = this.state;
-    const { disableOverlay, lifecycle, onClickOverlay, placement, styles } = this.props;
+    const {
+      disableOverlay,
+      disableOverlayClose,
+      lifecycle,
+      onClickOverlay,
+      placement,
+      styles,
+    } = this.props;
 
     if (disableOverlay || lifecycle !== LIFECYCLE.TOOLTIP) {
       return null;
@@ -197,7 +205,7 @@ export default class JoyrideOverlay extends React.Component {
     }
 
     const stylesOverlay = {
-      cursor: 'pointer',
+      cursor: disableOverlayClose ? 'default' : 'pointer',
       height: getDocumentHeight(),
       pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
       ...baseStyles,
