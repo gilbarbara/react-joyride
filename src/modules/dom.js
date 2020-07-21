@@ -245,7 +245,6 @@ export function getElementPosition(element: HTMLElement, offset: number, skipFix
 
   return Math.floor(top - offset);
 }
-
 /**
  * Get the scrollTop position
  *
@@ -261,7 +260,13 @@ export function getScrollTo(element: HTMLElement, offset: number, skipFix: boole
   }
 
   const parent = scrollParent(element);
-  let top = element.offsetTop;
+  let offsetTop = 0;
+  let currentElement = element;
+  while (currentElement) {
+    offsetTop += element.offsetTop;
+    currentElement = element.offsetParent;
+  }
+  let top = offsetTop;
 
   if (hasCustomScrollParent(element, skipFix) && !hasCustomOffsetParent(element)) {
     top -= parent.offsetTop;
