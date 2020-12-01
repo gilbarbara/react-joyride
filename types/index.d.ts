@@ -61,10 +61,6 @@ export interface CallBackProps {
   type: string;
 }
 
-export interface GenericObject {
-  [key: string]: any;
-} 
-  
 export interface Styles {
   beacon?: React.CSSProperties;
   beaconInner?: React.CSSProperties;
