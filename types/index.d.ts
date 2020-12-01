@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Props as FloaterProps } from "react-floater";
 
 export type valueof<T> = T[keyof T];
 
@@ -62,15 +63,8 @@ export interface CallBackProps {
 
 export interface GenericObject {
   [key: string]: any;
-}
-
-export interface FloaterProps {
-  disableAnimation?: boolean;
-  options?: GenericObject;
-  styles?: GenericObject;
-  wrapperOptions?: GenericObject;
-}
-
+} 
+  
 export interface Styles {
   beacon?: React.CSSProperties;
   beaconInner?: React.CSSProperties;
