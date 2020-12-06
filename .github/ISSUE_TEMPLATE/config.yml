@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🗣 Feature Request / Question / Help
+    url: https://github.com/gilbarbara/react-joyride/discussions/new
+    about: How does it work with...? I have an idea...
