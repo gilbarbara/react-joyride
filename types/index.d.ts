@@ -237,3 +237,4 @@ export const ACTIONS: actions;
 export const EVENTS: events;
 export const LIFECYCLE: lifecycle;
 export const STATUS: status;
+export type FloaterProps = FloaterProps;
