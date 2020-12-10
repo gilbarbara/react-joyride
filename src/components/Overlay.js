@@ -64,10 +64,10 @@ export default class JoyrideOverlay extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { lifecycle, spotlightClicks } = this.props;
-    const { changed, changedTo } = treeChanges(prevProps, this.props);
+    const { changed } = treeChanges(prevProps, this.props);
 
     /* istanbul ignore else */
-    if (changedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
+    if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
       this.scrollParent.addEventListener('scroll', this.handleScroll, { passive: true });
 
       setTimeout(() => {

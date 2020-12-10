@@ -59,7 +59,7 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): ?StepProps 
 
   delete mergedStyles.floaterStyles;
 
-  floaterProps.offset += props.spotlightPadding || step.spotlightPadding;
+  floaterProps.offset += props.spotlightPadding || step.spotlightPadding || 0;
 
   if (step.placementBeacon) {
     floaterProps.wrapperOptions.placement = step.placementBeacon;
