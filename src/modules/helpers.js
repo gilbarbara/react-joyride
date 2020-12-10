@@ -50,10 +50,7 @@ export function getBrowser(userAgent: string = navigator.userAgent): string {
  * @returns {string}
  */
 export function getObjectType(value: any): string {
-  return Object.prototype.toString
-    .call(value)
-    .slice(8, -1)
-    .toLowerCase();
+  return Object.prototype.toString.call(value).slice(8, -1).toLowerCase();
 }
 
 /**
