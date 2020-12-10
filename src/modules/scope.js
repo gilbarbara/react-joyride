@@ -23,15 +23,15 @@ export default class Scope {
 
     const isTabIndexNaN = isNaN(tabIndex);
 
-    return !isTabIndexNaN && this.canHaveFocus(element, true);
+    return !isTabIndexNaN && this.canHaveFocus(element);
   };
 
-  canHaveFocus = (element: HTMLElement, isTabIndexNotNaN: boolean): boolean => {
+  canHaveFocus = (element: HTMLElement): boolean => {
     const validTabNodes = /input|select|textarea|button|object/;
     const nodeName = element.nodeName.toLowerCase();
     const res =
       (validTabNodes.test(nodeName) && !element.getAttribute('disabled')) ||
-      (nodeName === 'a' ? element.getAttribute('href') || isTabIndexNotNaN : isTabIndexNotNaN);
+      (nodeName === 'a' && !!element.getAttribute('href'));
 
     return res && this.isVisible(element);
   };

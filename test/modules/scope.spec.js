@@ -7,7 +7,7 @@ const addEventListener = jest.spyOn(window, 'addEventListener');
 const removeEventListener = jest.spyOn(window, 'removeEventListener');
 
 const elements = 8;
-const validElements = 4;
+const validElements = 5;
 
 describe('modules/scope', () => {
   beforeAll(() => {
@@ -56,6 +56,13 @@ describe('modules/scope', () => {
       });
     });
 
+    afterEach(() => {
+      mocks.interceptTab.mockClear();
+      mocks.findValidTabElements.mockClear();
+      mocks.canBeTabbed.mockClear();
+      mocks.canHaveFocus.mockClear();
+    });
+
     it('should have initialized', () => {
       expect(addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function), false);
       expect(scope.element.className).toBe('tooltip');
@@ -69,72 +76,72 @@ describe('modules/scope', () => {
       expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements);
       expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements);
 
-      expect(wrapper.find('.skip').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.skip').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it('should focus the second button', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 9 }));
 
-      expect(mocks.interceptTab).toHaveBeenCalledTimes(2);
-      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(2);
-      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements * 2);
-      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements * 2);
+      expect(mocks.interceptTab).toHaveBeenCalledTimes(1);
+      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(1);
+      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements);
+      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements);
 
-      expect(wrapper.find('.back').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.back').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it('should focus the third button', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 9 }));
 
-      expect(mocks.interceptTab).toHaveBeenCalledTimes(3);
-      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(3);
-      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements * 3);
-      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements * 3);
+      expect(mocks.interceptTab).toHaveBeenCalledTimes(1);
+      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(1);
+      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements);
+      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements);
 
-      expect(wrapper.find('.primary').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.primary').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it('should focus the last button', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 9 }));
 
-      expect(mocks.interceptTab).toHaveBeenCalledTimes(4);
-      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(4);
-      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements * 4);
-      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements * 4);
+      expect(mocks.interceptTab).toHaveBeenCalledTimes(1);
+      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(1);
+      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements);
+      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements);
 
-      expect(wrapper.find('.close').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.close').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it('should focus the first button again', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 9 }));
 
-      expect(mocks.interceptTab).toHaveBeenCalledTimes(5);
-      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(5);
-      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements * 5);
-      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements * 5);
+      expect(mocks.interceptTab).toHaveBeenCalledTimes(1);
+      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(1);
+      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements);
+      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements);
 
-      expect(wrapper.find('.skip').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.skip').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it('should focus the last button again with shift', () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 9, shiftKey: true }));
 
-      expect(mocks.interceptTab).toHaveBeenCalledTimes(6);
-      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(6);
-      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements * 6);
-      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements * 6);
+      expect(mocks.interceptTab).toHaveBeenCalledTimes(1);
+      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(1);
+      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements);
+      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements);
 
-      expect(wrapper.find('.close').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.close').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it("shouldn't respond to other keyCodes", () => {
       window.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 15 }));
-      expect(mocks.interceptTab).toHaveBeenCalledTimes(6);
-      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(6);
-      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(elements * 6);
-      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(validElements * 6);
+      expect(mocks.interceptTab).toHaveBeenCalledTimes(0);
+      expect(mocks.findValidTabElements).toHaveBeenCalledTimes(0);
+      expect(mocks.canBeTabbed).toHaveBeenCalledTimes(0);
+      expect(mocks.canHaveFocus).toHaveBeenCalledTimes(0);
 
-      expect(wrapper.find('.close').instance() === document.activeElement).toBeTrue();
+      expect(wrapper.find('.close').getDOMNode() === document.activeElement).toBeTrue();
     });
 
     it('should remove listener when removing scope', () => {
@@ -168,7 +175,7 @@ describe('modules/scope', () => {
 
     it('should have focused the selector', () => {
       setTimeout(
-        () => expect(wrapper.find('.primary').instance() === document.activeElement).toBeTrue(),
+        () => expect(wrapper.find('.primary').getDOMNode() === document.activeElement).toBeTrue(),
         100,
       );
     });
