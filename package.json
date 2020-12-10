@@ -137,7 +137,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "repo-tools check-remote && lint-staged && flow",
+      "pre-commit": "repo-tools check-remote && flow",
       "post-merge": "repo-tools install-packages"
     }
   },
