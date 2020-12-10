@@ -134,28 +134,28 @@ export interface TooltipRenderProps extends BeaconRenderProps {
   backProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: (event: React.MouseEventHandler<any>) => void;
+    onClick: (event: any) => void;
     role: string;
     title: string;
   };
   closeProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: (event: React.MouseEventHandler<any>) => void;
+    onClick: (event: any) => void;
     role: string;
     title: string;
   };
   primaryProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: (event: React.MouseEventHandler<any>) => void;
+    onClick: (event: any) => void;
     role: string;
     title: string;
   };
   skipProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: (event: React.MouseEventHandler<any>) => void;
+    onClick: (event: any) => void;
     role: string;
     title: string;
   };
