@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Props as FloaterProps } from "react-floater";
 
 export type valueof<T> = T[keyof T];
 
@@ -58,17 +59,6 @@ export interface CallBackProps {
   status: valueof<status>;
   step: Step;
   type: string;
-}
-
-export interface GenericObject {
-  [key: string]: any;
-}
-
-export interface FloaterProps {
-  disableAnimation?: boolean;
-  options?: GenericObject;
-  styles?: GenericObject;
-  wrapperOptions?: GenericObject;
 }
 
 export interface Styles {
@@ -247,3 +237,4 @@ export const ACTIONS: actions;
 export const EVENTS: events;
 export const LIFECYCLE: lifecycle;
 export const STATUS: status;
+export type FloaterProps = FloaterProps;
