@@ -109,6 +109,7 @@ class Joyride extends React.Component {
 
     const stepsChanged = !isEqual(prevSteps, steps);
     const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
+    const target = getElement(step?.target);
 
     if (stepsChanged) {
       if (validateSteps(steps, debug)) {
@@ -142,6 +143,16 @@ class Joyride extends React.Component {
           lifecycle: LIFECYCLE.INIT,
         });
       }
+    }
+
+    // Update the index if the first step is not found
+    if (!controlled && status === STATUS.RUNNING && index === 0 && !target) {
+      this.store.update({ index: index + 1 });
+      this.callback({
+        ...this.state,
+        type: EVENTS.TARGET_NOT_FOUND,
+        step,
+      });
     }
 
     const callbackData = {
