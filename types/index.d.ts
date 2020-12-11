@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Props as FloaterProps } from "react-floater";
+import { Props as FloaterType } from 'react-floater';
 
 export type valueof<T> = T[keyof T];
 
@@ -15,11 +15,7 @@ export type Placement =
   | 'left-end'
   | 'right'
   | 'right-start'
-  | 'right-end'
-  | 'auto'
-  | 'center';
-
-export type PlacementBeacon = 'top' | 'bottom' | 'left' | 'right';
+  | 'right-end';
 
 export interface StoreState {
   action: string;
@@ -100,7 +96,7 @@ export interface CommonProps {
   disableOverlayClose?: boolean;
   disableScrolling?: boolean;
   disableScrollParentFix?: boolean;
-  floaterProps?: FloaterProps;
+  floaterProps?: FloaterType;
   hideBackButton?: boolean;
   locale?: Locale;
   showProgress?: boolean;
@@ -124,34 +120,34 @@ export interface TooltipRenderProps extends BeaconRenderProps {
   backProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
     role: string;
     title: string;
   };
   closeProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
     role: string;
     title: string;
   };
   primaryProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
     role: string;
     title: string;
   };
   skipProps: {
     'aria-label': string;
     'data-action': string;
-    onClick: () => void;
+    onClick: (e: React.MouseEvent<HTMLElement>) => void;
     role: string;
     title: string;
   };
   tooltipProps: {
     'aria-modal': boolean;
-    ref: () => void;
+    ref: React.RefCallback<HTMLElement>;
     role: string;
   };
 }
@@ -160,13 +156,13 @@ export interface Step extends CommonProps {
   content: React.ReactNode;
   disableBeacon?: boolean;
   event?: string;
-  floaterProps?: FloaterProps;
+  floaterProps?: FloaterType;
   hideCloseButton?: boolean;
   hideFooter?: boolean;
   isFixed?: boolean;
   offset?: number;
-  placement?: Placement;
-  placementBeacon?: PlacementBeacon;
+  placement?: Placement | 'auto' | 'center';
+  placementBeacon?: Placement;
   target: string | HTMLElement;
   title?: React.ReactNode;
 }
@@ -237,4 +233,5 @@ export const ACTIONS: actions;
 export const EVENTS: events;
 export const LIFECYCLE: lifecycle;
 export const STATUS: status;
-export type FloaterProps = FloaterProps;
+
+export type FloaterProps = FloaterType;
