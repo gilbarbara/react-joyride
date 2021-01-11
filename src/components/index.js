@@ -148,6 +148,10 @@ class Joyride extends React.Component {
     // Update the index if the first step is not found
     if (!controlled && status === STATUS.RUNNING && index === 0 && !target) {
       this.store.update({ index: index + 1 });
+    }
+
+    // Throw `EVENTS.TARGET_NOT_FOUND` when target element is not found
+    if (status === STATUS.RUNNING && !target) {
       this.callback({
         ...this.state,
         type: EVENTS.TARGET_NOT_FOUND,
