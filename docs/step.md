@@ -27,7 +27,7 @@ The event to trigger the beacon. It can be _**click**_ or _**hover**_
 **isFixed** {boolean} ▶︎ `false`  
 Force the step to be fixed.
 
-**offset** {React.Node\|string} ▶︎ `10`  
+**offset** {number} ▶︎ `10`  
 The distance from the target to the tooltip.
 
 **placement** {string} ▶︎ `bottom`  
@@ -66,6 +66,7 @@ Step will inherit some properties from Joyride's own [props](props.md) but you c
 - disableScrolling
 - floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information\)
 - hideBackButton
+- hideCloseButton
 - locale
 - showProgress
 - showSkipButton

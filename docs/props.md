@@ -42,6 +42,9 @@ Options to be passed to [react-floater](https://github.com/gilbarbara/react-floa
 **hideBackButton** {boolean} ▶︎ `false`  
 Hide the "back" button.
 
+**hideCloseButton** {boolean} ▶︎ `false`  
+Hide the "close" button.
+
 **locale** {object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`  
 The strings used in the tooltip.
 
