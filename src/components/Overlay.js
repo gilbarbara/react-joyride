@@ -101,17 +101,11 @@ export default class JoyrideOverlay extends React.Component {
 
   get spotlightStyles() {
     const { showSpotlight } = this.state;
-    const {
-      disableScrollParentFix,
-      spotlightClicks,
-      spotlightPadding,
-      styles,
-      target,
-    } = this.props;
+    const { spotlightClicks, spotlightPadding, styles, target } = this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
     const isFixedTarget = hasPosition(element);
-    const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
+    const top = getElementPosition(element, spotlightPadding);
 
     return {
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),

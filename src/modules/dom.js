@@ -226,24 +226,12 @@ export function isElementVisible(element: ?HTMLElement): boolean {
  * @private
  * @param {string|HTMLElement} element
  * @param {number} offset
- * @param {boolean} skipFix
  *
  * @returns {HTMLElement|undefined}
  */
-export function getElementPosition(element: HTMLElement, offset: number, skipFix: boolean): number {
-  const elementRect = getClientRect(element);
-  const parent = getScrollParent(element, skipFix);
-  const hasScrollParent = hasCustomScrollParent(element, skipFix);
-  let parentTop = 0;
-
-  /* istanbul ignore else */
-  if (parent instanceof HTMLElement) {
-    parentTop = parent.scrollTop;
-  }
-
-  const top = elementRect.top + (!hasScrollParent && !hasPosition(element) ? parentTop : 0);
-
-  return Math.floor(top - offset);
+export function getElementPosition(element: HTMLElement, offset: number): number {
+  const { top } = getClientRect(element);
+  return Math.floor(top + window.scrollY - offset);
 }
 
 /**
