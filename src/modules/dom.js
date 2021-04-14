@@ -42,6 +42,26 @@ export function getDocumentHeight(): number {
 }
 
 /**
+ * Helper function to get the browser-normalized "document width"
+ * @returns {Number}
+ */
+export function getDocumentWidth(): number {
+  const { body, documentElement: html } = document;
+
+  if (!body || !html) {
+    return 0;
+  }
+
+  return Math.max(
+    body.scrollWidth,
+    body.offsetWidth,
+    html.clientWidth,
+    html.scrollWidth,
+    html.offsetWidth,
+  );
+}
+
+/**
  * Find and return the target DOM element based on a step's 'target'.
  *
  * @private

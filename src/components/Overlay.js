@@ -5,6 +5,7 @@ import treeChanges from 'tree-changes';
 import {
   getClientRect,
   getDocumentHeight,
+  getDocumentWidth,
   getElement,
   getElementPosition,
   getScrollParent,
@@ -207,6 +208,7 @@ export default class JoyrideOverlay extends React.Component {
     const stylesOverlay = {
       cursor: disableOverlayClose ? 'default' : 'pointer',
       height: getDocumentHeight(),
+      width: getDocumentWidth(),
       pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
       ...baseStyles,
     };
