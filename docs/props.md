@@ -45,7 +45,7 @@ Hide the "back" button.
 **hideCloseButton** {boolean} ▶︎ `false`  
 Hide the "close" button.
 
-**locale** {object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`  
+**locale** {object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip', open: 'Open the dialog' }`  
 The strings used in the tooltip.
 
 **run** {boolean} ▶︎ `true`  
