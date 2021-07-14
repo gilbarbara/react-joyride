@@ -39,7 +39,7 @@
     "exenv": "^1.2.2",
     "is-lite": "^0.8.0",
     "nested-property": "^4.0.0",
-    "react-floater": "^0.7.2",
+    "react-floater": "^0.7.3",
     "react-is": "^16.13.1",
     "scroll": "^3.0.1",
     "scrollparent": "^2.0.1",
