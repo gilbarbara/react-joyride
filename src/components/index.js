@@ -270,7 +270,6 @@ class Joyride extends React.Component {
     const { index, lifecycle, status } = this.state;
     const {
       debug,
-      disableScrolling,
       disableScrollParentFix,
       scrollToFirstStep,
       scrollOffset,
@@ -283,7 +282,7 @@ class Joyride extends React.Component {
     if (step) {
       const target = getElement(step.target);
       const shouldScroll = this.shouldScroll(
-        disableScrolling,
+        step.disableScrolling,
         index,
         scrollToFirstStep,
         lifecycle,
