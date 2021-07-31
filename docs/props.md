@@ -10,7 +10,7 @@ Below is the complete list of possible props and options:
 **beaconComponent** {ReactNode}  
 A React component or function to be used instead the default Beacon. Check [custom components](custom-components.md) for details.
 
-**callback** {\(\) =&gt; CallbackProps\)}  
+**callback** {() => CallbackProps}  
 It will be called when Joyride's state changes. it returns a single parameter with the state.
 
 **continuous** {boolean} ▶︎ `false`  
@@ -37,7 +37,8 @@ Disable the fix to handle "unused" overflow parents
 **floaterProps** {object}  
 Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater).
 
-**getHelpers** {\(\) =&gt; StoreHelpers\)} Get the store methods to control the tour programatically. `prev, next, go, close, skip, reset, info`
+**getHelpers** {() => StoreHelpers}  
+Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`
 
 **hideBackButton** {boolean} ▶︎ `false`  
 Hide the "back" button.
@@ -45,7 +46,7 @@ Hide the "back" button.
 **hideCloseButton** {boolean} ▶︎ `false`  
 Hide the "close" button.
 
-**locale** {object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', skip: 'Skip' }`  
+**locale** {object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', open: 'Open the dialog', skip: 'Skip' }`  
 The strings used in the tooltip.
 
 **run** {boolean} ▶︎ `true`  
