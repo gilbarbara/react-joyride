@@ -101,13 +101,8 @@ export default class JoyrideOverlay extends React.Component {
 
   get spotlightStyles() {
     const { showSpotlight } = this.state;
-    const {
-      disableScrollParentFix,
-      spotlightClicks,
-      spotlightPadding,
-      styles,
-      target,
-    } = this.props;
+    const { disableScrollParentFix, spotlightClicks, spotlightPadding, styles, target } =
+      this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
     const isFixedTarget = hasPosition(element);
@@ -184,14 +179,8 @@ export default class JoyrideOverlay extends React.Component {
 
   render() {
     const { mouseOverSpotlight, showSpotlight } = this.state;
-    const {
-      disableOverlay,
-      disableOverlayClose,
-      lifecycle,
-      onClickOverlay,
-      placement,
-      styles,
-    } = this.props;
+    const { disableOverlay, disableOverlayClose, lifecycle, onClickOverlay, placement, styles } =
+      this.props;
 
     if (disableOverlay || lifecycle !== LIFECYCLE.TOOLTIP) {
       return null;
