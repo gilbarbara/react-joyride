@@ -1,3 +1,3 @@
-require('jest-enzyme/lib/index.js');
+require('jest-enzyme');
 require('jest-extended');
 require('jest-chain');

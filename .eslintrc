@@ -3,9 +3,7 @@
     "airbnb",
     "plugin:flowtype/recommended",
     "plugin:prettier/recommended",
-    "prettier/flowtype",
-    "prettier/react",
-    "prettier/standard"
+    "prettier"
   ],
   "parser": "babel-eslint",
   "env": {

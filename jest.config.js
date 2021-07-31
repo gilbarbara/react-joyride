@@ -10,7 +10,7 @@ module.exports = {
   },
   setupFiles: ['<rootDir>/test/__setup__/setupFiles.js'],
   setupFilesAfterEnv: ['<rootDir>/test/__setup__/setupTests.js'],
-  testEnvironment: 'jest-environment-jsdom-global',
+  testEnvironment: 'jsdom',
   testEnvironmentOptions: {
     resources: 'usable',
   },
