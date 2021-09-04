@@ -56,6 +56,7 @@ class Joyride extends React.Component {
     spotlightPadding: PropTypes.number,
     stepIndex: PropTypes.number,
     steps: PropTypes.array,
+    store: PropTypes.object,
     styles: PropTypes.object,
     tooltipComponent: componentTypeWithRefs,
   };
@@ -242,14 +243,19 @@ class Joyride extends React.Component {
   initStore = () => {
     const { debug, getHelpers, run, stepIndex } = this.props;
 
-    this.store = new Store({
-      ...this.props,
-      controlled: run && is.number(stepIndex),
-    });
-    const { setStore } = this.props;
-    if (setStore) {
-      setStore(this.store);
+    const { store, setStore } = this.props;
+    if (store) {
+      this.store = store;
+    } else {
+      this.store = new Store({
+        ...this.props,
+        controlled: run && is.number(stepIndex),
+      });
+      if (setStore) {
+        setStore(this.store);
+      }
     }
+
     this.helpers = this.store.getHelpers();
 
     const { addListener } = this.store;

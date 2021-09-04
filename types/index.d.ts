@@ -26,6 +26,14 @@ export interface StoreState {
   status: string;
 }
 
+export interface StoreInstance extends StoreState {
+  update: Function;
+}
+
+export const defaultState: StoreState;
+
+export function createStore(props: StoreState): StoreInstance;
+
 export interface StoreHelpers {
   close: () => void;
   go: (nextIndex: number) => void;
@@ -168,6 +176,8 @@ export interface Step extends CommonProps {
 }
 
 export interface Props extends CommonProps {
+  store?: StoreInstance;
+  setStore?: (store: StoreInstance) => void;
   callback?: (data: CallBackProps) => void;
   continuous?: boolean;
   debug?: boolean;

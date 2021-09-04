@@ -4,7 +4,7 @@ import { ACTIONS, LIFECYCLE, STATUS } from '../constants';
 
 import { hasValidKeys } from './helpers';
 
-const defaultState: StoreState = {
+export const defaultState: StoreState = {
   action: '',
   controlled: false,
   index: 0,
