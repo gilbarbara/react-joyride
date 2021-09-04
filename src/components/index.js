@@ -49,6 +49,7 @@ class Joyride extends React.Component {
     scrollDuration: PropTypes.number,
     scrollOffset: PropTypes.number,
     scrollToFirstStep: PropTypes.bool,
+    setStore: PropTypes.func,
     showProgress: PropTypes.bool,
     showSkipButton: PropTypes.bool,
     spotlightClicks: PropTypes.bool,
@@ -245,6 +246,10 @@ class Joyride extends React.Component {
       ...this.props,
       controlled: run && is.number(stepIndex),
     });
+    const { setStore } = this.props;
+    if (setStore) {
+      setStore(this.store);
+    }
     this.helpers = this.store.getHelpers();
 
     const { addListener } = this.store;
