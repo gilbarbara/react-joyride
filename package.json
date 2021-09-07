@@ -1,6 +1,6 @@
 {
-  "name": "react-joyride",
-  "version": "2.3.1",
+  "name": "react-joyride-multi-spotlight-fork",
+  "version": "2.3.1-fork",
   "description": "Create guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -130,11 +130,11 @@
   "size-limit": [
     {
       "path": "./es/index.js",
-      "limit": "32 kB"
+      "limit": "33 kB"
     },
     {
       "path": "./lib/index.js",
-      "limit": "32 kB"
+      "limit": "33 kB"
     }
   ],
   "husky": {
