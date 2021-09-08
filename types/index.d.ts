@@ -163,7 +163,7 @@ export interface Step extends CommonProps {
   offset?: number;
   placement?: Placement | 'auto' | 'center';
   placementBeacon?: Placement;
-  target: string | HTMLElement;
+  target: string | HTMLElement | HTMLElement[];
   title?: React.ReactNode;
 }
 

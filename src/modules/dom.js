@@ -45,17 +45,22 @@ export function getDocumentHeight(): number {
  * Find and return the target DOM element based on a step's 'target'.
  *
  * @private
- * @param {string|HTMLElement} element
+ * @param {string|HTMLElement[]|HTMLElement} elements
  *
- * @returns {HTMLElement|null}
+ * @returns {HTMLElement[]}
  */
-export function getElement(element: string | HTMLElement): ?HTMLElement {
+export function getElements(elements: string | HTMLElement[] | HTMLElement): HTMLElement[] {
   /* istanbul ignore else */
-  if (typeof element === 'string') {
-    return document.querySelector(element);
+  if (typeof elements === 'string') {
+    // that's to keep correct order if joined with commas
+    const selectors = elements.split(',');
+    return selectors.flatMap(selector => [...document.querySelectorAll(selector)]);
+  }
+  if (!Array.isArray(elements)) {
+    return [elements];
   }
 
-  return element;
+  return elements;
 }
 
 /**

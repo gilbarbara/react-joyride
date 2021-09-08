@@ -5,7 +5,7 @@ import is from 'is-lite';
 
 import Store from '../modules/store';
 import {
-  getElement,
+  getElements,
   getScrollParent,
   getScrollTo,
   hasCustomScrollParent,
@@ -109,7 +109,8 @@ class Joyride extends React.Component {
 
     const stepsChanged = !isEqual(prevSteps, steps);
     const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
-    const target = getElement(step?.target);
+    const elements = getElements(step?.target) || [];
+    const target = elements[0];
 
     if (stepsChanged) {
       if (validateSteps(steps, debug)) {
@@ -281,7 +282,9 @@ class Joyride extends React.Component {
 
     /* istanbul ignore else */
     if (step) {
-      const target = getElement(step.target);
+      const elements = getElements(step.target) || [];
+      const target = elements[0];
+
       const shouldScroll = this.shouldScroll(
         disableScrolling,
         index,

@@ -5,7 +5,7 @@ import treeChanges from 'tree-changes';
 import {
   getClientRect,
   getDocumentHeight,
-  getElement,
+  getElements,
   getElementPosition,
   getScrollParent,
   hasCustomScrollParent,
@@ -42,15 +42,16 @@ export default class JoyrideOverlay extends React.Component {
 
   componentDidMount() {
     const { debug, disableScrolling, disableScrollParentFix, target } = this.props;
-    const element = getElement(target);
+    const elements = getElements(target);
+    const firstElement = elements[0];
 
-    this.scrollParent = getScrollParent(element, disableScrollParentFix, true);
+    this.scrollParent = getScrollParent(firstElement, disableScrollParentFix, true);
     this._isMounted = true;
 
     /* istanbul ignore else */
     if (!disableScrolling) {
       /* istanbul ignore else */
-      if (process.env.NODE_ENV === 'development' && hasCustomScrollParent(element, true)) {
+      if (process.env.NODE_ENV === 'development' && hasCustomScrollParent(firstElement, true)) {
         log({
           title: 'step has a custom scroll parent and can cause trouble with scrolling',
           data: [{ key: 'parent', value: this.scrollParent }],
@@ -103,33 +104,39 @@ export default class JoyrideOverlay extends React.Component {
     const { showSpotlight } = this.state;
     const { disableScrollParentFix, spotlightClicks, spotlightPadding, styles, target } =
       this.props;
-    const element = getElement(target);
-    const elementRect = getClientRect(element);
-    const isFixedTarget = hasPosition(element);
-    const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
+    const elements = getElements(target);
 
-    return {
-      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
-      height: Math.round(elementRect.height + spotlightPadding * 2),
-      left: Math.round(elementRect.left - spotlightPadding),
-      opacity: showSpotlight ? 1 : 0,
-      pointerEvents: spotlightClicks ? 'none' : 'auto',
-      position: isFixedTarget ? 'fixed' : 'absolute',
-      top,
-      transition: 'opacity 0.2s',
-      width: Math.round(elementRect.width + spotlightPadding * 2),
-    };
+    return elements.map(element => {
+      const elementRect = getClientRect(element);
+      const isFixedTarget = hasPosition(element);
+      const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
+
+      return {
+        ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
+        height: Math.round(elementRect.height + spotlightPadding * 2),
+        left: Math.round(elementRect.left - spotlightPadding),
+        opacity: showSpotlight ? 1 : 0,
+        pointerEvents: spotlightClicks ? 'none' : 'auto',
+        position: isFixedTarget ? 'fixed' : 'absolute',
+        top,
+        transition: 'opacity 0.2s',
+        width: Math.round(elementRect.width + spotlightPadding * 2),
+      };
+    });
   }
 
   handleMouseMove = e => {
     const { mouseOverSpotlight } = this.state;
-    const { height, left, position, top, width } = this.spotlightStyles;
 
-    const offsetY = position === 'fixed' ? e.clientY : e.pageY;
-    const offsetX = position === 'fixed' ? e.clientX : e.pageX;
-    const inSpotlightHeight = offsetY >= top && offsetY <= top + height;
-    const inSpotlightWidth = offsetX >= left && offsetX <= left + width;
-    const inSpotlight = inSpotlightWidth && inSpotlightHeight;
+    const inSpotlight = this.spotlightStyles.some(({ height, left, position, top, width }) => {
+      const offsetY = position === 'fixed' ? e.clientY : e.pageY;
+      const offsetX = position === 'fixed' ? e.clientX : e.pageX;
+      const inSpotlightHeight = offsetY >= top && offsetY <= top + height;
+      const inSpotlightWidth = offsetX >= left && offsetX <= left + width;
+      const itemInSpotlight = inSpotlightWidth && inSpotlightHeight;
+
+      return itemInSpotlight;
+    });
 
     if (inSpotlight !== mouseOverSpotlight) {
       this.updateState({ mouseOverSpotlight: inSpotlight });
@@ -138,7 +145,7 @@ export default class JoyrideOverlay extends React.Component {
 
   handleScroll = () => {
     const { target } = this.props;
-    const element = getElement(target);
+    const elements = getElements(target);
 
     if (this.scrollParent !== document) {
       const { isScrolling } = this.state;
@@ -152,7 +159,7 @@ export default class JoyrideOverlay extends React.Component {
       this.scrollTimeout = setTimeout(() => {
         this.updateState({ isScrolling: false, showSpotlight: true });
       }, 50);
-    } else if (hasPosition(element, 'sticky')) {
+    } else if (elements.some(element => element.hasPosition(element, 'sticky'))) {
       this.updateState({});
     }
   };
@@ -201,7 +208,11 @@ export default class JoyrideOverlay extends React.Component {
     };
 
     let spotlight = placement !== 'center' && showSpotlight && (
-      <Spotlight styles={this.spotlightStyles} />
+      <>
+        {this.spotlightStyles.map((itemStyles, index) => (
+          <Spotlight styles={itemStyles} key={index} />
+        ))}
+      </>
     );
 
     // Hack for Safari bug with mix-blend-mode with z-index

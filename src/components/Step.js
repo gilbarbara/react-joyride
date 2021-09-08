@@ -6,7 +6,7 @@ import is from 'is-lite';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '../constants';
 
-import { getElement, isElementVisible, hasPosition } from '../modules/dom';
+import { getElements, isElementVisible, hasPosition } from '../modules/dom';
 import { log, hideBeacon } from '../modules/helpers';
 import { componentTypeWithRefs } from '../modules/propTypes';
 import Scope from '../modules/scope';
@@ -134,7 +134,8 @@ export default class JoyrideStep extends React.Component {
 
     // There's a step to use, but there's no target in the DOM
     if (hasStoreChanged && step) {
-      const element = getElement(step.target);
+      const elements = getElements(step.target);
+      const element = elements[0];
       const elementExists = !!element;
       const hasRenderedTarget = elementExists && isElementVisible(element);
 
@@ -260,7 +261,8 @@ export default class JoyrideStep extends React.Component {
 
   render() {
     const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step } = this.props;
-    const target = getElement(step.target);
+    const elements = getElements(step.target) || [];
+    const target = elements[0];
 
     if (!validateStep(step) || !is.domElement(target)) {
       return null;

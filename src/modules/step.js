@@ -2,7 +2,7 @@
 import deepmerge from 'deepmerge';
 import is from 'is-lite';
 
-import { getElement, hasCustomScrollParent } from './dom';
+import { getElements, hasCustomScrollParent } from './dom';
 import { log } from './helpers';
 import getStyles from '../styles';
 
@@ -43,10 +43,10 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): ?StepProps 
     isMergeableObject: is.plainObject,
   });
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
-  const scrollParent = hasCustomScrollParent(
-    getElement(step.target),
-    mergedStep.disableScrollParentFix,
-  );
+  const elements = getElements(step.target);
+  const firstElement = elements[0];
+
+  const scrollParent = hasCustomScrollParent(firstElement, mergedStep.disableScrollParentFix);
   const floaterProps = deepmerge.all([
     props.floaterProps || {},
     DEFAULTS.floaterProps,
