@@ -398,7 +398,7 @@ class Joyride extends React.Component {
     if (!canUseDOM) return null;
 
     const { index, status } = this.state;
-    const { continuous, debug, disableScrolling, scrollToFirstStep, steps } = this.props;
+    const { continuous, debug, scrollToFirstStep, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
     let output;
 
@@ -411,7 +411,7 @@ class Joyride extends React.Component {
           debug={debug}
           setPopper={this.setPopper}
           helpers={this.helpers}
-          shouldScroll={!disableScrolling && (index !== 0 || scrollToFirstStep)}
+          shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
           step={step}
           update={this.store.update}
         />
