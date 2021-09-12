@@ -107,6 +107,7 @@ export interface CommonProps {
   floaterProps?: FloaterType;
   hideBackButton?: boolean;
   locale?: Locale;
+  nextOnSpotlightClick?: boolean;
   showProgress?: boolean;
   showSkipButton?: boolean;
   spotlightClicks?: boolean;
@@ -185,6 +186,7 @@ export interface Props extends CommonProps {
   run?: boolean;
   scrollOffset?: number;
   scrollToFirstStep?: boolean;
+  scrollDuration?: number;
   stepIndex?: number;
   steps: Array<Step>;
 }

@@ -52,6 +52,7 @@ export default class JoyrideStep extends React.Component {
       hideFooter: PropTypes.bool,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
+      nextOnSpotlightClick: PropTypes.bool,
       offset: PropTypes.number.isRequired,
       placement: PropTypes.oneOf([
         'top',
@@ -274,6 +275,11 @@ export default class JoyrideStep extends React.Component {
             debug={debug}
             lifecycle={lifecycle}
             onClickOverlay={this.handleClickOverlay}
+            onClickSpotlight={() => {
+              if (step.nextOnSpotlightClick) {
+                helpers.next();
+              }
+            }}
           />
         </Portal>
         <Floater

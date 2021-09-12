@@ -22,6 +22,7 @@ const buttonBase = {
   lineHeight: 1,
   padding: 8,
   WebkitAppearance: 'none',
+  outlineColor: '#fff',
 };
 
 const spotlight = {

@@ -19,6 +19,7 @@ function getTourProps(props: Object): Object {
     'floaterProps',
     'hideBackButton',
     'locale',
+    'nextOnSpotlightClick',
     'showProgress',
     'showSkipButton',
     'spotlightClicks',

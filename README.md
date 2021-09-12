@@ -1,5 +1,7 @@
 # React Joyride
 
+## My Custom Development workflow
+
 [![](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) [![](https://travis-ci.org/gilbarbara/react-joyride.svg)](https://travis-ci.org/gilbarbara/react-joyride) [![](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/maintainability)](https://codeclimate.com/github/gilbarbara/react-joyride/maintainability) [![](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/test_coverage)](https://codeclimate.com/github/gilbarbara/react-joyride/test_coverage)
 
 [![Joyride example image](http://gilbarbara.com/files/react-joyride.png)](https://react-joyride.com/)
@@ -8,7 +10,7 @@
 
 Showcase your app to new users or explain functionality of new features.
 
-It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
+It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.
 And you can use your own components too!
 
 **View the demo [here](https://react-joyride.com/)** (or the codesandbox [examples](https://codesandbox.io/s/github/gilbarbara/react-joyride-demo))
