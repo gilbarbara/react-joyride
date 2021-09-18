@@ -54,6 +54,7 @@ export interface StepProps {
   event?: string;
   floaterProps?: Object;
   hideBackButton?: boolean;
+  hideNextButton?: boolean;
   isFixed?: boolean;
   locale?: Object;
   offset?: number;
@@ -94,6 +95,7 @@ export interface JoyrideProps {
   floaterProps?: Object;
   hideBackButton?: boolean;
   hideCloseButton?: boolean;
+  hideNextButton?: boolean;
   hideFooter?: boolean;
   locale?: Object;
   run: boolean;

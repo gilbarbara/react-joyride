@@ -44,6 +44,7 @@ class Joyride extends React.Component {
     }),
     getHelpers: PropTypes.func,
     hideBackButton: PropTypes.bool,
+    hideNextButton: PropTypes.bool,
     locale: PropTypes.object,
     nextOnSpotlightClick: PropTypes.func,
     run: PropTypes.bool,
@@ -72,6 +73,7 @@ class Joyride extends React.Component {
     disableScrollParentFix: false,
     getHelpers: () => {},
     hideBackButton: false,
+    hideNextButton: false,
     run: true,
     nextOnSpotlightClick: false,
     scrollOffset: 20,
@@ -287,7 +289,6 @@ class Joyride extends React.Component {
       disableScrollParentFix,
       scrollToFirstStep,
       scrollOffset,
-      scrollDuration,
       steps,
     } = this.props;
     const step = getMergedStep(steps[index], this.props);
@@ -338,11 +339,12 @@ class Joyride extends React.Component {
           }
         }
 
-        scrollY = scrollY >= 0 ? scrollY : 0;
+        // -64 is a hack to deal with 64px sticky header
+        scrollY = scrollY >= 0 ? scrollY - 64 : 0;
 
         /* istanbul ignore else */
         if (status === STATUS.RUNNING) {
-          scrollTo(scrollY, scrollParent, scrollDuration);
+          scrollTo(scrollY, scrollParent, step.scrollDuration);
         }
       }
     }
@@ -414,7 +416,6 @@ class Joyride extends React.Component {
     const { continuous, debug, scrollToFirstStep, steps } = this.props;
     const step = getMergedStep(steps[index], this.props);
     let output;
-
     if (status === STATUS.RUNNING && step) {
       output = (
         <Step

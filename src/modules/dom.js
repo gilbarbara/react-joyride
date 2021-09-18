@@ -301,16 +301,13 @@ export function scrollTo(
   element: HTMLElement = scrollDoc(),
   scrollDuration: number,
 ): Promise<*> {
+  console.log('starting scrollTo');
   return new Promise((resolve, reject) => {
-    const { scrollTop } = element;
-
-    const limit = value > scrollTop ? value - scrollTop : scrollTop - value;
-
-    scroll.top(element, value, { duration: limit < 100 ? 50 : scrollDuration }, error => {
+    scroll.top(element, value, { duration: scrollDuration }, error => {
       if (error && error.message !== 'Element already at target scroll position') {
         return reject(error);
       }
-
+      console.log('finished scrollTo');
       return resolve();
     });
   });

@@ -50,6 +50,7 @@ export default class JoyrideStep extends React.Component {
       hideBackButton: PropTypes.bool,
       hideCloseButton: PropTypes.bool,
       hideFooter: PropTypes.bool,
+      hideNextButton: PropTypes.bool,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
       nextOnSpotlightClick: PropTypes.bool,

@@ -34,6 +34,7 @@ export default class JoyrideTooltipContainer extends React.Component {
       content,
       hideBackButton,
       hideCloseButton,
+      hideNextButton,
       hideFooter,
       showProgress,
       showSkipButton,
@@ -102,14 +103,18 @@ export default class JoyrideTooltipContainer extends React.Component {
           <div style={styles.tooltipFooter}>
             <div style={styles.tooltipFooterSpacer}>{output.skip}</div>
             {output.back}
-            <button
-              style={styles.buttonNext}
-              type="button"
-              data-test-id="button-primary"
-              {...primaryProps}
-            >
-              {output.primary}
-            </button>
+            {hideNextButton ? (
+              <></>
+            ) : (
+              <button
+                style={styles.buttonNext}
+                type="button"
+                data-test-id="button-primary"
+                {...primaryProps}
+              >
+                {output.primary}
+              </button>
+            )}
           </div>
         )}
         {output.close}

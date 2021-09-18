@@ -22,7 +22,7 @@ export default class JoyrideOverlay extends React.Component {
   state = {
     mouseOverSpotlight: false,
     isScrolling: false,
-    showSpotlight: true,
+    showSpotlight: false,
   };
 
   static propTypes = {
@@ -35,6 +35,7 @@ export default class JoyrideOverlay extends React.Component {
     onClickOverlay: PropTypes.func.isRequired,
     onClickSpotlight: PropTypes.func,
     placement: PropTypes.string.isRequired,
+    scrollDuration: PropTypes.number.isRequired,
     spotlightClicks: PropTypes.bool.isRequired,
     spotlightPadding: PropTypes.number,
     styles: PropTypes.object.isRequired,
@@ -73,10 +74,11 @@ export default class JoyrideOverlay extends React.Component {
 
       setTimeout(() => {
         const { isScrolling } = this.state;
-
+        console.log('timeout finished, isScrolling: ', isScrolling);
         if (!isScrolling) {
-          this.updateState({ showSpotlight: true });
+          this.updateState({ showSpotlight: true, isScrolling: false });
         }
+        // Short timeout here that will show the spotlight if no scrolling is initiated
       }, 100);
     }
 
@@ -109,7 +111,7 @@ export default class JoyrideOverlay extends React.Component {
     const isFixedTarget = hasPosition(element);
     const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
 
-    return {
+    const newSpotlightStyles = {
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
       height: Math.round(elementRect.height + spotlightPadding * 2),
       left: Math.round(elementRect.left - spotlightPadding),
@@ -120,6 +122,8 @@ export default class JoyrideOverlay extends React.Component {
       transition: 'opacity 0.2s',
       width: Math.round(elementRect.width + spotlightPadding * 2),
     };
+
+    return newSpotlightStyles;
   }
 
   handleMouseMove = e => {
@@ -138,21 +142,22 @@ export default class JoyrideOverlay extends React.Component {
   };
 
   handleScroll = () => {
-    const { target } = this.props;
+    const { target, scrollDuration } = this.props;
     const element = getElement(target);
-
     if (this.scrollParent !== document) {
       const { isScrolling } = this.state;
 
       if (!isScrolling) {
+        console.log('turning off spotlight');
         this.updateState({ isScrolling: true, showSpotlight: false });
       }
 
       clearTimeout(this.scrollTimeout);
 
       this.scrollTimeout = setTimeout(() => {
+        console.log('scroll finished turning on spotlight');
         this.updateState({ isScrolling: false, showSpotlight: true });
-      }, 50);
+      }, 250);
     } else if (hasPosition(element, 'sticky')) {
       this.updateState({});
     }
@@ -208,7 +213,7 @@ export default class JoyrideOverlay extends React.Component {
       ...baseStyles,
     };
 
-    let spotlight = placement !== 'center' && showSpotlight && (
+    let spotlight = placement !== 'center' && (
       <Spotlight styles={this.spotlightStyles} onClick={onClickSpotlight} />
     );
 
