@@ -41,11 +41,10 @@ export default class JoyrideBeacon extends React.Component {
       style.type = 'text/css';
       style.id = 'joyride-beacon-animation';
       if (props.nonce !== undefined) {
-        style.setAttribute('nonce', options.nonce)
+        style.setAttribute('nonce', props.nonce);
       }
       style.appendChild(document.createTextNode(css));
       
-
       head.appendChild(style);
     }
   }
