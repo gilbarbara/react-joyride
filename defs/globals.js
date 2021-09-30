@@ -56,6 +56,7 @@ export interface StepProps {
   hideBackButton?: boolean;
   isFixed?: boolean;
   locale?: Object;
+  nonce?: string;
   offset?: number;
   placement?: placement;
   placementBeacon?: placementBeacon;

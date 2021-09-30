@@ -99,6 +99,7 @@ export interface CommonProps {
   floaterProps?: FloaterType;
   hideBackButton?: boolean;
   locale?: Locale;
+  nonce?: string;
   showProgress?: boolean;
   showSkipButton?: boolean;
   spotlightClicks?: boolean;

@@ -29,6 +29,7 @@ export default class JoyrideStep extends React.Component {
     helpers: PropTypes.object.isRequired,
     index: PropTypes.number.isRequired,
     lifecycle: PropTypes.string.isRequired,
+    nonce: PropTypes.string,
     setPopper: PropTypes.func.isRequired,
     shouldScroll: PropTypes.bool.isRequired,
     size: PropTypes.number.isRequired,
@@ -259,7 +260,8 @@ export default class JoyrideStep extends React.Component {
   }
 
   render() {
-    const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step } = this.props;
+    const { continuous, debug, helpers, index, lifecycle, nonce, shouldScroll, size, step } =
+      this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
@@ -300,6 +302,7 @@ export default class JoyrideStep extends React.Component {
           <Beacon
             beaconComponent={step.beaconComponent}
             locale={step.locale}
+            nonce={nonce}
             onClickOrHover={this.handleClickHoverBeacon}
             shouldFocus={shouldScroll}
             styles={step.styles}
