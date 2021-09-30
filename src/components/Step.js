@@ -75,6 +75,7 @@ export default class JoyrideStep extends React.Component {
       target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
       title: PropTypes.node,
       tooltipComponent: componentTypeWithRefs,
+      nonce: PropTypes.string,
     }).isRequired,
     update: PropTypes.func.isRequired,
   };
@@ -259,7 +260,7 @@ export default class JoyrideStep extends React.Component {
   }
 
   render() {
-    const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step } = this.props;
+    const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step,nonce } = this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
@@ -303,6 +304,7 @@ export default class JoyrideStep extends React.Component {
             onClickOrHover={this.handleClickHoverBeacon}
             shouldFocus={shouldScroll}
             styles={step.styles}
+            nonce={nonce}
           />
         </Floater>
       </div>

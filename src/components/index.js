@@ -57,6 +57,7 @@ class Joyride extends React.Component {
     steps: PropTypes.array,
     styles: PropTypes.object,
     tooltipComponent: componentTypeWithRefs,
+    nonce: PropTypes.string,
   };
 
   static defaultProps = {
@@ -398,7 +399,7 @@ class Joyride extends React.Component {
     if (!canUseDOM) return null;
 
     const { index, status } = this.state;
-    const { continuous, debug, disableScrolling, scrollToFirstStep, steps } = this.props;
+    const { continuous, debug, disableScrolling, scrollToFirstStep, steps, nonce } = this.props;
     const step = getMergedStep(steps[index], this.props);
     let output;
 
@@ -414,6 +415,7 @@ class Joyride extends React.Component {
           shouldScroll={!disableScrolling && (index !== 0 || scrollToFirstStep)}
           step={step}
           update={this.store.update}
+          nonce={nonce}
         />
       );
     }
