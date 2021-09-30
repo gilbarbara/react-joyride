@@ -1,6 +1,5 @@
 .tmp
 _book/
 coverage
-es
 lib
 node_modules
