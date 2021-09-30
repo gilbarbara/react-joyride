@@ -21,11 +21,12 @@
   ],
   "license": "MIT",
   "main": "lib/index.js",
-  "module": "es/index.js",
+  "module": "src/index.js",
   "files": [
     "es",
     "lib",
-    "types/*.ts"
+    "types/*.ts",
+    "src"
   ],
   "types": "./types/index.d.ts",
   "peerDependencies": {
