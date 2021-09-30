@@ -45,6 +45,7 @@ class Joyride extends React.Component {
     getHelpers: PropTypes.func,
     hideBackButton: PropTypes.bool,
     locale: PropTypes.object,
+    nonce: PropTypes.string,
     run: PropTypes.bool,
     scrollDuration: PropTypes.number,
     scrollOffset: PropTypes.number,
@@ -57,7 +58,6 @@ class Joyride extends React.Component {
     steps: PropTypes.array,
     styles: PropTypes.object,
     tooltipComponent: componentTypeWithRefs,
-    nonce: PropTypes.string,
   };
 
   static defaultProps = {

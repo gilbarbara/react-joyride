@@ -44,7 +44,7 @@ export default class JoyrideBeacon extends React.Component {
         style.setAttribute('nonce', props.nonce);
       }
       style.appendChild(document.createTextNode(css));
-      
+
       head.appendChild(style);
     }
   }
@@ -52,10 +52,10 @@ export default class JoyrideBeacon extends React.Component {
   static propTypes = {
     beaconComponent: componentTypeWithRefs,
     locale: PropTypes.object.isRequired,
+    nonce: PropTypes.string,
     onClickOrHover: PropTypes.func.isRequired,
     shouldFocus: PropTypes.bool.isRequired,
     styles: PropTypes.object.isRequired,
-    nonce: PropTypes.string,
   };
 
   componentDidMount() {

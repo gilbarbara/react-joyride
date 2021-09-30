@@ -52,6 +52,7 @@ export default class JoyrideStep extends React.Component {
       hideFooter: PropTypes.bool,
       isFixed: PropTypes.bool,
       locale: PropTypes.object,
+      nonce: PropTypes.string,
       offset: PropTypes.number.isRequired,
       placement: PropTypes.oneOf([
         'top',
@@ -75,7 +76,6 @@ export default class JoyrideStep extends React.Component {
       target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
       title: PropTypes.node,
       tooltipComponent: componentTypeWithRefs,
-      nonce: PropTypes.string,
     }).isRequired,
     update: PropTypes.func.isRequired,
   };
@@ -260,7 +260,8 @@ export default class JoyrideStep extends React.Component {
   }
 
   render() {
-    const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step,nonce } = this.props;
+    const { continuous, debug, helpers, index, lifecycle, shouldScroll, size, step, nonce } =
+      this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {

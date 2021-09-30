@@ -98,6 +98,7 @@ export interface CommonProps {
   disableScrollParentFix?: boolean;
   floaterProps?: FloaterType;
   hideBackButton?: boolean;
+  nonce?: string;
   locale?: Locale;
   showProgress?: boolean;
   showSkipButton?: boolean;
