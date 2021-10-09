@@ -74,7 +74,6 @@ export default class JoyrideOverlay extends React.Component {
 
       setTimeout(() => {
         const { isScrolling } = this.state;
-        console.log('timeout finished, isScrolling: ', isScrolling);
         if (!isScrolling) {
           this.updateState({ showSpotlight: true, isScrolling: false });
         }
@@ -142,20 +141,18 @@ export default class JoyrideOverlay extends React.Component {
   };
 
   handleScroll = () => {
-    const { target, scrollDuration } = this.props;
+    const { target } = this.props;
     const element = getElement(target);
     if (this.scrollParent !== document) {
       const { isScrolling } = this.state;
 
       if (!isScrolling) {
-        console.log('turning off spotlight');
         this.updateState({ isScrolling: true, showSpotlight: false });
       }
 
       clearTimeout(this.scrollTimeout);
 
       this.scrollTimeout = setTimeout(() => {
-        console.log('scroll finished turning on spotlight');
         this.updateState({ isScrolling: false, showSpotlight: true });
       }, 250);
     } else if (hasPosition(element, 'sticky')) {
