@@ -193,8 +193,12 @@ export default class JoyrideStep extends React.Component {
         type: EVENTS.TOOLTIP,
       });
 
-      this.scope = new Scope(this.tooltip, { selector: '[data-action=primary]' });
-      this.scope.setFocus();
+      try {
+        this.scope = new Scope(this.tooltip, { selector: '[data-action=primary]' });
+        this.scope.setFocus();
+      } catch (e) {
+        return;
+      }
     }
 
     if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
@@ -232,6 +236,7 @@ export default class JoyrideStep extends React.Component {
   };
 
   setTooltipRef = c => {
+    console.log('setting tooltip ref: ', c);
     this.tooltip = c;
   };
 
