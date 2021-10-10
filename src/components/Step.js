@@ -236,7 +236,6 @@ export default class JoyrideStep extends React.Component {
   };
 
   setTooltipRef = c => {
-    console.log('setting tooltip ref: ', c);
     this.tooltip = c;
   };
 
