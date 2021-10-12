@@ -100,6 +100,7 @@ export interface JoyrideProps {
   scrollToFirstStep?: boolean;
   showProgress?: boolean;
   showSkipButton?: boolean;
+  scrollDuration?: number;
   spotlightClicks?: boolean;
   spotlightPadding?: boolean;
   stepIndex?: number;
