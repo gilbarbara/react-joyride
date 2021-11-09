@@ -109,6 +109,7 @@ export interface CommonProps {
   hideNextButton?: boolean;
   locale?: Locale;
   nextOnSpotlightClick?: boolean;
+  nonce?: string;
   showProgress?: boolean;
   showSkipButton?: boolean;
   scrollDuration?: number;
@@ -186,6 +187,7 @@ export interface Props extends CommonProps {
   debug?: boolean;
   getHelpers?: (helpers: StoreHelpers) => any;
   run?: boolean;
+  scrollDuration?: number;
   scrollOffset?: number;
   scrollToFirstStep?: boolean;
   stepIndex?: number;

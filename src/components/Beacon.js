@@ -40,6 +40,11 @@ export default class JoyrideBeacon extends React.Component {
 
       style.type = 'text/css';
       style.id = 'joyride-beacon-animation';
+
+      if (props.nonce !== undefined) {
+        style.setAttribute('nonce', props.nonce);
+      }
+
       style.appendChild(document.createTextNode(css));
 
       head.appendChild(style);
@@ -49,6 +54,7 @@ export default class JoyrideBeacon extends React.Component {
   static propTypes = {
     beaconComponent: componentTypeWithRefs,
     locale: PropTypes.object.isRequired,
+    nonce: PropTypes.string,
     onClickOrHover: PropTypes.func.isRequired,
     shouldFocus: PropTypes.bool.isRequired,
     styles: PropTypes.object.isRequired,

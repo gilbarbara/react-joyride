@@ -49,6 +49,9 @@ Hide the "close" button.
 **locale** {object} ▶︎ `{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', open: 'Open the dialog', skip: 'Skip' }`  
 The strings used in the tooltip.
 
+**nonce** {string}  
+A nonce value for inline styles (Content Security Policy - CSP)
+
 **run** {boolean} ▶︎ `true`  
 Run/stop the tour.
 
