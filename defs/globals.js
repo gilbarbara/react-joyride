@@ -56,6 +56,7 @@ export interface StepProps {
   hideBackButton?: boolean;
   isFixed?: boolean;
   locale?: Object;
+  nonce?: string;
   offset?: number;
   placement?: placement;
   placementBeacon?: placementBeacon;
@@ -100,6 +101,7 @@ export interface JoyrideProps {
   scrollToFirstStep?: boolean;
   showProgress?: boolean;
   showSkipButton?: boolean;
+  scrollDuration?: number;
   spotlightClicks?: boolean;
   spotlightPadding?: boolean;
   stepIndex?: number;
