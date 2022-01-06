@@ -4,6 +4,7 @@ import { Props as FloaterType } from 'react-floater';
 export type valueof<T> = T[keyof T];
 
 export type Placement =
+  | 'center'
   | 'top'
   | 'top-start'
   | 'top-end'
