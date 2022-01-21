@@ -48,16 +48,16 @@ export default class Scope {
     }
   };
 
-  interceptTab = (event: KeyboardEvent) => {
+interceptTab = (event: KeyboardEvent) => {
     const elements = this.findValidTabElements();
 
     if (!elements.length) {
       return;
     }
-    
+
     event.preventDefault();
     const { shiftKey } = event;
-    
+
     let x = elements.indexOf(document.activeElement);
 
     if (x === -1 || (!shiftKey && x + 1 === elements.length)) {
