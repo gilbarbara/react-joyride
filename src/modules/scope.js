@@ -57,7 +57,7 @@ export default class Scope {
     
     event.preventDefault();
     const { shiftKey } = event;
-
+    
     let x = elements.indexOf(document.activeElement);
 
     if (x === -1 || (!shiftKey && x + 1 === elements.length)) {
