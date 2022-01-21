@@ -48,7 +48,7 @@ export default class Scope {
     }
   };
 
-interceptTab = (event: KeyboardEvent) => {
+  interceptTab = (event: KeyboardEvent) => {
     const elements = this.findValidTabElements();
 
     if (!elements.length) {
