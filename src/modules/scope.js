@@ -49,13 +49,14 @@ export default class Scope {
   };
 
   interceptTab = (event: KeyboardEvent) => {
-    event.preventDefault();
     const elements = this.findValidTabElements();
-    const { shiftKey } = event;
 
     if (!elements.length) {
       return;
     }
+
+    event.preventDefault();
+    const { shiftKey } = event;
 
     let x = elements.indexOf(document.activeElement);
 
