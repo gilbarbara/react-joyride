@@ -1,2 +1,2 @@
 require('jest-enzyme');
-require('jest-extended');
+require('jest-extended/all');
