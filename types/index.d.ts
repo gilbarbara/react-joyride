@@ -98,6 +98,7 @@ export interface CommonProps {
   disableScrollParentFix?: boolean;
   floaterProps?: FloaterType;
   hideBackButton?: boolean;
+  hideCloseButton?: boolean;
   locale?: Locale;
   nonce?: string;
   showProgress?: boolean;
@@ -158,7 +159,6 @@ export interface Step extends CommonProps {
   disableBeacon?: boolean;
   event?: string;
   floaterProps?: FloaterType;
-  hideCloseButton?: boolean;
   hideFooter?: boolean;
   isFixed?: boolean;
   offset?: number;
