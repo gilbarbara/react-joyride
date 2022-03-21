@@ -10,7 +10,21 @@ export default class Controlled extends React.Component {
 
     this.state = {
       run: false,
-      steps: tourSteps,
+      steps: [
+        {
+          target: 'body',
+          placement: 'center',
+          content: "Let's begin our journey",
+          textAlign: 'center',
+        },
+        ...tourSteps,
+        {
+          target: 'body',
+          placement: 'center',
+          content: "That's all folks!",
+          textAlign: 'center',
+        },
+      ],
       stepIndex: 0,
     };
   }
@@ -27,7 +41,7 @@ export default class Controlled extends React.Component {
   };
 
   handleClickNextButton = () => {
-    this.setState({ stepIndex: 2 });
+    this.setState({ stepIndex: 3 });
   };
 
   handleJoyrideCallback = data => {
@@ -104,7 +118,7 @@ export default class Controlled extends React.Component {
               <h2>
                 <span>Mission</span>
               </h2>
-              {stepIndex === 1 && (
+              {stepIndex === 2 && (
                 <button
                   className="btn btn-secondary mission__button"
                   onClick={this.handleClickNextButton}

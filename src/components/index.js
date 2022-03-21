@@ -103,7 +103,7 @@ class Joyride extends React.Component {
     const { action, controlled, index, lifecycle, status } = this.state;
     const { debug, run, stepIndex, steps } = this.props;
     const { steps: prevSteps, stepIndex: prevStepIndex } = prevProps;
-    const { setSteps, reset, start, stop, update } = this.store;
+    const { reset, setSteps, start, stop, update } = this.store;
     const { changed: changedProps } = treeChanges(prevProps, this.props);
     const { changed, changedFrom } = treeChanges(prevState, this.state);
     const step = getMergedStep(steps[index], this.props);
@@ -148,7 +148,7 @@ class Joyride extends React.Component {
 
     // Update the index if the first step is not found
     if (!controlled && status === STATUS.RUNNING && index === 0 && !target) {
-      this.store.update({ index: index + 1 });
+      update({ index: index + 1 });
       this.callback({
         ...this.state,
         type: EVENTS.TARGET_NOT_FOUND,
@@ -194,10 +194,10 @@ class Joyride extends React.Component {
       }
       this.callback({
         ...callbackData,
-        type: EVENTS.TOUR_END,
+        index: prevState.index,
         // Return the last step when the tour is finished
         step: prevStep,
-        index: prevState.index,
+        type: EVENTS.TOUR_END,
       });
       reset();
     } else if (changedFrom('status', [STATUS.IDLE, STATUS.READY], STATUS.RUNNING)) {
@@ -221,11 +221,12 @@ class Joyride extends React.Component {
       this.scrollToStep(prevState);
 
       if (
-        step.placement === 'center' &&
+        action === ACTIONS.START &&
+        lifecycle === LIFECYCLE.INIT &&
         status === STATUS.RUNNING &&
-        lifecycle === LIFECYCLE.INIT
+        step.placement === 'center'
       ) {
-        this.store.update({ lifecycle: LIFECYCLE.READY });
+        update({ lifecycle: LIFECYCLE.READY });
       }
     }
   }

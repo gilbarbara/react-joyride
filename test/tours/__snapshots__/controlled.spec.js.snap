@@ -1,89 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Joyride > Controlled should be able to click STEP 1 Beacon 1`] = `
-Object {
-  "action": "update",
-  "controlled": true,
-  "index": 0,
-  "lifecycle": "tooltip",
-  "size": 5,
-  "status": "running",
-}
-`;
-
 exports[`Joyride > Controlled should be able to click STEP 1 Primary button 1`] = `
 Object {
   "action": "next",
   "controlled": true,
   "index": 1,
   "lifecycle": "init",
-  "size": 5,
+  "size": 7,
   "status": "running",
 }
 `;
 
-exports[`Joyride > Controlled should be able to click STEP 2 button through the spotlight 1`] = `
+exports[`Joyride > Controlled should be able to click STEP 2 Primary button 1`] = `
 Object {
   "action": "next",
   "controlled": true,
   "index": 2,
   "lifecycle": "init",
-  "size": 5,
+  "size": 7,
   "status": "running",
 }
 `;
 
-exports[`Joyride > Controlled should be able to click STEP 2 button through the spotlight AGAIN 1`] = `
+exports[`Joyride > Controlled should be able to click STEP 3 button through the spotlight 1`] = `
 Object {
   "action": "next",
   "controlled": true,
-  "index": 2,
+  "index": 3,
   "lifecycle": "init",
-  "size": 5,
+  "size": 7,
   "status": "running",
 }
 `;
 
-exports[`Joyride > Controlled should be able to click STEP 3 Back button 1`] = `
+exports[`Joyride > Controlled should be able to click STEP 3 button through the spotlight AGAIN 1`] = `
+Object {
+  "action": "next",
+  "controlled": true,
+  "index": 3,
+  "lifecycle": "init",
+  "size": 7,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Controlled should be able to click STEP 4 Back button 1`] = `
 Object {
   "action": "prev",
   "controlled": true,
-  "index": 1,
+  "index": 2,
   "lifecycle": "init",
-  "size": 5,
+  "size": 7,
   "status": "running",
 }
 `;
 
-exports[`Joyride > Controlled should be able to click STEP 3 Primary button 1`] = `
-Object {
-  "action": "next",
-  "controlled": true,
-  "index": 4,
-  "lifecycle": "init",
-  "size": 5,
-  "status": "running",
-}
-`;
-
-exports[`Joyride > Controlled should be able to click STEP 5 Primary button 1`] = `
+exports[`Joyride > Controlled should be able to click STEP 4 Primary button 1`] = `
 Object {
   "action": "next",
   "controlled": true,
   "index": 5,
   "lifecycle": "init",
-  "size": 5,
+  "size": 7,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Controlled should be able to click STEP 6 Primary button 1`] = `
+Object {
+  "action": "update",
+  "controlled": true,
+  "index": 6,
+  "lifecycle": "tooltip",
+  "size": 7,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Controlled should be able to click STEP 7 Primary button and end the tour 1`] = `
+Object {
+  "action": "next",
+  "controlled": true,
+  "index": 7,
+  "lifecycle": "init",
+  "size": 7,
   "status": "finished",
 }
 `;
 
-exports[`Joyride > Controlled should be able to start the tour 1`] = `
+exports[`Joyride > Controlled should be able to start the tour and render the centered tooltip 1`] = `
 Object {
-  "action": "start",
+  "action": "update",
   "controlled": true,
   "index": 0,
-  "lifecycle": "init",
-  "size": 5,
+  "lifecycle": "tooltip",
+  "size": 7,
   "status": "running",
 }
 `;
@@ -94,8 +105,19 @@ Object {
   "controlled": true,
   "index": 0,
   "lifecycle": "init",
-  "size": 5,
+  "size": 7,
   "status": "ready",
+}
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 2 Tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": true,
+  "index": 1,
+  "lifecycle": "tooltip",
+  "size": 7,
+  "status": "running",
 }
 `;
 
@@ -105,29 +127,62 @@ Object {
   "controlled": true,
   "index": 2,
   "lifecycle": "tooltip",
-  "size": 5,
+  "size": 7,
   "status": "running",
 }
 `;
 
-exports[`Joyride > Controlled should have rendered the STEP 3 Tooltip AGAIN 1`] = `
+exports[`Joyride > Controlled should have rendered the STEP 3 Tooltip and advance AGAIN 1`] = `
 Object {
   "action": "update",
   "controlled": true,
   "index": 2,
   "lifecycle": "tooltip",
-  "size": 5,
+  "size": 7,
   "status": "running",
 }
 `;
 
-exports[`Joyride > Controlled should have rendered the STEP 5 Tooltip 1`] = `
+exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip 1`] = `
 Object {
   "action": "update",
   "controlled": true,
-  "index": 4,
+  "index": 3,
   "lifecycle": "tooltip",
-  "size": 5,
+  "size": 7,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip AGAIN 1`] = `
+Object {
+  "action": "update",
+  "controlled": true,
+  "index": 3,
+  "lifecycle": "tooltip",
+  "size": 7,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 6 Tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": true,
+  "index": 5,
+  "lifecycle": "tooltip",
+  "size": 7,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 7 centered tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": true,
+  "index": 6,
+  "lifecycle": "ready",
+  "size": 7,
   "status": "running",
 }
 `;

@@ -18,9 +18,20 @@ export default class Standard extends React.Component {
   constructor(props) {
     super(props);
 
+    const steps = [...filteredSteps];
+
+    if (props.withCentered) {
+      steps.push({
+        target: 'body',
+        placement: 'center',
+        content: "Let's begin our journey",
+        textAlign: 'center',
+      });
+    }
+
     this.state = {
       run: false,
-      steps: filteredSteps,
+      steps,
     };
   }
 

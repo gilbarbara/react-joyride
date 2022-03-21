@@ -204,7 +204,7 @@ export default function createStore(props: StoreState): StoreInstance {
       });
     };
 
-    info = (): Object => this.getState();
+    info = () => this.getState();
 
     next = () => {
       const { index, status } = this.getState();

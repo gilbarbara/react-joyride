@@ -133,6 +133,16 @@ export default class JoyrideStep extends React.Component {
       });
     }
 
+    if (
+      changed('index') &&
+      index > 0 &&
+      lifecycle === LIFECYCLE.INIT &&
+      status === STATUS.RUNNING &&
+      step.placement === 'center'
+    ) {
+      update({ lifecycle: LIFECYCLE.READY });
+    }
+
     // There's a step to use, but there's no target in the DOM
     if (hasStoreChanged && step) {
       const element = getElement(step.target);

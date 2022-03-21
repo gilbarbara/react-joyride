@@ -6,7 +6,7 @@ Object {
   "controlled": false,
   "index": 0,
   "lifecycle": "tooltip",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -17,7 +17,7 @@ Object {
   "controlled": false,
   "index": 1,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -28,7 +28,7 @@ Object {
   "controlled": false,
   "index": 2,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -39,7 +39,7 @@ Object {
   "controlled": false,
   "index": 2,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -50,7 +50,7 @@ Object {
   "controlled": false,
   "index": 1,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -61,18 +61,29 @@ Object {
   "controlled": false,
   "index": 3,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
 
 exports[`Joyride > Standard should be able to click STEP 4 Primary button 1`] = `
 Object {
+  "action": "update",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should be able to click STEP 5 Primary button 1`] = `
+Object {
   "action": "stop",
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "paused",
 }
 `;
@@ -83,8 +94,19 @@ Object {
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should have ended the tour 1`] = `
+Object {
+  "action": "stop",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "paused",
 }
 `;
 
@@ -94,7 +116,7 @@ Object {
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
-  "size": 4,
+  "size": 5,
   "status": "ready",
 }
 `;
@@ -105,7 +127,7 @@ Object {
   "controlled": false,
   "index": 2,
   "lifecycle": "tooltip",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -116,7 +138,7 @@ Object {
   "controlled": false,
   "index": 2,
   "lifecycle": "tooltip",
-  "size": 4,
+  "size": 5,
   "status": "running",
 }
 `;
@@ -127,7 +149,18 @@ Object {
   "controlled": false,
   "index": 3,
   "lifecycle": "tooltip",
-  "size": 4,
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > Standard should have rendered the STEP 5 Tooltip 1`] = `
+Object {
+  "action": "update",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "ready",
+  "size": 5,
   "status": "running",
 }
 `;
