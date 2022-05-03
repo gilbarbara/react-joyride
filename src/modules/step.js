@@ -49,14 +49,14 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): ?StepProps 
     mergedStep.disableScrollParentFix,
   );
   const floaterProps = deepmerge.all([
-    props.floaterProps || {},
     DEFAULTS.floaterProps,
+    props.floaterProps || {},
     mergedStep.floaterProps || {},
   ]);
 
   // Set react-floater props
   floaterProps.offset = mergedStep.offset;
-  floaterProps.styles = deepmerge(floaterProps.styles || {}, mergedStyles.floaterStyles || {});
+  floaterProps.styles = deepmerge(mergedStyles.floaterStyles || {}, floaterProps.styles || {},);
 
   delete mergedStyles.floaterStyles;
 
