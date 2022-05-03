@@ -1,6 +1,6 @@
 {
   "name": "react-joyride",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Create guided tours for your apps",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -39,7 +39,7 @@
     "exenv": "^1.2.2",
     "is-lite": "^0.8.1",
     "nested-property": "^4.0.0",
-    "react-floater": "^0.7.3",
+    "react-floater": "^0.8.0",
     "react-is": "^16.13.1",
     "scroll": "^3.0.1",
     "scrollparent": "^2.0.1",
