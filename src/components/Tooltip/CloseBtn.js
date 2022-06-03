@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const JoyrideTooltipCloseBtn = ({ styles, ...props }) => {
+function JoyrideTooltipCloseBtn({ styles, ...props }) {
   const { color, height, width, ...style } = styles;
 
   return (
@@ -23,7 +23,7 @@ const JoyrideTooltipCloseBtn = ({ styles, ...props }) => {
       </svg>
     </button>
   );
-};
+}
 
 JoyrideTooltipCloseBtn.propTypes = {
   styles: PropTypes.object.isRequired,

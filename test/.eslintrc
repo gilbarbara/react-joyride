@@ -6,6 +6,7 @@
   },
   "rules": {
     "no-console": "off",
+    "no-constructor-return": "off",
     "prefer-destructuring": "off",
     "jsx-a11y/anchor-has-content": "off",
     "jsx-a11y/anchor-is-valid": "off",
