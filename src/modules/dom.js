@@ -299,7 +299,7 @@ export function getScrollTo(element: HTMLElement, offset: number, skipFix: boole
 export function scrollTo(
   value: number,
   element: HTMLElement = scrollDoc(),
-  scrollDuration: number,
+  scrollDuration: number = 300,
 ): Promise<*> {
   return new Promise((resolve, reject) => {
     const { scrollTop } = element;
