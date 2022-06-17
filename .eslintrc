@@ -59,6 +59,7 @@
     "no-template-curly-in-string": "warn",
     "no-trailing-spaces": "warn",
     "no-underscore-dangle": "off",
+    "no-use-before-define": "off",
     "no-unused-expressions": ["error", { "allowShortCircuit": true }],
     "no-unused-vars": "warn",
     "object-curly-newline": "off",

@@ -175,7 +175,7 @@ export default function getStyles(stepStyles = {}) {
         color: options.arrowColor,
       },
       options: {
-        zIndex: options.zIndex,
+        zIndex: options.zIndex + 100,
       },
     },
     options,
