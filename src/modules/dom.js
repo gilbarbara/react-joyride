@@ -2,10 +2,6 @@
 import scroll from 'scroll';
 import scrollParent from 'scrollparent';
 
-export function scrollDoc(): HTMLElement {
-  return document.scrollingElement || document.createElement('body');
-}
-
 /**
  * Find the bounding client rect
  *
@@ -56,37 +52,6 @@ export function getElement(element: string | HTMLElement): ?HTMLElement {
   }
 
   return element;
-}
-
-/**
- * Find the bounding client rect relative to the parent
- *
- * @private
- * @param {HTMLElement} element - The target element
- * @param {HTMLElement} [parent] - The parent element to calculate offsets from
- * @returns {Object}
- */
-export function getRelativeClientRect(element: HTMLElement, parent: HTMLElement): Object {
-  const elementRect = getClientRect(element);
-
-  if (!parent || parent.style.position) {
-    return elementRect;
-  }
-
-  const parentRect = getClientRect(parent);
-  const offsetTop = elementRect.top - parentRect.top + parent.scrollTop;
-  const offsetLeft = elementRect.left - parentRect.left + parent.scrollLeft;
-
-  return {
-    top: offsetTop,
-    left: offsetLeft,
-    right: parentRect.right > 0 ? parentRect.right - elementRect.right : elementRect.right,
-    bottom: parentRect.bottom > 0 ? parentRect.bottom - elementRect.bottom : elementRect.bottom,
-    x: offsetLeft,
-    y: offsetTop,
-    width: elementRect.width,
-    height: elementRect.height,
-  };
 }
 
 /**
@@ -287,6 +252,10 @@ export function getScrollTo(element: HTMLElement, offset: number, skipFix: boole
   }
 
   return Math.floor(top - offset);
+}
+
+export function scrollDoc(): HTMLElement {
+  return document.scrollingElement || document.createElement('body');
 }
 
 /**

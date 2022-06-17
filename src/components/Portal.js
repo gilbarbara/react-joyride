@@ -4,21 +4,6 @@ import PropTypes from 'prop-types';
 import { canUseDOM, isReact16 } from '../modules/helpers';
 
 export default class JoyridePortal extends React.Component {
-  constructor(props) {
-    super(props);
-
-    if (!canUseDOM) return;
-
-    this.node = document.createElement('div');
-
-    /* istanbul ignore else */
-    if (props.id) {
-      this.node.id = props.id;
-    }
-
-    document.body.appendChild(this.node);
-  }
-
   static propTypes = {
     children: PropTypes.element,
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -47,13 +32,35 @@ export default class JoyridePortal extends React.Component {
       ReactDOM.unmountComponentAtNode(this.node);
     }
 
-    document.body.removeChild(this.node);
+    if (this.node.parentNode === document.body) {
+      document.body.removeChild(this.node);
+      this.node = undefined;
+    }
+  }
+
+  appendNode() {
+    const { id } = this.props;
+
+    if (!this.node) {
+      this.node = document.createElement('div');
+
+      /* istanbul ignore else */
+      if (id) {
+        this.node.id = id;
+      }
+
+      document.body.appendChild(this.node);
+    }
   }
 
   renderReact15() {
     if (!canUseDOM) return null;
 
     const { children } = this.props;
+
+    if (!this.node) {
+      this.appendNode();
+    }
 
     ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.node);
 
@@ -64,6 +71,10 @@ export default class JoyridePortal extends React.Component {
     if (!canUseDOM || !isReact16) return null;
 
     const { children } = this.props;
+
+    if (!this.node) {
+      this.appendNode();
+    }
 
     return ReactDOM.createPortal(children, this.node);
   }
