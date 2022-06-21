@@ -4,7 +4,6 @@ about: Create a report to help us improve
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ## 🐛 Bug Report
@@ -25,7 +24,7 @@ Please provide a https://codesandbox.io/ demo or similar.
 
 Issues without a reproduction link are likely to stall.
 
-## Run `npx envinfo --system --binaries --npmPackages react-floater`
+## Run `npx envinfo --system --binaries --npmPackages react-joyride`
 
 Paste the results here:
 
