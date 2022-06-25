@@ -14,7 +14,9 @@ export default class Scope {
 
     window.addEventListener('keydown', this.handleKeyDown, false);
 
-    this.setFocus();
+    if (this.options.initialSetFocus !== false) {
+      this.setFocus();
+    }
   }
 
   canBeTabbed = (element: HTMLElement): boolean => {

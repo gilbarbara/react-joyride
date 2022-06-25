@@ -103,6 +103,7 @@ export default class JoyrideStep extends React.Component {
       status,
       step,
       update,
+      shouldScroll,
     } = this.props;
     const { changed, changedFrom } = treeChanges(prevProps, this.props);
     const state = { action, controlled, index, lifecycle, size, status };
@@ -202,8 +203,10 @@ export default class JoyrideStep extends React.Component {
         type: EVENTS.TOOLTIP,
       });
 
-      this.scope = new Scope(this.tooltip, { selector: '[data-action=primary]' });
-      this.scope.setFocus();
+      this.scope = new Scope(this.tooltip, {
+        selector: '[data-action=primary]',
+        initialSetFocus: shouldScroll,
+      });
     }
 
     if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
