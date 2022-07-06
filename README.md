@@ -15,7 +15,7 @@ And you can use your own components too!
 
 **Read the [docs](https://docs.react-joyride.com/)**
 
-Talk about it in on the [Discussion board](https://github.com/gilbarbara/react-joyride/discussions)
+Talk about it on the [Discussions board](https://github.com/gilbarbara/react-joyride/discussions).
 
 ## Setup
 
