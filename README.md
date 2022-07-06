@@ -8,14 +8,14 @@
 
 Showcase your app to new users or explain functionality of new features.
 
-It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
+It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.
 And you can use your own components too!
 
 **View the demo [here](https://react-joyride.com/)** (or the codesandbox [examples](https://codesandbox.io/s/github/gilbarbara/react-joyride-demo))
 
 **Read the [docs](https://docs.react-joyride.com/)**
 
-Chat about it in our [Spectrum community](https://spectrum.chat/react-joyride)
+Chat about it in our [Discussion Forum](https://github.com/gilbarbara/react-joyride/discussions)
 
 ## Setup
 
