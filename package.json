@@ -29,7 +29,6 @@
   ],
   "types": "./types/index.d.ts",
   "peerDependencies": {
-    "prop-types": "^15.0.0",
     "react": "15 - 18",
     "react-dom": "15 - 18"
   },
@@ -37,7 +36,8 @@
     "deepmerge": "^4.2.2",
     "exenv": "^1.2.2",
     "is-lite": "^0.8.2",
-    "react-floater": "^0.7.5",
+    "prop-types": "^15.8.1",
+    "react-floater": "^0.7.6",
     "react-is": "^16.13.1",
     "scroll": "^3.0.1",
     "scrollparent": "^2.0.1",
