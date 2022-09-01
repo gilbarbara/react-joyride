@@ -134,17 +134,17 @@ export default class JoyrideStep extends React.Component {
     }
 
     if (
-      changed('index') &&
-      index > 0 &&
-      lifecycle === LIFECYCLE.INIT &&
+      step.placement === 'center' &&
       status === STATUS.RUNNING &&
-      step.placement === 'center'
+      changed('index') &&
+      action !== ACTIONS.START &&
+      lifecycle === LIFECYCLE.INIT
     ) {
       update({ lifecycle: LIFECYCLE.READY });
     }
 
     // There's a step to use, but there's no target in the DOM
-    if (hasStoreChanged && step) {
+    if (hasStoreChanged) {
       const element = getElement(step.target);
       const elementExists = !!element;
       const hasRenderedTarget = elementExists && isElementVisible(element);

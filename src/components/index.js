@@ -221,10 +221,10 @@ class Joyride extends React.Component {
       this.scrollToStep(prevState);
 
       if (
-        action === ACTIONS.START &&
-        lifecycle === LIFECYCLE.INIT &&
+        step.placement === 'center' &&
         status === STATUS.RUNNING &&
-        step.placement === 'center'
+        action === ACTIONS.START &&
+        lifecycle === LIFECYCLE.INIT
       ) {
         update({ lifecycle: LIFECYCLE.READY });
       }
