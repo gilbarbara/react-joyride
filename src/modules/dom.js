@@ -203,11 +203,19 @@ export function getElementPosition(element: HTMLElement, offset: number, skipFix
 
   /* istanbul ignore else */
   if (parent instanceof HTMLElement) {
-    parentTop = parent.scrollTop;
+    parent
+    = parent.scrollTop;
   }
-
-   const top = elementRect.top + !hasScrollParent ? parent.getBoundingClientRect().top: 0 - offset;
-   return Math.floor(top2 - offset);
+  let top;
+  if (!hasScrollParent) {
+    top = elementRect.top + parent.getBoundingClientRect().top - offset;
+  }
+  else if (!hasPosition) {
+    top = elementRect.top + parentTop - offset;
+  } else {
+    top = elementRect - offset;
+  }
+   return Math.floor(top - offset);
 }
 
 /**
