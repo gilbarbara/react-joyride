@@ -209,7 +209,7 @@ export function getElementPosition(element: HTMLElement, offset: number, skipFix
   if (!hasScrollParent) {
     top = elementRect.top + parent.getBoundingClientRect().top - offset;
   }
-  else if (!hasPosition) {
+  else if (!hasPosition(element)) {
     top = elementRect.top + parentTop - offset;
   } else {
     top = elementRect - offset;
