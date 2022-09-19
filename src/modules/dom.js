@@ -203,8 +203,7 @@ export function getElementPosition(element: HTMLElement, offset: number, skipFix
 
   /* istanbul ignore else */
   if (parent instanceof HTMLElement) {
-    parent
-    = parent.scrollTop;
+    parentTop = parent.scrollTop;
   }
   let top;
   if (!hasScrollParent) {
