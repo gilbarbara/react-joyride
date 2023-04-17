@@ -38,11 +38,11 @@
     "exenv": "^1.2.2",
     "is-lite": "^0.9.2",
     "prop-types": "^15.8.1",
-    "react-floater": "^0.7.6",
-    "react-is": "^16.13.1",
+    "react-floater": "^0.8.2",
+    "react-is": "^18.2.0",
     "scroll": "^3.0.1",
     "scrollparent": "^2.0.1",
-    "tree-changes": "^0.9.2"
+    "tree-changes": "^0.10.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.1",
