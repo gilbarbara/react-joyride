@@ -1,5 +1,7 @@
 [ignore]
 <PROJECT_ROOT>/node_modules/eslint-plugin-import/.*
+<PROJECT_ROOT>/node_modules/eslint-import-resolver-node/.*
+<PROJECT_ROOT>/node_modules/eslint-plugin-react/.*
 [include]
 [libs]
 ./defs
