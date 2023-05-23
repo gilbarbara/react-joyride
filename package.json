@@ -128,7 +128,7 @@
     "size": "size-limit",
     "prepublishOnly": "npm run validate",
     "prepare": "husky install",
-    "postinstall": "npm run validate"
+    "postinstall": "npm run build"
   },
   "size-limit": [
     {
