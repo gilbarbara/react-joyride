@@ -1,2 +1,4 @@
 *.ts
 *.tsx
+es/
+lib/

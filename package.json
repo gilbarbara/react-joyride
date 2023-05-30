@@ -118,7 +118,7 @@
     "build": " npm run clean && npm run build:scripts",
     "build:scripts": "cross-env NODE_ENV=production rollup -c",
     "watch": "rollup -cw",
-    "clean": "del es && del lib",
+    "clean": "rm -rf es && rm -rf lib",
     "lint": "eslint --ext .js,.jsx src test",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --bail --coverage",

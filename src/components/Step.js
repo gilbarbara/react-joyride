@@ -104,6 +104,11 @@ export default class JoyrideStep extends React.Component {
       step,
       update,
     } = this.props;
+
+    const { step: prevStep } = prevProps;
+    document.querySelector(prevStep?.target).style.boxShadow = 'none';
+    document.querySelector(step?.target).style.boxShadow = '0 0 4px 2px #7839EE';
+
     const { changed, changedFrom } = treeChanges(prevProps, this.props);
     const state = { action, controlled, index, lifecycle, size, status };
 
@@ -214,6 +219,8 @@ export default class JoyrideStep extends React.Component {
   }
 
   componentWillUnmount() {
+    const { step } = this.props;
+    document.querySelector(step?.target).style.boxShadow = 'none';
     this.scope.removeScope();
   }
 

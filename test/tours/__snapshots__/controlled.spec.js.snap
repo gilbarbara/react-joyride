@@ -35,10 +35,10 @@ exports[`Joyride > Controlled should be able to click STEP 3 button through the 
 
 exports[`Joyride > Controlled should be able to click STEP 3 button through the spotlight AGAIN 1`] = `
 {
-  "action": "next",
+  "action": "update",
   "controlled": true,
-  "index": 3,
-  "lifecycle": "init",
+  "index": 2,
+  "lifecycle": "tooltip",
   "size": 7,
   "status": "running",
 }
@@ -147,7 +147,7 @@ exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip 1`] = `
 {
   "action": "update",
   "controlled": true,
-  "index": 3,
+  "index": 2,
   "lifecycle": "tooltip",
   "size": 7,
   "status": "running",
