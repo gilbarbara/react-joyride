@@ -110,7 +110,10 @@ class Joyride extends React.Component {
 
     const stepsChanged = !isEqual(prevSteps, steps);
     const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
-    const target = getElement(step?.target);
+    const target =
+      step && Array.isArray(step.target)
+        ? step.target.map(thetarget => getElement(step?.target))
+        : [getElement(step?.target)];
 
     if (stepsChanged) {
       if (validateSteps(steps, debug)) {
@@ -147,7 +150,12 @@ class Joyride extends React.Component {
     }
 
     // Update the index if the first step is not found
-    if (!controlled && status === STATUS.RUNNING && index === 0 && !target) {
+    if (
+      !controlled &&
+      status === STATUS.RUNNING &&
+      index === 0 &&
+      (!target || target.length === 0)
+    ) {
       update({ index: index + 1 });
       this.callback({
         ...this.state,
@@ -282,7 +290,11 @@ class Joyride extends React.Component {
 
     /* istanbul ignore else */
     if (step) {
-      const target = getElement(step.target);
+      const target =
+        Array.isArray(step.target) && step.target.length > 0
+          ? getElement(step.target[0])
+          : getElement(step.target);
+
       const shouldScroll = this.shouldScroll(
         step.disableScrolling,
         index,

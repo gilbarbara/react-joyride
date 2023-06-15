@@ -44,10 +44,15 @@ export function getMergedStep(step: StepProps, props: JoyrideProps): ?StepProps 
     isMergeableObject: is.plainObject,
   });
   const mergedStyles = getStyles(deepmerge(props.styles || {}, step.styles || {}));
-  const scrollParent = hasCustomScrollParent(
-    getElement(step.target),
-    mergedStep.disableScrollParentFix,
-  );
+
+  const scrollTarget =
+    step.target && Array.isArray(step.target)
+      ? step.target.length > 0
+        ? getElement(step.target[0])
+        : undefined
+      : getElement(step.target);
+
+  const scrollParent = hasCustomScrollParent(scrollTarget, mergedStep.disableScrollParentFix);
   const floaterProps = deepmerge.all([
     props.floaterProps || {},
     DEFAULTS.floaterProps,

@@ -65,7 +65,7 @@ export interface StepProps {
   spotlightClicks?: boolean;
   spotlightPadding?: number;
   styles?: Object;
-  target: string | HTMLElement;
+  target: string | HTMLElement | string[];
   title?: ReactNode;
   tooltipComponent?: ReactNode;
 }

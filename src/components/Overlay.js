@@ -37,13 +37,19 @@ export default class JoyrideOverlay extends React.Component {
     spotlightClicks: PropTypes.bool.isRequired,
     spotlightPadding: PropTypes.number,
     styles: PropTypes.object.isRequired,
-    target: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
+    target: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.array]).isRequired,
   };
 
   componentDidMount() {
     const { debug, disableScrolling, disableScrollParentFix, target } = this.props;
-    const element = getElement(target);
 
+    let element;
+    if (Array.isArray(target) && target.length > 0) {
+      element = getElement(target[0]);
+    } else {
+      element = getElement(target);
+    }
+    // const element = getElement(target);
     this.scrollParent = getScrollParent(element, disableScrollParentFix, true);
     this._isMounted = true;
 
