@@ -61,6 +61,17 @@ export class App extends React.Component {
 
 > If you need to support legacy browsers you need to include the [scrollingelement](https://github.com/mathiasbynens/document.scrollingElement) polyfill.
 
+---
+Sponsored by
+
+<a href="https://frigade.com/" target="_blank">
+  <img src="https://github.com/gilbarbara/react-joyride/assets/31954/4f71c19e-5dc7-49e9-9682-f4d7a7d11869" alt="Frigade" width="500" />
+</a>
+
+React Joyrire is proud to be sponsored by [Frigade](https://frigade.com/)
+
+---
+
 ## Development
 
 Setting up a local development environment is easy!
