@@ -64,11 +64,9 @@ export class App extends React.Component {
 ---
 Sponsored by
 
-<a href="https://frigade.com/" target="_blank">
-  <img src="https://github.com/gilbarbara/react-joyride/assets/31954/4f71c19e-5dc7-49e9-9682-f4d7a7d11869" alt="Frigade" width="500" />
-</a>
+[![Frigade](http://gilbarbara.com/files/frigade-sponsor-v1.png)](https://frigade.com/)
 
-React Joyrire is proud to be sponsored by [Frigade](https://frigade.com/)
+React Joyride is proud to be sponsored by [Frigade](https://frigade.com/), a developer tool for building better product onboarding: guided tours, getting started checklists, announcements, etc.
 
 ---
 
