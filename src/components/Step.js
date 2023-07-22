@@ -44,6 +44,7 @@ export default class JoyrideStep extends React.Component {
       disableScrollParentFix: PropTypes.bool,
       event: PropTypes.string,
       floaterProps: PropTypes.shape({
+        getPopper: PropTypes.func,
         options: PropTypes.object,
         styles: PropTypes.object,
         wrapperOptions: PropTypes.object,
@@ -245,7 +246,7 @@ export default class JoyrideStep extends React.Component {
   };
 
   setPopper = (popper, type) => {
-    const { action, setPopper, update } = this.props;
+    const { action, setPopper, update, step } = this.props;
 
     if (type === 'wrapper') {
       this.beaconPopper = popper;
@@ -254,6 +255,10 @@ export default class JoyrideStep extends React.Component {
     }
 
     setPopper(popper, type);
+
+    if (step.floaterProps && typeof step.floaterProps.getPopper === 'function') {
+      step.floaterProps.getPopper(popper, type);
+    }
 
     if (this.beaconPopper && this.tooltipPopper) {
       update({
@@ -289,6 +294,7 @@ export default class JoyrideStep extends React.Component {
           />
         </Portal>
         <Floater
+          {...step.floaterProps}
           component={
             <Tooltip
               continuous={continuous}
@@ -307,7 +313,6 @@ export default class JoyrideStep extends React.Component {
           open={this.open}
           placement={step.placement}
           target={step.target}
-          {...step.floaterProps}
         >
           <Beacon
             beaconComponent={step.beaconComponent}
