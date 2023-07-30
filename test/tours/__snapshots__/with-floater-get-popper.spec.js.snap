@@ -1,0 +1,166 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 1 Beacon 1`] = `
+{
+  "action": "update",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 1 Primary button 1`] = `
+{
+  "action": "next",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 2 Primary button 1`] = `
+{
+  "action": "next",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 2 Primary button AGAIN 1`] = `
+{
+  "action": "next",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 3 Back button 1`] = `
+{
+  "action": "prev",
+  "controlled": false,
+  "index": 1,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 3 Primary button 1`] = `
+{
+  "action": "next",
+  "controlled": false,
+  "index": 3,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 4 Primary button 1`] = `
+{
+  "action": "update",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to click STEP 5 Primary button 1`] = `
+{
+  "action": "stop",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "paused",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should be able to start the tour 1`] = `
+{
+  "action": "start",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should have ended the tour 1`] = `
+{
+  "action": "stop",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "paused",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should have initiated the Joyride 1`] = `
+{
+  "action": "init",
+  "controlled": false,
+  "index": 0,
+  "lifecycle": "init",
+  "size": 5,
+  "status": "ready",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should have rendered the STEP 3 Tooltip 1`] = `
+{
+  "action": "update",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should have rendered the STEP 3 Tooltip AGAIN 1`] = `
+{
+  "action": "update",
+  "controlled": false,
+  "index": 2,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should have rendered the STEP 4 Tooltip 1`] = `
+{
+  "action": "update",
+  "controlled": false,
+  "index": 3,
+  "lifecycle": "tooltip",
+  "size": 5,
+  "status": "running",
+}
+`;
+
+exports[`Joyride > With floaterProps.getPopper should have rendered the STEP 5 Tooltip 1`] = `
+{
+  "action": "update",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "ready",
+  "size": 5,
+  "status": "running",
+}
+`;
