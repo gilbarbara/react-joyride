@@ -19,8 +19,7 @@ import Spotlight from './Spotlight';
 
 export default class JoyrideOverlay extends React.Component {
   _isMounted = false;
-  state = {
-    mouseOverSpotlight: false,
+  state = { 
     isScrolling: false,
     showSpotlight: true,
   };
@@ -62,8 +61,7 @@ export default class JoyrideOverlay extends React.Component {
     window.addEventListener('resize', this.handleResize);
   }
 
-  componentDidUpdate(prevProps) {
-    const { lifecycle, spotlightClicks } = this.props;
+  componentDidUpdate(prevProps) { 
     const { changed } = treeChanges(prevProps, this.props);
 
     /* istanbul ignore else */
@@ -77,14 +75,6 @@ export default class JoyrideOverlay extends React.Component {
           this.updateState({ showSpotlight: true });
         }
       }, 100);
-    }
-
-    if (changed('spotlightClicks') || changed('disableOverlay') || changed('lifecycle')) {
-      if (spotlightClicks && lifecycle === LIFECYCLE.TOOLTIP) {
-        window.addEventListener('mousemove', this.handleMouseMove, false);
-      } else if (lifecycle !== LIFECYCLE.TOOLTIP) {
-        window.removeEventListener('mousemove', this.handleMouseMove);
-      }
     }
   }
 
@@ -101,7 +91,7 @@ export default class JoyrideOverlay extends React.Component {
 
   get spotlightStyles() {
     const { showSpotlight } = this.state;
-    const { disableScrollParentFix, spotlightClicks, spotlightPadding, styles, target } =
+    const { disableScrollParentFix, spotlightPadding, styles, target } =
       this.props;
     const element = getElement(target);
     const elementRect = getClientRect(element);
@@ -113,28 +103,12 @@ export default class JoyrideOverlay extends React.Component {
       height: Math.round(elementRect.height + spotlightPadding * 2),
       left: Math.round(elementRect.left - spotlightPadding),
       opacity: showSpotlight ? 1 : 0,
-      pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
       transition: 'opacity 0.2s',
       width: Math.round(elementRect.width + spotlightPadding * 2),
     };
   }
-
-  handleMouseMove = e => {
-    const { mouseOverSpotlight } = this.state;
-    const { height, left, position, top, width } = this.spotlightStyles;
-
-    const offsetY = position === 'fixed' ? e.clientY : e.pageY;
-    const offsetX = position === 'fixed' ? e.clientX : e.pageX;
-    const inSpotlightHeight = offsetY >= top && offsetY <= top + height;
-    const inSpotlightWidth = offsetX >= left && offsetX <= left + width;
-    const inSpotlight = inSpotlightWidth && inSpotlightHeight;
-
-    if (inSpotlight !== mouseOverSpotlight) {
-      this.updateState({ mouseOverSpotlight: inSpotlight });
-    }
-  };
 
   handleScroll = () => {
     const { target } = this.props;
@@ -177,8 +151,19 @@ export default class JoyrideOverlay extends React.Component {
     this.setState(state);
   }
 
+  handleSpotlightClick = () => {
+    const { spotlightClicks, target } = this.props;
+    if (spotlightClicks) {
+      const element = getElement(target);
+
+      if (element) {
+        element.click();
+      }
+    }
+  };
+
   render() {
-    const { mouseOverSpotlight, showSpotlight } = this.state;
+    const { showSpotlight } = this.state;
     const { disableOverlay, disableOverlayClose, lifecycle, onClickOverlay, placement, styles } =
       this.props;
 
@@ -196,24 +181,23 @@ export default class JoyrideOverlay extends React.Component {
     const stylesOverlay = {
       cursor: disableOverlayClose ? 'default' : 'pointer',
       height: getDocumentHeight(),
-      pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
       ...baseStyles,
     };
 
-    let spotlight = placement !== 'center' && showSpotlight && (
-      <Spotlight styles={this.spotlightStyles} />
+    let spotlight = placement !== "center" && showSpotlight && (
+      <Spotlight onClick={() => this.handleSpotlightClick()} styles={this.spotlightStyles} />
     );
 
     // Hack for Safari bug with mix-blend-mode with z-index
-    if (getBrowser() === 'safari') {
+    if (getBrowser() === "safari") {
       const { mixBlendMode, zIndex, ...safarOverlay } = stylesOverlay;
 
-      spotlight = <div style={{ ...safarOverlay }}>{spotlight}</div>;
+      spotlight = <div onClick={() => this.handleSpotlightClick()} style={{ ...safarOverlay }}>{spotlight}</div>;
       delete stylesOverlay.backgroundColor;
     }
 
     return (
-      <div className="react-joyride__overlay" style={stylesOverlay} onClick={onClickOverlay}>
+      <div className="react-joyride__overlay" style={stylesOverlay} onClick={onClickOverlay}> 
         {spotlight}
       </div>
     );
