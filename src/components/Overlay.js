@@ -184,12 +184,12 @@ export default class JoyrideOverlay extends React.Component {
       ...baseStyles,
     };
 
-    let spotlight = placement !== "center" && showSpotlight && (
+    let spotlight = placement !== 'center' && showSpotlight && (
       <Spotlight onClick={() => this.handleSpotlightClick()} styles={this.spotlightStyles} />
     );
 
     // Hack for Safari bug with mix-blend-mode with z-index
-    if (getBrowser() === "safari") {
+    if (getBrowser() === 'safari') {
       const { mixBlendMode, zIndex, ...safarOverlay } = stylesOverlay;
 
       spotlight = <div onClick={() => this.handleSpotlightClick()} style={{ ...safarOverlay }}>{spotlight}</div>;
@@ -197,7 +197,7 @@ export default class JoyrideOverlay extends React.Component {
     }
 
     return (
-      <div className="react-joyride__overlay" style={stylesOverlay} onClick={onClickOverlay}> 
+      <div className="react-joyride__overlay" style={stylesOverlay} onClick={onClickOverlay}>
         {spotlight}
       </div>
     );
