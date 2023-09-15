@@ -240,8 +240,8 @@ export default class JoyrideStep extends React.Component {
     }
   };
 
-  setTooltipRef = c => {
-    this.tooltip = c;
+  setTooltipRef = tooltipRef => {
+    this.tooltip = tooltipRef;
   };
 
   setPopper = (popper, type) => {
