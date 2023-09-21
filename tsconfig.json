@@ -1,0 +1,13 @@
+{
+  "extends": "@gilbarbara/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "downlevelIteration": true,
+    "noEmit": true,
+    "paths": {
+      "~/*": ["src/*"]
+    },
+    "target": "ES2022"
+  },
+  "include": ["src/**/*"]
+}

@@ -1,0 +1,1203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Joyride > Controlled should have rendered the STEP 2 Tooltip 1`] = `
+<div
+  id="react-joyride-step-1"
+  style="z-index: 10100;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 0px 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="right"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            Sidebar
+          </h3>
+          <div>
+            This is our sidebar, you can find everything you need here
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; top: 0px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-top: 8px; margin-bottom: 8px;"
+        >
+          <svg
+            height="32"
+            version="1.1"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="16,32 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="right"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 3 Tooltip 1`] = `
+<div
+  id="react-joyride-step-2"
+  style="z-index: 10100;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="bottom"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            The schedule
+          </h3>
+          <div>
+            Check the availability of the team!
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        >
+          <svg
+            height="16"
+            version="1.1"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="32,16 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="bottom"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 3 Tooltip AGAIN 1`] = `
+<div
+  id="react-joyride-step-2"
+  style="z-index: 10100;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="bottom"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            The schedule
+          </h3>
+          <div>
+            Check the availability of the team!
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        >
+          <svg
+            height="16"
+            version="1.1"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="32,16 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="bottom"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip 1`] = `
+<div
+  id="react-joyride-step-3"
+  style="z-index: 200;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="bottom"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            Our Growth
+          </h3>
+          <div>
+            <div>
+              Our rate is off the charts!
+            </div>
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        >
+          <svg
+            height="16"
+            version="1.1"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="32,16 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="bottom"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip AGAIN 1`] = `
+<div
+  id="react-joyride-step-3"
+  style="z-index: 200;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="bottom"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            Our Growth
+          </h3>
+          <div>
+            <div>
+              Our rate is off the charts!
+            </div>
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        >
+          <svg
+            height="16"
+            version="1.1"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="32,16 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="bottom"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 5 Tooltip 1`] = `
+<div
+  id="react-joyride-step-4"
+  style="z-index: 200;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="right"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            Our Users
+          </h3>
+          <div>
+            <div>
+              <svg
+                aria-hidden="true"
+                height="96px"
+                preserveAspectRatio="xMidYMid"
+                viewBox="0 0 96 96"
+                width="96px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g>
+                  <path
+                    d="M83.2922435,72.3864207 C69.5357835,69.2103145 56.7313553,66.4262214 62.9315626,54.7138297 C81.812194,19.0646376 67.93573,0 48.0030634,0 C27.6743835,0 14.1459311,19.796662 33.0745641,54.7138297 C39.4627778,66.4942237 26.1743334,69.2783168 12.7138832,72.3864207 C0.421472164,75.2265157 -0.0385432192,81.3307198 0.0014581185,92.0030767 L0.0174586536,96.0032105 L95.9806678,96.0032105 L95.9966684,92.1270809 C96.04467,81.3747213 95.628656,75.2385161 83.2922435,72.3864207 Z"
+                    fill="#000000"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; top: 0px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-top: 8px; margin-bottom: 8px;"
+        >
+          <svg
+            height="32"
+            version="1.1"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="16,32 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="right"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should have rendered the STEP 6 Tooltip 1`] = `
+<div
+  id="react-joyride-step-5"
+  style="z-index: 200;"
+>
+  <div
+    class="__floater"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="top"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <div>
+            The awesome connections you have made
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Back"
+              data-action="back"
+              data-test-id="button-back"
+              role="button"
+              title="Back"
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              aria-label="Last"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Last"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; bottom: 0px; left: 0px; right: 0px; height: 16px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; bottom: 0px; margin-left: 8px; margin-right: 8px;"
+        >
+          <svg
+            height="16"
+            version="1.1"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="0,0 16,16 32,0"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="top"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Controlled should start the tour 1`] = `
+<div
+  class="controlled-container"
+  data-test-id="controlled"
+>
+  <div
+    class="controlled-sidebar"
+    data-test-id="sidebar"
+  >
+    <div>
+      <button
+        class="controlled-sidebar-button"
+        type="button"
+      >
+        <img
+          alt="close"
+          src="https://files.gilbarbara.dev/icons/close.svg"
+        />
+      </button>
+    </div>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Home
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Controlled
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Custom
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Modal
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Scroll
+    </p>
+  </div>
+  <button
+    class="controlled-menu"
+    data-test-id="menu"
+    type="button"
+  >
+    <img
+      alt="menu"
+      src="https://cdn.jsdelivr.net/npm/css.gg/icons/svg/menu.svg"
+    />
+  </button>
+  <h1
+    class="controlled-heading"
+  >
+    DASHBOARD
+  </h1>
+  <div
+    class="controlled-sections"
+  >
+    <div
+      class="controlled-section calendar"
+    >
+      CALENDAR
+    </div>
+    <div
+      class="controlled-section growth"
+    >
+      GROWTH
+    </div>
+    <div
+      class="controlled-section users"
+    >
+      USERS
+    </div>
+    <div
+      class="controlled-section connections"
+    >
+      CONNECTIONS
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Controlled should start the tour 2`] = `
+<div
+  id="react-joyride-step-0"
+  style="z-index: 10100;"
+>
+  <div
+    class="__floater __floater__open"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s, transform 0.2s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="bottom"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            Menu
+          </h3>
+          <div>
+            <div>
+              You can interact with your own components through the spotlight.
+              <br />
+              Click the menu above!
+            </div>
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Next"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next"
+              type="button"
+            >
+              Next
+            </button>
+          </div>
+        </footer>
+      </div>
+      <div
+        class="__floater__arrow"
+        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+      >
+        <span
+          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        >
+          <svg
+            height="16"
+            version="1.1"
+            width="32"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              fill="#fff"
+              points="32,16 16,0 0,16"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+  <span
+    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
+    x-placement="bottom"
+  >
+    <button
+      class="react-joyride__beacon"
+      data-test-id="button-beacon"
+      type="button"
+    >
+      <span
+        class="react-joyride__beacon__inner"
+      />
+    </button>
+  </span>
+</div>
+`;
