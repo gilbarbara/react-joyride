@@ -10,7 +10,7 @@ Below is the complete list of possible props and options:
 **beaconComponent** {ReactNode}  
 A React component or function to be used instead the default Beacon. Check [custom components](custom-components.md) for details.
 
-**callback** {() => CallbackProps}  
+**callback** {() => CallBackProps}  
 It will be called when Joyride's state changes. it returns a single parameter with the state.
 
 **continuous** {boolean} ▶︎ `false`  
