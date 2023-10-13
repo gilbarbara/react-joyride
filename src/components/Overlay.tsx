@@ -106,18 +106,56 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     const element = getElement(target);
     const elementRect = getClientRect(element);
     const isFixedTarget = hasPosition(element);
-    const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
+
+    let overridenHeight;
+
+    if (styles.spotlight.height) {
+      overridenHeight =
+        typeof styles.spotlight.height === 'number'
+          ? styles.spotlight.height
+          : Number(parseInt(styles.spotlight.height, 10));
+    }
+
+    let overridenWidth;
+
+    if (styles.spotlight.width) {
+      overridenWidth =
+        typeof styles.spotlight.width === 'number'
+          ? styles.spotlight.width
+          : Number(parseInt(styles.spotlight.width, 10));
+    }
+
+    let overridenLeft;
+
+    if (styles.spotlight.left) {
+      overridenLeft =
+        typeof styles.spotlight.left === 'number'
+          ? styles.spotlight.left
+          : Number(parseInt(styles.spotlight.left, 10));
+    }
+
+    let overridenTop;
+
+    if (styles.spotlight.top) {
+      overridenTop =
+        typeof styles.spotlight.top === 'number'
+          ? styles.spotlight.top
+          : Number(parseInt(styles.spotlight.top, 10));
+    }
+
+    const top =
+      overridenTop ?? getElementPosition(element, spotlightPadding, disableScrollParentFix);
 
     return {
-      height: Math.round((elementRect?.height ?? 0) + spotlightPadding * 2),
-      left: Math.round((elementRect?.left ?? 0) - spotlightPadding),
+      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
+      height: Math.round((overridenHeight ?? elementRect?.height ?? 0) + spotlightPadding * 2),
+      left: Math.round((overridenLeft ?? elementRect?.left ?? 0) - spotlightPadding),
       opacity: showSpotlight ? 1 : 0,
       pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
       transition: 'opacity 0.2s',
-      width: Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
-      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
+      width: overridenWidth || Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
     } satisfies React.CSSProperties;
   }
 
