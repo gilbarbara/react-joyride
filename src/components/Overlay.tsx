@@ -107,55 +107,55 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     const elementRect = getClientRect(element);
     const isFixedTarget = hasPosition(element);
 
-    let overridenHeight;
+    let overriddenHeight;
 
     if (styles.spotlight.height) {
-      overridenHeight =
+      overriddenHeight =
         typeof styles.spotlight.height === 'number'
           ? styles.spotlight.height
           : Number(parseInt(styles.spotlight.height, 10));
     }
 
-    let overridenWidth;
+    let overriddenWidth;
 
     if (styles.spotlight.width) {
-      overridenWidth =
+      overriddenWidth =
         typeof styles.spotlight.width === 'number'
           ? styles.spotlight.width
           : Number(parseInt(styles.spotlight.width, 10));
     }
 
-    let overridenLeft;
+    let overriddenLeft;
 
     if (styles.spotlight.left) {
-      overridenLeft =
+      overriddenLeft =
         typeof styles.spotlight.left === 'number'
           ? styles.spotlight.left
           : Number(parseInt(styles.spotlight.left, 10));
     }
 
-    let overridenTop;
+    let overriddenTop;
 
     if (styles.spotlight.top) {
-      overridenTop =
+      overriddenTop =
         typeof styles.spotlight.top === 'number'
           ? styles.spotlight.top
           : Number(parseInt(styles.spotlight.top, 10));
     }
 
     const top =
-      overridenTop ?? getElementPosition(element, spotlightPadding, disableScrollParentFix);
+      overriddenTop ?? getElementPosition(element, spotlightPadding, disableScrollParentFix);
 
     return {
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
-      height: Math.round((overridenHeight ?? elementRect?.height ?? 0) + spotlightPadding * 2),
-      left: Math.round((overridenLeft ?? elementRect?.left ?? 0) - spotlightPadding),
+      height: Math.round((overriddenHeight ?? elementRect?.height ?? 0) + spotlightPadding * 2),
+      left: Math.round((overriddenLeft ?? elementRect?.left ?? 0) - spotlightPadding),
       opacity: showSpotlight ? 1 : 0,
       pointerEvents: spotlightClicks ? 'none' : 'auto',
       position: isFixedTarget ? 'fixed' : 'absolute',
       top,
       transition: 'opacity 0.2s',
-      width: overridenWidth || Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
+      width: overriddenWidth || Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
     } satisfies React.CSSProperties;
   }
 
