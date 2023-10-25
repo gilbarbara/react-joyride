@@ -52,7 +52,9 @@ export class App extends React.Component {
           steps={steps}
           ...
         />
-        ...
+        <main>
+          Your components...
+        </main>
       </div>
     );
   }
