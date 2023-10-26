@@ -194,6 +194,21 @@ export function getElementPosition(
 }
 
 /**
+ * Get the added offsetTop prop of each offsetParent up to the body
+ */
+function getAddedOffsetTop(element?: HTMLElement | null): number {
+  if (element instanceof HTMLElement) {
+    if (element.offsetParent instanceof HTMLElement) {
+      return getAddedOffsetTop(element.offsetParent) + element.offsetTop;
+    }
+
+    return element.offsetTop;
+  }
+
+  return 0;
+}
+
+/**
  * Get the scrollTop position
  */
 export function getScrollTo(element: HTMLElement, offset: number, skipFix: boolean): number {
@@ -202,10 +217,10 @@ export function getScrollTo(element: HTMLElement, offset: number, skipFix: boole
   }
 
   const parent = scrollParent(element);
-  let top = element.offsetTop;
+  let top = getAddedOffsetTop(element);
 
   if (parent && hasCustomScrollParent(element, skipFix) && !hasCustomOffsetParent(element)) {
-    top -= parent.offsetTop;
+    top -= getAddedOffsetTop(parent);
   }
 
   return Math.floor(top - offset);
