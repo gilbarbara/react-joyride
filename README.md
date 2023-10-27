@@ -1,6 +1,6 @@
 # React Joyride
 
-[![](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) [![CI](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml) [![](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/maintainability)](https://codeclimate.com/github/gilbarbara/react-joyride/maintainability) [![](https://api.codeclimate.com/v1/badges/43ecb5536910133429bd/test_coverage)](https://codeclimate.com/github/gilbarbara/react-joyride/test_coverage)
+[![](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) [![CI](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_react-joyride&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_react-joyride) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_react-joyride&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_react-joyride)
 
 [![Joyride example image](http://gilbarbara.com/files/react-joyride.png)](https://react-joyride.com/)
 

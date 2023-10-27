@@ -63,11 +63,12 @@ jobs:
           path: playwright-report/
           retention-days: 30
 
-      - name: Publish code coverage
+      - name: SonarCloud Scan
         if: "!startsWith(github.ref, 'refs/tags/')"
-        uses: paambaati/codeclimate-action@v3.0.0
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Publish Package
         if: startsWith(github.ref, 'refs/tags/')
