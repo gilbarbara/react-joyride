@@ -3,11 +3,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "downlevelIteration": true,
+    "jsx": "react",
     "noEmit": true,
     "paths": {
       "~/*": ["src/*"]
-    },
-    "target": "es5"
+    }
   },
   "include": ["src/**/*"]
 }

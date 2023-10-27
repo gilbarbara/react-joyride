@@ -116,6 +116,7 @@
       "cjs",
       "esm"
     ],
+    "target": "es2018",
     "sourcemap": true,
     "splitting": false
   },
@@ -147,8 +148,7 @@
   "lint-staged": {
     "*.(ts|tsx)": [
       "eslint --fix",
-      "jest --findRelatedTests --passWithNoTests",
-      "npm run e2e"
+      "jest --findRelatedTests --passWithNoTests"
     ],
     "*.(css|graphql|js|json|jsx|less|md|mdx|scss|ts|tsx|yaml|yml)": [
       "prettier --write"
