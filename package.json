@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.3.1",
-    "@gilbarbara/helpers": "^0.8.7",
+    "@gilbarbara/helpers": "^0.9.0",
     "deep-diff": "^1.0.2",
     "deepmerge": "^4.3.1",
     "is-lite": "^1.2.0",
@@ -47,29 +47,29 @@
     "react-is": "^16.13.1",
     "scroll": "^3.0.1",
     "scrollparent": "^2.1.0",
-    "tree-changes": "^0.11.0",
-    "type-fest": "^4.5.0"
+    "tree-changes": "^0.11.1",
+    "type-fest": "^4.7.1"
   },
   "devDependencies": {
-    "@gilbarbara/eslint-config": "^0.5.4",
+    "@gilbarbara/eslint-config": "^0.7.1",
     "@gilbarbara/prettier-config": "^1.0.0",
     "@gilbarbara/tsconfig": "^0.2.3",
     "@playwright/experimental-ct-react": "^1.39.0",
-    "@size-limit/preset-big-lib": "^10.0.1",
-    "@swc/core": "^1.3.94",
+    "@size-limit/preset-big-lib": "^10.0.2",
+    "@swc/core": "^1.3.96",
     "@swc/jest": "^0.2.29",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^14.1.0",
     "@total-typescript/shoehorn": "^0.1.1",
-    "@types/exenv": "^1.2.1",
-    "@types/jest": "^29.5.6",
-    "@types/node": "^20.8.7",
-    "@types/react": "^18.2.31",
-    "@types/react-dom": "^18.2.14",
-    "@types/scroll": "^3.0.2",
-    "@types/scrollparent": "^2.0.2",
-    "caniuse-lite": "^1.0.30001553",
+    "@types/exenv": "^1.2.2",
+    "@types/jest": "^29.5.8",
+    "@types/node": "^20.9.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@types/scroll": "^3.0.3",
+    "@types/scrollparent": "^2.0.3",
+    "caniuse-lite": "^1.0.30001561",
     "cross-env": "^7.0.3",
     "csstype": "^3.1.2",
     "del-cli": "^5.1.0",
@@ -84,7 +84,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "repo-tools": "^0.3.1",
-    "size-limit": "^10.0.1",
+    "size-limit": "^10.0.2",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "tsup": "^7.2.0",
@@ -121,7 +121,9 @@
   },
   "eslintConfig": {
     "extends": [
-      "@gilbarbara/eslint-config"
+      "@gilbarbara/eslint-config",
+      "@gilbarbara/eslint-config/jest",
+      "@gilbarbara/eslint-config/testing-library"
     ],
     "overrides": [
       {

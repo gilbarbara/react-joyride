@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-./node_modules/.bin/repo-tools check-remote && ./node_modules/.bin/lint-staged
+./node_modules/.bin/repo-tools check-remote && ./node_modules/.bin/lint-staged && npm run e2e
