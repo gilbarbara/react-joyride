@@ -33,11 +33,6 @@ export type Placement =
   | 'right-start'
   | 'right-end';
 
-export interface ScopeOptions {
-  code?: string;
-  selector: string | null;
-}
-
 export interface Styles {
   beacon: CSSProperties;
   beaconInner: CSSProperties;
@@ -46,7 +41,7 @@ export interface Styles {
   buttonClose: CSSProperties;
   buttonNext: CSSProperties;
   buttonSkip: CSSProperties;
-  options: StylesOptions;
+  options: Partial<StylesOptions>;
   overlay: CSSProperties;
   overlayLegacy: CSSProperties;
   overlayLegacyCenter: CSSProperties;

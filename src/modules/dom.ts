@@ -196,7 +196,7 @@ export function getElementPosition(
 /**
  * Get the scrollTop position
  */
-export function getScrollTo(element: HTMLElement, offset: number, skipFix: boolean): number {
+export function getScrollTo(element: HTMLElement | null, offset: number, skipFix: boolean): number {
   if (!element) {
     return 0;
   }

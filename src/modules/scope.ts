@@ -1,4 +1,7 @@
-import { ScopeOptions } from '~/types';
+interface ScopeOptions {
+  code?: string;
+  selector: string | null;
+}
 
 export default class Scope {
   element: HTMLElement;
@@ -128,11 +131,11 @@ export default class Scope {
       return;
     }
 
-    const target = this.element.querySelector(selector) as HTMLElement;
+    const target = this.element.querySelector(selector);
 
     /* istanbul ignore else */
     if (target) {
-      window.requestAnimationFrame(() => this.checkFocus(target));
+      window.requestAnimationFrame(() => this.checkFocus(target as HTMLElement));
     }
   };
 }

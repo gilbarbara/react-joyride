@@ -43,9 +43,9 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     this.isActive = true;
 
     /* istanbul ignore else */
-    if (!disableScrolling) {
+    if (process.env.NODE_ENV !== 'production') {
       /* istanbul ignore else */
-      if (process.env.NODE_ENV === 'development' && hasCustomScrollParent(element, true)) {
+      if (!disableScrolling && hasCustomScrollParent(element, true)) {
         log({
           title: 'step has a custom scroll parent and can cause trouble with scrolling',
           data: [{ key: 'parent', value: this.scrollParent }],
