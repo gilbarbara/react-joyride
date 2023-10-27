@@ -25,7 +25,7 @@ interface ShouldScrollOptions {
   previousLifecycle: Lifecycle;
   scrollToFirstStep: boolean;
   step: Step;
-  target: HTMLElement;
+  target: HTMLElement | null;
 }
 
 export const isReact16 = createPortal !== undefined;

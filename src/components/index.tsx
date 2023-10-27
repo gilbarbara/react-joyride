@@ -236,10 +236,9 @@ class Joyride extends React.Component<Props, State> {
     const { index, lifecycle } = this.state;
     const { steps } = this.props;
     const step = steps[index];
-    const intKey = window.Event ? event.which : event.keyCode;
 
     if (lifecycle === LIFECYCLE.TOOLTIP) {
-      if (intKey === 27 && step && !step.disableCloseOnEsc) {
+      if (event.code === 'Escape' && step && !step.disableCloseOnEsc) {
         this.store.close();
       }
     }
@@ -272,7 +271,7 @@ class Joyride extends React.Component<Props, State> {
     } = this.props;
     const step = getMergedStep(steps[index], this.props);
 
-    const target = getElement(step.target) as HTMLElement;
+    const target = getElement(step.target);
     const shouldScrollToStep = shouldScroll({
       isFirstStep: index === 0,
       lifecycle,

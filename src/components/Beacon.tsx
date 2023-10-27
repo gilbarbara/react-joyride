@@ -10,10 +10,20 @@ export default class JoyrideBeacon extends React.Component<BeaconProps> {
   constructor(props: BeaconProps) {
     super(props);
 
-    if (!props.beaconComponent) {
-      const head = document.head || document.getElementsByTagName('head')[0];
-      const style = document.createElement('style');
-      const css = `
+    if (props.beaconComponent) {
+      return;
+    }
+
+    const head = document.head || document.getElementsByTagName('head')[0];
+    const style = document.createElement('style');
+
+    style.id = 'joyride-beacon-animation';
+
+    if (props.nonce) {
+      style.setAttribute('nonce', props.nonce);
+    }
+
+    const css = `
         @keyframes joyride-beacon-inner {
           20% {
             opacity: 0.9;
@@ -41,16 +51,9 @@ export default class JoyrideBeacon extends React.Component<BeaconProps> {
         }
       `;
 
-      style.id = 'joyride-beacon-animation';
+    style.appendChild(document.createTextNode(css));
 
-      if (props.nonce) {
-        style.setAttribute('nonce', props.nonce);
-      }
-
-      style.appendChild(document.createTextNode(css));
-
-      head.appendChild(style);
-    }
+    head.appendChild(style);
   }
 
   componentDidMount() {

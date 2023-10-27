@@ -51,7 +51,6 @@ describe('modules/scope', () => {
     });
 
     it('should not have created an instance', () => {
-      // expect(Scope).toHaveBeenCalledTimes(1);
       expect(scope).toBeUndefined();
     });
   });
