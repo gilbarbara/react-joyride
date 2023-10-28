@@ -2,6 +2,7 @@
   "extends": "../tsconfig",
   "compilerOptions": {
     "esModuleInterop": true,
+    "jsx": "react-jsx",
     "module": "esnext",
     "noUnusedLocals": false
   },

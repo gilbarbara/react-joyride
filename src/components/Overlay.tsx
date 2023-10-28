@@ -215,6 +215,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     return (
       <div
         className="react-joyride__overlay"
+        data-test-id="overlay"
         onClick={onClickOverlay}
         role="presentation"
         style={stylesOverlay}

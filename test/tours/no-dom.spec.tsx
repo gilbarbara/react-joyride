@@ -1,16 +1,27 @@
-/**
- * @jest-environment node
- */
-
 import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 
 import Standard from '../__fixtures__/Standard';
+import { fireEvent, render, screen } from '../__fixtures__/test-utils';
+
+const mockCallback = jest.fn();
+
+jest.mock('~/modules/dom', () => {
+  const originalModule = jest.requireActual('~/modules/dom');
+
+  return {
+    ...originalModule,
+    canUseDOM: jest.fn().mockImplementation(() => false),
+  };
+});
 
 describe('Joyride > NO-DOM', () => {
-  it('should render without errors', async () => {
-    const view = renderToStaticMarkup(<Standard />);
+  render(<Standard callback={mockCallback} />);
 
-    expect(view).toMatchSnapshot();
+  it('should not render the step when starting the tour', async () => {
+    fireEvent.click(screen.getByTestId('start'));
+
+    expect(screen.queryById('react-joyride-step-0')).not.toBeInTheDocument();
+
+    expect(mockCallback).not.toHaveBeenCalled();
   });
 });
