@@ -120,6 +120,7 @@ exports[`Joyride > Standard should start the tour 1`] = `
       class="__floater__body"
     >
       <div
+        aria-label="The first step of many! Keep walking!"
         aria-modal="true"
         class="react-joyride__tooltip"
         role="alertdialog"

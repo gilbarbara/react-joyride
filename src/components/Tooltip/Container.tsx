@@ -1,5 +1,6 @@
 import * as React from 'react';
-import innerText from 'react-innertext';
+
+import { getText } from '~/modules/helpers';
 
 import { TooltipRenderProps } from '~/types';
 
@@ -75,15 +76,16 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
   return (
     <div
       key="JoyrideTooltip"
+      aria-label={getText(title) || getText(content)}
       className="react-joyride__tooltip"
       style={styles.tooltip}
       {...tooltipProps}
     >
       <div style={styles.tooltipContainer}>
         {title && (
-          <h4 aria-label={innerText(title)} style={styles.tooltipTitle}>
+          <h1 aria-label={getText(title)} style={styles.tooltipTitle}>
             {title}
-          </h4>
+          </h1>
         )}
         <div style={styles.tooltipContent}>{content}</div>
       </div>
