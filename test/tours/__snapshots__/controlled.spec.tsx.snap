@@ -128,6 +128,7 @@ exports[`Joyride > Controlled should have rendered the STEP 2 Tooltip 1`] = `
     x-placement="right"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -268,6 +269,7 @@ exports[`Joyride > Controlled should have rendered the STEP 3 Tooltip 1`] = `
     x-placement="bottom"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -408,6 +410,7 @@ exports[`Joyride > Controlled should have rendered the STEP 3 Tooltip AGAIN 1`] 
     x-placement="bottom"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -550,6 +553,7 @@ exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip 1`] = `
     x-placement="bottom"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -692,6 +696,7 @@ exports[`Joyride > Controlled should have rendered the STEP 4 Tooltip AGAIN 1`] 
     x-placement="bottom"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -848,6 +853,7 @@ exports[`Joyride > Controlled should have rendered the STEP 5 Tooltip 1`] = `
     x-placement="right"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -968,6 +974,7 @@ exports[`Joyride > Controlled should have rendered the STEP 6 Tooltip 1`] = `
     x-placement="top"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
@@ -1190,6 +1197,7 @@ exports[`Joyride > Controlled should start the tour 2`] = `
     x-placement="bottom"
   >
     <button
+      aria-label="Beacon"
       class="react-joyride__beacon"
       data-test-id="button-beacon"
       type="button"
