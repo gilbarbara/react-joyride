@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Props as FloaterProps } from 'react-floater';
 import isEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 import treeChanges from 'tree-changes';
@@ -26,8 +25,6 @@ import Step from './Step';
 class Joyride extends React.Component<Props, State> {
   private readonly helpers: StoreHelpers;
   private readonly store: ReturnType<typeof createStore>;
-  private beaconPopper: any;
-  private tooltipPopper: any;
 
   static defaultProps = defaultProps;
 
@@ -251,14 +248,6 @@ class Joyride extends React.Component<Props, State> {
     this.setState(state);
   };
 
-  setPopper: FloaterProps['getPopper'] = (popper, type) => {
-    if (type === 'wrapper') {
-      this.beaconPopper = popper;
-    } else {
-      this.tooltipPopper = popper;
-    }
-  };
-
   scrollToStep(previousState: State) {
     const { index, lifecycle, status } = this.state;
     const {
@@ -296,19 +285,22 @@ class Joyride extends React.Component<Props, State> {
         debug,
       });
 
+      const beaconPopper = this.store.getPopper('beacon');
+      const tooltipPopper = this.store.getPopper('tooltip');
+
       /* istanbul ignore else */
-      if (lifecycle === LIFECYCLE.BEACON && this.beaconPopper) {
-        const { placement, popper } = this.beaconPopper;
+      if (lifecycle === LIFECYCLE.BEACON && beaconPopper) {
+        const { offsets, placement } = beaconPopper;
 
         /* istanbul ignore else */
         if (!['bottom'].includes(placement) && !hasCustomScroll) {
-          scrollY = Math.floor(popper.top - scrollOffset);
+          scrollY = Math.floor(offsets.popper.top - scrollOffset);
         }
-      } else if (lifecycle === LIFECYCLE.TOOLTIP && this.tooltipPopper) {
-        const { flipped, placement, popper } = this.tooltipPopper;
+      } else if (lifecycle === LIFECYCLE.TOOLTIP && tooltipPopper) {
+        const { flipped, offsets, placement } = tooltipPopper;
 
         if (['top', 'right', 'left'].includes(placement) && !flipped && !hasCustomScroll) {
-          scrollY = Math.floor(popper.top - scrollOffset);
+          scrollY = Math.floor(offsets.popper.top - scrollOffset);
         } else {
           scrollY -= step.spotlightPadding;
         }
@@ -349,10 +341,9 @@ class Joyride extends React.Component<Props, State> {
           debug={debug}
           helpers={this.helpers}
           nonce={nonce}
-          setPopper={this.setPopper}
           shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
           step={step}
-          update={this.store.update}
+          store={this.store}
         />
       );
     }

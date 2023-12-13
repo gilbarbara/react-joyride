@@ -1,3 +1,4 @@
+import { Props as FloaterProps } from 'react-floater';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
@@ -5,6 +6,10 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { AnyObject, State, Status, Step, StoreHelpers, StoreOptions } from '~/types';
 
 import { hasValidKeys } from './helpers';
+
+type StateWithContinuous = State & { continuous: boolean };
+type Listener = (state: State) => void;
+type PopperData = Parameters<NonNullable<FloaterProps['getPopper']>>[0];
 
 const defaultState: State = {
   action: 'init',
@@ -14,14 +19,11 @@ const defaultState: State = {
   size: 0,
   status: STATUS.IDLE,
 };
-
-type StateWithContinuous = State & { continuous: boolean };
-
 const validKeys = ['action', 'index', 'lifecycle', 'status'];
 
-type Listener = (state: State) => void;
-
 class Store {
+  private beaconPopper: PopperData | null;
+  private tooltipPopper: PopperData | null;
   private data: Map<string, any> = new Map();
   private listener: Listener | null;
   private store: Map<string, any> = new Map();
@@ -41,6 +43,8 @@ class Store {
       true,
     );
 
+    this.beaconPopper = null;
+    this.tooltipPopper = null;
     this.listener = null;
     this.setSteps(steps);
   }
@@ -145,6 +149,27 @@ class Store {
       skip: this.skip,
     };
   }
+
+  public getPopper = (name: 'beacon' | 'tooltip') => {
+    if (name === 'beacon') {
+      return this.beaconPopper;
+    }
+
+    return this.tooltipPopper;
+  };
+
+  public setPopper = (name: 'beacon' | 'tooltip', popper: PopperData) => {
+    if (name === 'beacon') {
+      this.beaconPopper = popper;
+    } else {
+      this.tooltipPopper = popper;
+    }
+  };
+
+  public cleanupPoppers = () => {
+    this.beaconPopper = null;
+    this.tooltipPopper = null;
+  };
 
   public close = () => {
     const { index, status } = this.getState();
@@ -281,6 +306,8 @@ class Store {
     });
   };
 }
+
+export type StoreInstance = ReturnType<typeof createStore>;
 
 export default function createStore(options?: StoreOptions) {
   return new Store(options);

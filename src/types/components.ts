@@ -2,6 +2,8 @@ import { ElementType, MouseEventHandler, ReactNode, RefCallback } from 'react';
 import { Props as FloaterProps } from 'react-floater';
 import { PartialDeep, SetRequired, Simplify, ValueOf } from 'type-fest';
 
+import type { StoreInstance } from '~/modules/store';
+
 import { Actions, Events, Lifecycle, Locale, Placement, Status, Styles } from './common';
 
 export type BaseProps = {
@@ -136,10 +138,9 @@ export type StepProps = Simplify<
     debug: boolean;
     helpers: StoreHelpers;
     nonce?: string;
-    setPopper: FloaterProps['getPopper'];
     shouldScroll: boolean;
     step: StepMerged;
-    update: (state: Partial<State>) => void;
+    store: StoreInstance;
   }
 >;
 
