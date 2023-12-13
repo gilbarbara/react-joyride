@@ -1,3 +1,5 @@
+import { fromPartial } from '@total-typescript/shoehorn';
+
 import createStore from '~/modules/store';
 
 import { LIFECYCLE, STATUS } from '~/literals';
@@ -215,6 +217,28 @@ describe('store', () => {
       update({ status: STATUS.READY });
 
       expect(mockSyncStore).toHaveBeenCalledTimes(3);
+    });
+  });
+
+  describe('with popper', () => {
+    const store = createStore();
+    const popperData = { placement: 'top' } as const;
+
+    it('should set/get both poppers', () => {
+      store.setPopper('beacon', fromPartial(popperData));
+      expect(store.getPopper('beacon')).toEqual(popperData);
+
+      store.setPopper('tooltip', fromPartial(popperData));
+      expect(store.getPopper('tooltip')).toEqual(popperData);
+    });
+
+    it('should clear both poppers', () => {
+      expect(store.getPopper('beacon')).toEqual(popperData);
+      expect(store.getPopper('tooltip')).toEqual(popperData);
+
+      store.cleanupPoppers();
+      expect(store.getPopper('beacon')).toBeNull();
+      expect(store.getPopper('tooltip')).toBeNull();
     });
   });
 });
