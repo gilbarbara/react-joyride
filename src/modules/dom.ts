@@ -104,7 +104,7 @@ export function hasCustomScrollParent(element: HTMLElement | null, skipFix: bool
 
   const parent = getScrollParent(element, skipFix);
 
-  return !parent.isSameNode(scrollDocument());
+  return parent ? !parent.isSameNode(scrollDocument()) : false;
 }
 
 /**
@@ -182,13 +182,20 @@ export function getElementPosition(
   const parent = getScrollParent(element, skipFix);
   const hasScrollParent = hasCustomScrollParent(element, skipFix);
   let parentTop = 0;
+  let top = elementRect?.top ?? 0;
 
   /* istanbul ignore else */
   if (parent instanceof HTMLElement) {
     parentTop = parent.scrollTop;
-  }
 
-  const top = (elementRect?.top ?? 0) + (!hasScrollParent && !hasPosition(element) ? parentTop : 0);
+    if (!hasScrollParent && !hasPosition(element)) {
+      top += parentTop;
+    }
+
+    if (!parent.isSameNode(scrollDocument())) {
+      top += scrollDocument().scrollTop;
+    }
+  }
 
   return Math.floor(top - offset);
 }
@@ -201,14 +208,16 @@ export function getScrollTo(element: HTMLElement | null, offset: number, skipFix
     return 0;
   }
 
-  const parent = scrollParent(element);
-  let top = element.offsetTop;
+  const { offsetTop = 0, scrollTop = 0 } = scrollParent(element) ?? {};
+  let top = element.getBoundingClientRect().top + scrollTop;
 
-  if (parent && hasCustomScrollParent(element, skipFix) && !hasCustomOffsetParent(element)) {
-    top -= parent.offsetTop;
+  if (!!offsetTop && (hasCustomScrollParent(element, skipFix) || hasCustomOffsetParent(element))) {
+    top -= offsetTop;
   }
 
-  return Math.floor(top - offset);
+  const output = Math.floor(top - offset);
+
+  return output < 0 ? 0 : output;
 }
 
 export function scrollDocument(): Element | HTMLElement {

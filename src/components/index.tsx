@@ -310,7 +310,13 @@ class Joyride extends React.Component<Props, State> {
 
       /* istanbul ignore else */
       if (status === STATUS.RUNNING) {
-        scrollTo(scrollY, { element: scrollParent as Element, duration: scrollDuration });
+        scrollTo(scrollY, { element: scrollParent as Element, duration: scrollDuration }).then(
+          () => {
+            setTimeout(() => {
+              this.store.getPopper('tooltip')?.instance.update();
+            }, 10);
+          },
+        );
       }
     }
   }
