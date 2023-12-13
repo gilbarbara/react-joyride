@@ -58,3 +58,31 @@ export const standardSteps: Array<Step> = [
     },
   },
 ];
+
+export const scrollSteps: Array<Step> = [
+  {
+    content: 'The latest version of React!',
+    placement: 'bottom',
+    target: '.scroll-content h2',
+  },
+  {
+    content: 'Yay! Server components',
+    placement: 'top',
+    target: '.scroll-content h3:nth-of-type(1)',
+  },
+  {
+    content: 'This is the way.',
+    placement: 'top',
+    target: '.scroll-content h3:nth-of-type(3)',
+  },
+  {
+    content: 'Code, Debug, Repeat.',
+    placement: 'top',
+    target: '.scroll-content h3:nth-of-type(4)',
+  },
+  {
+    content: 'Several exciting features',
+    placement: 'top',
+    target: '.scroll-content h3:nth-of-type(6)',
+  },
+];
