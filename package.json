@@ -51,6 +51,7 @@
     "type-fest": "^4.8.3"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.13.5",
     "@gilbarbara/eslint-config": "^0.7.2",
     "@gilbarbara/node-helpers": "^0.1.0",
     "@gilbarbara/prettier-config": "^1.0.0",
@@ -96,6 +97,7 @@
     "clean": "del dist/*",
     "lint": "eslint --fix src test",
     "typecheck": "tsc --noEmit",
+    "typevalidation": "attw -P",
     "test": "is-ci \"test:coverage\" \"test:watch\"",
     "test:coverage": "jest --bail --coverage",
     "test:watch": "jest --watchAll --verbose",
@@ -103,7 +105,7 @@
     "e2e:debug": "npm run e2e -- --project=chromium --debug",
     "e2e:ui": "npm run e2e -- --ui",
     "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
-    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run e2e && npm run build && npm run size",
+    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run e2e && npm run build && npm run size && npm run typevalidation",
     "size": "size-limit",
     "prepublishOnly": "npm run validate"
   },
