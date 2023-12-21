@@ -9,9 +9,19 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '../__fixtures_
 const getCallbackResponse = callbackResponseFactory();
 
 const mockCallback = jest.fn();
+const mockGetPopper = jest.fn();
 
 describe('Joyride > Standard', () => {
-  render(<Standard callback={mockCallback} />);
+  render(
+    <Standard
+      callback={mockCallback}
+      floaterProps={{
+        getPopper: (popper, type) => {
+          mockGetPopper(popper, type);
+        },
+      }}
+    />,
+  );
 
   beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => {});
@@ -415,5 +425,7 @@ describe('Joyride > Standard', () => {
         type: EVENTS.TOUR_STATUS,
       }),
     );
+
+    expect(mockGetPopper).toHaveBeenCalledTimes(13);
   });
 });
