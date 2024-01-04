@@ -64,7 +64,7 @@ Step will inherit some properties from Joyride's own [props](props.md) but you c
 - disableOverlay
 - disableOverlayClose
 - disableScrolling
-- floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/master/src/modules/step.js) function for more information\)
+- floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/main/src/modules/step.ts) function for more information\)
 - hideBackButton
 - hideCloseButton
 - locale

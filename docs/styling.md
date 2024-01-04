@@ -59,7 +59,7 @@ export class App extends React.Component {
 
 You can customize the styles per step too.
 
-Check [styles.js](https://github.com/gilbarbara/react-joyride/tree/3e08384415a831b20ce21c8423b6c271ad419fbf/src/styles.js) for more information.
+Check [styles.js](https://github.com/gilbarbara/react-joyride/blob/main/src/styles.ts) for more information.
 
 Or if you need finer control you can use you own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
 
