@@ -1,8 +1,7 @@
 import deepmerge from 'deepmerge';
-import { PartialDeep } from 'type-fest';
 
 import { hexToRGB } from './modules/helpers';
-import { Styles, StylesOptions } from './types';
+import { Props, StepMerged, StylesOptions } from './types';
 
 const defaultOptions = {
   arrowColor: '#fff',
@@ -33,11 +32,9 @@ const spotlight = {
   position: 'absolute' as const,
 };
 
-export default function getStyles(
-  propsStyles?: PartialDeep<Styles>,
-  stepStyles?: PartialDeep<Styles>,
-) {
-  const mergedStyles = deepmerge(propsStyles ?? {}, stepStyles ?? {});
+export default function getStyles(props: Props, step: StepMerged) {
+  const { floaterProps, styles } = props;
+  const mergedStyles = deepmerge(styles ?? {}, step?.styles ?? {});
   const options = deepmerge(defaultOptions, mergedStyles.options || {}) satisfies StylesOptions;
   let { width } = options;
 
@@ -179,7 +176,7 @@ export default function getStyles(
     },
     floaterStyles: {
       arrow: {
-        color: options.arrowColor,
+        color: floaterProps?.styles?.arrow?.color ?? options.arrowColor,
       },
       options: {
         zIndex: options.zIndex + 100,

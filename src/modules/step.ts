@@ -39,7 +39,7 @@ export function getMergedStep(currentStep: Step | undefined, props: Props): Step
     isMergeableObject: is.plainObject,
   }) as StepMerged;
 
-  const mergedStyles = getStyles(props.styles, mergedStep.styles);
+  const mergedStyles = getStyles(props, mergedStep);
   const scrollParent = hasCustomScrollParent(
     getElement(mergedStep.target),
     mergedStep.disableScrollParentFix,
