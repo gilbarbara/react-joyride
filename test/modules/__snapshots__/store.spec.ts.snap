@@ -6,6 +6,7 @@ exports[`store with initial steps should have initiated a new store 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "ready",
 }
@@ -17,6 +18,7 @@ exports[`store without initial values should be able to add steps 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -28,6 +30,31 @@ exports[`store without initial values should handle "close" 1`] = `
   "controlled": false,
   "index": 2,
   "lifecycle": "init",
+  "origin": null,
+  "size": 6,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "close" with origin "keyboard 1`] = `
+{
+  "action": "close",
+  "controlled": false,
+  "index": 4,
+  "lifecycle": "init",
+  "origin": "keyboard",
+  "size": 6,
+  "status": "running",
+}
+`;
+
+exports[`store without initial values should handle "close" with origin "overlay" 1`] = `
+{
+  "action": "close",
+  "controlled": false,
+  "index": 3,
+  "lifecycle": "init",
+  "origin": "overlay",
   "size": 6,
   "status": "running",
 }
@@ -39,6 +66,7 @@ exports[`store without initial values should handle "go" [2nd step] 1`] = `
   "controlled": false,
   "index": 2,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -50,6 +78,7 @@ exports[`store without initial values should handle "go" [3rd step] 1`] = `
   "controlled": false,
   "index": 1,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -61,6 +90,7 @@ exports[`store without initial values should handle "go" with a number higher th
   "controlled": false,
   "index": 6,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "finished",
 }
@@ -72,6 +102,7 @@ exports[`store without initial values should handle "next" [2nd step] 1`] = `
   "controlled": false,
   "index": 1,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -83,6 +114,7 @@ exports[`store without initial values should handle "next" [3rd step] 1`] = `
   "controlled": false,
   "index": 2,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -94,6 +126,7 @@ exports[`store without initial values should handle "next" [4th step] 1`] = `
   "controlled": false,
   "index": 3,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -105,6 +138,7 @@ exports[`store without initial values should handle "next" [5th step] 1`] = `
   "controlled": false,
   "index": 4,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -116,6 +150,7 @@ exports[`store without initial values should handle "next" again but the tour ha
   "controlled": false,
   "index": 5,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -127,6 +162,7 @@ exports[`store without initial values should handle "next" again but there's no 
   "controlled": false,
   "index": 6,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "finished",
 }
@@ -136,8 +172,9 @@ exports[`store without initial values should handle "open" 1`] = `
 {
   "action": "update",
   "controlled": false,
-  "index": 2,
+  "index": 4,
   "lifecycle": "tooltip",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -149,6 +186,7 @@ exports[`store without initial values should handle "prev" [1st step] 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -160,6 +198,7 @@ exports[`store without initial values should handle "prev" but no changes [1st s
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -171,6 +210,7 @@ exports[`store without initial values should handle "reset" 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "ready",
 }
@@ -182,6 +222,7 @@ exports[`store without initial values should handle "reset" to restart 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -193,6 +234,7 @@ exports[`store without initial values should handle "start" with custom index an
   "controlled": false,
   "index": 2,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -204,6 +246,7 @@ exports[`store without initial values should handle "update" the lifecycle to be
   "controlled": false,
   "index": 0,
   "lifecycle": "beacon",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -215,6 +258,7 @@ exports[`store without initial values should handle "update" the lifecycle to be
   "controlled": false,
   "index": 4,
   "lifecycle": "beacon",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -226,6 +270,7 @@ exports[`store without initial values should handle "update" the lifecycle to to
   "controlled": false,
   "index": 0,
   "lifecycle": "tooltip",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -237,6 +282,7 @@ exports[`store without initial values should handle \`start\` [1st step] 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -248,6 +294,7 @@ exports[`store without initial values should handle \`start\` [2nd step] 1`] = `
   "controlled": false,
   "index": 1,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "running",
 }
@@ -259,6 +306,7 @@ exports[`store without initial values should handle \`stop\` 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "paused",
 }
@@ -270,6 +318,7 @@ exports[`store without initial values should handle \`stop\` again but with \`ad
   "controlled": false,
   "index": 1,
   "lifecycle": "init",
+  "origin": null,
   "size": 6,
   "status": "paused",
 }
@@ -281,12 +330,13 @@ exports[`store without initial values should have initiated a new store 1`] = `
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 0,
   "status": "idle",
 }
 `;
 
-exports[`store without initial values should throw an error with \`update\` with invalid keys 1`] = `"State is not valid. Valid keys: action, index, lifecycle, status"`;
+exports[`store without initial values should throw an error with \`update\` with invalid keys 1`] = `"State is not valid. Valid keys: action, index, lifecycle, origin, status"`;
 
 exports[`store without initial values shouldn't be able to start without steps 1`] = `
 {
@@ -294,6 +344,7 @@ exports[`store without initial values shouldn't be able to start without steps 1
   "controlled": false,
   "index": 0,
   "lifecycle": "init",
+  "origin": null,
   "size": 0,
   "status": "waiting",
 }

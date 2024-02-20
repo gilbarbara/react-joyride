@@ -10,6 +10,7 @@ import Standard from '../test/__fixtures__/Standard';
 function formatCallbackResponse(input: Partial<CallBackProps>) {
   return {
     controlled: false,
+    origin: null,
     size: 6,
     status: STATUS.RUNNING,
     ...input,

@@ -1,9 +1,10 @@
 import { Props as FloaterProps } from 'react-floater';
+import { objectKeys, omit } from '@gilbarbara/helpers';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 
-import { AnyObject, State, Status, Step, StoreHelpers, StoreOptions } from '~/types';
+import { Origin, State, Status, Step, StoreHelpers, StoreOptions } from '~/types';
 
 import { hasValidKeys } from './helpers';
 
@@ -16,10 +17,11 @@ const defaultState: State = {
   controlled: false,
   index: 0,
   lifecycle: LIFECYCLE.INIT,
+  origin: null,
   size: 0,
   status: STATUS.IDLE,
 };
-const validKeys = ['action', 'index', 'lifecycle', 'status'];
+const validKeys = objectKeys(omit(defaultState, 'controlled', 'size'));
 
 class Store {
   private beaconPopper: PopperData | null;
@@ -38,6 +40,7 @@ class Store {
         continuous,
         index: is.number(stepIndex) ? stepIndex : 0,
         lifecycle: LIFECYCLE.INIT,
+        origin: null,
         status: steps.length ? STATUS.READY : STATUS.IDLE,
       },
       true,
@@ -59,6 +62,7 @@ class Store {
       controlled: this.store.get('controlled') || false,
       index: parseInt(this.store.get('index'), 10),
       lifecycle: this.store.get('lifecycle') || '',
+      origin: this.store.get('origin') || null,
       size: this.store.get('size') || 0,
       status: (this.store.get('status') as Status) || '',
     };
@@ -74,6 +78,7 @@ class Store {
       controlled,
       index: nextIndex,
       lifecycle: state.lifecycle ?? LIFECYCLE.INIT,
+      origin: state.origin ?? null,
       size: state.size ?? size,
       status: nextIndex === size ? STATUS.FINISHED : state.status ?? status,
     };
@@ -95,7 +100,14 @@ class Store {
   private setState(nextState: Partial<StateWithContinuous>, initial: boolean = false) {
     const state = this.getState();
 
-    const { action, index, lifecycle, size, status } = {
+    const {
+      action,
+      index,
+      lifecycle,
+      origin = null,
+      size,
+      status,
+    } = {
       ...state,
       ...nextState,
     };
@@ -103,6 +115,7 @@ class Store {
     this.store.set('action', action);
     this.store.set('index', index);
     this.store.set('lifecycle', lifecycle);
+    this.store.set('origin', origin);
     this.store.set('size', size);
     this.store.set('status', status);
 
@@ -121,7 +134,7 @@ class Store {
     this.listener = listener;
   };
 
-  public setSteps = (steps: Array<AnyObject>) => {
+  public setSteps = (steps: Array<Step>) => {
     const { size, status } = this.getState();
     const state = {
       size: steps.length,
@@ -171,7 +184,7 @@ class Store {
     this.tooltipPopper = null;
   };
 
-  public close = () => {
+  public close = (origin: Origin | null = null) => {
     const { index, status } = this.getState();
 
     if (status !== STATUS.RUNNING) {
@@ -179,7 +192,7 @@ class Store {
     }
 
     this.setState({
-      ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1 }),
+      ...this.getNextState({ action: ACTIONS.CLOSE, index: index + 1, origin }),
     });
   };
 
@@ -198,7 +211,7 @@ class Store {
     });
   };
 
-  public info = (): AnyObject => this.getState();
+  public info = (): State => this.getState();
 
   public next = () => {
     const { index, status } = this.getState();
@@ -300,6 +313,7 @@ class Store {
           ...this.getState(),
           ...state,
           action: state.action ?? ACTIONS.UPDATE,
+          origin: state.origin ?? null,
         },
         true,
       ),

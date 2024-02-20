@@ -236,7 +236,7 @@ class Joyride extends React.Component<Props, State> {
 
     if (lifecycle === LIFECYCLE.TOOLTIP) {
       if (event.code === 'Escape' && step && !step.disableCloseOnEsc) {
-        this.store.close();
+        this.store.close('keyboard');
       }
     }
   };

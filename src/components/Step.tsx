@@ -38,15 +38,15 @@ export default class JoyrideStep extends React.Component<StepProps> {
       continuous,
       controlled,
       debug,
+      helpers,
       index,
       lifecycle,
-      size,
       status,
       step,
       store,
     } = this.props;
     const { changed, changedFrom } = treeChanges(previousProps, this.props);
-    const state = { action, controlled, index, lifecycle, size, status };
+    const state = helpers.info();
 
     const skipBeacon =
       continuous && action !== ACTIONS.CLOSE && (index > 0 || action === ACTIONS.PREV);
@@ -175,7 +175,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
     const { helpers, step } = this.props;
 
     if (!step.disableOverlayClose) {
-      helpers.close();
+      helpers.close('overlay');
     }
   };
 

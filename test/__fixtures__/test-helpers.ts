@@ -8,6 +8,7 @@ export function callbackResponseFactory(initial?: Partial<CallBackProps>) {
   return (input: Partial<CallBackProps>) => {
     return {
       controlled,
+      origin: null,
       size,
       status,
       step: expect.any(Object),

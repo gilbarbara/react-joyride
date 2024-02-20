@@ -18,7 +18,7 @@ export default class JoyrideTooltip extends React.Component<TooltipProps> {
     event.preventDefault();
     const { helpers } = this.props;
 
-    helpers.close();
+    helpers.close('button_close');
   };
 
   handleClickPrimary = (event: React.MouseEvent<HTMLElement>) => {
@@ -26,7 +26,7 @@ export default class JoyrideTooltip extends React.Component<TooltipProps> {
     const { continuous, helpers } = this.props;
 
     if (!continuous) {
-      helpers.close();
+      helpers.close('button_primary');
 
       return;
     }

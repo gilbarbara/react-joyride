@@ -11,6 +11,7 @@ import Scroll from '../test/__fixtures__/Scroll';
 function formatCallbackResponse(input: Partial<CallBackProps>) {
   return {
     controlled: false,
+    origin: null,
     size: 5,
     status: STATUS.RUNNING,
     ...input,

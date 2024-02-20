@@ -143,6 +143,7 @@ describe('Joyride > Standard', () => {
         action: ACTIONS.CLOSE,
         index: 1,
         lifecycle: LIFECYCLE.COMPLETE,
+        origin: 'keyboard',
         type: EVENTS.STEP_AFTER,
       }),
     );
@@ -237,6 +238,7 @@ describe('Joyride > Standard', () => {
         action: ACTIONS.CLOSE,
         index: 1,
         lifecycle: LIFECYCLE.COMPLETE,
+        origin: 'overlay',
         type: EVENTS.STEP_AFTER,
       }),
     );

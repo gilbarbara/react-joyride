@@ -10,6 +10,7 @@ import Controlled from '../test/__fixtures__/Controlled';
 function formatCallbackResponse(input: Partial<CallBackProps>) {
   return {
     controlled: true,
+    origin: null,
     size: 6,
     status: STATUS.RUNNING,
     ...input,

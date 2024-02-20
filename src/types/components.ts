@@ -4,7 +4,7 @@ import { PartialDeep, SetRequired, Simplify, ValueOf } from 'type-fest';
 
 import type { StoreInstance } from '~/modules/store';
 
-import { Actions, Events, Lifecycle, Locale, Placement, Status, Styles } from './common';
+import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
 
 export type BaseProps = {
   beaconComponent?: ElementType<BeaconRenderProps>;
@@ -51,6 +51,7 @@ export type CallBackProps = {
   controlled: boolean;
   index: number;
   lifecycle: Lifecycle;
+  origin: Origin | null;
   size: number;
   status: Status;
   step: Step;
@@ -85,6 +86,7 @@ export type State = {
   controlled: boolean;
   index: number;
   lifecycle: Lifecycle;
+  origin: Origin | null;
   size: number;
   status: Status;
 };
@@ -145,9 +147,9 @@ export type StepProps = Simplify<
 >;
 
 export type StoreHelpers = {
-  close: () => void;
+  close: (origin?: Origin | null) => void;
   go: (nextIndex: number) => void;
-  info: (state: State) => void;
+  info: () => State;
   next: () => void;
   open: () => void;
   prev: () => void;
