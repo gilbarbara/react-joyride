@@ -182,6 +182,18 @@ describe('store', () => {
       expect(info()).toMatchSnapshot();
     });
 
+    it('should handle "close" with origin "overlay"', () => {
+      close('overlay');
+
+      expect(info()).toMatchSnapshot();
+    });
+
+    it('should handle "close" with origin "keyboard', () => {
+      close('keyboard');
+
+      expect(info()).toMatchSnapshot();
+    });
+
     it('should handle "open"', () => {
       open();
 

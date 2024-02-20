@@ -1,11 +1,12 @@
 import { CSSProperties, ReactNode } from 'react';
 import { ValueOf } from 'type-fest';
 
-import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
+import { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 
 export type Actions = ValueOf<typeof ACTIONS>;
 export type Events = ValueOf<typeof EVENTS>;
 export type Lifecycle = ValueOf<typeof LIFECYCLE>;
+export type Origin = ValueOf<typeof ORIGIN>;
 export type Status = ValueOf<typeof STATUS>;
 
 export type AnyObject<T = any> = Record<string, T>;

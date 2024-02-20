@@ -11,6 +11,7 @@ It will receive an object with the current state.
   controlled: true,
   index: 0,
   lifecycle: 'init',
+  origin: null,
   size: 4,
   status: 'running',
   step: { the.current.step },
@@ -24,6 +25,7 @@ It will receive an object with the current state.
   controlled: true,
   index: 0,
   lifecycle: 'beacon',
+  origin: null,
   size: 4,
   status: 'running',
   step: { the.current.step },
@@ -37,6 +39,7 @@ It will receive an object with the current state.
   controlled: true,
   index: 0,
   lifecycle: 'complete',
+  origin: null,
   size: 4,
   status: 'running',
   step: { the.current.step },
@@ -47,7 +50,7 @@ It will receive an object with the current state.
 ## Usage
 
 ```jsx
-import Joyride, { ACTIONS, EVENTS, STATUS } from 'react-joyride';
+import Joyride, { ACTIONS, EVENTS, ORIGIN, STATUS } from 'react-joyride';
 
 export class App extends React.Component {
   state = {
@@ -62,7 +65,11 @@ export class App extends React.Component {
   };
 
   handleJoyrideCallback = data => {
-    const { action, index, status, type } = data;
+    const { action, index, origin, status, type } = data;
+
+    if (action === ACTIONS.CLOSE && origin === ORIGIN.KEYBOARD) {
+      // do something
+    }
 
     if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
       // Update state to advance the tour

@@ -32,6 +32,13 @@ export const LIFECYCLE = {
   ERROR: 'error',
 } as const;
 
+export const ORIGIN = {
+  BUTTON_CLOSE: 'button_close',
+  BUTTON_PRIMARY: 'button_primary',
+  KEYBOARD: 'keyboard',
+  OVERLAY: 'overlay',
+} as const;
+
 export const STATUS = {
   IDLE: 'idle',
   READY: 'ready',
