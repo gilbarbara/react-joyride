@@ -430,4 +430,26 @@ describe('Joyride > Standard', () => {
 
     expect(mockGetPopper).toHaveBeenCalledTimes(13);
   });
+
+  it('should restart the tour', async () => {
+    mockCallback.mockClear();
+    mockGetPopper.mockClear();
+
+    fireEvent.click(screen.getByTestId('start'));
+
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalledTimes(3);
+    });
+
+    expect(screen.getByTestId('button-beacon')).toMatchSnapshot('beacon');
+
+    fireEvent.click(screen.getByTestId('button-beacon'));
+
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalledTimes(4);
+    });
+
+    expect(screen.getById('react-joyride-step-0').querySelector('div')).toMatchSnapshot('tooltip');
+    expect(screen.getByTestId('overlay')).toBeInTheDocument();
+  });
 });
