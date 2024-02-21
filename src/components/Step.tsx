@@ -184,7 +184,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
   };
 
   setPopper: FloaterProps['getPopper'] = (popper, type) => {
-    const { action, step, store } = this.props;
+    const { action, lifecycle, step, store } = this.props;
 
     if (type === 'wrapper') {
       store.setPopper('beacon', popper);
@@ -192,7 +192,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
       store.setPopper('tooltip', popper);
     }
 
-    if (store.getPopper('beacon') && store.getPopper('tooltip')) {
+    if (store.getPopper('beacon') && store.getPopper('tooltip') && lifecycle === LIFECYCLE.INIT) {
       store.update({
         action,
         lifecycle: LIFECYCLE.READY,
