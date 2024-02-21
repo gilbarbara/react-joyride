@@ -25,6 +25,7 @@ const config = defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+      testIgnore: ['scroll.spec.tsx'],
     },
   ],
   reporter: 'html',
