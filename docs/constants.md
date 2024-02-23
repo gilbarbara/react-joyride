@@ -3,7 +3,7 @@
 Joyride uses a few constants to keep its state and lifecycle.  
 You should use them in your component for the callback events.
 
-```javascript
+```typescript
 import Joyride, { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from 'react-joyride';
 ```
 
@@ -11,7 +11,7 @@ ACTIONS - The action that updated the state.
 
 EVENTS - The type of the event.
 
-LIFECYCLE - The step lifecycle.
+LIFECYCLE - The step's lifecycle.
 
 ORIGIN - The origin of the `CLOSE` action.
 

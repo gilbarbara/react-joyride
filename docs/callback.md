@@ -5,7 +5,7 @@ It will receive an object with the current state.
 
 ## Example data
 
-```javascript
+```typescript
 {
   action: 'start',
   controlled: true,
@@ -14,12 +14,12 @@ It will receive an object with the current state.
   origin: null,
   size: 4,
   status: 'running',
-  step: { the.current.step },
-  type: 'tour:start',
+  step: { /* the current step */ },
+  type: 'tour:start'
 }
 ```
 
-```javascript
+```typescript
 {
   action: 'update',
   controlled: true,
@@ -28,12 +28,12 @@ It will receive an object with the current state.
   origin: null,
   size: 4,
   status: 'running',
-  step: { the.current.step },
-  type: 'beacon',
+  step: { /* the current step */ },
+  type: 'beacon'
 }
 ```
 
-```javascript
+```typescript
 {
   action: 'next',
   controlled: true,
@@ -42,29 +42,29 @@ It will receive an object with the current state.
   origin: null,
   size: 4,
   status: 'running',
-  step: { the.current.step },
-  type: 'step:after',
+  step: { /* the current step */ },
+  type: 'step:after'
 }
 ```
 
 ## Usage
 
-```jsx
-import Joyride, { ACTIONS, EVENTS, ORIGIN, STATUS } from 'react-joyride';
+```tsx
+import React, { useState } from 'react';
+import Joyride, { ACTIONS, EVENTS, ORIGIN, STATUS, CallBackProps } from 'react-joyride';
 
-export class App extends React.Component {
-  state = {
-    run: false,
-      steps: [
-      {
-        target: '.my-first-step',
-        content: 'This is my awesome feature!',
-      },
-    ],
-    stepIndex: 0, // a controlled tour
-  };
+const steps = [
+  {
+    target: '.my-first-step',
+    content: 'This is my awesome feature!',
+  },
+];
 
-  handleJoyrideCallback = data => {
+export default function App() {
+  const [run, setRun] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
+
+  const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, index, origin, status, type } = data;
 
     if (action === ACTIONS.CLOSE && origin === ORIGIN.KEYBOARD) {
@@ -73,11 +73,10 @@ export class App extends React.Component {
 
     if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
       // Update state to advance the tour
-      this.setState({ stepIndex: index + (action === ACTIONS.PREV ? -1 : 1) });
-    }
-    else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
+    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
       // Need to set our running state to false, so we can restart if we click start again.
-      this.setState({ run: false });
+      setRun(false);
     }
 
     console.groupCollapsed(type);
@@ -85,22 +84,17 @@ export class App extends React.Component {
     console.groupEnd();
   };
 
-  render () {
-    const { run, stepIndex, steps } = this.state;
+  const handleClickStart = () => {
+    setRun(true);
+  };
 
-    return (
-      <div className="app">
-        <Joyride
-          callback={this.handleJoyrideCallback}
-          run={run}
-          stepIndex={stepIndex}
-          steps={steps}
-          ...
-        />
-        ...
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Joyride callback={handleJoyrideCallback} run={run} stepIndex={stepIndex} steps={steps} />
+      <button onClick={handleClickStart}>Start</button>
+      // Your code here...
+    </div>
+  );
 }
 ```
 

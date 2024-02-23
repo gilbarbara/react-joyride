@@ -20,40 +20,48 @@ const defaultOptions = {
 
 ## Example
 
-```javascript
+```tsx
+import React, { useState } from 'react';
 import Joyride, { ACTIONS, EVENTS } from 'react-joyride';
+const steps = [
+  {
+    target: '.my-first-step',
+    content: 'This is my awesome feature!',
+  },
+  {
+    target: '.my-other-step',
+    content: 'This another awesome feature!',
+  },
+];
 
-export class App extends React.Component {
-  state = {
-    run: false,
-    steps: [],
+export default function App() {
+  const [run, setRun] = useState(false);
+
+  const handleClickStart = () => {
+    setRun(true);
   };
 
-  render () {
-    const { run, stepIndex, steps } = this.state;
-
-    return (
-      <div className="app">
-        <Joyride
-          run={run}
-          steps={steps}
-          styles={{
-            options: {
-              arrowColor: '#e3ffeb',
-              backgroundColor: '#e3ffeb',
-              overlayColor: 'rgba(79, 26, 0, 0.4)',
-              primaryColor: '#000',
-              textColor: '#004a14',
-              width: 900,
-              zIndex: 1000,
-            }
-          }}
-          ...
-        />
-        ...
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Joyride
+        run={run}
+        steps={steps}
+        styles={{
+          options: {
+            arrowColor: '#e3ffeb',
+            backgroundColor: '#e3ffeb',
+            overlayColor: 'rgba(79, 26, 0, 0.4)',
+            primaryColor: '#000',
+            textColor: '#004a14',
+            width: 900,
+            zIndex: 1000,
+          },
+        }}
+      />
+      <button onClick={handleClickStart}>Start</button>
+      // Your code here...
+    </div>
+  );
 }
 ```
 
@@ -64,4 +72,3 @@ Check [styles.js](https://github.com/gilbarbara/react-joyride/blob/main/src/styl
 Or if you need finer control you can use you own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
 
 If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
-
