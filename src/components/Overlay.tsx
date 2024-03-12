@@ -24,6 +24,13 @@ interface State {
   showSpotlight: boolean;
 }
 
+interface SpotlightStyles extends React.CSSProperties {
+  height: number;
+  left: number;
+  top: number;
+  width: number;
+}
+
 export default class JoyrideOverlay extends React.Component<OverlayProps, State> {
   isActive = false;
   resizeTimeout?: number;
@@ -94,7 +101,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     this.scrollParent?.removeEventListener('scroll', this.handleScroll);
   }
 
-  get spotlightStyles() {
+  get spotlightStyles(): SpotlightStyles {
     const { showSpotlight } = this.state;
     const {
       disableScrollParentFix = false,
