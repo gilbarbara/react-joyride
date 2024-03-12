@@ -163,7 +163,7 @@ class Store {
     };
   }
 
-  public getPopper = (name: 'beacon' | 'tooltip') => {
+  public getPopper = (name: 'beacon' | 'tooltip'): PopperData | null => {
     if (name === 'beacon') {
       return this.beaconPopper;
     }
