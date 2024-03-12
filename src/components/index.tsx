@@ -89,7 +89,7 @@ class Joyride extends React.Component<Props, State> {
     const { reset, setSteps, start, stop, update } = this.store;
     const { changed: changedProps } = treeChanges(previousProps, this.props);
     const { changed, changedFrom } = treeChanges(previousState, this.state);
-    const step = getMergedStep(steps[index], this.props);
+    const step = getMergedStep(this.props, steps[index]);
 
     const stepsChanged = !isEqual(previousSteps, steps);
     const stepIndexChanged = is.number(stepIndex) && changedProps('stepIndex');
@@ -154,7 +154,7 @@ class Joyride extends React.Component<Props, State> {
     ]);
 
     if (isAfterAction && changed('status', STATUS.PAUSED)) {
-      const previousStep = getMergedStep(steps[previousState.index], this.props);
+      const previousStep = getMergedStep(this.props, steps[previousState.index]);
 
       this.callback({
         ...callbackData,
@@ -166,7 +166,7 @@ class Joyride extends React.Component<Props, State> {
     }
 
     if (changed('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
-      const previousStep = getMergedStep(steps[previousState.index], this.props);
+      const previousStep = getMergedStep(this.props, steps[previousState.index]);
 
       if (!controlled) {
         this.callback({
@@ -258,7 +258,7 @@ class Joyride extends React.Component<Props, State> {
       scrollToFirstStep = false,
       steps,
     } = this.props;
-    const step = getMergedStep(steps[index], this.props);
+    const step = getMergedStep(this.props, steps[index]);
 
     const target = getElement(step.target);
     const shouldScrollToStep = shouldScroll({
@@ -337,7 +337,7 @@ class Joyride extends React.Component<Props, State> {
     let output;
 
     if (status === STATUS.RUNNING && steps[index]) {
-      const step = getMergedStep(steps[index], this.props);
+      const step = getMergedStep(this.props, steps[index]);
 
       output = (
         <Step
