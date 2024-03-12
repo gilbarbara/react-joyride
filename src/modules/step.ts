@@ -33,7 +33,7 @@ function getTourProps(props: Props) {
   );
 }
 
-export function getMergedStep(currentStep: Step | undefined, props: Props): StepMerged {
+export function getMergedStep(props: Props, currentStep?: Step): StepMerged {
   const step = currentStep ?? {};
   const mergedStep = deepmerge.all([defaultStep, getTourProps(props), step], {
     isMergeableObject: is.plainObject,

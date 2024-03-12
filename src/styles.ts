@@ -1,7 +1,7 @@
 import deepmerge from 'deepmerge';
 
 import { hexToRGB } from './modules/helpers';
-import { Props, StepMerged, StylesOptions } from './types';
+import { Props, StepMerged, StylesOptions, StylesWithFloaterStyles } from './types';
 
 const defaultOptions = {
   arrowColor: '#fff',
@@ -34,6 +34,7 @@ const spotlight = {
 
 export default function getStyles(props: Props, step: StepMerged) {
   const { floaterProps, styles } = props;
+  const mergedFloaterProps = deepmerge(step?.floaterProps ?? {}, floaterProps ?? {});
   const mergedStyles = deepmerge(styles ?? {}, step?.styles ?? {});
   const options = deepmerge(defaultOptions, mergedStyles.options || {}) satisfies StylesOptions;
   let { width } = options;
@@ -176,7 +177,7 @@ export default function getStyles(props: Props, step: StepMerged) {
     },
     floaterStyles: {
       arrow: {
-        color: floaterProps?.styles?.arrow?.color ?? options.arrowColor,
+        color: mergedFloaterProps?.styles?.arrow?.color ?? options.arrowColor,
       },
       options: {
         zIndex: options.zIndex + 100,
@@ -185,5 +186,5 @@ export default function getStyles(props: Props, step: StepMerged) {
     options,
   };
 
-  return deepmerge(defaultStyles, mergedStyles);
+  return deepmerge(defaultStyles, mergedStyles) as StylesWithFloaterStyles;
 }
