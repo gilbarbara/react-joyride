@@ -24,12 +24,12 @@ const buttonBase = {
   fontSize: 16,
   lineHeight: 1,
   padding: 8,
-  WebkitAppearance: 'none' as const,
+  WebkitAppearance: 'none',
 };
 
 const spotlight = {
   borderRadius: 4,
-  position: 'absolute' as const,
+  position: 'absolute',
 };
 
 export default function getStyles(props: Props, step: StepMerged) {
@@ -53,7 +53,7 @@ export default function getStyles(props: Props, step: StepMerged) {
     bottom: 0,
     left: 0,
     overflow: 'hidden',
-    position: 'absolute' as const,
+    position: 'absolute',
     right: 0,
     top: 0,
     zIndex: options.zIndex,
@@ -64,7 +64,7 @@ export default function getStyles(props: Props, step: StepMerged) {
       ...buttonBase,
       display: 'inline-block',
       height: options.beaconSize,
-      position: 'relative' as const,
+      position: 'relative',
       width: options.beaconSize,
       zIndex: options.zIndex,
     },
@@ -76,7 +76,7 @@ export default function getStyles(props: Props, step: StepMerged) {
       height: '50%',
       left: '50%',
       opacity: 0.7,
-      position: 'absolute' as const,
+      position: 'absolute',
       top: '50%',
       transform: 'translate(-50%, -50%)',
       width: '50%',
@@ -86,12 +86,12 @@ export default function getStyles(props: Props, step: StepMerged) {
       backgroundColor: `rgba(${hexToRGB(options.primaryColor).join(',')}, 0.2)`,
       border: `2px solid ${options.primaryColor}`,
       borderRadius: '50%',
-      boxSizing: 'border-box' as const,
+      boxSizing: 'border-box',
       display: 'block',
       height: '100%',
       left: 0,
       opacity: 0.9,
-      position: 'absolute' as const,
+      position: 'absolute',
       top: 0,
       transformOrigin: 'center',
       width: '100%',
@@ -99,17 +99,17 @@ export default function getStyles(props: Props, step: StepMerged) {
     tooltip: {
       backgroundColor: options.backgroundColor,
       borderRadius: 5,
-      boxSizing: 'border-box' as const,
+      boxSizing: 'border-box',
       color: options.textColor,
       fontSize: 16,
       maxWidth: '100%',
       padding: 15,
-      position: 'relative' as const,
+      position: 'relative',
       width,
     },
     tooltipContainer: {
       lineHeight: 1.4,
-      textAlign: 'center' as const,
+      textAlign: 'center',
     },
     tooltipTitle: {
       fontSize: 18,
@@ -144,7 +144,7 @@ export default function getStyles(props: Props, step: StepMerged) {
       color: options.textColor,
       height: 14,
       padding: 15,
-      position: 'absolute' as const,
+      position: 'absolute',
       right: 0,
       top: 0,
       width: 14,
@@ -157,7 +157,7 @@ export default function getStyles(props: Props, step: StepMerged) {
     overlay: {
       ...overlay,
       backgroundColor: options.overlayColor,
-      mixBlendMode: 'hard-light' as const,
+      mixBlendMode: 'hard-light',
     },
     overlayLegacy: {
       ...overlay,
