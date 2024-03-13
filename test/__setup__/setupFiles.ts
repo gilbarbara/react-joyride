@@ -21,6 +21,11 @@ if (typeof window !== 'undefined') {
     value: 50,
   });
 
+  Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
+    configurable: true,
+    value: 50,
+  });
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: (query: any) => ({

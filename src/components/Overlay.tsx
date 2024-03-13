@@ -14,7 +14,7 @@ import { getBrowser, isLegacy, log } from '~/modules/helpers';
 
 import { LIFECYCLE } from '~/literals';
 
-import { OverlayProps } from '~/types';
+import { Lifecycle, OverlayProps } from '~/types';
 
 import Spotlight from './Spotlight';
 
@@ -101,6 +101,35 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     this.scrollParent?.removeEventListener('scroll', this.handleScroll);
   }
 
+  hideSpotlight = () => {
+    const { continuous, disableOverlay, lifecycle } = this.props;
+    const hiddenLifecycles = [LIFECYCLE.BEACON, LIFECYCLE.COMPLETE, LIFECYCLE.ERROR] as Lifecycle[];
+
+    return (
+      disableOverlay ||
+      (continuous ? hiddenLifecycles.includes(lifecycle) : lifecycle !== LIFECYCLE.TOOLTIP)
+    );
+  };
+
+  get overlayStyles() {
+    const { mouseOverSpotlight } = this.state;
+    const { disableOverlayClose, placement, styles } = this.props;
+
+    let baseStyles = styles.overlay;
+
+    /* istanbul ignore else */
+    if (isLegacy()) {
+      baseStyles = placement === 'center' ? styles.overlayLegacyCenter : styles.overlayLegacy;
+    }
+
+    return {
+      cursor: disableOverlayClose ? 'default' : 'pointer',
+      height: getDocumentHeight(),
+      pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
+      ...baseStyles,
+    } as React.CSSProperties;
+  }
+
   get spotlightStyles(): SpotlightStyles {
     const { showSpotlight } = this.state;
     const {
@@ -185,38 +214,24 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
   }
 
   render() {
-    const { mouseOverSpotlight, showSpotlight } = this.state;
-    const { disableOverlay, disableOverlayClose, lifecycle, onClickOverlay, placement, styles } =
-      this.props;
+    const { showSpotlight } = this.state;
+    const { onClickOverlay, placement } = this.props;
+    const { hideSpotlight, overlayStyles, spotlightStyles } = this;
 
-    if (disableOverlay || lifecycle !== LIFECYCLE.TOOLTIP) {
+    if (hideSpotlight()) {
       return null;
     }
 
-    let baseStyles = styles.overlay;
-
-    /* istanbul ignore else */
-    if (isLegacy()) {
-      baseStyles = placement === 'center' ? styles.overlayLegacyCenter : styles.overlayLegacy;
-    }
-
-    const stylesOverlay: React.CSSProperties = {
-      cursor: disableOverlayClose ? 'default' : 'pointer',
-      height: getDocumentHeight(),
-      pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
-      ...baseStyles,
-    };
-
     let spotlight = placement !== 'center' && showSpotlight && (
-      <Spotlight styles={this.spotlightStyles} />
+      <Spotlight styles={spotlightStyles} />
     );
 
     // Hack for Safari bug with mix-blend-mode with z-index
     if (getBrowser() === 'safari') {
-      const { mixBlendMode, zIndex, ...safarOverlay } = stylesOverlay;
+      const { mixBlendMode, zIndex, ...safarOverlay } = overlayStyles;
 
       spotlight = <div style={{ ...safarOverlay }}>{spotlight}</div>;
-      delete stylesOverlay.backgroundColor;
+      delete overlayStyles.backgroundColor;
     }
 
     return (
@@ -225,7 +240,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
         data-test-id="overlay"
         onClick={onClickOverlay}
         role="presentation"
-        style={stylesOverlay}
+        style={overlayStyles}
       >
         {spotlight}
       </div>

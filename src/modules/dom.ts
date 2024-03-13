@@ -19,11 +19,28 @@ export function getClientRect(element: HTMLElement | null) {
 /**
  * Helper function to get the browser-normalized "document height"
  */
-export function getDocumentHeight(): number {
+export function getDocumentHeight(median = true): number {
   const { body, documentElement } = document;
 
   if (!body || !documentElement) {
     return 0;
+  }
+
+  if (median) {
+    const heights = [
+      body.scrollHeight,
+      body.offsetHeight,
+      documentElement.clientHeight,
+      documentElement.scrollHeight,
+      documentElement.offsetHeight,
+    ].sort((a, b) => a - b);
+    const middle = Math.floor(heights.length / 2);
+
+    if (heights.length % 2 === 0) {
+      return (heights[middle - 1] + heights[middle]) / 2;
+    }
+
+    return heights[middle];
   }
 
   return Math.max(
