@@ -1,6 +1,6 @@
 import { ElementType, MouseEventHandler, ReactNode, RefCallback } from 'react';
 import { Props as FloaterProps } from 'react-floater';
-import { PartialDeep, SetRequired, Simplify, ValueOf } from 'type-fest';
+import { PartialDeep, SetRequired, Simplify } from 'type-fest';
 
 import type { StoreInstance } from '~/modules/store';
 
@@ -142,8 +142,9 @@ export type CallBackProps = {
 
 export type OverlayProps = Simplify<
   StepMerged & {
+    continuous: boolean;
     debug: boolean;
-    lifecycle: ValueOf<Lifecycle>;
+    lifecycle: Lifecycle;
     onClickOverlay: () => void;
   }
 >;

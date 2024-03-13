@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ReactNode } from 'react';
 import isEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 import treeChanges from 'tree-changes';
@@ -16,6 +17,9 @@ import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
+
+import Overlay from '~/components/Overlay';
+import Portal from '~/components/Portal';
 
 import { defaultProps } from '~/defaults';
 import { Actions, CallBackProps, Props, State, Status, StoreHelpers } from '~/types';
@@ -241,6 +245,17 @@ class Joyride extends React.Component<Props, State> {
     }
   };
 
+  handleClickOverlay = () => {
+    const { index } = this.state;
+    const { steps } = this.props;
+
+    const step = getMergedStep(this.props, steps[index]);
+
+    if (!step.disableOverlayClose) {
+      this.helpers.close('overlay');
+    }
+  };
+
   /**
    * Sync the store with the component's state
    */
@@ -326,7 +341,7 @@ class Joyride extends React.Component<Props, State> {
       return null;
     }
 
-    const { index, status } = this.state;
+    const { index, lifecycle, status } = this.state;
     const {
       continuous = false,
       debug = false,
@@ -334,12 +349,13 @@ class Joyride extends React.Component<Props, State> {
       scrollToFirstStep = false,
       steps,
     } = this.props;
-    let output;
+    const isRunning = status === STATUS.RUNNING;
+    const content: Record<string, ReactNode> = {};
 
-    if (status === STATUS.RUNNING && steps[index]) {
+    if (isRunning && steps[index]) {
       const step = getMergedStep(this.props, steps[index]);
 
-      output = (
+      content.step = (
         <Step
           {...this.state}
           callback={this.callback}
@@ -352,9 +368,26 @@ class Joyride extends React.Component<Props, State> {
           store={this.store}
         />
       );
+
+      content.overlay = (
+        <Portal id="react-joyride-portal">
+          <Overlay
+            {...step}
+            continuous={continuous}
+            debug={debug}
+            lifecycle={lifecycle}
+            onClickOverlay={this.handleClickOverlay}
+          />
+        </Portal>
+      );
     }
 
-    return <div className="react-joyride">{output}</div>;
+    return (
+      <div className="react-joyride">
+        {content.step}
+        {content.overlay}
+      </div>
+    );
   }
 }
 

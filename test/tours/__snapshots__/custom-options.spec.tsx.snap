@@ -448,3 +448,107 @@ exports[`Joyride > Custom Options should render the STEP 4 Beacon 1`] = `
   />
 </button>
 `;
+
+exports[`Joyride > Custom Options should render the STEP 4 Tooltip 1`] = `
+<div
+  class="__floater"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+  x-placement="top"
+>
+  <div
+    class="__floater__body"
+  >
+    <div
+      aria-label="Text only steps — Because sometimes you don't really need a proper heading"
+      aria-modal="true"
+      class="react-joyride__tooltip"
+      role="alertdialog"
+      style="background-color: rgb(255, 255, 255); border-radius: 8px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
+    >
+      <div
+        style="line-height: 1.4; text-align: center;"
+      >
+        <div
+          style="padding: 1px 8px;"
+        >
+          Text only steps — Because sometimes you don't really need a proper heading
+        </div>
+      </div>
+      <div
+        style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+      >
+        <div
+          style="flex: 1;"
+        />
+        <button
+          aria-label="Back"
+          data-action="back"
+          data-test-id="button-back"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 0); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+          title="Back"
+          type="button"
+        >
+          Back
+        </button>
+        <button
+          aria-label="Last"
+          data-action="primary"
+          data-test-id="button-primary"
+          role="button"
+          style="background-color: rgb(169, 71, 255); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+          title="Last"
+          type="button"
+        >
+          Last
+        </button>
+      </div>
+      <button
+        aria-label="Close"
+        data-action="close"
+        data-test-id="button-close"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+        title="Close"
+        type="button"
+      >
+        <svg
+          height="14px"
+          preserveAspectRatio="xMidYMid"
+          version="1.1"
+          viewBox="0 0 18 18"
+          width="14px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <path
+              d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+              fill="#000"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <div
+      class="__floater__arrow"
+      style="pointer-events: none; position: absolute; width: 100%; bottom: 0px; left: 0px; right: 0px; height: 16px;"
+    >
+      <span
+        style="display: inline-flex; position: absolute; bottom: 0px; margin-left: 8px; margin-right: 8px;"
+      >
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff647"
+            points="0,0 16,16 32,0"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;

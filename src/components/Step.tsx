@@ -13,8 +13,6 @@ import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { StepProps } from '~/types';
 
 import Beacon from './Beacon';
-import Overlay from './Overlay';
-import Portal from './Portal';
 import Tooltip from './Tooltip/index';
 
 export default class JoyrideStep extends React.Component<StepProps> {
@@ -171,14 +169,6 @@ export default class JoyrideStep extends React.Component<StepProps> {
     store.update({ lifecycle: LIFECYCLE.TOOLTIP });
   };
 
-  handleClickOverlay = () => {
-    const { helpers, step } = this.props;
-
-    if (!step.disableOverlayClose) {
-      helpers.close('overlay');
-    }
-  };
-
   setTooltipRef = (element: HTMLElement) => {
     this.tooltip = element;
   };
@@ -228,7 +218,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
   };
 
   render() {
-    const { continuous, debug, index, lifecycle, nonce, shouldScroll, size, step } = this.props;
+    const { continuous, debug, index, nonce, shouldScroll, size, step } = this.props;
     const target = getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
@@ -237,14 +227,6 @@ export default class JoyrideStep extends React.Component<StepProps> {
 
     return (
       <div key={`JoyrideStep-${index}`} className="react-joyride__step">
-        <Portal id="react-joyride-portal">
-          <Overlay
-            {...step}
-            debug={debug}
-            lifecycle={lifecycle}
-            onClickOverlay={this.handleClickOverlay}
-          />
-        </Portal>
         <Floater
           {...step.floaterProps}
           component={this.renderTooltip}

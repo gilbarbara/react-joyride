@@ -91,6 +91,7 @@ describe('Joyride > Custom Options', () => {
 
     expect(mockCallback).toHaveBeenCalledTimes(11);
 
+    expect(screen.getByTestId('overlay')).toBeInTheDocument();
     expect(screen.getById('react-joyride-step-2').querySelector('div')).toMatchSnapshot();
   });
 
@@ -109,15 +110,22 @@ describe('Joyride > Custom Options', () => {
     expect(screen.getByTestId('button-beacon')).toMatchSnapshot();
   });
 
-  it('should handle clicking the STEP 4 Primary button', () => {
-    fireEvent.click(screen.getByTestId('button-primary'));
+  it('should render the STEP 4 Tooltip', async () => {
+    fireEvent.click(screen.getByTestId('button-beacon'));
 
-    expect(mockCallback).toHaveBeenCalledTimes(18);
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalledTimes(15);
+    });
+
+    expect(screen.getByTestId('overlay')).toBeInTheDocument();
+    expect(screen.getById('react-joyride-step-3').querySelector('div')).toMatchSnapshot();
   });
 
   it('should have ended the tour', async () => {
+    fireEvent.click(screen.getByTestId('button-primary'));
+
     expect(mockCallback).toHaveBeenNthCalledWith(
-      17,
+      18,
       getCallbackResponse({
         action: ACTIONS.RESET,
         index: 0,
@@ -128,7 +136,7 @@ describe('Joyride > Custom Options', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      18,
+      19,
       getCallbackResponse({
         action: ACTIONS.STOP,
         index: 0,
