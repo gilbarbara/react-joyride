@@ -49,9 +49,7 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     this.scrollParent = getScrollParent(element ?? document.body, disableScrollParentFix, true);
     this.isActive = true;
 
-    /* istanbul ignore else */
     if (process.env.NODE_ENV !== 'production') {
-      /* istanbul ignore else */
       if (!disableScrolling && hasCustomScrollParent(element, true)) {
         log({
           title: 'step has a custom scroll parent and can cause trouble with scrolling',
@@ -68,7 +66,6 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
     const { lifecycle, spotlightClicks } = this.props;
     const { changed } = treeChanges(previousProps, this.props);
 
-    /* istanbul ignore else */
     if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
       this.scrollParent?.addEventListener('scroll', this.handleScroll, { passive: true });
 
@@ -117,7 +114,6 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
 
     let baseStyles = styles.overlay;
 
-    /* istanbul ignore else */
     if (isLegacy()) {
       baseStyles = placement === 'center' ? styles.overlayLegacyCenter : styles.overlayLegacy;
     }

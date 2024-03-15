@@ -1,18 +1,19 @@
 /* eslint-disable testing-library/no-render-in-lifecycle */
 import React from 'react';
+import { MockInstance } from 'vitest';
 
 import Scope from '~/modules/scope';
 
 import ScopeComponent from '../__fixtures__/ScopeComponent';
 import { render, screen } from '../__fixtures__/test-utils';
 
-const addEventListener = jest.spyOn(window, 'addEventListener');
-const removeEventListener = jest.spyOn(window, 'removeEventListener');
+const addEventListener = vi.spyOn(window, 'addEventListener');
+const removeEventListener = vi.spyOn(window, 'removeEventListener');
 
 const canBeTabbedCount = 7;
 const canHaveFocusCount = 4;
 
-const mocks: Record<string, jest.SpyInstance> = {};
+const mocks: Record<string, MockInstance> = {};
 let scopeInstance: Scope;
 
 function setScope(scope: Scope) {
@@ -27,11 +28,11 @@ function setScope(scope: Scope) {
     },
   };
 
-  mocks.findValidTabElements = jest.spyOn(scope, 'findValidTabElements');
-  mocks.canBeTabbed = jest.spyOn(scope, 'canBeTabbed');
-  mocks.canHaveFocus = jest.spyOn(scope, 'canHaveFocus');
-  mocks.interceptTab = jest.spyOn(scope, 'interceptTab');
-  mocks.removeScope = jest.spyOn(scope, 'removeScope');
+  mocks.findValidTabElements = vi.spyOn(scope, 'findValidTabElements');
+  mocks.canBeTabbed = vi.spyOn(scope, 'canBeTabbed');
+  mocks.canHaveFocus = vi.spyOn(scope, 'canHaveFocus');
+  mocks.interceptTab = vi.spyOn(scope, 'interceptTab');
+  mocks.removeScope = vi.spyOn(scope, 'removeScope');
 }
 
 describe('modules/scope', () => {
@@ -63,7 +64,7 @@ describe('modules/scope', () => {
     });
 
     afterEach(() => {
-      jest.clearAllMocks();
+      vi.clearAllMocks();
     });
 
     it('should have initialized', () => {
@@ -169,14 +170,13 @@ describe('modules/scope', () => {
     it('should have initialized', () => {
       expect(addEventListener).toHaveBeenCalledWith('keydown', expect.any(Function), false);
       expect(scopeInstance.element.className).toBe('component');
-      expect(scopeInstance.options.selector).toBe('.primary');
+      expect(scopeInstance.options.selector).toBe('[data-test-id=primary]');
     });
 
-    it('should have focused the selector', () => {
-      setTimeout(
-        () => expect(screen.getByTestId('primary') === document.activeElement).toBeTrue(),
-        100,
-      );
+    it('should have focused the selector', async () => {
+      await vi.waitFor(() => {
+        expect(screen.getByTestId('primary') === document.activeElement).toBeTrue();
+      });
     });
   });
 

@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`styles should return the component floaterProps' arrow color instead of styles.options.arrowColor 1`] = `
+exports[`styles > should return the component floaterProps' arrow color instead of styles.options.arrowColor 1`] = `
 {
   "beacon": {
     "WebkitAppearance": "none",
@@ -190,7 +190,7 @@ exports[`styles should return the component floaterProps' arrow color instead of
 }
 `;
 
-exports[`styles should return the default styles 1`] = `
+exports[`styles > should return the default styles 1`] = `
 {
   "beacon": {
     "WebkitAppearance": "none",
@@ -380,7 +380,7 @@ exports[`styles should return the default styles 1`] = `
 }
 `;
 
-exports[`styles should return the inherited props' styles 1`] = `
+exports[`styles > should return the inherited props' styles 1`] = `
 {
   "beacon": {
     "WebkitAppearance": "none",
@@ -570,7 +570,7 @@ exports[`styles should return the inherited props' styles 1`] = `
 }
 `;
 
-exports[`styles should return the step floaterProps' arrow color instead of styles.options.arrowColor 1`] = `
+exports[`styles > should return the step floaterProps' arrow color instead of styles.options.arrowColor 1`] = `
 {
   "beacon": {
     "WebkitAppearance": "none",
@@ -760,7 +760,7 @@ exports[`styles should return the step floaterProps' arrow color instead of styl
 }
 `;
 
-exports[`styles should return the step's styles 1`] = `
+exports[`styles > should return the step's styles 1`] = `
 {
   "beacon": {
     "WebkitAppearance": "none",

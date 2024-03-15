@@ -15,7 +15,7 @@ export default function ScopeComponent(props: Props) {
 
   useEffect(() => {
     const scope = new Scope(componentRef.current as HTMLElement, {
-      selector: useSelector ? '.primary' : null,
+      selector: useSelector ? '[data-test-id=primary]' : null,
     });
 
     setScope(scope);

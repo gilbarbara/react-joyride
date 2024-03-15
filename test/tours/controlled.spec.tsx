@@ -6,14 +6,14 @@ import Controlled from '../__fixtures__/Controlled';
 import { callbackResponseFactory } from '../__fixtures__/test-helpers';
 import { act, cleanup, fireEvent, render, screen } from '../__fixtures__/test-utils';
 
-jest.useFakeTimers();
+vi.useFakeTimers();
 
 const getCallbackResponse = callbackResponseFactory({
   controlled: true,
   size: 6,
 });
 
-const mockCallback = jest.fn();
+const mockCallback = vi.fn();
 
 describe('Joyride > Controlled', () => {
   render(<Controlled callback={mockCallback} />);
@@ -26,7 +26,7 @@ describe('Joyride > Controlled', () => {
     expect(screen.getByTestId('controlled')).toMatchSnapshot();
 
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -81,7 +81,7 @@ describe('Joyride > Controlled', () => {
 
   it('should pause and restart the tour while opening the sidebar', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(8);
@@ -149,7 +149,7 @@ describe('Joyride > Controlled', () => {
 
   it('should pause and restart the tour while hiding the sidebar', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(13);
@@ -218,7 +218,7 @@ describe('Joyride > Controlled', () => {
 
   it('should have rendered the STEP 4 Tooltip', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(16);
@@ -264,7 +264,7 @@ describe('Joyride > Controlled', () => {
 
   it('should have rendered the STEP 3 Tooltip AGAIN', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(19);
@@ -310,7 +310,7 @@ describe('Joyride > Controlled', () => {
 
   it('should have rendered the STEP 4 Tooltip AGAIN', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(22);
@@ -356,7 +356,7 @@ describe('Joyride > Controlled', () => {
 
   it('should have rendered the STEP 5 Tooltip', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(25);
@@ -402,7 +402,7 @@ describe('Joyride > Controlled', () => {
 
   it('should have rendered the STEP 6 Tooltip', async () => {
     await act(async () => {
-      jest.runOnlyPendingTimers();
+      vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(28);

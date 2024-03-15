@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Joyride > Custom Options should render STEP 1 Tooltip: overlay 1`] = `
+exports[`Joyride > Custom Options > should render STEP 1 Tooltip > overlay 1`] = `
 <div
   class="react-joyride__overlay"
   data-test-id="overlay"
@@ -15,7 +15,7 @@ exports[`Joyride > Custom Options should render STEP 1 Tooltip: overlay 1`] = `
 </div>
 `;
 
-exports[`Joyride > Custom Options should render STEP 1 Tooltip: tooltip 1`] = `
+exports[`Joyride > Custom Options > should render STEP 1 Tooltip > tooltip 1`] = `
 <div
   class="__floater"
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
@@ -121,7 +121,7 @@ exports[`Joyride > Custom Options should render STEP 1 Tooltip: tooltip 1`] = `
 </div>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 1 Beacon 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 1 Beacon 1`] = `
 <button
   aria-label="Open the dialog"
   class="react-joyride__beacon"
@@ -139,7 +139,7 @@ exports[`Joyride > Custom Options should render the STEP 1 Beacon 1`] = `
 </button>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 2 Tooltip: overlay 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 2 Tooltip > overlay 1`] = `
 <div
   class="react-joyride__overlay"
   data-test-id="overlay"
@@ -154,7 +154,7 @@ exports[`Joyride > Custom Options should render the STEP 2 Tooltip: overlay 1`] 
 </div>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 2 Tooltip: tooltip 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 2 Tooltip > tooltip 1`] = `
 <div
   class="__floater"
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
@@ -277,7 +277,7 @@ exports[`Joyride > Custom Options should render the STEP 2 Tooltip: tooltip 1`] 
 </div>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 3 Beacon 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 3 Beacon 1`] = `
 <button
   aria-label="Open the dialog"
   class="react-joyride__beacon"
@@ -295,7 +295,7 @@ exports[`Joyride > Custom Options should render the STEP 3 Beacon 1`] = `
 </button>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 3 Tooltip 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 3 Tooltip 1`] = `
 <div
   class="__floater"
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 16px 0px 0px; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
@@ -431,7 +431,7 @@ exports[`Joyride > Custom Options should render the STEP 3 Tooltip 1`] = `
 </div>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 4 Beacon 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 4 Beacon 1`] = `
 <button
   aria-label="Open the dialog"
   class="react-joyride__beacon"
@@ -449,7 +449,7 @@ exports[`Joyride > Custom Options should render the STEP 4 Beacon 1`] = `
 </button>
 `;
 
-exports[`Joyride > Custom Options should render the STEP 4 Tooltip 1`] = `
+exports[`Joyride > Custom Options > should render the STEP 4 Tooltip 1`] = `
 <div
   class="__floater"
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"

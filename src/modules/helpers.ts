@@ -79,7 +79,6 @@ export function getText(root: ReactNode): string {
   const content: Array<string | number> = [];
 
   const recurse = (child: ReactNode) => {
-    /* istanbul ignore else */
     if (typeof child === 'string' || typeof child === 'number') {
       content.push(child);
     } else if (Array.isArray(child)) {

@@ -8,8 +8,8 @@ import { cleanup, fireEvent, render, screen, waitFor } from '../__fixtures__/tes
 
 const getCallbackResponse = callbackResponseFactory({ size: 4 });
 
-const mockCallback = jest.fn();
-const mockGetPopper = jest.fn();
+const mockCallback = vi.fn();
+const mockGetPopper = vi.fn();
 
 describe('Joyride > Custom Options', () => {
   render(

@@ -6,7 +6,7 @@ import { LIFECYCLE, STATUS } from '~/literals';
 
 import { standardSteps } from '../__fixtures__/steps';
 
-const mockSyncStore = jest.fn();
+const mockSyncStore = vi.fn();
 
 describe('store', () => {
   beforeEach(() => {

@@ -8,8 +8,8 @@ import { act, cleanup, fireEvent, render, screen, waitFor } from '../__fixtures_
 
 const getCallbackResponse = callbackResponseFactory();
 
-const mockCallback = jest.fn();
-const mockGetPopper = jest.fn();
+const mockCallback = vi.fn();
+const mockGetPopper = vi.fn();
 
 describe('Joyride > Standard', () => {
   render(
@@ -24,7 +24,7 @@ describe('Joyride > Standard', () => {
   );
 
   beforeAll(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   afterAll(() => {
