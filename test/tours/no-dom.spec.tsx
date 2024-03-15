@@ -3,14 +3,14 @@ import React from 'react';
 import Standard from '../__fixtures__/Standard';
 import { fireEvent, render, screen } from '../__fixtures__/test-utils';
 
-const mockCallback = jest.fn();
+const mockCallback = vi.fn();
 
-jest.mock('~/modules/dom', () => {
-  const originalModule = jest.requireActual('~/modules/dom');
+vi.mock('~/modules/dom', async () => {
+  const originalModule = await vi.importActual('~/modules/dom');
 
   return {
     ...originalModule,
-    canUseDOM: jest.fn().mockImplementation(() => false),
+    canUseDOM: vi.fn().mockImplementation(() => false),
   };
 });
 

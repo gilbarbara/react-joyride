@@ -124,7 +124,6 @@ class Store {
       this.store.set('continuous', nextState.continuous);
     }
 
-    /* istanbul ignore else */
     if (this.listener && this.hasUpdatedState(state)) {
       this.listener(this.getState());
     }

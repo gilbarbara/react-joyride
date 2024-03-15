@@ -1,4 +1,11 @@
-process.env.RTL_SKIP_AUTO_CLEANUP = 'true';
+import '@testing-library/jest-dom';
+
+import { noop } from '@gilbarbara/helpers';
+import { configure } from '@testing-library/react';
+import * as matchers from 'jest-extended';
+
+configure({ testIdAttribute: 'data-test-id' });
+expect.extend(matchers);
 
 if (typeof window !== 'undefined') {
   Object.defineProperty(Element.prototype, 'clientHeight', {
@@ -32,15 +39,15 @@ if (typeof window !== 'undefined') {
       matches: false,
       media: query,
       onchange: null,
-      addListener: jest.fn(), // deprecated
-      removeListener: jest.fn(), // deprecated
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-      dispatchEvent: jest.fn(),
+      addListener: noop(), // deprecated
+      removeListener: noop(), // deprecated
+      addEventListener: noop(),
+      removeEventListener: noop(),
+      dispatchEvent: noop(),
     }),
   });
 
-  // @ts-ignore
+  // @ts-expect-error - JSDOM does not have this property
   document.scrollingElement = {
     isSameNode: () => true,
   };

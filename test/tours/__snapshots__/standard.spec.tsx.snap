@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Joyride > Standard should render the content 1`] = `
+exports[`Joyride > Standard > should render the content 1`] = `
 <div
   data-test-id="demo"
 >
@@ -106,7 +106,7 @@ exports[`Joyride > Standard should render the content 1`] = `
 </div>
 `;
 
-exports[`Joyride > Standard should restart the tour: beacon 1`] = `
+exports[`Joyride > Standard > should restart the tour > beacon 1`] = `
 <button
   aria-label="Open the dialog"
   class="react-joyride__beacon"
@@ -124,7 +124,7 @@ exports[`Joyride > Standard should restart the tour: beacon 1`] = `
 </button>
 `;
 
-exports[`Joyride > Standard should restart the tour: tooltip 1`] = `
+exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
 <div
   class="__floater"
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
@@ -230,7 +230,7 @@ exports[`Joyride > Standard should restart the tour: tooltip 1`] = `
 </div>
 `;
 
-exports[`Joyride > Standard should start the tour 1`] = `
+exports[`Joyride > Standard > should start the tour 1`] = `
 <div
   id="react-joyride-step-0"
   style="z-index: 200;"

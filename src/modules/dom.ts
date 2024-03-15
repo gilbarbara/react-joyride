@@ -56,7 +56,6 @@ export function getDocumentHeight(median = true): number {
  * Find and return the target DOM element based on a step's 'target'.
  */
 export function getElement(element: string | HTMLElement): HTMLElement | null {
-  /* istanbul ignore else */
   if (typeof element === 'string') {
     return document.querySelector(element);
   }
@@ -100,7 +99,6 @@ export function getScrollParent(
 
     const hasScrolling = parent.scrollHeight > parent.offsetHeight;
 
-    /* istanbul ignore else */
     if (!hasScrolling && !skipFix) {
       parent.style.overflow = 'initial';
 
@@ -172,7 +170,6 @@ export function isElementVisible(element: HTMLElement): element is HTMLElement {
       break;
     }
 
-    /* istanbul ignore else */
     if (parentElement instanceof HTMLElement) {
       const { display, visibility } = getComputedStyle(parentElement);
 
@@ -201,7 +198,6 @@ export function getElementPosition(
   let parentTop = 0;
   let top = elementRect?.top ?? 0;
 
-  /* istanbul ignore else */
   if (parent instanceof HTMLElement) {
     parentTop = parent.scrollTop;
 

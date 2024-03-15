@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { noop } from '@gilbarbara/helpers';
 import { fromPartial } from '@total-typescript/shoehorn';
 
 import {
@@ -203,10 +204,10 @@ describe('helpers', () => {
     const consoleGroupCollapsed = console.groupCollapsed;
 
     beforeAll(() => {
-      console.log = jest.fn();
-      console.warn = jest.fn();
-      console.error = jest.fn();
-      console.groupCollapsed = jest.fn();
+      vi.spyOn(console, 'log').mockImplementation(noop);
+      vi.spyOn(console, 'warn').mockImplementation(noop);
+      vi.spyOn(console, 'error').mockImplementation(noop);
+      vi.spyOn(console, 'groupCollapsed').mockImplementation(noop);
     });
 
     afterAll(() => {

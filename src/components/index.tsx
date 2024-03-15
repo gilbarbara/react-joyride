@@ -76,7 +76,6 @@ class Joyride extends React.Component<Props, State> {
       start();
     }
 
-    /* istanbul ignore else */
     if (!disableCloseOnEsc) {
       document.body.addEventListener('keydown', this.handleKeyboard, { passive: true });
     }
@@ -108,7 +107,6 @@ class Joyride extends React.Component<Props, State> {
       }
     }
 
-    /* istanbul ignore else */
     if (changedProps('run')) {
       if (run) {
         start(stepIndex);
@@ -117,7 +115,6 @@ class Joyride extends React.Component<Props, State> {
       }
     }
 
-    /* istanbul ignore else */
     if (stepIndexChanged) {
       let nextAction: Actions =
         is.number(previousStepIndex) && previousStepIndex < stepIndex ? ACTIONS.NEXT : ACTIONS.PREV;
@@ -212,7 +209,6 @@ class Joyride extends React.Component<Props, State> {
   componentWillUnmount() {
     const { disableCloseOnEsc } = this.props;
 
-    /* istanbul ignore else */
     if (!disableCloseOnEsc) {
       document.body.removeEventListener('keydown', this.handleKeyboard);
     }
@@ -224,7 +220,6 @@ class Joyride extends React.Component<Props, State> {
   callback = (data: CallBackProps) => {
     const { callback } = this.props;
 
-    /* istanbul ignore else */
     if (is.function(callback)) {
       callback(data);
     }
@@ -303,11 +298,9 @@ class Joyride extends React.Component<Props, State> {
       const beaconPopper = this.store.getPopper('beacon');
       const tooltipPopper = this.store.getPopper('tooltip');
 
-      /* istanbul ignore else */
       if (lifecycle === LIFECYCLE.BEACON && beaconPopper) {
         const { offsets, placement } = beaconPopper;
 
-        /* istanbul ignore else */
         if (!['bottom'].includes(placement) && !hasCustomScroll) {
           scrollY = Math.floor(offsets.popper.top - scrollOffset);
         }
@@ -323,7 +316,6 @@ class Joyride extends React.Component<Props, State> {
 
       scrollY = scrollY >= 0 ? scrollY : 0;
 
-      /* istanbul ignore else */
       if (status === STATUS.RUNNING) {
         scrollTo(scrollY, { element: scrollParent as Element, duration: scrollDuration }).then(
           () => {

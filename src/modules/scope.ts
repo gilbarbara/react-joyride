@@ -47,7 +47,6 @@ export default class Scope {
   handleKeyDown = (event: KeyboardEvent) => {
     const { code = 'Tab' } = this.options;
 
-    /* istanbul ignore else */
     if (event.code === code) {
       this.interceptTab(event);
     }
@@ -91,22 +90,19 @@ export default class Scope {
   };
 
   isVisible = (element: HTMLElement): boolean => {
-    let parentElement = element;
+    let parentElement: HTMLElement | null = element;
 
     while (parentElement) {
-      /* istanbul ignore else */
       if (parentElement instanceof HTMLElement) {
         if (parentElement === document.body) {
           break;
         }
 
-        /* istanbul ignore else */
         if (this.isHidden(parentElement)) {
           return false;
         }
 
-        // @ts-ignore
-        parentElement = parentElement.parentNode;
+        parentElement = parentElement.parentNode as HTMLElement;
       }
     }
 
@@ -133,7 +129,6 @@ export default class Scope {
 
     const target = this.element.querySelector(selector);
 
-    /* istanbul ignore else */
     if (target) {
       window.requestAnimationFrame(() => this.checkFocus(target as HTMLElement));
     }

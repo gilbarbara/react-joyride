@@ -124,7 +124,6 @@ export default class JoyrideStep extends React.Component<StepProps> {
       });
     }
 
-    /* istanbul ignore else */
     if (changed('lifecycle', LIFECYCLE.BEACON)) {
       callback({
         ...state,
