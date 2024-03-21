@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.3.1",
-    "@gilbarbara/helpers": "^0.9.2",
     "deep-diff": "^1.0.2",
     "deepmerge": "^4.3.1",
     "is-lite": "^1.2.1",

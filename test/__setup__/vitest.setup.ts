@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom';
 
-import { noop } from '@gilbarbara/helpers';
 import { configure } from '@testing-library/react';
 import * as matchers from 'jest-extended';
+
+import { noop } from '~/modules/helpers';
 
 configure({ testIdAttribute: 'data-test-id' });
 expect.extend(matchers);

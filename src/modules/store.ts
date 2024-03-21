@@ -1,12 +1,11 @@
 import { Props as FloaterProps } from 'react-floater';
-import { objectKeys, omit } from '@gilbarbara/helpers';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 
 import { Origin, State, Status, Step, StoreHelpers, StoreOptions } from '~/types';
 
-import { hasValidKeys } from './helpers';
+import { hasValidKeys, objectKeys, omit } from './helpers';
 
 type StateWithContinuous = State & { continuous: boolean };
 type Listener = (state: State) => void;

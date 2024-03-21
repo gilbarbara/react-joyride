@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { noop } from '@gilbarbara/helpers';
 import { fromPartial } from '@total-typescript/shoehorn';
 
 import {
@@ -11,7 +10,14 @@ import {
   hideBeacon,
   isLegacy,
   log,
+  noop,
+  objectKeys,
+  omit,
+  pick,
+  sleep,
 } from '~/modules/helpers';
+
+const baseObject = { a: 1, b: '', c: [1], d: { a: null }, e: undefined };
 
 describe('helpers', () => {
   describe('getBrowser', () => {
@@ -289,6 +295,107 @@ describe('helpers', () => {
       });
 
       expect(console.error).toHaveBeenNthCalledWith(2, 'Missing title or data props');
+    });
+  });
+
+  describe('noop', () => {
+    it('should return undefined', () => {
+      expect(noop()).toBeUndefined();
+    });
+  });
+
+  describe('objectKeys', () => {
+    interface Props {
+      name: string;
+      type?: 'org' | 'user';
+      url?: string;
+    }
+
+    it('should return properly', () => {
+      const entries = objectKeys(baseObject);
+
+      expect(entries).toEqual(Object.keys(baseObject));
+      expectTypeOf(entries).toEqualTypeOf<Array<'c' | 'a' | 'b' | 'd' | 'e'>>();
+    });
+
+    it('should return properly for a custom index signature', () => {
+      const props: Props = { name: 'John' };
+      const entries = objectKeys(props);
+
+      expect(entries).toEqual(Object.keys(props));
+      expectTypeOf(entries).toEqualTypeOf<Array<'name' | 'type' | 'url'>>();
+    });
+  });
+
+  describe('omit', () => {
+    it('should return properly', () => {
+      interface Payload {
+        a: number;
+        b: string;
+      }
+      const payload: Payload = { a: 1, b: '' };
+
+      expect(omit(payload, 'b')).toEqual({ a: 1 });
+      expectTypeOf(omit(payload, 'b')).toEqualTypeOf<{ a: number }>();
+    });
+
+    it.each([
+      { result: omit(baseObject, 'c'), expected: { a: 1, b: '', d: { a: null } } },
+      { result: omit(baseObject, 'a', 'd'), expected: { b: '', c: [1] } },
+      // @ts-expect-error - using a non-existent key
+      { result: omit(baseObject, 'x'), expected: baseObject },
+      { result: omit(baseObject), expected: baseObject },
+    ])('should be $result', ({ expected, result }) => {
+      expect(result).toEqual(expected);
+    });
+
+    it('should throw for bad inputs', () => {
+      // @ts-expect-error - invalid value
+      expect(() => omit(['a'])).toThrow('Expected an object');
+    });
+  });
+
+  describe('pick', () => {
+    it('should return properly', () => {
+      expect(pick(baseObject, 'a')).toEqual({ a: 1 });
+      expectTypeOf(pick(baseObject, 'a')).toEqualTypeOf<{ a: number }>();
+    });
+
+    it.each([
+      { result: pick(baseObject, 'c'), expected: { c: [1] } },
+      { result: pick(baseObject, 'a', 'd'), expected: { a: 1, d: { a: null } } },
+      // @ts-expect-error - invalid value
+      { result: pick(baseObject, 'x'), expected: {} },
+      { result: pick(baseObject), expected: baseObject },
+    ])('should be $result', ({ expected, result }) => {
+      expect(result).toEqual(expected);
+    });
+
+    it('should throw for bad inputs', () => {
+      // @ts-expect-error - invalid value
+      expect(() => pick(['a'])).toThrow('Expected an object');
+    });
+  });
+
+  describe('sleep', () => {
+    const setTimeoutSpy = vi.spyOn(global, 'setTimeout');
+
+    afterAll(() => {
+      vi.restoreAllMocks();
+    });
+
+    it.each([
+      { input: 0.1, timeout: 100 },
+      { input: undefined, timeout: 1000 },
+    ])('should halt the execution for $input', async ({ input, timeout }) => {
+      const fn = async () => {
+        await sleep(input);
+
+        return 'finished';
+      };
+
+      await expect(fn()).resolves.toBe('finished');
+      expect(setTimeoutSpy).toHaveBeenLastCalledWith(expect.any(Function), timeout);
     });
   });
 });

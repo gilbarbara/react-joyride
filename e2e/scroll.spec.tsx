@@ -2,8 +2,9 @@
 import './global.d';
 
 import React from 'react';
-import { sleep } from '@gilbarbara/helpers';
 import { expect, test } from '@playwright/experimental-ct-react';
+
+import { sleep } from '~/modules/helpers';
 
 import { ACTIONS, CallBackProps, EVENTS, LIFECYCLE, STATUS } from '../src';
 import Scroll from '../test/__fixtures__/Scroll';
