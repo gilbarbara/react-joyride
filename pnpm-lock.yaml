@@ -8,9 +8,6 @@ dependencies:
   '@gilbarbara/deep-equal':
     specifier: ^0.3.1
     version: 0.3.1
-  '@gilbarbara/helpers':
-    specifier: ^0.9.2
-    version: 0.9.2
   deep-diff:
     specifier: ^1.0.2
     version: 1.0.2
@@ -848,13 +845,6 @@ packages:
       - webpack
     dev: true
 
-  /@gilbarbara/helpers@0.9.2:
-    resolution: {integrity: sha512-vrydO6+8jOpzPaJ9Om2Ta6BStbpxBlg7j0uV27NnokG+k6bI95ys7rrw7P4hOcRYajkp+K/XpyLufFUUfYrKTQ==}
-    dependencies:
-      '@gilbarbara/types': 0.2.2
-      is-lite: 1.2.1
-    dev: false
-
   /@gilbarbara/node-helpers@0.1.0:
     resolution: {integrity: sha512-x2npIHEnnQvdLFG1inFhPYtpQ1cB4sCjsWfNlRXP0hvJ+WJQkleevhnMaE4aqEz5yNneDuXO921FSvMgKlY/ww==}
     engines: {node: '>=18'}
@@ -873,12 +863,6 @@ packages:
   /@gilbarbara/tsconfig@0.2.3:
     resolution: {integrity: sha512-Rel0cLKkvQib936cBo5VCxbw+cjoF2cCnexac9mDLGWpeviGuinmDGJt4DOolg4xdmEr5ZrMct1zHaidgKaVaQ==}
     dev: true
-
-  /@gilbarbara/types@0.2.2:
-    resolution: {integrity: sha512-QuQDBRRcm1Q8AbSac2W1YElurOhprj3Iko/o+P1fJxUWS4rOGKMVli98OXS7uo4z+cKAif6a+L9bcZFSyauQpQ==}
-    dependencies:
-      type-fest: 4.12.0
-    dev: false
 
   /@humanwhocodes/config-array@0.11.14:
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}

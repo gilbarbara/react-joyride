@@ -1,5 +1,4 @@
 import { Props as FloaterProps } from 'react-floater';
-import { omit, pick } from '@gilbarbara/helpers';
 import deepmerge from 'deepmerge';
 import is from 'is-lite';
 import { SetRequired } from 'type-fest';
@@ -9,7 +8,7 @@ import getStyles from '~/styles';
 import { Props, Step, StepMerged } from '~/types';
 
 import { getElement, hasCustomScrollParent } from './dom';
-import { log } from './helpers';
+import { log, omit, pick } from './helpers';
 
 function getTourProps(props: Props) {
   return pick(

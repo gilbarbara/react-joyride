@@ -12,6 +12,12 @@ export type Status = ValueOf<typeof STATUS>;
 
 export type AnyObject<T = any> = Record<string, T>;
 
+export type NarrowPlainObject<T extends Record<string, any>> = Exclude<
+  T,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  Array<unknown> | Function | Map<unknown, unknown> | Set<unknown>
+>;
+
 export interface Locale {
   back?: ReactNode;
   close?: ReactNode;

@@ -4,7 +4,7 @@ import is from 'is-lite';
 
 import { LIFECYCLE } from '~/literals';
 
-import { Lifecycle, Step } from '~/types';
+import { AnyObject, Lifecycle, NarrowPlainObject, Step } from '~/types';
 
 import { hasPosition } from './dom';
 
@@ -172,6 +172,74 @@ export function log({ data, debug = false, title, warn = false }: LogOptions) {
   /* eslint-enable */
 }
 
+/**
+ * A function that does nothing.
+ */
+export function noop() {
+  return undefined;
+}
+
+/**
+ * Type-safe Object.keys()
+ */
+export function objectKeys<T extends AnyObject>(input: T) {
+  return Object.keys(input) as Array<keyof T>;
+}
+
+/**
+ * Remove properties from an object
+ */
+export function omit<T extends Record<string, any>, K extends keyof T>(
+  input: NarrowPlainObject<T>,
+  ...filter: K[]
+) {
+  if (!is.plainObject(input)) {
+    throw new TypeError('Expected an object');
+  }
+
+  const output: any = {};
+
+  for (const key in input) {
+    /* istanbul ignore else */
+    if ({}.hasOwnProperty.call(input, key)) {
+      if (!filter.includes(key as unknown as K)) {
+        output[key] = input[key];
+      }
+    }
+  }
+
+  return output as Omit<T, K>;
+}
+
+/**
+ * Select properties from an object
+ */
+export function pick<T extends Record<string, any>, K extends keyof T>(
+  input: NarrowPlainObject<T>,
+  ...filter: K[]
+) {
+  if (!is.plainObject(input)) {
+    throw new TypeError('Expected an object');
+  }
+
+  if (!filter.length) {
+    return input;
+  }
+
+  const output: any = {};
+
+  for (const key in input) {
+    /* istanbul ignore else */
+    if ({}.hasOwnProperty.call(input, key)) {
+      if (filter.includes(key as unknown as K)) {
+        output[key] = input[key];
+      }
+    }
+  }
+
+  return output as Pick<T, K>;
+}
+
 export function shouldScroll(options: ShouldScrollOptions): boolean {
   const { isFirstStep, lifecycle, previousLifecycle, scrollToFirstStep, step, target } = options;
 
@@ -183,4 +251,13 @@ export function shouldScroll(options: ShouldScrollOptions): boolean {
     previousLifecycle !== lifecycle &&
     ([LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP] as Array<Lifecycle>).includes(lifecycle)
   );
+}
+
+/**
+ * Block execution
+ */
+export function sleep(seconds = 1) {
+  return new Promise(resolve => {
+    setTimeout(resolve, seconds * 1000);
+  });
 }

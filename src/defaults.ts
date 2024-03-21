@@ -1,4 +1,4 @@
-import { noop } from '@gilbarbara/helpers';
+import { noop } from '~/modules/helpers';
 
 export const defaultFloaterProps = {
   options: {
