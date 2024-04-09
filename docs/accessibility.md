@@ -4,7 +4,7 @@ react-joyride aims to be fully accessible, using the [WAI-ARIA](https://www.w3.o
 
 ## Keyboard navigation
 
-When the dialog is open, the TAB key will be keep the focus on the dialog elements \(input\|select\|textarea\|button\|object\) within its contents. Elements outside the tooltip won't receive focus.
+When the dialog is open, the TAB key will keep the focus on the dialog elements (input|select|textarea|button|object) within its contents. Elements outside the tooltip will not receive focus.
 
 When the tooltip is closed the focus returns to the default.
 

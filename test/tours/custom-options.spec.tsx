@@ -9,12 +9,14 @@ import { cleanup, fireEvent, render, screen, waitFor } from '../__fixtures__/tes
 const getCallbackResponse = callbackResponseFactory({ size: 4 });
 
 const mockCallback = vi.fn();
+const mockFinishedCallback = vi.fn();
 const mockGetPopper = vi.fn();
 
 describe('Joyride > Custom Options', () => {
   render(
     <Customized
       callback={mockCallback}
+      finishedCallback={mockFinishedCallback}
       floaterProps={{
         getPopper: (popper, type) => {
           mockGetPopper(popper, type);
@@ -147,5 +149,6 @@ describe('Joyride > Custom Options', () => {
     );
 
     expect(mockGetPopper).toHaveBeenCalledTimes(8);
+    expect(mockFinishedCallback).toHaveBeenCalledTimes(1);
   });
 });

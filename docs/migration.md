@@ -1,6 +1,6 @@
 ---
 description: >-
-  If you are coming from V1 make sure to follow this guide to upgrade your
+  If you are coming from V1, make sure to follow this guide to upgrade your
   setup.
 ---
 
@@ -8,7 +8,7 @@ description: >-
 
 ## Styling
 
-V2 uses inline styles instead of SCSS/CSS so you need to remove the imports. Check [Styling](styling.md) for more information.
+V2 uses inline styles instead of SCSS/CSS, so you must remove the imports. Check [Styling](styling.md) for more information.
 
 ## Props
 
@@ -19,7 +19,7 @@ V2 uses inline styles instead of SCSS/CSS so you need to remove the imports. Che
 **disableOverlay** `false` ▶︎ **disableOverlayClicks** `false`
 
 **keyboardNavigation** `true` ▶︎ **disableCloseOnEsc** `false`  
-the space, return and tab keys are now controlled with tabIndex
+the space, return, and tab keys are now controlled with tabIndex
 
 **scrollToSteps** `true` ▶︎ disableScrolling `false`
 
@@ -48,10 +48,10 @@ the space, return and tab keys are now controlled with tabIndex
 There are a few changes to the step syntax too:
 
 **selector** ▶︎ **target**  
-Now it supports HTMLElement and string.
+Now, it supports HTMLElement and string.
 
 **position** ▶︎ **placement**  
-The default is **bottom** now
+The default is **bottom** now.
 
 **text** ▶︎ **content**
 

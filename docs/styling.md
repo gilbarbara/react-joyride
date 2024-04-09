@@ -65,10 +65,10 @@ export default function App() {
 }
 ```
 
-You can customize the styles per step too.
+You can customize the styles per step, too.
 
 Check [styles.js](https://github.com/gilbarbara/react-joyride/blob/main/src/styles.ts) for more information.
 
-Or if you need finer control you can use you own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
+Or, if you need finer control, you can use your own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
 
 If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
