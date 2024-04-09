@@ -16,13 +16,16 @@ The step is a plain object that only requires two properties to be valid: `targe
 **content** `React.Node`  
 The tooltip's body.
 
+**data** `any`  
+Additional data you can add to the step.
+
 **disableBeacon** `boolean` ▶︎ **false**  
 Don't show the Beacon before the tooltip.
 
 **event** `'click' | 'hover'` ▶︎ **click**  
 The event to trigger the beacon.
 
-hideFooter `boolean` ▶︎ **false**  
+**hideFooter** `boolean` ▶︎ **false**  
 Hide the tooltip's footer.
 
 **isFixed** `boolean` ▶︎ **false**  
@@ -45,7 +48,7 @@ It can be:
 Check [react-floater](https://github.com/gilbarbara/react-floater) for more information.
 
 **placementBeacon** `string` ▶︎ placement  
-The placement of the beacon. It will use the placement if nothing is passed, and it can be: `top, bottom, left, right`.
+The beacon's placement can be top, bottom, left, or right. If nothing is passed, it will use the `placement`.
 
 **styles** `Partial<Styles>`  
 Override the [styling](styling.md) of the step's Tooltip

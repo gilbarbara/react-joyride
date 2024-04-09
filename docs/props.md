@@ -3,10 +3,10 @@
 The only required prop is `steps` with an array of [steps](step.md).  
 Below is the complete list of possible props and options:
 
-{% hint style="info" %} ▶︎ indicates the default value if there's one You can check the types definition for the props [here](https://github.com/gilbarbara/react-joyride/blob/main/src/types/components.ts) {% endhint %}
+{% hint style="info" %} ▶︎ indicates the default value if there's one. You can check the definition of the type for the props [here](https://github.com/gilbarbara/react-joyride/blob/main/src/types/components.ts) {% endhint %}
 
 **beaconComponent** `ElementType<BeaconRenderProps>`  
-A React component to use instead the default Beacon. Check [custom components](custom-components.md) for details.
+A React component to use instead of the default Beacon. Check [custom components](custom-components.md) for details.
 
 **callback** `() => CallBackProps`  
 A function to be called when Joyride's state changes. It returns a single parameter with the state.
@@ -27,7 +27,7 @@ Don't show the overlay.
 Don't close the tooltip when clicking the overlay.
 
 **disableScrolling** `boolean` ▶︎ **false**  
-Disable auto scrolling between steps.
+Disable autoscrolling between steps.
 
 **disableScrollParentFix** `boolean` ▶︎ **false**  
 Disable the fix to handle "unused" overflow parents.
@@ -36,7 +36,7 @@ Disable the fix to handle "unused" overflow parents.
 Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater).
 
 **getHelpers** `() => StoreHelpers`  
-Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`
+Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`.
 
 **hideBackButton** `boolean` ▶︎ **false**  
 Hide the **Back** button.
@@ -63,7 +63,7 @@ The scroll distance from the element scrollTop value.
 Scroll the page for the first step.
 
 **showProgress** `boolean` ▶︎ **false**  
-Display the tour progress in the next button \_e.g. 2/5 \_in `continuous` tours.
+Display the tour progress in the next button, `2/5`, in `continuous` tours.
 
 **showSkipButton** `boolean` ▶︎ **false**  
 Display a button to skip the tour.
@@ -77,7 +77,7 @@ The padding of the spotlight.
 **stepIndex** `number`  
 Setting a number here will turn Joyride into `controlled` mode.
 
-You'll have to keep an internal state by yourself and update it with the events in the `callback`.
+You'll have to keep an internal state and update it with the events in the `callback`.
 
 > **Do not use this if you don't need it.**
 
@@ -89,4 +89,4 @@ Check the [step](step.md) docs for more information.
 Override the [styling](styling.md) of the Tooltip
 
 **tooltipComponent** `ElementType<TooltipRenderProps>`  
-A React component to use instead the default Tooltip. Check [custom components](custom-components.md) for details.
+A React component to use instead of the default Tooltip. Check [custom components](custom-components.md) for details.

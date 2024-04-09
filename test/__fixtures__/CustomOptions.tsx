@@ -2,10 +2,12 @@ import { useReducer } from 'react';
 
 import { standardSteps } from './steps';
 
-import Joyride, { STATUS, Status } from '../../src';
+import Joyride, { LIFECYCLE, STATUS, Status } from '../../src';
 import { CallBackProps, Props, Step } from '../../src/types';
 
-interface CustomOptionsProps extends Omit<Props, 'run' | 'steps'> {}
+interface CustomOptionsProps extends Omit<Props, 'run' | 'steps'> {
+  finishedCallback: () => void;
+}
 
 interface State {
   index: number;
@@ -28,11 +30,14 @@ const tourSteps = [
     target: '.outro h2 span',
     placement: 'top' as const,
     content: "Text only steps — Because sometimes you don't really need a proper heading",
+    data: {
+      last: true,
+    },
   },
 ];
 
-export default function CutomOptionss(props: Omit<CustomOptionsProps, 'run' | 'steps'>) {
-  const { callback, ...rest } = props;
+export default function CustomOptions(props: Omit<CustomOptionsProps, 'run' | 'steps'>) {
+  const { callback, finishedCallback, ...rest } = props;
   const [{ run, steps }, setState] = useReducer(
     (previousState: State, nextState: Partial<State>) => ({
       ...previousState,
@@ -50,7 +55,7 @@ export default function CutomOptionss(props: Omit<CustomOptionsProps, 'run' | 's
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status } = data;
+    const { lifecycle, status, step } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
       setState({ run: false });
@@ -59,6 +64,10 @@ export default function CutomOptionss(props: Omit<CustomOptionsProps, 'run' | 's
     setState({ index: data.index });
 
     callback?.(data);
+
+    if (lifecycle === LIFECYCLE.COMPLETE && step.data?.last) {
+      finishedCallback();
+    }
   };
 
   return (

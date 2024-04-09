@@ -223,6 +223,10 @@ export type Step = Simplify<
      */
     content: ReactNode;
     /**
+     * Additional data you can add to the step.
+     */
+    data?: any;
+    /**
      * Don't show the Beacon before the tooltip.
      * @default false
      */
