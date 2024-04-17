@@ -49,36 +49,25 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
 
   if (output.primary) {
     output.primary = (
-      <button
-        data-test-id="button-primary"
-        style={styles.buttonNext}
-        type="button"
-        {...primaryProps}
-      >
+      <div data-test-id="button-primary" style={styles.buttonNext} {...primaryProps}>
         {output.primary}
-      </button>
+      </div>
     );
   }
 
   if (showSkipButton && !isLastStep) {
     output.skip = (
-      <button
-        aria-live="off"
-        data-test-id="button-skip"
-        style={styles.buttonSkip}
-        type="button"
-        {...skipProps}
-      >
+      <div aria-live="off" data-test-id="button-skip" style={styles.buttonSkip} {...skipProps}>
         {skip}
-      </button>
+      </div>
     );
   }
 
   if (!hideBackButton && index > 0) {
     output.back = (
-      <button data-test-id="button-back" style={styles.buttonBack} type="button" {...backProps}>
+      <div data-test-id="button-back" style={styles.buttonBack} {...backProps}>
         {back}
-      </button>
+      </div>
     );
   }
 
