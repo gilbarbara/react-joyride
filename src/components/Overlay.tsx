@@ -224,9 +224,9 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
 
     // Hack for Safari bug with mix-blend-mode with z-index
     if (getBrowser() === 'safari') {
-      const { mixBlendMode, zIndex, ...safarOverlay } = overlayStyles;
+      const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
 
-      spotlight = <div style={{ ...safarOverlay }}>{spotlight}</div>;
+      spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;
       delete overlayStyles.backgroundColor;
     }
 
