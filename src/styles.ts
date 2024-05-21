@@ -34,9 +34,10 @@ const spotlight = {
 
 export default function getStyles(props: Props, step: StepMerged) {
   const { floaterProps, styles } = props;
-  const mergedFloaterProps = deepmerge(step?.floaterProps ?? {}, floaterProps ?? {});
-  const mergedStyles = deepmerge(styles ?? {}, step?.styles ?? {});
+  const mergedFloaterProps = deepmerge(step.floaterProps ?? {}, floaterProps ?? {});
+  const mergedStyles = deepmerge(styles ?? {}, step.styles ?? {});
   const options = deepmerge(defaultOptions, mergedStyles.options || {}) satisfies StylesOptions;
+  const hideBeacon = step.placement === 'center' || step.disableBeacon;
   let { width } = options;
 
   if (window.innerWidth > 480) {
@@ -63,7 +64,7 @@ export default function getStyles(props: Props, step: StepMerged) {
   const defaultStyles = {
     beacon: {
       ...buttonBase,
-      display: 'inline-block',
+      display: hideBeacon ? 'none' : 'inline-block',
       height: options.beaconSize,
       position: 'relative',
       width: options.beaconSize,
