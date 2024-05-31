@@ -14,7 +14,7 @@ export type AnyObject<T = any> = Record<string, T>;
 
 export type NarrowPlainObject<T extends Record<string, any>> = Exclude<
   T,
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   Array<unknown> | Function | Map<unknown, unknown> | Set<unknown>
 >;
 
