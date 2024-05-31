@@ -2,7 +2,7 @@ import scroll from 'scroll';
 import scrollParent from 'scrollparent';
 
 export function canUseDOM() {
-  return !!(typeof window !== 'undefined' && window.document && window.document.createElement);
+  return !!(typeof window !== 'undefined' && window.document?.createElement);
 }
 
 /**
@@ -57,7 +57,16 @@ export function getDocumentHeight(median = true): number {
  */
 export function getElement(element: string | HTMLElement): HTMLElement | null {
   if (typeof element === 'string') {
-    return document.querySelector(element);
+    try {
+      return document.querySelector(element);
+    } catch (error: any) {
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+
+      return null;
+    }
   }
 
   return element;
