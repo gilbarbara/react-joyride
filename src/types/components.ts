@@ -121,7 +121,7 @@ export type CallBackProps = {
   /**
    * The element that triggered the action (if available).
    */
-  origin: Origin | null;
+  origin?: Origin | null;
   /**
    * The number of steps
    */
