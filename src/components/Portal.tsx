@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { createRoot, Root } from 'react-dom/client';
 
 import { canUseDOM } from '~/modules/dom';
 import { isReact16 } from '~/modules/helpers';
@@ -11,6 +12,7 @@ interface Props {
 
 export default class JoyridePortal extends React.Component<Props> {
   node: HTMLElement | null = null;
+  root: Root | null = null;
 
   componentDidMount() {
     const { id } = this.props;
@@ -21,6 +23,7 @@ export default class JoyridePortal extends React.Component<Props> {
 
     this.node = document.createElement('div');
     this.node.id = id;
+    this.root = createRoot(this.node);
 
     document.body.appendChild(this.node);
 
@@ -50,7 +53,7 @@ export default class JoyridePortal extends React.Component<Props> {
     }
 
     if (this.node.parentNode === document.body) {
-      document.body.removeChild(this.node);
+      this.root?.unmount();
       this.node = null;
     }
   }
@@ -63,7 +66,7 @@ export default class JoyridePortal extends React.Component<Props> {
     const { children } = this.props;
 
     if (this.node) {
-      ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.node);
+      ReactDOM.createPortal(children, this.node);
     }
   }
 
