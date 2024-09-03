@@ -79,7 +79,7 @@ class Store {
       lifecycle: state.lifecycle ?? LIFECYCLE.INIT,
       origin: state.origin ?? null,
       size: state.size ?? size,
-      status: nextIndex === size ? STATUS.FINISHED : state.status ?? status,
+      status: nextIndex === size ? STATUS.FINISHED : (state.status ?? status),
     };
   }
 
