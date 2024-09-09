@@ -35,7 +35,7 @@ class Joyride extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const { debug, getHelpers, run, stepIndex } = props;
+    const { debug, getHelpers, run = true, stepIndex } = props;
 
     this.store = createStore({
       ...props,
