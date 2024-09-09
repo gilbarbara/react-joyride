@@ -42,7 +42,7 @@ export default class JoyrideTooltip extends React.Component<TooltipProps> {
   };
 
   getElementsProps = () => {
-    const { continuous, isLastStep, setTooltipRef, step } = this.props;
+    const { continuous, index, isLastStep, setTooltipRef, size, step } = this.props;
 
     const back = getText(step.locale.back);
     const close = getText(step.locale.close);
@@ -50,10 +50,24 @@ export default class JoyrideTooltip extends React.Component<TooltipProps> {
     const next = getText(step.locale.next);
     const skip = getText(step.locale.skip);
 
-    let primaryText = continuous ? next : close;
+    let primaryLabel = close;
+    let primaryText = close;
 
-    if (isLastStep) {
-      primaryText = last;
+    if (continuous) {
+      primaryLabel = next;
+      primaryText = next;
+
+      if (step.showProgress && !isLastStep) {
+        primaryLabel = getText(step.locale.nextLabelWithProgress)
+          .replace('{step}', String(index + 1))
+          .replace('{steps}', String(size));
+        primaryText = `${next} (${index + 1}/${size})`;
+      }
+
+      if (isLastStep) {
+        primaryLabel = last;
+        primaryText = last;
+      }
     }
 
     return {
@@ -72,7 +86,7 @@ export default class JoyrideTooltip extends React.Component<TooltipProps> {
         title: close,
       },
       primaryProps: {
-        'aria-label': primaryText,
+        'aria-label': primaryLabel,
         'data-action': 'primary',
         onClick: this.handleClickPrimary,
         role: 'button',

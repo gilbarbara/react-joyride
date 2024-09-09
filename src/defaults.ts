@@ -1,5 +1,7 @@
 import { noop } from '~/modules/helpers';
 
+import { Locale } from '~/types';
+
 export const defaultFloaterProps = {
   options: {
     preventOverflow: {
@@ -12,11 +14,12 @@ export const defaultFloaterProps = {
   },
 };
 
-export const defaultLocale = {
+export const defaultLocale: Locale = {
   back: 'Back',
   close: 'Close',
   last: 'Last',
   next: 'Next',
+  nextLabelWithProgress: 'Next (Step {step} of {steps})',
   open: 'Open the dialog',
   skip: 'Skip',
 };
