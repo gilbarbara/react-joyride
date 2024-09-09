@@ -1,8 +1,8 @@
 import { noop } from '~/modules/helpers';
 
-import { Locale } from '~/types';
+import { FloaterProps, Locale, Props, Step } from '~/types';
 
-export const defaultFloaterProps = {
+export const defaultFloaterProps: FloaterProps = {
   options: {
     preventOverflow: {
       boundariesElement: 'scrollParent',
@@ -43,7 +43,7 @@ export const defaultStep = {
   showSkipButton: false,
   spotlightClicks: false,
   spotlightPadding: 10,
-};
+} satisfies Omit<Step, 'content' | 'target'>;
 
 export const defaultProps = {
   continuous: false,
@@ -64,4 +64,4 @@ export const defaultProps = {
   spotlightClicks: false,
   spotlightPadding: 10,
   steps: [],
-};
+} satisfies Props;

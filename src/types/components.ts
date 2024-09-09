@@ -178,7 +178,7 @@ export type Props = Simplify<
      * Run/stop the tour.
      * @default true
      */
-    run: boolean;
+    run?: boolean;
     /**
      * The duration for scroll to element.
      * @default 300
@@ -378,3 +378,5 @@ export type TooltipRenderProps = Simplify<
     };
   }
 >;
+
+export type { Props as FloaterProps } from 'react-floater';
