@@ -19,7 +19,7 @@ export function getClientRect(element: HTMLElement | null) {
 /**
  * Helper function to get the browser-normalized "document height"
  */
-export function getDocumentHeight(median = true): number {
+export function getDocumentHeight(median = false): number {
   const { body, documentElement } = document;
 
   if (!body || !documentElement) {
