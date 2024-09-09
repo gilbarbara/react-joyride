@@ -19,11 +19,41 @@ export type NarrowPlainObject<T extends Record<string, any>> = Exclude<
 >;
 
 export interface Locale {
+  /**
+   * Label for the back button.
+   * @default 'Back'
+   */
   back?: ReactNode;
+  /**
+   * Label for the close button.
+   * @default 'Close'
+   */
   close?: ReactNode;
+  /**
+   * Label for the last button.
+   * @default 'Last'
+   */
   last?: ReactNode;
+  /**
+   * Label for the next button.
+   * @default 'Next'
+   */
   next?: ReactNode;
+  /**
+   * Label for the next button with `showProgress.
+   * Use the `{step}` and `{steps}` placeholders to display the current step and the total steps.
+   * @default 'Next (Step {step} of {steps})'
+   */
+  nextLabelWithProgress?: ReactNode;
+  /**
+   * Label for the open button.
+   * @default 'Open the dialog'
+   */
   open?: ReactNode;
+  /**
+   * Label for the skip button.
+   * @default 'Skip'
+   */
   skip?: ReactNode;
 }
 

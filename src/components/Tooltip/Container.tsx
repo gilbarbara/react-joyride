@@ -14,7 +14,6 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
     index,
     isLastStep,
     primaryProps,
-    size,
     skipProps,
     step,
     tooltipProps,
@@ -25,7 +24,6 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
     hideCloseButton,
     hideFooter,
     locale,
-    showProgress,
     showSkipButton,
     styles,
     title,
@@ -37,14 +35,6 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
 
   if (continuous) {
     output.primary = isLastStep ? last : next;
-
-    if (showProgress) {
-      output.primary = (
-        <span>
-          {output.primary} ({index + 1}/{size})
-        </span>
-      );
-    }
   }
 
   if (output.primary) {

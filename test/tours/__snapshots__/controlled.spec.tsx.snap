@@ -89,11 +89,11 @@ exports[`Joyride > Controlled > should have rendered the STEP 2 Tooltip 1`] = `
               Back
             </button>
             <button
-              aria-label="Next"
+              aria-label="Next (Step 2 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (2/6)"
               type="button"
             >
               Next
@@ -230,11 +230,11 @@ exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip 1`] = `
               Back
             </button>
             <button
-              aria-label="Next"
+              aria-label="Next (Step 3 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (3/6)"
               type="button"
             >
               Next
@@ -371,11 +371,11 @@ exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip AGAIN 1`
               Back
             </button>
             <button
-              aria-label="Next"
+              aria-label="Next (Step 3 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (3/6)"
               type="button"
             >
               Next
@@ -514,11 +514,11 @@ exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip 1`] = `
               Back
             </button>
             <button
-              aria-label="Next"
+              aria-label="Next (Step 4 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (4/6)"
               type="button"
             >
               Next
@@ -657,11 +657,11 @@ exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip AGAIN 1`
               Back
             </button>
             <button
-              aria-label="Next"
+              aria-label="Next (Step 4 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (4/6)"
               type="button"
             >
               Next
@@ -814,11 +814,11 @@ exports[`Joyride > Controlled > should have rendered the STEP 5 Tooltip 1`] = `
               Back
             </button>
             <button
-              aria-label="Next"
+              aria-label="Next (Step 5 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (5/6)"
               type="button"
             >
               Next
@@ -1158,11 +1158,11 @@ exports[`Joyride > Controlled > should start the tour 2`] = `
             style="display: flex; gap: 8px;"
           >
             <button
-              aria-label="Next"
+              aria-label="Next (Step 1 of 6)"
               data-action="primary"
               data-test-id="button-primary"
               role="button"
-              title="Next"
+              title="Next (1/6)"
               type="button"
             >
               Next
