@@ -100,7 +100,12 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
 
   hideSpotlight = () => {
     const { continuous, disableOverlay, lifecycle } = this.props;
-    const hiddenLifecycles = [LIFECYCLE.BEACON, LIFECYCLE.COMPLETE, LIFECYCLE.ERROR] as Lifecycle[];
+    const hiddenLifecycles = [
+      LIFECYCLE.INIT,
+      LIFECYCLE.BEACON,
+      LIFECYCLE.COMPLETE,
+      LIFECYCLE.ERROR,
+    ] as Lifecycle[];
 
     return (
       disableOverlay ||
