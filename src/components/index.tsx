@@ -86,7 +86,7 @@ class Joyride extends React.Component<Props, State> {
       return;
     }
 
-    const { action, controlled, index, lifecycle, status } = this.state;
+    const { action, controlled, index, status } = this.state;
     const { debug, run, stepIndex, steps } = this.props;
     const { stepIndex: previousStepIndex, steps: previousSteps } = previousProps;
     const { reset, setSteps, start, stop, update } = this.store;
@@ -200,10 +200,6 @@ class Joyride extends React.Component<Props, State> {
     }
 
     this.scrollToStep(previousState);
-
-    if (step.placement === 'center' && status === STATUS.RUNNING && lifecycle === LIFECYCLE.INIT) {
-      this.store.update({ lifecycle: LIFECYCLE.READY });
-    }
   }
 
   componentWillUnmount() {
