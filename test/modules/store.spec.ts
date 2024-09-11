@@ -234,7 +234,7 @@ describe('store', () => {
 
   describe('with popper', () => {
     const store = createStore();
-    const popperData = { placement: 'top' } as const;
+    const popperData = { state: { placement: 'top' } } as const;
 
     it('should set/get both poppers', () => {
       store.setPopper('beacon', fromPartial(popperData));

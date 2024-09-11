@@ -81,7 +81,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
             <div className="list">
               <div>Installation</div>
               <div>Documentation</div>
-              <div>Support </div>
+              <div>Support</div>
             </div>
           </div>
         </div>

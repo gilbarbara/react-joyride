@@ -39,8 +39,6 @@ describe('Joyride > Standard', () => {
   it('should start the tour', async () => {
     fireEvent.click(screen.getByTestId('start'));
 
-    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot();
-
     expect(mockCallback).toHaveBeenNthCalledWith(
       1,
       getCallbackResponse({
@@ -52,7 +50,9 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 1 Beacon', async () => {
+  it('should render STEP 1 Beacon', async () => {
+    expect(screen.getById('react-joyride-step-0-wrapper')).toMatchSnapshot();
+
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(3);
     });
@@ -81,6 +81,9 @@ describe('Joyride > Standard', () => {
   it('should render STEP 1 Tooltip', () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
 
+    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
+
     expect(mockCallback).toHaveBeenNthCalledWith(
       4,
       getCallbackResponse({
@@ -92,7 +95,7 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should handle clicking the STEP 1 Primary button', () => {
+  it('should handle clicking STEP 1 Primary button', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -106,7 +109,10 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 2 Tooltip', async () => {
+  it('should render STEP 2 Tooltip', async () => {
+    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-1-wrapper')).toHaveStyle('visibility: hidden');
+
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(7);
     });
@@ -132,7 +138,7 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should close the STEP 2 Tooltip with keyboard', async () => {
+  it('should close STEP 2 Tooltip with keyboard', async () => {
     act(() => {
       document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape' }));
     });
@@ -149,7 +155,9 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 3 Beacon', async () => {
+  it('should render STEP 3 Beacon', async () => {
+    expect(screen.getById('react-joyride-step-2-wrapper')).toMatchSnapshot();
+
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(10);
     });
@@ -175,8 +183,11 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 3 Tooltip', () => {
+  it('should render STEP 3 Tooltip', () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
+
+    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-2-wrapper')).toHaveStyle('visibility: hidden');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       11,
@@ -189,7 +200,7 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should handle clicking the STEP 3 Back button', () => {
+  it('should handle clicking STEP 3 Back button', () => {
     fireEvent.click(screen.getByTestId('button-back'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -203,7 +214,10 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 2 Tooltip AGAIN', async () => {
+  it('should render STEP 2 Tooltip AGAIN', async () => {
+    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-1-wrapper')).toHaveStyle('visibility: hidden');
+
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(14);
     });
@@ -229,7 +243,7 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should handle clicking the STEP 2 Overlay', () => {
+  it('should handle clicking STEP 2 Overlay', () => {
     fireEvent.click(screen.getByTestId('overlay'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -244,7 +258,9 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 3 Beacon AGAIN', async () => {
+  it('should render STEP 3 Beacon AGAIN', async () => {
+    expect(screen.getById('react-joyride-step-2-wrapper')).toMatchSnapshot();
+
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(17);
     });
@@ -270,8 +286,11 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render the STEP 3 Tooltip AGAIN', async () => {
+  it('should render STEP 3 Tooltip AGAIN', async () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
+
+    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-2-wrapper')).toHaveStyle('visibility: hidden');
 
     await waitFor(() => {
       expect(mockCallback).toHaveBeenNthCalledWith(
@@ -286,7 +305,7 @@ describe('Joyride > Standard', () => {
     });
   });
 
-  it('should handle clicking the STEP 3 Primary button', () => {
+  it('should handle clicking STEP 3 Primary button', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -314,7 +333,10 @@ describe('Joyride > Standard', () => {
     });
   });
 
-  it('should render the STEP 4 Tooltip', async () => {
+  it('should render STEP 5 Tooltip', async () => {
+    expect(screen.getById('react-joyride-step-4')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-4-wrapper')).toHaveStyle('visibility: hidden');
+
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(22);
     });
@@ -340,7 +362,7 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should handle clicking the STEP 4 Primary button', async () => {
+  it('should handle clicking STEP 5 Primary button', async () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     await waitFor(() => {
@@ -357,7 +379,13 @@ describe('Joyride > Standard', () => {
     });
   });
 
-  it('should render the STEP 5 Tooltip', () => {
+  it('should render STEP 6 Tooltip', async () => {
+    await waitFor(() => {
+      expect(screen.getById('react-joyride-step-5')).toBeInTheDocument();
+    });
+    expect(screen.getById('react-joyride-step-5')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-5-wrapper')).toHaveStyle('visibility: hidden');
+
     expect(mockCallback).toHaveBeenNthCalledWith(
       24,
       getCallbackResponse({
@@ -379,7 +407,7 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should handle clicking the STEP 5 Primary button', () => {
+  it('should handle clicking STEP 6 Primary button', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -428,7 +456,7 @@ describe('Joyride > Standard', () => {
       }),
     );
 
-    expect(mockGetPopper).toHaveBeenCalledTimes(13);
+    expect(mockGetPopper).toHaveBeenCalledTimes(12);
   });
 
   it('should restart the tour', async () => {

@@ -145,7 +145,7 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // Third step
-  await expect.poll(getScrollTop).toBeAround(2207);
+  await expect.poll(getScrollTop).toBeAround(2335);
 
   await expect(page).toHaveScreenshot('step3-tooltip.png');
 
