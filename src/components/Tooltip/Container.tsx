@@ -7,35 +7,13 @@ import { TooltipRenderProps } from '~/types';
 import CloseButton from './CloseButton';
 
 function JoyrideTooltipContainer(props: TooltipRenderProps) {
-  const {
-    backProps,
-    closeProps,
-    continuous,
-    index,
-    isLastStep,
-    primaryProps,
-    skipProps,
-    step,
-    tooltipProps,
-  } = props;
-  const {
-    content,
-    hideBackButton,
-    hideCloseButton,
-    hideFooter,
-    locale,
-    showSkipButton,
-    styles,
-    title,
-  } = step;
-  const { back, close, last, next, skip } = locale;
+  const { backProps, closeProps, index, isLastStep, primaryProps, skipProps, step, tooltipProps } =
+    props;
+  const { content, hideBackButton, hideCloseButton, hideFooter, showSkipButton, styles, title } =
+    step;
   const output: Record<string, React.ReactNode> = {
-    primary: close,
+    primary: primaryProps.title,
   };
-
-  if (continuous) {
-    output.primary = isLastStep ? last : next;
-  }
 
   if (output.primary) {
     output.primary = (
@@ -59,7 +37,7 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
         type="button"
         {...skipProps}
       >
-        {skip}
+        {skipProps.title}
       </button>
     );
   }
@@ -67,7 +45,7 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
   if (!hideBackButton && index > 0) {
     output.back = (
       <button data-test-id="button-back" style={styles.buttonBack} type="button" {...backProps}>
-        {back}
+        {backProps.title}
       </button>
     );
   }

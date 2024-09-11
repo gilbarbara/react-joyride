@@ -3,7 +3,6 @@ import { TooltipRenderProps } from '~/types';
 function TooltipComponent({
   backProps,
   closeProps,
-  continuous,
   index,
   isLastStep,
   primaryProps,
@@ -77,7 +76,7 @@ function TooltipComponent({
               style={{ backgroundColor: 'transparent', color: '#555', padding: 0 }}
               type="button"
             >
-              Skip
+              {skipProps.title}
             </button>
           </div>
         )}
@@ -89,11 +88,11 @@ function TooltipComponent({
         >
           {index > 0 && (
             <button {...backProps} data-test-id="button-back" type="button">
-              Back
+              {backProps.title}
             </button>
           )}
           <button {...primaryProps} data-test-id="button-primary" type="button">
-            {continuous ? 'Next' : 'Close'}
+            {primaryProps.title}
           </button>
         </div>
       </footer>

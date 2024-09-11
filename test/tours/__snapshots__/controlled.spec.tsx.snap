@@ -96,7 +96,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 2 Tooltip 1`] = `
               title="Next (2/6)"
               type="button"
             >
-              Next
+              Next (2/6)
             </button>
           </div>
         </footer>
@@ -237,7 +237,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip 1`] = `
               title="Next (3/6)"
               type="button"
             >
-              Next
+              Next (3/6)
             </button>
           </div>
         </footer>
@@ -378,7 +378,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip AGAIN 1`
               title="Next (3/6)"
               type="button"
             >
-              Next
+              Next (3/6)
             </button>
           </div>
         </footer>
@@ -521,7 +521,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip 1`] = `
               title="Next (4/6)"
               type="button"
             >
-              Next
+              Next (4/6)
             </button>
           </div>
         </footer>
@@ -664,7 +664,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip AGAIN 1`
               title="Next (4/6)"
               type="button"
             >
-              Next
+              Next (4/6)
             </button>
           </div>
         </footer>
@@ -821,7 +821,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 5 Tooltip 1`] = `
               title="Next (5/6)"
               type="button"
             >
-              Next
+              Next (5/6)
             </button>
           </div>
         </footer>
@@ -942,7 +942,7 @@ exports[`Joyride > Controlled > should have rendered the STEP 6 Tooltip 1`] = `
               title="Last"
               type="button"
             >
-              Next
+              Last
             </button>
           </div>
         </footer>
@@ -1165,7 +1165,7 @@ exports[`Joyride > Controlled > should start the tour 2`] = `
               title="Next (1/6)"
               type="button"
             >
-              Next
+              Next (1/6)
             </button>
           </div>
         </footer>
