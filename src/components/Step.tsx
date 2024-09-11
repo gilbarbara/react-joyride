@@ -181,7 +181,11 @@ export default class JoyrideStep extends React.Component<StepProps> {
       store.setPopper('tooltip', popper);
     }
 
-    if (store.getPopper('beacon') && store.getPopper('tooltip') && lifecycle === LIFECYCLE.INIT) {
+    if (
+      store.getPopper('beacon') &&
+      (store.getPopper('tooltip') || step.placement === 'center') &&
+      lifecycle === LIFECYCLE.INIT
+    ) {
       store.update({
         action,
         lifecycle: LIFECYCLE.READY,
