@@ -13,7 +13,7 @@ The step is a plain object that only requires two properties to be valid: `targe
 
 {% hint style="info" %} ▶︎ indicates the default value if there's one {% endhint %}
 
-**content** `React.Node`  
+**content** `ReactNode`  
 The tooltip's body.
 
 **data** `any`  
@@ -53,10 +53,10 @@ The beacon's placement can be top, bottom, left, or right. If nothing is passed,
 **styles** `Partial<Styles>`  
 Override the [styling](styling.md) of the step's Tooltip
 
-**target** `HTMLElement\|string` - **required**  
+**target** `HTMLElement|string` - **required**  
 The target for the step. It can be a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) or an HTMLElement directly \(but using refs created in the same render would require an additional render to be set\).
 
-**title** `React.Node`  
+**title** `ReactNode`  
 The tooltip's title.
 
 ## Common Props Inheritance

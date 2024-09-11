@@ -169,7 +169,7 @@ export type Props = Simplify<
     /**
      * Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`
      */
-    getHelpers?: (helpers: StoreHelpers) => any;
+    getHelpers?: (helpers: StoreHelpers) => void;
     /**
      * A nonce value for inline styles (Content Security Policy - CSP)
      */
