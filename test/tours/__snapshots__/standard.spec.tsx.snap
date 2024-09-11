@@ -1,244 +1,40 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Joyride > Standard > should render the content 1`] = `
-<div
-  data-test-id="demo"
+exports[`Joyride > Standard > should render STEP 1 Beacon 1`] = `
+<span
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-0-wrapper"
+  style="cursor: help; z-index: 200; margin: 0px; position: absolute; left: 0px; top: 0px; transform: translate(0px, -18px);"
 >
-  <div
-    class="react-joyride"
-  />
-  <main>
-    <div
-      class="hero"
-    >
-      <div
-        class="container"
-      >
-        <div
-          class="hero__content"
-        >
-          <h1>
-            <span>
-              Create walkthroughs and guided tours for your ReactJS apps.
-            </span>
-          </h1>
-          <button
-            data-test-id="start"
-            type="button"
-          >
-            Let's Go!
-          </button>
-        </div>
-      </div>
-    </div>
-    <div
-      class="demo__section projects"
-    >
-      <div
-        class="container"
-      >
-        <h2>
-          <span>
-            Projects
-          </span>
-        </h2>
-        <div
-          class="list"
-        >
-          <div>
-            Installation
-          </div>
-          <div>
-            Documentation
-          </div>
-          <div>
-            Support 
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="demo__section mission"
-    >
-      <div
-        class="container"
-      >
-        <h2>
-          <span>
-            Mission
-          </span>
-        </h2>
-        <button
-          data-test-id="mission-button"
-          type="button"
-        >
-          Click me
-        </button>
-      </div>
-    </div>
-    <div
-      class="demo__section about"
-    >
-      <div
-        class="container"
-      >
-        <h2>
-          <span>
-            About
-          </span>
-        </h2>
-      </div>
-    </div>
-  </main>
-  <footer
-    class="demo__footer"
+  <button
+    aria-label="Open the dialog"
+    class="react-joyride__beacon"
+    data-test-id="button-beacon"
+    style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+    title="Open the dialog"
+    type="button"
   >
-    <div
-      class="container"
-    >
-      <button
-        type="button"
-      >
-        Joyride
-      </button>
-    </div>
-  </footer>
-</div>
+    <span
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+    />
+    <span
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid #f04; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    />
+  </button>
+</span>
 `;
 
-exports[`Joyride > Standard > should restart the tour > beacon 1`] = `
-<button
-  aria-label="Open the dialog"
-  class="react-joyride__beacon"
-  data-test-id="button-beacon"
-  style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
-  title="Open the dialog"
-  type="button"
->
-  <span
-    style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
-  />
-  <span
-    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid #f04; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
-  />
-</button>
-`;
-
-exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
-<div
-  class="__floater"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-  x-placement="bottom"
->
-  <div
-    class="__floater__body"
-  >
-    <div
-      aria-label="The first step of many! Keep walking!"
-      aria-modal="true"
-      class="react-joyride__tooltip"
-      role="alertdialog"
-      style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
-    >
-      <div
-        style="line-height: 1.4; text-align: center;"
-      >
-        <div
-          style="padding: 20px 10px;"
-        >
-          The first step of many! Keep walking!
-        </div>
-      </div>
-      <div
-        style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
-      >
-        <div
-          style="flex: 1;"
-        >
-          <button
-            aria-label="Skip"
-            aria-live="off"
-            data-action="skip"
-            data-test-id="button-skip"
-            role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
-            title="Skip"
-            type="button"
-          >
-            Skip
-          </button>
-        </div>
-        <button
-          aria-label="Next"
-          data-action="primary"
-          data-test-id="button-primary"
-          role="button"
-          style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
-          title="Next"
-          type="button"
-        >
-          Next
-        </button>
-      </div>
-      <button
-        aria-label="Close"
-        data-action="close"
-        data-test-id="button-close"
-        role="button"
-        style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
-        title="Close"
-        type="button"
-      >
-        <svg
-          height="14px"
-          preserveAspectRatio="xMidYMid"
-          version="1.1"
-          viewBox="0 0 18 18"
-          width="14px"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g>
-            <path
-              d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
-              fill="#333"
-            />
-          </g>
-        </svg>
-      </button>
-    </div>
-    <div
-      class="__floater__arrow"
-      style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
-    >
-      <span
-        style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
-      >
-        <svg
-          height="16"
-          version="1.1"
-          width="32"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polygon
-            fill="#fff"
-            points="32,16 16,0 0,16"
-          />
-        </svg>
-      </span>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Joyride > Standard > should start the tour 1`] = `
+exports[`Joyride > Standard > should render STEP 1 Tooltip 1`] = `
 <div
   id="react-joyride-step-0"
-  style="z-index: 200;"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px;"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: absolute; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 16px 0px 0px;"
-    x-placement="bottom"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: relative; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 16px 0px 0px;"
   >
     <div
       class="__floater__body"
@@ -316,47 +112,1039 @@ exports[`Joyride > Standard > should start the tour 1`] = `
           </svg>
         </button>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+        style="display: inline-flex; position: absolute;"
       >
-        <span
-          style="display: inline-flex; position: absolute; top: 0px; margin-left: 8px; margin-right: 8px;"
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Standard > should render STEP 2 Tooltip 1`] = `
+<div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-1"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-label="Our Mission"
+        aria-modal="true"
+        class="react-joyride__tooltip"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+      >
+        <div
+          style="line-height: 1.4; text-align: center;"
+        >
+          <h1
+            aria-label="Our Mission"
+            style="font-size: 18px; margin: 0px;"
+          >
+            Our Mission
+          </h1>
+          <div
+            style="padding: 20px 10px;"
+          >
+            Can be advanced by clicking an element through the overlay hole.
+          </div>
+        </div>
+        <div
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+        >
+          <div
+            style="flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              aria-live="off"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <button
+            aria-label="Back"
+            data-action="back"
+            data-test-id="button-back"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            title="Back"
+            type="button"
+          >
+            Back
+          </button>
+          <button
+            aria-label="Next"
+            data-action="primary"
+            data-test-id="button-primary"
+            role="button"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            title="Next"
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
         >
           <svg
-            height="16"
+            height="14px"
+            preserveAspectRatio="xMidYMid"
             version="1.1"
-            width="32"
+            viewBox="0 0 18 18"
+            width="14px"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <polygon
-              fill="#fff"
-              points="32,16 16,0 0,16"
-            />
+            <g>
+              <path
+                d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+                fill="#333"
+              />
+            </g>
           </svg>
-        </span>
+        </button>
+      </div>
+      <span
+        class="__floater__arrow"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
+      >
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN 1`] = `
+<div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-1"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-label="Our Mission"
+        aria-modal="true"
+        class="react-joyride__tooltip"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+      >
+        <div
+          style="line-height: 1.4; text-align: center;"
+        >
+          <h1
+            aria-label="Our Mission"
+            style="font-size: 18px; margin: 0px;"
+          >
+            Our Mission
+          </h1>
+          <div
+            style="padding: 20px 10px;"
+          >
+            Can be advanced by clicking an element through the overlay hole.
+          </div>
+        </div>
+        <div
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+        >
+          <div
+            style="flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              aria-live="off"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <button
+            aria-label="Back"
+            data-action="back"
+            data-test-id="button-back"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            title="Back"
+            type="button"
+          >
+            Back
+          </button>
+          <button
+            aria-label="Next"
+            data-action="primary"
+            data-test-id="button-primary"
+            role="button"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            title="Next"
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="14px"
+            preserveAspectRatio="xMidYMid"
+            version="1.1"
+            viewBox="0 0 18 18"
+            width="14px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <path
+                d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+                fill="#333"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <span
+        class="__floater__arrow"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
+      >
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Standard > should render STEP 3 Beacon 1`] = `
+<span
+  data-popper-escaped=""
+  data-popper-placement="left"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-2-wrapper"
+  style="cursor: help; z-index: 200; margin: 0px; position: absolute; top: 0px; right: 0px; transform: translate(18px, 0px);"
+>
+  <button
+    aria-label="Open the dialog"
+    class="react-joyride__beacon"
+    data-test-id="button-beacon"
+    style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+    title="Open the dialog"
+    type="button"
+  >
+    <span
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+    />
+    <span
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid #f04; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    />
+  </button>
+</span>
+`;
+
+exports[`Joyride > Standard > should render STEP 3 Beacon AGAIN 1`] = `
+<span
+  data-popper-escaped=""
+  data-popper-placement="left"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-2-wrapper"
+  style="cursor: help; z-index: 200; margin: 0px; position: absolute; top: 0px; right: 0px; transform: translate(18px, 0px);"
+>
+  <button
+    aria-label="Open the dialog"
+    class="react-joyride__beacon"
+    data-test-id="button-beacon"
+    style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+    title="Open the dialog"
+    type="button"
+  >
+    <span
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+    />
+    <span
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid #f04; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    />
+  </button>
+</span>
+`;
+
+exports[`Joyride > Standard > should render STEP 3 Tooltip 1`] = `
+<div
+  id="react-joyride-step-2"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px;"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: relative; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 0px 16px 0px 0px;"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-label="We are the people"
+        aria-modal="true"
+        class="react-joyride__tooltip"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+      >
+        <div
+          style="line-height: 1.4; text-align: center;"
+        >
+          <div
+            style="padding: 20px 10px;"
+          >
+            <div>
+              <h3>
+                We are the people
+              </h3>
+              <svg
+                height="96px"
+                preserveAspectRatio="xMidYMid"
+                version="1.1"
+                viewBox="0 0 96 96"
+                width="96px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g>
+                  <path
+                    d="M83.2922435,72.3864207 C69.5357835,69.2103145 56.7313553,66.4262214 62.9315626,54.7138297 C81.812194,19.0646376 67.93573,0 48.0030634,0 C27.6743835,0 14.1459311,19.796662 33.0745641,54.7138297 C39.4627778,66.4942237 26.1743334,69.2783168 12.7138832,72.3864207 C0.421472164,75.2265157 -0.0385432192,81.3307198 0.0014581185,92.0030767 L0.0174586536,96.0032105 L95.9806678,96.0032105 L95.9966684,92.1270809 C96.04467,81.3747213 95.628656,75.2385161 83.2922435,72.3864207 Z"
+                    fill="#000000"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+        >
+          <div
+            style="flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              aria-live="off"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <button
+            aria-label="Back"
+            data-action="back"
+            data-test-id="button-back"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            title="Back"
+            type="button"
+          >
+            Back
+          </button>
+          <button
+            aria-label="Next"
+            data-action="primary"
+            data-test-id="button-primary"
+            role="button"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            title="Next"
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="14px"
+            preserveAspectRatio="xMidYMid"
+            version="1.1"
+            viewBox="0 0 18 18"
+            width="14px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <path
+                d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+                fill="#333"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <span
+        class="__floater__arrow"
+        style="display: inline-flex; position: absolute;"
+      >
+        <svg
+          height="32"
+          version="1.1"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="0,0 16,16 0,32"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN 1`] = `
+<div
+  id="react-joyride-step-2"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px;"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: relative; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 0px 16px 0px 0px;"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-label="We are the people"
+        aria-modal="true"
+        class="react-joyride__tooltip"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+      >
+        <div
+          style="line-height: 1.4; text-align: center;"
+        >
+          <div
+            style="padding: 20px 10px;"
+          >
+            <div>
+              <h3>
+                We are the people
+              </h3>
+              <svg
+                height="96px"
+                preserveAspectRatio="xMidYMid"
+                version="1.1"
+                viewBox="0 0 96 96"
+                width="96px"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g>
+                  <path
+                    d="M83.2922435,72.3864207 C69.5357835,69.2103145 56.7313553,66.4262214 62.9315626,54.7138297 C81.812194,19.0646376 67.93573,0 48.0030634,0 C27.6743835,0 14.1459311,19.796662 33.0745641,54.7138297 C39.4627778,66.4942237 26.1743334,69.2783168 12.7138832,72.3864207 C0.421472164,75.2265157 -0.0385432192,81.3307198 0.0014581185,92.0030767 L0.0174586536,96.0032105 L95.9806678,96.0032105 L95.9966684,92.1270809 C96.04467,81.3747213 95.628656,75.2385161 83.2922435,72.3864207 Z"
+                    fill="#000000"
+                  />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+        >
+          <div
+            style="flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              aria-live="off"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <button
+            aria-label="Back"
+            data-action="back"
+            data-test-id="button-back"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            title="Back"
+            type="button"
+          >
+            Back
+          </button>
+          <button
+            aria-label="Next"
+            data-action="primary"
+            data-test-id="button-primary"
+            role="button"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            title="Next"
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="14px"
+            preserveAspectRatio="xMidYMid"
+            version="1.1"
+            viewBox="0 0 18 18"
+            width="14px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <path
+                d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+                fill="#333"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <span
+        class="__floater__arrow"
+        style="display: inline-flex; position: absolute;"
+      >
+        <svg
+          height="32"
+          version="1.1"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="0,0 16,16 0,32"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Standard > should render STEP 5 Tooltip 1`] = `
+<div
+  data-popper-escaped=""
+  data-popper-placement="top"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-4"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; bottom: 0px; transform: translate(0px, -20px);"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 16px;"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-label="Text only steps — Because sometimes you don't really need a proper heading"
+        aria-modal="true"
+        class="react-joyride__tooltip"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+      >
+        <div
+          style="line-height: 1.4; text-align: center;"
+        >
+          <div
+            style="padding: 20px 10px;"
+          >
+            Text only steps — Because sometimes you don't really need a proper heading
+          </div>
+        </div>
+        <div
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+        >
+          <div
+            style="flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              aria-live="off"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <button
+            aria-label="Back"
+            data-action="back"
+            data-test-id="button-back"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            title="Back"
+            type="button"
+          >
+            Back
+          </button>
+          <button
+            aria-label="Next"
+            data-action="primary"
+            data-test-id="button-primary"
+            role="button"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            title="Next"
+            type="button"
+          >
+            Next
+          </button>
+        </div>
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="14px"
+            preserveAspectRatio="xMidYMid"
+            version="1.1"
+            viewBox="0 0 18 18"
+            width="14px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <path
+                d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+                fill="#333"
+              />
+            </g>
+          </svg>
+        </button>
+      </div>
+      <span
+        class="__floater__arrow"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); bottom: 0px;"
+      >
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="0,0 16,16 32,0"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Standard > should render STEP 6 Tooltip 1`] = `
+<div
+  id="react-joyride-step-5"
+  style="z-index: 200;"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: fixed; transition: opacity 0.3s; visibility: hidden; z-index: 200; left: 50%; top: 50%; transform: translate(-50%, -50%);"
+  >
+    <div
+      class="__floater__body"
+    >
+      <div
+        aria-label="That's it folks!"
+        aria-modal="true"
+        class="react-joyride__tooltip"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+      >
+        <div
+          style="line-height: 1.4; text-align: center;"
+        >
+          <div
+            style="padding: 20px 10px; text-align: center;"
+          >
+            That's it folks!
+          </div>
+        </div>
+        <div
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+        >
+          <div
+            style="flex: 1;"
+          />
+          <button
+            aria-label="Back"
+            data-action="back"
+            data-test-id="button-back"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            title="Back"
+            type="button"
+          >
+            Back
+          </button>
+          <button
+            aria-label="Last"
+            data-action="primary"
+            data-test-id="button-primary"
+            role="button"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            title="Last"
+            type="button"
+          >
+            Last
+          </button>
+        </div>
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="14px"
+            preserveAspectRatio="xMidYMid"
+            version="1.1"
+            viewBox="0 0 18 18"
+            width="14px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <path
+                d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+                fill="#333"
+              />
+            </g>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; left: -1000px; position: absolute; top: -1000px; visibility: hidden;"
-    x-placement="bottom"
-  >
-    <button
-      aria-label="Open the dialog"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
-      title="Open the dialog"
-      type="button"
+</div>
+`;
+
+exports[`Joyride > Standard > should render the content 1`] = `
+<div
+  data-test-id="demo"
+>
+  <div
+    class="react-joyride"
+  />
+  <main>
+    <div
+      class="hero"
     >
-      <span
-        style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
-      />
-      <span
-        style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid #f04; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
-      />
-    </button>
-  </span>
+      <div
+        class="container"
+      >
+        <div
+          class="hero__content"
+        >
+          <h1>
+            <span>
+              Create walkthroughs and guided tours for your ReactJS apps.
+            </span>
+          </h1>
+          <button
+            data-test-id="start"
+            type="button"
+          >
+            Let's Go!
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="demo__section projects"
+    >
+      <div
+        class="container"
+      >
+        <h2>
+          <span>
+            Projects
+          </span>
+        </h2>
+        <div
+          class="list"
+        >
+          <div>
+            Installation
+          </div>
+          <div>
+            Documentation
+          </div>
+          <div>
+            Support
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="demo__section mission"
+    >
+      <div
+        class="container"
+      >
+        <h2>
+          <span>
+            Mission
+          </span>
+        </h2>
+        <button
+          data-test-id="mission-button"
+          type="button"
+        >
+          Click me
+        </button>
+      </div>
+    </div>
+    <div
+      class="demo__section about"
+    >
+      <div
+        class="container"
+      >
+        <h2>
+          <span>
+            About
+          </span>
+        </h2>
+      </div>
+    </div>
+  </main>
+  <footer
+    class="demo__footer"
+  >
+    <div
+      class="container"
+    >
+      <button
+        type="button"
+      >
+        Joyride
+      </button>
+    </div>
+  </footer>
+</div>
+`;
+
+exports[`Joyride > Standard > should restart the tour > beacon 1`] = `
+<button
+  aria-label="Open the dialog"
+  class="react-joyride__beacon"
+  data-test-id="button-beacon"
+  style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+  title="Open the dialog"
+  type="button"
+>
+  <span
+    style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+  />
+  <span
+    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid #f04; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+  />
+</button>
+`;
+
+exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
+<div
+  class="__floater"
+  role="tooltip"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
+>
+  <div
+    class="__floater__body"
+  >
+    <div
+      aria-label="The first step of many! Keep walking!"
+      aria-modal="true"
+      class="react-joyride__tooltip"
+      role="alertdialog"
+      style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+    >
+      <div
+        style="line-height: 1.4; text-align: center;"
+      >
+        <div
+          style="padding: 20px 10px;"
+        >
+          The first step of many! Keep walking!
+        </div>
+      </div>
+      <div
+        style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+      >
+        <div
+          style="flex: 1;"
+        >
+          <button
+            aria-label="Skip"
+            aria-live="off"
+            data-action="skip"
+            data-test-id="button-skip"
+            role="button"
+            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+            title="Skip"
+            type="button"
+          >
+            Skip
+          </button>
+        </div>
+        <button
+          aria-label="Next"
+          data-action="primary"
+          data-test-id="button-primary"
+          role="button"
+          style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+          title="Next"
+          type="button"
+        >
+          Next
+        </button>
+      </div>
+      <button
+        aria-label="Close"
+        data-action="close"
+        data-test-id="button-close"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+        title="Close"
+        type="button"
+      >
+        <svg
+          height="14px"
+          preserveAspectRatio="xMidYMid"
+          version="1.1"
+          viewBox="0 0 18 18"
+          width="14px"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g>
+            <path
+              d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+              fill="#333"
+            />
+          </g>
+        </svg>
+      </button>
+    </div>
+    <span
+      class="__floater__arrow"
+      style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
+    >
+      <svg
+        height="16"
+        version="1.1"
+        width="32"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <polygon
+          fill="#fff"
+          points="32,16 16,0 0,16"
+        />
+      </svg>
+    </span>
+  </div>
 </div>
 `;

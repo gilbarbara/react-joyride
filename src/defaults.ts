@@ -2,10 +2,12 @@ import { noop } from '~/modules/helpers';
 
 import { FloaterProps, Locale, Props, Step } from '~/types';
 
-export const defaultFloaterProps: FloaterProps = {
-  options: {
+export const defaultFloaterProps: Omit<FloaterProps, 'component'> = {
+  modifiers: {
     preventOverflow: {
-      boundariesElement: 'scrollParent',
+      options: {
+        rootBoundary: 'viewport',
+      },
     },
   },
   wrapperOptions: {

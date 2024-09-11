@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Floater, { Props as FloaterProps, RenderProps } from 'react-floater';
+import Floater, { CustomComponentProps, Props as FloaterProps } from 'react-floater';
 import is from 'is-lite';
 import treeChanges from 'tree-changes';
 
@@ -70,13 +70,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
       });
     }
 
-    if (
-      step.placement === 'center' &&
-      status === STATUS.RUNNING &&
-      changed('index') &&
-      action !== ACTIONS.START &&
-      lifecycle === LIFECYCLE.INIT
-    ) {
+    if (step.placement === 'center' && status === STATUS.RUNNING && lifecycle === LIFECYCLE.INIT) {
       store.update({ lifecycle: LIFECYCLE.READY });
     }
 
@@ -182,11 +176,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
       store.setPopper('tooltip', popper);
     }
 
-    if (
-      store.getPopper('beacon') &&
-      (store.getPopper('tooltip') || step.placement === 'center') &&
-      lifecycle === LIFECYCLE.INIT
-    ) {
+    if ((store.getPopper('beacon') || store.getPopper('tooltip')) && lifecycle === LIFECYCLE.INIT) {
       store.update({
         action,
         lifecycle: LIFECYCLE.READY,
@@ -204,7 +194,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
     return hideBeacon(step) || lifecycle === LIFECYCLE.TOOLTIP;
   }
 
-  renderTooltip = (renderProps: RenderProps) => {
+  renderTooltip = (renderProps: CustomComponentProps) => {
     const { continuous, helpers, index, size, step } = this.props;
 
     return (
@@ -239,6 +229,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
           id={`react-joyride-step-${index}`}
           open={this.open}
           placement={step.placement}
+          portalElement="#react-joyride-portal"
           target={step.target}
         >
           <Beacon
