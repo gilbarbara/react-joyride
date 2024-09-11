@@ -3,7 +3,7 @@
 The only required prop is `steps` with an array of [steps](step.md).  
 Below is the complete list of possible props and options:
 
-{% hint style="info" %} ▶︎ indicates the default value if there's one. You can check the definition of the type for the props [here](https://github.com/gilbarbara/react-joyride/blob/main/src/types/components.ts) {% endhint %}
+{% hint style="info" %} ▶︎ indicates the default value if there's one. You can check the definition of the type for the props <a href="https://github.com/gilbarbara/react-joyride/blob/main/src/types/components.ts" target="_blank">here</a>.{% endhint %}
 
 **beaconComponent** `ElementType<BeaconRenderProps>`  
 A React component to use instead of the default Beacon. Check [custom components](custom-components.md) for details.
@@ -35,7 +35,7 @@ Disable the fix to handle "unused" overflow parents.
 **floaterProps** `Partial<FloaterProps>`  
 Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater).
 
-**getHelpers** `() => StoreHelpers`  
+**getHelpers** `(helpers: StoreHelpers) => void`  
 Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`.
 
 **hideBackButton** `boolean` ▶︎ **false**  
@@ -44,7 +44,7 @@ Hide the **Back** button.
 **hideCloseButton** `boolean` ▶︎ **false**  
 Hide the **Close** button.
 
-**locale** `Locale` ▶︎ **{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', open: 'Open the dialog', skip: 'Skip' }**  
+**locale** `Locale` ▶︎ **{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', nextLabelWithProgress: 'Next (Step {step} of {steps})', open: 'Open the dialog', skip: 'Skip' }**  
 The strings used in the tooltip.
 
 **nonce** `string`  
@@ -79,7 +79,7 @@ Setting a number here will turn Joyride into `controlled` mode.
 
 You'll have to keep an internal state and update it with the events in the `callback`.
 
-> **Do not use this if you don't need it.**
+> **Do not use it if you don't need it.**
 
 **steps** `Array<Step>` - **required**  
 The tour's steps.  
