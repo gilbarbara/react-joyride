@@ -2,16 +2,14 @@ import { useReducer } from 'react';
 
 import { standardSteps } from './steps';
 
-import Joyride, { LIFECYCLE, STATUS, Status } from '../../src';
-import { CallBackProps, Props, Step } from '../../src/types';
+import Joyride, { CallBackProps, LIFECYCLE, Props, Step } from '../../src';
 
-interface CustomOptionsProps extends Omit<Props, 'run' | 'steps'> {
+interface CustomOptionsProps extends Omit<Props, 'steps'> {
   finishedCallback: () => void;
 }
 
 interface State {
   index: number;
-  run: boolean;
   steps: Array<Step>;
 }
 
@@ -50,30 +48,21 @@ const tourSteps: Array<Step> = [
   },
 ];
 
-export default function CustomOptions(props: Omit<CustomOptionsProps, 'run' | 'steps'>) {
+export default function CustomOptions(props: CustomOptionsProps) {
   const { callback, finishedCallback, ...rest } = props;
-  const [{ run, steps }, setState] = useReducer(
+  const [{ steps }, setState] = useReducer(
     (previousState: State, nextState: Partial<State>) => ({
       ...previousState,
       ...nextState,
     }),
     {
       index: 0,
-      run: false,
       steps: tourSteps,
     },
   );
 
-  const handleClickStart = () => {
-    setState({ run: true });
-  };
-
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { lifecycle, status, step } = data;
-
-    if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
-      setState({ run: false });
-    }
+    const { lifecycle, step } = data;
 
     setState({ index: data.index });
 
@@ -89,7 +78,6 @@ export default function CustomOptions(props: Omit<CustomOptionsProps, 'run' | 's
       <Joyride
         callback={handleJoyrideCallback}
         continuous
-        run={run}
         scrollToFirstStep
         showSkipButton
         steps={steps}
@@ -122,9 +110,6 @@ export default function CustomOptions(props: Omit<CustomOptionsProps, 'run' | 's
               <h1>
                 <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
               </h1>
-              <button data-test-id="start" onClick={handleClickStart} type="button">
-                Let's Go!
-              </button>
             </div>
           </div>
         </div>

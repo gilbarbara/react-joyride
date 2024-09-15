@@ -1,17 +1,28 @@
-import * as React from 'react';
+import { useRef } from 'react';
+import { useMount, useSingleton, useUnmount } from '@gilbarbara/hooks';
 import is from 'is-lite';
 
 import { getReactNodeText } from '~/modules/helpers';
 
 import { BeaconProps } from '~/types';
 
-export default class JoyrideBeacon extends React.Component<BeaconProps> {
-  private beacon: HTMLElement | null = null;
+export default function JoyrideBeacon(props: BeaconProps) {
+  const {
+    beaconComponent,
+    continuous,
+    index,
+    isLastStep,
+    locale,
+    onClickOrHover,
+    shouldFocus,
+    size,
+    step,
+    styles,
+  } = props;
+  const beaconRef = useRef<HTMLElement | null>(null);
 
-  constructor(props: BeaconProps) {
-    super(props);
-
-    if (props.beaconComponent) {
+  useSingleton(() => {
+    if (beaconComponent) {
       return;
     }
 
@@ -55,87 +66,72 @@ export default class JoyrideBeacon extends React.Component<BeaconProps> {
     style.appendChild(document.createTextNode(css));
 
     head.appendChild(style);
-  }
+  });
 
-  componentDidMount() {
-    const { shouldFocus } = this.props;
-
+  useMount(() => {
     if (process.env.NODE_ENV !== 'production') {
-      if (!is.domElement(this.beacon)) {
+      if (!is.domElement(beaconRef.current)) {
         console.warn('beacon is not a valid DOM element'); // eslint-disable-line no-console
       }
     }
 
     setTimeout(() => {
-      if (is.domElement(this.beacon) && shouldFocus) {
-        this.beacon.focus();
+      if (is.domElement(beaconRef.current) && shouldFocus) {
+        beaconRef.current.focus();
       }
     }, 0);
-  }
+  });
 
-  componentWillUnmount() {
+  useUnmount(() => {
     const style = document.getElementById('joyride-beacon-animation');
 
     if (style?.parentNode) {
       style.parentNode.removeChild(style);
     }
-  }
+  });
 
-  setBeaconRef = (c: HTMLElement | null) => {
-    this.beacon = c;
+  const setBeaconRef = (el: HTMLElement | null) => {
+    beaconRef.current = el;
   };
 
-  render() {
-    const {
-      beaconComponent,
-      continuous,
-      index,
-      isLastStep,
-      locale,
-      onClickOrHover,
-      size,
-      step,
-      styles,
-    } = this.props;
-    const title = getReactNodeText(locale.open);
-    const sharedProps = {
-      'aria-label': title,
-      onClick: onClickOrHover,
-      onMouseEnter: onClickOrHover,
-      ref: this.setBeaconRef,
-      title,
-    };
-    let component;
+  const title = getReactNodeText(locale.open);
+  const sharedProps = {
+    'aria-label': title,
+    onClick: onClickOrHover,
+    onMouseEnter: onClickOrHover,
+    ref: setBeaconRef,
+    title,
+  };
+  let component;
 
-    if (beaconComponent) {
-      const BeaconComponent = beaconComponent;
+  if (beaconComponent) {
+    const BeaconComponent = beaconComponent;
 
-      component = (
-        <BeaconComponent
-          continuous={continuous}
-          index={index}
-          isLastStep={isLastStep}
-          size={size}
-          step={step}
-          {...sharedProps}
-        />
-      );
-    } else {
-      component = (
-        <button
-          key="JoyrideBeacon"
-          className="react-joyride__beacon"
-          data-test-id="button-beacon"
-          style={styles.beacon}
-          type="button"
-          {...sharedProps}
-        >
-          <span style={styles.beaconInner} />
-          <span style={styles.beaconOuter} />
-        </button>
-      );
-    }
-
-    return component;
+    component = (
+      <BeaconComponent
+        continuous={continuous}
+        index={index}
+        isLastStep={isLastStep}
+        size={size}
+        step={step}
+        {...sharedProps}
+      />
+    );
+  } else {
+    component = (
+      <button
+        key="JoyrideBeacon"
+        className="react-joyride__beacon"
+        data-test-id="button-beacon"
+        style={styles.beacon}
+        type="button"
+        {...sharedProps}
+      >
+        <span style={styles.beaconInner} />
+        <span style={styles.beaconOuter} />
+      </button>
+    );
   }
+
+  return component;
 }

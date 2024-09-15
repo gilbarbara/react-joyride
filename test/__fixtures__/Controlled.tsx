@@ -66,6 +66,8 @@ export default function Controlled(props: ControlledProps) {
           },
           {
             content: 'This is our sidebar, you can find everything you need here',
+
+            disableBeacon: true,
             placement: 'right',
             spotlightPadding: 0,
             styles: {
@@ -78,6 +80,7 @@ export default function Controlled(props: ControlledProps) {
           },
           {
             content: 'Check the availability of the team!',
+            disableBeacon: true,
             placement: 'bottom',
             styles: {
               options: {

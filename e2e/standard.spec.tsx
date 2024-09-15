@@ -1,7 +1,6 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import './global.d';
 
-import React from 'react';
 import { expect, test } from '@playwright/experimental-ct-react';
 
 import { ACTIONS, CallBackProps, EVENTS, LIFECYCLE, STATUS } from '../src';
@@ -11,7 +10,7 @@ function formatCallbackResponse(input: Partial<CallBackProps>) {
   return {
     controlled: false,
     origin: null,
-    size: 6,
+    size: 7,
     status: STATUS.RUNNING,
     ...input,
   };
@@ -69,34 +68,23 @@ test('should run the tour', async ({ mount, page }) => {
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
       index: 0,
-      lifecycle: LIFECYCLE.BEACON,
-      type: EVENTS.BEACON,
-    }),
-  );
-
-  await expect.poll(getScrollTop).toBeAround(800);
-
-  await expect(page).toHaveScreenshot('step1-beacon.png');
-
-  // First step
-  await page.getByTestId('button-beacon').click();
-
-  expect(callback[3]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 0,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
   );
 
+  await expect.poll(getScrollTop).toBeAround(0);
   await expect(page).toHaveScreenshot('step1-tooltip.png');
 
+  /**
+   * Second step
+   */
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(7);
+  await expect.poll(getScrollTop).toBeAround(800);
+  await expect(page).toHaveScreenshot('step2-tooltip.png');
 
-  expect(callback[4]).toEqual(
+  expect(callback[3]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 0,
@@ -105,12 +93,7 @@ test('should run the tour', async ({ mount, page }) => {
     }),
   );
 
-  // Second step
-  await expect.poll(getScrollTop).toBeAround(1605);
-
-  await expect(page).toHaveScreenshot('step2-tooltip.png');
-
-  expect(callback[5]).toEqual(
+  expect(callback[4]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 1,
@@ -119,10 +102,47 @@ test('should run the tour', async ({ mount, page }) => {
     }),
   );
 
-  expect(callback[6]).toEqual(
+  expect(callback[5]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
       index: 1,
+      lifecycle: LIFECYCLE.TOOLTIP,
+      type: EVENTS.TOOLTIP,
+    }),
+  );
+
+  await page.getByTestId('button-primary').click();
+
+  await expect.poll(() => callback.length).toBe(9);
+
+  expect(callback[6]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.NEXT,
+      index: 1,
+      lifecycle: LIFECYCLE.COMPLETE,
+      type: EVENTS.STEP_AFTER,
+    }),
+  );
+
+  /**
+   * Third step
+   */
+  await expect.poll(getScrollTop).toBeAround(1605);
+  await expect(page).toHaveScreenshot('step3-tooltip.png');
+
+  expect(callback[7]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.NEXT,
+      index: 2,
+      lifecycle: LIFECYCLE.READY,
+      type: EVENTS.STEP_BEFORE,
+    }),
+  );
+
+  expect(callback[8]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.UPDATE,
+      index: 2,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
@@ -133,35 +153,37 @@ test('should run the tour', async ({ mount, page }) => {
     element.click(),
   );
 
-  await expect.poll(() => callback.length).toBe(10);
+  await expect.poll(() => callback.length).toBe(12);
 
-  expect(callback[7]).toEqual(
+  expect(callback[9]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 1,
+      index: 2,
       lifecycle: LIFECYCLE.COMPLETE,
       type: EVENTS.STEP_AFTER,
     }),
   );
 
-  // Third step
+  /**
+   * Fourth step
+   */
   await expect.poll(getScrollTop).toBeAround(2335);
 
-  await expect(page).toHaveScreenshot('step3-tooltip.png');
+  await expect(page).toHaveScreenshot('step4-tooltip.png');
 
-  expect(callback[8]).toEqual(
+  expect(callback[10]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 2,
+      index: 3,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
     }),
   );
 
-  expect(callback[9]).toEqual(
+  expect(callback[11]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
-      index: 2,
+      index: 3,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
@@ -169,44 +191,46 @@ test('should run the tour', async ({ mount, page }) => {
 
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(14);
+  await expect.poll(() => callback.length).toBe(16);
 
-  expect(callback[10]).toEqual(
+  expect(callback[12]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 2,
+      index: 3,
       lifecycle: LIFECYCLE.COMPLETE,
       type: EVENTS.STEP_AFTER,
     }),
   );
 
-  expect(callback[11]).toEqual(
+  expect(callback[13]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 3,
+      index: 4,
       lifecycle: LIFECYCLE.INIT,
       type: EVENTS.TARGET_NOT_FOUND,
     }),
   );
 
-  // Fourth step
+  /**
+   * Fifth step
+   */
   await expect.poll(getScrollTop).toBeAround(2403);
 
-  await expect(page).toHaveScreenshot('step4-tooltip.png');
+  await expect(page).toHaveScreenshot('step5-tooltip.png');
 
-  expect(callback[12]).toEqual(
+  expect(callback[14]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
-      index: 4,
+      index: 5,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
     }),
   );
 
-  expect(callback[13]).toEqual(
+  expect(callback[15]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
-      index: 4,
+      index: 5,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
@@ -214,87 +238,44 @@ test('should run the tour', async ({ mount, page }) => {
 
   await page.getByTestId('button-back').click();
 
-  await expect.poll(() => callback.length).toBe(18);
-
-  expect(callback[14]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.PREV,
-      index: 4,
-      lifecycle: LIFECYCLE.COMPLETE,
-      type: EVENTS.STEP_AFTER,
-    }),
-  );
-
-  expect(callback[15]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.PREV,
-      index: 3,
-      lifecycle: LIFECYCLE.INIT,
-      type: EVENTS.TARGET_NOT_FOUND,
-    }),
-  );
-
-  // Back to the third step
-  await expect(page).toHaveScreenshot('step3-tooltip-back.png');
+  await expect.poll(() => callback.length).toBe(20);
 
   expect(callback[16]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 2,
-      lifecycle: LIFECYCLE.READY,
-      type: EVENTS.STEP_BEFORE,
+      action: ACTIONS.PREV,
+      index: 5,
+      lifecycle: LIFECYCLE.COMPLETE,
+      type: EVENTS.STEP_AFTER,
     }),
   );
 
   expect(callback[17]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 2,
-      lifecycle: LIFECYCLE.TOOLTIP,
-      type: EVENTS.TOOLTIP,
-    }),
-  );
-
-  await page.getByTestId('button-primary').click();
-
-  await expect.poll(() => callback.length).toBe(22);
-
-  expect(callback[18]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.NEXT,
-      index: 2,
-      lifecycle: LIFECYCLE.COMPLETE,
-      type: EVENTS.STEP_AFTER,
-    }),
-  );
-
-  expect(callback[19]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.NEXT,
-      index: 3,
+      action: ACTIONS.PREV,
+      index: 4,
       lifecycle: LIFECYCLE.INIT,
       type: EVENTS.TARGET_NOT_FOUND,
     }),
   );
 
-  // go to the fourth step again
-  await expect.poll(getScrollTop).toBeAround(2403);
+  /**
+   * Fourth step again
+   */
+  await expect(page).toHaveScreenshot('step4-tooltip-back.png');
 
-  await expect(page).toHaveScreenshot('step4-tooltip-forward.png');
-
-  expect(callback[20]).toEqual(
+  expect(callback[18]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
-      index: 4,
+      index: 3,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
     }),
   );
 
-  expect(callback[21]).toEqual(
+  expect(callback[19]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
-      index: 4,
+      index: 3,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
@@ -302,34 +283,83 @@ test('should run the tour', async ({ mount, page }) => {
 
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(25);
+  await expect.poll(() => callback.length).toBe(24);
 
-  expect(callback[22]).toEqual(
+  expect(callback[20]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.NEXT,
+      index: 3,
+      lifecycle: LIFECYCLE.COMPLETE,
+      type: EVENTS.STEP_AFTER,
+    }),
+  );
+
+  expect(callback[21]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 4,
+      lifecycle: LIFECYCLE.INIT,
+      type: EVENTS.TARGET_NOT_FOUND,
+    }),
+  );
+
+  /**
+   * Fifth step again
+   */
+  await expect.poll(getScrollTop).toBeAround(2403);
+
+  await expect(page).toHaveScreenshot('step5-tooltip-forward.png');
+
+  expect(callback[22]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.UPDATE,
+      index: 5,
+      lifecycle: LIFECYCLE.READY,
+      type: EVENTS.STEP_BEFORE,
+    }),
+  );
+
+  expect(callback[23]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.UPDATE,
+      index: 5,
+      lifecycle: LIFECYCLE.TOOLTIP,
+      type: EVENTS.TOOLTIP,
+    }),
+  );
+
+  await page.getByTestId('button-primary').click();
+
+  await expect.poll(() => callback.length).toBe(27);
+
+  expect(callback[24]).toEqual(
+    formatCallbackResponse({
+      action: ACTIONS.NEXT,
+      index: 5,
       lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.RUNNING,
       type: EVENTS.STEP_AFTER,
     }),
   );
 
-  // Fifth step
-  await expect(page).toHaveScreenshot('step5-tooltip.png');
+  /**
+   * Sixth step
+   */
+  await expect(page).toHaveScreenshot('step6-tooltip.png');
 
-  expect(callback[23]).toEqual(
+  expect(callback[25]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 5,
+      action: ACTIONS.NEXT,
+      index: 6,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
     }),
   );
 
-  expect(callback[24]).toEqual(
+  expect(callback[26]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
-      index: 5,
+      index: 6,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
@@ -338,29 +368,29 @@ test('should run the tour', async ({ mount, page }) => {
   // Finish the tour
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(29);
+  await expect.poll(() => callback.length).toBe(31);
 
-  expect(callback[25]).toEqual(
+  expect(callback[27]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 5,
+      index: 6,
       lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.FINISHED,
       type: EVENTS.STEP_AFTER,
     }),
   );
 
-  expect(callback[26]).toEqual(
+  expect(callback[28]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 5,
+      index: 6,
       lifecycle: LIFECYCLE.INIT,
       status: STATUS.FINISHED,
       type: EVENTS.TOUR_END,
     }),
   );
 
-  expect(callback[27]).toEqual(
+  expect(callback[29]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.RESET,
       index: 0,
@@ -370,7 +400,7 @@ test('should run the tour', async ({ mount, page }) => {
     }),
   );
 
-  expect(callback[28]).toEqual(
+  expect(callback[30]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.STOP,
       index: 0,

@@ -1,10 +1,10 @@
-import React, { CSSProperties } from 'react';
+import { CSSProperties } from 'react';
 
 interface Props {
   styles: CSSProperties;
 }
 
-function JoyrideTooltipCloseButton({ styles, ...props }: Props) {
+export default function JoyrideTooltipCloseButton({ styles, ...props }: Props) {
   const { color, height, width, ...style } = styles;
 
   return (
@@ -27,5 +27,3 @@ function JoyrideTooltipCloseButton({ styles, ...props }: Props) {
     </button>
   );
 }
-
-export default JoyrideTooltipCloseButton;

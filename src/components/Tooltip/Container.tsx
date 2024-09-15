@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { ReactNode } from 'react';
 
 import { getReactNodeText } from '~/modules/helpers';
 
@@ -6,12 +6,12 @@ import { TooltipRenderProps } from '~/types';
 
 import CloseButton from './CloseButton';
 
-function JoyrideTooltipContainer(props: TooltipRenderProps) {
+export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
   const { backProps, closeProps, index, isLastStep, primaryProps, skipProps, step, tooltipProps } =
     props;
   const { content, hideBackButton, hideCloseButton, hideFooter, showSkipButton, styles, title } =
     step;
-  const output: Record<string, React.ReactNode> = {};
+  const output: Record<string, ReactNode> = {};
 
   output.primary = (
     <button
@@ -71,5 +71,3 @@ function JoyrideTooltipContainer(props: TooltipRenderProps) {
     </div>
   );
 }
-
-export default JoyrideTooltipContainer;

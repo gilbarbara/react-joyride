@@ -21,7 +21,15 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
     {
       index: 0,
       run: false,
-      steps: standardSteps,
+      steps: [
+        {
+          content: <h2>Let's begin our journey!</h2>,
+          locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+          placement: 'center',
+          target: 'body',
+        },
+        ...standardSteps,
+      ],
     },
   );
   const helpersRef = useRef<StoreHelpers>();
