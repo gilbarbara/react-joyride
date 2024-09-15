@@ -1,6 +1,8 @@
 import { noop } from '~/modules/helpers';
 
-import { FloaterProps, Locale, Props, Step } from '~/types';
+import { LIFECYCLE, STATUS } from '~/literals';
+
+import { FloaterProps, Locale, Props, State, Step } from '~/types';
 
 export const defaultFloaterProps: Omit<FloaterProps, 'component'> = {
   modifiers: {
@@ -67,3 +69,13 @@ export const defaultProps = {
   spotlightPadding: 10,
   steps: [],
 } satisfies Props;
+
+export const defaultState: State = {
+  action: 'init',
+  controlled: false,
+  index: 0,
+  lifecycle: LIFECYCLE.INIT,
+  origin: null,
+  size: 0,
+  status: STATUS.IDLE,
+};

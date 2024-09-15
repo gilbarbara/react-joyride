@@ -49,3 +49,5 @@ export const STATUS = {
   FINISHED: 'finished',
   ERROR: 'error',
 } as const;
+
+export const PORTAL_ELEMENT_ID = 'react-joyride-portal';

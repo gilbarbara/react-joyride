@@ -6,7 +6,7 @@ exports[`Joyride > Controlled > should have rendered STEP 2 Tooltip 1`] = `
   data-popper-placement="right"
   data-popper-reference-hidden=""
   id="react-joyride-step-1"
-  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(20px, 0px);"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(10px, 0px);"
 >
   <div
     class="__floater"
@@ -875,95 +875,22 @@ exports[`Joyride > Controlled > should have rendered STEP 6 Tooltip 1`] = `
 </div>
 `;
 
-exports[`Joyride > Controlled > should start the tour 1`] = `
+exports[`Joyride > Controlled > should start the tour > overlay 1`] = `
 <div
-  class="controlled-container"
-  data-test-id="controlled"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: default; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 10000; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
 >
   <div
-    class="controlled-sidebar"
-    data-test-id="sidebar"
-  >
-    <div>
-      <button
-        class="controlled-sidebar-button"
-        type="button"
-      >
-        <img
-          alt="close"
-          src="https://files.gilbarbara.dev/icons/close.svg"
-        />
-      </button>
-    </div>
-    <p
-      class="controlled-sidebar-item"
-    >
-      Home
-    </p>
-    <p
-      class="controlled-sidebar-item"
-    >
-      Controlled
-    </p>
-    <p
-      class="controlled-sidebar-item"
-    >
-      Custom
-    </p>
-    <p
-      class="controlled-sidebar-item"
-    >
-      Modal
-    </p>
-    <p
-      class="controlled-sidebar-item"
-    >
-      Scroll
-    </p>
-  </div>
-  <button
-    class="controlled-menu"
-    data-test-id="menu"
-    type="button"
-  >
-    <img
-      alt="menu"
-      src="https://cdn.jsdelivr.net/npm/css.gg/icons/svg/menu.svg"
-    />
-  </button>
-  <h1
-    class="controlled-heading"
-  >
-    DASHBOARD
-  </h1>
-  <div
-    class="controlled-sections"
-  >
-    <div
-      class="controlled-section calendar"
-    >
-      CALENDAR
-    </div>
-    <div
-      class="controlled-section growth"
-    >
-      GROWTH
-    </div>
-    <div
-      class="controlled-section users"
-    >
-      USERS
-    </div>
-    <div
-      class="controlled-section connections"
-    >
-      CONNECTIONS
-    </div>
-  </div>
+    class="react-joyride__spotlight"
+    data-test-id="spotlight"
+    style="height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+  />
 </div>
 `;
 
-exports[`Joyride > Controlled > should start the tour 2`] = `
+exports[`Joyride > Controlled > should start the tour > tooltip 1`] = `
 <div
   data-popper-escaped=""
   data-popper-placement="bottom"
@@ -1077,6 +1004,94 @@ exports[`Joyride > Controlled > should start the tour 2`] = `
           />
         </svg>
       </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Controlled > should start the tour 1`] = `
+<div
+  class="controlled-container"
+  data-test-id="controlled"
+>
+  <div
+    class="controlled-sidebar"
+    data-test-id="sidebar"
+  >
+    <div>
+      <button
+        class="controlled-sidebar-button"
+        type="button"
+      >
+        <img
+          alt="close"
+          src="https://files.gilbarbara.dev/icons/close.svg"
+        />
+      </button>
+    </div>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Home
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Controlled
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Custom
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Modal
+    </p>
+    <p
+      class="controlled-sidebar-item"
+    >
+      Scroll
+    </p>
+  </div>
+  <button
+    class="controlled-menu"
+    data-test-id="menu"
+    type="button"
+  >
+    <img
+      alt="menu"
+      src="https://cdn.jsdelivr.net/npm/css.gg/icons/svg/menu.svg"
+    />
+  </button>
+  <h1
+    class="controlled-heading"
+  >
+    DASHBOARD
+  </h1>
+  <div
+    class="controlled-sections"
+  >
+    <div
+      class="controlled-section calendar"
+    >
+      CALENDAR
+    </div>
+    <div
+      class="controlled-section growth"
+    >
+      GROWTH
+    </div>
+    <div
+      class="controlled-section users"
+    >
+      USERS
+    </div>
+    <div
+      class="controlled-section connections"
+    >
+      CONNECTIONS
     </div>
   </div>
 </div>

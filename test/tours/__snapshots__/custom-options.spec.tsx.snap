@@ -23,12 +23,12 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip > overlay 1`] =
   class="react-joyride__overlay"
   data-test-id="overlay"
   role="presentation"
-  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.3); mix-blend-mode: hard-light;"
 >
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="border-radius: 4px; position: absolute; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.5); height: 20px; left: -10px; opacity: 1; pointer-events: auto; top: -10px; transition: opacity 0.2s; width: 20px;"
+    style="height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
   />
 </div>
 `;
@@ -140,12 +140,12 @@ exports[`Joyride > Custom Options > should render STEP 2 Tooltip > overlay 1`] =
   class="react-joyride__overlay"
   data-test-id="overlay"
   role="presentation"
-  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.3); mix-blend-mode: hard-light;"
 >
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="border-radius: 4px; position: absolute; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 0, 0, 0.5); height: 20px; left: -10px; opacity: 1; pointer-events: none; top: -10px; transition: opacity 0.2s; width: 20px;"
+    style="height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
   />
 </div>
 `;
@@ -299,7 +299,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
 <div
   class="__floater"
   role="tooltip"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: relative; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 0px 16px 0px 0px;"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 16px 0px 0px;"
 >
   <div
     class="__floater__body"
@@ -409,7 +409,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
     </div>
     <span
       class="__floater__arrow"
-      style="display: inline-flex; position: absolute;"
+      style="display: inline-flex; position: absolute; top: 0px; transform: translate(0px, 8px); right: 0px;"
     >
       <svg
         height="32"

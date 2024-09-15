@@ -11,9 +11,12 @@ importers:
       '@gilbarbara/deep-equal':
         specifier: ^0.3.1
         version: 0.3.1
-      deep-diff:
-        specifier: ^1.0.2
-        version: 1.0.2
+      '@gilbarbara/hooks':
+        specifier: ^0.8.2
+        version: 0.8.2(react@18.3.1)
+      '@gilbarbara/types':
+        specifier: ^0.2.2
+        version: 0.2.2
       deepmerge:
         specifier: ^4.3.1
         version: 4.3.1
@@ -21,8 +24,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1
       react-floater:
-        specifier: ^0.9.5-3
-        version: 0.9.5-3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^0.9.5-4
+        version: 0.9.5-4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-innertext:
         specifier: ^1.1.5
         version: 1.1.5(@types/react@18.3.12)(react@18.3.1)
@@ -35,9 +38,6 @@ importers:
       tree-changes:
         specifier: ^0.11.2
         version: 0.11.2
-      type-fest:
-        specifier: ^4.27.0
-        version: 4.27.0
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.17.0
@@ -727,6 +727,11 @@ packages:
       vitest:
         optional: true
 
+  '@gilbarbara/hooks@0.8.2':
+    resolution: {integrity: sha512-aWXlJFCrqmasGaDd6IhSpqOFeOD4pSBpRtILKw0WxWQzWE+HYCA0adLf0P18BNztR/G0byWnpkGupeGx+NFnuw==}
+    peerDependencies:
+      react: 16.8 - 18
+
   '@gilbarbara/node-helpers@0.1.0':
     resolution: {integrity: sha512-x2npIHEnnQvdLFG1inFhPYtpQ1cB4sCjsWfNlRXP0hvJ+WJQkleevhnMaE4aqEz5yNneDuXO921FSvMgKlY/ww==}
     engines: {node: '>=18'}
@@ -738,6 +743,9 @@ packages:
 
   '@gilbarbara/tsconfig@0.2.3':
     resolution: {integrity: sha512-Rel0cLKkvQib936cBo5VCxbw+cjoF2cCnexac9mDLGWpeviGuinmDGJt4DOolg4xdmEr5ZrMct1zHaidgKaVaQ==}
+
+  '@gilbarbara/types@0.2.2':
+    resolution: {integrity: sha512-QuQDBRRcm1Q8AbSac2W1YElurOhprj3Iko/o+P1fJxUWS4rOGKMVli98OXS7uo4z+cKAif6a+L9bcZFSyauQpQ==}
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -1872,9 +1880,6 @@ packages:
 
   decimal.js@10.4.3:
     resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
-
-  deep-diff@1.0.2:
-    resolution: {integrity: sha512-aWS3UIVH+NPGCD1kki+DCU9Dua032iSsO43LqQpcs4R3+dVv7tX0qBGjiVHJHjplsoUM2XRO/KB92glqc68awg==}
 
   deep-eql@5.0.2:
     resolution: {integrity: sha512-h5k/5U50IJJFpzfL6nO9jaaumfjO/f2NjK/oYB2Djzm4p9L+3T9qWpZqZ2hAbLPuuYq9wrU08WQyBTL5GbPk5Q==}
@@ -3348,8 +3353,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-floater@0.9.5-3:
-    resolution: {integrity: sha512-R5SvM8QjaRaTlF1d/IhqGprgYs/5TJ1gAPWygCIgH7o2d8Dd8pJmnHLbojUrOrBk66Pa5oEWERPfXoAU5y7I9g==}
+  react-floater@0.9.5-4:
+    resolution: {integrity: sha512-3CBOgMfqD18A5HvQRKRNR6pKT5rOCzcdqDzyOU7RYNFgpiGm6BrMjDTXJrstEpRjJ4fyL65dQ6wTRIE2UMQTmQ==}
     peerDependencies:
       react: 16.8 - 19
       react-dom: 16.8 - 19
@@ -4748,6 +4753,11 @@ snapshots:
       - supports-color
       - webpack
 
+  '@gilbarbara/hooks@0.8.2(react@18.3.1)':
+    dependencies:
+      '@gilbarbara/deep-equal': 0.3.1
+      react: 18.3.1
+
   '@gilbarbara/node-helpers@0.1.0':
     dependencies:
       fast-glob: 3.3.2
@@ -4757,6 +4767,10 @@ snapshots:
       prettier: 3.2.5
 
   '@gilbarbara/tsconfig@0.2.3': {}
+
+  '@gilbarbara/types@0.2.2':
+    dependencies:
+      type-fest: 4.27.0
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -5939,8 +5953,6 @@ snapshots:
       ms: 2.1.3
 
   decimal.js@10.4.3: {}
-
-  deep-diff@1.0.2: {}
 
   deep-eql@5.0.2: {}
 
@@ -7565,7 +7577,7 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-floater@0.9.5-3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-floater@0.9.5-4(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@popperjs/core': 2.11.8
       deepmerge-ts: 7.1.0

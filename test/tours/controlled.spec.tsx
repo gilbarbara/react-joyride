@@ -8,12 +8,21 @@ import { act, cleanup, fireEvent, render, screen } from '../__fixtures__/test-ut
 
 vi.useFakeTimers();
 
+const mockCallback = vi.fn();
+
+vi.mock('~/modules/helpers', async () => {
+  const helpers = await vi.importActual('~/modules/helpers');
+
+  return {
+    ...helpers,
+    isLegacy: () => false,
+  };
+});
+
 const getCallbackResponse = callbackResponseFactory({
   controlled: true,
   size: 6,
 });
-
-const mockCallback = vi.fn();
 
 describe('Joyride > Controlled', () => {
   render(<Controlled callback={mockCallback} />);
@@ -31,7 +40,8 @@ describe('Joyride > Controlled', () => {
 
     expect(mockCallback).toHaveBeenCalledTimes(3);
 
-    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       1,
