@@ -1,7 +1,6 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import './global.d';
 
-import React from 'react';
 import { expect, test } from '@playwright/experimental-ct-react';
 
 import { ACTIONS, CallBackProps, EVENTS, LIFECYCLE, STATUS } from '../src';

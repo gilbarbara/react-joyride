@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from 'react';
 import { Styles as FloaterStyles } from 'react-floater';
-import { ValueOf } from 'type-fest';
+import { PartialDeep, ValueOf } from '@gilbarbara/types';
 
 import { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 
@@ -71,6 +71,11 @@ export type Placement =
   | 'right-start'
   | 'right-end';
 
+export type SpotlightCSSProperties = Omit<
+  CSSProperties,
+  'height' | 'width' | 'bottom' | 'left' | 'right' | 'top'
+>;
+
 export interface Styles {
   beacon: CSSProperties;
   beaconInner: CSSProperties;
@@ -83,8 +88,8 @@ export interface Styles {
   overlay: CSSProperties;
   overlayLegacy: CSSProperties;
   overlayLegacyCenter: CSSProperties;
-  spotlight: CSSProperties;
-  spotlightLegacy: CSSProperties;
+  spotlight: SpotlightCSSProperties;
+  spotlightLegacy: SpotlightCSSProperties;
   tooltip: CSSProperties;
   tooltipContainer: CSSProperties;
   tooltipContent: CSSProperties;
@@ -94,7 +99,7 @@ export interface Styles {
 }
 
 export interface StylesWithFloaterStyles extends Styles {
-  floaterStyles: FloaterStyles;
+  floaterStyles: PartialDeep<FloaterStyles>;
 }
 
 export interface StylesOptions {

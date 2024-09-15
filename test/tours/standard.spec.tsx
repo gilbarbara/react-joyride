@@ -1,18 +1,27 @@
 import React from 'react';
 
-import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
+import { ACTIONS, EVENTS, LIFECYCLE, PORTAL_ELEMENT_ID, STATUS } from '~/index';
 
 import Standard from '../__fixtures__/Standard';
 import { callbackResponseFactory } from '../__fixtures__/test-helpers';
 import { act, cleanup, fireEvent, render, screen, waitFor } from '../__fixtures__/test-utils';
 
-const getCallbackResponse = callbackResponseFactory();
+const getCallbackResponse = callbackResponseFactory({ size: 7 });
 
 const mockCallback = vi.fn();
 const mockGetPopper = vi.fn();
 
+vi.mock('~/modules/helpers', async () => {
+  const helpers = await vi.importActual('~/modules/helpers');
+
+  return {
+    ...helpers,
+    isLegacy: () => false,
+  };
+});
+
 describe('Joyride > Standard', () => {
-  render(
+  const { unmount } = render(
     <Standard
       callback={mockCallback}
       floaterProps={{
@@ -50,8 +59,8 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render STEP 1 Beacon', async () => {
-    expect(screen.getById('react-joyride-step-0-wrapper')).toMatchSnapshot();
+  it('should skip STEP 1 Beacon', async () => {
+    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
 
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -72,34 +81,29 @@ describe('Joyride > Standard', () => {
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 0,
-        lifecycle: LIFECYCLE.BEACON,
-        type: EVENTS.BEACON,
-      }),
-    );
-  });
-
-  it('should render STEP 1 Tooltip', () => {
-    fireEvent.click(screen.getByTestId('button-beacon'));
-
-    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot();
-    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
-
-    expect(mockCallback).toHaveBeenNthCalledWith(
-      4,
-      getCallbackResponse({
-        action: ACTIONS.UPDATE,
-        index: 0,
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
     );
   });
 
+  it('should render STEP 1 Tooltip', async () => {
+    fireEvent.click(screen.getByTestId('button-beacon'));
+
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
+    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
+  });
+
   it('should handle clicking STEP 1 Primary button', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      5,
+      4,
       getCallbackResponse({
         action: ACTIONS.NEXT,
         index: 0,
@@ -110,15 +114,20 @@ describe('Joyride > Standard', () => {
   });
 
   it('should render STEP 2 Tooltip', async () => {
-    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot();
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot('tooltip');
     expect(screen.getById('react-joyride-step-1-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(7);
+      expect(mockCallback).toHaveBeenCalledTimes(6);
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      6,
+      5,
       getCallbackResponse({
         action: ACTIONS.NEXT,
         index: 1,
@@ -128,7 +137,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      7,
+      6,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 1,
@@ -144,7 +153,7 @@ describe('Joyride > Standard', () => {
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      8,
+      7,
       getCallbackResponse({
         action: ACTIONS.CLOSE,
         index: 1,
@@ -159,11 +168,11 @@ describe('Joyride > Standard', () => {
     expect(screen.getById('react-joyride-step-2-wrapper')).toMatchSnapshot();
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(10);
+      expect(mockCallback).toHaveBeenCalledTimes(9);
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      9,
+      8,
       getCallbackResponse({
         action: ACTIONS.CLOSE,
         index: 2,
@@ -173,7 +182,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      10,
+      9,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 2,
@@ -183,14 +192,19 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should render STEP 3 Tooltip', () => {
+  it('should render STEP 3 Tooltip', async () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
 
-    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot('tooltip');
     expect(screen.getById('react-joyride-step-2-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      11,
+      10,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 2,
@@ -204,7 +218,7 @@ describe('Joyride > Standard', () => {
     fireEvent.click(screen.getByTestId('button-back'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      12,
+      11,
       getCallbackResponse({
         action: ACTIONS.PREV,
         index: 2,
@@ -215,15 +229,20 @@ describe('Joyride > Standard', () => {
   });
 
   it('should render STEP 2 Tooltip AGAIN', async () => {
-    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot();
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot('tooltip');
     expect(screen.getById('react-joyride-step-1-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(14);
+      expect(mockCallback).toHaveBeenCalledTimes(13);
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      13,
+      12,
       getCallbackResponse({
         action: ACTIONS.PREV,
         index: 1,
@@ -233,7 +252,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      14,
+      13,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 1,
@@ -247,7 +266,7 @@ describe('Joyride > Standard', () => {
     fireEvent.click(screen.getByTestId('overlay'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      15,
+      14,
       getCallbackResponse({
         action: ACTIONS.CLOSE,
         index: 1,
@@ -262,11 +281,11 @@ describe('Joyride > Standard', () => {
     expect(screen.getById('react-joyride-step-2-wrapper')).toMatchSnapshot();
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(17);
+      expect(mockCallback).toHaveBeenCalledTimes(16);
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      16,
+      15,
       getCallbackResponse({
         action: ACTIONS.CLOSE,
         index: 2,
@@ -276,7 +295,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      17,
+      16,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 2,
@@ -289,12 +308,17 @@ describe('Joyride > Standard', () => {
   it('should render STEP 3 Tooltip AGAIN', async () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
 
-    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot('tooltip');
     expect(screen.getById('react-joyride-step-2-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     await waitFor(() => {
       expect(mockCallback).toHaveBeenNthCalledWith(
-        18,
+        17,
         getCallbackResponse({
           action: ACTIONS.UPDATE,
           index: 2,
@@ -309,7 +333,7 @@ describe('Joyride > Standard', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      19,
+      18,
       getCallbackResponse({
         action: ACTIONS.NEXT,
         index: 2,
@@ -319,58 +343,49 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should skip the unmounted STEP 4', async () => {
+  it('should render STEP 4 Tooltip', async () => {
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenNthCalledWith(
-        20,
-        getCallbackResponse({
-          action: ACTIONS.NEXT,
-          index: 3,
-          lifecycle: LIFECYCLE.INIT,
-          type: EVENTS.TARGET_NOT_FOUND,
-        }),
-      );
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
-  });
 
-  it('should render STEP 5 Tooltip', async () => {
-    expect(screen.getById('react-joyride-step-4')).toMatchSnapshot();
-    expect(screen.getById('react-joyride-step-4-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getById('react-joyride-step-3')).toMatchSnapshot('tooltip');
+    expect(screen.getById('react-joyride-step-3-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(22);
+      expect(mockCallback).toHaveBeenCalledTimes(20);
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      21,
+      19,
       getCallbackResponse({
-        action: ACTIONS.UPDATE,
-        index: 4,
+        action: ACTIONS.NEXT,
+        index: 3,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
       }),
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      22,
+      20,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
-        index: 4,
+        index: 3,
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
     );
   });
 
-  it('should handle clicking STEP 5 Primary button', async () => {
+  it('should handle clicking STEP 4 Primary button', async () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     await waitFor(() => {
       expect(mockCallback).toHaveBeenNthCalledWith(
-        23,
+        21,
         getCallbackResponse({
           action: ACTIONS.NEXT,
-          index: 4,
+          index: 3,
           lifecycle: LIFECYCLE.COMPLETE,
           status: STATUS.RUNNING,
           type: EVENTS.STEP_AFTER,
@@ -379,15 +394,31 @@ describe('Joyride > Standard', () => {
     });
   });
 
+  it('should skip the unmounted STEP 5', async () => {
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenNthCalledWith(
+        22,
+        getCallbackResponse({
+          action: ACTIONS.NEXT,
+          index: 4,
+          lifecycle: LIFECYCLE.INIT,
+          type: EVENTS.TARGET_NOT_FOUND,
+        }),
+      );
+    });
+  });
+
   it('should render STEP 6 Tooltip', async () => {
     await waitFor(() => {
-      expect(screen.getById('react-joyride-step-5')).toBeInTheDocument();
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
-    expect(screen.getById('react-joyride-step-5')).toMatchSnapshot();
+
+    expect(screen.getById('react-joyride-step-5')).toMatchSnapshot('tooltip');
     expect(screen.getById('react-joyride-step-5-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      24,
+      23,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 5,
@@ -397,7 +428,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      25,
+      24,
       getCallbackResponse({
         action: ACTIONS.UPDATE,
         index: 5,
@@ -411,10 +442,55 @@ describe('Joyride > Standard', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      26,
+      25,
       getCallbackResponse({
         action: ACTIONS.NEXT,
         index: 5,
+        lifecycle: LIFECYCLE.COMPLETE,
+        status: STATUS.RUNNING,
+        type: EVENTS.STEP_AFTER,
+      }),
+    );
+  });
+
+  it('should render STEP 7 Tooltip', async () => {
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.getById('react-joyride-step-6')).toMatchSnapshot('tooltip');
+    expect(screen.getById('react-joyride-step-6-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      26,
+      getCallbackResponse({
+        action: ACTIONS.NEXT,
+        index: 6,
+        lifecycle: LIFECYCLE.READY,
+        type: EVENTS.STEP_BEFORE,
+      }),
+    );
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      27,
+      getCallbackResponse({
+        action: ACTIONS.UPDATE,
+        index: 6,
+        lifecycle: LIFECYCLE.TOOLTIP,
+        type: EVENTS.TOOLTIP,
+      }),
+    );
+  });
+
+  it('should handle clicking STEP 7 Primary button', () => {
+    fireEvent.click(screen.getByTestId('button-primary'));
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      28,
+      getCallbackResponse({
+        action: ACTIONS.NEXT,
+        index: 6,
         lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.FINISHED,
         type: EVENTS.STEP_AFTER,
@@ -424,10 +500,21 @@ describe('Joyride > Standard', () => {
 
   it('should have ended the tour', async () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
-      27,
+      28,
       getCallbackResponse({
         action: ACTIONS.NEXT,
-        index: 5,
+        index: 6,
+        lifecycle: LIFECYCLE.COMPLETE,
+        status: STATUS.FINISHED,
+        type: EVENTS.STEP_AFTER,
+      }),
+    );
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      29,
+      getCallbackResponse({
+        action: ACTIONS.NEXT,
+        index: 6,
         lifecycle: LIFECYCLE.INIT,
         status: STATUS.FINISHED,
         type: EVENTS.TOUR_END,
@@ -435,7 +522,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      28,
+      30,
       getCallbackResponse({
         action: ACTIONS.RESET,
         index: 0,
@@ -446,7 +533,7 @@ describe('Joyride > Standard', () => {
     );
 
     expect(mockCallback).toHaveBeenNthCalledWith(
-      29,
+      31,
       getCallbackResponse({
         action: ACTIONS.STOP,
         index: 0,
@@ -469,15 +556,17 @@ describe('Joyride > Standard', () => {
       expect(mockCallback).toHaveBeenCalledTimes(3);
     });
 
-    expect(screen.getByTestId('button-beacon')).toMatchSnapshot('beacon');
-
-    fireEvent.click(screen.getByTestId('button-beacon'));
-
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(4);
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
-    expect(screen.getById('react-joyride-step-0').querySelector('div')).toMatchSnapshot('tooltip');
-    expect(screen.getByTestId('overlay')).toBeInTheDocument();
+    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
+    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
+  });
+
+  it('should remove the portal on unmount', () => {
+    unmount();
+    expect(screen.queryById(PORTAL_ELEMENT_ID)).not.toBeInTheDocument();
   });
 });

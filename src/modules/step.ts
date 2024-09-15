@@ -1,7 +1,7 @@
 import { Props as FloaterProps } from 'react-floater';
+import { SetRequired } from '@gilbarbara/types';
 import deepmerge from 'deepmerge';
 import is from 'is-lite';
-import { SetRequired } from 'type-fest';
 
 import { defaultFloaterProps, defaultLocale, defaultStep } from '~/defaults';
 import getStyles from '~/styles';
