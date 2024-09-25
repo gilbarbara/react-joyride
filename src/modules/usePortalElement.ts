@@ -1,8 +1,6 @@
 import { useMount, useSetState, useUnmount } from '@gilbarbara/hooks';
 import is from 'is-lite';
 
-import { canUseDOM } from '~/modules/dom';
-
 import { PORTAL_ELEMENT_ID } from '~/literals';
 
 import { SelectorOrElement } from '~/types';
@@ -19,10 +17,6 @@ export function usePortalElement(portalElement?: SelectorOrElement) {
   });
 
   useMount(() => {
-    if (!canUseDOM()) {
-      return;
-    }
-
     if (portalElement) {
       if (is.domElement(portalElement)) {
         setState({ element: portalElement, useExternalPortal: true });
@@ -46,7 +40,7 @@ export function usePortalElement(portalElement?: SelectorOrElement) {
   });
 
   useUnmount(() => {
-    if (!canUseDOM() || !element || useExternalPortal) {
+    if (!element || useExternalPortal) {
       return;
     }
 

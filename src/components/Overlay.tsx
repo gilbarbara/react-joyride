@@ -1,6 +1,6 @@
 import { CSSProperties, useCallback, useEffect, useMemo, useRef } from 'react';
-import { useIsMounted, useMount, usePrevious, useSetState, useUnmount } from '@gilbarbara/hooks';
-import treeChanges from 'tree-changes';
+import { useIsMounted, useMount, useSetState, useUnmount } from '@gilbarbara/hooks';
+import useTreeChanges from 'tree-changes-hook';
 
 import {
   getClientRect,
@@ -49,11 +49,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
     styles,
     target,
   } = props;
-  const previousProps = usePrevious(props);
-
   const isMounted = useIsMounted();
 
-  const { changed } = treeChanges(previousProps ?? {}, props);
+  const { changed } = useTreeChanges(props);
   const resizeTimeoutRef = useRef<number>();
   const scrollTimeoutRef = useRef<number>();
   const scrollParentRef = useRef<Element | Document | null>(null);
