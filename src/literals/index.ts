@@ -9,6 +9,7 @@ export const ACTIONS = {
   CLOSE: 'close',
   SKIP: 'skip',
   UPDATE: 'update',
+  COMPLETE: 'complete',
 } as const;
 
 export const EVENTS = {

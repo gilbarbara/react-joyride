@@ -57,7 +57,7 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[1]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.START,
+      action: ACTIONS.UPDATE,
       index: 0,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
@@ -191,23 +191,23 @@ test('should run the tour', async ({ mount, page }) => {
 
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(16);
+  await expect.poll(() => callback.length).toBe(15);
 
   expect(callback[12]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 3,
+      index: 4,
       lifecycle: LIFECYCLE.COMPLETE,
-      type: EVENTS.STEP_AFTER,
+      type: EVENTS.TARGET_NOT_FOUND,
     }),
   );
 
   expect(callback[13]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
-      index: 4,
-      lifecycle: LIFECYCLE.INIT,
-      type: EVENTS.TARGET_NOT_FOUND,
+      index: 5,
+      lifecycle: LIFECYCLE.READY,
+      type: EVENTS.STEP_BEFORE,
     }),
   );
 
@@ -222,15 +222,6 @@ test('should run the tour', async ({ mount, page }) => {
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
       index: 5,
-      lifecycle: LIFECYCLE.READY,
-      type: EVENTS.STEP_BEFORE,
-    }),
-  );
-
-  expect(callback[15]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 5,
       lifecycle: LIFECYCLE.TOOLTIP,
       type: EVENTS.TOOLTIP,
     }),
@@ -238,23 +229,23 @@ test('should run the tour', async ({ mount, page }) => {
 
   await page.getByTestId('button-back').click();
 
-  await expect.poll(() => callback.length).toBe(20);
+  await expect.poll(() => callback.length).toBe(18);
 
   expect(callback[16]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.PREV,
-      index: 5,
-      lifecycle: LIFECYCLE.COMPLETE,
-      type: EVENTS.STEP_AFTER,
+      index: 3,
+      lifecycle: LIFECYCLE.READY,
+      type: EVENTS.STEP_BEFORE,
     }),
   );
 
   expect(callback[17]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.PREV,
-      index: 4,
-      lifecycle: LIFECYCLE.INIT,
-      type: EVENTS.TARGET_NOT_FOUND,
+      action: ACTIONS.UPDATE,
+      index: 3,
+      lifecycle: LIFECYCLE.TOOLTIP,
+      type: EVENTS.TOOLTIP,
     }),
   );
 
@@ -263,42 +254,15 @@ test('should run the tour', async ({ mount, page }) => {
    */
   await expect(page).toHaveScreenshot('step4-tooltip-back.png');
 
-  expect(callback[18]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 3,
-      lifecycle: LIFECYCLE.READY,
-      type: EVENTS.STEP_BEFORE,
-    }),
-  );
-
-  expect(callback[19]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.UPDATE,
-      index: 3,
-      lifecycle: LIFECYCLE.TOOLTIP,
-      type: EVENTS.TOOLTIP,
-    }),
-  );
-
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(24);
+  await expect.poll(() => callback.length).toBe(21);
 
-  expect(callback[20]).toEqual(
-    formatCallbackResponse({
-      action: ACTIONS.NEXT,
-      index: 3,
-      lifecycle: LIFECYCLE.COMPLETE,
-      type: EVENTS.STEP_AFTER,
-    }),
-  );
-
-  expect(callback[21]).toEqual(
+  expect(callback[18]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 4,
-      lifecycle: LIFECYCLE.INIT,
+      lifecycle: LIFECYCLE.COMPLETE,
       type: EVENTS.TARGET_NOT_FOUND,
     }),
   );
@@ -310,16 +274,16 @@ test('should run the tour', async ({ mount, page }) => {
 
   await expect(page).toHaveScreenshot('step5-tooltip-forward.png');
 
-  expect(callback[22]).toEqual(
+  expect(callback[19]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.UPDATE,
+      action: ACTIONS.NEXT,
       index: 5,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
     }),
   );
 
-  expect(callback[23]).toEqual(
+  expect(callback[20]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
       index: 5,
@@ -330,9 +294,9 @@ test('should run the tour', async ({ mount, page }) => {
 
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(27);
+  await expect.poll(() => callback.length).toBe(24);
 
-  expect(callback[24]).toEqual(
+  expect(callback[21]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 5,
@@ -347,7 +311,7 @@ test('should run the tour', async ({ mount, page }) => {
    */
   await expect(page).toHaveScreenshot('step6-tooltip.png');
 
-  expect(callback[25]).toEqual(
+  expect(callback[22]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 6,
@@ -356,7 +320,7 @@ test('should run the tour', async ({ mount, page }) => {
     }),
   );
 
-  expect(callback[26]).toEqual(
+  expect(callback[23]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.UPDATE,
       index: 6,
@@ -368,43 +332,43 @@ test('should run the tour', async ({ mount, page }) => {
   // Finish the tour
   await page.getByTestId('button-primary').click();
 
-  await expect.poll(() => callback.length).toBe(31);
+  await expect.poll(() => callback.length).toBe(28);
 
-  expect(callback[27]).toEqual(
+  expect(callback[24]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.NEXT,
       index: 6,
       lifecycle: LIFECYCLE.COMPLETE,
-      status: STATUS.FINISHED,
+      status: STATUS.RUNNING,
       type: EVENTS.STEP_AFTER,
     }),
   );
 
-  expect(callback[28]).toEqual(
+  expect(callback[25]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.NEXT,
+      action: ACTIONS.UPDATE,
       index: 6,
-      lifecycle: LIFECYCLE.INIT,
+      lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.FINISHED,
       type: EVENTS.TOUR_END,
     }),
   );
 
-  expect(callback[29]).toEqual(
+  expect(callback[26]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.RESET,
       index: 0,
-      lifecycle: LIFECYCLE.INIT,
+      lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.READY,
       type: EVENTS.TOUR_STATUS,
     }),
   );
 
-  expect(callback[30]).toEqual(
+  expect(callback[27]).toEqual(
     formatCallbackResponse({
       action: ACTIONS.STOP,
       index: 0,
-      lifecycle: LIFECYCLE.INIT,
+      lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.PAUSED,
       type: EVENTS.TOUR_STATUS,
     }),

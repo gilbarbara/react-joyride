@@ -1,4 +1,5 @@
-import { useReducer, useRef } from 'react';
+import { useRef } from 'react';
+import { useSetState } from '@gilbarbara/hooks';
 
 import { standardSteps } from './steps';
 
@@ -13,25 +14,19 @@ interface State {
 
 export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
   const { callback, ...rest } = props;
-  const [{ run, steps }, setState] = useReducer(
-    (previousState: State, nextState: Partial<State>) => ({
-      ...previousState,
-      ...nextState,
-    }),
-    {
-      index: 0,
-      run: false,
-      steps: [
-        {
-          content: <h2>Let's begin our journey!</h2>,
-          locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
-          placement: 'center',
-          target: 'body',
-        },
-        ...standardSteps,
-      ],
-    },
-  );
+  const [{ run, steps }, setState] = useSetState<State>({
+    index: 0,
+    run: false,
+    steps: [
+      {
+        content: <h2>Let's begin our journey!</h2>,
+        locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
+        placement: 'center',
+        target: 'body',
+      },
+      ...standardSteps,
+    ],
+  });
   const helpersRef = useRef<StoreHelpers>();
 
   const handleClickStart = () => {

@@ -2,8 +2,6 @@ import { ElementType, MouseEventHandler, ReactNode, RefCallback } from 'react';
 import { Props as FProps } from 'react-floater';
 import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
-import type { StoreInstance } from '~/modules/store';
-
 import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
 
 export type FloaterProps = Omit<FProps, 'content' | 'component'>;
@@ -312,14 +310,15 @@ export type StepMerged = Simplify<
 
 export type StepProps = Simplify<
   State & {
-    callback?: Callback;
+    cleanupPoppers: () => void;
     continuous: boolean;
     debug: boolean;
     helpers: StoreHelpers;
     nonce?: string;
+    setPopper: NonNullable<FloaterProps['getPopper']>;
     shouldScroll: boolean;
     step: StepMerged;
-    store: StoreInstance;
+    updateState: (state: Partial<State>) => void;
   }
 >;
 
@@ -333,12 +332,6 @@ export type StoreHelpers = {
   reset: (restart: boolean) => void;
   skip: () => void;
 };
-
-export type StoreOptions = Simplify<
-  Props & {
-    controlled: boolean;
-  }
->;
 
 export type TooltipProps = {
   continuous: boolean;

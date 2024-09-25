@@ -1,4 +1,5 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useSetState } from '@gilbarbara/hooks';
 
 import Beacon from './Beacon';
 import Tooltip from './Tooltip';
@@ -17,18 +18,12 @@ interface State {
 
 export default function Controlled(props: ControlledProps) {
   const { callback } = props;
-  const [{ run, sidebarOpen, stepIndex, steps }, setState] = useReducer(
-    (previousState: State, nextState: Partial<State>) => ({
-      ...previousState,
-      ...nextState,
-    }),
-    {
-      run: false,
-      sidebarOpen: false,
-      stepIndex: 0,
-      steps: [],
-    },
-  );
+  const [{ run, sidebarOpen, stepIndex, steps }, setState] = useSetState<State>({
+    run: false,
+    sidebarOpen: false,
+    stepIndex: 0,
+    steps: [],
+  });
 
   const calendar = useRef<HTMLDivElement>(null);
   const connections = useRef<HTMLDivElement>(null);
@@ -129,7 +124,7 @@ export default function Controlled(props: ControlledProps) {
         ],
       });
     }, 1000);
-  }, []);
+  }, [setState]);
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { action, index, status, type } = data;
@@ -142,27 +137,25 @@ export default function Controlled(props: ControlledProps) {
 
       if (sidebarOpen && index === 0) {
         setTimeout(() => {
-          setState({ run: true });
+          setState({ run: true, stepIndex: nextStepIndex });
         }, 400);
       } else if (sidebarOpen && index === 1) {
         setState({
           run: false,
           sidebarOpen: false,
-          stepIndex: nextStepIndex,
         });
 
         setTimeout(() => {
-          setState({ run: true });
+          setState({ run: true, stepIndex: nextStepIndex });
         }, 400);
       } else if (index === 2 && action === ACTIONS.PREV) {
         setState({
           run: false,
           sidebarOpen: true,
-          stepIndex: nextStepIndex,
         });
 
         setTimeout(() => {
-          setState({ run: true });
+          setState({ run: true, stepIndex: nextStepIndex });
         }, 400);
       } else {
         // Update state to advance the tour
