@@ -16,7 +16,7 @@ describe('store', () => {
   describe('without initial values', () => {
     const store = createStore();
 
-    const { close, go, info, next, open, prev, reset, setSteps, start, stop, update } = store;
+    const { close, go, info, next, open, prev, reset, setSteps, start, stop, updateState } = store;
 
     it('should have initiated a new store', () => {
       expect(store.constructor.name).toBe('Store');
@@ -56,22 +56,15 @@ describe('store', () => {
     });
 
     it(`should handle "update" the lifecycle to ${LIFECYCLE.BEACON}`, () => {
-      update({ lifecycle: LIFECYCLE.BEACON });
+      updateState({ lifecycle: LIFECYCLE.BEACON });
 
       expect(info()).toMatchSnapshot();
     });
 
     it(`should handle "update" the lifecycle to ${LIFECYCLE.TOOLTIP}`, () => {
-      update({ lifecycle: LIFECYCLE.TOOLTIP });
+      updateState({ lifecycle: LIFECYCLE.TOOLTIP });
 
       expect(info()).toMatchSnapshot();
-    });
-
-    it('should throw an error with `update` with invalid keys', () => {
-      expect(() => {
-        // @ts-expect-error invalid key
-        update({ valid: true, lifecycle: LIFECYCLE.TOOLTIP });
-      }).toThrowErrorMatchingSnapshot();
     });
 
     it('should handle "next" [2nd step]', () => {
@@ -129,7 +122,7 @@ describe('store', () => {
     });
 
     it(`should handle "update" the lifecycle to ${LIFECYCLE.BEACON}`, () => {
-      update({ lifecycle: LIFECYCLE.BEACON });
+      updateState({ lifecycle: LIFECYCLE.BEACON });
 
       expect(info()).toMatchSnapshot();
     });
@@ -208,9 +201,9 @@ describe('store', () => {
   });
 
   describe('with initial steps', () => {
-    const store = createStore({ controlled: false, run: false, steps: standardSteps });
+    const store = createStore({ run: false, steps: standardSteps });
 
-    const { info, update } = store;
+    const { info, updateState } = store;
 
     it('should have initiated a new store', () => {
       expect(store.constructor.name).toBe('Store');
@@ -221,12 +214,12 @@ describe('store', () => {
     it('should handle listeners', () => {
       store.addListener(mockSyncStore);
 
-      update({ status: STATUS.READY });
-      update({ status: STATUS.READY });
+      updateState({ status: STATUS.FINISHED });
+      updateState({ status: STATUS.FINISHED });
       expect(mockSyncStore).toHaveBeenCalledTimes(1);
 
-      update({ status: STATUS.IDLE });
-      update({ status: STATUS.READY });
+      updateState({ status: STATUS.IDLE });
+      updateState({ status: STATUS.READY });
 
       expect(mockSyncStore).toHaveBeenCalledTimes(3);
     });
@@ -237,10 +230,10 @@ describe('store', () => {
     const popperData = { state: { placement: 'top' } } as const;
 
     it('should set/get both poppers', () => {
-      store.setPopper('beacon', fromPartial(popperData));
+      store.setPopper(fromPartial(popperData), 'wrapper');
       expect(store.getPopper('beacon')).toEqual(popperData);
 
-      store.setPopper('tooltip', fromPartial(popperData));
+      store.setPopper(fromPartial(popperData), 'floater');
       expect(store.getPopper('tooltip')).toEqual(popperData);
     });
 

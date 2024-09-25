@@ -55,7 +55,11 @@ export function getDocumentHeight(median = false): number {
 /**
  * Find and return the target DOM element based on a step's 'target'.
  */
-export function getElement(element: string | HTMLElement): HTMLElement | null {
+export function getElement(element?: string | HTMLElement): HTMLElement | null {
+  if (!element) {
+    return null;
+  }
+
   if (typeof element === 'string') {
     try {
       return document.querySelector(element);

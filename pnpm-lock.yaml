@@ -35,9 +35,9 @@ importers:
       scrollparent:
         specifier: ^2.1.0
         version: 2.1.0
-      tree-changes:
+      tree-changes-hook:
         specifier: ^0.11.2
-        version: 0.11.2
+        version: 0.11.2(react@18.3.1)
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: ^0.17.0
@@ -102,6 +102,9 @@ importers:
       caniuse-lite:
         specifier: ^1.0.30001680
         version: 1.0.30001680
+      chalk:
+        specifier: ^5.3.0
+        version: 5.3.0
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -3904,8 +3907,8 @@ packages:
     resolution: {integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==}
     engines: {node: '>=8'}
 
-  type-fest@4.27.0:
-    resolution: {integrity: sha512-3IMSWgP7C5KSQqmo1wjhKrwsvXAtF33jO3QY+Uy++ia7hqvgSK6iXbbg5PbDBc1P2ZbNEDgejOrN4YooXvhwCw==}
+  type-fest@4.26.1:
+    resolution: {integrity: sha512-yOGpmOAL7CkKe/91I5O3gPICmJNLJ1G4zFYVAsRHg7M64biSnPtRj0WNQt++bRkjYOqjWXrhnUw1utzmVErAdg==}
     engines: {node: '>=16'}
 
   typed-array-buffer@1.0.2:
@@ -4301,7 +4304,7 @@ snapshots:
       eslint-visitor-keys: 2.1.0
       semver: 6.3.1
 
-  '@babel/eslint-plugin@7.25.9(@babel/eslint-parser@7.25.9(@babel/core@7.25.2)(eslint@8.57.0))(eslint@8.57.0)':
+  '@babel/eslint-plugin@7.25.9(@babel/eslint-parser@7.25.9(@babel/core@7.26.0)(eslint@8.57.0))(eslint@8.57.0)':
     dependencies:
       '@babel/eslint-parser': 7.25.9(@babel/core@7.26.0)(eslint@8.57.0)
       eslint: 8.57.0
@@ -4718,7 +4721,7 @@ snapshots:
     dependencies:
       '@babel/core': 7.26.0
       '@babel/eslint-parser': 7.25.9(@babel/core@7.26.0)(eslint@8.57.0)
-      '@babel/eslint-plugin': 7.25.9(@babel/eslint-parser@7.25.9(@babel/core@7.25.2)(eslint@8.57.0))(eslint@8.57.0)
+      '@babel/eslint-plugin': 7.25.9(@babel/eslint-parser@7.25.9(@babel/core@7.26.0)(eslint@8.57.0))(eslint@8.57.0)
       '@babel/preset-react': 7.25.9(@babel/core@7.26.0)
       '@typescript-eslint/eslint-plugin': 8.15.0(@typescript-eslint/parser@8.15.0(eslint@8.57.0)(typescript@5.6.3))(eslint@8.57.0)(typescript@5.6.3)
       '@typescript-eslint/parser': 8.15.0(eslint@8.57.0)(typescript@5.6.3)
@@ -4770,7 +4773,7 @@ snapshots:
 
   '@gilbarbara/types@0.2.2':
     dependencies:
-      type-fest: 4.27.0
+      type-fest: 4.26.1
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
@@ -8193,7 +8196,7 @@ snapshots:
 
   type-fest@0.8.1: {}
 
-  type-fest@4.27.0: {}
+  type-fest@4.26.1: {}
 
   typed-array-buffer@1.0.2:
     dependencies:

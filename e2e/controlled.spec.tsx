@@ -44,7 +44,7 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[1]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.START,
+      action: ACTIONS.UPDATE,
       index: 0,
       lifecycle: LIFECYCLE.READY,
       type: EVENTS.STEP_BEFORE,
@@ -67,7 +67,7 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[3]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.NEXT,
+      action: ACTIONS.UPDATE,
       index: 0,
       lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.PAUSED,
@@ -77,9 +77,9 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[4]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.NEXT,
-      index: 1,
-      lifecycle: LIFECYCLE.INIT,
+      action: ACTIONS.STOP,
+      index: 0,
+      lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.PAUSED,
       type: EVENTS.TOUR_STATUS,
     }),
@@ -91,13 +91,13 @@ test('should run the tour', async ({ mount, page }) => {
       index: 1,
       lifecycle: LIFECYCLE.INIT,
       status: STATUS.RUNNING,
-      type: EVENTS.TOUR_STATUS,
+      type: EVENTS.TOUR_START,
     }),
   );
 
   expect(callback[6]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.START,
+      action: ACTIONS.UPDATE,
       index: 1,
       lifecycle: LIFECYCLE.READY,
       status: STATUS.RUNNING,
@@ -133,9 +133,9 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[9]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.NEXT,
-      index: 2,
-      lifecycle: LIFECYCLE.INIT,
+      action: ACTIONS.STOP,
+      index: 1,
+      lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.PAUSED,
       type: EVENTS.TOUR_STATUS,
     }),
@@ -147,13 +147,13 @@ test('should run the tour', async ({ mount, page }) => {
       index: 2,
       lifecycle: LIFECYCLE.INIT,
       status: STATUS.RUNNING,
-      type: EVENTS.TOUR_STATUS,
+      type: EVENTS.TOUR_START,
     }),
   );
 
   expect(callback[11]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.START,
+      action: ACTIONS.NEXT,
       index: 2,
       lifecycle: LIFECYCLE.READY,
       status: STATUS.RUNNING,
@@ -297,9 +297,9 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[23]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.NEXT,
+      action: ACTIONS.UPDATE,
       index: 5,
-      lifecycle: LIFECYCLE.INIT,
+      lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.FINISHED,
       type: EVENTS.TOUR_END,
     }),

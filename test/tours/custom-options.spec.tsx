@@ -25,10 +25,7 @@ const props = {
   callback: mockCallback,
   finishedCallback: mockFinishedCallback,
   floaterProps: {
-    // @ts-expect-error - testing custom options
-    getPopper: (popper, type) => {
-      mockGetPopper(popper, type);
-    },
+    getPopper: mockGetPopper,
     styles: {
       arrow: {
         color: '#fff647',
@@ -45,8 +42,12 @@ describe('Joyride > Custom Options', () => {
   });
 
   it('should render STEP 1 Beacon', async () => {
-    expect(screen.queryByTestId('overlay')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalledTimes(3);
+    });
+
     expect(screen.getByTestId('button-beacon')).toMatchSnapshot();
+    expect(screen.queryByTestId('overlay')).not.toBeInTheDocument();
   });
 
   it('should render STEP 1 Tooltip', async () => {
@@ -115,6 +116,40 @@ describe('Joyride > Custom Options', () => {
     fireEvent.click(screen.getByTestId('button-close'));
 
     expect(mockCallback).toHaveBeenCalledTimes(14);
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      12,
+      getCallbackResponse({
+        action: ACTIONS.CLOSE,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+        origin: 'button_close',
+        status: STATUS.RUNNING,
+        type: EVENTS.STEP_AFTER,
+      }),
+    );
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      13,
+      getCallbackResponse({
+        action: ACTIONS.CLOSE,
+        index: 3,
+        lifecycle: LIFECYCLE.READY,
+        status: STATUS.RUNNING,
+        type: EVENTS.STEP_BEFORE,
+      }),
+    );
+
+    expect(mockCallback).toHaveBeenNthCalledWith(
+      14,
+      getCallbackResponse({
+        action: ACTIONS.UPDATE,
+        index: 3,
+        lifecycle: LIFECYCLE.BEACON,
+        status: STATUS.RUNNING,
+        type: EVENTS.BEACON,
+      }),
+    );
   });
 
   it('should pause and restart the tour', () => {
@@ -125,7 +160,7 @@ describe('Joyride > Custom Options', () => {
       getCallbackResponse({
         action: ACTIONS.STOP,
         index: 3,
-        lifecycle: LIFECYCLE.INIT,
+        lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.PAUSED,
         type: EVENTS.TOUR_STATUS,
       }),
@@ -140,7 +175,7 @@ describe('Joyride > Custom Options', () => {
         index: 3,
         lifecycle: LIFECYCLE.INIT,
         status: STATUS.RUNNING,
-        type: EVENTS.TOUR_STATUS,
+        type: EVENTS.TOUR_START,
       }),
     );
   });
@@ -207,7 +242,7 @@ describe('Joyride > Custom Options', () => {
         action: ACTIONS.NEXT,
         index: 3,
         lifecycle: LIFECYCLE.COMPLETE,
-        status: STATUS.FINISHED,
+        status: STATUS.RUNNING,
         type: EVENTS.STEP_AFTER,
       }),
     );
@@ -215,9 +250,9 @@ describe('Joyride > Custom Options', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       21,
       getCallbackResponse({
-        action: ACTIONS.NEXT,
+        action: ACTIONS.UPDATE,
         index: 3,
-        lifecycle: LIFECYCLE.INIT,
+        lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.FINISHED,
         type: EVENTS.TOUR_END,
       }),
@@ -228,7 +263,7 @@ describe('Joyride > Custom Options', () => {
       getCallbackResponse({
         action: ACTIONS.RESET,
         index: 0,
-        lifecycle: LIFECYCLE.INIT,
+        lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.READY,
         type: EVENTS.TOUR_STATUS,
       }),

@@ -1,8 +1,8 @@
-import { useReducer } from 'react';
+import { useSetState } from '@gilbarbara/hooks';
 
 import { standardSteps } from './steps';
 
-import Joyride, { CallBackProps, LIFECYCLE, Props, Step } from '../../src';
+import Joyride, { CallBackProps, Props, STATUS, Step } from '../../src';
 
 interface CustomOptionsProps extends Omit<Props, 'steps'> {
   finishedCallback: () => void;
@@ -40,35 +40,26 @@ const tourSteps: Array<Step> = [
   }),
   {
     target: '.outro h2 span',
-    placement: 'top' as const,
+    placement: 'top',
     content: "Text only steps — Because sometimes you don't really need a proper heading",
-    data: {
-      last: true,
-    },
   },
 ];
 
 export default function CustomOptions(props: CustomOptionsProps) {
   const { callback, finishedCallback, ...rest } = props;
-  const [{ steps }, setState] = useReducer(
-    (previousState: State, nextState: Partial<State>) => ({
-      ...previousState,
-      ...nextState,
-    }),
-    {
-      index: 0,
-      steps: tourSteps,
-    },
-  );
+  const [{ steps }, setState] = useSetState<State>({
+    index: 0,
+    steps: tourSteps,
+  });
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { lifecycle, step } = data;
+    const { status } = data;
 
     setState({ index: data.index });
 
     callback?.(data);
 
-    if (lifecycle === LIFECYCLE.COMPLETE && step.data?.last) {
+    if (status === STATUS.FINISHED) {
       finishedCallback();
     }
   };

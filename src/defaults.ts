@@ -1,6 +1,6 @@
 import { noop } from '~/modules/helpers';
 
-import { LIFECYCLE, STATUS } from '~/literals';
+import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 
 import { FloaterProps, Locale, Props, State, Step } from '~/types';
 
@@ -71,7 +71,7 @@ export const defaultProps = {
 } satisfies Props;
 
 export const defaultState: State = {
-  action: 'init',
+  action: ACTIONS.INIT,
   controlled: false,
   index: 0,
   lifecycle: LIFECYCLE.INIT,

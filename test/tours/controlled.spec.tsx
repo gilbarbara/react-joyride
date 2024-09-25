@@ -1,4 +1,5 @@
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
 
@@ -6,7 +7,7 @@ import Controlled from '../__fixtures__/Controlled';
 import { callbackResponseFactory } from '../__fixtures__/test-helpers';
 import { act, cleanup, fireEvent, render, screen } from '../__fixtures__/test-utils';
 
-vi.useFakeTimers();
+vi.useFakeTimers({ shouldAdvanceTime: true });
 
 const mockCallback = vi.fn();
 
@@ -32,16 +33,11 @@ describe('Joyride > Controlled', () => {
   });
 
   it('should start the tour', async () => {
-    expect(screen.getByTestId('controlled')).toMatchSnapshot();
-
     await act(async () => {
       vi.runOnlyPendingTimers();
     });
 
     expect(mockCallback).toHaveBeenCalledTimes(3);
-
-    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
-    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       1,
@@ -56,7 +52,7 @@ describe('Joyride > Controlled', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       2,
       getCallbackResponse({
-        action: ACTIONS.START,
+        action: ACTIONS.UPDATE,
         index: 0,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
@@ -72,6 +68,10 @@ describe('Joyride > Controlled', () => {
         type: EVENTS.TOOLTIP,
       }),
     );
+
+    expect(screen.getByTestId('controlled')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
   });
 
   it('should be able to click STEP 1 menu button', async () => {
@@ -80,7 +80,7 @@ describe('Joyride > Controlled', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       4,
       getCallbackResponse({
-        action: ACTIONS.NEXT,
+        action: ACTIONS.UPDATE,
         index: 0,
         lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.PAUSED,
@@ -99,9 +99,9 @@ describe('Joyride > Controlled', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       5,
       getCallbackResponse({
-        action: ACTIONS.NEXT,
-        index: 1,
-        lifecycle: LIFECYCLE.INIT,
+        action: ACTIONS.STOP,
+        index: 0,
+        lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.PAUSED,
         type: EVENTS.TOUR_STATUS,
       }),
@@ -113,19 +113,14 @@ describe('Joyride > Controlled', () => {
         action: ACTIONS.START,
         index: 1,
         lifecycle: LIFECYCLE.INIT,
-        type: EVENTS.TOUR_STATUS,
+        type: EVENTS.TOUR_START,
       }),
     );
-  });
-
-  it('should have rendered STEP 2 Tooltip', async () => {
-    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot();
-    expect(screen.getByTestId('sidebar')).toHaveClass('open');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       7,
       getCallbackResponse({
-        action: ACTIONS.START,
+        action: ACTIONS.UPDATE,
         index: 1,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
@@ -143,8 +138,17 @@ describe('Joyride > Controlled', () => {
     );
   });
 
-  it('should be able to click STEP 2 Primary button', () => {
+  it('should have rendered STEP 2 Tooltip', async () => {
+    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot();
+    expect(screen.getByTestId('sidebar')).toHaveClass('open');
+  });
+
+  it('should be able to click STEP 2 Primary button', async () => {
     fireEvent.click(screen.getByTestId('button-primary'));
+
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalledTimes(10);
+    });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       9,
@@ -158,22 +162,22 @@ describe('Joyride > Controlled', () => {
   });
 
   it('should pause and restart the tour while hiding the sidebar', async () => {
-    await act(async () => {
-      vi.runOnlyPendingTimers();
-    });
-
-    expect(mockCallback).toHaveBeenCalledTimes(13);
+    expect(mockCallback).toHaveBeenCalledTimes(10);
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       10,
       getCallbackResponse({
-        action: ACTIONS.NEXT,
-        index: 2,
-        lifecycle: LIFECYCLE.INIT,
+        action: ACTIONS.STOP,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.PAUSED,
         type: EVENTS.TOUR_STATUS,
       }),
     );
+
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+    });
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       11,
@@ -181,18 +185,22 @@ describe('Joyride > Controlled', () => {
         action: ACTIONS.START,
         index: 2,
         lifecycle: LIFECYCLE.INIT,
-        type: EVENTS.TOUR_STATUS,
+        type: EVENTS.TOUR_START,
       }),
     );
   });
 
   it('should have rendered STEP 3 Tooltip', async () => {
+    await waitFor(() => {
+      expect(mockCallback).toHaveBeenCalledTimes(13);
+    });
+
     expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       12,
       getCallbackResponse({
-        action: ACTIONS.START,
+        action: ACTIONS.NEXT,
         index: 2,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
@@ -536,6 +544,12 @@ describe('Joyride > Controlled', () => {
   it('should be able to click STEP 6 Primary button and ended the tour', async () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
+    // mockCallback.mock.calls.forEach((d, index) => {
+    //   const { step, ...rest } = d[0];
+    //
+    //   console.log(index + 1, rest);
+    // });
+
     expect(mockCallback).toHaveBeenCalledTimes(30);
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -551,9 +565,9 @@ describe('Joyride > Controlled', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       30,
       getCallbackResponse({
-        action: ACTIONS.NEXT,
+        action: ACTIONS.UPDATE,
         index: 5,
-        lifecycle: LIFECYCLE.INIT,
+        lifecycle: LIFECYCLE.COMPLETE,
         status: STATUS.FINISHED,
         type: EVENTS.TOUR_END,
       }),

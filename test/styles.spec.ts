@@ -30,7 +30,7 @@ const baseStep: Step = {
 
 describe('styles', () => {
   it('should return the default styles', () => {
-    expect(getStyles(props, getMergedStep(props, baseStep))).toMatchSnapshot();
+    expect(getStyles(props, getMergedStep(props, baseStep)!)).toMatchSnapshot();
   });
 
   it("should return the component floaterProps' arrow color instead of styles.options.arrowColor", () => {
@@ -41,7 +41,7 @@ describe('styles', () => {
           floaterProps: { styles: { arrow: { color: '#f00' } } },
           styles: { options: { arrowColor: '#00f' } },
         },
-        getMergedStep(props, baseStep),
+        getMergedStep(props, baseStep)!,
       ),
     ).toMatchSnapshot();
   });
@@ -54,14 +54,14 @@ describe('styles', () => {
           ...baseStep,
           floaterProps: { styles: { arrow: { color: '#f00' } } },
           styles: { options: { arrowColor: '#00f' } },
-        }),
+        })!,
       ),
     ).toMatchSnapshot();
   });
 
   it("should return the inherited props' styles", () => {
     expect(
-      getStyles(customStylesProps, getMergedStep(customStylesProps, baseStep)),
+      getStyles(customStylesProps, getMergedStep(customStylesProps, baseStep)!),
     ).toMatchSnapshot();
   });
 
@@ -81,6 +81,6 @@ describe('styles', () => {
       },
     };
 
-    expect(getStyles(customStylesProps, getMergedStep(customStylesProps, step))).toMatchSnapshot();
+    expect(getStyles(customStylesProps, getMergedStep(customStylesProps, step)!)).toMatchSnapshot();
   });
 });
