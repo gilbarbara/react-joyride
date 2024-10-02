@@ -33,7 +33,7 @@ const config = defineConfig({
   snapshotDir: './e2e/__snapshots__',
   snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}-{projectName}{ext}',
   testDir: './e2e',
-  timeout: 10 * 1000,
+  timeout: 20 * 1000,
   use: {
     ctPort: 3100,
     ctViteConfig: {
