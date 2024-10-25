@@ -33,14 +33,15 @@
   "sideEffects": false,
   "license": "MIT",
   "peerDependencies": {
-    "react": "15 - 18",
-    "react-dom": "15 - 18"
+    "react": "16.3 - 19",
+    "react-dom": "16.3 - 19"
   },
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.3.1",
     "deep-diff": "^1.0.2",
     "deepmerge": "^4.3.1",
     "is-lite": "^1.2.1",
+    "playwright": "^1.48.1",
     "react-floater": "^0.7.9",
     "react-innertext": "^1.1.5",
     "react-is": "^16.13.1",
@@ -55,7 +56,7 @@
     "@gilbarbara/node-helpers": "^0.1.0",
     "@gilbarbara/prettier-config": "^1.0.0",
     "@gilbarbara/tsconfig": "^0.2.3",
-    "@playwright/experimental-ct-react": "^1.47.0",
+    "@playwright/experimental-ct-react": "^1.48.1",
     "@size-limit/preset-big-lib": "^11.1.5",
     "@swc/core": "^1.7.24",
     "@testing-library/dom": "^10.4.0",
@@ -89,7 +90,7 @@
     "vitest": "^2.0.5"
   },
   "scripts": {
-    "build": " npm run clean && tsup && ts-node scripts/fix-cjs.ts",
+    "build": "npm run clean && tsup && ts-node scripts/fix-cjs.ts",
     "watch": "tsup --watch",
     "clean": "del dist/*",
     "lint": "eslint --fix src test",
@@ -99,7 +100,7 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
     "e2e": "playwright test -c playwright-ct.config.ts",
-    "e2e:debug": "npm run e2e -- --project=chromium --debug",
+    "e2e:debug": "npm run e2e -- --project=chrome --debug",
     "e2e:ui": "npm run e2e -- --ui",
     "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run e2e && npm run build && npm run size && npm run typevalidation",

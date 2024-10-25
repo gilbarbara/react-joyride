@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { createRoot, type Root } from 'react-dom/client';
 
 import { canUseDOM } from '~/modules/dom';
 import { isReact16 } from '~/modules/helpers';
@@ -11,6 +12,7 @@ interface Props {
 
 export default class JoyridePortal extends React.Component<Props> {
   node: HTMLElement | null = null;
+  rootNode: Root | null = null;
 
   componentDidMount() {
     const { id } = this.props;
@@ -25,7 +27,7 @@ export default class JoyridePortal extends React.Component<Props> {
     document.body.appendChild(this.node);
 
     if (!isReact16) {
-      this.renderReact15();
+      throw new Error('react-joyride requires React 16.3 or later.');
     }
   }
 
@@ -35,7 +37,7 @@ export default class JoyridePortal extends React.Component<Props> {
     }
 
     if (!isReact16) {
-      this.renderReact15();
+      throw new Error('react-joyride requires React 16.3 or later.');
     }
   }
 
@@ -45,25 +47,12 @@ export default class JoyridePortal extends React.Component<Props> {
     }
 
     if (!isReact16) {
-      // eslint-disable-next-line react/no-deprecated
-      ReactDOM.unmountComponentAtNode(this.node);
+      this.rootNode?.unmount();
     }
 
     if (this.node.parentNode === document.body) {
       document.body.removeChild(this.node);
       this.node = null;
-    }
-  }
-
-  renderReact15() {
-    if (!canUseDOM()) {
-      return;
-    }
-
-    const { children } = this.props;
-
-    if (this.node) {
-      ReactDOM.unstable_renderSubtreeIntoContainer(this, children, this.node);
     }
   }
 
@@ -77,6 +66,8 @@ export default class JoyridePortal extends React.Component<Props> {
     if (!this.node) {
       return null;
     }
+
+    this.rootNode = createRoot(this.node);
 
     return ReactDOM.createPortal(children, this.node);
   }

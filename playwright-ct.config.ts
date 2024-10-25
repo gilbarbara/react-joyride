@@ -15,7 +15,7 @@ const config = defineConfig({
   fullyParallel: true,
   projects: [
     {
-      name: 'chromium',
+      name: 'chrome',
       use: { ...devices['Desktop Chrome'] },
     },
     {
