@@ -34,7 +34,7 @@
   "license": "MIT",
   "peerDependencies": {
     "react": "15 - 18",
-    "react-dom": "15 - 18"
+    "react-dom": "15 - 19"
   },
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.3.1",
