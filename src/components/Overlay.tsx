@@ -63,8 +63,14 @@ export default class JoyrideOverlay extends React.Component<OverlayProps, State>
   }
 
   componentDidUpdate(previousProps: OverlayProps) {
-    const { lifecycle, spotlightClicks } = this.props;
+    const { disableScrollParentFix, lifecycle, spotlightClicks, target } = this.props;
     const { changed } = treeChanges(previousProps, this.props);
+
+    if (changed('target') || changed('disableScrollParentFix')) {
+      const element = getElement(target);
+
+      this.scrollParent = getScrollParent(element ?? document.body, disableScrollParentFix, true);
+    }
 
     if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
       this.scrollParent?.addEventListener('scroll', this.handleScroll, { passive: true });

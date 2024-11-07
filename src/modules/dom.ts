@@ -204,10 +204,16 @@ export function getElementPosition(
   const elementRect = getClientRect(element);
   const parent = getScrollParent(element, skipFix);
   const hasScrollParent = hasCustomScrollParent(element, skipFix);
+  const isFixedTarget = hasPosition(element);
   let parentTop = 0;
   let top = elementRect?.top ?? 0;
 
-  if (parent instanceof HTMLElement) {
+  if (hasScrollParent && isFixedTarget) {
+    const offsetTop = element?.offsetTop ?? 0;
+    const parentScrollTop = (parent as HTMLElement)?.scrollTop ?? 0;
+
+    top = offsetTop - parentScrollTop;
+  } else if (parent instanceof HTMLElement) {
     parentTop = parent.scrollTop;
 
     if (!hasScrollParent && !hasPosition(element)) {
