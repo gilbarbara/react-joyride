@@ -39,6 +39,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
       helpers,
       index,
       lifecycle,
+      shouldScroll,
       status,
       step,
       store,
@@ -139,7 +140,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
         type: EVENTS.TOOLTIP,
       });
 
-      if (this.tooltip) {
+      if (shouldScroll && this.tooltip) {
         this.scope = new Scope(this.tooltip, { selector: '[data-action=primary]' });
         this.scope.setFocus();
       }
