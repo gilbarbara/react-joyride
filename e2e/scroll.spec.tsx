@@ -4,9 +4,8 @@ import './global.d';
 import React from 'react';
 import { expect, test } from '@playwright/experimental-ct-react';
 
-import { sleep } from '~/modules/helpers';
-
 import { ACTIONS, CallBackProps, EVENTS, LIFECYCLE, STATUS } from '../src';
+import { sleep } from '../src/modules/helpers';
 import Scroll from '../test/__fixtures__/Scroll';
 
 function formatCallbackResponse(input: Partial<CallBackProps>) {

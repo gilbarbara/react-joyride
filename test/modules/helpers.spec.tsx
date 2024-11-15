@@ -1,10 +1,9 @@
-import * as React from 'react';
 import { fromPartial } from '@total-typescript/shoehorn';
 
 import {
   getBrowser,
   getObjectType,
-  getText,
+  getReactNodeText,
   hasValidKeys,
   hexToRGB,
   hideBeacon,
@@ -14,10 +13,19 @@ import {
   objectKeys,
   omit,
   pick,
+  replaceLocaleContent,
   sleep,
 } from '~/modules/helpers';
 
 const baseObject = { a: 1, b: '', c: [1], d: { a: null }, e: undefined };
+
+function Skip() {
+  return <strong data-test-id="skip-label">Do you really want to skip?</strong>;
+}
+
+function NextWithProgress() {
+  return <strong data-test-id="next-label">{`Go ({step} of {steps})`}</strong>;
+}
 
 describe('helpers', () => {
   describe('getBrowser', () => {
@@ -138,24 +146,16 @@ describe('helpers', () => {
     });
   });
 
-  describe('getText', () => {
-    it('should return the expected text', () => {
-      const Component = (
-        <div>
-          <h1>Hello!</h1>
-          <p>This is a test.</p>
-        </div>
+  describe('getReactNodeText', () => {
+    it('should return properly', () => {
+      expect(getReactNodeText(<Skip />)).toBe('Do you really want to skip?');
+      expect(getReactNodeText(<NextWithProgress />, { step: 2, steps: 5 })).toBe('Go (2 of 5)');
+      expect(
+        getReactNodeText(<span>Next {`({step} of {steps})`}</span>, { step: 2, steps: 5 }),
+      ).toBe('Next (2 of 5)');
+      expect(getReactNodeText('Next ({step} of {steps})', { step: 2, steps: 5 })).toBe(
+        'Next (2 of 5)',
       );
-
-      const Fragment = (
-        <React.Fragment>
-          <h1>Hello!</h1>
-          <p>This is the second test.</p>
-        </React.Fragment>
-      );
-
-      expect(getText(Component)).toBe('Hello! This is a test.');
-      expect(getText(Fragment)).toBe('Hello! This is the second test.');
     });
   });
 
@@ -374,6 +374,19 @@ describe('helpers', () => {
     it('should throw for bad inputs', () => {
       // @ts-expect-error - invalid value
       expect(() => pick(['a'])).toThrow('Expected an object');
+    });
+  });
+
+  describe('replaceLocaleContent', () => {
+    it('should replace the content properly', () => {
+      expect(replaceLocaleContent(<NextWithProgress />, 2, 5)).toEqual(
+        <strong data-test-id="next-label">Go (2 of 5)</strong>,
+      );
+      expect(replaceLocaleContent(<span>{`Next ({step} of {steps})`}</span>, 2, 5)).toEqual(
+        <span>Next (2 of 5)</span>,
+      );
+      expect(replaceLocaleContent('Next ({step} of {steps})', 2, 5)).toEqual('Next (2 of 5)');
+      expect(replaceLocaleContent(null, 2, 5)).toEqual(null);
     });
   });
 

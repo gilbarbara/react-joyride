@@ -40,7 +40,7 @@ export interface Locale {
    */
   next?: ReactNode;
   /**
-   * Label for the next button with `showProgress.
+   * Label for the next button with `showProgress`.
    * Use the `{step}` and `{steps}` placeholders to display the current step and the total steps.
    * @default 'Next (Step {step} of {steps})'
    */
