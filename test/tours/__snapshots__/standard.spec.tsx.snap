@@ -237,7 +237,7 @@ exports[`Joyride > Standard > should start the tour 1`] = `
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: absolute; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 16px 0px 0px;"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: absolute; transition: opacity 0.3s; visibility: hidden; z-index: 200; top: 0px; left: 0px; padding: 16px 0px 0px;"
     x-placement="bottom"
   >
     <div

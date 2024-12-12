@@ -239,6 +239,15 @@ export default class JoyrideStep extends React.Component<StepProps> {
           id={`react-joyride-step-${index}`}
           open={this.open}
           placement={step.placement}
+          styles={{
+            ...step.floaterProps?.styles,
+            floater: {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              ...step.floaterProps?.styles?.floater,
+            },
+          }}
           target={step.target}
         >
           <Beacon
