@@ -1082,7 +1082,7 @@ exports[`Joyride > Controlled > should start the tour 2`] = `
 >
   <div
     class="__floater __floater__open"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s, transform 0.2s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s, transform 0.2s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0); will-change: transform;"
     x-placement="bottom"
   >
     <div
