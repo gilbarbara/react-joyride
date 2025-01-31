@@ -223,7 +223,8 @@ export default class JoyrideStep extends React.Component<StepProps> {
 
   render() {
     const { continuous, debug, index, nonce, shouldScroll, size, step } = this.props;
-    const target = getElement(step.target);
+    const target =
+      getElement(step.floaterProps?.target as string | HTMLElement) || getElement(step.target);
 
     if (!validateStep(step) || !is.domElement(target)) {
       return null;
@@ -239,7 +240,7 @@ export default class JoyrideStep extends React.Component<StepProps> {
           id={`react-joyride-step-${index}`}
           open={this.open}
           placement={step.placement}
-          target={step.target}
+          target={target}
         >
           <Beacon
             beaconComponent={step.beaconComponent}
