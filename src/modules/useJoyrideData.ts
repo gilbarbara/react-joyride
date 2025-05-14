@@ -346,12 +346,12 @@ export default function useJoyrideData(
       });
     }
 
-    if (previousStep && changedState('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+    if (changedState('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
       callback?.({
         ...state,
-        index: index - 1,
+        index: previousStep ? index - 1 : 0,
         // Return the last step when the tour is finished
-        step: previousStep,
+        step: previousStep ?? step,
         type: EVENTS.TOUR_END,
       });
       store.current.reset();
