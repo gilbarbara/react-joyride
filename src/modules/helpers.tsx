@@ -37,6 +37,14 @@ interface ShouldScrollOptions {
 
 export const isReact16 = createPortal !== undefined;
 
+function getProps<T = any>(input: ReactNode): T | null {
+  if (isValidElement<T>(input)) {
+    return input.props;
+  }
+
+  return null;
+}
+
 /**
  * Get the current browser
  */
@@ -86,10 +94,10 @@ export function getReactNodeText(input: ReactNode, options: GetReactNodeTextOpti
   if (!text) {
     if (
       isValidElement(input) &&
-      !Object.values(input.props).length &&
+      !Object.values(getProps(input)).length &&
       getObjectType(input.type) === 'function'
     ) {
-      const component = (input.type as FC)({});
+      const component = (input.type as FC)({}) as Awaited<ReactNode>;
 
       text = getReactNodeText(component, options);
     } else {
@@ -255,28 +263,28 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
     return input;
   }
 
-  const { children } = input.props;
+  const { children } = getProps(input);
 
   if (getObjectType(children) === 'string' && children.includes('{step}')) {
-    return cloneElement(input as ReactElement, {
-      children: replacer(children),
-    });
+    return cloneElement(input as ReactElement, {}, replacer(children));
   }
 
   if (Array.isArray(children)) {
-    return cloneElement(input as ReactElement, {
-      children: children.map((child: ReactNode) => {
+    return cloneElement(
+      input as ReactElement,
+      {},
+      children.map((child: ReactNode) => {
         if (typeof child === 'string') {
           return replacer(child);
         }
 
         return replaceLocaleContent(child, step, steps);
       }),
-    });
+    );
   }
 
-  if (getObjectType(input.type) === 'function' && !Object.values(input.props).length) {
-    const component = (input.type as FC)({});
+  if (getObjectType(input.type) === 'function' && !Object.values(getProps(input)).length) {
+    const component = (input.type as FC)({}) as Awaited<ReactNode>;
 
     return replaceLocaleContent(component, step, steps);
   }

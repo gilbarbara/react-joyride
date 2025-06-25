@@ -33,8 +33,8 @@
   "sideEffects": false,
   "license": "MIT",
   "peerDependencies": {
-    "react": "15 - 18",
-    "react-dom": "15 - 18"
+    "react": "19",
+    "react-dom": "19"
   },
   "dependencies": {
     "@gilbarbara/deep-equal": "^0.3.1",
@@ -43,7 +43,7 @@
     "is-lite": "^1.2.1",
     "react-floater": "^0.7.9",
     "react-innertext": "^1.1.5",
-    "react-is": "^16.13.1",
+    "react-is": "^19.1.0",
     "scroll": "^3.0.1",
     "scrollparent": "^2.1.0",
     "tree-changes": "^0.11.2",
@@ -64,8 +64,8 @@
     "@total-typescript/shoehorn": "^0.1.2",
     "@types/exenv": "^1.2.2",
     "@types/node": "^22.9.0",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "@types/scroll": "^3.0.3",
     "@types/scrollparent": "^2.0.3",
     "@vitejs/plugin-react-swc": "^3.7.1",
@@ -78,8 +78,8 @@
     "is-ci-cli": "^2.2.0",
     "jest-extended": "^4.0.2",
     "jsdom": "^25.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "repo-tools": "^0.3.1",
     "size-limit": "^11.1.6",
     "ts-node": "^10.9.2",

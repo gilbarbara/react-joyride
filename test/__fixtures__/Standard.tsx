@@ -24,7 +24,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
       steps: standardSteps,
     },
   );
-  const helpersRef = useRef<StoreHelpers>();
+  const helpersRef = useRef<StoreHelpers>(undefined);
 
   const handleClickStart = () => {
     setState({ run: true });
