@@ -25,7 +25,6 @@ const config = defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: ['scroll.spec.tsx'],
     },
   ],
   reporter: 'html',
@@ -33,7 +32,6 @@ const config = defineConfig({
   snapshotDir: './e2e/__snapshots__',
   snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}-{projectName}{ext}',
   testDir: './e2e',
-  timeout: 10 * 1000,
   use: {
     ctPort: 3100,
     ctViteConfig: {
@@ -45,6 +43,9 @@ const config = defineConfig({
     },
     testIdAttribute: 'data-test-id',
     trace: 'on-first-retry',
+    launchOptions: {
+      slowMo: process.env.SLO_MO ? Number(process.env.SLO_MO) : 0,
+    },
   },
   workers: process.env.CI ? 1 : undefined,
 });
