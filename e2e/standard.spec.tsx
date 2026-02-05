@@ -214,8 +214,7 @@ test('should run the tour', async ({ mount, page }) => {
   /**
    * Fifth step
    */
-  await expect.poll(getScrollTop).toBeAround(2403);
-
+  await expect.poll(getScrollTop).toBeAround(2370);
   await expect(page).toHaveScreenshot('step5-tooltip.png');
 
   expect(callback[14]).toEqual(
@@ -270,7 +269,7 @@ test('should run the tour', async ({ mount, page }) => {
   /**
    * Fifth step again
    */
-  await expect.poll(getScrollTop).toBeAround(2403);
+  await expect.poll(getScrollTop).toBeAround(2370);
 
   await expect(page).toHaveScreenshot('step5-tooltip-forward.png');
 

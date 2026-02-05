@@ -41,7 +41,9 @@ test('should run the tour', async ({ mount, page }) => {
     />,
   );
 
+  await page.waitForFunction(() => document.body.scrollHeight > window.innerHeight);
   await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+
   await expect(page).toHaveScreenshot('step1-beacon.png');
   await expect.poll(() => callback.length).toBe(3);
 

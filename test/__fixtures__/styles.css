@@ -12,10 +12,16 @@
   --pink: #ee63ab;
 }
 
-body {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+}
+
+body {
   font-family: sans-serif;
   margin: 0;
+  min-height: 100vh;
   padding: 0;
 }
 
@@ -30,7 +36,7 @@ button {
 .container {
   flex: 1;
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 1024px;
   padding: 32px;
 }
 
@@ -66,7 +72,7 @@ button {
 
 .demo__footer {
   background-color: #888;
-  color: var(--dark-pink);
+  padding: 16px;
 }
 
 .list {

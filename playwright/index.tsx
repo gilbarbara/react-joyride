@@ -1,1 +1,1 @@
-import '../e2e/__fixtures__/styles.css';
+import '../test/__fixtures__/styles.css';
