@@ -1,19 +1,18 @@
 import { ReactNode, useEffect, useMemo } from 'react';
-import { useSingleton } from '@gilbarbara/hooks';
+import { useOnce } from '@gilbarbara/hooks';
 
+import { defaultProps } from '~/defaults';
+import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
 import { log, mergeProps } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 import useJoyrideData from '~/modules/useJoyrideData';
 import { usePortalElement } from '~/modules/usePortalElement';
 
-import { LIFECYCLE, STATUS } from '~/literals';
-
 import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';
 import Step from '~/components/Step';
 
-import { defaultProps } from '~/defaults';
 import { Props } from '~/types';
 
 export function Joyride(props: Props) {
@@ -24,11 +23,11 @@ export function Joyride(props: Props) {
 
   const element = usePortalElement(portalElement);
 
-  useSingleton(() => {
+  useOnce(() => {
     log({
       title: 'init',
       data: [
-        { key: 'props', value: props },
+        { key: 'props', value: mergedProps },
         { key: 'state', value: store.current.getState() },
       ],
       debug,
@@ -62,7 +61,7 @@ export function Joyride(props: Props) {
   const { index, lifecycle, status } = store.current.getState();
   const isRunning = status === STATUS.RUNNING;
   const content: Record<string, ReactNode> = {};
-  const step = useMemo(() => getMergedStep(props, steps[index]), [index, props, steps]);
+  const step = useMemo(() => getMergedStep(mergedProps, steps[index]), [index, mergedProps, steps]);
 
   const handleClickOverlay = () => {
     if (!step?.disableOverlayClose) {
@@ -119,5 +118,7 @@ export default function ReactJoyride(props: Props) {
   return <Joyride {...props} />;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export * from './literals';
+// eslint-disable-next-line react-refresh/only-export-components
 export * from './types';

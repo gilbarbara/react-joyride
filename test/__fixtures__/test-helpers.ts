@@ -4,6 +4,17 @@ import { STATUS } from '~/literals';
 
 import { CallBackProps } from '~/types';
 
+type Colors = 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white' | 'black';
+
+interface LoggerOptions {
+  bg?: Colors;
+  char?: string;
+  color?: Colors;
+  data?: any;
+  level?: number;
+  spaced?: boolean;
+}
+
 export function callbackResponseFactory(initial?: Partial<CallBackProps>) {
   const { controlled = false, size = 6, status = STATUS.RUNNING } = initial ?? {};
 
@@ -22,17 +33,6 @@ export function callbackResponseFactory(initial?: Partial<CallBackProps>) {
 export function capitalize<T extends string = string>(input: T) {
   return (input.charAt(0).toLocaleUpperCase() +
     input.slice(1).toLocaleLowerCase()) as Capitalize<T>;
-}
-
-type Colors = 'red' | 'green' | 'yellow' | 'blue' | 'magenta' | 'cyan' | 'white' | 'black';
-
-interface LoggerOptions {
-  bg?: Colors;
-  char?: string;
-  color?: Colors;
-  data?: any;
-  level?: number;
-  spaced?: boolean;
 }
 
 export function logger(text: string, options: LoggerOptions = {}) {

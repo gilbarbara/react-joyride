@@ -9,6 +9,10 @@ import { Actions, AnyObject, Lifecycle, NarrowPlainObject, State, Step } from '~
 
 import { hasPosition } from './dom';
 
+type RemoveType<TObject, TExclude = undefined> = {
+  [Key in keyof TObject as TObject[Key] extends TExclude ? never : Key]: TObject[Key];
+};
+
 interface GetReactNodeTextOptions {
   defaultValue?: any;
   step?: number;
@@ -25,10 +29,6 @@ interface LogOptions {
   /** If true, the message will be a warning */
   warn?: boolean;
 }
-
-type RemoveType<TObject, TExclude = undefined> = {
-  [Key in keyof TObject as TObject[Key] extends TExclude ? never : Key]: TObject[Key];
-};
 
 interface ShouldScrollOptions {
   isFirstStep: boolean;
@@ -82,7 +82,7 @@ export function getBrowser(userAgent: string = navigator.userAgent): string {
     browser = 'chrome';
   }
   // Safari (and Chrome iOS, Firefox iOS)
-  else if (/(Version\/([\d._]+).*Safari|CriOS|FxiOS| Mobile\/)/.test(userAgent)) {
+  else if (/Version\/[\d._].*Safari|CriOS|FxiOS| Mobile\//.test(userAgent)) {
     browser = 'safari';
   }
 
@@ -103,10 +103,10 @@ export function getReactNodeText(input: ReactNode, options: GetReactNodeTextOpti
   if (!text) {
     if (
       isValidElement(input) &&
-      !Object.values(input.props).length &&
+      !Object.values(input.props as Record<string, unknown>).length &&
       getObjectType(input.type) === 'function'
     ) {
-      const component = (input.type as FC)({});
+      const component = (input.type as FC)({}) as ReactNode;
 
       text = getReactNodeText(component, options);
     } else {
@@ -148,7 +148,7 @@ export function hideBeacon(step: Step, state: State, continuous: boolean): boole
  * @returns {boolean}
  */
 export function isLegacy(): boolean {
-  return !['chrome', 'safari', 'firefox', 'opera'].includes(getBrowser());
+  return !['chrome', 'firefox', 'opera', 'safari'].includes(getBrowser());
 }
 
 /**
@@ -156,7 +156,7 @@ export function isLegacy(): boolean {
  */
 export function log({ data, debug = false, title, warn = false }: LogOptions) {
   /* eslint-disable no-console */
-  const logFn = warn ? console.warn ?? console.error : console.log;
+  const logFn = warn ? (console.warn ?? console.error) : console.log;
 
   if (debug) {
     if (title && data) {
@@ -280,16 +280,16 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
     return input;
   }
 
-  const { children } = input.props;
+  const { children } = input.props as { children?: ReactNode };
 
-  if (getObjectType(children) === 'string' && children.includes('{step}')) {
-    return cloneElement(input as ReactElement, {
+  if (is.string(children) && children.includes('{step}')) {
+    return cloneElement(input as ReactElement<{ children?: ReactNode }>, {
       children: replacer(children),
     });
   }
 
   if (Array.isArray(children)) {
-    return cloneElement(input as ReactElement, {
+    return cloneElement(input as ReactElement<{ children?: ReactNode }>, {
       children: children.map((child: ReactNode) => {
         if (typeof child === 'string') {
           return replacer(child);
@@ -300,8 +300,8 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
     });
   }
 
-  if (getObjectType(input.type) === 'function' && !Object.values(input.props).length) {
-    const component = (input.type as FC)({});
+  if (is.function(input.type) && !Object.values(input.props as Record<string, unknown>).length) {
+    const component = (input.type as FC)({}) as ReactNode;
 
     return replaceLocaleContent(component, step, steps);
   }

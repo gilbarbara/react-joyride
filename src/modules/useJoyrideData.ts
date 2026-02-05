@@ -1,16 +1,18 @@
-import { MutableRefObject, useCallback, useMemo, useRef } from 'react';
+import { RefObject, useCallback, useMemo, useRef } from 'react';
 import isEqual from '@gilbarbara/deep-equal';
 import {
-  useDeepCompareEffect,
+  useEffectDeepCompare,
   useMount,
+  useOnce,
   usePrevious,
   useSetState,
-  useSingleton,
   useUpdateEffect,
 } from '@gilbarbara/hooks';
 import is from 'is-lite';
 import useTreeChanges from 'tree-changes-hook';
 
+import { defaultProps } from '~/defaults';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import {
   getElement,
   getScrollParent,
@@ -23,14 +25,11 @@ import { hideBeacon, log, mergeProps, shouldScroll } from '~/modules/helpers';
 import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
-
-import { defaultProps } from '~/defaults';
 import { Actions, Props, State, Status } from '~/types';
 
 export default function useJoyrideData(
   props: ReturnType<typeof mergeProps<typeof defaultProps, Props>>,
-): MutableRefObject<ReturnType<typeof createStore>> {
+): RefObject<ReturnType<typeof createStore>> {
   const {
     callback,
     continuous,
@@ -60,7 +59,7 @@ export default function useJoyrideData(
 
   const previousStep = useMemo(() => getMergedStep(props, steps[index - 1]), [index, props, steps]);
 
-  useSingleton(() => {
+  useOnce(() => {
     store.current.addListener(newState => {
       setState(newState);
     });
@@ -113,7 +112,7 @@ export default function useJoyrideData(
           const y = offset?.top?.y ?? 0;
           const flipped = !!placement && placement !== step.placement;
 
-          if (['top', 'right', 'left'].includes(placement) && !flipped && !hasCustomScroll) {
+          if (['left', 'right', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
             scrollY = Math.floor(y - scrollOffset);
           } else {
             scrollY -= step.spotlightPadding;
@@ -169,7 +168,7 @@ export default function useJoyrideData(
     }
   }, [getHelpers, run, size, status]);
 
-  useDeepCompareEffect(() => {
+  useEffectDeepCompare(() => {
     if (!previousProps || !previousState) {
       return;
     }

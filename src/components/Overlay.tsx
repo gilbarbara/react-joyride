@@ -2,6 +2,7 @@ import { CSSProperties, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useIsMounted, useMount, useSetState, useUnmount } from '@gilbarbara/hooks';
 import useTreeChanges from 'tree-changes-hook';
 
+import { LIFECYCLE } from '~/literals';
 import {
   getClientRect,
   getDocumentHeight,
@@ -13,24 +14,22 @@ import {
 } from '~/modules/dom';
 import { getBrowser, isLegacy, log } from '~/modules/helpers';
 
-import { LIFECYCLE } from '~/literals';
-
 import { Lifecycle, OverlayProps } from '~/types';
 
 import Spotlight from './Spotlight';
-
-interface State {
-  isScrolling: boolean;
-  mouseOverSpotlight: boolean;
-  resizedAt: number;
-  showSpotlight: boolean;
-}
 
 interface SpotlightStyles extends CSSProperties {
   height: number;
   left: number;
   top: number;
   width: number;
+}
+
+interface State {
+  isScrolling: boolean;
+  mouseOverSpotlight: boolean;
+  resizedAt: number;
+  showSpotlight: boolean;
 }
 
 export default function JoyrideOverlay(props: OverlayProps) {
@@ -52,8 +51,8 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const isMounted = useIsMounted();
 
   const { changed } = useTreeChanges(props);
-  const resizeTimeoutRef = useRef<number>();
-  const scrollTimeoutRef = useRef<number>();
+  const resizeTimeoutRef = useRef<number>(undefined);
+  const scrollTimeoutRef = useRef<number>(undefined);
   const scrollParentRef = useRef<Element | Document | null>(null);
 
   const [{ isScrolling, mouseOverSpotlight, showSpotlight }, setState] = useSetState<State>({
@@ -255,6 +254,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
 
   // Hack for Safari bug with mix-blend-mode with z-index
   if (getBrowser() === 'safari') {
+    // eslint-disable-next-line unused-imports/no-unused-vars
     const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
 
     spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;

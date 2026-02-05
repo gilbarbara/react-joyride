@@ -1,11 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { useSetState } from '@gilbarbara/hooks';
 
-import Beacon from './Beacon';
-import Tooltip from './Tooltip';
-
 import Joyride, { ACTIONS, EVENTS, STATUS } from '../../src';
 import { CallBackProps, Props, Step } from '../../src/types';
+
+import Beacon from './Beacon';
+import Tooltip from './Tooltip';
 
 interface ControlledProps extends Omit<Props, 'run' | 'steps'> {}
 

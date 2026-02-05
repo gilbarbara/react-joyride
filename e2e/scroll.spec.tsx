@@ -35,7 +35,7 @@ test('should run the tour', async ({ mount, page }) => {
 
   await mount(
     <Scroll
-      callback={({ step, ...rest }) => {
+      callback={({ step: _step, ...rest }) => {
         callback.push(rest);
       }}
     />,

@@ -1,3 +1,4 @@
+/* eslint-disable import-x/export */
 import { ReactElement } from 'react';
 import { Matcher, MatcherOptions } from '@testing-library/dom/types/matches';
 import {
@@ -51,4 +52,4 @@ const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'queries'>
 export * from '@testing-library/react';
 
 // override render method
-export { customScreen as screen, customWithin as within, customRender as render };
+export { customRender as render, customScreen as screen, customWithin as within };

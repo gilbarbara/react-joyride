@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/no-render-in-lifecycle */
 import React from 'react';
-import { MockInstance } from 'vitest';
+import { type MockInstance } from 'vitest';
 
 import Scope from '~/modules/scope';
 
@@ -17,7 +17,7 @@ const mocks: Record<string, MockInstance> = {};
 let scopeInstance: Scope;
 
 function setScope(scope: Scope) {
-  const isVisible = scope.isVisible;
+  const { isVisible } = scope;
 
   scopeInstance = {
     ...scope,
@@ -48,7 +48,7 @@ describe('modules/scope', () => {
       expect(() => {
         // @ts-expect-error Testing invalid parameters
         scope = new Scope();
-      }).toThrow();
+      }).toThrowError();
     });
 
     it('should not have created an instance', () => {
