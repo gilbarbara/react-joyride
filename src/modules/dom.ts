@@ -262,20 +262,29 @@ export function scrollDocument(): Element | HTMLElement {
 export function scrollTo(
   value: number,
   options: { duration?: number; element: Element | HTMLElement },
-): Promise<void> {
+): { cancel: () => void; promise: Promise<void> } {
   const { duration, element } = options;
 
-  return new Promise((resolve, reject) => {
+  let cancel: () => void = () => {};
+
+  const promise = new Promise<void>((resolve, reject) => {
     const { scrollTop } = element;
 
     const limit = value > scrollTop ? value - scrollTop : scrollTop - value;
 
-    scroll.top(element as HTMLElement, value, { duration: limit < 100 ? 50 : duration }, error => {
-      if (error && error.message !== 'Element already at target scroll position') {
-        return reject(error);
-      }
+    cancel = scroll.top(
+      element as HTMLElement,
+      value,
+      { duration: limit < 100 ? 50 : duration },
+      error => {
+        if (error && error.message !== 'Element already at target scroll position') {
+          return reject(error);
+        }
 
-      return resolve();
-    });
+        return resolve();
+      },
+    );
   });
+
+  return { cancel, promise };
 }
