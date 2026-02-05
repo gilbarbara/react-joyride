@@ -49,6 +49,7 @@ export default function useJoyrideData(
 
   const { action, controlled, index, lifecycle, size, status } = state;
   const lastAction = useRef<Actions | null>(null);
+  const cancelScrollRef = useRef<(() => void) | null>(null);
 
   const previousProps = usePrevious(props);
   const previousState = usePrevious(state);
@@ -98,19 +99,17 @@ export default function useJoyrideData(
           debug,
         });
 
-        if (lifecycle === LIFECYCLE.BEACON && beaconPopper) {
-          const { modifiersData, placement } = beaconPopper.state ?? {};
-          const { offset } = modifiersData ?? {};
-          const y = offset?.top?.y ?? 0;
+        if (lifecycle === LIFECYCLE.BEACON && beaconPopper?.state?.placement) {
+          const { modifiersData, placement } = beaconPopper.state;
+          const y = modifiersData?.offset?.top?.y ?? 0;
 
           if (!['bottom'].includes(placement) && !hasCustomScroll) {
             scrollY = Math.floor(y - scrollOffset);
           }
-        } else if (lifecycle === LIFECYCLE.TOOLTIP && tooltipPopper) {
-          const { modifiersData, placement } = tooltipPopper.state ?? {};
-          const { offset } = modifiersData ?? {};
-          const y = offset?.top?.y ?? 0;
-          const flipped = !!placement && placement !== step.placement;
+        } else if (lifecycle === LIFECYCLE.TOOLTIP && tooltipPopper?.state?.placement) {
+          const { modifiersData, placement } = tooltipPopper.state;
+          const y = modifiersData?.offset?.top?.y ?? 0;
+          const flipped = placement !== step.placement;
 
           if (['left', 'right', 'top'].includes(placement) && !flipped && !hasCustomScroll) {
             scrollY = Math.floor(y - scrollOffset);
@@ -121,15 +120,21 @@ export default function useJoyrideData(
 
         scrollY = scrollY >= 0 ? scrollY : 0;
 
-        if (status === STATUS.RUNNING) {
-          scrollTo(scrollY, { element: scrollParent as Element, duration: scrollDuration }).then(
-            () => {
-              setTimeout(() => {
-                store.current.getPopper('tooltip')?.update();
-              }, 10);
-            },
-          );
-        }
+        cancelScrollRef.current?.();
+
+        const { cancel, promise } = scrollTo(scrollY, {
+          element: scrollParent as Element,
+          duration: scrollDuration,
+        });
+
+        cancelScrollRef.current = cancel;
+
+        // eslint-disable-next-line promise/catch-or-return
+        promise.then(() => {
+          setTimeout(() => {
+            store.current.getPopper('tooltip')?.update();
+          }, 10);
+        });
       }
     },
     [
