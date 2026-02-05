@@ -1,7 +1,7 @@
-import deepmerge from 'deepmerge';
+import { Props as FloaterProps } from 'react-floater';
 
-import { hexToRGB } from './modules/helpers';
-import { Props, StepMerged, StylesOptions, StylesWithFloaterStyles } from './types';
+import { deepMerge, hexToRGB } from './modules/helpers';
+import { Props, StepMerged, Styles, StylesOptions, StylesWithFloaterStyles } from './types';
 
 const defaultOptions = {
   arrowColor: '#fff',
@@ -34,9 +34,9 @@ const spotlight = {
 
 export default function getStyles(props: Props, step: StepMerged) {
   const { floaterProps, styles } = props;
-  const mergedFloaterProps = deepmerge(step.floaterProps ?? {}, floaterProps ?? {});
-  const mergedStyles = deepmerge(styles ?? {}, step.styles ?? {});
-  const options = deepmerge(defaultOptions, mergedStyles.options || {}) satisfies StylesOptions;
+  const mergedFloaterProps = deepMerge<FloaterProps>(step.floaterProps ?? {}, floaterProps ?? {});
+  const mergedStyles = deepMerge<Styles>(styles ?? {}, step.styles ?? {});
+  const options = deepMerge<StylesOptions>(defaultOptions, mergedStyles.options || {});
   const hideBeacon = step.placement === 'center' || step.disableBeacon;
   let { width } = options;
 
@@ -187,5 +187,5 @@ export default function getStyles(props: Props, step: StepMerged) {
     options,
   };
 
-  return deepmerge(defaultStyles, mergedStyles) as StylesWithFloaterStyles;
+  return deepMerge<StylesWithFloaterStyles>(defaultStyles, mergedStyles);
 }

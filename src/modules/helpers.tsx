@@ -1,5 +1,6 @@
 import { cloneElement, FC, isValidElement, ReactElement, ReactNode } from 'react';
 import innerText from 'react-innertext';
+import deepmergeFactory from '@fastify/deepmerge';
 import { PlainObject, Simplify } from '@gilbarbara/types';
 import is from 'is-lite';
 
@@ -52,6 +53,14 @@ export function cleanUpObject<T extends PlainObject>(input: T) {
   }
 
   return output as RemoveType<T>;
+}
+
+export function deepMerge<T extends object>(...objects: object[]): T {
+  return deepmergeFactory({
+    all: true,
+    isMergeableObject: (value): value is object =>
+      !(!is.plainObject(value) || isValidElement(value)),
+  })(...objects) as T;
 }
 
 /**
