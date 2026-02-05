@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 
 interface Props {
   children: ReactElement;
-  element: HTMLElement;
+  element: HTMLElement | null;
 }
 
 export default function JoyridePortal(props: Props) {
