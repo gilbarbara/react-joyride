@@ -2,12 +2,12 @@ import { ReactNode, useEffect, useMemo } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
 import { defaultProps } from '~/defaults';
+import useJoyrideData from '~/hooks/useJoyrideData';
+import { usePortalElement } from '~/hooks/usePortalElement';
 import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
 import { logDebug, mergeProps } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
-import useJoyrideData from '~/modules/useJoyrideData';
-import { usePortalElement } from '~/modules/usePortalElement';
 
 import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';

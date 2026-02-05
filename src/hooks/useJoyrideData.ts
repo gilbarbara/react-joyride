@@ -21,7 +21,7 @@ import {
   isElementVisible,
   scrollTo,
 } from '~/modules/dom';
-import { hideBeacon, log, mergeProps, shouldScroll } from '~/modules/helpers';
+import { hideBeacon, logDebug, mergeProps, shouldScroll } from '~/modules/helpers';
 import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
@@ -89,7 +89,7 @@ export default function useJoyrideData(
         const scrollParent = getScrollParent(target, disableScrollParentFix);
         let scrollY = Math.floor(getScrollTo(target, scrollOffset, disableScrollParentFix)) || 0;
 
-        log({
+        logDebug({
           title: 'scrollToStep',
           data: [
             { key: 'index', value: index },
@@ -335,7 +335,7 @@ export default function useJoyrideData(
     }
 
     if (changedState('index')) {
-      log({
+      logDebug({
         title: `step:${lifecycle}`,
         data: [{ key: 'props', value: props }],
         debug,
