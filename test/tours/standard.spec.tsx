@@ -1,10 +1,17 @@
 import React from 'react';
 
 import { ACTIONS, EVENTS, LIFECYCLE, PORTAL_ELEMENT_ID, STATUS } from '~/index';
+import {
+  act,
+  callbackResponseFactory,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '~/test-utils';
 
 import Standard from '../__fixtures__/Standard';
-import { callbackResponseFactory } from '../__fixtures__/test-helpers';
-import { act, cleanup, fireEvent, render, screen, waitFor } from '../__fixtures__/test-utils';
 
 const getCallbackResponse = callbackResponseFactory({ size: 7 });
 

@@ -1,11 +1,17 @@
 import React from 'react';
-import { waitFor } from '@testing-library/react';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
+import {
+  act,
+  callbackResponseFactory,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '~/test-utils';
 
 import Controlled from '../__fixtures__/Controlled';
-import { callbackResponseFactory } from '../__fixtures__/test-helpers';
-import { act, cleanup, fireEvent, render, screen } from '../__fixtures__/test-utils';
 
 vi.useFakeTimers({ shouldAdvanceTime: true });
 

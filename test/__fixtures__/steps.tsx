@@ -15,7 +15,7 @@ export const standardSteps: Array<Step> = [
   },
   {
     target: '.about h2 span',
-    placement: 'left',
+    placement: 'bottom',
     content: (
       <div>
         <h3>We are the people</h3>

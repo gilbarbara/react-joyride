@@ -29,4 +29,20 @@ export default [
       'no-console': 'off',
     },
   },
+  {
+    files: ['**/*.spec.*', '**/*.test.*'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@testing-library/react',
+              message: "Import from '~/test-utils' instead.",
+            },
+          ],
+        },
+      ],
+    },
+  },
 ];

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { fromPartial } from '@total-typescript/shoehorn';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import {
@@ -17,6 +16,7 @@ import {
   replaceLocaleContent,
   sleep,
 } from '~/modules/helpers';
+import { fromPartial } from '~/test-utils';
 
 import { Step } from '~/types';
 

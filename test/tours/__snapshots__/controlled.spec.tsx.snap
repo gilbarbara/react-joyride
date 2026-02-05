@@ -6,7 +6,7 @@ exports[`Joyride > Controlled > should have rendered STEP 2 Tooltip 1`] = `
   data-popper-placement="right"
   data-popper-reference-hidden=""
   id="react-joyride-step-1"
-  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(10px, 0px);"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(20px, 0px);"
 >
   <div
     class="__floater"
@@ -64,7 +64,7 @@ exports[`Joyride > Controlled > should have rendered STEP 2 Tooltip 1`] = `
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
@@ -131,7 +131,7 @@ exports[`Joyride > Controlled > should have rendered STEP 3 Tooltip 1`] = `
   data-popper-placement="bottom"
   data-popper-reference-hidden=""
   id="react-joyride-step-2"
-  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
@@ -189,7 +189,7 @@ exports[`Joyride > Controlled > should have rendered STEP 3 Tooltip 1`] = `
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
@@ -256,7 +256,7 @@ exports[`Joyride > Controlled > should have rendered STEP 3 Tooltip AGAIN 1`] = 
   data-popper-placement="bottom"
   data-popper-reference-hidden=""
   id="react-joyride-step-2"
-  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
@@ -314,7 +314,7 @@ exports[`Joyride > Controlled > should have rendered STEP 3 Tooltip AGAIN 1`] = 
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
@@ -381,7 +381,7 @@ exports[`Joyride > Controlled > should have rendered STEP 4 Tooltip 1`] = `
   data-popper-placement="bottom"
   data-popper-reference-hidden=""
   id="react-joyride-step-3"
-  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
@@ -441,7 +441,7 @@ exports[`Joyride > Controlled > should have rendered STEP 4 Tooltip 1`] = `
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
@@ -508,7 +508,7 @@ exports[`Joyride > Controlled > should have rendered STEP 4 Tooltip AGAIN 1`] = 
   data-popper-placement="bottom"
   data-popper-reference-hidden=""
   id="react-joyride-step-3"
-  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
@@ -568,7 +568,7 @@ exports[`Joyride > Controlled > should have rendered STEP 4 Tooltip AGAIN 1`] = 
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
@@ -635,7 +635,7 @@ exports[`Joyride > Controlled > should have rendered STEP 5 Tooltip 1`] = `
   data-popper-placement="right"
   data-popper-reference-hidden=""
   id="react-joyride-step-4"
-  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(20px, 0px);"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(20px, 0px);"
 >
   <div
     class="__floater"
@@ -709,7 +709,7 @@ exports[`Joyride > Controlled > should have rendered STEP 5 Tooltip 1`] = `
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
@@ -776,7 +776,7 @@ exports[`Joyride > Controlled > should have rendered STEP 6 Tooltip 1`] = `
   data-popper-placement="top"
   data-popper-reference-hidden=""
   id="react-joyride-step-5"
-  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; bottom: 0px; transform: translate(0px, -20px);"
+  style="z-index: 200; position: absolute; left: 0px; top: auto; margin: 0px; right: auto; bottom: 0px; transform: translate(0px, -20px);"
 >
   <div
     class="__floater"
@@ -896,7 +896,7 @@ exports[`Joyride > Controlled > should start the tour > tooltip 1`] = `
   data-popper-placement="bottom"
   data-popper-reference-hidden=""
   id="react-joyride-step-0"
-  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; right: auto; bottom: auto; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
@@ -958,7 +958,7 @@ exports[`Joyride > Controlled > should start the tour > tooltip 1`] = `
           style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
         >
           <div
-            style="display: flex; flex: 1;"
+            style="display: flex; flex: 1 1 0%;"
           >
             <button
               aria-label="Skip"
