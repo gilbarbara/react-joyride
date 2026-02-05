@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fastify/deepmerge':
+        specifier: ^3.2.0
+        version: 3.2.0
       '@gilbarbara/deep-equal':
         specifier: ^0.4.1
         version: 0.4.1
@@ -17,9 +20,6 @@ importers:
       '@gilbarbara/types':
         specifier: ^0.2.2
         version: 0.2.2
-      deepmerge:
-        specifier: ^4.3.1
-        version: 4.3.1
       is-lite:
         specifier: ^2.0.0
         version: 2.0.0
@@ -806,6 +806,9 @@ packages:
     peerDependenciesMeta:
       '@noble/hashes':
         optional: true
+
+  '@fastify/deepmerge@3.2.0':
+    resolution: {integrity: sha512-aO5giNgFN+rD4fMUAkro9nEL7c9gh5Q3lh0ZGKMDAhQAytf22HLicF/qZ2EYTDmH+XL2WvdazwBfOdmp6NiwBg==}
 
   '@gilbarbara/deep-equal@0.3.1':
     resolution: {integrity: sha512-I7xWjLs2YSVMc5gGx1Z3ZG1lgFpITPndpi8Ku55GeEIKpACCPQNS/OTqQbxgTCfq0Ncvcc+CrFov96itVh6Qvw==}
@@ -2112,10 +2115,6 @@ packages:
   deepmerge-ts@7.1.5:
     resolution: {integrity: sha512-HOJkrhaYsweh+W+e74Yn7YStZOilkoPb6fycpwNLKzSPtruFs48nYis0zy5yJz1+ktUhHxoRDJ27RQAWLIJVJw==}
     engines: {node: '>=16.0.0'}
-
-  deepmerge@4.3.1:
-    resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
-    engines: {node: '>=0.10.0'}
 
   define-data-property@1.1.4:
     resolution: {integrity: sha512-rBMvIzlpA8v6E+SJZoo++HAYqsLrkg7MSfIinMPFhmkorw7X+dOXVJQs+QT69zGkzMyfDnIMN2Wid1+NbL3T+A==}
@@ -5044,6 +5043,8 @@ snapshots:
 
   '@exodus/bytes@1.11.0': {}
 
+  '@fastify/deepmerge@3.2.0': {}
+
   '@gilbarbara/deep-equal@0.3.1': {}
 
   '@gilbarbara/deep-equal@0.4.1': {}
@@ -6395,8 +6396,6 @@ snapshots:
   deep-is@0.1.4: {}
 
   deepmerge-ts@7.1.5: {}
-
-  deepmerge@4.3.1: {}
 
   define-data-property@1.1.4:
     dependencies:

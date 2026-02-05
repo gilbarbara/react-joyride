@@ -47,7 +47,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip > tooltip 1`] =
       aria-modal="true"
       class="react-joyride__tooltip"
       role="alertdialog"
-      style="background-color: rgb(255, 255, 255); border-radius: 8px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
+      style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
     >
       <div
         style="line-height: 1.4; text-align: center;"
@@ -82,7 +82,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip > tooltip 1`] =
           data-action="primary"
           data-test-id="button-primary"
           role="button"
-          style="background-color: rgb(169, 71, 255); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+          style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; background-color: rgb(169, 71, 255);"
           title="Next"
           type="button"
         >
@@ -164,7 +164,7 @@ exports[`Joyride > Custom Options > should render STEP 2 Tooltip > tooltip 1`] =
       aria-modal="true"
       class="react-joyride__tooltip"
       role="alertdialog"
-      style="background-color: rgb(255, 255, 255); border-radius: 8px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
+      style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
     >
       <div
         style="line-height: 1.4; text-align: center;"
@@ -222,7 +222,7 @@ exports[`Joyride > Custom Options > should render STEP 2 Tooltip > tooltip 1`] =
           data-action="primary"
           data-test-id="button-primary"
           role="button"
-          style="background-color: rgb(169, 71, 255); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+          style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; background-color: rgb(169, 71, 255);"
           title="Go (2 of 4)"
           type="button"
         >
@@ -309,7 +309,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
       aria-modal="true"
       class="react-joyride__tooltip"
       role="alertdialog"
-      style="background-color: rgb(255, 255, 255); border-radius: 8px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
+      style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
     >
       <div
         style="line-height: 1.4; text-align: center;"
@@ -374,7 +374,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
           data-action="primary"
           data-test-id="button-primary"
           role="button"
-          style="background-color: rgb(169, 71, 255); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+          style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; background-color: rgb(169, 71, 255);"
           title="Next"
           type="button"
         >
@@ -459,7 +459,7 @@ exports[`Joyride > Custom Options > should render STEP 4 Tooltip 1`] = `
       aria-modal="true"
       class="react-joyride__tooltip"
       role="alertdialog"
-      style="background-color: rgb(255, 255, 255); border-radius: 8px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
+      style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
     >
       <div
         style="line-height: 1.4; text-align: center;"
@@ -492,7 +492,7 @@ exports[`Joyride > Custom Options > should render STEP 4 Tooltip 1`] = `
           data-action="primary"
           data-test-id="button-primary"
           role="button"
-          style="background-color: rgb(169, 71, 255); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+          style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; background-color: rgb(169, 71, 255);"
           title="Last"
           type="button"
         >

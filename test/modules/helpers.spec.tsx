@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import {
+  deepMerge,
   getBrowser,
   getObjectType,
   getReactNodeText,
@@ -438,6 +439,50 @@ describe('helpers', () => {
 
       await expect(fn()).resolves.toBe('finished');
       expect(setTimeoutSpy).toHaveBeenLastCalledWith(expect.any(Function), timeout);
+    });
+  });
+
+  describe('deepMerge', () => {
+    it('should merge plain objects deeply', () => {
+      const result = deepMerge<{ a: { b: number; c: number } }>({ a: { b: 1 } }, { a: { c: 2 } });
+
+      expect(result).toEqual({ a: { b: 1, c: 2 } });
+    });
+
+    it('should not recurse into React elements', () => {
+      const element = <div>test</div>;
+      const result = deepMerge<{ content: React.ReactNode }>(
+        { content: 'old' },
+        { content: element },
+      );
+
+      expect(result.content).toBe(element);
+    });
+
+    it('should handle nested objects with React element values', () => {
+      const element = <span />;
+      const result = deepMerge<{ step: { content: React.ReactNode; title: string } }>(
+        { step: { title: 'old', content: 'old' } },
+        { step: { content: element } },
+      );
+
+      expect(result.step.title).toBe('old');
+      expect(result.step.content).toBe(element);
+    });
+
+    it('should preserve Date and RegExp instances', () => {
+      const date = new Date();
+      const regex = /test/;
+      const result = deepMerge<{ d: Date; r: RegExp }>({ d: date, r: regex }, {});
+
+      expect(result.d).toBe(date);
+      expect(result.r).toBe(regex);
+    });
+
+    it('should merge multiple objects', () => {
+      const result = deepMerge<{ a: number; b: number; c: number }>({ a: 1 }, { b: 2 }, { c: 3 });
+
+      expect(result).toEqual({ a: 1, b: 2, c: 3 });
     });
   });
 });

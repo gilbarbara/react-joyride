@@ -1,15 +1,14 @@
 import { Props as FloaterProps } from 'react-floater';
 import { SetRequired } from '@gilbarbara/types';
-import deepmerge from 'deepmerge';
 import is from 'is-lite';
 
 import { defaultFloaterProps, defaultLocale, defaultStep } from '~/defaults';
 import getStyles from '~/styles';
 
-import { Props, Step, StepMerged } from '~/types';
+import { Locale, Props, Step, StepMerged } from '~/types';
 
 import { getElement, hasCustomScrollParent } from './dom';
-import { log, omit, pick } from './helpers';
+import { deepMerge, log, omit, pick } from './helpers';
 
 function getTourProps(props: Props) {
   return pick(
@@ -39,24 +38,25 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
   }
 
   const step = currentStep ?? {};
-  const mergedStep = deepmerge.all([defaultStep, getTourProps(props), step], {
-    isMergeableObject: is.plainObject,
-  }) as StepMerged;
+  const mergedStep = deepMerge<StepMerged>(defaultStep, getTourProps(props), step);
 
   const mergedStyles = getStyles(props, mergedStep);
   const scrollParent = hasCustomScrollParent(
     getElement(mergedStep.target),
     mergedStep.disableScrollParentFix,
   );
-  const floaterProps = deepmerge.all([
+  const floaterProps = deepMerge<SetRequired<FloaterProps, 'modifiers' | 'wrapperOptions'>>(
     defaultFloaterProps,
     props.floaterProps ?? {},
     mergedStep.floaterProps ?? {},
-  ]) as SetRequired<FloaterProps, 'modifiers' | 'wrapperOptions'>;
+  );
 
   // Set react-floater props
   floaterProps.offset = mergedStep.offset;
-  floaterProps.styles = deepmerge(floaterProps.styles ?? {}, mergedStyles.floaterStyles);
+  floaterProps.styles = deepMerge<NonNullable<FloaterProps['styles']>>(
+    floaterProps.styles ?? {},
+    mergedStyles.floaterStyles,
+  );
 
   floaterProps.offset += props.spotlightPadding ?? mergedStep.spotlightPadding ?? 0;
 
@@ -74,7 +74,7 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
 
   return {
     ...mergedStep,
-    locale: deepmerge.all([defaultLocale, props.locale ?? {}, mergedStep.locale || {}]),
+    locale: deepMerge<Locale>(defaultLocale, props.locale ?? {}, mergedStep.locale || {}),
     floaterProps,
     styles: omit(mergedStyles, 'floaterStyles'),
   };

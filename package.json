@@ -37,10 +37,10 @@
     "react-dom": "16.8 - 19"
   },
   "dependencies": {
+    "@fastify/deepmerge": "^3.2.0",
     "@gilbarbara/deep-equal": "^0.4.1",
     "@gilbarbara/hooks": "^0.11.0",
     "@gilbarbara/types": "^0.2.2",
-    "deepmerge": "^4.3.1",
     "is-lite": "^2.0.0",
     "react-floater": "0.9.5-4",
     "react-innertext": "^1.1.5",
