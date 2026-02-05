@@ -5,7 +5,8 @@
     "downlevelIteration": true,
     "noEmit": true,
     "paths": {
-      "~/*": ["src/*"]
+      "~/*": ["src/*"],
+      "~/test-utils": ["test/__setup__/test-utils.ts"]
     }
   },
   "include": ["src/**/*"]

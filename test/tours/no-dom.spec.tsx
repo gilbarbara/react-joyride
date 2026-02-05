@@ -1,7 +1,8 @@
 import React from 'react';
 
+import { fireEvent, render, screen } from '~/test-utils';
+
 import Standard from '../__fixtures__/Standard';
-import { fireEvent, render, screen } from '../__fixtures__/test-utils';
 
 const mockCallback = vi.fn();
 

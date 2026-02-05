@@ -109,9 +109,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
         </div>
       </main>
       <footer className="demo__footer">
-        <div className="container">
-          <button type="button">Joyride</button>
-        </div>
+        <button type="button">Joyride</button>
       </footer>
     </div>
   );

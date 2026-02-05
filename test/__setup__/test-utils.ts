@@ -48,8 +48,12 @@ const customWithin = (element: HTMLElement) => within(element, allQueries);
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'queries'>) =>
   render(ui, { queries: allQueries, ...options });
 
+export * from './test-helpers';
+
 // re-export everything
 export * from '@testing-library/react';
 
-// override render method
+export * from '@total-typescript/shoehorn';
+
+// override methods
 export { customRender as render, customScreen as screen, customWithin as within };

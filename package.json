@@ -102,6 +102,7 @@
     "e2e:ui": "npm run e2e -- --ui",
     "e2e:headed": "npm run e2e -- --headed",
     "e2e:report": "playwright show-report",
+    "dev": "vite",
     "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
     "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run e2e && npm run build && npm run size && npm run typevalidation",
     "size": "size-limit",

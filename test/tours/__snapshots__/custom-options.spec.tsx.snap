@@ -13,7 +13,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Beacon 1`] = `
     style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 0); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
   />
   <span
-    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 0, 0.2); border: 2px solid #ff0000; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 0, 0.2); border: 2px solid rgb(255, 0, 0); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
   />
 </button>
 `;
@@ -62,7 +62,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip > tooltip 1`] =
         style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
       >
         <div
-          style="flex: 1;"
+          style="flex: 1 1 0%;"
         >
           <button
             aria-label="Skip"
@@ -185,7 +185,7 @@ exports[`Joyride > Custom Options > should render STEP 2 Tooltip > tooltip 1`] =
         style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
       >
         <div
-          style="flex: 1;"
+          style="flex: 1 1 0%;"
         >
           <button
             aria-label="Do you really want to skip?"
@@ -290,7 +290,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Beacon 1`] = `
     style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 0); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
   />
   <span
-    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 0, 0.2); border: 2px solid #ff0000; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 0, 0.2); border: 2px solid rgb(255, 0, 0); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
   />
 </button>
 `;
@@ -299,7 +299,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
 <div
   class="__floater"
   role="tooltip"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 16px 0px 0px;"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
 >
   <div
     class="__floater__body"
@@ -343,7 +343,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
         style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
       >
         <div
-          style="flex: 1;"
+          style="flex: 1 1 0%;"
         >
           <button
             aria-label="Skip"
@@ -409,17 +409,17 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip 1`] = `
     </div>
     <span
       class="__floater__arrow"
-      style="display: inline-flex; position: absolute; top: 0px; transform: translate(0px, 8px); right: 0px;"
+      style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
     >
       <svg
-        height="32"
+        height="16"
         version="1.1"
-        width="16"
+        width="32"
         xmlns="http://www.w3.org/2000/svg"
       >
         <polygon
           fill="#fff647"
-          points="0,0 16,16 0,32"
+          points="32,16 16,0 0,16"
         />
       </svg>
     </span>
@@ -440,7 +440,7 @@ exports[`Joyride > Custom Options > should render STEP 4 Beacon 1`] = `
     style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 0); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
   />
   <span
-    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 0, 0.2); border: 2px solid #ff0000; border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 0, 0.2); border: 2px solid rgb(255, 0, 0); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
   />
 </button>
 `;
@@ -474,7 +474,7 @@ exports[`Joyride > Custom Options > should render STEP 4 Tooltip 1`] = `
         style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
       >
         <div
-          style="flex: 1;"
+          style="flex: 1 1 0%;"
         />
         <button
           aria-label="Back"

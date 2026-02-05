@@ -47,9 +47,4 @@ if (typeof window !== 'undefined') {
       dispatchEvent: noop(),
     }),
   });
-
-  // @ts-expect-error - JSDOM does not have this property
-  document.scrollingElement = {
-    isSameNode: () => true,
-  };
 }

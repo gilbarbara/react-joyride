@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
+import { callbackResponseFactory, cleanup, fireEvent, render, screen, waitFor } from '~/test-utils';
 
 import Customized from '../__fixtures__/CustomOptions';
-import { callbackResponseFactory } from '../__fixtures__/test-helpers';
-import { cleanup, fireEvent, render, screen, waitFor } from '../__fixtures__/test-utils';
 
 const mockCallback = vi.fn();
 const mockFinishedCallback = vi.fn();

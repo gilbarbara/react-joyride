@@ -3,7 +3,8 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "module": "esnext",
-    "noUnusedLocals": false
+    "noUnusedLocals": false,
+    "types": ["jest-extended", "node", "vitest/globals"]
   },
   "include": ["**/*"]
 }
