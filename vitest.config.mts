@@ -7,7 +7,6 @@ export default defineConfig({
   test: {
     include: ['test/**/*.spec.ts?(x)'],
     coverage: {
-      all: true,
       include: ['src/**/*.ts?(x)'],
       reporter: ['text', 'lcov'],
       thresholds: {
@@ -20,7 +19,8 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: [
-      '@testing-library/react/dont-cleanup-after-each', './test/__setup__/vitest.setup.ts',
+      '@testing-library/react/dont-cleanup-after-each',
+      './test/__setup__/vitest.setup.ts',
     ],
   },
 });

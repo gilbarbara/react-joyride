@@ -1,8 +1,7 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 
-import createStore from '~/modules/store';
-
 import { LIFECYCLE, STATUS } from '~/literals';
+import createStore from '~/modules/store';
 
 import { standardSteps } from '../__fixtures__/steps';
 

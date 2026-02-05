@@ -74,7 +74,6 @@ export default class Scope {
     elements[x].focus();
   };
 
-  // eslint-disable-next-line class-methods-use-this
   isHidden = (element: HTMLElement) => {
     const noSize = element.offsetWidth <= 0 && element.offsetHeight <= 0;
     const style = window.getComputedStyle(element);

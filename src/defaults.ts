@@ -1,6 +1,5 @@
-import { noop } from '~/modules/helpers';
-
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+import { noop } from '~/modules/helpers';
 
 import { FloaterProps, Locale, Props, State, Step } from '~/types';
 

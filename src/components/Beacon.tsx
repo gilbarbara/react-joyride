@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { useMount, useSingleton, useUnmount } from '@gilbarbara/hooks';
+import { useMount, useOnce, useUnmount } from '@gilbarbara/hooks';
 import is from 'is-lite';
 
 import { getReactNodeText } from '~/modules/helpers';
@@ -21,7 +21,7 @@ export default function JoyrideBeacon(props: BeaconProps) {
   } = props;
   const beaconRef = useRef<HTMLElement | null>(null);
 
-  useSingleton(() => {
+  useOnce(() => {
     if (beaconComponent) {
       return;
     }

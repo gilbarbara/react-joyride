@@ -1,10 +1,10 @@
 import { useRef } from 'react';
 import { useSetState } from '@gilbarbara/hooks';
 
-import { standardSteps } from './steps';
-
 import Joyride, { STATUS, StoreHelpers } from '../../src';
 import { CallBackProps, Props, Status, Step } from '../../src/types';
+
+import { standardSteps } from './steps';
 
 interface State {
   index: number;
@@ -27,7 +27,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
       ...standardSteps,
     ],
   });
-  const helpersRef = useRef<StoreHelpers>();
+  const helpersRef = useRef<StoreHelpers>(null);
 
   const handleClickStart = () => {
     setState({ run: true });

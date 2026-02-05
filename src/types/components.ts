@@ -4,10 +4,6 @@ import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
 import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
 
-export type FloaterProps = Omit<FProps, 'content' | 'component'>;
-
-export type SelectorOrElement = string | null | HTMLElement;
-
 export type BaseProps = {
   /**
    * A React component to use instead the default Beacon.
@@ -29,14 +25,14 @@ export type BaseProps = {
    */
   disableOverlayClose?: boolean;
   /**
+   * @default false
+   */
+  disableScrolling?: boolean;
+  /**
    * Disable the fix to handle "unused" overflow parents.
    * @default false
    */
   disableScrollParentFix?: boolean;
-  /**
-   * @default false
-   */
-  disableScrolling?: boolean;
   /**
    * Options to be passed to react-floater
    */
@@ -142,6 +138,8 @@ export type CallBackProps = {
   type: Events;
 };
 
+export type FloaterProps = Omit<FProps, 'content' | 'component'>;
+
 export type OverlayProps = Simplify<
   StepMerged & {
     continuous: boolean;
@@ -212,6 +210,8 @@ export type Props = Simplify<
     steps: Array<Step>;
   }
 >;
+
+export type SelectorOrElement = string | null | HTMLElement;
 
 export type State = {
   action: Actions;

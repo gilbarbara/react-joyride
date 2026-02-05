@@ -2,15 +2,14 @@ import { Props as FloaterProps } from 'react-floater';
 import deepEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
-import { getMergedStep } from '~/modules/step';
-
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+import { getMergedStep } from '~/modules/step';
 
 import { Origin, Props, State, Status, Step, StoreHelpers } from '~/types';
 
-type StateWithContinuous = State & { continuous: boolean };
 type Listener = (state: State) => void;
 type PopperData = Parameters<NonNullable<FloaterProps['getPopper']>>[0];
+type StateWithContinuous = State & { continuous: boolean };
 
 const defaultState: State = {
   action: 'init',
@@ -336,8 +335,6 @@ class Store {
     });
   };
 }
-
-export type StoreInstance = ReturnType<typeof createStore>;
 
 export default function createStore(options?: Props) {
   return new Store(options);

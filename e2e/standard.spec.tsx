@@ -34,7 +34,7 @@ test('should run the tour', async ({ mount, page }) => {
 
   await mount(
     <Standard
-      callback={({ step, ...rest }) => {
+      callback={({ step: _step, ...rest }) => {
         callback.push(rest);
       }}
     />,

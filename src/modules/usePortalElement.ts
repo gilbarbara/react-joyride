@@ -5,11 +5,6 @@ import { PORTAL_ELEMENT_ID } from '~/literals';
 
 import { SelectorOrElement } from '~/types';
 
-interface State {
-  element: HTMLElement | null;
-  useExternalPortal: boolean;
-}
-
 export function usePortalElement(portalElement?: SelectorOrElement) {
   const [{ element, useExternalPortal }, setState] = useSetState<State>({
     useExternalPortal: false,
