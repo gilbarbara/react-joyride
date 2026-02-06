@@ -6,7 +6,7 @@ import useTreeChanges from 'tree-changes-hook';
 
 import { LIFECYCLE, PORTAL_ELEMENT_ID } from '~/literals';
 import { getElement } from '~/modules/dom';
-import { log } from '~/modules/helpers';
+import { logDebug } from '~/modules/helpers';
 import Scope from '~/modules/scope';
 import { validateStep } from '~/modules/step';
 
@@ -35,7 +35,7 @@ export default function JoyrideStep(props: StepProps) {
   const { changed, changedFrom } = useTreeChanges(props);
 
   useMount(() => {
-    log({
+    logDebug({
       title: `step:${index}`,
       data: [{ key: 'props', value: props }],
       debug,

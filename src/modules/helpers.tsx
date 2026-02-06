@@ -163,7 +163,7 @@ export function isLegacy(): boolean {
 /**
  * Log method calls if debug is enabled
  */
-export function log({ data, debug = false, title, warn = false }: LogOptions) {
+export function logDebug({ data, debug = false, title, warn = false }: LogOptions) {
   /* eslint-disable no-console */
   const logFn = warn ? (console.warn ?? console.error) : console.log;
 

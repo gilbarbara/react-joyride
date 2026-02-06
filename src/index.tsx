@@ -4,7 +4,7 @@ import { useOnce } from '@gilbarbara/hooks';
 import { defaultProps } from '~/defaults';
 import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
-import { log, mergeProps } from '~/modules/helpers';
+import { logDebug, mergeProps } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 import useJoyrideData from '~/modules/useJoyrideData';
 import { usePortalElement } from '~/modules/usePortalElement';
@@ -24,7 +24,7 @@ export function Joyride(props: Props) {
   const element = usePortalElement(portalElement);
 
   useOnce(() => {
-    log({
+    logDebug({
       title: 'init',
       data: [
         { key: 'props', value: mergedProps },
