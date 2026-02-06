@@ -131,7 +131,7 @@ describe('store', () => {
       expect(info()).toMatchSnapshot();
     });
 
-    it('should handle "next" again but there\'s no change to the store', () => {
+    it('should handle "next" past the last step', () => {
       next();
 
       expect(info()).toMatchSnapshot();
@@ -209,8 +209,8 @@ describe('store', () => {
       expect(info()).toMatchSnapshot();
     });
 
-    it('should handle listeners', () => {
-      store.addListener(mockSyncStore);
+    it('should handle subscribe and notify on changes', () => {
+      const unsubscribe = store.subscribe(mockSyncStore);
 
       updateState({ status: STATUS.FINISHED });
       updateState({ status: STATUS.FINISHED });
@@ -220,6 +220,23 @@ describe('store', () => {
       updateState({ status: STATUS.READY });
 
       expect(mockSyncStore).toHaveBeenCalledTimes(3);
+
+      unsubscribe();
+      updateState({ status: STATUS.IDLE });
+      expect(mockSyncStore).toHaveBeenCalledTimes(3);
+    });
+
+    it('should return stable snapshot reference when state has not changed', () => {
+      const snapshot1 = store.getSnapshot();
+      const snapshot2 = store.getSnapshot();
+
+      expect(snapshot1).toBe(snapshot2);
+
+      updateState({ status: STATUS.FINISHED });
+
+      const snapshot3 = store.getSnapshot();
+
+      expect(snapshot3).not.toBe(snapshot1);
     });
   });
 

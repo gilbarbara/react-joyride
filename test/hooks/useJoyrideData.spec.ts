@@ -108,7 +108,7 @@ describe('useJoyrideData', () => {
 
       // next() sets lifecycle=COMPLETE → fires STEP_AFTER
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
 
       await waitFor(() => {
@@ -126,7 +126,7 @@ describe('useJoyrideData', () => {
 
       // Simulate Step mount → COMPLETE→INIT→READY→TOOLTIP
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -187,7 +187,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
       await waitFor(() =>
         expect(mockCallback).toHaveBeenCalledWith(
@@ -197,7 +197,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -223,7 +223,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
 
       await waitFor(() => {
@@ -247,7 +247,7 @@ describe('useJoyrideData', () => {
 
       // Advance to step 1 first (previousStep must exist for TOUR_END)
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -258,7 +258,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.skip();
+        result.current.store.current.skip();
       });
 
       await waitFor(() => {
@@ -281,7 +281,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.stop();
+        result.current.store.current.stop();
       });
 
       await waitFor(() => {
@@ -299,7 +299,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.start();
+        result.current.store.current.start();
       });
 
       await waitFor(() => {
@@ -331,7 +331,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
 
       await waitFor(() => {
@@ -347,7 +347,7 @@ describe('useJoyrideData', () => {
 
       // Simulate Step mount for step 2 (auto-advanced)
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -371,7 +371,7 @@ describe('useJoyrideData', () => {
       vi.mocked(isElementVisible).mockReturnValue(false);
 
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
 
       await waitFor(() => {
@@ -433,7 +433,7 @@ describe('useJoyrideData', () => {
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
-      expect(result.current.current.getState().controlled).toBe(true);
+      expect(result.current.state.controlled).toBe(true);
       mockCallback.mockClear();
 
       rerender(createProps({ steps, stepIndex: 1 }));
@@ -498,7 +498,7 @@ describe('useJoyrideData', () => {
 
       // skip() at index > 0 so previousStep exists and TOUR_END fires
       act(() => {
-        result.current.current.skip();
+        result.current.store.current.skip();
       });
 
       await waitFor(() => {
@@ -576,12 +576,12 @@ describe('useJoyrideData', () => {
         { initialProps: createProps({ steps: initialSteps, run: false }) },
       );
 
-      expect(result.current.current.getState().size).toBe(1);
+      expect(result.current.state.size).toBe(1);
 
       rerender(createProps({ steps: testSteps, run: false }));
 
       await waitFor(() => {
-        expect(result.current.current.getState().size).toBe(3);
+        expect(result.current.state.size).toBe(3);
       });
     });
   });
@@ -620,7 +620,7 @@ describe('useJoyrideData', () => {
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
 
       await waitFor(() => {
@@ -630,7 +630,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -665,7 +665,7 @@ describe('useJoyrideData', () => {
       });
 
       expect(mockCallback).not.toHaveBeenCalled();
-      expect(result.current.current.getState().status).toBe(STATUS.READY);
+      expect(result.current.state.status).toBe(STATUS.READY);
     });
 
     it('should not crash with empty steps', () => {
@@ -721,7 +721,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
 
       await waitFor(() => {
@@ -732,7 +732,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -764,7 +764,7 @@ describe('useJoyrideData', () => {
 
       // Manually set lifecycle to COMPLETE on the center step
       act(() => {
-        result.current.current.updateState({ lifecycle: LIFECYCLE.COMPLETE });
+        result.current.store.current.updateState({ lifecycle: LIFECYCLE.COMPLETE });
       });
 
       // The center check should reset COMPLETE→INIT, then advance INIT→READY→TOOLTIP
@@ -789,7 +789,7 @@ describe('useJoyrideData', () => {
       // Advance to step 2
       mockCallback.mockClear();
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -799,7 +799,7 @@ describe('useJoyrideData', () => {
 
       mockCallback.mockClear();
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -809,7 +809,7 @@ describe('useJoyrideData', () => {
 
       mockCallback.mockClear();
       act(() => {
-        result.current.current.next();
+        result.current.store.current.next();
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -819,7 +819,7 @@ describe('useJoyrideData', () => {
 
       mockCallback.mockClear();
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -837,7 +837,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.current.prev();
+        result.current.store.current.prev();
       });
 
       // Should fire TARGET_NOT_FOUND for step 1 (index 1)
@@ -849,7 +849,7 @@ describe('useJoyrideData', () => {
 
       // Should auto-advance backward to step 0, not forward
       act(() => {
-        result.current.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -901,16 +901,24 @@ describe('useJoyrideData', () => {
       });
     });
 
-    it('should transition WAITING to RUNNING when start is called without steps', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps({ run: false, steps: [] })));
+    it('should transition WAITING to RUNNING when steps arrive after start', async () => {
+      const { rerender, result } = renderHook(
+        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
+        { initialProps: createProps({ run: false, steps: [] }) },
+      );
 
       // Calling start() with size=0 sets status=WAITING
       act(() => {
-        result.current.current.start();
+        result.current.store.current.start();
       });
 
+      expect(result.current.state.status).toBe(STATUS.WAITING);
+
+      // Adding steps while WAITING triggers applyTransitions → RUNNING
+      rerender(createProps({ run: false }));
+
       await waitFor(() => {
-        expect(result.current.current.getState().status).toBe(STATUS.RUNNING);
+        expect(result.current.state.status).toBe(STATUS.RUNNING);
       });
     });
   });

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
 import { defaultProps } from '~/defaults';
@@ -7,7 +7,6 @@ import { usePortalElement } from '~/hooks/usePortalElement';
 import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
 import { logDebug, mergeProps } from '~/modules/helpers';
-import { getMergedStep } from '~/modules/step';
 
 import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';
@@ -19,7 +18,7 @@ export function Joyride(props: Props) {
   const mergedProps = mergeProps(defaultProps, props);
   const { continuous, debug, disableCloseOnEsc, nonce, portalElement, scrollToFirstStep, steps } =
     mergedProps;
-  const store = useJoyrideData(mergedProps);
+  const { state, step, store } = useJoyrideData(mergedProps);
 
   const element = usePortalElement(portalElement);
 
@@ -37,11 +36,10 @@ export function Joyride(props: Props) {
   // Handle keyboard
   useEffect(() => {
     const handleKeyboard = (event: KeyboardEvent) => {
-      const { index, lifecycle } = store.current.getState();
-      const step = steps[index];
+      const currentStep = steps[state.index];
 
-      if (lifecycle === LIFECYCLE.TOOLTIP) {
-        if (event.code === 'Escape' && !step.disableCloseOnEsc) {
+      if (state.lifecycle === LIFECYCLE.TOOLTIP) {
+        if (event.code === 'Escape' && !currentStep.disableCloseOnEsc) {
           store.current.close('keyboard');
         }
       }
@@ -56,12 +54,11 @@ export function Joyride(props: Props) {
         document.body.removeEventListener('keydown', handleKeyboard);
       }
     };
-  }, [disableCloseOnEsc, steps, store]);
+  }, [disableCloseOnEsc, state.index, state.lifecycle, steps, store]);
 
-  const { index, lifecycle, status } = store.current.getState();
+  const { index, lifecycle, status } = state;
   const isRunning = status === STATUS.RUNNING;
   const content: Record<string, ReactNode> = {};
-  const step = useMemo(() => getMergedStep(mergedProps, steps[index]), [index, mergedProps, steps]);
 
   const handleClickOverlay = () => {
     if (!step?.disableOverlayClose) {
@@ -76,7 +73,7 @@ export function Joyride(props: Props) {
   if (isRunning) {
     content.step = (
       <Step
-        {...store.current.getState()}
+        {...state}
         cleanupPoppers={store.current.cleanupPoppers}
         continuous={continuous}
         debug={debug}

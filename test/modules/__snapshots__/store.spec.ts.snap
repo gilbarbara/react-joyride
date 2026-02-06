@@ -156,7 +156,7 @@ exports[`store > without initial values > should handle "next" again but the tou
 }
 `;
 
-exports[`store > without initial values > should handle "next" again but there's no change to the store 1`] = `
+exports[`store > without initial values > should handle "next" past the last step 1`] = `
 {
   "action": "next",
   "controlled": false,

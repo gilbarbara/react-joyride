@@ -183,7 +183,7 @@ describe('Joyride > Custom Options', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       17,
       getCallbackResponse({
-        action: ACTIONS.START,
+        action: ACTIONS.UPDATE,
         index: 3,
         lifecycle: LIFECYCLE.READY,
         status: STATUS.RUNNING,

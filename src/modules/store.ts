@@ -5,192 +5,71 @@ import is from 'is-lite';
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { getMergedStep } from '~/modules/step';
 
-import { Origin, Props, State, Status, Step, StoreHelpers } from '~/types';
+import { Origin, Props, State, Status, Step, StepMerged, StoreHelpers } from '~/types';
 
 type Listener = (state: State) => void;
 type PopperData = Parameters<NonNullable<FloaterProps['getPopper']>>[0];
-type StateWithContinuous = State & { continuous: boolean };
-
-const defaultState: State = {
-  action: 'init',
-  controlled: false,
-  index: 0,
-  lifecycle: LIFECYCLE.INIT,
-  origin: null,
-  size: 0,
-  status: STATUS.IDLE,
-};
 
 class Store {
-  private beaconPopper: PopperData | null;
-  private tooltipPopper: PopperData | null;
-  private readonly data: Map<string, any> = new Map();
-  private listener: Listener | null;
+  private beaconPopper: PopperData | null = null;
+  private readonly listeners: Set<Listener> = new Set();
   private readonly props: Props;
-  private readonly store: Map<string, any> = new Map();
+  private snapshot: State;
+  private state: State;
+  private steps: Array<Step>;
+  private tooltipPopper: PopperData | null = null;
 
   constructor(options?: Props) {
-    const { continuous = false, stepIndex, steps = [] } = options ?? {};
+    const { stepIndex, steps = [] } = options ?? {};
 
-    this.setState(
-      {
-        action: ACTIONS.INIT,
-        controlled: is.number(stepIndex),
-        continuous,
-        index: is.number(stepIndex) ? stepIndex : 0,
-        lifecycle: LIFECYCLE.INIT,
-        origin: null,
-        status: steps.length ? STATUS.READY : STATUS.IDLE,
-      },
-      true,
-    );
-
-    this.setSteps(steps);
-    this.beaconPopper = null;
-    this.tooltipPopper = null;
-    this.listener = null;
     this.props = options ?? { steps: [] };
+    this.steps = steps;
+    this.state = {
+      action: ACTIONS.INIT,
+      controlled: is.number(stepIndex),
+      index: is.number(stepIndex) ? stepIndex : 0,
+      lifecycle: LIFECYCLE.INIT,
+      origin: null,
+      size: steps.length,
+      status: steps.length ? STATUS.READY : STATUS.IDLE,
+    };
+    this.snapshot = Object.freeze({ ...this.state });
   }
 
-  private getStep(nextIndex?: number): Step | null {
-    const steps = this.data.get('steps');
-    const { index } = this.getState();
+  private applyTransitions(draft: State): State {
+    if (draft.status === STATUS.WAITING && draft.size > 0) {
+      return { ...draft, status: STATUS.RUNNING };
+    }
 
-    return getMergedStep(this.props, steps[nextIndex ?? index]);
+    return draft;
+  }
+
+  private getStep(nextIndex?: number): StepMerged | null {
+    return getMergedStep(this.props, this.steps[nextIndex ?? this.state.index]);
   }
 
   private getUpdatedIndex(nextIndex: number): number {
-    const { size } = this.getState();
-
-    return Math.min(Math.max(nextIndex, 0), size);
+    return Math.min(Math.max(nextIndex, 0), this.state.size);
   }
-
-  private hasUpdatedState(oldState: State): boolean {
-    return !deepEqual(oldState, this.getState());
-  }
-
-  private prepareState(patch: Partial<State>, forceIndex: boolean = false): State {
-    const { action, controlled, index, size, status } = this.getState();
-    const newIndex = patch.index ?? index;
-
-    return {
-      action: patch.action ?? action,
-      controlled,
-      index: controlled && !forceIndex ? index : newIndex,
-      lifecycle: patch.lifecycle ?? LIFECYCLE.INIT,
-      origin: patch.origin ?? null,
-      size: patch.size ?? size,
-      status: patch.status ?? status,
-    };
-  }
-
-  private setState(patch: Partial<StateWithContinuous>, initial: boolean = false) {
-    const state = this.getState();
-
-    const {
-      action,
-      index,
-      lifecycle,
-      origin = null,
-      size,
-      status,
-    } = {
-      ...state,
-      ...patch,
-    };
-
-    this.store.set('action', action);
-    this.store.set('index', index);
-    this.store.set('lifecycle', lifecycle);
-    this.store.set('origin', origin);
-    this.store.set('size', size);
-    this.store.set('status', status);
-
-    if (initial) {
-      this.store.set('controlled', patch.controlled);
-      this.store.set('continuous', patch.continuous);
-    }
-
-    if (this.listener && this.hasUpdatedState(state)) {
-      this.listener(this.getState());
-    }
-  }
-
-  public updateState = (patch: Partial<State>, forceIndex = false) => {
-    this.setState({
-      ...this.getState(),
-      ...this.prepareState(patch, forceIndex),
-    });
-  };
 
   public cleanupPoppers = () => {
     this.beaconPopper = null;
     this.tooltipPopper = null;
   };
 
-  public getPopper = (name: 'beacon' | 'tooltip'): PopperData | null => {
-    if (name === 'beacon') {
-      return this.beaconPopper;
+  public close = (origin: Origin | null = null) => {
+    const { index, status } = this.state;
+
+    if (status !== STATUS.RUNNING) {
+      return;
     }
 
-    return this.tooltipPopper;
-  };
-
-  public setPopper: NonNullable<FloaterProps['getPopper']> = (popper, type) => {
-    if (type === 'wrapper') {
-      this.beaconPopper = popper;
-    } else {
-      this.tooltipPopper = popper;
-    }
-
-    if (popper && this.store.get('lifecycle') === LIFECYCLE.COMPLETE) {
-      this.updateState({
-        action: ACTIONS.UPDATE,
-        lifecycle: LIFECYCLE.INIT,
-      });
-    }
-
-    const getPopper = this.getStep()?.floaterProps?.getPopper;
-
-    if (getPopper) {
-      getPopper(popper, type);
-    }
-  };
-
-  public addListener = (listener: Listener) => {
-    this.listener = listener;
-  };
-
-  public getState(): State {
-    if (!this?.store?.size) {
-      return { ...defaultState };
-    }
-
-    return {
-      action: this.store.get('action') || '',
-      controlled: this.store.get('controlled') || false,
-      index: parseInt(this.store.get('index'), 10),
-      lifecycle: this.store.get('lifecycle') || '',
-      origin: this.store.get('origin') || null,
-      size: this.store.get('size') || 0,
-      status: (this.store.get('status') as Status) || '',
-    };
-  }
-
-  public setSteps = (steps: Array<Step>) => {
-    const { size, status } = this.getState();
-    const state = {
-      size: steps.length,
-      status,
-    };
-
-    this.data.set('steps', steps);
-
-    if (status === STATUS.WAITING && !size && steps.length) {
-      state.status = STATUS.RUNNING;
-    }
-
-    this.updateState(state);
+    this.updateState({
+      action: ACTIONS.CLOSE,
+      index: index + 1,
+      origin,
+      lifecycle: LIFECYCLE.COMPLETE,
+    });
   };
 
   public getHelpers(): StoreHelpers {
@@ -206,42 +85,39 @@ class Store {
     };
   }
 
-  public close = (origin: Origin | null = null) => {
-    const { index, status } = this.getState();
-
-    if (status !== STATUS.RUNNING) {
-      return;
+  public getPopper = (name: 'beacon' | 'tooltip'): PopperData | null => {
+    if (name === 'beacon') {
+      return this.beaconPopper;
     }
 
-    this.updateState({
-      action: ACTIONS.CLOSE,
-      index: index + 1,
-      origin,
-      lifecycle: LIFECYCLE.COMPLETE,
-    });
+    return this.tooltipPopper;
   };
 
+  public getServerSnapshot = (): State => this.snapshot;
+
+  public getSnapshot = (): State => this.snapshot;
+
+  public getState = (): State => this.snapshot;
+
   public go = (nextIndex: number) => {
-    const { controlled, status } = this.getState();
+    const { controlled, status } = this.state;
 
     if (controlled || status !== STATUS.RUNNING) {
       return;
     }
 
-    const step = this.getStep(nextIndex);
-
     this.updateState({
       action: ACTIONS.GO,
       index: nextIndex,
       lifecycle: LIFECYCLE.COMPLETE,
-      status: step ? status : STATUS.FINISHED,
+      status: nextIndex < this.steps.length ? status : STATUS.FINISHED,
     });
   };
 
-  public info = (): State => this.getState();
+  public info = (): State => this.snapshot;
 
   public next = () => {
-    const { index, status } = this.getState();
+    const { index, status } = this.state;
 
     if (status !== STATUS.RUNNING) {
       return;
@@ -255,7 +131,7 @@ class Store {
   };
 
   public open = () => {
-    const { status } = this.getState();
+    const { status } = this.state;
 
     if (status !== STATUS.RUNNING) {
       return;
@@ -265,7 +141,7 @@ class Store {
   };
 
   public prev = () => {
-    const { index, status } = this.getState();
+    const { index, status } = this.state;
 
     if (status !== STATUS.RUNNING) {
       return;
@@ -279,7 +155,7 @@ class Store {
   };
 
   public reset = (restart = false) => {
-    const { controlled } = this.getState();
+    const { controlled } = this.state;
 
     if (controlled) {
       return;
@@ -293,8 +169,35 @@ class Store {
     });
   };
 
+  public setPopper: NonNullable<FloaterProps['getPopper']> = (popper, type) => {
+    if (type === 'wrapper') {
+      this.beaconPopper = popper;
+    } else {
+      this.tooltipPopper = popper;
+    }
+
+    if (popper && this.state.lifecycle === LIFECYCLE.COMPLETE) {
+      this.updateState({
+        action: ACTIONS.UPDATE,
+        lifecycle: LIFECYCLE.INIT,
+      });
+    }
+
+    const getPopper = this.getStep()?.floaterProps?.getPopper;
+
+    if (getPopper) {
+      getPopper(popper, type);
+    }
+  };
+
+  public setSteps = (steps: Array<Step>) => {
+    this.steps = steps;
+
+    this.updateState({ size: steps.length });
+  };
+
   public skip = () => {
-    const { status } = this.getState();
+    const { status } = this.state;
 
     if (status !== STATUS.RUNNING) {
       return;
@@ -308,12 +211,13 @@ class Store {
   };
 
   public start = (nextIndex?: number) => {
-    const { index, size } = this.getState();
+    const { index, size } = this.state;
 
     this.updateState(
       {
         action: ACTIONS.START,
         index: is.number(nextIndex) ? nextIndex : index,
+        lifecycle: LIFECYCLE.INIT,
         status: size ? STATUS.RUNNING : STATUS.WAITING,
       },
       true,
@@ -321,7 +225,7 @@ class Store {
   };
 
   public stop = (advance = false) => {
-    const { index, status } = this.getState();
+    const { index, status } = this.state;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
       return;
@@ -333,6 +237,43 @@ class Store {
       lifecycle: LIFECYCLE.COMPLETE,
       status: STATUS.PAUSED,
     });
+  };
+
+  public subscribe = (listener: Listener): (() => void) => {
+    this.listeners.add(listener);
+
+    return () => {
+      this.listeners.delete(listener);
+    };
+  };
+
+  public updateState = (patch: Partial<State>, forceIndex = false) => {
+    const { controlled, index } = this.state;
+    const previousSnapshot = this.snapshot;
+
+    const resolvedIndex =
+      controlled && !forceIndex && patch.index !== undefined ? index : (patch.index ?? index);
+
+    const merged: State = {
+      action: patch.action ?? this.state.action,
+      controlled,
+      index: resolvedIndex,
+      lifecycle: patch.lifecycle ?? this.state.lifecycle,
+      origin: patch.origin ?? null,
+      size: patch.size ?? this.state.size,
+      status: patch.status ?? this.state.status,
+    };
+
+    const final = this.applyTransitions(merged);
+
+    this.state = final;
+    this.snapshot = Object.freeze({ ...final });
+
+    if (!deepEqual(previousSnapshot, this.snapshot)) {
+      for (const listener of this.listeners) {
+        listener(this.snapshot);
+      }
+    }
   };
 }
 
