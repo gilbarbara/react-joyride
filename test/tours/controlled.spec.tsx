@@ -206,7 +206,7 @@ describe('Joyride > Controlled', () => {
     expect(mockCallback).toHaveBeenNthCalledWith(
       12,
       getCallbackResponse({
-        action: ACTIONS.NEXT,
+        action: ACTIONS.UPDATE,
         index: 2,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
