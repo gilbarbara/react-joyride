@@ -8,7 +8,7 @@ import getStyles from '~/styles';
 import { Locale, Props, Step, StepMerged } from '~/types';
 
 import { getElement, hasCustomScrollParent } from './dom';
-import { deepMerge, log, omit, pick } from './helpers';
+import { deepMerge, logDebug, omit, pick } from './helpers';
 
 function getTourProps(props: Props) {
   return pick(
@@ -85,7 +85,7 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
  */
 export function validateStep(step: Step, debug: boolean = false): boolean {
   if (!is.plainObject(step)) {
-    log({
+    logDebug({
       title: 'validateStep',
       data: 'step must be an object',
       warn: true,
@@ -96,7 +96,7 @@ export function validateStep(step: Step, debug: boolean = false): boolean {
   }
 
   if (!step.target) {
-    log({
+    logDebug({
       title: 'validateStep',
       data: 'target is missing from the step',
       warn: true,
@@ -114,7 +114,7 @@ export function validateStep(step: Step, debug: boolean = false): boolean {
  */
 export function validateSteps(steps: Array<Step>, debug: boolean = false): boolean {
   if (!is.array(steps)) {
-    log({
+    logDebug({
       title: 'validateSteps',
       data: 'steps must be an array',
       warn: true,

@@ -12,7 +12,7 @@ import {
   hasCustomScrollParent,
   hasPosition,
 } from '~/modules/dom';
-import { getBrowser, isLegacy, log } from '~/modules/helpers';
+import { getBrowser, isLegacy, logDebug } from '~/modules/helpers';
 
 import { Lifecycle, OverlayProps } from '~/types';
 
@@ -180,7 +180,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
 
     if (process.env.NODE_ENV !== 'production') {
       if (!disableScrolling && hasCustomScrollParent(element, true)) {
-        log({
+        logDebug({
           title: 'step has a custom scroll parent and can cause trouble with scrolling',
           data: [{ key: 'parent', value: scrollParentRef }],
           debug,

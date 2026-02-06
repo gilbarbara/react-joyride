@@ -9,7 +9,7 @@ import {
   hexToRGB,
   hideBeacon,
   isLegacy,
-  log,
+  logDebug,
   noop,
   objectKeys,
   omit,
@@ -254,7 +254,7 @@ describe('helpers', () => {
     });
 
     it('should not call log', () => {
-      log({
+      logDebug({
         title: 'data',
         data: { a: 1 },
       });
@@ -263,7 +263,7 @@ describe('helpers', () => {
     });
 
     it('should call log with debug: true', () => {
-      log({
+      logDebug({
         title: 'Hello',
         data: 'World',
         debug: true,
@@ -276,7 +276,7 @@ describe('helpers', () => {
       );
       expect(console.log).toHaveBeenNthCalledWith(1, 'World');
 
-      log({
+      logDebug({
         title: 'Code',
         data: { a: 1 },
         debug: true,
@@ -291,7 +291,7 @@ describe('helpers', () => {
     });
 
     it('should call warn with debug: true and warn: true', () => {
-      log({
+      logDebug({
         title: 'Warn',
         data: ['hi', { key: 'valid', value: true }],
         warn: true,
@@ -309,7 +309,7 @@ describe('helpers', () => {
 
     it('should call error with missing title', () => {
       // @ts-expect-error Missing title
-      log({
+      logDebug({
         data: { a: 1 },
         debug: true,
       });
@@ -319,7 +319,7 @@ describe('helpers', () => {
 
     it('should call error with missing data', () => {
       // @ts-expect-error Missing data
-      log({
+      logDebug({
         title: 'Hey',
         debug: true,
       });
