@@ -174,11 +174,13 @@ export default function useLifecycleEffect({
       });
     }
 
-    if (previousStep && changedState('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+    const tourEndStep = previousStep ?? step;
+
+    if (tourEndStep && changedState('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
       callback?.({
         ...stateRef.current,
-        index: index - 1,
-        step: previousStep,
+        index: previousStep ? index - 1 : index,
+        step: tourEndStep,
         type: EVENTS.TOUR_END,
       });
       store.current.reset();

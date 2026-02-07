@@ -244,17 +244,6 @@ describe('useJoyrideData', () => {
       const { result } = renderHook(() => useJoyrideData(createProps()));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-
-      // Advance to step 1 first (previousStep must exist for TOUR_END)
-      act(() => {
-        result.current.store.current.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER }),
-        );
-      });
-
       mockCallback.mockClear();
 
       act(() => {
