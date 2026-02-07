@@ -1,8 +1,7 @@
-import { useRef } from 'react';
-import { useMount, useOnce, useUnmount } from '@gilbarbara/hooks';
+import { useEffect, useRef } from 'react';
 import is from 'is-lite';
 
-import { getReactNodeText } from '~/modules/helpers';
+import { getReactNodeText, noop } from '~/modules/helpers';
 
 import { BeaconProps } from '~/types';
 
@@ -21,9 +20,21 @@ export default function JoyrideBeacon(props: BeaconProps) {
   } = props;
   const beaconRef = useRef<HTMLElement | null>(null);
 
-  useOnce(() => {
-    if (beaconComponent) {
-      return;
+  const hasBeaconComponent = Boolean(beaconComponent);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') {
+      if (!is.domElement(beaconRef.current)) {
+        console.warn('beacon is not a valid DOM element'); // eslint-disable-line no-console
+      }
+    }
+
+    if (hasBeaconComponent) {
+      return noop;
+    }
+
+    if (document.getElementById('joyride-beacon-animation')) {
+      return noop;
     }
 
     const head = document.head || document.getElementsByTagName('head')[0];
@@ -66,29 +77,21 @@ export default function JoyrideBeacon(props: BeaconProps) {
     style.appendChild(document.createTextNode(css));
 
     head.appendChild(style);
-  });
-
-  useMount(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      if (!is.domElement(beaconRef.current)) {
-        console.warn('beacon is not a valid DOM element'); // eslint-disable-line no-console
-      }
-    }
 
     setTimeout(() => {
       if (is.domElement(beaconRef.current) && shouldFocus) {
         beaconRef.current.focus();
       }
     }, 0);
-  });
 
-  useUnmount(() => {
-    const style = document.getElementById('joyride-beacon-animation');
+    return () => {
+      const insertedStyle = document.getElementById('joyride-beacon-animation');
 
-    if (style?.parentNode) {
-      style.parentNode.removeChild(style);
-    }
-  });
+      if (insertedStyle?.parentNode) {
+        insertedStyle.parentNode.removeChild(style);
+      }
+    };
+  }, [hasBeaconComponent, props.nonce, shouldFocus]);
 
   const setBeaconRef = (el: HTMLElement | null) => {
     beaconRef.current = el;
@@ -127,8 +130,8 @@ export default function JoyrideBeacon(props: BeaconProps) {
         type="button"
         {...sharedProps}
       >
-        <span style={styles.beaconInner} />
         <span style={styles.beaconOuter} />
+        <span style={styles.beaconInner} />
       </button>
     );
   }
