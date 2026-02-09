@@ -94,6 +94,7 @@ export function Joyride(props: Props) {
           debug={debug}
           lifecycle={lifecycle}
           onClickOverlay={handleClickOverlay}
+          scrolling={state.scrolling}
         />
       </Portal>
     );

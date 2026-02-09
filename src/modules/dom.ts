@@ -146,6 +146,15 @@ export function getScrollParent(
   return parent;
 }
 
+export function getScrollTargetToCenter(element: Element): number {
+  const rect = element.getBoundingClientRect();
+  const documentElement = scrollDocument();
+  const containerCenter = rect.top + rect.height / 2;
+  const viewportCenter = window.innerHeight / 2;
+
+  return Math.max(0, documentElement.scrollTop + containerCenter - viewportCenter);
+}
+
 /**
  * Get the scrollTop position
  */
@@ -154,11 +163,25 @@ export function getScrollTo(element: HTMLElement | null, offset: number, skipFix
     return 0;
   }
 
-  const { offsetTop = 0, scrollTop = 0 } = scrollParent(element) ?? {};
+  const parentElement = scrollParent(element) ?? (scrollDocument() as HTMLElement);
+
+  const parentRect = getClientRect(parentElement);
+  const parentScrollTop = parentElement?.scrollTop ?? 0;
+
+  const { offsetTop = 0, scrollTop = 0 } = parentElement;
   let top = element.getBoundingClientRect().top + scrollTop;
 
   if (!!offsetTop && (hasCustomScrollParent(element, skipFix) || hasCustomOffsetParent(element))) {
-    top -= offsetTop;
+    const elementTopInContainer = element.getBoundingClientRect().top - (parentRect?.top ?? 0);
+    const containerHeight = parentElement.clientHeight;
+    const margin = containerHeight * 0.2;
+
+    // eslint-disable-next-line unicorn/prefer-ternary
+    if (elementTopInContainer >= margin && elementTopInContainer < containerHeight - margin) {
+      top = parentScrollTop;
+    } else {
+      top = elementTopInContainer + parentScrollTop;
+    }
   }
 
   const output = Math.floor(top - offset);

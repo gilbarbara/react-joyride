@@ -395,10 +395,10 @@ exports[`Joyride > Standard > should render STEP 3 Beacon 1`] = `
     type="button"
   >
     <span
-      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid rgb(255, 0, 68); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
     />
     <span
-      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid rgb(255, 0, 68); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
     />
   </button>
 </span>
@@ -572,7 +572,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
   <div
     class="__floater"
     role="tooltip"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 0; position: relative; transition: opacity 0.3s; visibility: hidden; z-index: 200; padding: 16px 0px 0px;"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
   >
     <div
       class="__floater__body"
@@ -705,10 +705,10 @@ exports[`Joyride > Standard > should render STEP 4 Beacon 1`] = `
     type="button"
   >
     <span
-      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid rgb(255, 0, 68); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
     />
     <span
-      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid rgb(255, 0, 68); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
     />
   </button>
 </span>
@@ -1107,6 +1107,9 @@ exports[`Joyride > Standard > should render the content 1`] = `
 <div
   data-test-id="demo"
 >
+  <div
+    class="react-joyride"
+  />
   <main>
     <div
       class="hero"

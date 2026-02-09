@@ -26,7 +26,6 @@ interface SpotlightStyles extends CSSProperties {
 }
 
 interface State {
-  isScrolling: boolean;
   mouseOverSpotlight: boolean;
   resizedAt: number;
   showSpotlight: boolean;
@@ -43,6 +42,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     lifecycle,
     onClickOverlay,
     placement,
+    scrolling,
     spotlightClicks,
     spotlightPadding = 0,
     styles,
@@ -52,11 +52,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
 
   const { changed } = useTreeChanges(props);
   const resizeTimeoutRef = useRef<number>(undefined);
-  const scrollTimeoutRef = useRef<number>(undefined);
   const scrollParentRef = useRef<Element | Document | null>(null);
 
-  const [{ isScrolling, mouseOverSpotlight, showSpotlight }, setState] = useSetState<State>({
-    isScrolling: false,
+  const [{ mouseOverSpotlight, showSpotlight }, setState] = useSetState<State>({
     mouseOverSpotlight: false,
     resizedAt: 0,
     showSpotlight: true,
@@ -151,24 +149,6 @@ export default function JoyrideOverlay(props: OverlayProps) {
     }, 100);
   }, [isMounted, setState]);
 
-  const handleScroll = useCallback(() => {
-    const element = getElement(target);
-
-    if (scrollParentRef.current !== document) {
-      if (!isScrolling) {
-        updateState({ isScrolling: true, showSpotlight: false });
-      }
-
-      clearTimeout(scrollTimeoutRef.current);
-
-      scrollTimeoutRef.current = window.setTimeout(() => {
-        updateState({ isScrolling: false, showSpotlight: true });
-      }, 50);
-    } else if (hasPosition(element, 'sticky')) {
-      updateState({});
-    }
-  }, [isScrolling, target, updateState]);
-
   useMount(() => {
     const element = getElement(target);
 
@@ -196,22 +176,17 @@ export default function JoyrideOverlay(props: OverlayProps) {
     window.removeEventListener('resize', handleResize);
 
     clearTimeout(resizeTimeoutRef.current);
-    clearTimeout(scrollTimeoutRef.current);
-
-    scrollParentRef?.current?.removeEventListener('scroll', handleScroll);
   });
 
   useEffect(() => {
     if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
-      scrollParentRef?.current?.addEventListener('scroll', handleScroll, { passive: true });
-
       setTimeout(() => {
-        if (!isScrolling) {
+        if (!scrolling) {
           updateState({ showSpotlight: true });
         }
       }, 100);
     }
-  }, [changed, handleScroll, isScrolling, updateState]);
+  }, [changed, scrolling, updateState]);
 
   useEffect(() => {
     if (changed('spotlightClicks') || changed('disableOverlay') || changed('lifecycle')) {
@@ -249,7 +224,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
     return null;
   }
 
-  let spotlight = placement !== 'center' && showSpotlight && <Spotlight styles={spotlightStyles} />;
+  let spotlight = placement !== 'center' && showSpotlight && !scrolling && (
+    <Spotlight styles={spotlightStyles} />
+  );
   const actualOverlayStyles = { ...overlayStyles };
 
   // Hack for Safari bug with mix-blend-mode with z-index

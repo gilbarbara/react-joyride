@@ -268,7 +268,7 @@ describe('Joyride > Custom Options', () => {
       }),
     );
 
-    expect(mockGetPopper).toHaveBeenCalledTimes(9);
+    expect(mockGetPopper).toHaveBeenCalledTimes(10);
     expect(mockFinishedCallback).toHaveBeenCalledTimes(1);
   });
 });
