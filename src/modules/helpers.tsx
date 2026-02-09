@@ -339,3 +339,16 @@ export function sleep(seconds = 1) {
     setTimeout(resolve, seconds * 1000);
   });
 }
+
+/**
+ * Sort object keys
+ */
+export function sortObjectKeys<T extends PlainObject>(input: T) {
+  return objectKeys(input)
+    .sort()
+    .reduce((acc, key) => {
+      acc[key] = input[key];
+
+      return acc;
+    }, {} as T);
+}
