@@ -16,6 +16,7 @@ import {
   pick,
   replaceLocaleContent,
   sleep,
+  sortObjectKeys,
 } from '~/modules/helpers';
 import { fromPartial } from '~/test-utils';
 
@@ -483,6 +484,20 @@ describe('helpers', () => {
       const result = deepMerge<{ a: number; b: number; c: number }>({ a: 1 }, { b: 2 }, { c: 3 });
 
       expect(result).toEqual({ a: 1, b: 2, c: 3 });
+    });
+  });
+
+  describe('sortObjectKeys', () => {
+    it('should return properly', () => {
+      const value = sortObjectKeys({
+        zar: 'raz',
+        foo: 'bar',
+        tar: 'foo',
+        arg: 'tar',
+      });
+
+      expect(value).toMatchSnapshot();
+      expectTypeOf(value).toEqualTypeOf<{ arg: string; foo: string; tar: string; zar: string }>();
     });
   });
 });

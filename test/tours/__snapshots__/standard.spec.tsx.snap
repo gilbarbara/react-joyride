@@ -116,7 +116,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > overlay 1`] = `
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
   />
 </div>
 `;
@@ -252,7 +252,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > overlay 1`] =
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
   />
 </div>
 `;
@@ -414,7 +414,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > overlay 1`] = `
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
   />
 </div>
 `;
@@ -556,7 +556,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > overlay 1`] =
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
   />
 </div>
 `;
@@ -724,7 +724,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > overlay 1`] = `
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
   />
 </div>
 `;
@@ -879,7 +879,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > overlay 1`] = `
   <div
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
   />
 </div>
 `;
@@ -1107,9 +1107,6 @@ exports[`Joyride > Standard > should render the content 1`] = `
 <div
   data-test-id="demo"
 >
-  <div
-    class="react-joyride"
-  />
   <main>
     <div
       class="hero"

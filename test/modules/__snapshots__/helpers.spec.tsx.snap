@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`helpers > sortObjectKeys > should return properly 1`] = `
+{
+  "arg": "tar",
+  "foo": "bar",
+  "tar": "foo",
+  "zar": "raz",
+}
+`;

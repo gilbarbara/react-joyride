@@ -12,7 +12,7 @@ import {
   hasCustomScrollParent,
   hasPosition,
 } from '~/modules/dom';
-import { getBrowser, isLegacy, logDebug } from '~/modules/helpers';
+import { getBrowser, isLegacy, logDebug, sortObjectKeys } from '~/modules/helpers';
 
 import { Lifecycle, OverlayProps } from '~/types';
 
@@ -101,7 +101,8 @@ export default function JoyrideOverlay(props: OverlayProps) {
     const isFixedTarget = hasPosition(element);
     const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
 
-    return {
+    return sortObjectKeys({
+      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
       height: Math.round((elementRect?.height ?? 0) + spotlightPadding * 2),
       left: Math.round((elementRect?.left ?? 0) - spotlightPadding),
       opacity: showSpotlight ? 1 : 0,
@@ -110,8 +111,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
       top,
       transition: 'opacity 0.2s',
       width: Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
-      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
-    } satisfies SpotlightStyles;
+    } satisfies SpotlightStyles);
   }, [
     disableScrollParentFix,
     showSpotlight,
