@@ -24,6 +24,7 @@ export default function JoyrideStep(props: StepProps) {
     index,
     lifecycle,
     nonce,
+    scrolling,
     setPopper,
     shouldScroll,
     size,
@@ -48,7 +49,7 @@ export default function JoyrideStep(props: StepProps) {
 
   useEffect(() => {
     if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
-      if (shouldScroll && tooltipRef.current) {
+      if (tooltipRef.current) {
         scopeRef.current = new Scope(tooltipRef.current, { selector: '[data-action=primary]' });
         scopeRef.current.setFocus();
       }
@@ -102,24 +103,26 @@ export default function JoyrideStep(props: StepProps) {
         debug={debug}
         getPopper={setPopper}
         id={`react-joyride-step-${index}`}
-        open={lifecycle === LIFECYCLE.TOOLTIP}
+        open={lifecycle === LIFECYCLE.TOOLTIP && !scrolling}
         placement={step.placement}
         portalElement={`#${PORTAL_ELEMENT_ID}`}
         target={step.target}
       >
-        <Beacon
-          beaconComponent={step.beaconComponent}
-          continuous={continuous}
-          index={index}
-          isLastStep={index + 1 === size}
-          locale={step.locale}
-          nonce={nonce}
-          onClickOrHover={handleClickHoverBeacon}
-          shouldFocus={shouldScroll}
-          size={size}
-          step={step}
-          styles={step.styles}
-        />
+        {lifecycle !== LIFECYCLE.TOOLTIP && (
+          <Beacon
+            beaconComponent={step.beaconComponent}
+            continuous={continuous}
+            index={index}
+            isLastStep={index + 1 === size}
+            locale={step.locale}
+            nonce={nonce}
+            onClickOrHover={handleClickHoverBeacon}
+            shouldFocus={shouldScroll}
+            size={size}
+            step={step}
+            styles={step.styles}
+          />
+        )}
       </Floater>
     </div>
   );

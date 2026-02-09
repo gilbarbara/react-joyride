@@ -1,7 +1,9 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import * as React from 'react';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import {
+  cleanUpObject,
   deepMerge,
   getBrowser,
   getObjectType,
@@ -10,6 +12,8 @@ import {
   hideBeacon,
   isLegacy,
   logDebug,
+  mergeProps,
+  needsScrolling,
   noop,
   objectKeys,
   omit,
@@ -20,7 +24,13 @@ import {
 } from '~/modules/helpers';
 import { fromPartial } from '~/test-utils';
 
-import { Step } from '~/types';
+import { Step, StepMerged } from '~/types';
+
+interface Props {
+  name: string;
+  type?: 'org' | 'user';
+  url?: string;
+}
 
 const baseObject = { a: 1, b: '', c: [1], d: { a: null }, e: undefined };
 
@@ -33,6 +43,18 @@ function Skip() {
 }
 
 describe('helpers', () => {
+  describe('cleanUpObject', () => {
+    it('should remove the undefined properties', () => {
+      expect(cleanUpObject(baseObject)).toEqual(omit(baseObject, 'e'));
+      expectTypeOf(cleanUpObject(baseObject)).toEqualTypeOf<{
+        a: number;
+        b: string;
+        c: Array<number>;
+        d: { a: null };
+      }>();
+    });
+  });
+
   describe('getBrowser', () => {
     describe('with the default userAgent', () => {
       it('should identify JSDOM', () => {
@@ -329,6 +351,20 @@ describe('helpers', () => {
     });
   });
 
+  describe('mergeProps', () => {
+    it('should return properly', () => {
+      const defaultProps = { type: 'user' } satisfies Omit<Props, 'name'>;
+      const props: Props = { name: 'John', url: undefined };
+
+      expect(mergeProps(defaultProps, props)).toEqual({ name: 'John', type: 'user' });
+      expectTypeOf(mergeProps(defaultProps, props)).toEqualTypeOf<{
+        name: string;
+        type: 'org' | 'user';
+        url?: string;
+      }>();
+    });
+  });
+
   describe('noop', () => {
     it('should return undefined', () => {
       expect(noop()).toBeUndefined();
@@ -336,12 +372,6 @@ describe('helpers', () => {
   });
 
   describe('objectKeys', () => {
-    interface Props {
-      name: string;
-      type?: 'org' | 'user';
-      url?: string;
-    }
-
     it('should return properly', () => {
       const entries = objectKeys(baseObject);
 
@@ -419,6 +449,38 @@ describe('helpers', () => {
       expect(replaceLocaleContent('Next ({step} of {steps})', 2, 5)).toEqual('Next (2 of 5)');
       expect(replaceLocaleContent(null, 2, 5)).toEqual(null);
     });
+
+    it('should handle array children with mixed content', () => {
+      expect(replaceLocaleContent(<span>Step {`{step} of {steps}`}</span>, 2, 5)).toEqual(
+        <span>Step {'2 of 5'}</span>,
+      );
+    });
+
+    it('should handle array children with nested elements', () => {
+      expect(
+        replaceLocaleContent(
+          <span>
+            {'Step'} <em>{`{step} of {steps}`}</em>
+          </span>,
+          3,
+          7,
+        ),
+      ).toEqual(
+        <span>
+          {'Step'} <em>3 of 7</em>
+        </span>,
+      );
+    });
+
+    it('should return the input for elements without placeholders', () => {
+      const input = (
+        <div>
+          <img alt="" />
+        </div>
+      );
+
+      expect(replaceLocaleContent(input, 1, 3)).toEqual(input);
+    });
   });
 
   describe('sleep', () => {
@@ -484,6 +546,135 @@ describe('helpers', () => {
       const result = deepMerge<{ a: number; b: number; c: number }>({ a: 1 }, { b: 2 }, { c: 3 });
 
       expect(result).toEqual({ a: 1, b: 2, c: 3 });
+    });
+  });
+
+  describe('needsScrolling', () => {
+    const target = document.createElement('div');
+    const baseStep = fromPartial<StepMerged>({
+      disableScrolling: false,
+      isFixed: false,
+      placement: 'bottom',
+    });
+    const baseOptions = {
+      isFirstStep: false,
+      scrollToFirstStep: false,
+      step: baseStep,
+      target,
+      targetLifecycle: LIFECYCLE.BEACON,
+    };
+
+    it.each([
+      { ...baseOptions, label: 'base case', expected: true },
+      {
+        ...baseOptions,
+        step: fromPartial<StepMerged>({ ...baseStep, disableScrolling: true }),
+        label: 'disableScrolling',
+        expected: false,
+      },
+      {
+        ...baseOptions,
+        isFirstStep: true,
+        label: 'first step without scrollToFirstStep',
+        expected: false,
+      },
+      {
+        ...baseOptions,
+        isFirstStep: true,
+        scrollToFirstStep: true,
+        label: 'first step with scrollToFirstStep',
+        expected: true,
+      },
+      {
+        ...baseOptions,
+        isFirstStep: true,
+        targetLifecycle: LIFECYCLE.TOOLTIP,
+        label: 'first step with tooltip lifecycle',
+        expected: true,
+      },
+      {
+        ...baseOptions,
+        step: fromPartial<StepMerged>({ ...baseStep, placement: 'center' }),
+        label: 'center placement',
+        expected: false,
+      },
+      {
+        ...baseOptions,
+        target: null,
+        label: 'null target',
+        expected: true,
+      },
+    ])('should return $expected for $label', ({ expected, label: _, ...options }) => {
+      expect(needsScrolling(options)).toBe(expected);
+    });
+
+    it('should return false for target with fixed ancestor', () => {
+      const fixedTarget = document.createElement('div');
+
+      fixedTarget.style.position = 'fixed';
+      document.body.appendChild(fixedTarget);
+
+      expect(
+        needsScrolling({
+          ...baseOptions,
+          target: fixedTarget,
+        }),
+      ).toBe(false);
+
+      document.body.removeChild(fixedTarget);
+    });
+
+    it('should return false for fixed step', () => {
+      document.body.appendChild(target);
+
+      expect(
+        needsScrolling({
+          ...baseOptions,
+          step: fromPartial<StepMerged>({ ...baseStep, isFixed: true }),
+        }),
+      ).toBe(false);
+
+      document.body.removeChild(target);
+    });
+
+    it('should return false for fixed step with fixed target', () => {
+      const fixedTarget = document.createElement('div');
+
+      fixedTarget.style.position = 'fixed';
+      document.body.appendChild(fixedTarget);
+
+      expect(
+        needsScrolling({
+          ...baseOptions,
+          target: fixedTarget,
+          step: fromPartial<StepMerged>({ ...baseStep, isFixed: true }),
+        }),
+      ).toBe(false);
+
+      document.body.removeChild(fixedTarget);
+    });
+
+    it('should return true for fixed target with scrollable parent', () => {
+      const fixedContainer = document.createElement('div');
+
+      fixedContainer.style.position = 'fixed';
+      fixedContainer.style.overflow = 'auto';
+      Object.defineProperty(fixedContainer, 'scrollHeight', { value: 500, configurable: true });
+      Object.defineProperty(fixedContainer, 'offsetHeight', { value: 200, configurable: true });
+
+      const childTarget = document.createElement('div');
+
+      fixedContainer.appendChild(childTarget);
+      document.body.appendChild(fixedContainer);
+
+      expect(
+        needsScrolling({
+          ...baseOptions,
+          target: childTarget,
+        }),
+      ).toBe(true);
+
+      document.body.removeChild(fixedContainer);
     });
   });
 

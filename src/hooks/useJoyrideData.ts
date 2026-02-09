@@ -11,12 +11,12 @@ import { mergeProps } from '~/modules/helpers';
 import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { Props, State, StepMerged } from '~/types';
+import { Props, StepMerged, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
 export interface UseJoyrideDataReturn {
-  state: State;
+  state: StoreState;
   step: StepMerged | null;
   store: RefObject<ReturnType<typeof createStore>>;
 }
@@ -25,7 +25,7 @@ export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn
   const { debug, getHelpers, run, steps } = props;
 
   const store = useRef(createStore(props));
-  const state = useSyncExternalStore(
+  const state = useSyncExternalStore<StoreState>(
     store.current.subscribe,
     store.current.getSnapshot,
     store.current.getServerSnapshot,
@@ -81,6 +81,7 @@ export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn
   });
 
   useScrollEffect({
+    changedState,
     previousState,
     props,
     state,

@@ -3,19 +3,20 @@ import deepEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+import { omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
-import { Origin, Props, State, Status, Step, StepMerged, StoreHelpers } from '~/types';
+import { Origin, Props, State, Status, Step, StepMerged, StoreHelpers, StoreState } from '~/types';
 
-type Listener = (state: State) => void;
+type Listener = (state: StoreState) => void;
 type PopperData = Parameters<NonNullable<FloaterProps['getPopper']>>[0];
 
 class Store {
   private beaconPopper: PopperData | null = null;
   private readonly listeners: Set<Listener> = new Set();
   private readonly props: Props;
-  private snapshot: State;
-  private state: State;
+  private snapshot: StoreState;
+  private state: StoreState;
   private steps: Array<Step>;
   private tooltipPopper: PopperData | null = null;
 
@@ -30,13 +31,14 @@ class Store {
       index: is.number(stepIndex) ? stepIndex : 0,
       lifecycle: LIFECYCLE.INIT,
       origin: null,
+      scrolling: false,
       size: steps.length,
       status: steps.length ? STATUS.READY : STATUS.IDLE,
     };
     this.snapshot = Object.freeze({ ...this.state });
   }
 
-  private applyTransitions(draft: State): State {
+  private applyTransitions(draft: StoreState): StoreState {
     if (draft.status === STATUS.WAITING && draft.size > 0) {
       return { ...draft, status: STATUS.RUNNING };
     }
@@ -69,6 +71,7 @@ class Store {
       index: index + 1,
       origin,
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
     });
   };
 
@@ -93,11 +96,11 @@ class Store {
     return this.tooltipPopper;
   };
 
-  public getServerSnapshot = (): State => this.snapshot;
+  public getServerSnapshot = (): StoreState => this.snapshot;
 
-  public getSnapshot = (): State => this.snapshot;
+  public getSnapshot = (): StoreState => this.snapshot;
 
-  public getState = (): State => this.snapshot;
+  public getState = (): State => omit(this.snapshot, 'scrolling');
 
   public go = (nextIndex: number) => {
     const { controlled, status } = this.state;
@@ -110,11 +113,12 @@ class Store {
       action: ACTIONS.GO,
       index: nextIndex,
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
       status: nextIndex < this.steps.length ? status : STATUS.FINISHED,
     });
   };
 
-  public info = (): State => this.snapshot;
+  public info = (): State => omit(this.snapshot, 'scrolling');
 
   public next = () => {
     const { index, status } = this.state;
@@ -127,6 +131,7 @@ class Store {
       action: ACTIONS.NEXT,
       index: this.getUpdatedIndex(index + 1),
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
     });
   };
 
@@ -137,7 +142,7 @@ class Store {
       return;
     }
 
-    this.updateState({ action: ACTIONS.UPDATE, lifecycle: LIFECYCLE.TOOLTIP });
+    this.updateState({ action: ACTIONS.UPDATE, lifecycle: LIFECYCLE.TOOLTIP, scrolling: false });
   };
 
   public prev = () => {
@@ -151,6 +156,7 @@ class Store {
       action: ACTIONS.PREV,
       index: this.getUpdatedIndex(index - 1),
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
     });
   };
 
@@ -165,6 +171,7 @@ class Store {
       action: ACTIONS.RESET,
       index: 0,
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
       status: restart ? STATUS.RUNNING : STATUS.READY,
     });
   };
@@ -206,6 +213,7 @@ class Store {
     this.updateState({
       action: ACTIONS.SKIP,
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
       status: STATUS.SKIPPED,
     });
   };
@@ -218,6 +226,7 @@ class Store {
         action: ACTIONS.START,
         index: is.number(nextIndex) ? nextIndex : index,
         lifecycle: LIFECYCLE.INIT,
+        scrolling: false,
         status: size ? STATUS.RUNNING : STATUS.WAITING,
       },
       true,
@@ -235,6 +244,7 @@ class Store {
       action: ACTIONS.STOP,
       index: index + (advance ? 1 : 0),
       lifecycle: LIFECYCLE.COMPLETE,
+      scrolling: false,
       status: STATUS.PAUSED,
     });
   };
@@ -247,19 +257,20 @@ class Store {
     };
   };
 
-  public updateState = (patch: Partial<State>, forceIndex = false) => {
+  public updateState = (patch: Partial<StoreState>, forceIndex = false) => {
     const { controlled, index } = this.state;
     const previousSnapshot = this.snapshot;
 
     const resolvedIndex =
       controlled && !forceIndex && patch.index !== undefined ? index : (patch.index ?? index);
 
-    const merged: State = {
+    const merged: StoreState = {
       action: patch.action ?? this.state.action,
       controlled,
       index: resolvedIndex,
       lifecycle: patch.lifecycle ?? this.state.lifecycle,
       origin: patch.origin ?? null,
+      scrolling: patch.scrolling ?? this.state.scrolling,
       size: patch.size ?? this.state.size,
       status: patch.status ?? this.state.status,
     };

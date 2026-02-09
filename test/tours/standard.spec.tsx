@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ACTIONS, EVENTS, LIFECYCLE, PORTAL_ELEMENT_ID, STATUS } from '~/index';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
 import {
   act,
   callbackResponseFactory,
@@ -28,7 +28,7 @@ vi.mock('~/modules/helpers', async () => {
 });
 
 describe('Joyride > Standard', () => {
-  const { unmount } = render(
+  render(
     <Standard
       callback={mockCallback}
       floaterProps={{
@@ -70,7 +70,6 @@ describe('Joyride > Standard', () => {
     await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(3);
     });
-    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       2,
@@ -91,17 +90,17 @@ describe('Joyride > Standard', () => {
         type: EVENTS.TOOLTIP,
       }),
     );
+
+    expect(screen.queryById('react-joyride-step-0-wrapper')).not.toBeInTheDocument();
   });
 
   it('should render STEP 1 Tooltip', async () => {
-    fireEvent.click(screen.getByTestId('button-beacon'));
-
     await waitFor(() => {
       expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
+    expect(screen.queryById('react-joyride-step-0-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
   });
 
@@ -125,14 +124,6 @@ describe('Joyride > Standard', () => {
 
   it('should render STEP 2 Tooltip', async () => {
     await waitFor(() => {
-      expect(screen.getByRole('tooltip')).toBeInTheDocument();
-    });
-
-    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-1-wrapper')).toHaveStyle('visibility: hidden');
-    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
-
-    await waitFor(() => {
       expect(mockCallback).toHaveBeenCalledTimes(6);
     });
 
@@ -155,6 +146,14 @@ describe('Joyride > Standard', () => {
         type: EVENTS.TOOLTIP,
       }),
     );
+
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.queryById('react-joyride-step-1-wrapper')).not.toBeInTheDocument();
+    expect(screen.getById('react-joyride-step-1')).toMatchSnapshot('tooltip');
+    expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
   });
 
   it('should close STEP 2 Tooltip with keyboard', async () => {
@@ -209,8 +208,8 @@ describe('Joyride > Standard', () => {
       expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
+    expect(screen.queryById('react-joyride-step-2-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-2')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-2-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -243,8 +242,8 @@ describe('Joyride > Standard', () => {
       expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
+    expect(screen.queryById('react-joyride-step-1-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-1')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-1-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     await waitFor(() => {
@@ -308,8 +307,12 @@ describe('Joyride > Standard', () => {
       }),
     );
 
+    await waitFor(() => {
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    });
+
+    expect(screen.queryById('react-joyride-step-2-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-2')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-2-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
   });
 
@@ -373,8 +376,8 @@ describe('Joyride > Standard', () => {
       }),
     );
 
+    expect(screen.queryById('react-joyride-step-3-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-3')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-3-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
   });
 
@@ -400,8 +403,8 @@ describe('Joyride > Standard', () => {
       expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
+    expect(screen.queryById('react-joyride-step-5-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-5')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-5-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -445,8 +448,8 @@ describe('Joyride > Standard', () => {
       expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
+    expect(screen.queryById('react-joyride-step-6-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-6')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-6-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     expect(mockCallback).toHaveBeenNthCalledWith(
@@ -523,7 +526,7 @@ describe('Joyride > Standard', () => {
       }),
     );
 
-    expect(mockGetPopper).toHaveBeenCalledTimes(12);
+    expect(mockGetPopper).toHaveBeenCalledTimes(16);
   });
 
   it('should restart the tour', async () => {
@@ -540,13 +543,8 @@ describe('Joyride > Standard', () => {
       expect(screen.getByRole('tooltip')).toBeInTheDocument();
     });
 
+    expect(screen.queryById('react-joyride-step-0-wrapper')).not.toBeInTheDocument();
     expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
-    expect(screen.getById('react-joyride-step-0-wrapper')).toHaveStyle('visibility: hidden');
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
-  });
-
-  it('should remove the portal on unmount', () => {
-    unmount();
-    expect(screen.queryById(PORTAL_ELEMENT_ID)).not.toBeInTheDocument();
   });
 });

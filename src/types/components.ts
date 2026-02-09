@@ -146,6 +146,7 @@ export type OverlayProps = Simplify<
     debug: boolean;
     lifecycle: Lifecycle;
     onClickOverlay: () => void;
+    scrolling: boolean;
   }
 >;
 
@@ -309,7 +310,7 @@ export type StepMerged = Simplify<
 >;
 
 export type StepProps = Simplify<
-  State & {
+  StoreState & {
     cleanupPoppers: () => void;
     continuous: boolean;
     debug: boolean;
@@ -318,7 +319,7 @@ export type StepProps = Simplify<
     setPopper: NonNullable<FloaterProps['getPopper']>;
     shouldScroll: boolean;
     step: StepMerged;
-    updateState: (state: Partial<State>) => void;
+    updateState: (state: Partial<StoreState>) => void;
   }
 >;
 
@@ -332,6 +333,8 @@ export type StoreHelpers = {
   reset: (restart: boolean) => void;
   skip: () => void;
 };
+
+export type StoreState = State & { scrolling: boolean };
 
 export type TooltipProps = {
   continuous: boolean;

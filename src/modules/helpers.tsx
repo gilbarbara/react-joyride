@@ -6,9 +6,9 @@ import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE } from '~/literals';
 
-import { Actions, AnyObject, Lifecycle, NarrowPlainObject, State, Step } from '~/types';
+import { Actions, AnyObject, Lifecycle, NarrowPlainObject, State, Step, StepMerged } from '~/types';
 
-import { hasPosition } from './dom';
+import { getScrollParent, hasCustomScrollParent, hasPosition, scrollDocument } from './dom';
 
 type RemoveType<TObject, TExclude = undefined> = {
   [Key in keyof TObject as TObject[Key] extends TExclude ? never : Key]: TObject[Key];
@@ -31,13 +31,12 @@ interface LogOptions {
   warn?: boolean;
 }
 
-interface ShouldScrollOptions {
+interface NeedsScrollingOptions {
   isFirstStep: boolean;
-  lifecycle: Lifecycle;
-  previousLifecycle: Lifecycle;
   scrollToFirstStep: boolean;
-  step: Step;
+  step: StepMerged;
   target: HTMLElement | null;
+  targetLifecycle?: Lifecycle;
 }
 
 /**
@@ -164,32 +163,34 @@ export function isLegacy(): boolean {
  * Log method calls if debug is enabled
  */
 export function logDebug({ data, debug = false, title, warn = false }: LogOptions) {
+  if (!debug) {
+    return;
+  }
+
   /* eslint-disable no-console */
   const logFn = warn ? (console.warn ?? console.error) : console.log;
 
-  if (debug) {
-    if (title && data) {
-      console.groupCollapsed(
-        `%creact-joyride: ${title}`,
-        'color: #ff0044; font-weight: bold; font-size: 12px;',
-      );
+  if (title && data) {
+    console.groupCollapsed(
+      `%creact-joyride: ${title}`,
+      'color: #ff0044; font-weight: bold; font-size: 12px;',
+    );
 
-      if (Array.isArray(data)) {
-        data.forEach(d => {
-          if (is.plainObject(d) && d.key) {
-            logFn.apply(console, [d.key, d.value]);
-          } else {
-            logFn.apply(console, [d]);
-          }
-        });
-      } else {
-        logFn.apply(console, [data]);
-      }
-
-      console.groupEnd();
+    if (Array.isArray(data)) {
+      data.forEach(d => {
+        if (is.plainObject(d) && d.key) {
+          logFn.apply(console, [d.key, d.value]);
+        } else {
+          logFn.apply(console, [d]);
+        }
+      });
     } else {
-      console.error('Missing title or data props');
+      logFn.apply(console, [data]);
     }
+
+    console.groupEnd();
+  } else {
+    console.error('Missing title or data props');
   }
   /* eslint-enable */
 }
@@ -207,6 +208,26 @@ export function mergeProps<TDefaultProps extends PlainObject<any>, TProps extend
   return { ...defaultProps, ...cleanProps } as unknown as Simplify<
     TProps & Required<Pick<TProps, keyof TDefaultProps & string>>
   >;
+}
+
+export function needsScrolling(options: NeedsScrollingOptions): boolean {
+  const { isFirstStep, scrollToFirstStep, step, target, targetLifecycle } = options;
+
+  if (
+    step.disableScrolling ||
+    (isFirstStep && !scrollToFirstStep && targetLifecycle !== LIFECYCLE.TOOLTIP) ||
+    step.placement === 'center'
+  ) {
+    return false;
+  }
+
+  if ((step.isFixed || hasPosition(target)) && !hasCustomScrollParent(target)) {
+    return false;
+  }
+
+  const parent = (target?.isConnected ? getScrollParent(target) : scrollDocument()) as Element;
+
+  return parent.scrollHeight > parent.clientHeight;
 }
 
 /**
@@ -316,19 +337,6 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
   }
 
   return input;
-}
-
-export function shouldScroll(options: ShouldScrollOptions): boolean {
-  const { isFirstStep, lifecycle, previousLifecycle, scrollToFirstStep, step, target } = options;
-
-  return (
-    !step.disableScrolling &&
-    (!isFirstStep || scrollToFirstStep || lifecycle === LIFECYCLE.TOOLTIP) &&
-    step.placement !== 'center' &&
-    (!step.isFixed || !hasPosition(target)) && // fixed steps don't need to scroll
-    previousLifecycle !== lifecycle &&
-    ([LIFECYCLE.BEACON, LIFECYCLE.TOOLTIP] as Array<Lifecycle>).includes(lifecycle)
-  );
 }
 
 /**

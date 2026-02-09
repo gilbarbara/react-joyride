@@ -4,10 +4,10 @@ import { useEffectDeepCompare } from '@gilbarbara/hooks';
 import { defaultProps } from '~/defaults';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, isElementVisible } from '~/modules/dom';
-import { hideBeacon, logDebug, mergeProps } from '~/modules/helpers';
+import { hideBeacon, logDebug, mergeProps, needsScrolling, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Actions, Props, State, StepMerged } from '~/types';
+import { Actions, Props, StepMerged, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 type Value = import('tree-changes-hook').Value;
@@ -15,10 +15,10 @@ type Value = import('tree-changes-hook').Value;
 interface UseLifecycleEffectParams {
   changedState: (key?: string, actual?: Value, previous?: Value) => boolean;
   changedStateFrom: (key: string, previous: Value, actual?: Value) => boolean;
-  previousState: State | undefined;
+  previousState: StoreState | undefined;
   previousStep: StepMerged | null;
   props: MergedProps;
-  state: State;
+  state: StoreState;
   step: StepMerged | null;
   store: RefObject<ReturnType<typeof createStore>>;
 }
@@ -33,7 +33,7 @@ export default function useLifecycleEffect({
   step,
   store,
 }: UseLifecycleEffectParams): void {
-  const { callback, continuous, debug } = props;
+  const { callback, continuous, debug, scrollToFirstStep } = props;
   const { action, controlled, index, lifecycle, size, status } = state;
   const lastAction = useRef<Actions | null>(null);
 
@@ -42,6 +42,8 @@ export default function useLifecycleEffect({
 
   propsRef.current = props;
   stateRef.current = state;
+
+  const callbackState = () => omit(stateRef.current, 'scrolling');
 
   useEffectDeepCompare(() => {
     if (!previousState) {
@@ -89,7 +91,7 @@ export default function useLifecycleEffect({
     if (step && elementExists && isElementVisible(element)) {
       if (changedStateFrom('lifecycle', LIFECYCLE.INIT, LIFECYCLE.READY)) {
         callback?.({
-          ...stateRef.current,
+          ...callbackState(),
           action: lastAction.current ?? action,
           step,
           type: EVENTS.STEP_BEFORE,
@@ -100,7 +102,7 @@ export default function useLifecycleEffect({
       console.warn(elementExists ? 'Target not visible' : 'Target not mounted', step);
 
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         type: EVENTS.TARGET_NOT_FOUND,
         step,
       });
@@ -114,17 +116,29 @@ export default function useLifecycleEffect({
     }
 
     if (step && changedState('lifecycle', LIFECYCLE.READY)) {
+      const targetLifecycle = hideBeacon(step, stateRef.current, continuous)
+        ? LIFECYCLE.TOOLTIP
+        : LIFECYCLE.BEACON;
+
+      const target = getElement(step.target);
+      const willScroll = needsScrolling({
+        isFirstStep: index === 0,
+        scrollToFirstStep,
+        step,
+        target,
+        targetLifecycle,
+      });
+
       store.current.updateState({
         action: ACTIONS.UPDATE,
-        lifecycle: hideBeacon(step, stateRef.current, continuous)
-          ? LIFECYCLE.TOOLTIP
-          : LIFECYCLE.BEACON,
+        lifecycle: targetLifecycle,
+        scrolling: willScroll,
       });
     }
 
     if (step && changedState('lifecycle', LIFECYCLE.BEACON)) {
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         step,
         type: EVENTS.BEACON,
       });
@@ -132,7 +146,7 @@ export default function useLifecycleEffect({
 
     if (step && changedState('lifecycle', LIFECYCLE.TOOLTIP)) {
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         step,
         type: EVENTS.TOOLTIP,
       });
@@ -149,7 +163,7 @@ export default function useLifecycleEffect({
 
     if (shouldSendCallback) {
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         action: lastAction.current ?? ACTIONS.UPDATE,
         index: previousState.index ?? index,
         lifecycle,
@@ -178,7 +192,7 @@ export default function useLifecycleEffect({
 
     if (tourEndStep && changedState('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         index: previousStep ? index - 1 : index,
         step: tourEndStep,
         type: EVENTS.TOUR_END,
@@ -192,7 +206,7 @@ export default function useLifecycleEffect({
       changedStateFrom('status', [STATUS.IDLE, STATUS.READY, STATUS.PAUSED], STATUS.RUNNING)
     ) {
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         step,
         type: EVENTS.TOUR_START,
       });
@@ -201,7 +215,7 @@ export default function useLifecycleEffect({
     if (step && changedState('action', ACTIONS.STOP)) {
       lastAction.current = null;
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         step,
         type: EVENTS.TOUR_STATUS,
       });
@@ -209,7 +223,7 @@ export default function useLifecycleEffect({
 
     if (step && changedState('action', ACTIONS.RESET)) {
       callback?.({
-        ...stateRef.current,
+        ...callbackState(),
         step,
         type: EVENTS.TOUR_STATUS,
       });
@@ -227,6 +241,7 @@ export default function useLifecycleEffect({
     lifecycle,
     previousState,
     previousStep,
+    scrollToFirstStep,
     size,
     status,
     step,
