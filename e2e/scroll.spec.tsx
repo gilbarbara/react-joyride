@@ -4,7 +4,6 @@ import './global.d';
 import { expect, test } from '@playwright/experimental-ct-react';
 
 import { ACTIONS, CallBackProps, EVENTS, LIFECYCLE, STATUS } from '../src';
-import { sleep } from '../src/modules/helpers';
 import Scroll from '../test/__fixtures__/Scroll';
 
 function formatCallbackResponse(input: Partial<CallBackProps>) {
@@ -19,7 +18,7 @@ function formatCallbackResponse(input: Partial<CallBackProps>) {
 
 test.use({ viewport: { width: 1024, height: 768 } });
 
-test('should run the tour', async ({ mount, page }) => {
+test('scroll', async ({ mount, page }) => {
   const callback: Array<any> = [];
 
   const getScrollTop = async () => {
@@ -33,6 +32,40 @@ test('should run the tour', async ({ mount, page }) => {
     return value;
   };
 
+  const waitForScrollEnd = () =>
+    page.waitForFunction(() => {
+      return new Promise(resolve => {
+        const getPositions = () => [
+          document.scrollingElement?.scrollTop ?? 0,
+          document.querySelector('.scroll-content')?.scrollTop ?? 0,
+        ];
+
+        let stableCount = 0;
+        let last = [-1, -1];
+
+        const check = () => {
+          const pos = getPositions();
+
+          if (pos[0] === last[0] && pos[1] === last[1]) {
+            stableCount++;
+
+            if (stableCount >= 3) {
+              resolve(true);
+
+              return;
+            }
+          } else {
+            stableCount = 0;
+          }
+
+          last = pos;
+          setTimeout(check, 100);
+        };
+
+        setTimeout(check, 400);
+      });
+    });
+
   await mount(
     <Scroll
       callback={({ step: _step, ...rest }) => {
@@ -41,9 +74,7 @@ test('should run the tour', async ({ mount, page }) => {
     />,
   );
 
-  await page.waitForFunction(() => document.body.scrollHeight > window.innerHeight);
-  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
-
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step1-beacon.png');
   await expect.poll(() => callback.length).toBe(3);
 
@@ -86,7 +117,8 @@ test('should run the tour', async ({ mount, page }) => {
     }),
   );
 
-  await sleep(1);
+  await waitForScrollEnd();
+
   await expect(page).toHaveScreenshot('step1-tooltip.png');
   await expect.poll(getScrollTop).toBeAround(0);
 
@@ -104,7 +136,7 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // Second step
-  await sleep(1);
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step2-tooltip.png');
   await expect.poll(getScrollTop).toBeAround(0);
 
@@ -140,9 +172,9 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // Third step
-  await sleep(1);
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step3-tooltip.png');
-  await expect.poll(getScrollTop).toBeAround(249, 25);
+  await expect.poll(getScrollTop).toBeAround(411, 25);
 
   expect(callback[8]).toEqual(
     formatCallbackResponse({
@@ -176,9 +208,9 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // Fourth step
-  await sleep(1);
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step4-tooltip.png');
-  await expect.poll(getScrollTop).toBeAround(412, 25);
+  await expect.poll(getScrollTop).toBeAround(350, 25);
 
   expect(callback[11]).toEqual(
     formatCallbackResponse({
@@ -212,9 +244,9 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // Back to the third step
-  await sleep(1);
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step3-tooltip-back.png');
-  await expect.poll(getScrollTop).toBeAround(249, 25);
+  await expect.poll(getScrollTop).toBeAround(290, 25);
 
   expect(callback[14]).toEqual(
     formatCallbackResponse({
@@ -248,9 +280,9 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // go to the fourth step again
-  await sleep(1);
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step4-tooltip-forward.png');
-  await expect.poll(getScrollTop).toBeAround(412, 25);
+  await expect.poll(getScrollTop).toBeAround(574, 25);
 
   expect(callback[17]).toEqual(
     formatCallbackResponse({
@@ -285,9 +317,9 @@ test('should run the tour', async ({ mount, page }) => {
   );
 
   // Fifth step
-  await sleep(1);
+  await waitForScrollEnd();
   await expect(page).toHaveScreenshot('step5-tooltip.png');
-  await expect.poll(getScrollTop).toBeAround(696, 25);
+  await expect.poll(getScrollTop).toBeAround(735, 30);
 
   expect(callback[20]).toEqual(
     formatCallbackResponse({
