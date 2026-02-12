@@ -50,67 +50,75 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
   };
 
   return (
-    <div data-test-id="demo">
-      <Joyride
-        callback={handleJoyrideCallback}
-        continuous
-        getHelpers={helpers => {
-          helpersRef.current = helpers;
-        }}
-        run={run}
-        scrollToFirstStep
-        showSkipButton
-        steps={steps}
-        {...rest}
-      />
-      <main>
-        <div className="hero">
-          <div className="container">
-            <div className="hero__content">
-              <h1>
-                <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
-              </h1>
-              <button data-test-id="start" onClick={handleClickStart} type="button">
-                Let's Go!
+    <>
+      <div data-test-id="demo">
+        <Joyride
+          callback={handleJoyrideCallback}
+          continuous
+          getHelpers={helpers => {
+            helpersRef.current = helpers;
+          }}
+          portalElement="#portal"
+          run={run}
+          scrollToFirstStep
+          showSkipButton
+          steps={steps}
+          {...rest}
+        />
+        <main>
+          <div className="hero">
+            <div className="container">
+              <div className="hero__content">
+                <h1>
+                  <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
+                </h1>
+                <button data-test-id="start" onClick={handleClickStart} type="button">
+                  Let's Go!
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="demo__section projects">
+            <div className="container">
+              <h2>
+                <span>Projects</span>
+              </h2>
+              <div className="list">
+                <div>Installation</div>
+                <div>Documentation</div>
+                <div>Support</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="demo__section mission">
+            <div className="container">
+              <h2>
+                <span>Mission</span>
+              </h2>
+
+              <button
+                data-test-id="mission-button"
+                onClick={handleClickMissionButton}
+                type="button"
+              >
+                Click me
               </button>
             </div>
           </div>
-        </div>
-        <div className="demo__section projects">
-          <div className="container">
-            <h2>
-              <span>Projects</span>
-            </h2>
-            <div className="list">
-              <div>Installation</div>
-              <div>Documentation</div>
-              <div>Support</div>
+          <div className="demo__section about">
+            <div className="container">
+              <h2>
+                <span>About</span>
+              </h2>
             </div>
           </div>
-        </div>
-
-        <div className="demo__section mission">
-          <div className="container">
-            <h2>
-              <span>Mission</span>
-            </h2>
-
-            <button data-test-id="mission-button" onClick={handleClickMissionButton} type="button">
-              Click me
-            </button>
-          </div>
-        </div>
-        <div className="demo__section about">
-          <div className="container">
-            <h2>
-              <span>About</span>
-            </h2>
-          </div>
-        </div>
-      </main>
-      <footer className="demo__footer">
-        <button type="button">Joyride</button>
-      </footer>
-    </div>
+        </main>
+        <footer className="demo__footer">
+          <button type="button">Joyride</button>
+        </footer>
+      </div>
+      <div id="portal" />
+    </>
   );
 }

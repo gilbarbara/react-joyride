@@ -30,7 +30,26 @@ button {
   background-color: #000;
   border-radius: 12px;
   color: #fff;
+  display: inline-flex;
   padding: 8px 16px;
+
+  &.icon-only {
+    align-items: center;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    width: 32px;
+  }
+}
+
+.fixed-header {
+  position: fixed;
+  width: 100%;
+  height: 64px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .container {
@@ -53,21 +72,29 @@ button {
   display: flex;
   min-height: 100vh;
   text-align: center;
-}
 
-.demo__section.projects {
-  background-color: var(--orange);
-  color: #000;
-}
+  &.projects {
+    background-color: var(--orange);
+    color: #000;
+  }
 
-.demo__section.mission {
-  background-color: var(--yellow);
-  color: #000;
-}
+  &.mission {
+    background-color: var(--yellow);
+    color: #000;
+  }
 
-.demo__section.about {
-  background-color: var(--green);
-  color: #000;
+  &.about {
+    background-color: var(--green);
+    color: #000;
+  }
+
+  &.scroll {
+    align-items: center;
+    background-color: var(--purple);
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+  }
 }
 
 .demo__footer {
@@ -104,16 +131,18 @@ button {
 .controlled-wrapper {
   background-color: #232527;
   color: #fff;
-  min-height: 100vh;
   width: 100%;
 }
 
 .controlled-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
   padding: 16px;
 }
 
 .controlled-heading {
-  margin: 0 0 32px;
+  margin: 0;
   text-align: center;
 }
 
@@ -169,6 +198,7 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+  margin-top: auto;
 }
 
 .controlled-section {
