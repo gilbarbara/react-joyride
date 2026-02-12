@@ -66,7 +66,7 @@ export function Joyride(props: Props) {
     }
   };
 
-  if (!step) {
+  if (!step || !isRunning) {
     return null;
   }
 
@@ -79,6 +79,7 @@ export function Joyride(props: Props) {
         debug={debug}
         helpers={store.current.getHelpers()}
         nonce={nonce}
+        portalElement={element}
         setPopper={store.current.setPopper}
         shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
         step={step}

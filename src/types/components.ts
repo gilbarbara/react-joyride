@@ -310,6 +310,7 @@ export type StepProps = Simplify<
     debug: boolean;
     helpers: StoreHelpers;
     nonce?: string;
+    portalElement: SelectorOrElement;
     setPopper: NonNullable<FloaterProps['getPopper']>;
     shouldScroll: boolean;
     step: StepMerged;

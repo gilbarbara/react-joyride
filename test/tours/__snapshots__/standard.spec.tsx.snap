@@ -1107,9 +1107,6 @@ exports[`Joyride > Standard > should render the content 1`] = `
 <div
   data-test-id="demo"
 >
-  <div
-    class="react-joyride"
-  />
   <main>
     <div
       class="hero"

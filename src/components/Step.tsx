@@ -4,7 +4,7 @@ import { useMount, useUnmount } from '@gilbarbara/hooks';
 import is from 'is-lite';
 import useTreeChanges from 'tree-changes-hook';
 
-import { LIFECYCLE, PORTAL_ELEMENT_ID } from '~/literals';
+import { LIFECYCLE } from '~/literals';
 import { getElement } from '~/modules/dom';
 import { logDebug } from '~/modules/helpers';
 import Scope from '~/modules/scope';
@@ -24,6 +24,7 @@ export default function JoyrideStep(props: StepProps) {
     index,
     lifecycle,
     nonce,
+    portalElement,
     scrolling,
     setPopper,
     shouldScroll,
@@ -105,7 +106,7 @@ export default function JoyrideStep(props: StepProps) {
         id={`react-joyride-step-${index}`}
         open={lifecycle === LIFECYCLE.TOOLTIP && !scrolling}
         placement={step.placement}
-        portalElement={`#${PORTAL_ELEMENT_ID}`}
+        portalElement={portalElement}
         target={step.target}
       >
         {lifecycle !== LIFECYCLE.TOOLTIP && (
