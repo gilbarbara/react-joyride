@@ -11,6 +11,7 @@ const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>((_, ref
       data-test-id="button-beacon"
       type="button"
     >
+      <span className="react-joyride__beacon__outer" />
       <span className="react-joyride__beacon__inner" />
     </button>
   );

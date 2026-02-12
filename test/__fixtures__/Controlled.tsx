@@ -4,9 +4,6 @@ import { useSetState } from '@gilbarbara/hooks';
 import Joyride, { ACTIONS, EVENTS, STATUS } from '../../src';
 import { CallBackProps, Props, Step } from '../../src/types';
 
-import Beacon from './Beacon';
-import Tooltip from './Tooltip';
-
 interface ControlledProps extends Omit<Props, 'run' | 'steps'> {}
 
 interface State {
@@ -184,7 +181,6 @@ export default function Controlled(props: ControlledProps) {
   return (
     <div className="controlled-wrapper">
       <Joyride
-        beaconComponent={Beacon}
         callback={handleJoyrideCallback}
         continuous
         run={run}
@@ -193,7 +189,6 @@ export default function Controlled(props: ControlledProps) {
         showSkipButton
         stepIndex={stepIndex}
         steps={steps}
-        tooltipComponent={Tooltip}
       />
       <div className="controlled-container" data-test-id="controlled">
         <div
