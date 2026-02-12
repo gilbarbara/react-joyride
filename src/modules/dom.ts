@@ -79,14 +79,10 @@ export function getElement(element?: string | HTMLElement): HTMLElement | null {
 /**
  * Find and return the target DOM element based on a step's 'target'.
  */
-export function getElementPosition(
-  element: HTMLElement | null,
-  offset: number,
-  skipFix: boolean,
-): number {
+export function getElementPosition(element: HTMLElement | null, offset: number): number {
   const elementRect = getClientRect(element);
-  const parent = getScrollParent(element, skipFix);
-  const hasScrollParent = hasCustomScrollParent(element, skipFix);
+  const parent = getScrollParent(element);
+  const hasScrollParent = hasCustomScrollParent(element);
   const isFixedTarget = hasPosition(element);
   let parentTop = 0;
   let top = elementRect?.top ?? 0;
@@ -112,13 +108,10 @@ export function getElementPosition(
 }
 
 /**
- * Get scroll parent with fix
+ * Get the scroll parent of an element.
+ * If the detected parent doesn't actually scroll, fall back to the document.
  */
-export function getScrollParent(
-  element: HTMLElement | null,
-  skipFix: boolean,
-  forListener?: boolean,
-) {
+export function getScrollParent(element: HTMLElement | null, forListener?: boolean) {
   if (!element) {
     return scrollDocument();
   }
@@ -136,9 +129,7 @@ export function getScrollParent(
 
     const hasScrolling = parent.scrollHeight > parent.offsetHeight;
 
-    if (!hasScrolling && !skipFix) {
-      parent.style.overflow = 'initial';
-
+    if (!hasScrolling) {
       return scrollDocument();
     }
   }
@@ -158,7 +149,7 @@ export function getScrollTargetToCenter(element: Element): number {
 /**
  * Get the scrollTop position
  */
-export function getScrollTo(element: HTMLElement | null, offset: number, skipFix: boolean): number {
+export function getScrollTo(element: HTMLElement | null, offset: number): number {
   if (!element) {
     return 0;
   }
@@ -171,7 +162,7 @@ export function getScrollTo(element: HTMLElement | null, offset: number, skipFix
   const { offsetTop = 0, scrollTop = 0 } = parentElement;
   let top = element.getBoundingClientRect().top + scrollTop;
 
-  if (!!offsetTop && (hasCustomScrollParent(element, skipFix) || hasCustomOffsetParent(element))) {
+  if (!!offsetTop && (hasCustomScrollParent(element) || hasCustomOffsetParent(element))) {
     const elementTopInContainer = element.getBoundingClientRect().top - (parentRect?.top ?? 0);
     const containerHeight = parentElement.clientHeight;
     const margin = containerHeight * 0.2;
@@ -210,12 +201,12 @@ export function hasCustomOffsetParent(element: HTMLElement): boolean {
 /**
  * Check if the element has custom scroll parent
  */
-export function hasCustomScrollParent(element: HTMLElement | null, skipFix: boolean): boolean {
+export function hasCustomScrollParent(element: HTMLElement | null): boolean {
   if (!element) {
     return false;
   }
 
-  const parent = getScrollParent(element, skipFix);
+  const parent = getScrollParent(element);
 
   return parent ? !parent.isSameNode(scrollDocument()) : false;
 }

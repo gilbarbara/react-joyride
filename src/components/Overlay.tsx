@@ -38,7 +38,6 @@ export default function JoyrideOverlay(props: OverlayProps) {
     disableOverlay,
     disableOverlayClose,
     disableScrolling,
-    disableScrollParentFix = false,
     lifecycle,
     onClickOverlay,
     placement,
@@ -97,7 +96,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     const element = getElement(target);
     const elementRect = getClientRect(element);
     const isFixedTarget = hasPosition(element);
-    const top = getElementPosition(element, spotlightPadding, disableScrollParentFix);
+    const top = getElementPosition(element, spotlightPadding);
 
     return sortObjectKeys({
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
@@ -111,7 +110,6 @@ export default function JoyrideOverlay(props: OverlayProps) {
       width: Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
     } satisfies SpotlightStyles);
   }, [
-    disableScrollParentFix,
     showSpotlight,
     spotlightClicks,
     spotlightPadding,
@@ -152,14 +150,10 @@ export default function JoyrideOverlay(props: OverlayProps) {
   useMount(() => {
     const element = getElement(target);
 
-    scrollParentRef.current = getScrollParent(
-      element ?? document.body,
-      disableScrollParentFix,
-      true,
-    );
+    scrollParentRef.current = getScrollParent(element ?? document.body, true);
 
     if (process.env.NODE_ENV !== 'production') {
-      if (!disableScrolling && hasCustomScrollParent(element, true)) {
+      if (!disableScrolling && hasCustomScrollParent(element)) {
         logDebug({
           title: 'step has a custom scroll parent and can cause trouble with scrolling',
           data: [{ key: 'parent', value: scrollParentRef }],
@@ -199,16 +193,12 @@ export default function JoyrideOverlay(props: OverlayProps) {
   }, [changed, handleMouseMove, lifecycle, spotlightClicks]);
 
   useEffect(() => {
-    if (changed('target') || changed('disableScrollParentFix')) {
+    if (changed('target')) {
       const element = getElement(target);
 
-      scrollParentRef.current = getScrollParent(
-        element ?? document.body,
-        disableScrollParentFix,
-        true,
-      );
+      scrollParentRef.current = getScrollParent(element ?? document.body, true);
     }
-  }, [changed, disableScrollParentFix, target]);
+  }, [changed, target]);
 
   const hiddenLifecycles = [
     LIFECYCLE.INIT,

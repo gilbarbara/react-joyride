@@ -29,11 +29,6 @@ export type BaseProps = {
    */
   disableScrolling?: boolean;
   /**
-   * Disable the fix to handle "unused" overflow parents.
-   * @default false
-   */
-  disableScrollParentFix?: boolean;
-  /**
    * Options to be passed to react-floater
    */
   floaterProps?: Partial<FloaterProps>;
@@ -290,7 +285,6 @@ export type StepMerged = Simplify<
     | 'disableCloseOnEsc'
     | 'disableOverlay'
     | 'disableOverlayClose'
-    | 'disableScrollParentFix'
     | 'disableScrolling'
     | 'event'
     | 'hideBackButton'
