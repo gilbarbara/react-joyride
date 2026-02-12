@@ -75,7 +75,7 @@ export default function useScrollEffect({
   step,
   store,
 }: UseScrollEffectParams): void {
-  const { debug, disableScrollParentFix, scrollDuration, scrollOffset } = props;
+  const { debug, scrollDuration, scrollOffset } = props;
   const { index, lifecycle, scrolling, status } = state;
   const cancelScrollRef = useRef<(() => void) | null>(null);
 
@@ -95,8 +95,8 @@ export default function useScrollEffect({
     const tooltipPopper = store.current.getPopper('tooltip');
 
     if (status === STATUS.RUNNING && scrolling && changedState('scrolling', true)) {
-      const hasCustomScroll = hasCustomScrollParent(target, disableScrollParentFix);
-      const scrollParent = getScrollParent(target, disableScrollParentFix);
+      const hasCustomScroll = hasCustomScrollParent(target);
+      const scrollParent = getScrollParent(target);
 
       logDebug({
         title: 'scrollToStep',
@@ -123,8 +123,7 @@ export default function useScrollEffect({
           await pagePromise;
         }
 
-        const baseScrollY =
-          Math.floor(getScrollTo(target, scrollOffset, disableScrollParentFix)) || 0;
+        const baseScrollY = Math.floor(getScrollTo(target, scrollOffset)) || 0;
         const scrollY = adjustForPlacement(baseScrollY, {
           beaconPopper,
           lifecycle,
@@ -151,7 +150,6 @@ export default function useScrollEffect({
   }, [
     changedState,
     debug,
-    disableScrollParentFix,
     index,
     lifecycle,
     previousState,

@@ -18,7 +18,6 @@ function getTourProps(props: Props) {
     'disableOverlay',
     'disableOverlayClose',
     'disableScrolling',
-    'disableScrollParentFix',
     'floaterProps',
     'hideBackButton',
     'hideCloseButton',
@@ -41,10 +40,7 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
   const mergedStep = deepMerge<StepMerged>(defaultStep, getTourProps(props), step);
 
   const mergedStyles = getStyles(props, mergedStep);
-  const scrollParent = hasCustomScrollParent(
-    getElement(mergedStep.target),
-    mergedStep.disableScrollParentFix,
-  );
+  const scrollParent = hasCustomScrollParent(getElement(mergedStep.target));
   const floaterProps = deepMerge<SetRequired<FloaterProps, 'modifiers' | 'wrapperOptions'>>(
     defaultFloaterProps,
     props.floaterProps ?? {},

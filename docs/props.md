@@ -29,9 +29,6 @@ Don't close the tooltip when clicking the overlay.
 **disableScrolling** `boolean` ▶︎ **false**  
 Disable autoscrolling between steps.
 
-**disableScrollParentFix** `boolean` ▶︎ **false**  
-Disable the fix to handle "unused" overflow parents.
-
 **floaterProps** `Partial<FloaterProps>`  
 Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater), which in turn passes certain options to [Popper.js](https://popper.js.org/).
 
