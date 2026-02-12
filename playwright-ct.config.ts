@@ -30,7 +30,7 @@ const config = defineConfig({
   reporter: 'html',
   retries: process.env.CI ? 2 : 0,
   snapshotDir: './e2e/__snapshots__',
-  snapshotPathTemplate: '{testDir}/__snapshots__/{testFilePath}/{arg}-{projectName}{ext}',
+  snapshotPathTemplate: '{testDir}/__snapshots__/{testName}/{arg}-{projectName}{ext}',
   testDir: './e2e',
   use: {
     ctPort: 3100,

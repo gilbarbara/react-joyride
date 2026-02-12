@@ -18,7 +18,7 @@ function formatCallbackResponse(input: Partial<CallBackProps>) {
 
 test.use({ viewport: { width: 1024, height: 768 } });
 
-test('should run the tour', async ({ mount, page }) => {
+test('controlled', async ({ mount, page }) => {
   const callback: Array<any> = [];
 
   await mount(
@@ -153,7 +153,7 @@ test('should run the tour', async ({ mount, page }) => {
 
   expect(callback[11]).toEqual(
     formatCallbackResponse({
-      action: ACTIONS.NEXT,
+      action: ACTIONS.UPDATE,
       index: 2,
       lifecycle: LIFECYCLE.READY,
       status: STATUS.RUNNING,

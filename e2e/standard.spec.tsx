@@ -18,7 +18,7 @@ function formatCallbackResponse(input: Partial<CallBackProps>) {
 
 test.use({ viewport: { width: 1024, height: 768 } });
 
-test('should run the tour', async ({ mount, page }) => {
+test('standard', async ({ mount, page }) => {
   const callback: Array<any> = [];
 
   const getScrollTop = async () => {
