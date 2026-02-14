@@ -1,18 +1,11 @@
-import { CSSProperties, useCallback, useEffect, useMemo, useRef } from 'react';
-import { useIsMounted, useMount, useSetState, useUnmount } from '@gilbarbara/hooks';
+import { CSSProperties, useEffect, useMemo } from 'react';
+import { useIsMounted, useSetState } from '@gilbarbara/hooks';
 import useTreeChanges from 'tree-changes-hook';
 
+import useTargetPosition from '~/hooks/useTargetPosition';
 import { LIFECYCLE } from '~/literals';
-import {
-  getClientRect,
-  getDocumentHeight,
-  getElement,
-  getElementPosition,
-  getScrollParent,
-  hasCustomScrollParent,
-  hasPosition,
-} from '~/modules/dom';
-import { getBrowser, isLegacy, logDebug, sortObjectKeys } from '~/modules/helpers';
+import { getDocumentHeight } from '~/modules/dom';
+import { getBrowser, isLegacy, sortObjectKeys } from '~/modules/helpers';
 
 import { Lifecycle, OverlayProps } from '~/types';
 
@@ -25,19 +18,11 @@ interface SpotlightStyles extends CSSProperties {
   width: number;
 }
 
-interface State {
-  mouseOverSpotlight: boolean;
-  resizedAt: number;
-  showSpotlight: boolean;
-}
-
 export default function JoyrideOverlay(props: OverlayProps) {
   const {
     continuous,
-    debug,
     disableOverlay,
     disableOverlayClose,
-    disableScrolling,
     lifecycle,
     onClickOverlay,
     placement,
@@ -50,25 +35,12 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const isMounted = useIsMounted();
 
   const { changed } = useTreeChanges(props);
-  const resizeTimeoutRef = useRef<number>(undefined);
-  const scrollParentRef = useRef<Element | Document | null>(null);
 
-  const [{ mouseOverSpotlight, showSpotlight }, setState] = useSetState<State>({
-    mouseOverSpotlight: false,
-    resizedAt: 0,
+  const [{ showSpotlight }, setState] = useSetState({
     showSpotlight: true,
   });
 
-  const updateState = useCallback(
-    (state: Partial<State>) => {
-      if (!isMounted) {
-        return;
-      }
-
-      setState(state);
-    },
-    [isMounted, setState],
-  );
+  const targetRect = useTargetPosition(target, spotlightPadding);
 
   const overlayStyles = useMemo(() => {
     let baseStyles = styles.overlay;
@@ -78,127 +50,43 @@ export default function JoyrideOverlay(props: OverlayProps) {
     }
 
     return {
-      cursor: disableOverlayClose ? 'default' : 'pointer',
+      cursor: disableOverlayClose || spotlightClicks ? 'default' : 'pointer',
       height: getDocumentHeight(),
-      pointerEvents: mouseOverSpotlight ? 'none' : 'auto',
+      pointerEvents: spotlightClicks ? 'none' : 'auto',
       ...baseStyles,
     } as CSSProperties;
   }, [
     disableOverlayClose,
-    mouseOverSpotlight,
     placement,
+    spotlightClicks,
     styles.overlay,
     styles.overlayLegacy,
     styles.overlayLegacyCenter,
   ]);
 
   const spotlightStyles = useMemo(() => {
-    const element = getElement(target);
-    const elementRect = getClientRect(element);
-    const isFixedTarget = hasPosition(element);
-    const top = getElementPosition(element, spotlightPadding);
-
     return sortObjectKeys({
       ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
-      height: Math.round((elementRect?.height ?? 0) + spotlightPadding * 2),
-      left: Math.round((elementRect?.left ?? 0) - spotlightPadding),
+      height: targetRect.height,
+      left: targetRect.left,
       opacity: showSpotlight ? 1 : 0,
       pointerEvents: spotlightClicks ? 'none' : 'auto',
-      position: isFixedTarget ? 'fixed' : 'absolute',
-      top,
+      position: targetRect.isFixed ? 'fixed' : 'absolute',
+      top: targetRect.top,
       transition: 'opacity 0.2s',
-      width: Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
+      width: targetRect.width,
     } satisfies SpotlightStyles);
-  }, [
-    showSpotlight,
-    spotlightClicks,
-    spotlightPadding,
-    styles.spotlight,
-    styles.spotlightLegacy,
-    target,
-  ]);
-
-  const handleMouseMove = useCallback(
-    (event: MouseEvent) => {
-      const { height, left, position, top, width } = spotlightStyles;
-
-      const offsetY = position === 'fixed' ? event.clientY : event.pageY;
-      const offsetX = position === 'fixed' ? event.clientX : event.pageX;
-      const inSpotlightHeight = offsetY >= top && offsetY <= top + height;
-      const inSpotlightWidth = offsetX >= left && offsetX <= left + width;
-      const inSpotlight = inSpotlightWidth && inSpotlightHeight;
-
-      if (inSpotlight !== mouseOverSpotlight) {
-        updateState({ mouseOverSpotlight: inSpotlight });
-      }
-    },
-    [spotlightStyles, mouseOverSpotlight, updateState],
-  );
-
-  const handleResize = useCallback(() => {
-    clearTimeout(resizeTimeoutRef.current);
-
-    resizeTimeoutRef.current = window.setTimeout(() => {
-      if (!isMounted) {
-        return;
-      }
-
-      setState({ resizedAt: Date.now() });
-    }, 100);
-  }, [isMounted, setState]);
-
-  useMount(() => {
-    const element = getElement(target);
-
-    scrollParentRef.current = getScrollParent(element ?? document.body, true);
-
-    if (process.env.NODE_ENV !== 'production') {
-      if (!disableScrolling && hasCustomScrollParent(element)) {
-        logDebug({
-          title: 'step has a custom scroll parent and can cause trouble with scrolling',
-          data: [{ key: 'parent', value: scrollParentRef }],
-          debug,
-        });
-      }
-    }
-
-    window.addEventListener('resize', handleResize);
-  });
-
-  useUnmount(() => {
-    window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('resize', handleResize);
-
-    clearTimeout(resizeTimeoutRef.current);
-  });
+  }, [showSpotlight, spotlightClicks, styles.spotlight, styles.spotlightLegacy, targetRect]);
 
   useEffect(() => {
     if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
       setTimeout(() => {
-        if (!scrolling) {
-          updateState({ showSpotlight: true });
+        if (isMounted() && !scrolling) {
+          setState({ showSpotlight: true });
         }
       }, 100);
     }
-  }, [changed, scrolling, updateState]);
-
-  useEffect(() => {
-    if (changed('spotlightClicks') || changed('disableOverlay') || changed('lifecycle')) {
-      if (spotlightClicks && lifecycle === LIFECYCLE.TOOLTIP) {
-        window.addEventListener('mousemove', handleMouseMove, false);
-      } else if (lifecycle !== LIFECYCLE.TOOLTIP) {
-        window.removeEventListener('mousemove', handleMouseMove);
-      }
-    }
-  }, [changed, handleMouseMove, lifecycle, spotlightClicks]);
-
-  useEffect(() => {
-    if (changed('target')) {
-      const element = getElement(target);
-
-      scrollParentRef.current = getScrollParent(element ?? document.body, true);
-    }
-  }, [changed, target]);
+  }, [changed, isMounted, scrolling, setState]);
 
   const hiddenLifecycles = [
     LIFECYCLE.INIT,

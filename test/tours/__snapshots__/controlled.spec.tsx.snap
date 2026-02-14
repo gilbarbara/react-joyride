@@ -895,7 +895,7 @@ exports[`Joyride > Controlled > should start the tour > overlay 1`] = `
   class="react-joyride__overlay"
   data-test-id="overlay"
   role="presentation"
-  style="cursor: default; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 10000; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+  style="cursor: default; height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 10000; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
 >
   <div
     class="react-joyride__spotlight"
