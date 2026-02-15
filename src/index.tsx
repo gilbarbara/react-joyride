@@ -1,12 +1,11 @@
 import { ReactNode, useEffect } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
-import { defaultProps } from '~/defaults';
 import useJoyrideData from '~/hooks/useJoyrideData';
 import { usePortalElement } from '~/hooks/usePortalElement';
 import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
-import { logDebug, mergeProps } from '~/modules/helpers';
+import { logDebug } from '~/modules/helpers';
 
 import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';
@@ -15,10 +14,9 @@ import Step from '~/components/Step';
 import { Props } from '~/types';
 
 export function Joyride(props: Props) {
-  const mergedProps = mergeProps(defaultProps, props);
+  const { mergedProps, state, step, store } = useJoyrideData(props);
   const { continuous, debug, disableCloseOnEsc, nonce, portalElement, scrollToFirstStep, steps } =
     mergedProps;
-  const { state, step, store } = useJoyrideData(mergedProps);
 
   const element = usePortalElement(portalElement);
 
