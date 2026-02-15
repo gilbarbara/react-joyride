@@ -1,8 +1,6 @@
-import { defaultProps } from '~/defaults';
 import useJoyrideData from '~/hooks/useJoyrideData';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, getScrollTo, isElementVisible, scrollTo } from '~/modules/dom';
-import { mergeProps } from '~/modules/helpers';
 import { act, callbackResponseFactory, fromPartial, renderHook, waitFor } from '~/test-utils';
 
 import { Props, Step } from '~/types';
@@ -35,14 +33,14 @@ describe('useJoyrideData', () => {
     { target: '.step-3', content: 'Step 3', disableBeacon: true },
   ];
 
-  function createProps(overrides: Partial<Props> = {}) {
-    return mergeProps(defaultProps, {
+  function createProps(overrides: Partial<Props> = {}): Props {
+    return {
       steps: testSteps,
       callback: mockCallback,
       continuous: true,
       run: true,
       ...overrides,
-    });
+    };
   }
 
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -381,10 +379,9 @@ describe('useJoyrideData', () => {
         { target: '.missing', content: 'Missing', disableBeacon: true },
       ];
 
-      const { rerender } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ steps, stepIndex: 0 }) },
-      );
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps, stepIndex: 0 }),
+      });
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -415,10 +412,9 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true },
       ];
 
-      const { rerender, result } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ steps, stepIndex: 0 }) },
-      );
+      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps, stepIndex: 0 }),
+      });
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
@@ -447,10 +443,9 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true },
       ];
 
-      const { rerender } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ steps, stepIndex: 1 }) },
-      );
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps, stepIndex: 1 }),
+      });
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -478,10 +473,9 @@ describe('useJoyrideData', () => {
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
-      const { rerender, result } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ steps, stepIndex: 1 }) },
-      );
+      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps, stepIndex: 1 }),
+      });
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
@@ -517,10 +511,9 @@ describe('useJoyrideData', () => {
 
   describe('Prop Changes', () => {
     it('should start the tour when run changes from false to true', async () => {
-      const { rerender } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ run: false }) },
-      );
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ run: false }),
+      });
 
       expect(mockCallback).not.toHaveBeenCalled();
 
@@ -534,10 +527,9 @@ describe('useJoyrideData', () => {
     });
 
     it('should stop the tour when run changes from true to false', async () => {
-      const { rerender } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ run: true }) },
-      );
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ run: true }),
+      });
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -557,13 +549,34 @@ describe('useJoyrideData', () => {
       });
     });
 
+    it('should return stable mergedProps reference when props are deeply equal', async () => {
+      const initialProps: Props = {
+        steps: testSteps,
+        callback: mockCallback,
+        continuous: true,
+        run: true,
+      };
+
+      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps,
+      });
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+
+      const firstRef = result.current.mergedProps;
+
+      // Re-render with a new object that is deeply equal
+      rerender({ ...initialProps });
+
+      expect(result.current.mergedProps).toBe(firstRef);
+    });
+
     it('should update store size when steps change', async () => {
       const initialSteps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
 
-      const { rerender, result } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ steps: initialSteps, run: false }) },
-      );
+      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps: initialSteps, run: false }),
+      });
 
       expect(result.current.state.size).toBe(1);
 
@@ -849,10 +862,9 @@ describe('useJoyrideData', () => {
     });
 
     it('should warn when steps become invalid', async () => {
-      const { rerender } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps() },
-      );
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps(),
+      });
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       consoleWarnSpy.mockClear();
@@ -868,10 +880,9 @@ describe('useJoyrideData', () => {
     });
 
     it('should transition IDLE to READY when steps load before run', async () => {
-      const { rerender } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ run: false, steps: [] }) },
-      );
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ run: false, steps: [] }),
+      });
 
       // Add steps while run is still false (size becomes >0, status stays IDLE)
       rerender(createProps({ run: false }));
@@ -891,10 +902,9 @@ describe('useJoyrideData', () => {
     });
 
     it('should transition WAITING to RUNNING when steps arrive after start', async () => {
-      const { rerender, result } = renderHook(
-        (props: ReturnType<typeof createProps>) => useJoyrideData(props),
-        { initialProps: createProps({ run: false, steps: [] }) },
-      );
+      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ run: false, steps: [] }),
+      });
 
       // Calling start() with size=0 sets status=WAITING
       act(() => {

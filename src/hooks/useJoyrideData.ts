@@ -1,5 +1,5 @@
 import { RefObject, useMemo, useRef, useSyncExternalStore } from 'react';
-import { useMount, usePrevious, useUpdateEffect } from '@gilbarbara/hooks';
+import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gilbarbara/hooks';
 import useTreeChanges from 'tree-changes-hook';
 
 import { defaultProps } from '~/defaults';
@@ -13,18 +13,20 @@ import createStore from '~/modules/store';
 
 import { Props, StepMerged, StoreState } from '~/types';
 
-type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
+export type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
 export interface UseJoyrideDataReturn {
+  mergedProps: MergedProps;
   state: StoreState;
   step: StepMerged | null;
   store: RefObject<ReturnType<typeof createStore>>;
 }
 
-export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn {
-  const { debug, getHelpers, run, steps } = props;
+export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
+  const mergedProps = useMemoDeepCompare(() => mergeProps(defaultProps, props), [props]);
+  const { debug, getHelpers, run, steps } = mergedProps;
 
-  const store = useRef(createStore(props));
+  const store = useRef(createStore(mergedProps));
   const state = useSyncExternalStore<StoreState>(
     store.current.subscribe,
     store.current.getSnapshot,
@@ -33,13 +35,16 @@ export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn
 
   const { index, size, status } = state;
 
-  const previousProps = usePrevious(props);
+  const previousProps = usePrevious(mergedProps);
   const previousState = usePrevious(state);
-  const { changed: changedProps } = useTreeChanges(props);
+  const { changed: changedProps } = useTreeChanges(mergedProps);
   const { changed: changedState, changedFrom: changedStateFrom } = useTreeChanges(state);
 
-  const step = useMemo(() => getMergedStep(props, steps[index]), [index, props, steps]);
-  const previousStep = useMemo(() => getMergedStep(props, steps[index - 1]), [index, props, steps]);
+  const step = useMemo(() => getMergedStep(mergedProps, steps[index]), [index, mergedProps, steps]);
+  const previousStep = useMemo(
+    () => getMergedStep(mergedProps, steps[index - 1]),
+    [index, mergedProps, steps],
+  );
 
   useMount(() => {
     if (run && size && validateSteps(steps, debug)) {
@@ -64,7 +69,7 @@ export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn
   usePropSync({
     changedProps,
     previousProps,
-    props,
+    props: mergedProps,
     state,
     store,
   });
@@ -74,7 +79,7 @@ export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn
     changedStateFrom,
     previousState,
     previousStep,
-    props,
+    props: mergedProps,
     state,
     step,
     store,
@@ -83,11 +88,11 @@ export default function useJoyrideData(props: MergedProps): UseJoyrideDataReturn
   useScrollEffect({
     changedState,
     previousState,
-    props,
+    props: mergedProps,
     state,
     step,
     store,
   });
 
-  return { state, step, store };
+  return { mergedProps, state, step, store };
 }
