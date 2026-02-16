@@ -1,4 +1,4 @@
-import { ElementType, MouseEventHandler, ReactNode, RefCallback } from 'react';
+import { ElementType, MouseEventHandler, ReactNode, RefCallback, RefObject } from 'react';
 import { Props as FProps } from 'react-floater';
 import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
@@ -135,6 +135,10 @@ export type CallBackProps = {
 
 export type FloaterProps = Omit<FProps, 'content' | 'component'>;
 
+export type LoaderRenderProps = {
+  step: StepMerged;
+};
+
 export type OverlayProps = Simplify<
   StepMerged & {
     continuous: boolean;
@@ -142,6 +146,7 @@ export type OverlayProps = Simplify<
     lifecycle: Lifecycle;
     onClickOverlay: () => void;
     scrolling: boolean;
+    waiting: boolean;
   }
 >;
 
@@ -166,6 +171,10 @@ export type Props = Simplify<
      * Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`
      */
     getHelpers?: (helpers: StoreHelpers) => void;
+    /**
+     * A React component to use instead the default Loader.
+     */
+    loaderComponent?: ElementType<LoaderRenderProps>;
     /**
      * A nonce value for inline styles (Content Security Policy - CSP)
      */
@@ -200,6 +209,10 @@ export type Props = Simplify<
      * You'll have to keep an internal state by yourself and update it with the events in the `callback`.
      */
     stepIndex?: number;
+    /**
+     * Default options for all steps.
+     */
+    stepOptions?: StepOptions;
     /**
      * The tour's steps.
      */
@@ -254,6 +267,11 @@ export type Step = Simplify<
      */
     isFixed?: boolean;
     /**
+     * Delay (ms) before showing the loader while waiting for a target.
+     * @default 300
+     */
+    loaderDelay?: number;
+    /**
      * @default 10
      */
     offset?: number;
@@ -268,9 +286,14 @@ export type Step = Simplify<
     placementBeacon?: Placement;
     /**
      * The target for the step.
-     * It can be a CSS selector or an HTMLElement ref.
+     * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
      */
-    target: string | HTMLElement;
+    target: StepTarget;
+    /**
+     * Max time (ms) to wait for the target to appear. 0 = no waiting.
+     * @default 150
+     */
+    targetWaitTimeout?: number;
     /**
      * The tooltip's title.
      */
@@ -291,6 +314,7 @@ export type StepMerged = Simplify<
     | 'hideCloseButton'
     | 'hideFooter'
     | 'isFixed'
+    | 'loaderDelay'
     | 'locale'
     | 'offset'
     | 'placement'
@@ -298,10 +322,24 @@ export type StepMerged = Simplify<
     | 'showSkipButton'
     | 'spotlightClicks'
     | 'spotlightPadding'
+    | 'targetWaitTimeout'
   > & {
     styles: Styles;
   }
 >;
+
+export type StepOptions = {
+  /**
+   * Delay (ms) before showing the loader while waiting for a target.
+   * @default 300
+   */
+  loaderDelay?: number;
+  /**
+   * Max time (ms) to wait for the target to appear. 0 = no waiting.
+   * @default 150
+   */
+  targetWaitTimeout?: number;
+};
 
 export type StepProps = Simplify<
   StoreState & {
@@ -318,6 +356,12 @@ export type StepProps = Simplify<
   }
 >;
 
+export type StepTarget =
+  | string
+  | HTMLElement
+  | RefObject<HTMLElement | null>
+  | (() => HTMLElement | null);
+
 export type StoreHelpers = {
   close: (origin?: Origin | null) => void;
   go: (nextIndex: number) => void;
@@ -329,7 +373,7 @@ export type StoreHelpers = {
   skip: () => void;
 };
 
-export type StoreState = State & { scrolling: boolean };
+export type StoreState = State & { scrolling: boolean; waiting: boolean };
 
 export type TooltipProps = {
   continuous: boolean;

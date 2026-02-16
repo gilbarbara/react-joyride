@@ -31,6 +31,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     spotlightPadding = 0,
     styles,
     target,
+    waiting,
   } = props;
   const isMounted = useIsMounted();
 
@@ -97,7 +98,11 @@ export default function JoyrideOverlay(props: OverlayProps) {
 
   if (
     disableOverlay ||
-    (continuous ? hiddenLifecycles.includes(lifecycle) : lifecycle !== LIFECYCLE.TOOLTIP)
+    (waiting
+      ? false
+      : continuous
+        ? hiddenLifecycles.includes(lifecycle)
+        : lifecycle !== LIFECYCLE.TOOLTIP)
   ) {
     return null;
   }

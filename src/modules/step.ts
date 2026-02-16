@@ -11,24 +11,27 @@ import { getElement, hasCustomScrollParent } from './dom';
 import { deepMerge, logDebug, omit, pick } from './helpers';
 
 function getTourProps(props: Props) {
-  return pick(
-    props,
-    'beaconComponent',
-    'disableCloseOnEsc',
-    'disableOverlay',
-    'disableOverlayClose',
-    'disableScrolling',
-    'floaterProps',
-    'hideBackButton',
-    'hideCloseButton',
-    'locale',
-    'showProgress',
-    'showSkipButton',
-    'spotlightClicks',
-    'spotlightPadding',
-    'styles',
-    'tooltipComponent',
-  );
+  return {
+    ...pick(
+      props,
+      'beaconComponent',
+      'disableCloseOnEsc',
+      'disableOverlay',
+      'disableOverlayClose',
+      'disableScrolling',
+      'floaterProps',
+      'hideBackButton',
+      'hideCloseButton',
+      'locale',
+      'showProgress',
+      'showSkipButton',
+      'spotlightClicks',
+      'spotlightPadding',
+      'styles',
+      'tooltipComponent',
+    ),
+    ...props.stepOptions,
+  };
 }
 
 export function getMergedStep(props: Props, currentStep?: Step): StepMerged | null {

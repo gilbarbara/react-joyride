@@ -45,6 +45,8 @@ export const defaultStep = {
   showSkipButton: false,
   spotlightClicks: false,
   spotlightPadding: 10,
+  loaderDelay: 300,
+  targetWaitTimeout: 150,
 } satisfies Omit<Step, 'content' | 'target'>;
 
 export const defaultProps = {
@@ -64,6 +66,7 @@ export const defaultProps = {
   showProgress: false,
   spotlightClicks: false,
   spotlightPadding: 10,
+  stepOptions: { loaderDelay: 300, targetWaitTimeout: 150 },
   steps: [],
 } satisfies Props;
 

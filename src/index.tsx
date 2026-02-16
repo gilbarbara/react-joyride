@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
 import useJoyrideData from '~/hooks/useJoyrideData';
@@ -7,6 +7,7 @@ import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
 import { logDebug } from '~/modules/helpers';
 
+import Loader from '~/components/Loader';
 import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';
 import Step from '~/components/Step';
@@ -55,8 +56,6 @@ export function Joyride(props: Props) {
   }, [disableCloseOnEsc, state.index, state.lifecycle, steps, store]);
 
   const { index, lifecycle, status } = state;
-  const isRunning = status === STATUS.RUNNING;
-  const content: Record<string, ReactNode> = {};
 
   const handleClickOverlay = () => {
     if (!step?.disableOverlayClose) {
@@ -64,45 +63,45 @@ export function Joyride(props: Props) {
     }
   };
 
+  const isRunning = status === STATUS.RUNNING;
+
+  const LoaderComponent = mergedProps.loaderComponent ?? Loader;
+
   if (!step || !isRunning) {
     return null;
   }
 
-  if (isRunning) {
-    content.step = (
-      <Step
-        {...state}
-        cleanupPoppers={store.current.cleanupPoppers}
-        continuous={continuous}
-        debug={debug}
-        helpers={store.current.getHelpers()}
-        nonce={nonce}
-        portalElement={element}
-        setPopper={store.current.setPopper}
-        shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
-        step={step}
-        updateState={store.current.updateState}
-      />
-    );
-
-    content.overlay = (
-      <Portal element={element}>
-        <Overlay
-          {...step}
-          continuous={continuous}
-          debug={debug}
-          lifecycle={lifecycle}
-          onClickOverlay={handleClickOverlay}
-          scrolling={state.scrolling}
-        />
-      </Portal>
-    );
-  }
-
   return (
     <div className="react-joyride">
-      {content.step}
-      {content.overlay}
+      {!state.waiting && (
+        <Step
+          {...state}
+          cleanupPoppers={store.current.cleanupPoppers}
+          continuous={continuous}
+          debug={debug}
+          helpers={store.current.getHelpers()}
+          nonce={nonce}
+          portalElement={element}
+          setPopper={store.current.setPopper}
+          shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
+          step={step}
+          updateState={store.current.updateState}
+        />
+      )}
+      <Portal element={element}>
+        <>
+          {state.waiting && <LoaderComponent step={step} />}
+          <Overlay
+            {...step}
+            continuous={continuous}
+            debug={debug}
+            lifecycle={lifecycle}
+            onClickOverlay={handleClickOverlay}
+            scrolling={state.scrolling}
+            waiting={state.waiting}
+          />
+        </>
+      </Portal>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import { getElement, isElementVisible } from '~/modules/dom';
 import { hideBeacon, logDebug, mergeProps, needsScrolling, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Actions, Props, StepMerged, StoreState } from '~/types';
+import { Actions, Props, StepMerged, StepTarget, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 type Value = import('tree-changes-hook').Value;
@@ -39,11 +39,22 @@ export default function useLifecycleEffect({
 
   const propsRef = useRef(props);
   const stateRef = useRef(state);
+  const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const pollingTargetRef = useRef<StepTarget | null>(null);
 
   propsRef.current = props;
   stateRef.current = state;
 
-  const callbackState = () => omit(stateRef.current, 'scrolling');
+  const callbackState = () => omit(stateRef.current, 'scrolling', 'waiting');
+
+  const clearPolling = () => {
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current);
+      pollingRef.current = null;
+    }
+
+    pollingTargetRef.current = null;
+  };
 
   useEffectDeepCompare(() => {
     if (!previousState) {
@@ -61,11 +72,69 @@ export default function useLifecycleEffect({
       lastAction.current = action;
     }
 
-    if (status === STATUS.RUNNING && step && lifecycle === LIFECYCLE.INIT) {
-      store.current.updateState({
-        action: lastAction.current ?? ACTIONS.UPDATE,
-        lifecycle: LIFECYCLE.READY,
+    // Clear polling from previous step before starting new polling
+    if (changedState('index')) {
+      clearPolling();
+
+      logDebug({
+        title: `step:${lifecycle}`,
+        data: [{ key: 'props', value: propsRef.current }],
+        debug,
       });
+    }
+
+    if (status === STATUS.RUNNING && step && lifecycle === LIFECYCLE.INIT) {
+      // If polling for a different target (step changed), restart
+      if (pollingRef.current && pollingTargetRef.current !== step.target) {
+        clearPolling();
+      }
+
+      const element = getElement(step.target);
+      const targetAvailable = element && isElementVisible(element);
+
+      if (targetAvailable) {
+        clearPolling();
+        store.current.updateState({
+          action: lastAction.current ?? ACTIONS.UPDATE,
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        });
+      } else if (step.targetWaitTimeout === 0) {
+        store.current.updateState({
+          action: lastAction.current ?? ACTIONS.UPDATE,
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        });
+      } else if (!pollingRef.current) {
+        const timeout = step.targetWaitTimeout ?? 150;
+        const loaderDelay = step.loaderDelay ?? 300;
+        const startTime = Date.now();
+
+        pollingTargetRef.current = step.target;
+
+        if (timeout > loaderDelay) {
+          setTimeout(() => {
+            if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
+              store.current.updateState({ waiting: true });
+            }
+          }, loaderDelay);
+        }
+
+        pollingRef.current = setInterval(() => {
+          const el = getElement(step.target);
+          const elapsed = Date.now() - startTime;
+          const timedOut = elapsed >= timeout;
+
+          if ((el && isElementVisible(el)) || timedOut) {
+            clearPolling();
+            store.current.updateState({
+              action: lastAction.current ?? ACTIONS.UPDATE,
+              lifecycle: LIFECYCLE.READY,
+              waiting: false,
+            });
+          }
+        }, 100);
+      }
     }
 
     if (size && !step && lifecycle === LIFECYCLE.INIT) {
@@ -97,7 +166,12 @@ export default function useLifecycleEffect({
           type: EVENTS.STEP_BEFORE,
         });
       }
-    } else if (step && status === STATUS.RUNNING) {
+    } else if (
+      step &&
+      status === STATUS.RUNNING &&
+      lifecycle !== LIFECYCLE.INIT &&
+      changedState('lifecycle')
+    ) {
       // eslint-disable-next-line no-console
       console.warn(elementExists ? 'Target not visible' : 'Target not mounted', step);
 
@@ -115,7 +189,7 @@ export default function useLifecycleEffect({
       }
     }
 
-    if (step && changedState('lifecycle', LIFECYCLE.READY)) {
+    if (step && elementExists && changedState('lifecycle', LIFECYCLE.READY)) {
       const targetLifecycle = hideBeacon(step, stateRef.current, continuous)
         ? LIFECYCLE.TOOLTIP
         : LIFECYCLE.BEACON;
@@ -169,14 +243,6 @@ export default function useLifecycleEffect({
         lifecycle,
         step: callbackStep,
         type: EVENTS.STEP_AFTER,
-      });
-    }
-
-    if (changedState('index')) {
-      logDebug({
-        title: `step:${lifecycle}`,
-        data: [{ key: 'props', value: propsRef.current }],
-        debug,
       });
     }
 

@@ -8,6 +8,8 @@ import {
   hasPosition,
 } from '~/modules/dom';
 
+import { StepTarget } from '~/types';
+
 export interface TargetRect {
   height: number;
   isFixed: boolean;
@@ -24,7 +26,7 @@ const defaultRect: TargetRect = {
   width: 0,
 };
 
-function computeRect(target: string | HTMLElement, spotlightPadding: number): TargetRect {
+function computeRect(target: StepTarget, spotlightPadding: number): TargetRect {
   const element = getElement(target);
 
   if (!element) {
@@ -45,7 +47,7 @@ function computeRect(target: string | HTMLElement, spotlightPadding: number): Ta
 }
 
 export default function useTargetPosition(
-  target: string | HTMLElement,
+  target: StepTarget,
   spotlightPadding: number,
 ): TargetRect {
   const [rect, setRect] = useState<TargetRect>(() => computeRect(target, spotlightPadding));

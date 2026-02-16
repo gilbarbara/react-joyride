@@ -34,6 +34,7 @@ class Store {
       scrolling: false,
       size: steps.length,
       status: steps.length ? STATUS.READY : STATUS.IDLE,
+      waiting: false,
     };
     this.snapshot = Object.freeze({ ...this.state });
   }
@@ -100,7 +101,7 @@ class Store {
 
   public getSnapshot = (): StoreState => this.snapshot;
 
-  public getState = (): State => omit(this.snapshot, 'scrolling');
+  public getState = (): State => omit(this.snapshot, 'scrolling', 'waiting');
 
   public go = (nextIndex: number) => {
     const { controlled, status } = this.state;
@@ -118,7 +119,7 @@ class Store {
     });
   };
 
-  public info = (): State => omit(this.snapshot, 'scrolling');
+  public info = (): State => omit(this.snapshot, 'scrolling', 'waiting');
 
   public next = () => {
     const { index, status } = this.state;
@@ -273,6 +274,7 @@ class Store {
       scrolling: patch.scrolling ?? this.state.scrolling,
       size: patch.size ?? this.state.size,
       status: patch.status ?? this.state.status,
+      waiting: patch.waiting ?? this.state.waiting,
     };
 
     const final = this.applyTransitions(merged);
