@@ -70,7 +70,7 @@ export default function JoyrideStep(props: StepProps) {
     updateState({ lifecycle: LIFECYCLE.TOOLTIP });
   };
 
-  const setTooltipRef = (element: HTMLElement) => {
+  const setTooltipRef = (element: HTMLElement | null) => {
     tooltipRef.current = element;
   };
 
@@ -107,7 +107,7 @@ export default function JoyrideStep(props: StepProps) {
         open={lifecycle === LIFECYCLE.TOOLTIP && !scrolling}
         placement={step.placement}
         portalElement={portalElement}
-        target={step.target}
+        target={target}
       >
         {lifecycle !== LIFECYCLE.TOOLTIP && (
           <Beacon

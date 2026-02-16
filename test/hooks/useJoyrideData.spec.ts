@@ -405,6 +405,251 @@ describe('useJoyrideData', () => {
     });
   });
 
+  describe('Target Wait/Retry', () => {
+    it('should resolve target mid-poll and fire STEP_BEFORE', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 1000 },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      mockCallback.mockClear();
+
+      // Make step-2 target missing AFTER STEP_AFTER fires but BEFORE setPopper
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.step-2') return null;
+
+        return mockElement;
+      });
+
+      act(() => {
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+      });
+
+      // No STEP_BEFORE yet — target missing, polling in INIT
+      const stepBeforeCalls = mockCallback.mock.calls.filter(
+        (call: any[]) => call[0]?.type === EVENTS.STEP_BEFORE && call[0]?.index === 1,
+      );
+
+      expect(stepBeforeCalls).toHaveLength(0);
+
+      // Target appears — next poll tick resolves it
+      vi.mocked(getElement).mockReturnValue(mockElement);
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 1 }),
+        );
+      });
+    });
+
+    it('should fire TARGET_NOT_FOUND after polling timeout (uncontrolled)', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 200 },
+        { target: '.step-3', content: 'Step 3', disableBeacon: true },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+      consoleWarnSpy.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      mockCallback.mockClear();
+
+      // Make .missing target permanently missing AFTER STEP_AFTER
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.missing') return null;
+
+        return mockElement;
+      });
+
+      act(() => {
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+      });
+
+      // Wait for polling to time out and fire TARGET_NOT_FOUND
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
+        );
+      });
+
+      const notFoundCalls = mockCallback.mock.calls.filter(
+        (call: any[]) => call[0]?.type === EVENTS.TARGET_NOT_FOUND,
+      );
+
+      expect(notFoundCalls).toHaveLength(1);
+
+      expect(consoleWarnSpy).toHaveBeenCalledWith(
+        'Target not mounted',
+        expect.objectContaining({ target: '.missing' }),
+      );
+    });
+
+    it('should skip polling with targetWaitTimeout: 0', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 0 },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      mockCallback.mockClear();
+
+      // Make target missing AFTER STEP_AFTER
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.missing') return null;
+
+        return mockElement;
+      });
+
+      act(() => {
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+      });
+
+      // TARGET_NOT_FOUND should fire immediately without polling delay
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
+        );
+      });
+    });
+
+    it('should fire TARGET_NOT_FOUND exactly once in controlled mode', async () => {
+      vi.useFakeTimers({ shouldAdvanceTime: true });
+
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 300 },
+      ];
+
+      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps, stepIndex: 0 }),
+      });
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.missing') return null;
+
+        return mockElement;
+      });
+
+      rerender(createProps({ steps, stepIndex: 1 }));
+
+      await act(async () => {
+        vi.advanceTimersByTime(400);
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
+        );
+      });
+
+      const notFoundCalls = mockCallback.mock.calls.filter(
+        (call: any[]) => call[0]?.type === EVENTS.TARGET_NOT_FOUND,
+      );
+
+      expect(notFoundCalls).toHaveLength(1);
+
+      vi.useRealTimers();
+    });
+
+    it('should set waiting flag after loaderDelay', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        {
+          target: '.slow',
+          content: 'Slow',
+          disableBeacon: true,
+          targetWaitTimeout: 2000,
+          loaderDelay: 200,
+        },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      // Make .slow target missing AFTER STEP_AFTER
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.slow') return null;
+
+        return mockElement;
+      });
+
+      act(() => {
+        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+      });
+
+      // Before loaderDelay: waiting should be false
+      expect(result.current.state.waiting).toBe(false);
+
+      // After loaderDelay (200ms): waiting becomes true
+      await waitFor(() => {
+        expect(result.current.state.waiting).toBe(true);
+      });
+
+      // Target appears — waiting clears
+      vi.mocked(getElement).mockReturnValue(mockElement);
+
+      await waitFor(() => {
+        expect(result.current.state.waiting).toBe(false);
+      });
+    });
+  });
+
   describe('Controlled Mode', () => {
     it('should fire NEXT action when stepIndex increases', async () => {
       const steps: Step[] = [

@@ -1,6 +1,8 @@
 import scroll from 'scroll';
 import scrollParent from 'scrollparent';
 
+import { StepTarget } from '~/types';
+
 export function canUseDOM() {
   return !!(typeof window !== 'undefined' && window.document?.createElement);
 }
@@ -55,9 +57,26 @@ export function getDocumentHeight(median = false): number {
 /**
  * Find and return the target DOM element based on a step's 'target'.
  */
-export function getElement(element?: string | HTMLElement): HTMLElement | null {
+export function getElement(element?: StepTarget): HTMLElement | null {
   if (!element) {
     return null;
+  }
+
+  if (typeof element === 'function') {
+    try {
+      return element();
+    } catch (error: any) {
+      if (process.env.NODE_ENV !== 'production') {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      }
+
+      return null;
+    }
+  }
+
+  if (typeof element === 'object' && 'current' in element) {
+    return element.current;
   }
 
   if (typeof element === 'string') {
