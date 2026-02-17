@@ -43,6 +43,10 @@ export type BaseProps = {
    */
   hideCloseButton?: boolean;
   /**
+   * A React component to use instead the default Loader.
+   */
+  loaderComponent?: ElementType<LoaderRenderProps>;
+  /**
    * The strings used in the tooltip.
    */
   locale?: Locale;
@@ -171,10 +175,6 @@ export type Props = Simplify<
      * Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`
      */
     getHelpers?: (helpers: StoreHelpers) => void;
-    /**
-     * A React component to use instead the default Loader.
-     */
-    loaderComponent?: ElementType<LoaderRenderProps>;
     /**
      * A nonce value for inline styles (Content Security Policy - CSP)
      */

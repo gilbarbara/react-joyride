@@ -25,12 +25,19 @@ const loaderStyles: Record<string, CSSProperties> = {
 };
 
 export default function JoyrideLoader({ step }: LoaderRenderProps) {
+  const { loaderComponent, styles } = step;
+
+  const hasLoaderComponent = Boolean(loaderComponent);
+
   useEffect(() => {
+    if (hasLoaderComponent) {
+      return noop;
+    }
+
     if (document.getElementById('joyride-loader-animation')) {
       return noop;
     }
 
-    const head = document.head || document.getElementsByTagName('head')[0];
     const style = document.createElement('style');
 
     style.id = 'joyride-loader-animation';
@@ -43,7 +50,7 @@ export default function JoyrideLoader({ step }: LoaderRenderProps) {
       `),
     );
 
-    head.appendChild(style);
+    document.head.appendChild(style);
 
     return () => {
       const insertedStyle = document.getElementById('joyride-loader-animation');
@@ -52,11 +59,17 @@ export default function JoyrideLoader({ step }: LoaderRenderProps) {
         insertedStyle.parentNode.removeChild(insertedStyle);
       }
     };
-  }, []);
+  }, [hasLoaderComponent]);
+
+  if (loaderComponent) {
+    const CustomLoader = loaderComponent;
+
+    return <CustomLoader step={step} />;
+  }
 
   return (
     <div className="react-joyride__loader" style={loaderStyles.wrapper}>
-      <div style={{ ...loaderStyles.spinner, borderTopColor: step.styles.options.primaryColor }} />
+      <div style={{ ...loaderStyles.spinner, borderTopColor: styles.options.primaryColor }} />
     </div>
   );
 }
