@@ -37,7 +37,6 @@ export default function JoyrideBeacon(props: BeaconProps) {
       return noop;
     }
 
-    const head = document.head || document.getElementsByTagName('head')[0];
     const style = document.createElement('style');
 
     style.id = 'joyride-beacon-animation';
@@ -76,7 +75,7 @@ export default function JoyrideBeacon(props: BeaconProps) {
 
     style.appendChild(document.createTextNode(css));
 
-    head.appendChild(style);
+    document.head.appendChild(style);
 
     setTimeout(() => {
       if (is.domElement(beaconRef.current) && shouldFocus) {

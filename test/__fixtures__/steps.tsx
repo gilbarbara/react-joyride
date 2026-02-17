@@ -67,8 +67,10 @@ export const scrollSteps: Array<Step> = [
   },
   {
     content: 'Yay! Server components',
+    hideFooter: true,
     placement: 'top',
     target: '.scroll-content h3:nth-of-type(1)',
+    spotlightClicks: true,
   },
   {
     content: 'This is the way.',

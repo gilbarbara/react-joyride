@@ -8,23 +8,31 @@ import { scrollSteps } from './steps';
 
 interface State {
   run: boolean;
+  showButton: boolean;
   steps: Array<Step>;
 }
 
-export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
+export default function Scroll(props: Omit<Props, 'run' | 'steps'>) {
   const { callback, ...rest } = props;
-  const [{ run, steps }, setState] = useSetState<State>({
+  const [{ run, showButton, steps }, setState] = useSetState<State>({
     run: true,
     steps: scrollSteps,
+    showButton: false,
   });
   const helpersRef = useRef<StoreHelpers>(undefined);
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status } = data;
+    const { action, index, status } = data;
+
+    console.log({ action, index });
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
       setState({ run: false });
     }
+
+    setState({
+      showButton: index === 1,
+    });
 
     callback?.(data);
   };
@@ -54,7 +62,33 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
           React 18:
         </p>
 
-        <h3 className="scroll-inner-title">1. React Server Components</h3>
+        <h3 className="scroll-inner-title">
+          1. React Server Components{' '}
+          <span className="">
+            <button
+              className="sm link"
+              onClick={() => helpersRef.current?.prev()}
+              style={{
+                opacity: showButton ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+              }}
+              type="button"
+            >
+              Back
+            </button>
+            <button
+              className="sm"
+              onClick={() => helpersRef.current?.next()}
+              style={{
+                opacity: showButton ? 1 : 0,
+                transition: 'opacity 0.3s ease',
+              }}
+              type="button"
+            >
+              Next
+            </button>
+          </span>
+        </h3>
         <p>
           React Server Components is a groundbreaking addition to React 18, introducing a new
           programming model that allows developers to build components that run on the server. With

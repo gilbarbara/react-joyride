@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 
+import CombinedSteps from './CombinedSteps';
 import Controlled from './Controlled';
 import CustomOptions from './CustomOptions';
 import Scroll from './Scroll';
 import Standard from './Standard';
 
 const tours = {
+  combined: CombinedSteps,
   controlled: Controlled,
   custom: CustomOptions,
   scroll: Scroll,

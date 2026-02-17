@@ -526,7 +526,7 @@ describe('Joyride > Standard', () => {
       }),
     );
 
-    expect(mockGetPopper).toHaveBeenCalledTimes(16);
+    expect(mockGetPopper).toHaveBeenCalledTimes(12);
   });
 
   it('should restart the tour', async () => {

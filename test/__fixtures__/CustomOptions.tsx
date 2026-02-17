@@ -1,5 +1,7 @@
 import { useSetState } from '@gilbarbara/hooks';
 
+import { hexToRGB } from '~/modules/helpers';
+
 import Joyride, { CallBackProps, Props, STATUS, Step } from '../../src';
 
 import { standardSteps } from './steps';
@@ -33,6 +35,37 @@ const tourSteps: Array<Step> = [
           skip: <Skip />,
         },
         target: '.mission h2 span',
+        floaterProps: {
+          arrow: (
+            <svg
+              height="50px"
+              version="1.1"
+              viewBox="0 0 50 50"
+              width="50px"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M25,0 C25.1039345,32.5396561 0,32.5396561 0,50 L50,50 C49.5243324,32.5396561 25.1397912,32.4410242 25,0 Z"
+                fill="currentColor"
+              />
+            </svg>
+          ),
+          styles: {
+            arrow: {
+              base: 50,
+              color: '#fff',
+              size: 50,
+            },
+          },
+        },
+        styles: {
+          buttonNext: {
+            backgroundColor: '#f04',
+          },
+          options: {
+            arrowColor: '#66a5ff',
+          },
+        },
       };
     }
 
@@ -73,6 +106,13 @@ export default function CustomOptions(props: CustomOptionsProps) {
         showSkipButton
         steps={steps}
         styles={{
+          beaconInner: {
+            backgroundColor: '#ffe166',
+          },
+          beaconOuter: {
+            backgroundColor: `rgba(${hexToRGB('#ff5e5e').join(',')}, 0.5)`,
+            borderColor: '#a947ff',
+          },
           buttonClose: {
             color: '#000',
           },

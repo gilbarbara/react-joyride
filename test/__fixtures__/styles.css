@@ -1,15 +1,15 @@
 :root {
-  --dark-pink: #f04;
-  --red: #ff5e5e;
-  --orange: #ff995d;
-  --yellow: #ffe166;
-  --green: #58d063;
-  --teal: #38b2ac;
-  --cyan: #0bc5ea;
-  --blue: #66a5ff;
-  --indigo: #8a8fff;
-  --purple: #ad7bff;
-  --pink: #ee63ab;
+  --color-crimson: #f04;
+  --color-red: #ff5e5e;
+  --color-orange: #ff995d;
+  --color-yellow: #ffe166;
+  --color-green: #58d063;
+  --color-teal: #38b2ac;
+  --color-cyan: #0bc5ea;
+  --color-blue: #66a5ff;
+  --color-indigo: #8a8fff;
+  --color-purple: #ad7bff;
+  --color-pink: #ee63ab;
 }
 
 *,
@@ -32,6 +32,19 @@ button {
   color: #fff;
   display: inline-flex;
   padding: 8px 16px;
+
+  &.sm {
+    border-radius: 6px;
+    font-size: 16px;
+    padding: 4px 8px;
+  }
+
+  &.link {
+    background-color: transparent;
+    border-radius: 0;
+    color: var(--color-crimson);
+    padding: 0;
+  }
 
   &.icon-only {
     align-items: center;
@@ -60,7 +73,7 @@ button {
 }
 
 .hero {
-  background-color: var(--dark-pink);
+  background-color: var(--color-crimson);
   color: #fff;
   display: grid;
   min-height: 100vh;
@@ -74,23 +87,23 @@ button {
   text-align: center;
 
   &.projects {
-    background-color: var(--orange);
+    background-color: var(--color-orange);
     color: #000;
   }
 
   &.mission {
-    background-color: var(--yellow);
+    background-color: var(--color-yellow);
     color: #000;
   }
 
   &.about {
-    background-color: var(--green);
+    background-color: var(--color-green);
     color: #000;
   }
 
   &.scroll {
     align-items: center;
-    background-color: var(--purple);
+    background-color: var(--color-purple);
     flex-direction: column;
     justify-content: center;
     text-align: left;
@@ -117,15 +130,15 @@ button {
 }
 
 .list > div:nth-of-type(1) {
-  background-color: var(--teal);
+  background-color: var(--color-teal);
 }
 
 .list > div:nth-of-type(2) {
-  background-color: var(--cyan);
+  background-color: var(--color-cyan);
 }
 
 .list > div:nth-of-type(3) {
-  background-color: var(--blue);
+  background-color: var(--color-blue);
 }
 
 .controlled-wrapper {
@@ -147,7 +160,7 @@ button {
 }
 
 .controlled-menu {
-  background-color: var(--dark-pink);
+  background-color: var(--color-crimson);
   border-radius: 6px;
   color: #000;
   display: inline-flex;
@@ -211,22 +224,22 @@ button {
   text-align: center;
 
   &.calendar {
-    background-color: var(--indigo);
+    background-color: var(--color-indigo);
     color: #fff;
   }
 
   &.growth {
-    background-color: var(--purple);
+    background-color: var(--color-purple);
     color: #fff;
   }
 
   &.connections {
-    background-color: var(--pink);
+    background-color: var(--color-pink);
     color: #fff;
   }
 
   &.users {
-    background-color: var(--red);
+    background-color: var(--color-red);
     color: #fff;
   }
 }
@@ -241,7 +254,7 @@ button {
 }
 
 .scroll-title {
-  color: var(--dark-pink);
+  color: var(--color-crimson);
   margin: 0 0 32px;
 }
 
