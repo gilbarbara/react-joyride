@@ -8,7 +8,7 @@ import { defineConfig, devices, expect } from '@playwright/experimental-ct-react
 const config = defineConfig({
   expect: {
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.1,
+      maxDiffPixelRatio: 0.01,
     },
   },
   forbidOnly: !!process.env.CI,
