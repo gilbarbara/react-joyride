@@ -1,0 +1,23 @@
+import { LoaderRenderProps } from '~/types';
+
+function LoaderComponent({ step }: LoaderRenderProps) {
+  return (
+    <div
+      className="react-joyride__loader"
+      data-test-id="custom-loader"
+      style={{
+        alignItems: 'center',
+        display: 'flex',
+        inset: 0,
+        justifyContent: 'center',
+        pointerEvents: 'none',
+        position: 'fixed',
+        zIndex: 10001,
+      }}
+    >
+      <span style={{ color: step.styles.options.primaryColor }}>Loading...</span>
+    </div>
+  );
+}
+
+export default LoaderComponent;

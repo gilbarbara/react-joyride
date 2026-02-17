@@ -5,7 +5,7 @@ import { type MockInstance } from 'vitest';
 import Scope from '~/modules/scope';
 import { render, screen } from '~/test-utils';
 
-import ScopeComponent from '../__fixtures__/ScopeComponent';
+import ScopeComponent from '../__fixtures__/components/ScopeComponent';
 
 const addEventListener = vi.spyOn(window, 'addEventListener');
 const removeEventListener = vi.spyOn(window, 'removeEventListener');

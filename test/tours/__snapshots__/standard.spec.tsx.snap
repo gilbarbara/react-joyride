@@ -52,7 +52,7 @@ exports[`Joyride > Standard > should render STEP 1 Tooltip > tooltip 1`] = `
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="S-K-I-P"
               type="button"
             >
@@ -68,7 +68,7 @@ exports[`Joyride > Standard > should render STEP 1 Tooltip > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -80,7 +80,7 @@ exports[`Joyride > Standard > should render STEP 1 Tooltip > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -165,7 +165,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="Skip"
               type="button"
             >
@@ -177,7 +177,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -188,7 +188,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -200,7 +200,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -301,7 +301,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="Skip"
               type="button"
             >
@@ -313,7 +313,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -324,7 +324,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -336,7 +336,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -390,7 +390,7 @@ exports[`Joyride > Standard > should render STEP 3 Beacon 1`] = `
     aria-label="Open the dialog"
     class="react-joyride__beacon"
     data-test-id="button-beacon"
-    style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+    style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
     title="Open the dialog"
     type="button"
   >
@@ -469,7 +469,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="Skip"
               type="button"
             >
@@ -481,7 +481,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -492,7 +492,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -504,7 +504,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -611,7 +611,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="Skip"
               type="button"
             >
@@ -623,7 +623,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -634,7 +634,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -646,7 +646,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -700,7 +700,7 @@ exports[`Joyride > Standard > should render STEP 4 Beacon 1`] = `
     aria-label="Open the dialog"
     class="react-joyride__beacon"
     data-test-id="button-beacon"
-    style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+    style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
     title="Open the dialog"
     type="button"
   >
@@ -792,7 +792,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="Skip"
               type="button"
             >
@@ -804,7 +804,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -815,7 +815,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -827,7 +827,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -928,7 +928,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="Skip"
               type="button"
             >
@@ -940,7 +940,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -951,7 +951,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -963,7 +963,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -1054,7 +1054,7 @@ exports[`Joyride > Standard > should render STEP 7 Tooltip > tooltip 1`] = `
             data-action="back"
             data-test-id="button-back"
             role="button"
-            style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; margin-left: auto; margin-right: 5px;"
+            style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
             title="Back"
             type="button"
           >
@@ -1065,7 +1065,7 @@ exports[`Joyride > Standard > should render STEP 7 Tooltip > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Last"
             type="button"
           >
@@ -1077,7 +1077,7 @@ exports[`Joyride > Standard > should render STEP 7 Tooltip > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >
@@ -1254,7 +1254,7 @@ exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
               data-action="skip"
               data-test-id="button-skip"
               role="button"
-              style="background-color: transparent; border: 0px; border-radius: 0; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px;"
+              style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
               title="S-K-I-P"
               type="button"
             >
@@ -1270,7 +1270,7 @@ exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
             data-action="primary"
             data-test-id="button-primary"
             role="button"
-            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px;"
+            style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
             title="Next"
             type="button"
           >
@@ -1282,7 +1282,7 @@ exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
           data-action="close"
           data-test-id="button-close"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; position: absolute; right: 0px; top: 0px;"
+          style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
           title="Close"
           type="button"
         >

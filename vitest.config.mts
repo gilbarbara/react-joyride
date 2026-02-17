@@ -8,7 +8,7 @@ export default defineConfig({
     include: ['test/**/*.spec.ts?(x)'],
     coverage: {
       include: ['src/**/*.ts?(x)'],
-      exclude: ['src/types/**', 'src/modules/dom.ts'],
+      exclude: ['src/types/**', 'src/global.d.ts', 'src/modules/dom.ts'],
       reporter: ['text', 'lcov'],
       thresholds: {
         statements: 90,

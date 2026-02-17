@@ -1,0 +1,490 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Tooltip > should call helpers.prev() on back click 1`] = `
+<div
+  aria-label="Test content"
+  aria-modal="true"
+  class="react-joyride__tooltip"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+>
+  <div
+    style="line-height: 1.4; text-align: center;"
+  >
+    <div
+      style="padding: 20px 10px;"
+    >
+      Test content
+    </div>
+  </div>
+  <div
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+  >
+    <div
+      style="flex: 1 1 0%;"
+    />
+    <button
+      aria-label="Back"
+      data-action="back"
+      data-test-id="button-back"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+      title="Back"
+      type="button"
+    >
+      Back
+    </button>
+    <button
+      aria-label="Next"
+      data-action="primary"
+      data-test-id="button-primary"
+      role="button"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+      title="Next"
+      type="button"
+    >
+      Next
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="14px"
+      preserveAspectRatio="xMidYMid"
+      version="1.1"
+      viewBox="0 0 18 18"
+      width="14px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path
+          d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+          fill="#333"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`Tooltip > should call helpers.skip() on skip click 1`] = `
+<div
+  aria-label="Test content"
+  aria-modal="true"
+  class="react-joyride__tooltip"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+>
+  <div
+    style="line-height: 1.4; text-align: center;"
+  >
+    <div
+      style="padding: 20px 10px;"
+    >
+      Test content
+    </div>
+  </div>
+  <div
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+  >
+    <div
+      style="flex: 1 1 0%;"
+    >
+      <button
+        aria-label="Skip"
+        aria-live="off"
+        data-action="skip"
+        data-test-id="button-skip"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Skip"
+        type="button"
+      >
+        Skip
+      </button>
+    </div>
+    <button
+      aria-label="Next"
+      data-action="primary"
+      data-test-id="button-primary"
+      role="button"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+      title="Next"
+      type="button"
+    >
+      Next
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="14px"
+      preserveAspectRatio="xMidYMid"
+      version="1.1"
+      viewBox="0 0 18 18"
+      width="14px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path
+          d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+          fill="#333"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] = `
+<div
+  aria-label="Test content"
+  aria-modal="true"
+  class="react-joyride__tooltip"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+>
+  <div
+    style="line-height: 1.4; text-align: center;"
+  >
+    <div
+      style="padding: 20px 10px;"
+    >
+      Test content
+    </div>
+  </div>
+  <div
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+  >
+    <div
+      style="flex: 1 1 0%;"
+    />
+    <button
+      aria-label="Close"
+      data-action="primary"
+      data-test-id="button-primary"
+      role="button"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+      title="Close"
+      type="button"
+    >
+      Close
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="14px"
+      preserveAspectRatio="xMidYMid"
+      version="1.1"
+      viewBox="0 0 18 18"
+      width="14px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path
+          d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+          fill="#333"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
+<div
+  aria-label="Test content"
+  aria-modal="true"
+  class="react-joyride__tooltip"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+>
+  <div
+    style="line-height: 1.4; text-align: center;"
+  >
+    <div
+      style="padding: 20px 10px;"
+    >
+      Test content
+    </div>
+  </div>
+  <div
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+  >
+    <div
+      style="flex: 1 1 0%;"
+    />
+    <button
+      aria-label="Back"
+      data-action="back"
+      data-test-id="button-back"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+      title="Back"
+      type="button"
+    >
+      Back
+    </button>
+    <button
+      aria-label="Last"
+      data-action="primary"
+      data-test-id="button-primary"
+      role="button"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+      title="Last"
+      type="button"
+    >
+      Last
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="14px"
+      preserveAspectRatio="xMidYMid"
+      version="1.1"
+      viewBox="0 0 18 18"
+      width="14px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path
+          d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+          fill="#333"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
+<div
+  aria-label="Test content"
+  aria-modal="true"
+  class="react-joyride__tooltip"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+>
+  <div
+    style="line-height: 1.4; text-align: center;"
+  >
+    <div
+      style="padding: 20px 10px;"
+    >
+      Test content
+    </div>
+  </div>
+  <div
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+  >
+    <div
+      style="flex: 1 1 0%;"
+    />
+    <button
+      aria-label="Next"
+      data-action="primary"
+      data-test-id="button-primary"
+      role="button"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+      title="Next"
+      type="button"
+    >
+      Next
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="14px"
+      preserveAspectRatio="xMidYMid"
+      version="1.1"
+      viewBox="0 0 18 18"
+      width="14px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path
+          d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+          fill="#333"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;
+
+exports[`Tooltip > should render custom tooltipComponent 1`] = `
+<div
+  aria-modal="true"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border-radius: 0px; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="24px"
+      version="1.1"
+      viewBox="0 0 24 24"
+      width="24px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>
+        close
+      </title>
+      <g>
+        <path
+          d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+          fill="currentColor"
+        />
+      </g>
+    </svg>
+  </button>
+  <main
+    style="padding: 12px;"
+  >
+    <div>
+      Test content
+    </div>
+  </main>
+  <footer
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+  >
+    <div
+      style="display: flex; flex: 1 1 0%;"
+    >
+      <button
+        aria-label="Skip"
+        data-action="skip"
+        data-test-id="button-skip"
+        role="button"
+        style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+        title="Skip"
+        type="button"
+      >
+        Skip
+      </button>
+    </div>
+    <div
+      style="display: flex; gap: 8px;"
+    >
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-test-id="button-primary"
+        role="button"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+  </footer>
+</div>
+`;
+
+exports[`Tooltip > should show progress label when showProgress is true 1`] = `
+<div
+  aria-label="Test content"
+  aria-modal="true"
+  class="react-joyride__tooltip"
+  role="alertdialog"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+>
+  <div
+    style="line-height: 1.4; text-align: center;"
+  >
+    <div
+      style="padding: 20px 10px;"
+    >
+      Test content
+    </div>
+  </div>
+  <div
+    style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+  >
+    <div
+      style="flex: 1 1 0%;"
+    />
+    <button
+      aria-label="Next (Step 1 of 3)"
+      data-action="primary"
+      data-test-id="button-primary"
+      role="button"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+      title="Next (Step 1 of 3)"
+      type="button"
+    >
+      Next (Step 1 of 3)
+    </button>
+  </div>
+  <button
+    aria-label="Close"
+    data-action="close"
+    data-test-id="button-close"
+    role="button"
+    style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+    title="Close"
+    type="button"
+  >
+    <svg
+      height="14px"
+      preserveAspectRatio="xMidYMid"
+      version="1.1"
+      viewBox="0 0 18 18"
+      width="14px"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g>
+        <path
+          d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+          fill="#333"
+        />
+      </g>
+    </svg>
+  </button>
+</div>
+`;
