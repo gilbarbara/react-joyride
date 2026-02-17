@@ -14,7 +14,7 @@ import Step from '~/components/Step';
 
 import { Props } from '~/types';
 
-export function Joyride(props: Props) {
+function Joyride(props: Props) {
   const { mergedProps, state, step, store } = useJoyrideData(props);
   const { continuous, debug, disableCloseOnEsc, nonce, portalElement, scrollToFirstStep, steps } =
     mergedProps;
@@ -65,8 +65,6 @@ export function Joyride(props: Props) {
 
   const isRunning = status === STATUS.RUNNING;
 
-  const LoaderComponent = mergedProps.loaderComponent ?? Loader;
-
   if (!step || !isRunning) {
     return null;
   }
@@ -90,7 +88,7 @@ export function Joyride(props: Props) {
       )}
       <Portal element={element}>
         <>
-          {state.waiting && <LoaderComponent step={step} />}
+          {state.waiting && <Loader step={step} />}
           <Overlay
             {...step}
             continuous={continuous}
