@@ -24,14 +24,15 @@ export default [
     },
   },
   {
-    files: ['test/**'],
+    files: ['e2e/*.spec.*'],
     rules: {
-      'no-console': 'off',
+      'testing-library/prefer-screen-queries': 'off',
     },
   },
   {
     files: ['**/*.spec.*', '**/*.test.*'],
     rules: {
+      'no-console': 'off',
       'no-restricted-imports': [
         'error',
         {
