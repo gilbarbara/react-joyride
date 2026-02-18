@@ -1,0 +1,67 @@
+{
+  "name": "react-joyride-demo",
+  "version": "2.9.3",
+  "description": "React Joyride Demo",
+  "author": "Gil Barbara <gilbarbara@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gilbarbara/react-joyride-demo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gilbarbara/react-joyride-demo/issues"
+  },
+  "keywords": [
+    "react",
+    "react-component",
+    "tooltips",
+    "joyride",
+    "walkthroughs",
+    "tour"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@gilbarbara/hooks": "^0.11.0",
+    "@heroui/react": "^2.8.9",
+    "@internationalized/date": "^3.11.0",
+    "a11y-checker": "^2.2.1",
+    "framer-motion": "^12.34.1",
+    "lucide-react": "^0.574.0",
+    "react": "^19.2.4",
+    "react-burger-menu": "^3.1.0",
+    "react-dom": "^19.2.4",
+    "react-error-boundary": "^6.1.1",
+    "react-intl": "^8.1.3",
+    "react-joyride": "^2.9.3",
+    "react-modal": "^3.16.3",
+    "react-responsive-carousel": "^3.2.23",
+    "react-router-dom": "^7.13.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@gilbarbara/eslint-config": "^1.0.4",
+    "@gilbarbara/prettier-config": "^1.0.0",
+    "@gilbarbara/tsconfig": "^1.0.0",
+    "@gilbarbara/types": "^0.2.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^22.19.11",
+    "@types/react": "^19.2.14",
+    "@types/react-burger-menu": "^2.8.7",
+    "@types/react-dom": "^19.2.3",
+    "@types/react-modal": "^3.16.3",
+    "@vitejs/plugin-react-swc": "^4.2.3",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.1",
+    "vite": "^7.3.1",
+    "vite-tsconfig-paths": "^6.1.1",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint --fix src",
+    "typecheck": "tsc --noEmit"
+  },
+  "prettier": "@gilbarbara/prettier-config"
+}
