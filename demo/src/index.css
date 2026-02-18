@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+@plugin './config/hero.ts';
+/* Note: You may need to change the path to fit your project structure */
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-blue: #66a5ff;
+  --color-crimson: #ff0044;
+  --color-cyan: #0bc5ea;
+  --color-green: #58d063;
+  --color-indigo: #8a8fff;
+  --color-lime: #d9ff66;
+  --color-orange: #ff995d;
+  --color-pink: #ee63ab;
+  --color-purple: #ad7bff;
+  --color-red: #ff5e5e;
+  --color-teal: #52d6c5;
+  --color-yellow: #ffe166;
+}
+
+html.dark {
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  font-size: 16px;
+  margin: 0;
+  min-height: 100vh;
+  padding: 0;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-blue);
+  text-decoration: underline;
+
+  &.disabled {
+    pointer-events: none;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition:
+    background-color 50000s ease-in-out 0s,
+    color 5000s ease-in-out 0s;
+}
+
+.github-corner {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  svg {
+    fill: #000;
+    color: #fff;
+  }
+
+  .octo-arm {
+    transform-origin: 130px 106px;
+  }
+
+  &:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}
+
+@keyframes octocat-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  20%,
+  60% {
+    transform: rotate(-25deg);
+  }
+  40%,
+  80% {
+    transform: rotate(10deg);
+  }
+}
+
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none;
+  }
+
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out;
+  }
+}
+
+button:focus-within {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+.star-burst {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  font:
+    32px 'Lobster',
+    georgia,
+    serif;
+  position: absolute;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  top: -90px;
+  right: -30px;
+
+  div {
+    background-color: #202020;
+    height: 75px;
+    position: relative;
+    width: 75px;
+  }
+
+  span {
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    transform: rotate(15deg);
+    z-index: 10;
+  }
+
+  div::before,
+  div::after {
+    background: #202020;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(30deg);
+    width: 100%;
+    z-index: 1;
+  }
+  div::after {
+    transform: rotate(-30deg);
+  }
+}
+

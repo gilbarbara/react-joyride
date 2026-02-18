@@ -1,0 +1,21 @@
+{
+  "extends": "@gilbarbara/tsconfig",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "erasableSyntaxOnly": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "noUncheckedSideEffectImports": true,
+    "paths": {
+      "~/*": ["src/*"],
+      "react": ["./node_modules/@types/react"],
+    },
+    "rootDir": ".",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+    "types": ["vite/client", "node"],
+    "verbatimModuleSyntax": true
+  },
+  "include": ["src", "vite.config.ts"]
+}

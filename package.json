@@ -22,8 +22,10 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "exports": {
-    "import": "./dist/index.mjs",
-    "require": "./dist/index.js"
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
   },
   "files": [
     "dist",
@@ -42,7 +44,7 @@
     "@gilbarbara/hooks": "^0.11.0",
     "@gilbarbara/types": "^0.2.2",
     "is-lite": "^2.0.0",
-    "react-floater": "0.9.5-4",
+    "react-floater": "0.9.5-5",
     "react-innertext": "^1.1.5",
     "scroll": "^3.0.1",
     "scrollparent": "^2.1.0",
@@ -54,7 +56,7 @@
     "@gilbarbara/node-helpers": "^0.1.0",
     "@gilbarbara/prettier-config": "^1.0.0",
     "@gilbarbara/tsconfig": "^1.0.0",
-    "@playwright/experimental-ct-react": "^1.58.2",
+    "@playwright/test": "^1.58.2",
     "@size-limit/preset-big-lib": "^12.0.0",
     "@swc/core": "^1.15.11",
     "@testing-library/dom": "^10.4.1",
@@ -83,31 +85,30 @@
     "ts-node": "^10.9.2",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.0.18"
   },
   "scripts": {
-    "build": " npm run clean && tsup && ts-node scripts/fix-cjs.ts",
+    "build": "pnpm clean && tsup && ts-node scripts/fix-cjs.ts",
     "watch": "tsup --watch",
     "clean": "del dist/*",
+    "demo": "pnpm --dir demo dev",
     "lint": "eslint --fix src test",
     "typecheck": "tsc -p test/tsconfig.json",
     "typevalidation": "attw -P",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest watch",
-    "e2e": "playwright test -c playwright-ct.config.ts",
-    "e2e:debug": "npm run e2e -- --project=chromium --debug",
-    "e2e:ui": "npm run e2e -- --ui",
-    "e2e:headed": "npm run e2e -- --headed",
+    "e2e": "playwright test",
+    "e2e:chromium": "pnpm e2e -- --project=chromium",
+    "e2e:debug": "pnpm e2e -- --project=chromium --debug",
+    "e2e:ui": "pnpm e2e -- --ui",
+    "e2e:headed": "pnpm e2e -- --headed",
     "e2e:report": "playwright show-report",
-    "dev": "vite",
     "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
-    "validate": "npm run lint && npm run typecheck && npm run test:coverage && npm run e2e && npm run build && npm run size && npm run typevalidation",
+    "validate": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm e2e && pnpm build && pnpm size && pnpm typevalidation",
     "size": "size-limit",
-    "prepare": "husky",
-    "prepublishOnly": "npm run validate"
+    "prepare": "husky"
   },
   "tsup": {
     "dts": true,
