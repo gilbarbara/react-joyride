@@ -6,6 +6,8 @@ import {
   queryHelpers,
   render,
   RenderOptions,
+  Screen,
+  screen,
   within,
 } from '@testing-library/react';
 
@@ -40,7 +42,7 @@ const allQueries = {
   ...customQueries,
 };
 
-const customScreen = within(document.body, allQueries);
+const customScreen: Screen<typeof allQueries> = { ...screen, ...within(document.body, allQueries) };
 const customWithin = (element: HTMLElement) => within(element, allQueries);
 const customRender = (ui: ReactElement, options?: Omit<RenderOptions, 'queries'>) =>
   render(ui, { queries: allQueries, ...options });

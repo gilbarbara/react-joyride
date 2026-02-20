@@ -1,10 +1,12 @@
 import { ElementType, MouseEventHandler, ReactNode, RefCallback } from 'react';
-import { Props as FloaterProps } from 'react-floater';
-import { PartialDeep, SetRequired, Simplify } from 'type-fest';
-
-import type { StoreInstance } from '~/modules/store';
+import { Props as FProps } from 'react-floater';
+import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
 import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
+
+export type FloaterProps = Omit<FProps, 'content' | 'component'>;
+
+export type SelectorOrElement = string | null | HTMLElement;
 
 export type BaseProps = {
   /**
@@ -175,6 +177,11 @@ export type Props = Simplify<
      */
     nonce?: string;
     /**
+     *  A custom element to render the tooltip.
+     *  It can be a string (CSS selector) or an HTMLElement.
+     */
+    portalElement?: SelectorOrElement;
+    /**
      * Run/stop the tour.
      * @default true
      */
@@ -239,7 +246,7 @@ export type Step = Simplify<
     /**
      * Options to be passed to react-floater
      */
-    floaterProps?: FloaterProps;
+    floaterProps?: Partial<FloaterProps>;
     /**
      * Hide the tooltip's footer.
      * @default false
@@ -303,14 +310,15 @@ export type StepMerged = Simplify<
 
 export type StepProps = Simplify<
   State & {
-    callback: Callback;
+    cleanupPoppers: () => void;
     continuous: boolean;
     debug: boolean;
     helpers: StoreHelpers;
     nonce?: string;
+    setPopper: NonNullable<FloaterProps['getPopper']>;
     shouldScroll: boolean;
     step: StepMerged;
-    store: StoreInstance;
+    updateState: (state: Partial<State>) => void;
   }
 >;
 
@@ -324,12 +332,6 @@ export type StoreHelpers = {
   reset: (restart: boolean) => void;
   skip: () => void;
 };
-
-export type StoreOptions = Simplify<
-  Props & {
-    controlled: boolean;
-  }
->;
 
 export type TooltipProps = {
   continuous: boolean;
@@ -378,5 +380,3 @@ export type TooltipRenderProps = Simplify<
     };
   }
 >;
-
-export type { Props as FloaterProps } from 'react-floater';

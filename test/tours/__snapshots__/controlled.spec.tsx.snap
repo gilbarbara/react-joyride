@@ -1,14 +1,17 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Joyride > Controlled > should have rendered the STEP 2 Tooltip 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 2 Tooltip 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="right"
+  data-popper-reference-hidden=""
   id="react-joyride-step-1"
-  style="z-index: 10100;"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(10px, 0px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 0px 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="right"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 0px 0px 0px 16px;"
   >
     <div
       class="__floater__body"
@@ -101,55 +104,39 @@ exports[`Joyride > Controlled > should have rendered the STEP 2 Tooltip 1`] = `
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; top: 0px;"
+        style="display: inline-flex; position: absolute; top: 0px; transform: translate(0px, 8px); left: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; margin-top: 8px; margin-bottom: 8px;"
+        <svg
+          height="32"
+          version="1.1"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="32"
-            version="1.1"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="16,32 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="16,32 16,0 0,16"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="right"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;
 
-exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 3 Tooltip 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
   id="react-joyride-step-2"
-  style="z-index: 10100;"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="bottom"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px;"
   >
     <div
       class="__floater__body"
@@ -242,55 +229,39 @@ exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip 1`] = `
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="16"
-            version="1.1"
-            width="32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="32,16 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="bottom"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;
 
-exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip AGAIN 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 3 Tooltip AGAIN 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
   id="react-joyride-step-2"
-  style="z-index: 10100;"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="bottom"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px;"
   >
     <div
       class="__floater__body"
@@ -383,55 +354,39 @@ exports[`Joyride > Controlled > should have rendered the STEP 3 Tooltip AGAIN 1`
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="16"
-            version="1.1"
-            width="32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="32,16 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="bottom"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;
 
-exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 4 Tooltip 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
   id="react-joyride-step-3"
-  style="z-index: 200;"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="bottom"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
   >
     <div
       class="__floater__body"
@@ -526,55 +481,39 @@ exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip 1`] = `
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="16"
-            version="1.1"
-            width="32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="32,16 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="bottom"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;
 
-exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip AGAIN 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 4 Tooltip AGAIN 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
   id="react-joyride-step-3"
-  style="z-index: 200;"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="bottom"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 16px 0px 0px;"
   >
     <div
       class="__floater__body"
@@ -669,55 +608,39 @@ exports[`Joyride > Controlled > should have rendered the STEP 4 Tooltip AGAIN 1`
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="16"
-            version="1.1"
-            width="32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="32,16 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="bottom"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;
 
-exports[`Joyride > Controlled > should have rendered the STEP 5 Tooltip 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 5 Tooltip 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="right"
+  data-popper-reference-hidden=""
   id="react-joyride-step-4"
-  style="z-index: 200;"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(20px, 0px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="right"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 0px 16px;"
   >
     <div
       class="__floater__body"
@@ -826,55 +749,39 @@ exports[`Joyride > Controlled > should have rendered the STEP 5 Tooltip 1`] = `
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; top: 0px;"
+        style="display: inline-flex; position: absolute; top: 0px; transform: translate(0px, 8px); left: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; margin-top: 8px; margin-bottom: 8px;"
+        <svg
+          height="32"
+          version="1.1"
+          width="16"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="32"
-            version="1.1"
-            width="16"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="16,32 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="16,32 16,0 0,16"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="right"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;
 
-exports[`Joyride > Controlled > should have rendered the STEP 6 Tooltip 1`] = `
+exports[`Joyride > Controlled > should have rendered STEP 6 Tooltip 1`] = `
 <div
+  data-popper-escaped=""
+  data-popper-placement="top"
+  data-popper-reference-hidden=""
   id="react-joyride-step-5"
-  style="z-index: 200;"
+  style="z-index: 200; position: absolute; left: 0px; top: 0px; margin: 0px; bottom: 0px; transform: translate(0px, -20px);"
 >
   <div
     class="__floater"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 16px; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
-    x-placement="top"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 200; padding: 0px 0px 16px;"
   >
     <div
       class="__floater__body"
@@ -947,43 +854,158 @@ exports[`Joyride > Controlled > should have rendered the STEP 6 Tooltip 1`] = `
           </div>
         </footer>
       </div>
-      <div
+      <span
         class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; bottom: 0px; left: 0px; right: 0px; height: 16px;"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); bottom: 0px;"
       >
-        <span
-          style="display: inline-flex; position: absolute; bottom: 0px; margin-left: 8px; margin-right: 8px;"
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <svg
-            height="16"
-            version="1.1"
-            width="32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="0,0 16,16 32,0"
-            />
-          </svg>
-        </span>
-      </div>
+          <polygon
+            fill="#fff"
+            points="0,0 16,16 32,0"
+          />
+        </svg>
+      </span>
     </div>
   </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 200; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="top"
+</div>
+`;
+
+exports[`Joyride > Controlled > should start the tour > overlay 1`] = `
+<div
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: default; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 10000; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+>
+  <div
+    class="react-joyride__spotlight"
+    data-test-id="spotlight"
+    style="height: 20px; left: -10px; opacity: 1; pointer-events: none; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px; border-radius: 4px; background-color: gray;"
+  />
+</div>
+`;
+
+exports[`Joyride > Controlled > should start the tour > tooltip 1`] = `
+<div
+  data-popper-escaped=""
+  data-popper-placement="bottom"
+  data-popper-reference-hidden=""
+  id="react-joyride-step-0"
+  style="z-index: 10100; position: absolute; left: 0px; top: 0px; margin: 0px; transform: translate(0px, 20px);"
+>
+  <div
+    class="__floater"
+    role="tooltip"
+    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: relative; transition: opacity 0.3s; visibility: visible; z-index: 10100; padding: 16px 0px 0px;"
   >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
+    <div
+      class="__floater__body"
     >
+      <div
+        aria-modal="true"
+        role="alertdialog"
+        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
+      >
+        <button
+          aria-label="Close"
+          data-action="close"
+          data-test-id="button-close"
+          role="button"
+          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
+          title="Close"
+          type="button"
+        >
+          <svg
+            height="24px"
+            version="1.1"
+            viewBox="0 0 24 24"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title>
+              close
+            </title>
+            <g>
+              <path
+                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
+                fill="currentColor"
+              />
+            </g>
+          </svg>
+        </button>
+        <main
+          style="padding: 12px;"
+        >
+          <h3
+            style="margin-top: 0px;"
+          >
+            Menu
+          </h3>
+          <div>
+            <div>
+              You can interact with your own components through the spotlight.
+              <br />
+              Click the menu above!
+            </div>
+          </div>
+        </main>
+        <footer
+          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
+        >
+          <div
+            style="display: flex; flex: 1;"
+          >
+            <button
+              aria-label="Skip"
+              data-action="skip"
+              data-test-id="button-skip"
+              role="button"
+              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
+              title="Skip"
+              type="button"
+            >
+              Skip
+            </button>
+          </div>
+          <div
+            style="display: flex; gap: 8px;"
+          >
+            <button
+              aria-label="Next (Step 1 of 6)"
+              data-action="primary"
+              data-test-id="button-primary"
+              role="button"
+              title="Next (Step 1 of 6)"
+              type="button"
+            >
+              Next (Step 1 of 6)
+            </button>
+          </div>
+        </footer>
+      </div>
       <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
+        class="__floater__arrow"
+        style="display: inline-flex; position: absolute; left: 0px; transform: translate(8px, 0px); top: 0px;"
+      >
+        <svg
+          height="16"
+          version="1.1"
+          width="32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <polygon
+            fill="#fff"
+            points="32,16 16,0 0,16"
+          />
+        </svg>
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
@@ -1072,140 +1094,5 @@ exports[`Joyride > Controlled > should start the tour 1`] = `
       CONNECTIONS
     </div>
   </div>
-</div>
-`;
-
-exports[`Joyride > Controlled > should start the tour 2`] = `
-<div
-  id="react-joyride-step-0"
-  style="z-index: 10100;"
->
-  <div
-    class="__floater __floater__open"
-    style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; position: absolute; transition: opacity 0.3s, transform 0.2s; visibility: visible; z-index: 10100; padding: 16px 0px 0px; transform: translate3d(NaNpx, NaNpx, 0); top: 0px; left: 0px; will-change: transform;"
-    x-placement="bottom"
-  >
-    <div
-      class="__floater__body"
-    >
-      <div
-        aria-modal="true"
-        role="alertdialog"
-        style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
-      >
-        <button
-          aria-label="Close"
-          data-action="close"
-          data-test-id="button-close"
-          role="button"
-          style="background-color: transparent; border-radius: 0; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
-          title="Close"
-          type="button"
-        >
-          <svg
-            height="24px"
-            version="1.1"
-            viewBox="0 0 24 24"
-            width="24px"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>
-              close
-            </title>
-            <g>
-              <path
-                d="M20.5559921,3.44400795 C20.9855688,3.87358467 20.9855688,4.57006615 20.5559921,4.99964287 L13.5548254,11.9998254 L20.5559921,19.0003571 C20.9855688,19.4299339 20.9855688,20.1264153 20.5559921,20.5559921 C20.1264153,20.9855688 19.4299339,20.9855688 19.0003571,20.5559921 L11.9998254,13.5548254 L4.99964287,20.5559921 C4.57006615,20.9855688 3.87358467,20.9855688 3.44400795,20.5559921 C3.01443123,20.1264153 3.01443123,19.4299339 3.44400795,19.0003571 L10.4438254,11.9998254 L3.44400795,4.99964287 C3.01443123,4.57006615 3.01443123,3.87358467 3.44400795,3.44400795 C3.87358467,3.01443123 4.57006615,3.01443123 4.99964287,3.44400795 L11.9998254,10.4438254 L19.0003571,3.44400795 C19.4299339,3.01443123 20.1264153,3.01443123 20.5559921,3.44400795 Z"
-                fill="currentColor"
-              />
-            </g>
-          </svg>
-        </button>
-        <main
-          style="padding: 12px;"
-        >
-          <h3
-            style="margin-top: 0px;"
-          >
-            Menu
-          </h3>
-          <div>
-            <div>
-              You can interact with your own components through the spotlight.
-              <br />
-              Click the menu above!
-            </div>
-          </div>
-        </main>
-        <footer
-          style="align-items: center; display: flex; justify-content: flex-end; margin-top: 12px;"
-        >
-          <div
-            style="display: flex; flex: 1;"
-          >
-            <button
-              aria-label="Skip"
-              data-action="skip"
-              data-test-id="button-skip"
-              role="button"
-              style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
-              title="Skip"
-              type="button"
-            >
-              Skip
-            </button>
-          </div>
-          <div
-            style="display: flex; gap: 8px;"
-          >
-            <button
-              aria-label="Next (Step 1 of 6)"
-              data-action="primary"
-              data-test-id="button-primary"
-              role="button"
-              title="Next (Step 1 of 6)"
-              type="button"
-            >
-              Next (Step 1 of 6)
-            </button>
-          </div>
-        </footer>
-      </div>
-      <div
-        class="__floater__arrow"
-        style="pointer-events: none; position: absolute; width: 100%; left: 0px; right: 0px; top: 0px; height: 16px;"
-      >
-        <span
-          style="display: inline-flex; position: absolute; margin-left: 8px; margin-right: 8px;"
-        >
-          <svg
-            height="16"
-            version="1.1"
-            width="32"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <polygon
-              fill="#fff"
-              points="32,16 16,0 0,16"
-            />
-          </svg>
-        </span>
-      </div>
-    </div>
-  </div>
-  <span
-    style="cursor: help; display: inline-flex; flex-direction: column; z-index: 10100; position: absolute; top: -1000px; left: -1000px; visibility: hidden;"
-    x-placement="bottom"
-  >
-    <button
-      aria-label="Beacon"
-      class="react-joyride__beacon"
-      data-test-id="button-beacon"
-      type="button"
-    >
-      <span
-        class="react-joyride__beacon__inner"
-      />
-    </button>
-  </span>
 </div>
 `;

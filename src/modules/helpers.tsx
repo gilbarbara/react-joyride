@@ -1,11 +1,11 @@
 import { cloneElement, FC, isValidElement, ReactElement, ReactNode } from 'react';
-import { createPortal } from 'react-dom';
 import innerText from 'react-innertext';
+import { PlainObject, Simplify } from '@gilbarbara/types';
 import is from 'is-lite';
 
-import { LIFECYCLE } from '~/literals';
+import { ACTIONS, LIFECYCLE } from '~/literals';
 
-import { AnyObject, Lifecycle, NarrowPlainObject, Step } from '~/types';
+import { Actions, AnyObject, Lifecycle, NarrowPlainObject, State, Step } from '~/types';
 
 import { hasPosition } from './dom';
 
@@ -26,6 +26,10 @@ interface LogOptions {
   warn?: boolean;
 }
 
+type RemoveType<TObject, TExclude = undefined> = {
+  [Key in keyof TObject as TObject[Key] extends TExclude ? never : Key]: TObject[Key];
+};
+
 interface ShouldScrollOptions {
   isFirstStep: boolean;
   lifecycle: Lifecycle;
@@ -35,7 +39,20 @@ interface ShouldScrollOptions {
   target: HTMLElement | null;
 }
 
-export const isReact16 = createPortal !== undefined;
+/**
+ * Remove properties with undefined value from an object
+ */
+export function cleanUpObject<T extends PlainObject>(input: T) {
+  const output: Record<string, unknown> = {};
+
+  for (const key in input) {
+    if (input[key] !== undefined) {
+      output[key] = input[key];
+    }
+  }
+
+  return output as RemoveType<T>;
+}
 
 /**
  * Get the current browser
@@ -102,14 +119,6 @@ export function getReactNodeText(input: ReactNode, options: GetReactNodeTextOpti
   return text;
 }
 
-export function hasValidKeys(object: Record<string, unknown>, keys?: Array<string>): boolean {
-  if (!is.plainObject(object) || !is.array(keys)) {
-    return false;
-  }
-
-  return Object.keys(object).every(d => keys.includes(d));
-}
-
 /**
  * Convert hex to RGB
  */
@@ -124,12 +133,13 @@ export function hexToRGB(hex: string): Array<number> {
 
 /**
  * Decide if the step shouldn't skip the beacon
- * @param {Object} step
- *
- * @returns {boolean}
  */
-export function hideBeacon(step: Step): boolean {
-  return step.disableBeacon || step.placement === 'center';
+export function hideBeacon(step: Step, state: State, continuous: boolean): boolean {
+  const { action } = state;
+
+  const withContinuous = continuous && ([ACTIONS.PREV, ACTIONS.NEXT] as Actions[]).includes(action);
+
+  return step.disableBeacon || step.placement === 'center' || withContinuous;
 }
 
 /**
@@ -146,7 +156,7 @@ export function isLegacy(): boolean {
  */
 export function log({ data, debug = false, title, warn = false }: LogOptions) {
   /* eslint-disable no-console */
-  const logFn = warn ? console.warn || console.error : console.log;
+  const logFn = warn ? console.warn ?? console.error : console.log;
 
   if (debug) {
     if (title && data) {
@@ -173,6 +183,21 @@ export function log({ data, debug = false, title, warn = false }: LogOptions) {
     }
   }
   /* eslint-enable */
+}
+
+/**
+ * Merges the defaultProps with literal values with the incoming props, removing undefined values from it that would override the defaultProps.
+ * The result is a type-safe object with the defaultProps as required properties.
+ */
+export function mergeProps<TDefaultProps extends PlainObject<any>, TProps extends PlainObject<any>>(
+  defaultProps: TDefaultProps,
+  props: TProps,
+) {
+  const cleanProps = cleanUpObject(props);
+
+  return { ...defaultProps, ...cleanProps } as unknown as Simplify<
+    TProps & Required<Pick<TProps, keyof TDefaultProps & string>>
+  >;
 }
 
 /**

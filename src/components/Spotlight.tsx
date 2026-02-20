@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { CSSProperties } from 'react';
 
 interface Props {
-  styles: React.CSSProperties;
+  styles: CSSProperties;
 }
 
-function JoyrideSpotlight({ styles }: Props) {
+export default function JoyrideSpotlight({ styles }: Props) {
   return (
     <div
       key="JoyrideSpotlight"
@@ -14,5 +14,3 @@ function JoyrideSpotlight({ styles }: Props) {
     />
   );
 }
-
-export default JoyrideSpotlight;

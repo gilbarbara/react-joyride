@@ -1,11 +1,15 @@
 import { noop } from '~/modules/helpers';
 
-import { FloaterProps, Locale, Props, Step } from '~/types';
+import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 
-export const defaultFloaterProps: FloaterProps = {
-  options: {
+import { FloaterProps, Locale, Props, State, Step } from '~/types';
+
+export const defaultFloaterProps: Omit<FloaterProps, 'component'> = {
+  modifiers: {
     preventOverflow: {
-      boundariesElement: 'scrollParent',
+      options: {
+        rootBoundary: 'viewport',
+      },
     },
   },
   wrapperOptions: {
@@ -65,3 +69,13 @@ export const defaultProps = {
   spotlightPadding: 10,
   steps: [],
 } satisfies Props;
+
+export const defaultState: State = {
+  action: ACTIONS.INIT,
+  controlled: false,
+  index: 0,
+  lifecycle: LIFECYCLE.INIT,
+  origin: null,
+  size: 0,
+  status: STATUS.IDLE,
+};

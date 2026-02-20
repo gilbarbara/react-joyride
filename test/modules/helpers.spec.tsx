@@ -1,10 +1,10 @@
+import * as React from 'react';
 import { fromPartial } from '@total-typescript/shoehorn';
 
 import {
   getBrowser,
   getObjectType,
   getReactNodeText,
-  hasValidKeys,
   hexToRGB,
   hideBeacon,
   isLegacy,
@@ -16,6 +16,10 @@ import {
   replaceLocaleContent,
   sleep,
 } from '~/modules/helpers';
+
+import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+
+import { Step } from '~/types';
 
 const baseObject = { a: 1, b: '', c: [1], d: { a: null }, e: undefined };
 
@@ -159,24 +163,6 @@ describe('helpers', () => {
     });
   });
 
-  describe('hasValidKeys', () => {
-    const validKeys = ['action', 'index', 'lifecycle', 'status'];
-
-    const object = {
-      action: 'open',
-      index: 0,
-      lifecycle: 'init',
-      status: 'ready',
-    };
-
-    it('should return properly', () => {
-      expect(hasValidKeys(object, validKeys)).toBe(true);
-
-      expect(hasValidKeys({ ...object, bub: 1 }, validKeys)).toBe(false);
-      expect(hasValidKeys({ ...object, bub: 1 })).toBe(false);
-    });
-  });
-
   describe('hexToRGB', () => {
     it('should convert properly', () => {
       expect(hexToRGB('#ff0044')).toEqual([255, 0, 68]);
@@ -188,12 +174,56 @@ describe('helpers', () => {
     });
   });
 
-  describe('hidBeacon', () => {
-    it('should return properly', () => {
-      expect(hideBeacon(fromPartial({ disableBeacon: false }))).toBe(false);
-      expect(hideBeacon(fromPartial({ placement: 'bottom' }))).toBe(false);
-      expect(hideBeacon(fromPartial({ disableBeacon: true }))).toBe(true);
-      expect(hideBeacon(fromPartial({ placement: 'center' }))).toBe(true);
+  describe('hideBeacon', () => {
+    const baseState = {
+      action: ACTIONS.START,
+      controlled: true,
+      index: 0,
+      lifecycle: LIFECYCLE.INIT,
+      origin: null,
+      size: 5,
+      status: STATUS.RUNNING,
+    };
+
+    const baseParameters = { step: { placement: 'auto' }, state: baseState, continuous: true };
+
+    it.each([
+      { ...baseParameters, step: { disableBeacon: false }, expected: false },
+      { ...baseParameters, step: { disableBeacon: true }, expected: true },
+      { ...baseParameters, step: { placement: 'bottom' }, expected: false },
+      { ...baseParameters, step: { placement: 'center' }, expected: true },
+      {
+        ...baseParameters,
+        step: { placement: 'auto' },
+        state: { ...baseState, action: ACTIONS.NEXT },
+        expected: true,
+      },
+      {
+        ...baseParameters,
+        step: { placement: 'auto' },
+        state: { ...baseState, action: ACTIONS.PREV },
+        expected: true,
+      },
+      {
+        ...baseParameters,
+        state: { ...baseState, action: ACTIONS.UPDATE },
+        expected: false,
+      },
+      {
+        ...baseParameters,
+        state: { ...baseState, action: ACTIONS.STOP },
+        expected: false,
+      },
+
+      {
+        ...baseParameters,
+        step: { placement: 'auto' },
+        state: { ...baseState, action: ACTIONS.NEXT },
+        continuous: false,
+        expected: false,
+      },
+    ])('should return properly', ({ continuous, expected, state, step }) => {
+      expect(hideBeacon(fromPartial(step as Partial<Step>), state, continuous)).toBe(expected);
     });
   });
 
