@@ -51,3 +51,11 @@ export default function App() {
 ```
 
 > To support legacy browsers, include the [scrollingelement](https://github.com/mathiasbynens/document.scrollingElement) polyfill.
+
+## Library Architecture
+
+React Joyride uses [React Floater](https://github.com/gilbarbara/react-floater) for positioning and styling,
+which in turn uses [Popper.js](https://popper.js.org/).
+
+To control the underlying positioning and styling behavior, you can pass options through 
+the component hierarchy using `floaterProps`. See the [styling documentation](styling.md) for more details.

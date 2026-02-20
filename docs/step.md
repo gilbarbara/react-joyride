@@ -68,7 +68,7 @@ Step will inherit some properties from Joyride's own [props](props.md), but you 
 - disableOverlay
 - disableOverlayClose
 - disableScrolling
-- floaterProps \(check the [getMergedStep](https://github.com/gilbarbara/react-joyride/blob/main/src/modules/step.ts) function for more information\)
+- floaterProps - Options passed to React Floater for positioning and styling. Step-level floaterProps are merged with component-level floaterProps, allowing per-step customization of tooltip appearance and positioning. See [styling documentation](styling.md#component-hierarchy-and-advanced-styling) for detailed examples.
 - hideBackButton
 - hideCloseButton
 - locale
