@@ -72,3 +72,74 @@ Check [styles.js](https://github.com/gilbarbara/react-joyride/blob/main/src/styl
 Or, if you need finer control, you can use your own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
 
 If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
+
+## Component Hierarchy and Advanced Styling
+
+React Joyride uses a component hierarchy for positioning and styling:
+
+React Joyride → React Floater → Popper.js
+
+To control advanced positioning and styling behavior, you can pass options through this
+component chain using the `floaterProps` prop:
+
+```tsx
+<Joyride
+  steps={steps}
+  floaterProps={{
+    // Styling for React Floater
+    styles: {
+      floater: { filter: 'none' },
+      arrow: {
+        size: 20,  // Width of the base of the arrow
+        base: 10   // Distance from the tip to the edge
+      },
+    },
+    // Popper.js modifiers
+    modifiers: {
+      arrow: {
+        options: {
+          padding: 20, // Controls arrow positioning padding
+        },
+      },
+      offset: {
+        options: {
+          offset: [0, 20], // Adjusts main tooltip position
+        },
+      },
+    },
+  }}
+/>
+```
+
+### Common Use Case: Adjusting Arrow Position for Rounded Corners
+
+A common styling challenge is adjusting arrow positioning when using tooltips with rounded corners.
+Here's an example of how to adjust the arrow position to accommodate border-radius styling:
+
+```tsx
+<Joyride
+  steps={steps}
+  floaterProps={{
+    styles: {
+      floater: {
+        borderRadius: '8px',
+      },
+      arrow: {
+        size: 16,
+        base: 8,
+      }
+    },
+    modifiers: {
+      arrow: {
+        options: {
+          padding: 12, // Increase padding to prevent arrow from aligning with rounded corners
+        },
+      },
+    },
+  }}
+/>
+```
+
+For detailed configuration options, see the [Popper.js modifiers documentation](https://popper.js.org/docs/v2/modifiers/), particularly the [arrow modifier](https://popper.js.org/docs/v2/modifiers/arrow/).
+
+Note that solutions found in older issues (before v2) may not work with current versions due to changes in the underlying positioning library.
