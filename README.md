@@ -8,7 +8,7 @@
 
 Showcase your app to new users or explain functionality of new features.
 
-It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling, which in turn uses [Floating UI](https://floating-ui.com/) (formerly Popper.js).  
+It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling, which in turn uses [Popper.js](https://popper.js.org/).  
 And you can use your own components too!
 
 **View the demo [here](https://react-joyride.com/)** (or the codesandbox [examples](https://codesandbox.io/s/github/gilbarbara/react-joyride-demo))
@@ -66,18 +66,10 @@ export class App extends React.Component {
 React Joyride uses a component hierarchy for positioning and styling:
 
 ```
-React Joyride → React Floater → Floating UI (formerly Popper.js)
+React Joyride → React Floater → Popper.js
 ```
 
 You can pass options through this chain using the `floaterProps` prop to control tooltip positioning, arrow styling, and other advanced features. See the [styling documentation](https://docs.react-joyride.com/styling) for detailed examples and configuration options.
-
----
-
-Sponsored by
-
-[![Frigade](https://files.gilbarbara.dev/media/frigade-sponsor-v2.png)](https://frigade.com/?source=joyride)
-
-React Joyride is proud to be sponsored by [Frigade](https://frigade.com/?source=joyride), a developer tool for building better product onboarding: guided tours, getting started checklists, announcements, etc.
 
 ---
 

@@ -77,9 +77,9 @@ If you want to customize the arrow, check [react-floater](https://github.com/gil
 
 React Joyride uses a component hierarchy for positioning and styling:
 
-React Joyride → React Floater → Floating UI (formerly Popper.js)
+React Joyride → React Floater → Popper.js
 
-To control advanced positioning and styling behavior, you can pass options through this 
+To control advanced positioning and styling behavior, you can pass options through this
 component chain using the `floaterProps` prop:
 
 ```tsx
@@ -89,12 +89,12 @@ component chain using the `floaterProps` prop:
     // Styling for React Floater
     styles: {
       floater: { filter: 'none' },
-      arrow: { 
-        spread: 20,  // Controls arrow width
-        length: 10   // Controls arrow height
+      arrow: {
+        size: 20,  // Width of the base of the arrow
+        base: 10   // Distance from the tip to the edge
       },
     },
-    // Floating UI modifiers (formerly Popper.js)
+    // Popper.js modifiers
     modifiers: {
       arrow: {
         options: {
@@ -103,7 +103,7 @@ component chain using the `floaterProps` prop:
       },
       offset: {
         options: {
-          offset: ({ placement, reference, popper }) => [-20, 20], // Adjusts main tooltip position
+          offset: [0, 20], // Adjusts main tooltip position
         },
       },
     },
@@ -121,12 +121,12 @@ Here's an example of how to adjust the arrow position to accommodate border-radi
   steps={steps}
   floaterProps={{
     styles: {
-      floater: { 
-        borderRadius: '8px', 
+      floater: {
+        borderRadius: '8px',
       },
       arrow: {
-        spread: 16,
-        length: 8,
+        size: 16,
+        base: 8,
       }
     },
     modifiers: {
@@ -140,6 +140,6 @@ Here's an example of how to adjust the arrow position to accommodate border-radi
 />
 ```
 
-For detailed Floating UI configuration options, see their [modifiers documentation](https://floating-ui.com/docs/modifiers), particularly the [arrow modifier](https://floating-ui.com/docs/modifiers#arrow).
+For detailed configuration options, see the [Popper.js modifiers documentation](https://popper.js.org/docs/v2/modifiers/), particularly the [arrow modifier](https://popper.js.org/docs/v2/modifiers/arrow/).
 
-Note that solutions found in older issues (before v2) may not work with current versions due to the migration from Popper.js to Floating UI.
+Note that solutions found in older issues (before v2) may not work with current versions due to changes in the underlying positioning library.

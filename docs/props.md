@@ -33,9 +33,9 @@ Disable autoscrolling between steps.
 Disable the fix to handle "unused" overflow parents.
 
 **floaterProps** `Partial<FloaterProps>`  
-Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater), which in turn passes certain options to [Floating UI](https://floating-ui.com/).
+Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater), which in turn passes certain options to [Popper.js](https://popper.js.org/).
 
-This prop is essential for controlling advanced positioning, arrow styling, and tooltip appearance. It follows the component hierarchy: React Joyride → React Floater → Floating UI.
+This prop is essential for controlling advanced positioning, arrow styling, and tooltip appearance. It follows the component hierarchy: React Joyride → React Floater → Popper.js.
 
 Common uses include:
 ```tsx
@@ -43,31 +43,31 @@ floaterProps={{
   // React Floater styling
   styles: {
     floater: { /* tooltip container styles */ },
-    arrow: { 
-      spread: 20, // Controls arrow width
-      length: 10  // Controls arrow height
+    arrow: {
+      size: 20, // Width of the base of the arrow
+      base: 10  // Distance from the tip to the edge
     },
   },
-  // Floating UI configuration (formerly Popper.js)
-  // See: https://floating-ui.com/docs/modifiers
+  // Popper.js modifiers
+  // See: https://popper.js.org/docs/v2/modifiers/
   modifiers: {
-    // Arrow modifier: https://floating-ui.com/docs/modifiers#arrow
-    arrow: { 
-      options: { 
+    // Arrow modifier: https://popper.js.org/docs/v2/modifiers/arrow/
+    arrow: {
+      options: {
         padding: 20 // Prevents arrow from reaching corners
-      } 
+      }
     },
-    // Offset modifier: https://floating-ui.com/docs/modifiers#offset
-    offset: { 
-      options: { 
-        offset: ({ placement, reference, popper }) => [-20, 20] 
-      } 
+    // Offset modifier: https://popper.js.org/docs/v2/modifiers/offset/
+    offset: {
+      options: {
+        offset: [0, 20]
+      }
     },
   }
 }}
 ```
 
-See the [styling documentation](styling.md#component-hierarchy-and-advanced-styling) for more detailed examples and the [Floating UI modifiers documentation](https://floating-ui.com/docs/modifiers) for advanced positioning options.
+See the [styling documentation](styling.md#component-hierarchy-and-advanced-styling) for more detailed examples and the [Popper.js modifiers documentation](https://popper.js.org/docs/v2/modifiers/) for advanced positioning options.
 
 **getHelpers** `(helpers: StoreHelpers) => void`  
 Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`.

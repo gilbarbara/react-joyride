@@ -55,7 +55,7 @@ export default function App() {
 ## Library Architecture
 
 React Joyride uses [React Floater](https://github.com/gilbarbara/react-floater) for positioning and styling,
-which in turn uses [Floating UI](https://floating-ui.com/) (formerly Popper.js).
+which in turn uses [Popper.js](https://popper.js.org/).
 
 To control the underlying positioning and styling behavior, you can pass options through 
 the component hierarchy using `floaterProps`. See the [styling documentation](styling.md) for more details.
