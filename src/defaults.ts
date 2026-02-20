@@ -32,6 +32,7 @@ export const defaultStep = {
   offset: 10,
   disableBeacon: false,
   disableCloseOnEsc: false,
+  disableFocusTrap: false,
   disableOverlay: false,
   disableOverlayClose: false,
   disableScrolling: false,
@@ -65,6 +66,10 @@ export const defaultProps = {
   showProgress: false,
   spotlightClicks: false,
   spotlightPadding: 10,
-  stepOptions: { loaderDelay: 300, targetWaitTimeout: 150 },
+  stepOptions: {
+    disableFocusTrap: false,
+    loaderDelay: 300,
+    targetWaitTimeout: 150,
+  },
   steps: [],
 } satisfies Props;

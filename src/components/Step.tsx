@@ -1,19 +1,19 @@
-import { MouseEvent, useEffect, useRef } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import Floater, { CustomComponentProps } from 'react-floater';
-import { useMount, useUnmount } from '@gilbarbara/hooks';
+import { useMount } from '@gilbarbara/hooks';
 import is from 'is-lite';
 import useTreeChanges from 'tree-changes-hook';
 
+import useFocusTrap from '~/hooks/useFocusTrap';
 import { LIFECYCLE } from '~/literals';
 import { getElement } from '~/modules/dom';
 import { logDebug } from '~/modules/helpers';
-import Scope from '~/modules/scope';
 import { validateStep } from '~/modules/step';
 
 import { StepProps } from '~/types';
 
 import Beacon from './Beacon';
-import Tooltip from './Tooltip/index';
+import Tooltip from './Tooltip';
 
 export default function JoyrideStep(props: StepProps) {
   const {
@@ -32,9 +32,12 @@ export default function JoyrideStep(props: StepProps) {
     step,
     updateState,
   } = props;
-  const scopeRef = useRef<Scope | null>(null);
-  const tooltipRef = useRef<HTMLElement | null>(null);
-  const { changed, changedFrom } = useTreeChanges(props);
+  const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null);
+  const { changedFrom } = useTreeChanges(props);
+
+  const open = lifecycle === LIFECYCLE.TOOLTIP && !scrolling;
+
+  useFocusTrap(step.disableFocusTrap ? null : tooltipElement, '[data-action=primary]');
 
   useMount(() => {
     logDebug({
@@ -44,23 +47,11 @@ export default function JoyrideStep(props: StepProps) {
     });
   });
 
-  useUnmount(() => {
-    scopeRef.current?.removeScope();
-  });
-
   useEffect(() => {
-    if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
-      if (tooltipRef.current) {
-        scopeRef.current = new Scope(tooltipRef.current, { selector: '[data-action=primary]' });
-        scopeRef.current.setFocus();
-      }
-    }
-
     if (changedFrom('lifecycle', [LIFECYCLE.TOOLTIP, LIFECYCLE.INIT], LIFECYCLE.INIT)) {
-      scopeRef.current?.removeScope();
       cleanupPoppers();
     }
-  }, [changed, changedFrom, cleanupPoppers, shouldScroll]);
+  }, [changedFrom, cleanupPoppers]);
 
   const handleClickHoverBeacon = (event: MouseEvent<HTMLElement>) => {
     if (event.type === 'mouseenter' && step.event !== 'hover') {
@@ -68,10 +59,6 @@ export default function JoyrideStep(props: StepProps) {
     }
 
     updateState({ lifecycle: LIFECYCLE.TOOLTIP });
-  };
-
-  const setTooltipRef = (element: HTMLElement | null) => {
-    tooltipRef.current = element;
   };
 
   const target = getElement(step.target);
@@ -87,7 +74,7 @@ export default function JoyrideStep(props: StepProps) {
         helpers={helpers}
         index={index}
         isLastStep={index + 1 === size}
-        setTooltipRef={setTooltipRef}
+        setTooltipRef={setTooltipElement}
         size={size}
         step={step}
         {...renderProps}
@@ -104,7 +91,7 @@ export default function JoyrideStep(props: StepProps) {
         debug={debug}
         getPopper={setPopper}
         id={`react-joyride-step-${index}`}
-        open={lifecycle === LIFECYCLE.TOOLTIP && !scrolling}
+        open={open}
         placement={step.placement}
         portalElement={portalElement}
         target={target}

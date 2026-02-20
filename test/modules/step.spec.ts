@@ -129,6 +129,32 @@ describe('step', () => {
       expect(result?.spotlightPadding).toBe(20);
     });
 
+    it('should allow stepOptions to set disableFocusTrap', () => {
+      const props = fromPartial<Props>({
+        ...baseProps,
+        stepOptions: { disableFocusTrap: true },
+      });
+
+      const result = getMergedStep(props, baseStep);
+
+      expect(result?.disableFocusTrap).toBe(true);
+    });
+
+    it('should allow step-level disableFocusTrap to override stepOptions', () => {
+      const props = fromPartial<Props>({
+        ...baseProps,
+        stepOptions: { disableFocusTrap: true },
+      });
+      const step: Step = {
+        ...baseStep,
+        disableFocusTrap: false,
+      };
+
+      const result = getMergedStep(props, step);
+
+      expect(result?.disableFocusTrap).toBe(false);
+    });
+
     it('should allow step props to override tour props', () => {
       const props = fromPartial<Props>({
         ...baseProps,

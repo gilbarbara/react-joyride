@@ -233,72 +233,63 @@ export type State = {
 };
 
 export type Step = Simplify<
-  BaseProps & {
-    /**
-     * The tooltip's body.
-     */
-    content: ReactNode;
-    /**
-     * Additional data you can add to the step.
-     */
-    data?: any;
-    /**
-     * Don't show the Beacon before the tooltip.
-     * @default false
-     */
-    disableBeacon?: boolean;
-    /**
-     * The event to trigger the beacon.
-     * @default click
-     */
-    event?: 'click' | 'hover';
-    /**
-     * Options to be passed to react-floater
-     */
-    floaterProps?: Partial<FloaterProps>;
-    /**
-     * Hide the tooltip's footer.
-     * @default false
-     */
-    hideFooter?: boolean;
-    /**
-     * Force the step to be fixed.
-     * @default false
-     */
-    isFixed?: boolean;
-    /**
-     * Delay (ms) before showing the loader while waiting for a target.
-     * @default 300
-     */
-    loaderDelay?: number;
-    /**
-     * @default 10
-     */
-    offset?: number;
-    /**
-     * The placement of the beacon and tooltip. It will re-position itself if there's no space available.
-     * @default bottom
-     */
-    placement?: Placement | 'auto' | 'center';
-    /**
-     * The placement of the beacon. It will use the `placement` if nothing is passed
-     */
-    placementBeacon?: Placement;
-    /**
-     * The target for the step.
-     * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
-     */
-    target: StepTarget;
-    /**
-     * Max time (ms) to wait for the target to appear. 0 = no waiting.
-     * @default 150
-     */
-    targetWaitTimeout?: number;
-    /**
-     * The tooltip's title.
-     */
-    title?: ReactNode;
-  }
+  BaseProps &
+    StepOptions & {
+      /**
+       * The tooltip's body.
+       */
+      content: ReactNode;
+      /**
+       * Additional data you can add to the step.
+       */
+      data?: any;
+      /**
+       * Don't show the Beacon before the tooltip.
+       * @default false
+       */
+      disableBeacon?: boolean;
+      /**
+       * The event to trigger the beacon.
+       * @default click
+       */
+      event?: 'click' | 'hover';
+      /**
+       * Options to be passed to react-floater
+       */
+      floaterProps?: Partial<FloaterProps>;
+      /**
+       * Hide the tooltip's footer.
+       * @default false
+       */
+      hideFooter?: boolean;
+      /**
+       * Force the step to be fixed.
+       * @default false
+       */
+      isFixed?: boolean;
+      /**
+       * @default 10
+       */
+      offset?: number;
+      /**
+       * The placement of the beacon and tooltip. It will re-position itself if there's no space available.
+       * @default bottom
+       */
+      placement?: Placement | 'auto' | 'center';
+      /**
+       * The placement of the beacon. It will use the `placement` if nothing is passed
+       */
+      placementBeacon?: Placement;
+      /**
+       * The target for the step.
+       * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
+       */
+      target: StepTarget;
+      /**
+       * The tooltip's title.
+       */
+      title?: ReactNode;
+    }
 >;
 
 export type StepMerged = Simplify<
@@ -306,6 +297,7 @@ export type StepMerged = Simplify<
     Step,
     | 'disableBeacon'
     | 'disableCloseOnEsc'
+    | 'disableFocusTrap'
     | 'disableOverlay'
     | 'disableOverlayClose'
     | 'disableScrolling'
@@ -329,6 +321,11 @@ export type StepMerged = Simplify<
 >;
 
 export type StepOptions = {
+  /**
+   * Disable the focus trap for the tooltip.
+   * @default false
+   */
+  disableFocusTrap?: boolean;
   /**
    * Delay (ms) before showing the loader while waiting for a target.
    * @default 300
