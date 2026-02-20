@@ -24,6 +24,7 @@ export default function ModalDemo() {
         placement: 'bottom',
         target: '.modal-items > div:nth-child(1)',
         spotlightClicks: true,
+        disableFocusTrap: true,
       },
       {
         content: 'Tabs or spaces? 🤔',
