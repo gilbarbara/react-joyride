@@ -66,6 +66,7 @@ export default function getStyles(props: Props, step: StepMerged) {
       ...buttonBase,
       display: hideBeacon ? 'none' : 'inline-block',
       height: options.beaconSize,
+      borderRadius: '50%',
       position: 'relative',
       width: options.beaconSize,
       zIndex: options.zIndex,
