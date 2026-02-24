@@ -1,5 +1,5 @@
 import { ElementType, MouseEventHandler, ReactNode, RefCallback, RefObject } from 'react';
-import { Props as FProps } from 'react-floater';
+import { AutoUpdateOptions, Middleware, MiddlewareData, Strategy } from '@floating-ui/react-dom';
 import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
 import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
@@ -29,9 +29,9 @@ export type BaseProps = {
    */
   disableScrolling?: boolean;
   /**
-   * Options to be passed to react-floater
+   * Options for the floating tooltip positioning.
    */
-  floaterProps?: Partial<FloaterProps>;
+  floatingOptions?: Partial<FloatingOptions>;
   /**
    * Hide the Back button.
    * @default false
@@ -136,8 +136,6 @@ export type CallBackProps = {
    */
   type: Events;
 };
-
-export type FloaterProps = Omit<FProps, 'content' | 'component'>;
 
 export type LoaderRenderProps = {
   step: StepMerged;
@@ -254,9 +252,9 @@ export type Step = Simplify<
        */
       event?: 'click' | 'hover';
       /**
-       * Options to be passed to react-floater
+       * Options for the floating positioning.
        */
-      floaterProps?: Partial<FloaterProps>;
+      floatingOptions?: Partial<FloatingOptions>;
       /**
        * Hide the tooltip's footer.
        * @default false
@@ -340,13 +338,12 @@ export type StepOptions = {
 
 export type StepProps = Simplify<
   StoreState & {
-    cleanupPoppers: () => void;
     continuous: boolean;
     debug: boolean;
     helpers: StoreHelpers;
     nonce?: string;
-    portalElement: SelectorOrElement;
-    setPopper: NonNullable<FloaterProps['getPopper']>;
+    portalElement: HTMLElement | null;
+    setPositionData: (name: 'beacon' | 'tooltip', data: PositionData) => void;
     shouldScroll: boolean;
     step: StepMerged;
     updateState: (state: Partial<StoreState>) => void;
@@ -419,3 +416,41 @@ export type TooltipRenderProps = Simplify<
     };
   }
 >;
+
+export interface FloatingOptions {
+  /**
+   * Options passed to autoUpdate (ancestorScroll, elementResize, animationFrame, etc).
+   */
+  autoUpdate?: Partial<AutoUpdateOptions>;
+  /**
+   * Beacon positioning config.
+   */
+  beaconOptions?: { offset?: number };
+  /**
+   * Hide the arrow element.
+   * Centered placement already hides the arrow.
+   *
+   * @default false
+   */
+  hideArrow?: boolean;
+  /**
+   * Additional Floating UI middleware appended to defaults (offset, flip/autoPlacement, shift, arrow).
+   */
+  middleware?: Array<Middleware>;
+  /**
+   * Called after each position calculation.
+   */
+  onPosition?: (data: PositionData) => void;
+  /**
+   * Positioning strategy.
+   * Defaults to 'fixed' when step.isFixed is true, 'absolute' otherwise.
+   */
+  strategy?: Strategy;
+}
+
+export interface PositionData {
+  middlewareData: MiddlewareData;
+  placement: Placement;
+  x: number;
+  y: number;
+}

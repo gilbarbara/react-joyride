@@ -123,6 +123,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
 
   return (
     <div
+      aria-hidden="true"
       className="react-joyride__overlay"
       data-test-id="overlay"
       onClick={onClickOverlay}

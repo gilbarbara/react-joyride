@@ -84,6 +84,8 @@ export default function useLifecycleEffect({
     }
 
     if (status === STATUS.RUNNING && step && lifecycle === LIFECYCLE.INIT) {
+      store.current.cleanupPositionData();
+
       // If polling for a different target (step changed), restart
       if (pollingRef.current && pollingTargetRef.current !== step.target) {
         clearPolling();
@@ -146,8 +148,8 @@ export default function useLifecycleEffect({
     }
 
     if (
+      !controlled &&
       status === STATUS.RUNNING &&
-      step?.placement === 'center' &&
       changedState('lifecycle', LIFECYCLE.COMPLETE) &&
       index < size
     ) {
@@ -170,6 +172,7 @@ export default function useLifecycleEffect({
       step &&
       status === STATUS.RUNNING &&
       lifecycle !== LIFECYCLE.INIT &&
+      lifecycle !== LIFECYCLE.COMPLETE &&
       changedState('lifecycle')
     ) {
       // eslint-disable-next-line no-console
@@ -185,6 +188,7 @@ export default function useLifecycleEffect({
         store.current.updateState({
           action: ACTIONS.UPDATE,
           index: index + (action === ACTIONS.PREV ? -1 : 1),
+          lifecycle: LIFECYCLE.INIT,
         });
       }
     }

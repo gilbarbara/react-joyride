@@ -21,7 +21,7 @@ exports[`Beacon > should render the default beacon with correct structure 1`] = 
   aria-label="Open the dialog"
   class="react-joyride__beacon"
   data-test-id="button-beacon"
-  style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px; z-index: 100;"
+  style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px;"
   title="Open the dialog"
   type="button"
 >

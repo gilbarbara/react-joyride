@@ -71,75 +71,60 @@ Check [styles.js](https://github.com/gilbarbara/react-joyride/blob/main/src/styl
 
 Or, if you need finer control, you can use your own components for the beacon and tooltip. Check the [custom components](custom-components.md) documentation.
 
-If you want to customize the arrow, check [react-floater](https://github.com/gilbarbara/react-floater) documentation.
+To customize the arrow, use the `styles.arrow` option with `base` (width) and `size` (depth) properties.
 
-## Component Hierarchy and Advanced Styling
+## Advanced Positioning
 
-React Joyride uses a component hierarchy for positioning and styling:
+React Joyride uses [@floating-ui/react-dom](https://floating-ui.com/) for tooltip positioning.
 
-React Joyride → React Floater → Popper.js
+To control positioning behavior, use the `floatingOptions` prop:
 
-To control advanced positioning and styling behavior, you can pass options through this
-component chain using the `floaterProps` prop:
+```tsx
+import { shift } from '@floating-ui/react-dom';
+
+<Joyride
+  steps={steps}
+  floatingOptions={{
+    strategy: 'fixed',
+    middleware: [
+      shift({ padding: 10 }),
+    ],
+  }}
+/>
+```
+
+The default middleware stack includes `offset`, `flip` (or `autoPlacement` for `auto` placement), `shift`, and `arrow`. Any middleware you pass via `floatingOptions.middleware` is appended to these defaults.
+
+### Arrow Styling
+
+Arrow appearance is controlled via the `styles` prop:
 
 ```tsx
 <Joyride
   steps={steps}
-  floaterProps={{
-    // Styling for React Floater
-    styles: {
-      floater: { filter: 'none' },
-      arrow: {
-        size: 20,  // Width of the base of the arrow
-        base: 10   // Distance from the tip to the edge
-      },
-    },
-    // Popper.js modifiers
-    modifiers: {
-      arrow: {
-        options: {
-          padding: 20, // Controls arrow positioning padding
-        },
-      },
-      offset: {
-        options: {
-          offset: [0, 20], // Adjusts main tooltip position
-        },
-      },
+  styles={{
+    arrow: {
+      base: 32,  // Width of the arrow base (default: 32)
+      size: 16,  // Depth of the arrow (default: 16)
     },
   }}
 />
 ```
 
-### Common Use Case: Adjusting Arrow Position for Rounded Corners
+### Beacon Positioning
 
-A common styling challenge is adjusting arrow positioning when using tooltips with rounded corners.
-Here's an example of how to adjust the arrow position to accommodate border-radius styling:
+Beacon placement can be customized independently:
 
 ```tsx
 <Joyride
   steps={steps}
-  floaterProps={{
-    styles: {
-      floater: {
-        borderRadius: '8px',
-      },
-      arrow: {
-        size: 16,
-        base: 8,
-      }
-    },
-    modifiers: {
-      arrow: {
-        options: {
-          padding: 12, // Increase padding to prevent arrow from aligning with rounded corners
-        },
-      },
+  floatingOptions={{
+    beaconOptions: {
+      offset: -10,       // Distance from target (default: -18)
+      placement: 'top',  // Override beacon placement
     },
   }}
 />
 ```
 
-For detailed configuration options, see the [Popper.js modifiers documentation](https://popper.js.org/docs/v2/modifiers/), particularly the [arrow modifier](https://popper.js.org/docs/v2/modifiers/arrow/).
-
-Note that solutions found in older issues (before v2) may not work with current versions due to changes in the underlying positioning library.
+For detailed configuration options, see the [Floating UI middleware documentation](https://floating-ui.com/docs/middleware).

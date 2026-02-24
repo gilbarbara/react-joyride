@@ -45,7 +45,7 @@ It can be:
 - auto \(it will choose the best position\)
 - center \(set the target to `body`\)
 
-Check [react-floater](https://github.com/gilbarbara/react-floater) for more information.
+Check the [Floating UI placement docs](https://floating-ui.com/docs/computePosition#placement) for more information.
 
 **placementBeacon** `string` ▶︎ placement  
 The beacon's placement can be top, bottom, left, or right. If nothing is passed, it will use the `placement`.
@@ -68,7 +68,7 @@ Step will inherit some properties from Joyride's own [props](props.md), but you 
 - disableOverlay
 - disableOverlayClose
 - disableScrolling
-- floaterProps - Options passed to React Floater for positioning and styling. Step-level floaterProps are merged with component-level floaterProps, allowing per-step customization of tooltip appearance and positioning. See [styling documentation](styling.md#component-hierarchy-and-advanced-styling) for detailed examples.
+- floatingOptions - Options passed to Floating UI for positioning. Step-level floatingOptions are merged with component-level floatingOptions, allowing per-step customization. See [styling documentation](styling.md#advanced-positioning) for detailed examples.
 - hideBackButton
 - hideCloseButton
 - locale

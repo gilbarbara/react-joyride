@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
-  children: ReactElement;
+  children: ReactNode;
   element: HTMLElement | null;
 }
 

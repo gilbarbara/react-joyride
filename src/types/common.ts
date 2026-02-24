@@ -1,6 +1,5 @@
 import { CSSProperties, ReactNode } from 'react';
-import { Styles as FloaterStyles } from 'react-floater';
-import { PartialDeep, ValueOf } from '@gilbarbara/types';
+import { ValueOf } from '@gilbarbara/types';
 
 import { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 
@@ -77,6 +76,12 @@ export interface Locale {
 }
 
 export interface Styles {
+  arrow: CSSProperties & {
+    /** Width of the arrow base. @default 32 */
+    base: number;
+    /** Height/depth of the arrow (tip to edge). @default 16 */
+    size: number;
+  };
   beacon: CSSProperties;
   beaconInner: CSSProperties;
   beaconOuter: CSSProperties;
@@ -84,7 +89,8 @@ export interface Styles {
   buttonClose: CSSProperties;
   buttonNext: CSSProperties;
   buttonSkip: CSSProperties;
-  options: Partial<StylesOptions>;
+  floater: CSSProperties;
+  options: StylesOptions;
   overlay: CSSProperties;
   overlayLegacy: CSSProperties;
   overlayLegacyCenter: CSSProperties;
@@ -108,8 +114,4 @@ export interface StylesOptions {
   textColor: string;
   width?: string | number;
   zIndex: number;
-}
-
-export interface StylesWithFloaterStyles extends Styles {
-  floaterStyles: PartialDeep<FloaterStyles>;
 }

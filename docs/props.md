@@ -29,42 +29,31 @@ Don't close the tooltip when clicking the overlay.
 **disableScrolling** `boolean` ▶︎ **false**  
 Disable autoscrolling between steps.
 
-**floaterProps** `Partial<FloaterProps>`  
-Options to be passed to [react-floater](https://github.com/gilbarbara/react-floater), which in turn passes certain options to [Popper.js](https://popper.js.org/).
+**floatingOptions** `Partial<FloatingOptions>`
+Options to control tooltip positioning via [@floating-ui/react-dom](https://floating-ui.com/).
 
-This prop is essential for controlling advanced positioning, arrow styling, and tooltip appearance. It follows the component hierarchy: React Joyride → React Floater → Popper.js.
+- **autoUpdate** `Partial<AutoUpdateOptions>` — Options passed to [autoUpdate](https://floating-ui.com/docs/autoUpdate) (ancestorScroll, elementResize, animationFrame, etc).
+- **beaconOptions** `{ offset?: number; placement?: Placement }` — Beacon positioning config. Default offset is `-18`.
+- **hideArrow** `boolean` — Hide the tooltip arrow. Centered placement already hides the arrow. Default: `false`.
+- **middleware** `Array<Middleware>` — Additional [Floating UI middleware](https://floating-ui.com/docs/middleware) appended to the defaults (offset, flip/autoPlacement, shift, arrow).
+- **onPosition** `(data: PositionData) => void` — Called after each position calculation.
+- **strategy** `'absolute' | 'fixed'` — Positioning strategy. Defaults to `'fixed'` when `step.isFixed` is true, `'absolute'` otherwise.
 
-Common uses include:
 ```tsx
-floaterProps={{
-  // React Floater styling
-  styles: {
-    floater: { /* tooltip container styles */ },
-    arrow: {
-      size: 20, // Width of the base of the arrow
-      base: 10  // Distance from the tip to the edge
-    },
+import { size } from '@floating-ui/react-dom';
+
+floatingOptions={{
+  strategy: 'fixed',
+  middleware: [
+    size({ padding: 10 }),
+  ],
+  beaconOptions: {
+    offset: -10,
   },
-  // Popper.js modifiers
-  // See: https://popper.js.org/docs/v2/modifiers/
-  modifiers: {
-    // Arrow modifier: https://popper.js.org/docs/v2/modifiers/arrow/
-    arrow: {
-      options: {
-        padding: 20 // Prevents arrow from reaching corners
-      }
-    },
-    // Offset modifier: https://popper.js.org/docs/v2/modifiers/offset/
-    offset: {
-      options: {
-        offset: [0, 20]
-      }
-    },
-  }
 }}
 ```
 
-See the [styling documentation](styling.md#component-hierarchy-and-advanced-styling) for more detailed examples and the [Popper.js modifiers documentation](https://popper.js.org/docs/v2/modifiers/) for advanced positioning options.
+See the [styling documentation](styling.md#advanced-positioning) for more examples.
 
 **getHelpers** `(helpers: StoreHelpers) => void`  
 Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`.

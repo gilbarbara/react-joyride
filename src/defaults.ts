@@ -1,18 +1,10 @@
 import { noop } from '~/modules/helpers';
 
-import { FloaterProps, Locale, Props, Step } from '~/types';
+import { FloatingOptions, Locale, Props, Step } from '~/types';
 
-export const defaultFloaterProps: Omit<FloaterProps, 'component'> = {
-  modifiers: {
-    preventOverflow: {
-      options: {
-        rootBoundary: 'viewport',
-      },
-    },
-  },
-  wrapperOptions: {
+export const defaultFloatingOptions: FloatingOptions = {
+  beaconOptions: {
     offset: -18,
-    position: true,
   },
 };
 

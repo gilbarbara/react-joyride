@@ -1,5 +1,4 @@
 import { RefObject, useEffect, useRef } from 'react';
-import { Props as FloaterProps } from 'react-floater';
 import { useEffectDeepCompare } from '@gilbarbara/hooks';
 
 import { defaultProps } from '~/defaults';
@@ -17,10 +16,9 @@ import {
 import { logDebug, mergeProps } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Lifecycle, Props, StepMerged, StoreState } from '~/types';
+import { Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
-type PopperData = Parameters<NonNullable<FloaterProps['getPopper']>>[0];
 type Value = import('tree-changes-hook').Value;
 
 interface UseScrollEffectParams {
@@ -35,29 +33,27 @@ interface UseScrollEffectParams {
 function adjustForPlacement(
   scrollY: number,
   options: {
-    beaconPopper: PopperData | null;
+    beaconPosition: PositionData | null;
     lifecycle: Lifecycle;
     scrollOffset: number;
     step: StepMerged;
-    tooltipPopper: PopperData | null;
+    tooltipPosition: PositionData | null;
   },
 ): number {
-  const { beaconPopper, lifecycle, scrollOffset, step, tooltipPopper } = options;
+  const { beaconPosition, lifecycle, scrollOffset, step, tooltipPosition } = options;
   let adjustedY = scrollY;
 
-  if (lifecycle === LIFECYCLE.BEACON && beaconPopper?.state?.placement) {
-    const { modifiersData, placement } = beaconPopper.state;
-    const y = modifiersData?.offset?.top?.y ?? 0;
+  if (lifecycle === LIFECYCLE.BEACON && beaconPosition?.placement) {
+    const y = getMainAxisOffset(beaconPosition);
 
-    if (!['bottom'].includes(placement)) {
+    if (!['bottom'].includes(beaconPosition.placement)) {
       adjustedY += Math.floor(y - scrollOffset);
     }
-  } else if (lifecycle === LIFECYCLE.TOOLTIP && tooltipPopper?.state?.placement) {
-    const { modifiersData, placement } = tooltipPopper.state;
-    const y = modifiersData?.offset?.top?.y ?? 0;
-    const flipped = placement !== step.placement;
+  } else if (lifecycle === LIFECYCLE.TOOLTIP && tooltipPosition?.placement) {
+    const y = getMainAxisOffset(tooltipPosition);
+    const flipped = tooltipPosition.placement !== step.placement;
 
-    if (['left', 'right', 'top'].includes(placement) && !flipped) {
+    if (['left', 'right', 'top'].includes(tooltipPosition.placement) && !flipped) {
       adjustedY += Math.floor(y - scrollOffset);
     } else {
       adjustedY -= step.spotlightPadding;
@@ -65,6 +61,16 @@ function adjustForPlacement(
   }
 
   return Math.max(0, adjustedY);
+}
+
+function getMainAxisOffset(data: PositionData): number {
+  const offsetData = data.middlewareData?.offset as { x: number; y: number } | undefined;
+
+  if (!offsetData) {
+    return 0;
+  }
+
+  return ['left', 'right'].some(p => data.placement.startsWith(p)) ? offsetData.x : offsetData.y;
 }
 
 export default function useScrollEffect({
@@ -91,10 +97,10 @@ export default function useScrollEffect({
     }
 
     const target = getElement(step.target);
-    const beaconPopper = store.current.getPopper('beacon');
-    const tooltipPopper = store.current.getPopper('tooltip');
+    const beaconPosition = store.current.getPositionData('beacon');
+    const tooltipPosition = store.current.getPositionData('tooltip');
 
-    if (status === STATUS.RUNNING && scrolling && changedState('scrolling', true)) {
+    if (status === STATUS.RUNNING && changedState('scrolling', true)) {
       const hasCustomScroll = hasCustomScrollParent(target);
       const scrollParent = getScrollParent(target);
 
@@ -125,11 +131,11 @@ export default function useScrollEffect({
 
         const baseScrollY = Math.floor(getScrollTo(target, scrollOffset)) || 0;
         const scrollY = adjustForPlacement(baseScrollY, {
-          beaconPopper,
+          beaconPosition,
           lifecycle,
           scrollOffset,
           step,
-          tooltipPopper,
+          tooltipPosition,
         });
 
         const { cancel, promise } = scrollTo(scrollY, {

@@ -31,24 +31,28 @@ test('modal', async ({ page }) => {
 
   await test.step('Step 2 - Tab navigation', async () => {
     await page.getByTestId('button-primary').click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('Tabs or spaces?');
     await expect(page).toHaveScreenshot('step2-tooltip.png');
   });
 
   await test.step('Step 3 - Button', async () => {
     await page.getByTestId('button-primary').click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText("A button! That's rare");
     await expect(page).toHaveScreenshot('step3-tooltip.png');
   });
 
   await test.step('Step 4 - Inside', async () => {
     await page.getByTestId('button-primary').click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText("what's inside my mind");
     await expect(page).toHaveScreenshot('step4-tooltip.png');
   });
 
   await test.step('Step 5 - The modal', async () => {
     await page.getByTestId('button-primary').click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('Modal, Portal, Quintal!');
     await expect(page).toHaveScreenshot('step5-tooltip.png');
   });

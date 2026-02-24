@@ -1,14 +1,11 @@
-import { Props as FloaterProps } from 'react-floater';
-import { SetRequired } from '@gilbarbara/types';
 import is from 'is-lite';
 
-import { defaultFloaterProps, defaultLocale, defaultStep } from '~/defaults';
+import { defaultFloatingOptions, defaultLocale, defaultStep } from '~/defaults';
 import getStyles from '~/styles';
 
-import { Locale, Props, Step, StepMerged } from '~/types';
+import { FloatingOptions, Locale, Props, Step, StepMerged } from '~/types';
 
-import { getElement, hasCustomScrollParent } from './dom';
-import { deepMerge, logDebug, omit, pick } from './helpers';
+import { deepMerge, logDebug, pick } from './helpers';
 
 function getTourProps(props: Props) {
   return {
@@ -19,7 +16,7 @@ function getTourProps(props: Props) {
       'disableOverlay',
       'disableOverlayClose',
       'disableScrolling',
-      'floaterProps',
+      'floatingOptions',
       'hideBackButton',
       'hideCloseButton',
       'loaderComponent',
@@ -44,39 +41,17 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
   const mergedStep = deepMerge<StepMerged>(defaultStep, getTourProps(props), step);
 
   const mergedStyles = getStyles(props, mergedStep);
-  const scrollParent = hasCustomScrollParent(getElement(mergedStep.target));
-  const floaterProps = deepMerge<SetRequired<FloaterProps, 'modifiers' | 'wrapperOptions'>>(
-    defaultFloaterProps,
-    props.floaterProps ?? {},
-    mergedStep.floaterProps ?? {},
+  const floatingOptions = deepMerge<FloatingOptions>(
+    defaultFloatingOptions,
+    props.floatingOptions ?? {},
+    mergedStep.floatingOptions ?? {},
   );
-
-  // Set react-floater props
-  floaterProps.offset = mergedStep.offset;
-  floaterProps.styles = deepMerge<NonNullable<FloaterProps['styles']>>(
-    floaterProps.styles ?? {},
-    mergedStyles.floaterStyles,
-  );
-
-  floaterProps.offset += props.spotlightPadding ?? mergedStep.spotlightPadding ?? 0;
-
-  if (mergedStep.placementBeacon && floaterProps.wrapperOptions) {
-    floaterProps.wrapperOptions.placement = mergedStep.placementBeacon;
-  }
-
-  if (scrollParent && floaterProps.modifiers.preventOverflow) {
-    floaterProps.modifiers.preventOverflow.options = {
-      ...floaterProps.modifiers.preventOverflow.options,
-      rootBoundary: 'viewport',
-      boundary: 'clippingParents',
-    };
-  }
 
   return {
     ...mergedStep,
     locale: deepMerge<Locale>(defaultLocale, props.locale ?? {}, mergedStep.locale || {}),
-    floaterProps,
-    styles: omit(mergedStyles, 'floaterStyles'),
+    floatingOptions,
+    styles: mergedStyles,
   };
 }
 

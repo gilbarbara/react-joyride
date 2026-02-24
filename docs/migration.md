@@ -29,7 +29,7 @@ the space, return, and tab keys are now controlled with tabIndex
 
 **showStepsProgress** `false` ▶︎ **showProgress** `false`
 
-**tooltipOffset** `30` ▶︎ Use the step **floaterProps.offset**
+**tooltipOffset** `30` ▶︎ Use the step **offset** prop
 
 **type** `'single'` ▶︎ **continuous** `false`
 
