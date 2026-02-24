@@ -33,27 +33,25 @@ describe('styles', () => {
     expect(getStyles(props, getMergedStep(props, baseStep)!)).toMatchSnapshot();
   });
 
-  it("should return the component floaterProps' arrow color instead of styles.options.arrowColor", () => {
+  it('should return styles.arrow.color over styles.options.arrowColor (component level)', () => {
     expect(
       getStyles(
         {
           ...props,
-          floaterProps: { styles: { arrow: { color: '#f00' } } },
-          styles: { options: { arrowColor: '#00f' } },
+          styles: { arrow: { color: '#f00' }, options: { arrowColor: '#00f' } },
         },
         getMergedStep(props, baseStep)!,
       ),
     ).toMatchSnapshot();
   });
 
-  it("should return the step floaterProps' arrow color instead of styles.options.arrowColor", () => {
+  it('should return styles.arrow.color over styles.options.arrowColor (step level)', () => {
     expect(
       getStyles(
         props,
         getMergedStep(props, {
           ...baseStep,
-          floaterProps: { styles: { arrow: { color: '#f00' } } },
-          styles: { options: { arrowColor: '#00f' } },
+          styles: { arrow: { color: '#f00' }, options: { arrowColor: '#00f' } },
         })!,
       ),
     ).toMatchSnapshot();

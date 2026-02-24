@@ -1,7 +1,5 @@
-import { Props as FloaterProps } from 'react-floater';
-
 import { deepMerge, hexToRGB } from './modules/helpers';
-import { Props, StepMerged, Styles, StylesOptions, StylesWithFloaterStyles } from './types';
+import { Props, StepMerged, Styles, StylesOptions } from './types';
 
 const defaultOptions = {
   arrowColor: '#fff',
@@ -33,8 +31,7 @@ const spotlight = {
 };
 
 export default function getStyles(props: Props, step: StepMerged) {
-  const { floaterProps, styles } = props;
-  const mergedFloaterProps = deepMerge<FloaterProps>(step.floaterProps ?? {}, floaterProps ?? {});
+  const { styles } = props;
   const mergedStyles = deepMerge<Styles>(styles ?? {}, step.styles ?? {});
   const options = deepMerge<StylesOptions>(defaultOptions, mergedStyles.options || {});
   const hideBeacon = step.placement === 'center' || step.disableBeacon;
@@ -62,6 +59,13 @@ export default function getStyles(props: Props, step: StepMerged) {
   };
 
   const defaultStyles = {
+    arrow: {
+      base: 32,
+      color: options.arrowColor,
+      display: 'inline-flex',
+      position: 'absolute',
+      size: 16,
+    },
     beacon: {
       ...buttonBase,
       display: hideBeacon ? 'none' : 'inline-block',
@@ -69,7 +73,6 @@ export default function getStyles(props: Props, step: StepMerged) {
       borderRadius: '50%',
       position: 'relative',
       width: options.beaconSize,
-      zIndex: options.zIndex,
     },
     beaconInner: {
       animation: 'joyride-beacon-inner 1.2s infinite ease-in-out',
@@ -98,6 +101,59 @@ export default function getStyles(props: Props, step: StepMerged) {
       top: 0,
       transformOrigin: 'center',
       width: '100%',
+    },
+    buttonNext: {
+      ...buttonBase,
+      backgroundColor: options.primaryColor,
+      borderRadius: 4,
+      color: '#fff',
+    },
+    buttonBack: {
+      ...buttonBase,
+      color: options.primaryColor,
+      marginLeft: 'auto',
+      marginRight: 5,
+    },
+    buttonClose: {
+      ...buttonBase,
+      color: options.textColor,
+      height: 14,
+      padding: 15,
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      width: 14,
+    },
+    buttonSkip: {
+      ...buttonBase,
+      color: options.textColor,
+      fontSize: 14,
+    },
+    floater: {
+      display: 'inline-block',
+      filter: 'drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))',
+      maxWidth: '100%',
+      transition: 'opacity 0.3s',
+    },
+    overlay: {
+      ...overlay,
+      backgroundColor: options.overlayColor,
+      mixBlendMode: 'hard-light',
+    },
+    overlayLegacy: {
+      ...overlay,
+    },
+    overlayLegacyCenter: {
+      ...overlay,
+      backgroundColor: options.overlayColor,
+    },
+    spotlight: {
+      ...spotlight,
+      backgroundColor: 'gray',
+    },
+    spotlightLegacy: {
+      ...spotlight,
+      boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
     },
     tooltip: {
       backgroundColor: options.backgroundColor,
@@ -130,63 +186,8 @@ export default function getStyles(props: Props, step: StepMerged) {
     tooltipFooterSpacer: {
       flex: 1,
     },
-    buttonNext: {
-      ...buttonBase,
-      backgroundColor: options.primaryColor,
-      borderRadius: 4,
-      color: '#fff',
-    },
-    buttonBack: {
-      ...buttonBase,
-      color: options.primaryColor,
-      marginLeft: 'auto',
-      marginRight: 5,
-    },
-    buttonClose: {
-      ...buttonBase,
-      color: options.textColor,
-      height: 14,
-      padding: 15,
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      width: 14,
-    },
-    buttonSkip: {
-      ...buttonBase,
-      color: options.textColor,
-      fontSize: 14,
-    },
-    overlay: {
-      ...overlay,
-      backgroundColor: options.overlayColor,
-      mixBlendMode: 'hard-light',
-    },
-    overlayLegacy: {
-      ...overlay,
-    },
-    overlayLegacyCenter: {
-      ...overlay,
-      backgroundColor: options.overlayColor,
-    },
-    spotlight: {
-      ...spotlight,
-      backgroundColor: 'gray',
-    },
-    spotlightLegacy: {
-      ...spotlight,
-      boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
-    },
-    floaterStyles: {
-      arrow: {
-        color: mergedFloaterProps?.styles?.arrow?.color ?? options.arrowColor,
-      },
-      options: {
-        zIndex: options.zIndex + 100,
-      },
-    },
     options,
   };
 
-  return deepMerge<StylesWithFloaterStyles>(defaultStyles, mergedStyles);
+  return deepMerge<Styles>(defaultStyles, mergedStyles);
 }

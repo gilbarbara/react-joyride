@@ -74,13 +74,12 @@ function Joyride(props: Props) {
       {!state.waiting && (
         <Step
           {...state}
-          cleanupPoppers={store.current.cleanupPoppers}
           continuous={continuous}
           debug={debug}
           helpers={store.current.getHelpers()}
           nonce={nonce}
           portalElement={element}
-          setPopper={store.current.setPopper}
+          setPositionData={store.current.setPositionData}
           shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
           step={step}
           updateState={store.current.updateState}

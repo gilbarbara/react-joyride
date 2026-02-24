@@ -1,6 +1,5 @@
 import { LIFECYCLE, STATUS } from '~/literals';
 import createStore from '~/modules/store';
-import { fromPartial } from '~/test-utils';
 
 import { standardSteps } from '../__fixtures__/steps';
 
@@ -240,25 +239,25 @@ describe('store', () => {
     });
   });
 
-  describe('with popper', () => {
+  describe('with position data', () => {
     const store = createStore();
-    const popperData = { state: { placement: 'top' } } as const;
+    const positionData = { placement: 'top' as const, x: 0, y: -10, middlewareData: {} };
 
-    it('should set/get both poppers', () => {
-      store.setPopper(fromPartial(popperData), 'wrapper');
-      expect(store.getPopper('beacon')).toEqual(popperData);
+    it('should set/get both positions', () => {
+      store.setPositionData('beacon', positionData);
+      expect(store.getPositionData('beacon')).toEqual(positionData);
 
-      store.setPopper(fromPartial(popperData), 'floater');
-      expect(store.getPopper('tooltip')).toEqual(popperData);
+      store.setPositionData('tooltip', positionData);
+      expect(store.getPositionData('tooltip')).toEqual(positionData);
     });
 
-    it('should clear both poppers', () => {
-      expect(store.getPopper('beacon')).toEqual(popperData);
-      expect(store.getPopper('tooltip')).toEqual(popperData);
+    it('should clear both positions', () => {
+      expect(store.getPositionData('beacon')).toEqual(positionData);
+      expect(store.getPositionData('tooltip')).toEqual(positionData);
 
-      store.cleanupPoppers();
-      expect(store.getPopper('beacon')).toBeNull();
-      expect(store.getPopper('tooltip')).toBeNull();
+      store.cleanupPositionData();
+      expect(store.getPositionData('beacon')).toBeNull();
+      expect(store.getPositionData('tooltip')).toBeNull();
     });
   });
 });

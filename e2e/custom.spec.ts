@@ -18,6 +18,7 @@ test('custom components', async ({ page }) => {
 
   await test.step('Step 1 - Tooltip', async () => {
     await beacon.click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('Our awesome projects');
     await expect(page).toHaveScreenshot('step1-tooltip.png');
   });
@@ -30,6 +31,7 @@ test('custom components', async ({ page }) => {
 
   await test.step('Step 2 - Our Mission (no overlay)', async () => {
     await beacon.click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('Our Mission');
     await expect(overlay).not.toBeVisible();
     await expect(page).toHaveScreenshot('step2-tooltip.png');
@@ -43,6 +45,7 @@ test('custom components', async ({ page }) => {
 
   await test.step('Step 3 - The good stuff', async () => {
     await beacon.click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('The good stuff');
     await expect(page).toHaveScreenshot('step3-tooltip.png');
   });
@@ -55,6 +58,7 @@ test('custom components', async ({ page }) => {
 
   await test.step('Step 4 - We are the people', async () => {
     await beacon.click();
+    await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('We are the people');
     await expect(page).toHaveScreenshot('step4-tooltip.png');
   });

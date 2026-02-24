@@ -42,6 +42,9 @@ export default function BasicDemo(props: Props) {
       {
         content: <h2>Absolute elements</h2>,
         target: '.star-burst',
+        floatingOptions: {
+          hideArrow: true,
+        },
       },
       {
         content: 'These are our super awesome projects!',

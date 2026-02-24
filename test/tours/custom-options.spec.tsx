@@ -5,7 +5,7 @@ import Customized from '../__fixtures__/CustomOptions';
 
 const mockCallback = vi.fn();
 const mockFinishedCallback = vi.fn();
-const mockGetPopper = vi.fn();
+const mockOnPosition = vi.fn();
 
 vi.mock('~/modules/helpers', async () => {
   const helpers = await vi.importActual('~/modules/helpers');
@@ -21,8 +21,8 @@ const getCallbackResponse = callbackResponseFactory({ size: 4 });
 const props = {
   callback: mockCallback,
   finishedCallback: mockFinishedCallback,
-  floaterProps: {
-    getPopper: mockGetPopper,
+  floatingOptions: {
+    onPosition: mockOnPosition,
     styles: {
       arrow: {
         color: '#fff647',
@@ -51,11 +51,11 @@ describe('Joyride > Custom Options', () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
 
     await waitFor(() => {
-      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
-    expect(screen.getById('react-joyride-step-0').querySelector('div')).toMatchSnapshot('tooltip');
+    expect(screen.getById('react-joyride-step-0')).toMatchSnapshot('tooltip');
   });
 
   it('should render STEP 3 Tooltip with custom arrow and locale', async () => {
@@ -63,7 +63,7 @@ describe('Joyride > Custom Options', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     await waitFor(() => {
-      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByTestId('overlay'));
@@ -75,10 +75,10 @@ describe('Joyride > Custom Options', () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
 
     await waitFor(() => {
-      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    expect(screen.getById('react-joyride-step-2').querySelector('div')).toMatchSnapshot();
+    expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
   });
 
   it('should handle clicking the Close button', () => {
@@ -131,7 +131,7 @@ describe('Joyride > Custom Options', () => {
     fireEvent.click(screen.getByTestId('button-beacon'));
 
     await waitFor(() => {
-      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByTestId('button-primary'));
@@ -147,5 +147,9 @@ describe('Joyride > Custom Options', () => {
     );
 
     expect(mockFinishedCallback).toHaveBeenCalledTimes(1);
+  });
+
+  it('should have called onPosition', () => {
+    expect(mockOnPosition).toHaveBeenCalledTimes(8);
   });
 });

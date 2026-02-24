@@ -1,7 +1,7 @@
 import useJoyrideData from '~/hooks/useJoyrideData';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, getScrollTo, isElementVisible, scrollTo } from '~/modules/dom';
-import { act, callbackResponseFactory, fromPartial, renderHook, waitFor } from '~/test-utils';
+import { act, callbackResponseFactory, renderHook, waitFor } from '~/test-utils';
 
 import { Props, Step } from '~/types';
 
@@ -20,8 +20,6 @@ vi.mock('~/modules/dom', async () => {
     scrollTo: vi.fn(() => ({ cancel: vi.fn(), promise: Promise.resolve() })),
   };
 });
-
-const mockPopper = fromPartial({ state: { placement: 'bottom' as const } });
 
 describe('useJoyrideData', () => {
   const mockCallback = vi.fn();
@@ -98,41 +96,33 @@ describe('useJoyrideData', () => {
       );
     });
 
-    it('should advance to the next step with next() + setPopper', async () => {
+    it('should advance to the next step with next()', async () => {
       const { result } = renderHook(() => useJoyrideData(createProps()));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
-      // next() sets lifecycle=COMPLETE → fires STEP_AFTER
+      // next() sets lifecycle=COMPLETE → STEP_AFTER → COMPLETE→INIT → STEP_BEFORE → TOOLTIP
       act(() => {
         result.current.store.current.next();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.NEXT,
-            index: 0,
-            lifecycle: LIFECYCLE.COMPLETE,
-            type: EVENTS.STEP_AFTER,
-          }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Simulate Step mount → COMPLETE→INIT→READY→TOOLTIP
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(2);
+        expect(mockCallback).toHaveBeenCalledTimes(3);
       });
 
       expect(mockCallback).toHaveBeenNthCalledWith(
         1,
+        getCallbackResponse({
+          action: ACTIONS.NEXT,
+          index: 0,
+          lifecycle: LIFECYCLE.COMPLETE,
+          type: EVENTS.STEP_AFTER,
+        }),
+      );
+
+      expect(mockCallback).toHaveBeenNthCalledWith(
+        2,
         getCallbackResponse({
           action: ACTIONS.NEXT,
           index: 1,
@@ -142,7 +132,7 @@ describe('useJoyrideData', () => {
       );
 
       expect(mockCallback).toHaveBeenNthCalledWith(
-        2,
+        3,
         getCallbackResponse({
           action: ACTIONS.UPDATE,
           index: 1,
@@ -186,16 +176,6 @@ describe('useJoyrideData', () => {
 
       act(() => {
         result.current.store.current.next();
-      });
-      await waitFor(() =>
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER }),
-        ),
-      );
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
 
       await waitFor(() => {
@@ -310,7 +290,7 @@ describe('useJoyrideData', () => {
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
-      // Make step 1 target not found
+      // Make .missing target not found before advancing
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.missing') return null;
 
@@ -321,6 +301,7 @@ describe('useJoyrideData', () => {
         result.current.store.current.next();
       });
 
+      // STEP_AFTER fires, then COMPLETE→INIT, INIT polls, TARGET_NOT_FOUND, auto-advance to step 3
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
@@ -332,11 +313,7 @@ describe('useJoyrideData', () => {
         expect.objectContaining({ target: '.missing' }),
       );
 
-      // Simulate Step mount for step 2 (auto-advanced)
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
-      });
-
+      // Auto-advance sets lifecycle=INIT → step 3 shows
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 2 }),
@@ -417,19 +394,7 @@ describe('useJoyrideData', () => {
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
-      act(() => {
-        result.current.store.current.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Make step-2 target missing AFTER STEP_AFTER fires but BEFORE setPopper
+      // Make step-2 target missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.step-2') return null;
 
@@ -437,9 +402,10 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.next();
       });
 
+      // COMPLETE→INIT starts polling (target missing)
       // No STEP_BEFORE yet — target missing, polling in INIT
       const stepBeforeCalls = mockCallback.mock.calls.filter(
         (call: any[]) => call[0]?.type === EVENTS.STEP_BEFORE && call[0]?.index === 1,
@@ -470,19 +436,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
       consoleWarnSpy.mockClear();
 
-      act(() => {
-        result.current.store.current.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Make .missing target permanently missing AFTER STEP_AFTER
+      // Make .missing target permanently missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.missing') return null;
 
@@ -490,9 +444,10 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.next();
       });
 
+      // STEP_AFTER fires, then COMPLETE→INIT starts polling for 200ms
       // Wait for polling to time out and fire TARGET_NOT_FOUND
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -523,19 +478,7 @@ describe('useJoyrideData', () => {
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
-      act(() => {
-        result.current.store.current.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Make target missing AFTER STEP_AFTER
+      // Make target missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.missing') return null;
 
@@ -543,7 +486,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.next();
       });
 
       // TARGET_NOT_FOUND should fire immediately without polling delay
@@ -612,17 +555,7 @@ describe('useJoyrideData', () => {
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
-      act(() => {
-        result.current.store.current.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
-        );
-      });
-
-      // Make .slow target missing AFTER STEP_AFTER
+      // Make .slow target missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.slow') return null;
 
@@ -630,9 +563,10 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
+        result.current.store.current.next();
       });
 
+      // COMPLETE→INIT starts polling (target missing)
       // Before loaderDelay: waiting should be false
       expect(result.current.state.waiting).toBe(false);
 
@@ -872,16 +806,6 @@ describe('useJoyrideData', () => {
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER }),
-        );
-      });
-
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
@@ -971,17 +895,7 @@ describe('useJoyrideData', () => {
         result.current.store.current.next();
       });
 
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER }),
-        );
-      });
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
-      });
-
+      // next() triggers STEP_AFTER → STEP_BEFORE with NEXT action preserved
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           getCallbackResponse({
@@ -994,7 +908,7 @@ describe('useJoyrideData', () => {
       });
     });
 
-    it('should reset center placement from COMPLETE to INIT', async () => {
+    it('should reset any placement from COMPLETE to INIT', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', placement: 'center', disableBeacon: true },
         { target: '.step-2', content: 'Step 2', disableBeacon: true },
@@ -1009,12 +923,11 @@ describe('useJoyrideData', () => {
       });
       mockCallback.mockClear();
 
-      // Manually set lifecycle to COMPLETE on the center step
+      // Manually set lifecycle to COMPLETE — should reset COMPLETE→INIT→READY→TOOLTIP
       act(() => {
         result.current.store.current.updateState({ lifecycle: LIFECYCLE.COMPLETE });
       });
 
-      // The center check should reset COMPLETE→INIT, then advance INIT→READY→TOOLTIP
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
@@ -1040,33 +953,14 @@ describe('useJoyrideData', () => {
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
-        );
-      });
-
-      mockCallback.mockClear();
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
 
+      // Advance to step 3
       mockCallback.mockClear();
       act(() => {
         result.current.store.current.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 1 }),
-        );
-      });
-
-      mockCallback.mockClear();
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -1074,7 +968,7 @@ describe('useJoyrideData', () => {
         );
       });
 
-      // Now at step 2 (index 2). Make step 1 target missing.
+      // Now at step 3 (index 2). Make step 2 target missing.
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.missing') return null;
 
@@ -1087,18 +981,14 @@ describe('useJoyrideData', () => {
         result.current.store.current.prev();
       });
 
-      // Should fire TARGET_NOT_FOUND for step 1 (index 1)
+      // STEP_AFTER for step 3, then TARGET_NOT_FOUND for step 2 (index 1)
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
         );
       });
 
-      // Should auto-advance backward to step 0, not forward
-      act(() => {
-        result.current.store.current.setPopper(mockPopper as any, 'wrapper');
-      });
-
+      // Auto-advance backward to step 1 (index 0)
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 0 }),

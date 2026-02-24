@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-import { defaultFloaterProps, defaultLocale, defaultStep } from '~/defaults';
+import { defaultFloatingOptions, defaultLocale, defaultStep } from '~/defaults';
 import { noop } from '~/modules/helpers';
 import { getMergedStep, validateStep, validateSteps } from '~/modules/step';
 import { fromPartial } from '~/test-utils';
@@ -9,7 +9,6 @@ import { Props, Step } from '~/types';
 
 vi.mock('~/modules/dom', () => ({
   getElement: vi.fn(() => document.createElement('div')),
-  hasCustomScrollParent: vi.fn(() => false),
 }));
 
 const baseProps: Props = {
@@ -191,60 +190,25 @@ describe('step', () => {
       expect(result?.locale.skip).toBe(defaultLocale.skip);
     });
 
-    it('should merge floaterProps from defaults, props, and step', () => {
+    it('should merge floatingOptions from defaults, props, and step', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        floaterProps: {
-          hideArrow: true,
+        floatingOptions: {
+          strategy: 'fixed',
         },
       });
       const step: Step = {
         ...baseStep,
-        floaterProps: {
-          autoOpen: true,
+        floatingOptions: {
+          beaconOptions: { offset: -10 },
         },
       };
 
       const result = getMergedStep(props, step);
 
-      expect(result?.floaterProps?.hideArrow).toBe(true);
-      expect(result?.floaterProps?.autoOpen).toBe(true);
-      expect(result?.floaterProps?.wrapperOptions).toEqual(defaultFloaterProps.wrapperOptions);
-    });
-
-    it('should calculate floater offset from step offset plus spotlightPadding', () => {
-      const step: Step = {
-        ...baseStep,
-        offset: 15,
-        spotlightPadding: 8,
-      };
-
-      const result = getMergedStep(baseProps, step);
-
-      expect(result?.floaterProps?.offset).toBe(23);
-    });
-
-    it('should use props spotlightPadding in offset calculation when step does not have it', () => {
-      const props = fromPartial<Props>({
-        ...baseProps,
-        spotlightPadding: 12,
-      });
-
-      const result = getMergedStep(props, baseStep);
-
-      // defaultStep.offset (10) + props.spotlightPadding (12)
-      expect(result?.floaterProps?.offset).toBe(22);
-    });
-
-    it('should set wrapperOptions.placement when placementBeacon is provided', () => {
-      const step: Step = {
-        ...baseStep,
-        placementBeacon: 'top',
-      };
-
-      const result = getMergedStep(baseProps, step);
-
-      expect(result?.floaterProps?.wrapperOptions?.placement).toBe('top');
+      expect(result?.floatingOptions?.strategy).toBe('fixed');
+      expect(result?.floatingOptions?.beaconOptions?.offset).toBe(-10);
+      expect(defaultFloatingOptions.beaconOptions?.offset).toBe(-18);
     });
 
     it('should include styles in the merged step', () => {
@@ -254,29 +218,6 @@ describe('step', () => {
       expect(result?.styles.tooltip).toBeDefined();
       expect(result?.styles.beacon).toBeDefined();
       expect(result?.styles.overlay).toBeDefined();
-    });
-
-    describe('with custom scroll parent', () => {
-      beforeEach(async () => {
-        const { hasCustomScrollParent } = await import('~/modules/dom');
-
-        vi.mocked(hasCustomScrollParent).mockReturnValue(true);
-      });
-
-      afterEach(async () => {
-        const { hasCustomScrollParent } = await import('~/modules/dom');
-
-        vi.mocked(hasCustomScrollParent).mockReturnValue(false);
-      });
-
-      it('should modify preventOverflow options', () => {
-        const result = getMergedStep(baseProps, baseStep);
-
-        expect(result?.floaterProps?.modifiers?.preventOverflow?.options).toEqual({
-          rootBoundary: 'viewport',
-          boundary: 'clippingParents',
-        });
-      });
     });
   });
 });

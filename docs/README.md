@@ -6,7 +6,7 @@
 
 Showcase your app to new users or explain the functionality of new features.
 
-It uses [react-floater](https://github.com/gilbarbara/react-floater) for positioning and styling.  
+It uses [@floating-ui/react-dom](https://floating-ui.com/) for positioning and styling.
 You can also use your own components.
 
 **Open the** [**demo**](https://react-joyride.com/)  
@@ -54,8 +54,6 @@ export default function App() {
 
 ## Library Architecture
 
-React Joyride uses [React Floater](https://github.com/gilbarbara/react-floater) for positioning and styling,
-which in turn uses [Popper.js](https://popper.js.org/).
+React Joyride uses [@floating-ui/react-dom](https://floating-ui.com/) for positioning and styling.
 
-To control the underlying positioning and styling behavior, you can pass options through 
-the component hierarchy using `floaterProps`. See the [styling documentation](styling.md) for more details.
+To control the positioning behavior, you can pass options using `floatingOptions`. See the [styling documentation](styling.md) for more details.

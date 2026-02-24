@@ -1,7 +1,14 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`styles > should return the component floaterProps' arrow color instead of styles.options.arrowColor 1`] = `
+exports[`styles > should return styles.arrow.color over styles.options.arrowColor (component level) 1`] = `
 {
+  "arrow": {
+    "base": 32,
+    "color": "#fff",
+    "display": "inline-flex",
+    "position": "absolute",
+    "size": 16,
+  },
   "beacon": {
     "WebkitAppearance": "none",
     "backgroundColor": "transparent",
@@ -16,7 +23,6 @@ exports[`styles > should return the component floaterProps' arrow color instead 
     "padding": 8,
     "position": "relative",
     "width": 36,
-    "zIndex": 100,
   },
   "beaconInner": {
     "animation": "joyride-beacon-inner 1.2s infinite ease-in-out",
@@ -97,13 +103,11 @@ exports[`styles > should return the component floaterProps' arrow color instead 
     "lineHeight": 1,
     "padding": 8,
   },
-  "floaterStyles": {
-    "arrow": {
-      "color": "#f00",
-    },
-    "options": {
-      "zIndex": 200,
-    },
+  "floater": {
+    "display": "inline-block",
+    "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
+    "maxWidth": "100%",
+    "transition": "opacity 0.3s",
   },
   "options": {
     "arrowColor": "#fff",
@@ -190,8 +194,15 @@ exports[`styles > should return the component floaterProps' arrow color instead 
 }
 `;
 
-exports[`styles > should return the default styles 1`] = `
+exports[`styles > should return styles.arrow.color over styles.options.arrowColor (step level) 1`] = `
 {
+  "arrow": {
+    "base": 32,
+    "color": "#f00",
+    "display": "inline-flex",
+    "position": "absolute",
+    "size": 16,
+  },
   "beacon": {
     "WebkitAppearance": "none",
     "backgroundColor": "transparent",
@@ -206,7 +217,6 @@ exports[`styles > should return the default styles 1`] = `
     "padding": 8,
     "position": "relative",
     "width": 36,
-    "zIndex": 100,
   },
   "beaconInner": {
     "animation": "joyride-beacon-inner 1.2s infinite ease-in-out",
@@ -287,13 +297,205 @@ exports[`styles > should return the default styles 1`] = `
     "lineHeight": 1,
     "padding": 8,
   },
-  "floaterStyles": {
-    "arrow": {
-      "color": "#fff",
-    },
-    "options": {
-      "zIndex": 200,
-    },
+  "floater": {
+    "display": "inline-block",
+    "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
+    "maxWidth": "100%",
+    "transition": "opacity 0.3s",
+  },
+  "options": {
+    "arrowColor": "#00f",
+    "backgroundColor": "#fff",
+    "beaconSize": 36,
+    "overlayColor": "rgba(0, 0, 0, 0.5)",
+    "primaryColor": "#f04",
+    "spotlightShadow": "0 0 15px rgba(0, 0, 0, 0.5)",
+    "textColor": "#333",
+    "width": 380,
+    "zIndex": 100,
+  },
+  "overlay": {
+    "backgroundColor": "rgba(0, 0, 0, 0.5)",
+    "bottom": 0,
+    "left": 0,
+    "mixBlendMode": "hard-light",
+    "overflow": "hidden",
+    "position": "absolute",
+    "right": 0,
+    "top": 0,
+    "zIndex": 100,
+  },
+  "overlayLegacy": {
+    "bottom": 0,
+    "left": 0,
+    "overflow": "hidden",
+    "position": "absolute",
+    "right": 0,
+    "top": 0,
+    "zIndex": 100,
+  },
+  "overlayLegacyCenter": {
+    "backgroundColor": "rgba(0, 0, 0, 0.5)",
+    "bottom": 0,
+    "left": 0,
+    "overflow": "hidden",
+    "position": "absolute",
+    "right": 0,
+    "top": 0,
+    "zIndex": 100,
+  },
+  "spotlight": {
+    "backgroundColor": "gray",
+    "borderRadius": 4,
+    "position": "absolute",
+  },
+  "spotlightLegacy": {
+    "borderRadius": 4,
+    "boxShadow": "0 0 0 9999px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.5)",
+    "position": "absolute",
+  },
+  "tooltip": {
+    "backgroundColor": "#fff",
+    "borderRadius": 5,
+    "boxSizing": "border-box",
+    "color": "#333",
+    "fontSize": 16,
+    "maxWidth": "100%",
+    "padding": 15,
+    "position": "relative",
+    "width": 380,
+  },
+  "tooltipContainer": {
+    "lineHeight": 1.4,
+    "textAlign": "center",
+  },
+  "tooltipContent": {
+    "padding": "20px 10px",
+  },
+  "tooltipFooter": {
+    "alignItems": "center",
+    "display": "flex",
+    "justifyContent": "flex-end",
+    "marginTop": 15,
+  },
+  "tooltipFooterSpacer": {
+    "flex": 1,
+  },
+  "tooltipTitle": {
+    "fontSize": 18,
+    "margin": 0,
+  },
+}
+`;
+
+exports[`styles > should return the default styles 1`] = `
+{
+  "arrow": {
+    "base": 32,
+    "color": "#fff",
+    "display": "inline-flex",
+    "position": "absolute",
+    "size": 16,
+  },
+  "beacon": {
+    "WebkitAppearance": "none",
+    "backgroundColor": "transparent",
+    "border": 0,
+    "borderRadius": "50%",
+    "color": "#555",
+    "cursor": "pointer",
+    "display": "inline-block",
+    "fontSize": 16,
+    "height": 36,
+    "lineHeight": 1,
+    "padding": 8,
+    "position": "relative",
+    "width": 36,
+  },
+  "beaconInner": {
+    "animation": "joyride-beacon-inner 1.2s infinite ease-in-out",
+    "backgroundColor": "#f04",
+    "borderRadius": "50%",
+    "display": "block",
+    "height": "50%",
+    "left": "50%",
+    "opacity": 0.7,
+    "position": "absolute",
+    "top": "50%",
+    "transform": "translate(-50%, -50%)",
+    "width": "50%",
+  },
+  "beaconOuter": {
+    "animation": "joyride-beacon-outer 1.2s infinite ease-in-out",
+    "backgroundColor": "rgba(255,0,68, 0.2)",
+    "border": "2px solid #f04",
+    "borderRadius": "50%",
+    "boxSizing": "border-box",
+    "display": "block",
+    "height": "100%",
+    "left": 0,
+    "opacity": 0.9,
+    "position": "absolute",
+    "top": 0,
+    "transformOrigin": "center",
+    "width": "100%",
+  },
+  "buttonBack": {
+    "WebkitAppearance": "none",
+    "backgroundColor": "transparent",
+    "border": 0,
+    "borderRadius": 0,
+    "color": "#f04",
+    "cursor": "pointer",
+    "fontSize": 16,
+    "lineHeight": 1,
+    "marginLeft": "auto",
+    "marginRight": 5,
+    "padding": 8,
+  },
+  "buttonClose": {
+    "WebkitAppearance": "none",
+    "backgroundColor": "transparent",
+    "border": 0,
+    "borderRadius": 0,
+    "color": "#333",
+    "cursor": "pointer",
+    "fontSize": 16,
+    "height": 14,
+    "lineHeight": 1,
+    "padding": 15,
+    "position": "absolute",
+    "right": 0,
+    "top": 0,
+    "width": 14,
+  },
+  "buttonNext": {
+    "WebkitAppearance": "none",
+    "backgroundColor": "#f04",
+    "border": 0,
+    "borderRadius": 4,
+    "color": "#fff",
+    "cursor": "pointer",
+    "fontSize": 16,
+    "lineHeight": 1,
+    "padding": 8,
+  },
+  "buttonSkip": {
+    "WebkitAppearance": "none",
+    "backgroundColor": "transparent",
+    "border": 0,
+    "borderRadius": 0,
+    "color": "#333",
+    "cursor": "pointer",
+    "fontSize": 14,
+    "lineHeight": 1,
+    "padding": 8,
+  },
+  "floater": {
+    "display": "inline-block",
+    "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
+    "maxWidth": "100%",
+    "transition": "opacity 0.3s",
   },
   "options": {
     "arrowColor": "#fff",
@@ -382,6 +584,13 @@ exports[`styles > should return the default styles 1`] = `
 
 exports[`styles > should return the inherited props' styles 1`] = `
 {
+  "arrow": {
+    "base": 32,
+    "color": "#00f",
+    "display": "inline-flex",
+    "position": "absolute",
+    "size": 16,
+  },
   "beacon": {
     "WebkitAppearance": "none",
     "backgroundColor": "transparent",
@@ -396,7 +605,6 @@ exports[`styles > should return the inherited props' styles 1`] = `
     "padding": 8,
     "position": "relative",
     "width": 36,
-    "zIndex": 100,
   },
   "beaconInner": {
     "animation": "joyride-beacon-inner 1.2s infinite ease-in-out",
@@ -477,13 +685,11 @@ exports[`styles > should return the inherited props' styles 1`] = `
     "lineHeight": 1,
     "padding": 8,
   },
-  "floaterStyles": {
-    "arrow": {
-      "color": "#00f",
-    },
-    "options": {
-      "zIndex": 200,
-    },
+  "floater": {
+    "display": "inline-block",
+    "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
+    "maxWidth": "100%",
+    "transition": "opacity 0.3s",
   },
   "options": {
     "arrowColor": "#00f",
@@ -570,198 +776,15 @@ exports[`styles > should return the inherited props' styles 1`] = `
 }
 `;
 
-exports[`styles > should return the step floaterProps' arrow color instead of styles.options.arrowColor 1`] = `
-{
-  "beacon": {
-    "WebkitAppearance": "none",
-    "backgroundColor": "transparent",
-    "border": 0,
-    "borderRadius": "50%",
-    "color": "#555",
-    "cursor": "pointer",
-    "display": "inline-block",
-    "fontSize": 16,
-    "height": 36,
-    "lineHeight": 1,
-    "padding": 8,
-    "position": "relative",
-    "width": 36,
-    "zIndex": 100,
-  },
-  "beaconInner": {
-    "animation": "joyride-beacon-inner 1.2s infinite ease-in-out",
-    "backgroundColor": "#f04",
-    "borderRadius": "50%",
-    "display": "block",
-    "height": "50%",
-    "left": "50%",
-    "opacity": 0.7,
-    "position": "absolute",
-    "top": "50%",
-    "transform": "translate(-50%, -50%)",
-    "width": "50%",
-  },
-  "beaconOuter": {
-    "animation": "joyride-beacon-outer 1.2s infinite ease-in-out",
-    "backgroundColor": "rgba(255,0,68, 0.2)",
-    "border": "2px solid #f04",
-    "borderRadius": "50%",
-    "boxSizing": "border-box",
-    "display": "block",
-    "height": "100%",
-    "left": 0,
-    "opacity": 0.9,
-    "position": "absolute",
-    "top": 0,
-    "transformOrigin": "center",
-    "width": "100%",
-  },
-  "buttonBack": {
-    "WebkitAppearance": "none",
-    "backgroundColor": "transparent",
-    "border": 0,
-    "borderRadius": 0,
-    "color": "#f04",
-    "cursor": "pointer",
-    "fontSize": 16,
-    "lineHeight": 1,
-    "marginLeft": "auto",
-    "marginRight": 5,
-    "padding": 8,
-  },
-  "buttonClose": {
-    "WebkitAppearance": "none",
-    "backgroundColor": "transparent",
-    "border": 0,
-    "borderRadius": 0,
-    "color": "#333",
-    "cursor": "pointer",
-    "fontSize": 16,
-    "height": 14,
-    "lineHeight": 1,
-    "padding": 15,
-    "position": "absolute",
-    "right": 0,
-    "top": 0,
-    "width": 14,
-  },
-  "buttonNext": {
-    "WebkitAppearance": "none",
-    "backgroundColor": "#f04",
-    "border": 0,
-    "borderRadius": 4,
-    "color": "#fff",
-    "cursor": "pointer",
-    "fontSize": 16,
-    "lineHeight": 1,
-    "padding": 8,
-  },
-  "buttonSkip": {
-    "WebkitAppearance": "none",
-    "backgroundColor": "transparent",
-    "border": 0,
-    "borderRadius": 0,
-    "color": "#333",
-    "cursor": "pointer",
-    "fontSize": 14,
-    "lineHeight": 1,
-    "padding": 8,
-  },
-  "floaterStyles": {
-    "arrow": {
-      "color": "#f00",
-    },
-    "options": {
-      "zIndex": 200,
-    },
-  },
-  "options": {
-    "arrowColor": "#00f",
-    "backgroundColor": "#fff",
-    "beaconSize": 36,
-    "overlayColor": "rgba(0, 0, 0, 0.5)",
-    "primaryColor": "#f04",
-    "spotlightShadow": "0 0 15px rgba(0, 0, 0, 0.5)",
-    "textColor": "#333",
-    "width": 380,
-    "zIndex": 100,
-  },
-  "overlay": {
-    "backgroundColor": "rgba(0, 0, 0, 0.5)",
-    "bottom": 0,
-    "left": 0,
-    "mixBlendMode": "hard-light",
-    "overflow": "hidden",
-    "position": "absolute",
-    "right": 0,
-    "top": 0,
-    "zIndex": 100,
-  },
-  "overlayLegacy": {
-    "bottom": 0,
-    "left": 0,
-    "overflow": "hidden",
-    "position": "absolute",
-    "right": 0,
-    "top": 0,
-    "zIndex": 100,
-  },
-  "overlayLegacyCenter": {
-    "backgroundColor": "rgba(0, 0, 0, 0.5)",
-    "bottom": 0,
-    "left": 0,
-    "overflow": "hidden",
-    "position": "absolute",
-    "right": 0,
-    "top": 0,
-    "zIndex": 100,
-  },
-  "spotlight": {
-    "backgroundColor": "gray",
-    "borderRadius": 4,
-    "position": "absolute",
-  },
-  "spotlightLegacy": {
-    "borderRadius": 4,
-    "boxShadow": "0 0 0 9999px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 0, 0, 0.5)",
-    "position": "absolute",
-  },
-  "tooltip": {
-    "backgroundColor": "#fff",
-    "borderRadius": 5,
-    "boxSizing": "border-box",
-    "color": "#333",
-    "fontSize": 16,
-    "maxWidth": "100%",
-    "padding": 15,
-    "position": "relative",
-    "width": 380,
-  },
-  "tooltipContainer": {
-    "lineHeight": 1.4,
-    "textAlign": "center",
-  },
-  "tooltipContent": {
-    "padding": "20px 10px",
-  },
-  "tooltipFooter": {
-    "alignItems": "center",
-    "display": "flex",
-    "justifyContent": "flex-end",
-    "marginTop": 15,
-  },
-  "tooltipFooterSpacer": {
-    "flex": 1,
-  },
-  "tooltipTitle": {
-    "fontSize": 18,
-    "margin": 0,
-  },
-}
-`;
-
 exports[`styles > should return the step's styles 1`] = `
 {
+  "arrow": {
+    "base": 32,
+    "color": "#000",
+    "display": "inline-flex",
+    "position": "absolute",
+    "size": 16,
+  },
   "beacon": {
     "WebkitAppearance": "none",
     "backgroundColor": "transparent",
@@ -776,7 +799,6 @@ exports[`styles > should return the step's styles 1`] = `
     "padding": 8,
     "position": "relative",
     "width": 36,
-    "zIndex": 100,
   },
   "beaconInner": {
     "animation": "joyride-beacon-inner 1.2s infinite ease-in-out",
@@ -857,13 +879,11 @@ exports[`styles > should return the step's styles 1`] = `
     "lineHeight": 1,
     "padding": 8,
   },
-  "floaterStyles": {
-    "arrow": {
-      "color": "#000",
-    },
-    "options": {
-      "zIndex": 200,
-    },
+  "floater": {
+    "display": "inline-block",
+    "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
+    "maxWidth": "100%",
+    "transition": "opacity 0.3s",
   },
   "options": {
     "arrowColor": "#000",

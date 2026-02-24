@@ -1,4 +1,3 @@
-import { Props as FloaterProps } from 'react-floater';
 import deepEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
@@ -6,19 +5,28 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
-import { Origin, Props, State, Status, Step, StepMerged, StoreHelpers, StoreState } from '~/types';
+import {
+  Origin,
+  PositionData,
+  Props,
+  State,
+  Status,
+  Step,
+  StepMerged,
+  StoreHelpers,
+  StoreState,
+} from '~/types';
 
 type Listener = (state: StoreState) => void;
-type PopperData = Parameters<NonNullable<FloaterProps['getPopper']>>[0];
 
 class Store {
-  private beaconPopper: PopperData | null = null;
+  private beaconPosition: PositionData | null = null;
   private readonly listeners: Set<Listener> = new Set();
   private readonly props: Props;
   private snapshot: StoreState;
   private state: StoreState;
   private steps: Array<Step>;
-  private tooltipPopper: PopperData | null = null;
+  private tooltipPosition: PositionData | null = null;
 
   constructor(options?: Props) {
     const { stepIndex, steps = [] } = options ?? {};
@@ -55,9 +63,9 @@ class Store {
     return Math.min(Math.max(nextIndex, 0), this.state.size);
   }
 
-  public cleanupPoppers = () => {
-    this.beaconPopper = null;
-    this.tooltipPopper = null;
+  public cleanupPositionData = () => {
+    this.beaconPosition = null;
+    this.tooltipPosition = null;
   };
 
   public close = (origin: Origin | null = null) => {
@@ -89,12 +97,12 @@ class Store {
     };
   }
 
-  public getPopper = (name: 'beacon' | 'tooltip'): PopperData | null => {
+  public getPositionData = (name: 'beacon' | 'tooltip'): PositionData | null => {
     if (name === 'beacon') {
-      return this.beaconPopper;
+      return this.beaconPosition;
     }
 
-    return this.tooltipPopper;
+    return this.tooltipPosition;
   };
 
   public getServerSnapshot = (): StoreState => this.snapshot;
@@ -177,24 +185,17 @@ class Store {
     });
   };
 
-  public setPopper: NonNullable<FloaterProps['getPopper']> = (popper, type) => {
-    if (type === 'wrapper') {
-      this.beaconPopper = popper;
+  public setPositionData = (name: 'beacon' | 'tooltip', data: PositionData) => {
+    if (name === 'beacon') {
+      this.beaconPosition = data;
     } else {
-      this.tooltipPopper = popper;
+      this.tooltipPosition = data;
     }
 
-    if (popper && this.state.lifecycle === LIFECYCLE.COMPLETE) {
-      this.updateState({
-        action: ACTIONS.UPDATE,
-        lifecycle: LIFECYCLE.INIT,
-      });
-    }
+    const onPosition = this.getStep()?.floatingOptions?.onPosition;
 
-    const getPopper = this.getStep()?.floaterProps?.getPopper;
-
-    if (getPopper) {
-      getPopper(popper, type);
+    if (onPosition) {
+      onPosition(data);
     }
   };
 
