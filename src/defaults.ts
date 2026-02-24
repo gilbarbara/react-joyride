@@ -1,5 +1,3 @@
-import { noop } from '~/modules/helpers';
-
 import { FloatingOptions, Locale, Props, Step } from '~/types';
 
 export const defaultFloatingOptions: FloatingOptions = {
@@ -48,7 +46,6 @@ export const defaultProps = {
   disableOverlay: false,
   disableOverlayClose: false,
   disableScrolling: false,
-  getHelpers: noop(),
   hideBackButton: false,
   run: true,
   scrollOffset: 20,

@@ -77,17 +77,19 @@ export default function JoyrideBeacon(props: BeaconProps) {
 
     document.head.appendChild(style);
 
-    setTimeout(() => {
+    const focusTimer = setTimeout(() => {
       if (is.domElement(beaconRef.current) && shouldFocus) {
         beaconRef.current.focus();
       }
     }, 0);
 
     return () => {
+      clearTimeout(focusTimer);
+
       const insertedStyle = document.getElementById('joyride-beacon-animation');
 
       if (insertedStyle?.parentNode) {
-        insertedStyle.parentNode.removeChild(style);
+        insertedStyle.parentNode.removeChild(insertedStyle);
       }
     };
   }, [hasBeaconComponent, props.nonce, shouldFocus]);

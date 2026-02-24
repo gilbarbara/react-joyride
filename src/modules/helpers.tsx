@@ -22,7 +22,7 @@ interface GetReactNodeTextOptions {
 
 interface LogOptions {
   /** The data to be logged */
-  data: any;
+  data?: any;
   /** display the log */
   debug?: boolean;
   /** The title the logger was called from */
@@ -66,35 +66,32 @@ export function deepMerge<T extends object>(...objects: object[]): T {
  * Get the current browser
  */
 export function getBrowser(userAgent: string = navigator.userAgent): string {
-  let browser = userAgent;
-
   if (typeof window === 'undefined') {
-    browser = 'node';
-  }
-  // @ts-expect-error IE support
-  else if (document.documentMode) {
-    browser = 'ie';
-  } else if (/Edge/.test(userAgent)) {
-    browser = 'edge';
-  }
-  // @ts-expect-error Opera 8.0+
-  else if (Boolean(window.opera) || userAgent.includes(' OPR/')) {
-    browser = 'opera';
-  }
-  // @ts-expect-error Firefox 1.0+
-  else if (typeof window.InstallTrigger !== 'undefined') {
-    browser = 'firefox';
-  }
-  // @ts-expect-error Chrome 1+
-  else if (window.chrome) {
-    browser = 'chrome';
-  }
-  // Safari (and Chrome iOS, Firefox iOS)
-  else if (/Version\/[\d._].*Safari|CriOS|FxiOS| Mobile\//.test(userAgent)) {
-    browser = 'safari';
+    return 'node';
   }
 
-  return browser;
+  if (/Edg\//.test(userAgent)) {
+    return 'edge';
+  }
+
+  if (userAgent.includes(' OPR/')) {
+    return 'opera';
+  }
+
+  if (/Firefox\//.test(userAgent)) {
+    return 'firefox';
+  }
+
+  // @ts-expect-error Chrome 1+
+  if (window.chrome) {
+    return 'chrome';
+  }
+
+  if (/Version\/[\d._].*Safari|CriOS|FxiOS| Mobile\//.test(userAgent)) {
+    return 'safari';
+  }
+
+  return userAgent;
 }
 
 /**
@@ -114,9 +111,13 @@ export function getReactNodeText(input: ReactNode, options: GetReactNodeTextOpti
       !Object.values(input.props as Record<string, unknown>).length &&
       getObjectType(input.type) === 'function'
     ) {
-      const component = (input.type as FC)({}) as ReactNode;
+      try {
+        const component = (input.type as FC)({}) as ReactNode;
 
-      text = getReactNodeText(component, options);
+        text = getReactNodeText(component, options);
+      } catch {
+        text = innerText(defaultValue);
+      }
     } else {
       text = innerText(defaultValue);
     }
@@ -151,15 +152,6 @@ export function hideBeacon(step: Step, state: State, continuous: boolean): boole
 }
 
 /**
- * Detect legacy browsers
- *
- * @returns {boolean}
- */
-export function isLegacy(): boolean {
-  return !['chrome', 'firefox', 'opera', 'safari'].includes(getBrowser());
-}
-
-/**
  * Log method calls if debug is enabled
  */
 export function logDebug({ data, debug = false, title, warn = false }: LogOptions) {
@@ -170,7 +162,9 @@ export function logDebug({ data, debug = false, title, warn = false }: LogOption
   /* eslint-disable no-console */
   const logFn = warn ? (console.warn ?? console.error) : console.log;
 
-  if (title && data) {
+  if (!data) {
+    logFn(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
+  } else {
     console.groupCollapsed(
       `%creact-joyride: ${title}`,
       'color: #ff0044; font-weight: bold; font-size: 12px;',
@@ -189,8 +183,6 @@ export function logDebug({ data, debug = false, title, warn = false }: LogOption
     }
 
     console.groupEnd();
-  } else {
-    console.error('Missing title or data props');
   }
   /* eslint-enable */
 }
@@ -331,21 +323,16 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
   }
 
   if (is.function(input.type) && !Object.values(input.props as Record<string, unknown>).length) {
-    const component = (input.type as FC)({}) as ReactNode;
+    try {
+      const component = (input.type as FC)({}) as ReactNode;
 
-    return replaceLocaleContent(component, step, steps);
+      return replaceLocaleContent(component, step, steps);
+    } catch {
+      return input;
+    }
   }
 
   return input;
-}
-
-/**
- * Block execution
- */
-export function sleep(seconds = 1) {
-  return new Promise(resolve => {
-    setTimeout(resolve, seconds * 1000);
-  });
 }
 
 /**

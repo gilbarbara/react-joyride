@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
 import useJoyrideData from '~/hooks/useJoyrideData';
@@ -37,8 +37,12 @@ function Joyride(props: Props) {
     const handleKeyboard = (event: KeyboardEvent) => {
       const currentStep = steps[state.index];
 
+      if (!currentStep) {
+        return;
+      }
+
       if (state.lifecycle === LIFECYCLE.TOOLTIP) {
-        if (event.code === 'Escape' && !currentStep.disableCloseOnEsc) {
+        if (event.key === 'Escape' && !currentStep.disableCloseOnEsc) {
           store.current.close('keyboard');
         }
       }
@@ -57,11 +61,11 @@ function Joyride(props: Props) {
 
   const { index, lifecycle, status } = state;
 
-  const handleClickOverlay = () => {
+  const handleClickOverlay = useCallback(() => {
     if (!step?.disableOverlayClose) {
       store.current.close('overlay');
     }
-  };
+  }, [step?.disableOverlayClose, store]);
 
   const isRunning = status === STATUS.RUNNING;
 
@@ -87,7 +91,7 @@ function Joyride(props: Props) {
       )}
       <Portal element={element}>
         <>
-          {state.waiting && <Loader step={step} />}
+          {state.waiting && <Loader nonce={nonce} step={step} />}
           <Overlay
             {...step}
             continuous={continuous}

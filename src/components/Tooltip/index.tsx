@@ -105,6 +105,7 @@ export default function Tooltip(props: TooltipProps) {
         title: skipText,
       },
       tooltipProps: {
+        'aria-describedby': 'joyride-tooltip-content',
         'aria-modal': true,
         ref: setTooltipRef,
         role: 'alertdialog',

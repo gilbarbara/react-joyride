@@ -2,7 +2,7 @@ import deepEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
-import { omit } from '~/modules/helpers';
+import { logDebug, omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
 import {
@@ -114,7 +114,17 @@ class Store {
   public go = (nextIndex: number) => {
     const { controlled, status } = this.state;
 
-    if (controlled || status !== STATUS.RUNNING) {
+    if (controlled) {
+      logDebug({
+        title: 'go() is not supported in controlled mode',
+        debug: this.props.debug,
+        warn: true,
+      });
+
+      return;
+    }
+
+    if (status !== STATUS.RUNNING) {
       return;
     }
 
@@ -173,6 +183,12 @@ class Store {
     const { controlled } = this.state;
 
     if (controlled) {
+      logDebug({
+        title: 'reset() is not supported in controlled mode',
+        debug: this.props.debug,
+        warn: true,
+      });
+
       return;
     }
 

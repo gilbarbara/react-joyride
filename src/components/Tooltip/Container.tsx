@@ -44,21 +44,27 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
     <CloseButton data-test-id="button-close" styles={styles.buttonClose} {...closeProps} />
   );
 
+  const ariaProps = title
+    ? { 'aria-labelledby': 'joyride-tooltip-title' }
+    : { 'aria-label': getReactNodeText(content) };
+
   return (
     <div
       key="JoyrideTooltip"
-      aria-label={getReactNodeText(title ?? content)}
       className="react-joyride__tooltip"
       style={styles.tooltip}
       {...tooltipProps}
+      {...ariaProps}
     >
       <div style={styles.tooltipContainer}>
         {title && (
-          <h1 aria-label={getReactNodeText(title)} style={styles.tooltipTitle}>
+          <h4 id="joyride-tooltip-title" style={styles.tooltipTitle}>
             {title}
-          </h1>
+          </h4>
         )}
-        <div style={styles.tooltipContent}>{content}</div>
+        <div id="joyride-tooltip-content" style={styles.tooltipContent}>
+          {content}
+        </div>
       </div>
       {!hideFooter && (
         <div style={styles.tooltipFooter}>

@@ -41,6 +41,7 @@ export default function useLifecycleEffect({
   const stateRef = useRef(state);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollingTargetRef = useRef<StepTarget | null>(null);
+  const loaderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   propsRef.current = props;
   stateRef.current = state;
@@ -53,12 +54,19 @@ export default function useLifecycleEffect({
       pollingRef.current = null;
     }
 
+    if (loaderTimeoutRef.current) {
+      clearTimeout(loaderTimeoutRef.current);
+      loaderTimeoutRef.current = null;
+    }
+
     pollingTargetRef.current = null;
   };
 
   useEffectDeepCompare(() => {
     if (!previousState) {
-      return;
+      return () => {
+        clearPolling();
+      };
     }
 
     const isAfterAction = changedState('action', [
@@ -115,7 +123,7 @@ export default function useLifecycleEffect({
         pollingTargetRef.current = step.target;
 
         if (timeout > loaderDelay) {
-          setTimeout(() => {
+          loaderTimeoutRef.current = setTimeout(() => {
             if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
               store.current.updateState({ waiting: true });
             }
@@ -299,6 +307,10 @@ export default function useLifecycleEffect({
       });
       lastAction.current = null;
     }
+
+    return () => {
+      clearPolling();
+    };
   }, [
     action,
     callback,

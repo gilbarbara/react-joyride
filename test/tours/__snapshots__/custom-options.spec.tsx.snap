@@ -24,6 +24,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
   style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="The first step of many! Keep walking!"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -34,6 +35,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 1px 8px;"
       >
         The first step of many! Keep walking!
@@ -141,6 +143,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
   style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="We are the people"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -151,6 +154,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 1px 8px;"
       >
         <div>

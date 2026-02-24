@@ -33,7 +33,7 @@ Disable autoscrolling between steps.
 Options to control tooltip positioning via [@floating-ui/react-dom](https://floating-ui.com/).
 
 - **autoUpdate** `Partial<AutoUpdateOptions>` — Options passed to [autoUpdate](https://floating-ui.com/docs/autoUpdate) (ancestorScroll, elementResize, animationFrame, etc).
-- **beaconOptions** `{ offset?: number; placement?: Placement }` — Beacon positioning config. Default offset is `-18`.
+- **beaconOptions** `{ offset?: number }` — Beacon positioning config. Default offset is `-18`.
 - **hideArrow** `boolean` — Hide the tooltip arrow. Centered placement already hides the arrow. Default: `false`.
 - **middleware** `Array<Middleware>` — Additional [Floating UI middleware](https://floating-ui.com/docs/middleware) appended to the defaults (offset, flip/autoPlacement, shift, arrow).
 - **onPosition** `(data: PositionData) => void` — Called after each position calculation.

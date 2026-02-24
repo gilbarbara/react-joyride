@@ -37,8 +37,7 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
     return null;
   }
 
-  const step = currentStep ?? {};
-  const mergedStep = deepMerge<StepMerged>(defaultStep, getTourProps(props), step);
+  const mergedStep = deepMerge<StepMerged>(defaultStep, getTourProps(props), currentStep);
 
   const mergedStyles = getStyles(props, mergedStep);
   const floatingOptions = deepMerge<FloatingOptions>(
