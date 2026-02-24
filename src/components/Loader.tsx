@@ -24,7 +24,7 @@ const loaderStyles: Record<string, CSSProperties> = {
   },
 };
 
-export default function JoyrideLoader({ step }: LoaderRenderProps) {
+export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
   const { loaderComponent, styles } = step;
 
   const hasLoaderComponent = Boolean(loaderComponent);
@@ -41,6 +41,10 @@ export default function JoyrideLoader({ step }: LoaderRenderProps) {
     const style = document.createElement('style');
 
     style.id = 'joyride-loader-animation';
+
+    if (nonce) {
+      style.setAttribute('nonce', nonce);
+    }
 
     style.appendChild(
       document.createTextNode(`
@@ -59,7 +63,7 @@ export default function JoyrideLoader({ step }: LoaderRenderProps) {
         insertedStyle.parentNode.removeChild(insertedStyle);
       }
     };
-  }, [hasLoaderComponent]);
+  }, [hasLoaderComponent, nonce]);
 
   if (loaderComponent) {
     const CustomLoader = loaderComponent;

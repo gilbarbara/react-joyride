@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 import { noop } from '~/modules/helpers';
 
 const TABBABLE_SELECTOR =
-  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), area[href], [tabindex="0"]';
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), area[href], [tabindex]:not([tabindex="-1"]), [contenteditable]';
 
 export default function useFocusTrap(element: HTMLElement | null, selector?: string | null): void {
   const previousFocus = useRef<HTMLElement | null>(null);
@@ -20,14 +20,14 @@ export default function useFocusTrap(element: HTMLElement | null, selector?: str
         return;
       }
 
-      event.preventDefault();
-
       const elements = [...element.querySelectorAll<HTMLElement>(TABBABLE_SELECTOR)];
       const { shiftKey } = event;
 
       if (!elements.length) {
         return;
       }
+
+      event.preventDefault();
 
       let index = document.activeElement
         ? elements.indexOf(document.activeElement as HTMLElement)

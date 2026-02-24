@@ -18,15 +18,6 @@ const getCallbackResponse = callbackResponseFactory({ size: 7 });
 const mockCallback = vi.fn();
 const mockOnPosition = vi.fn();
 
-vi.mock('~/modules/helpers', async () => {
-  const helpers = await vi.importActual('~/modules/helpers');
-
-  return {
-    ...helpers,
-    isLegacy: () => false,
-  };
-});
-
 describe('Joyride > Standard', () => {
   render(<Standard callback={mockCallback} floatingOptions={{ onPosition: mockOnPosition }} />);
 
@@ -149,7 +140,7 @@ describe('Joyride > Standard', () => {
 
   it('should close STEP 2 Tooltip with keyboard', async () => {
     act(() => {
-      document.body.dispatchEvent(new KeyboardEvent('keydown', { code: 'Escape' }));
+      document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     });
 
     expect(mockCallback).toHaveBeenNthCalledWith(

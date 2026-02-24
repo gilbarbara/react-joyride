@@ -1,15 +1,24 @@
-import { CSSProperties, useEffect, useMemo } from 'react';
-import { useIsMounted, useSetState } from '@gilbarbara/hooks';
+import { CSSProperties, useEffect, useMemo, useRef } from 'react';
+import { useIsMounted, useSetState, useWindowSize } from '@gilbarbara/hooks';
 import useTreeChanges from 'tree-changes-hook';
 
 import useTargetPosition from '~/hooks/useTargetPosition';
 import { LIFECYCLE } from '~/literals';
 import { getDocumentHeight } from '~/modules/dom';
-import { getBrowser, isLegacy, sortObjectKeys } from '~/modules/helpers';
+import { getBrowser, sortObjectKeys } from '~/modules/helpers';
 
 import { Lifecycle, OverlayProps } from '~/types';
 
 import Spotlight from './Spotlight';
+
+const hiddenLifecycles: Lifecycle[] = [
+  LIFECYCLE.INIT,
+  LIFECYCLE.BEACON,
+  LIFECYCLE.COMPLETE,
+  LIFECYCLE.ERROR,
+];
+
+const isSafari = getBrowser() === 'safari';
 
 interface SpotlightStyles extends CSSProperties {
   height: number;
@@ -34,6 +43,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     waiting,
   } = props;
   const isMounted = useIsMounted();
+  const windowSize = useWindowSize();
 
   const { changed } = useTreeChanges(props);
 
@@ -44,30 +54,17 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const targetRect = useTargetPosition(target, spotlightPadding);
 
   const overlayStyles = useMemo(() => {
-    let baseStyles = styles.overlay;
-
-    if (isLegacy()) {
-      baseStyles = placement === 'center' ? styles.overlayLegacyCenter : styles.overlayLegacy;
-    }
-
     return {
       cursor: disableOverlayClose || spotlightClicks ? 'default' : 'pointer',
-      height: getDocumentHeight(),
+      height: getDocumentHeight() || windowSize.height,
       pointerEvents: spotlightClicks ? 'none' : 'auto',
-      ...baseStyles,
+      ...styles.overlay,
     } as CSSProperties;
-  }, [
-    disableOverlayClose,
-    placement,
-    spotlightClicks,
-    styles.overlay,
-    styles.overlayLegacy,
-    styles.overlayLegacyCenter,
-  ]);
+  }, [disableOverlayClose, spotlightClicks, styles.overlay, windowSize]);
 
   const spotlightStyles = useMemo(() => {
     return sortObjectKeys({
-      ...(isLegacy() ? styles.spotlightLegacy : styles.spotlight),
+      ...styles.spotlight,
       height: targetRect.height,
       left: targetRect.left,
       opacity: showSpotlight ? 1 : 0,
@@ -77,24 +74,23 @@ export default function JoyrideOverlay(props: OverlayProps) {
       transition: 'opacity 0.2s',
       width: targetRect.width,
     } satisfies SpotlightStyles);
-  }, [showSpotlight, spotlightClicks, styles.spotlight, styles.spotlightLegacy, targetRect]);
+  }, [showSpotlight, spotlightClicks, styles.spotlight, targetRect]);
+
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
-      setTimeout(() => {
+      timerRef.current = setTimeout(() => {
         if (isMounted() && !scrolling) {
           setState({ showSpotlight: true });
         }
       }, 100);
     }
-  }, [changed, isMounted, scrolling, setState]);
 
-  const hiddenLifecycles = [
-    LIFECYCLE.INIT,
-    LIFECYCLE.BEACON,
-    LIFECYCLE.COMPLETE,
-    LIFECYCLE.ERROR,
-  ] as Lifecycle[];
+    return () => {
+      clearTimeout(timerRef.current);
+    };
+  }, [changed, isMounted, scrolling, setState]);
 
   if (
     disableOverlay ||
@@ -110,15 +106,17 @@ export default function JoyrideOverlay(props: OverlayProps) {
   let spotlight = placement !== 'center' && showSpotlight && !scrolling && (
     <Spotlight styles={spotlightStyles} />
   );
-  const actualOverlayStyles = { ...overlayStyles };
+  let finalOverlayStyles = { ...overlayStyles };
 
   // Hack for Safari bug with mix-blend-mode with z-index
-  if (getBrowser() === 'safari') {
+  if (isSafari) {
     // eslint-disable-next-line unused-imports/no-unused-vars
     const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    const { backgroundColor, ...overlayWithoutBg } = overlayStyles;
 
     spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;
-    delete actualOverlayStyles.backgroundColor;
+    finalOverlayStyles = overlayWithoutBg as CSSProperties;
   }
 
   return (
@@ -128,7 +126,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
       data-test-id="overlay"
       onClick={onClickOverlay}
       role="presentation"
-      style={actualOverlayStyles}
+      style={finalOverlayStyles}
     >
       {spotlight}
     </div>

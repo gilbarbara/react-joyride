@@ -7,15 +7,6 @@ const mockCallback = vi.fn();
 const mockFinishedCallback = vi.fn();
 const mockOnPosition = vi.fn();
 
-vi.mock('~/modules/helpers', async () => {
-  const helpers = await vi.importActual('~/modules/helpers');
-
-  return {
-    ...helpers,
-    isLegacy: () => false,
-  };
-});
-
 const getCallbackResponse = callbackResponseFactory({ size: 4 });
 
 const props = {

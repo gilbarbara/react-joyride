@@ -18,6 +18,7 @@ exports[`Joyride > Standard > should render STEP 1 Tooltip > tooltip 1`] = `
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: fixed; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(487px, 359px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="Let's begin our journey!"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -28,6 +29,7 @@ exports[`Joyride > Standard > should render STEP 1 Tooltip > tooltip 1`] = `
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         <h2>
@@ -123,6 +125,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="The first step of many! Keep walking!"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -133,6 +136,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         The first step of many! Keep walking!
@@ -249,6 +253,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="The first step of many! Keep walking!"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -259,6 +264,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         The first step of many! Keep walking!
@@ -400,7 +406,8 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
   style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
 >
   <div
-    aria-label="Our Mission"
+    aria-describedby="joyride-tooltip-content"
+    aria-labelledby="joyride-tooltip-title"
     aria-modal="true"
     class="react-joyride__tooltip"
     role="alertdialog"
@@ -409,13 +416,14 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
     <div
       style="line-height: 1.4; text-align: center;"
     >
-      <h1
-        aria-label="Our Mission"
+      <h4
+        id="joyride-tooltip-title"
         style="font-size: 18px; margin: 0px;"
       >
         Our Mission
-      </h1>
+      </h4>
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         Can be advanced by clicking an element through the overlay hole.
@@ -532,7 +540,8 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
 >
   <div
-    aria-label="Our Mission"
+    aria-describedby="joyride-tooltip-content"
+    aria-labelledby="joyride-tooltip-title"
     aria-modal="true"
     class="react-joyride__tooltip"
     role="alertdialog"
@@ -541,13 +550,14 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
     <div
       style="line-height: 1.4; text-align: center;"
     >
-      <h1
-        aria-label="Our Mission"
+      <h4
+        id="joyride-tooltip-title"
         style="font-size: 18px; margin: 0px;"
       >
         Our Mission
-      </h1>
+      </h4>
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         Can be advanced by clicking an element through the overlay hole.
@@ -689,6 +699,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
   style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="We are the people"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -699,6 +710,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         <div>
@@ -834,6 +846,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, -86px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="Text only steps — Because sometimes you don't really need a proper heading"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -844,6 +857,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         Text only steps — Because sometimes you don't really need a proper heading
@@ -954,6 +968,7 @@ exports[`Joyride > Standard > should render STEP 7 Tooltip > tooltip 1`] = `
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: fixed; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(487px, 359px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="That's it folks!"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -964,6 +979,7 @@ exports[`Joyride > Standard > should render STEP 7 Tooltip > tooltip 1`] = `
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px; text-align: center;"
       >
         That's it folks!
@@ -1144,6 +1160,7 @@ exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
   style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: fixed; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(487px, 359px);"
 >
   <div
+    aria-describedby="joyride-tooltip-content"
     aria-label="Let's begin our journey!"
     aria-modal="true"
     class="react-joyride__tooltip"
@@ -1154,6 +1171,7 @@ exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
       style="line-height: 1.4; text-align: center;"
     >
       <div
+        id="joyride-tooltip-content"
         style="padding: 20px 10px;"
       >
         <h2>

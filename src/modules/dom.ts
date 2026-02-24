@@ -259,7 +259,7 @@ export function hasPosition(el: HTMLElement | Node | null, type: string = 'fixed
 /**
  * Check if the element is visible
  */
-export function isElementVisible(element: HTMLElement): element is HTMLElement {
+export function isElementVisible(element: HTMLElement): boolean {
   if (!element) {
     return false;
   }
@@ -300,7 +300,7 @@ export function scrollTo(
 
   let cancel: () => void = () => {};
 
-  const promise = new Promise<void>((resolve, reject) => {
+  const promise = new Promise<void>(resolve => {
     const { scrollTop } = element;
 
     const limit = value > scrollTop ? value - scrollTop : scrollTop - value;
@@ -309,12 +309,8 @@ export function scrollTo(
       element as HTMLElement,
       value,
       { duration: limit < 100 ? 50 : duration },
-      error => {
-        if (error && error.message !== 'Element already at target scroll position') {
-          return reject(error);
-        }
-
-        return resolve();
+      () => {
+        resolve();
       },
     );
   });

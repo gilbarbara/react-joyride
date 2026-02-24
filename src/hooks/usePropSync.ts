@@ -41,7 +41,7 @@ export default function usePropSync({
 
       if (!isEqual(previousSteps, steps)) {
         if (validateSteps(steps, debug)) {
-          store.current.updateState({ size: steps.length });
+          store.current.setSteps(steps);
         } else {
           // eslint-disable-next-line no-console
           console.warn('Steps are not valid', steps);

@@ -11,7 +11,6 @@ const defaultOptions = {
   beaconSize: 36,
   overlayColor: 'rgba(0, 0, 0, 0.5)',
   primaryColor: '#f04',
-  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   textColor: '#333',
   width: undefined,
   zIndex: 100,
@@ -121,7 +120,6 @@ Beacon placement can be customized independently:
   floatingOptions={{
     beaconOptions: {
       offset: -10,       // Distance from target (default: -18)
-      placement: 'top',  // Override beacon placement
     },
   }}
 />

@@ -92,10 +92,7 @@ export interface Styles {
   floater: CSSProperties;
   options: StylesOptions;
   overlay: CSSProperties;
-  overlayLegacy: CSSProperties;
-  overlayLegacyCenter: CSSProperties;
   spotlight: SpotlightCSSProperties;
-  spotlightLegacy: SpotlightCSSProperties;
   tooltip: CSSProperties;
   tooltipContainer: CSSProperties;
   tooltipContent: CSSProperties;
@@ -110,7 +107,6 @@ export interface StylesOptions {
   beaconSize: number;
   overlayColor: string;
   primaryColor: string;
-  spotlightShadow: string;
   textColor: string;
   width?: string | number;
   zIndex: number;

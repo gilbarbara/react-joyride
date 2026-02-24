@@ -10,7 +10,6 @@ import {
   getReactNodeText,
   hexToRGB,
   hideBeacon,
-  isLegacy,
   logDebug,
   mergeProps,
   needsScrolling,
@@ -19,7 +18,6 @@ import {
   omit,
   pick,
   replaceLocaleContent,
-  sleep,
   sortObjectKeys,
 } from '~/modules/helpers';
 import { fromPartial } from '~/test-utils';
@@ -80,39 +78,13 @@ describe('helpers', () => {
 
     describe('with edge', () => {
       it('should identify properly', () => {
-        expect(getBrowser(navigator.userAgent.replace('jsdom', 'Edge'))).toBe('edge');
+        expect(getBrowser(navigator.userAgent.replace('jsdom', 'Edg/'))).toBe('edge');
       });
     });
 
     describe('with firefox', () => {
-      beforeAll(() => {
-        // @ts-expect-error Legacy Firefox
-        window.InstallTrigger = true;
-      });
-
-      afterAll(() => {
-        // @ts-expect-error Legacy Firefox
-        delete window.InstallTrigger;
-      });
-
       it('should identify properly', () => {
-        expect(getBrowser()).toBe('firefox');
-      });
-    });
-
-    describe('with ie', () => {
-      beforeAll(() => {
-        // @ts-expect-error Legacy IE
-        document.documentMode = true;
-      });
-
-      afterAll(() => {
-        // @ts-expect-error Legacy IE
-        delete document.documentMode;
-      });
-
-      it('should identify properly', () => {
-        expect(getBrowser()).toBe('ie');
+        expect(getBrowser(navigator.userAgent.replace('jsdom', 'Firefox/'))).toBe('firefox');
       });
     });
 
@@ -250,12 +222,6 @@ describe('helpers', () => {
     });
   });
 
-  describe('isLegacy', () => {
-    it('should return properly', () => {
-      expect(isLegacy()).toBe(true);
-    });
-  });
-
   describe('log', () => {
     const consoleLog = console.log;
     const consoleWarn = console.warn;
@@ -330,24 +296,29 @@ describe('helpers', () => {
       );
     });
 
-    it('should call error with missing title', () => {
+    it('should handle missing title', () => {
       // @ts-expect-error Missing title
       logDebug({
         data: { a: 1 },
         debug: true,
       });
 
-      expect(console.error).toHaveBeenNthCalledWith(1, 'Missing title or data props');
+      expect(console.groupCollapsed).toHaveBeenCalledWith(
+        '%creact-joyride: undefined',
+        'color: #ff0044; font-weight: bold; font-size: 12px;',
+      );
     });
 
-    it('should call error with missing data', () => {
-      // @ts-expect-error Missing data
+    it('should log styled title without data', () => {
       logDebug({
         title: 'Hey',
         debug: true,
       });
 
-      expect(console.error).toHaveBeenNthCalledWith(2, 'Missing title or data props');
+      expect(console.log).toHaveBeenCalledWith(
+        '%creact-joyride: Hey',
+        'color: #ff0044; font-weight: bold; font-size: 12px;',
+      );
     });
   });
 
@@ -480,28 +451,6 @@ describe('helpers', () => {
       );
 
       expect(replaceLocaleContent(input, 1, 3)).toEqual(input);
-    });
-  });
-
-  describe('sleep', () => {
-    const setTimeoutSpy = vi.spyOn(global, 'setTimeout');
-
-    afterAll(() => {
-      vi.restoreAllMocks();
-    });
-
-    it.each([
-      { input: 0.1, timeout: 100 },
-      { input: undefined, timeout: 1000 },
-    ])('should halt the execution for $input', async ({ input, timeout }) => {
-      const fn = async () => {
-        await sleep(input);
-
-        return 'finished';
-      };
-
-      await expect(fn()).resolves.toBe('finished');
-      expect(setTimeoutSpy).toHaveBeenLastCalledWith(expect.any(Function), timeout);
     });
   });
 

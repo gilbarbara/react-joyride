@@ -7,7 +7,6 @@ const defaultOptions = {
   beaconSize: 36,
   overlayColor: 'rgba(0, 0, 0, 0.5)',
   primaryColor: '#f04',
-  spotlightShadow: '0 0 15px rgba(0, 0, 0, 0.5)',
   textColor: '#333',
   width: 380,
   zIndex: 100,
@@ -36,10 +35,6 @@ export default function getStyles(props: Props, step: StepMerged) {
   const options = deepMerge<StylesOptions>(defaultOptions, mergedStyles.options || {});
   const hideBeacon = step.placement === 'center' || step.disableBeacon;
   let { width } = options;
-
-  if (window.innerWidth > 480) {
-    width = 380;
-  }
 
   if ('width' in options) {
     width =
@@ -140,20 +135,9 @@ export default function getStyles(props: Props, step: StepMerged) {
       backgroundColor: options.overlayColor,
       mixBlendMode: 'hard-light',
     },
-    overlayLegacy: {
-      ...overlay,
-    },
-    overlayLegacyCenter: {
-      ...overlay,
-      backgroundColor: options.overlayColor,
-    },
     spotlight: {
       ...spotlight,
       backgroundColor: 'gray',
-    },
-    spotlightLegacy: {
-      ...spotlight,
-      boxShadow: `0 0 0 9999px ${options.overlayColor}, ${options.spotlightShadow}`,
     },
     tooltip: {
       backgroundColor: options.backgroundColor,

@@ -138,6 +138,7 @@ export type CallBackProps = {
 };
 
 export type LoaderRenderProps = {
+  nonce?: string;
   step: StepMerged;
 };
 
@@ -410,6 +411,7 @@ export type TooltipRenderProps = Simplify<
       title: string;
     };
     tooltipProps: {
+      'aria-describedby': string;
       'aria-modal': boolean;
       ref: RefCallback<HTMLElement>;
       role: string;

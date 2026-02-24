@@ -2,6 +2,7 @@
 
 exports[`Tooltip > should call helpers.prev() on back click 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
   aria-modal="true"
   class="react-joyride__tooltip"
@@ -12,6 +13,7 @@ exports[`Tooltip > should call helpers.prev() on back click 1`] = `
     style="line-height: 1.4; text-align: center;"
   >
     <div
+      id="joyride-tooltip-content"
       style="padding: 20px 10px;"
     >
       Test content
@@ -76,6 +78,7 @@ exports[`Tooltip > should call helpers.prev() on back click 1`] = `
 
 exports[`Tooltip > should call helpers.skip() on skip click 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
   aria-modal="true"
   class="react-joyride__tooltip"
@@ -86,6 +89,7 @@ exports[`Tooltip > should call helpers.skip() on skip click 1`] = `
     style="line-height: 1.4; text-align: center;"
   >
     <div
+      id="joyride-tooltip-content"
       style="padding: 20px 10px;"
     >
       Test content
@@ -152,6 +156,7 @@ exports[`Tooltip > should call helpers.skip() on skip click 1`] = `
 
 exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
   aria-modal="true"
   class="react-joyride__tooltip"
@@ -162,6 +167,7 @@ exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] =
     style="line-height: 1.4; text-align: center;"
   >
     <div
+      id="joyride-tooltip-content"
       style="padding: 20px 10px;"
     >
       Test content
@@ -215,6 +221,7 @@ exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] =
 
 exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
   aria-modal="true"
   class="react-joyride__tooltip"
@@ -225,6 +232,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
     style="line-height: 1.4; text-align: center;"
   >
     <div
+      id="joyride-tooltip-content"
       style="padding: 20px 10px;"
     >
       Test content
@@ -289,6 +297,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
 
 exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
   aria-modal="true"
   class="react-joyride__tooltip"
@@ -299,6 +308,7 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
     style="line-height: 1.4; text-align: center;"
   >
     <div
+      id="joyride-tooltip-content"
       style="padding: 20px 10px;"
     >
       Test content
@@ -352,6 +362,7 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
 
 exports[`Tooltip > should render custom tooltipComponent 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-modal="true"
   role="alertdialog"
   style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"
@@ -428,6 +439,7 @@ exports[`Tooltip > should render custom tooltipComponent 1`] = `
 
 exports[`Tooltip > should show progress label when showProgress is true 1`] = `
 <div
+  aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
   aria-modal="true"
   class="react-joyride__tooltip"
@@ -438,6 +450,7 @@ exports[`Tooltip > should show progress label when showProgress is true 1`] = `
     style="line-height: 1.4; text-align: center;"
   >
     <div
+      id="joyride-tooltip-content"
       style="padding: 20px 10px;"
     >
       Test content

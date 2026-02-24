@@ -6,19 +6,13 @@ export default [
   ...config,
   ...vitest,
   ...testingLibrary,
+  { ignores: ['node_modules', 'dist', '**/*.snap'] },
   {
     rules: {
       'react-hooks/exhaustive-deps': [
         'warn',
         {
           additionalHooks: '(use.*Effect.*)',
-        },
-      ],
-      'no-restricted-syntax': [
-        'warn',
-        {
-          message: "Don't forget to remove calls to  logger before committing.",
-          selector: "CallExpression[callee.name='logger']",
         },
       ],
     },
@@ -30,9 +24,14 @@ export default [
     },
   },
   {
-    files: ['**/*.spec.*', '**/*.test.*'],
+    files: ['test/**/*.{ts,tsx}'],
     rules: {
       'no-console': 'off',
+    },
+  },
+  {
+    files: ['test/**/*.spec.*', '**/*.test.*'],
+    rules: {
       'no-restricted-imports': [
         'error',
         {
