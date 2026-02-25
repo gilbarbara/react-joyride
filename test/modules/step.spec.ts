@@ -115,17 +115,31 @@ describe('step', () => {
       expect(result?.spotlightPadding).toBe(defaultStep.spotlightPadding);
     });
 
-    it('should allow tour props to override defaultStep', () => {
+    it('should allow stepOptions to override defaultStep', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        disableOverlay: true,
-        spotlightPadding: 20,
+        stepOptions: { disableOverlay: true, spotlightPadding: 20 },
       });
 
       const result = getMergedStep(props, baseStep);
 
       expect(result?.disableOverlay).toBe(true);
       expect(result?.spotlightPadding).toBe(20);
+    });
+
+    it('should preserve unset stepOptions defaults when partial stepOptions is provided', () => {
+      const props = fromPartial<Props>({
+        ...baseProps,
+        stepOptions: { disableOverlay: true },
+      });
+
+      const result = getMergedStep(props, baseStep);
+
+      expect(result?.disableOverlay).toBe(true);
+      expect(result?.spotlightPadding).toBe(defaultStep.spotlightPadding);
+      expect(result?.loaderDelay).toBe(defaultStep.loaderDelay);
+      expect(result?.targetWaitTimeout).toBe(defaultStep.targetWaitTimeout);
+      expect(result?.disableCloseOnEsc).toBe(defaultStep.disableCloseOnEsc);
     });
 
     it('should allow stepOptions to set disableFocusTrap', () => {
@@ -154,11 +168,10 @@ describe('step', () => {
       expect(result?.disableFocusTrap).toBe(false);
     });
 
-    it('should allow step props to override tour props', () => {
+    it('should allow step props to override stepOptions', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        spotlightPadding: 20,
-        disableOverlay: true,
+        stepOptions: { spotlightPadding: 20, disableOverlay: true },
       });
       const step: Step = {
         ...baseStep,

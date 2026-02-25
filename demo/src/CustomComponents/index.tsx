@@ -189,7 +189,9 @@ function Custom(props: Props) {
         getHelpers={setHelpers}
         locale={messages}
         run={run}
-        showSkipButton
+        stepOptions={{
+          showSkipButton: true,
+        }}
         steps={steps}
         styles={{
           options: {

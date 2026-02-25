@@ -104,7 +104,9 @@ export default function ModalDemo() {
         callback={handleJoyrideCallback}
         continuous
         run={run}
-        showSkipButton
+        stepOptions={{
+          showSkipButton: true,
+        }}
         steps={steps}
         styles={{
           options: {

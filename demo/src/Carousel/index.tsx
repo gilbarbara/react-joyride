@@ -115,8 +115,10 @@ export default function CarouselDemo() {
         continuous
         run={run}
         scrollToFirstStep
-        showSkipButton
         stepIndex={stepIndex}
+        stepOptions={{
+          showProgress: true,
+        }}
         steps={steps}
         styles={{
           options: {

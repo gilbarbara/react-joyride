@@ -10,38 +10,9 @@ export type BaseProps = {
    */
   beaconComponent?: ElementType<BeaconRenderProps>;
   /**
-   * Disable closing the tooltip on ESC.
-   * @default false
-   */
-  disableCloseOnEsc?: boolean;
-  /**
-   * Don't show the overlay.
-   * @default false
-   */
-  disableOverlay?: boolean;
-  /**
-   * Don't close the tooltip when clicking the overlay.
-   * @default false
-   */
-  disableOverlayClose?: boolean;
-  /**
-   * @default false
-   */
-  disableScrolling?: boolean;
-  /**
    * Options for the floating tooltip positioning.
    */
   floatingOptions?: Partial<FloatingOptions>;
-  /**
-   * Hide the Back button.
-   * @default false
-   */
-  hideBackButton?: boolean;
-  /**
-   * Hide the Close button.
-   * @default false
-   */
-  hideCloseButton?: boolean;
   /**
    * A React component to use instead the default Loader.
    */
@@ -50,23 +21,6 @@ export type BaseProps = {
    * The strings used in the tooltip.
    */
   locale?: Locale;
-  /**
-   * @default false
-   */
-  showProgress?: boolean;
-  /**
-   * @default false
-   */
-  showSkipButton?: boolean;
-  /**
-   * @default false
-   */
-  spotlightClicks?: boolean;
-  /**
-   * The padding of the spotlight.
-   * @default 10
-   */
-  spotlightPadding?: number;
   /**
    * Override the styling of the Tooltip
    */
@@ -321,15 +275,65 @@ export type StepMerged = Simplify<
 
 export type StepOptions = {
   /**
+   * Disable closing the tooltip on ESC.
+   * @default false
+   */
+  disableCloseOnEsc?: boolean;
+  /**
    * Disable the focus trap for the tooltip.
    * @default false
    */
   disableFocusTrap?: boolean;
   /**
+   * Don't show the overlay.
+   * @default false
+   */
+  disableOverlay?: boolean;
+  /**
+   * Don't close the tooltip when clicking the overlay.
+   * @default false
+   */
+  disableOverlayClose?: boolean;
+  /**
+   * Disable scrolling to the target.
+   * @default false
+   */
+  disableScrolling?: boolean;
+  /**
+   * Hide the Back button.
+   * @default false
+   */
+  hideBackButton?: boolean;
+  /**
+   * Hide the Close button.
+   * @default false
+   */
+  hideCloseButton?: boolean;
+  /**
    * Delay (ms) before showing the loader while waiting for a target.
    * @default 300
    */
   loaderDelay?: number;
+  /**
+   * Show the progress (e.g. 1 of 5) in the tooltip.
+   * @default false
+   */
+  showProgress?: boolean;
+  /**
+   * Show the skip button in the tooltip.
+   * @default false
+   */
+  showSkipButton?: boolean;
+  /**
+   * Allow mouse and touch events within the spotlight.
+   * @default false
+   */
+  spotlightClicks?: boolean;
+  /**
+   * The padding of the spotlight.
+   * @default 10
+   */
+  spotlightPadding?: number;
   /**
    * Max time (ms) to wait for the target to appear. 0 = no waiting.
    * @default 150

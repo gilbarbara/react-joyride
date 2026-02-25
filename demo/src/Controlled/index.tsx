@@ -235,9 +235,11 @@ export default function ControlledDemo() {
         }}
         run={run}
         scrollToFirstStep
-        showProgress
-        showSkipButton
         stepIndex={stepIndex}
+        stepOptions={{
+          showProgress: true,
+          showSkipButton: true,
+        }}
         steps={steps}
       />
       <Sidebar
