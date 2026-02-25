@@ -1,43 +1,32 @@
 import is from 'is-lite';
 
-import { defaultFloatingOptions, defaultLocale, defaultStep } from '~/defaults';
+import { defaultFloatingOptions, defaultLocale, defaultStep, defaultStepOptions } from '~/defaults';
 import getStyles from '~/styles';
 
 import { FloatingOptions, Locale, Props, Step, StepMerged } from '~/types';
 
 import { deepMerge, logDebug, pick } from './helpers';
 
-function getTourProps(props: Props) {
-  return {
-    ...pick(
-      props,
-      'beaconComponent',
-      'disableCloseOnEsc',
-      'disableOverlay',
-      'disableOverlayClose',
-      'disableScrolling',
-      'floatingOptions',
-      'hideBackButton',
-      'hideCloseButton',
-      'loaderComponent',
-      'locale',
-      'showProgress',
-      'showSkipButton',
-      'spotlightClicks',
-      'spotlightPadding',
-      'styles',
-      'tooltipComponent',
-    ),
-    ...props.stepOptions,
-  };
-}
-
 export function getMergedStep(props: Props, currentStep?: Step): StepMerged | null {
   if (!currentStep) {
     return null;
   }
 
-  const mergedStep = deepMerge<StepMerged>(defaultStep, getTourProps(props), currentStep);
+  const mergedStep = deepMerge<StepMerged>(
+    defaultStep,
+    pick(
+      props,
+      'beaconComponent',
+      'floatingOptions',
+      'loaderComponent',
+      'locale',
+      'styles',
+      'tooltipComponent',
+    ),
+    defaultStepOptions,
+    props.stepOptions ?? {},
+    currentStep,
+  );
 
   const mergedStyles = getStyles(props, mergedStep);
   const floatingOptions = deepMerge<FloatingOptions>(

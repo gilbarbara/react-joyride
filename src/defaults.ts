@@ -1,4 +1,4 @@
-import { FloatingOptions, Locale, Props, Step } from '~/types';
+import { FloatingOptions, Locale, Props, Step, StepOptions } from '~/types';
 
 export const defaultFloatingOptions: FloatingOptions = {
   beaconOptions: {
@@ -16,11 +16,7 @@ export const defaultLocale: Locale = {
   skip: 'Skip',
 };
 
-export const defaultStep = {
-  event: 'click',
-  placement: 'bottom',
-  offset: 10,
-  disableBeacon: false,
+export const defaultStepOptions: Required<StepOptions> = {
   disableCloseOnEsc: false,
   disableFocusTrap: false,
   disableOverlay: false,
@@ -28,37 +24,32 @@ export const defaultStep = {
   disableScrolling: false,
   hideBackButton: false,
   hideCloseButton: false,
-  hideFooter: false,
-  isFixed: false,
-  locale: defaultLocale,
+  loaderDelay: 300,
   showProgress: false,
   showSkipButton: false,
   spotlightClicks: false,
   spotlightPadding: 10,
-  loaderDelay: 300,
   targetWaitTimeout: 150,
+};
+
+export const defaultStep = {
+  event: 'click',
+  placement: 'bottom',
+  offset: 10,
+  disableBeacon: false,
+  hideFooter: false,
+  isFixed: false,
+  locale: defaultLocale,
+  ...defaultStepOptions,
 } satisfies Omit<Step, 'content' | 'target'>;
 
 export const defaultProps = {
   continuous: false,
   debug: false,
-  disableCloseOnEsc: false,
-  disableOverlay: false,
-  disableOverlayClose: false,
-  disableScrolling: false,
-  hideBackButton: false,
   run: true,
   scrollOffset: 20,
   scrollDuration: 300,
   scrollToFirstStep: false,
-  showSkipButton: false,
-  showProgress: false,
-  spotlightClicks: false,
-  spotlightPadding: 10,
-  stepOptions: {
-    disableFocusTrap: false,
-    loaderDelay: 300,
-    targetWaitTimeout: 150,
-  },
+  stepOptions: defaultStepOptions,
   steps: [],
 } satisfies Props;

@@ -16,8 +16,7 @@ import { Props } from '~/types';
 
 function Joyride(props: Props) {
   const { mergedProps, state, step, store } = useJoyrideData(props);
-  const { continuous, debug, disableCloseOnEsc, nonce, portalElement, scrollToFirstStep, steps } =
-    mergedProps;
+  const { continuous, debug, nonce, portalElement, scrollToFirstStep } = mergedProps;
 
   const element = usePortalElement(portalElement);
 
@@ -32,42 +31,37 @@ function Joyride(props: Props) {
     });
   });
 
+  const { index, lifecycle, status } = state;
+  const isRunning = status === STATUS.RUNNING;
+
   // Handle keyboard
   useEffect(() => {
-    const handleKeyboard = (event: KeyboardEvent) => {
-      const currentStep = steps[state.index];
+    if (!isRunning) {
+      return undefined;
+    }
 
-      if (!currentStep) {
+    const handleKeyboard = (event: KeyboardEvent) => {
+      if (!step || lifecycle !== LIFECYCLE.TOOLTIP) {
         return;
       }
 
-      if (state.lifecycle === LIFECYCLE.TOOLTIP) {
-        if (event.key === 'Escape' && !currentStep.disableCloseOnEsc) {
-          store.current.close('keyboard');
-        }
+      if (event.key === 'Escape' && !step.disableCloseOnEsc) {
+        store.current.close('keyboard');
       }
     };
 
-    if (!disableCloseOnEsc) {
-      document.body.addEventListener('keydown', handleKeyboard, { passive: true });
-    }
+    document.body.addEventListener('keydown', handleKeyboard, { passive: true });
 
     return () => {
-      if (!disableCloseOnEsc) {
-        document.body.removeEventListener('keydown', handleKeyboard);
-      }
+      document.body.removeEventListener('keydown', handleKeyboard);
     };
-  }, [disableCloseOnEsc, state.index, state.lifecycle, steps, store]);
-
-  const { index, lifecycle, status } = state;
+  }, [isRunning, lifecycle, step, store]);
 
   const handleClickOverlay = useCallback(() => {
     if (!step?.disableOverlayClose) {
       store.current.close('overlay');
     }
   }, [step?.disableOverlayClose, store]);
-
-  const isRunning = status === STATUS.RUNNING;
 
   if (!step || !isRunning) {
     return null;

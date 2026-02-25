@@ -85,7 +85,7 @@ export default function CustomOptions(props: CustomOptionsProps) {
         callback={handleJoyrideCallback}
         continuous
         scrollToFirstStep
-        showSkipButton
+        stepOptions={{ showSkipButton: true }}
         steps={steps}
         styles={{
           beaconInner: {

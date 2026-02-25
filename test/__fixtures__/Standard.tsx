@@ -61,7 +61,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
           portalElement="#portal"
           run={run}
           scrollToFirstStep
-          showSkipButton
+          stepOptions={{ showSkipButton: true }}
           steps={steps}
           {...rest}
         />

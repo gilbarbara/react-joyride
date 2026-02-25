@@ -134,8 +134,10 @@ export default function BasicDemo(props: Props) {
         run={run}
         scrollOffset={64}
         scrollToFirstStep
-        showProgress
-        showSkipButton
+        stepOptions={{
+          showProgress: true,
+          showSkipButton: true,
+        }}
         steps={steps}
         styles={{
           options: {
