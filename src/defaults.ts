@@ -22,13 +22,16 @@ export const defaultStepOptions: Required<StepOptions> = {
   disableOverlay: false,
   disableOverlayClose: false,
   disableScrolling: false,
+  dismissAction: 'close',
   hideBackButton: false,
   hideCloseButton: false,
+  hidePrimaryButton: false,
   loaderDelay: 300,
   showProgress: false,
   showSkipButton: false,
   spotlightClicks: false,
   spotlightPadding: 10,
+  stepDelay: 0,
   targetWaitTimeout: 150,
 };
 
@@ -40,6 +43,7 @@ export const defaultStep = {
   hideFooter: false,
   isFixed: false,
   locale: defaultLocale,
+  scrollOffset: 20,
   ...defaultStepOptions,
 } satisfies Omit<Step, 'content' | 'target'>;
 

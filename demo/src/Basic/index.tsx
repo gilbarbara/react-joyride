@@ -40,11 +40,12 @@ export default function BasicDemo(props: Props) {
         target: 'body',
       },
       {
-        content: <h2>Absolute elements</h2>,
+        content: <h2>A step with delay (1000) and no arrow</h2>,
         target: '.star-burst',
         floatingOptions: {
           hideArrow: true,
         },
+        stepDelay: 1000,
       },
       {
         content: 'These are our super awesome projects!',

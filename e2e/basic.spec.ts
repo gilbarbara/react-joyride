@@ -22,9 +22,13 @@ test('basic', async ({ page }) => {
 
   await test.step('Step 2 - Absolute elements', async () => {
     await page.getByTestId('button-primary').click();
+
+    await expect(page.locator('.react-joyride__loader')).toBeVisible();
+    await expect(page).toHaveScreenshot('step2-loader.png');
+
     await waitForScrollEnd(page);
 
-    await expect(tooltip).toContainText('Absolute elements');
+    await expect(tooltip).toContainText('A step with delay (1000) and no arrowSkipBackNext');
     await expect(page).toHaveScreenshot('step2-tooltip.png');
   });
 

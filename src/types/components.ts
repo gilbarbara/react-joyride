@@ -22,6 +22,11 @@ export type BaseProps = {
    */
   locale?: Locale;
   /**
+   * The scroll distance from the element scrollTop value.
+   * @default 20
+   */
+  scrollOffset?: number;
+  /**
    * Override the styling of the Tooltip
    */
   styles?: PartialDeep<Styles>;
@@ -148,11 +153,6 @@ export type Props = Simplify<
      */
     scrollDuration?: number;
     /**
-     * The scroll distance from the element scrollTop value.
-     * @default 20
-     */
-    scrollOffset?: number;
-    /**
      * Scroll the page for the first step.
      * @default false
      */
@@ -216,6 +216,10 @@ export type Step = Simplify<
        */
       hideFooter?: boolean;
       /**
+       * A unique identifier for the step.
+       */
+      id?: string;
+      /**
        * Force the step to be fixed.
        * @default false
        */
@@ -254,19 +258,23 @@ export type StepMerged = Simplify<
     | 'disableOverlay'
     | 'disableOverlayClose'
     | 'disableScrolling'
+    | 'dismissAction'
     | 'event'
     | 'hideBackButton'
     | 'hideCloseButton'
     | 'hideFooter'
+    | 'hidePrimaryButton'
     | 'isFixed'
     | 'loaderDelay'
     | 'locale'
     | 'offset'
     | 'placement'
+    | 'scrollOffset'
     | 'showProgress'
     | 'showSkipButton'
     | 'spotlightClicks'
     | 'spotlightPadding'
+    | 'stepDelay'
     | 'targetWaitTimeout'
   > & {
     styles: Styles;
@@ -300,6 +308,13 @@ export type StepOptions = {
    */
   disableScrolling?: boolean;
   /**
+   * The action to take when the close button is clicked.
+   * - `'close'`: Advances to the next step (default behavior).
+   * - `'skip'`: Ends the tour entirely.
+   * @default 'close'
+   */
+  dismissAction?: 'close' | 'skip';
+  /**
    * Hide the Back button.
    * @default false
    */
@@ -309,6 +324,11 @@ export type StepOptions = {
    * @default false
    */
   hideCloseButton?: boolean;
+  /**
+   * Hide the Next (or Last) button.
+   * @default false
+   */
+  hidePrimaryButton?: boolean;
   /**
    * Delay (ms) before showing the loader while waiting for a target.
    * @default 300
@@ -334,6 +354,12 @@ export type StepOptions = {
    * @default 10
    */
   spotlightPadding?: number;
+  /**
+   * Delay (ms) before transitioning to the next step.
+   * Shows the loader during the delay.
+   * @default 0
+   */
+  stepDelay?: number;
   /**
    * Max time (ms) to wait for the target to appear. 0 = no waiting.
    * @default 150
@@ -369,7 +395,7 @@ export type StoreHelpers = {
   open: () => void;
   prev: () => void;
   reset: (restart: boolean) => void;
-  skip: () => void;
+  skip: (origin: Extract<Origin, 'button_close' | 'button_skip'>) => void;
 };
 
 export type StoreState = State & { scrolling: boolean; waiting: boolean };

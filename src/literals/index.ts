@@ -35,6 +35,7 @@ export const LIFECYCLE = {
 
 export const ORIGIN = {
   BUTTON_CLOSE: 'button_close',
+  BUTTON_SKIP: 'button_skip',
   BUTTON_PRIMARY: 'button_primary',
   KEYBOARD: 'keyboard',
   OVERLAY: 'overlay',

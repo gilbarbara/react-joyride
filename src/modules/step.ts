@@ -20,6 +20,7 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
       'floatingOptions',
       'loaderComponent',
       'locale',
+      'scrollOffset',
       'styles',
       'tooltipComponent',
     ),

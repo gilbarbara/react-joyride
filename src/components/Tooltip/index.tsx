@@ -18,7 +18,11 @@ export default function Tooltip(props: TooltipProps) {
   const handleClickClose = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    helpers.close('button_close');
+    if (step.dismissAction === 'skip') {
+      helpers.skip('button_close');
+    } else {
+      helpers.close('button_close');
+    }
   };
 
   const handleClickPrimary = (event: MouseEvent<HTMLElement>) => {
@@ -36,7 +40,7 @@ export default function Tooltip(props: TooltipProps) {
   const handleClickSkip = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    helpers.skip();
+    helpers.skip('button_skip');
   };
 
   const getElementsProps = () => {

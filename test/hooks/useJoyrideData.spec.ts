@@ -225,7 +225,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.skip();
+        result.current.store.current.skip('button_skip');
       });
 
       await waitFor(() => {
@@ -234,6 +234,7 @@ describe('useJoyrideData', () => {
             action: ACTIONS.SKIP,
             index: 0,
             lifecycle: LIFECYCLE.COMPLETE,
+            origin: 'button_skip',
             status: STATUS.SKIPPED,
             type: EVENTS.TOUR_END,
           }),
@@ -1054,6 +1055,73 @@ describe('useJoyrideData', () => {
       await waitFor(() => {
         expect(result.current.state.status).toBe(STATUS.RUNNING);
       });
+    });
+  });
+
+  describe('Step Delay', () => {
+    it('should delay step transition with stepDelay', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      // STEP_AFTER fires immediately
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      // waiting should be true during the delay
+      expect(result.current.state.waiting).toBe(true);
+
+      // After real 200ms, STEP_BEFORE and TOOLTIP fire
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(false);
+    });
+
+    it('should delay step transition with stepDelay in controlled mode', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
+      ];
+
+      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+        initialProps: createProps({ steps, stepIndex: 0 }),
+      });
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      rerender(createProps({ steps, stepIndex: 1 }));
+
+      // waiting should be true during the delay
+      await waitFor(() => {
+        expect(result.current.state.waiting).toBe(true);
+      });
+
+      // After real 200ms, TOOLTIP fires
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(false);
     });
   });
 });

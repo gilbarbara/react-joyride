@@ -221,7 +221,7 @@ class Store {
     this.updateState({ size: steps.length });
   };
 
-  public skip = () => {
+  public skip = (origin: Extract<Origin, 'button_close' | 'button_skip'> = 'button_skip') => {
     const { status } = this.state;
 
     if (status !== STATUS.RUNNING) {
@@ -231,6 +231,7 @@ class Store {
     this.updateState({
       action: ACTIONS.SKIP,
       lifecycle: LIFECYCLE.COMPLETE,
+      origin,
       scrolling: false,
       status: STATUS.SKIPPED,
     });
