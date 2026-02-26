@@ -769,12 +769,23 @@ describe('useJoyrideData', () => {
   });
 
   describe('Scroll', () => {
+    const mockPositionData = {
+      placement: 'bottom' as const,
+      x: 0,
+      y: 0,
+      middlewareData: { offset: { x: 0, y: 20, placement: 'bottom' as const } },
+    };
+
     it('should call scrollTo when scrollToFirstStep is true', async () => {
-      renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
+      const { result } = renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
-      expect(scrollTo).toHaveBeenCalled();
+      act(() => {
+        result.current.store.current.setPositionData('tooltip', mockPositionData);
+      });
+
+      await waitFor(() => expect(scrollTo).toHaveBeenCalled());
     });
 
     it('should NOT call scrollTo when disableScrolling is true on the step', async () => {
@@ -782,9 +793,15 @@ describe('useJoyrideData', () => {
         { target: '.step-1', content: 'Step 1', disableBeacon: true, disableScrolling: true },
       ];
 
-      renderHook(() => useJoyrideData(createProps({ steps, scrollToFirstStep: true })));
+      const { result } = renderHook(() =>
+        useJoyrideData(createProps({ steps, scrollToFirstStep: true })),
+      );
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+
+      act(() => {
+        result.current.store.current.setPositionData('tooltip', mockPositionData);
+      });
 
       expect(scrollTo).not.toHaveBeenCalled();
     });
@@ -802,6 +819,12 @@ describe('useJoyrideData', () => {
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
       act(() => {
+        result.current.store.current.setPositionData('tooltip', mockPositionData);
+      });
+
+      await waitFor(() => expect(scrollTo).toHaveBeenCalled());
+
+      act(() => {
         result.current.store.current.next();
       });
 
@@ -811,17 +834,25 @@ describe('useJoyrideData', () => {
         );
       });
 
-      expect(cancelMock).toHaveBeenCalled();
+      act(() => {
+        result.current.store.current.setPositionData('tooltip', mockPositionData);
+      });
+
+      await waitFor(() => expect(cancelMock).toHaveBeenCalled());
     });
 
     it('should clamp negative scrollY to 0', async () => {
       vi.mocked(getScrollTo).mockReturnValue(-100);
 
-      renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
+      const { result } = renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
-      expect(scrollTo).toHaveBeenCalledWith(0, expect.any(Object));
+      act(() => {
+        result.current.store.current.setPositionData('tooltip', mockPositionData);
+      });
+
+      await waitFor(() => expect(scrollTo).toHaveBeenCalledWith(0, expect.any(Object)));
     });
   });
 

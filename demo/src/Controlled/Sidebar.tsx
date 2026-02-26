@@ -36,7 +36,7 @@ export default function Sidebar(props: SidebarProps) {
         }}
         width={240}
       >
-        <div ref={sidebarRef} className="bg-white h-full overflow-auto p-4">
+        <div ref={sidebarRef} className="bg-white h-full overflow-auto p-4" id="sidebar">
           <h2 className="text-2xl font-bold mb-2">Menu</h2>
           <div className="flex flex-col gap-4">
             <Link className="menu-item" to="/">

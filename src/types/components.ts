@@ -398,7 +398,7 @@ export type StoreHelpers = {
   skip: (origin: Extract<Origin, 'button_close' | 'button_skip'>) => void;
 };
 
-export type StoreState = State & { scrolling: boolean; waiting: boolean };
+export type StoreState = State & { positioned: boolean; scrolling: boolean; waiting: boolean };
 
 export type TooltipProps = {
   continuous: boolean;

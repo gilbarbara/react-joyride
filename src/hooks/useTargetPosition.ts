@@ -49,10 +49,12 @@ function computeRect(target: StepTarget, spotlightPadding: number): TargetRect {
 export default function useTargetPosition(
   target: StepTarget,
   spotlightPadding: number,
+  force: boolean,
 ): TargetRect {
   const [rect, setRect] = useState<TargetRect>(() => computeRect(target, spotlightPadding));
   const timeoutRef = useRef<number>(undefined);
   const scrollParentRef = useRef<Element | Document | null>(null);
+  const previousForceRef = useRef(force);
   const observerRef = useRef<ResizeObserver | null>(null);
 
   const updateRect = useCallback(() => {
@@ -112,5 +114,21 @@ export default function useTargetPosition(
     };
   }, [target, spotlightPadding, updateRect]);
 
-  return rect;
+  // Persist to state and track transitions after render
+  useEffect(() => {
+    if (previousForceRef.current && !force) {
+      setRect(computeRect(target, spotlightPadding));
+    }
+
+    previousForceRef.current = force;
+  }, [force, target, spotlightPadding]);
+
+  // Synchronous override: when scrolling just ended, return fresh rect immediately
+  let finalRect = rect;
+
+  if (previousForceRef.current && !force) {
+    finalRect = computeRect(target, spotlightPadding);
+  }
+
+  return finalRect;
 }

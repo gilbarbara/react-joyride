@@ -80,6 +80,7 @@ export default function ControlledDemo() {
           disableBeacon: true,
           placement: 'right',
           spotlightPadding: 0,
+          stepDelay: 500,
           styles: {
             options: {
               zIndex: 10000,
@@ -105,6 +106,7 @@ export default function ControlledDemo() {
           content: 'Check the availability of the team!',
           disableBeacon: true,
           placement: 'bottom',
+          stepDelay: 500,
           styles: {
             options: {
               zIndex: 10000,
@@ -172,35 +174,21 @@ export default function ControlledDemo() {
       const isPrevious = action === ACTIONS.PREV;
       const nextStepIndex = index + (isPrevious ? -1 : 1);
 
-      if (sidebarOpen && index === 0) {
-        setTimeout(() => {
-          setState({ run: true });
-        }, 400);
-      } else if (sidebarOpen && index === 1) {
+      if (sidebarOpen && index === 1) {
         setState({
           sidebarOpen: !isPrevious,
           stepIndex: nextStepIndex,
         });
       } else if (sidebarOpen && index === 2) {
         setState({
-          run: isPrevious,
           sidebarOpen: isPrevious,
           stepIndex: nextStepIndex,
         });
-
-        setTimeout(() => {
-          setState({ run: true });
-        }, 500);
       } else if (index === 3 && action === ACTIONS.PREV) {
         setState({
-          run: false,
           sidebarOpen: true,
           stepIndex: nextStepIndex,
         });
-
-        setTimeout(() => {
-          setState({ run: true });
-        }, 400);
       } else {
         // Update state to advance the tour
         setState({
@@ -215,7 +203,6 @@ export default function ControlledDemo() {
 
   const handleClickOpen = () => {
     setState({
-      run: stepIndex === 0 ? false : run,
       sidebarOpen: !sidebarOpen,
       stepIndex: stepIndex === 0 ? 1 : stepIndex,
     });

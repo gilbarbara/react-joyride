@@ -47,7 +47,7 @@ export default function useLifecycleEffect({
   propsRef.current = props;
   stateRef.current = state;
 
-  const callbackState = () => omit(stateRef.current, 'scrolling', 'waiting');
+  const callbackState = () => omit(stateRef.current, 'positioned', 'scrolling', 'waiting');
 
   const cleanup = () => {
     if (loaderTimeoutRef.current) {

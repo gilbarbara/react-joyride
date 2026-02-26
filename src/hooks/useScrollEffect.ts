@@ -37,11 +37,10 @@ function adjustForPlacement(
     lifecycle: Lifecycle;
     scrollOffset: number;
     step: StepMerged;
-    tooltipPosition: PositionData | null;
   },
 ): number {
-  const { beaconPosition, lifecycle, scrollOffset, step, tooltipPosition } = options;
-  let adjustedY = scrollY;
+  const { beaconPosition, lifecycle, scrollOffset, step } = options;
+  let adjustedY = scrollY - step.spotlightPadding;
 
   if (lifecycle === LIFECYCLE.BEACON && beaconPosition?.placement) {
     const y = getMainAxisOffset(beaconPosition);
@@ -49,14 +48,30 @@ function adjustForPlacement(
     if (!['bottom'].includes(beaconPosition.placement)) {
       adjustedY += Math.floor(y - scrollOffset);
     }
-  } else if (lifecycle === LIFECYCLE.TOOLTIP && tooltipPosition?.placement) {
-    const y = getMainAxisOffset(tooltipPosition);
-    const flipped = tooltipPosition.placement !== step.placement;
+  } else if (lifecycle === LIFECYCLE.TOOLTIP) {
+    const { placement } = step;
 
-    if (['left', 'right', 'top'].includes(tooltipPosition.placement) && !flipped) {
-      adjustedY += Math.floor(y - scrollOffset);
-    } else {
-      adjustedY -= step.spotlightPadding;
+    if (placement === 'top') {
+      const floaterElement = document.querySelector('.react-joyride__floater');
+      const floaterHeight = floaterElement?.getBoundingClientRect().height ?? 0;
+      const arrowSize = step.floatingOptions?.hideArrow ? 0 : step.styles.arrow.size;
+      const gap = step.offset + step.spotlightPadding + arrowSize;
+
+      adjustedY -= floaterHeight + gap;
+    } else if (placement === 'left' || placement === 'right') {
+      const floaterElement = document.querySelector('.react-joyride__floater');
+      const floaterHeight = floaterElement?.getBoundingClientRect().height ?? 0;
+      const targetEl = getElement(step.target);
+      const targetHeight = targetEl?.getBoundingClientRect().height ?? 0;
+
+      // After base scroll, the target center sits at this distance from viewport top
+      const targetCenterY = scrollOffset + step.spotlightPadding + targetHeight / 2;
+      // The floater is centered on the target, so its top edge would be here
+      const floaterTopY = targetCenterY - floaterHeight / 2;
+
+      if (floaterTopY < scrollOffset) {
+        adjustedY -= scrollOffset - floaterTopY;
+      }
     }
   }
 
@@ -82,7 +97,7 @@ export default function useScrollEffect({
   store,
 }: UseScrollEffectParams): void {
   const { debug, scrollDuration } = props;
-  const { index, lifecycle, scrolling, status } = state;
+  const { index, lifecycle, positioned, scrolling, status } = state;
   const cancelScrollRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
@@ -96,11 +111,9 @@ export default function useScrollEffect({
       return;
     }
 
-    const target = getElement(step.target);
-    const beaconPosition = store.current.getPositionData('beacon');
-    const tooltipPosition = store.current.getPositionData('tooltip');
-
-    if (status === STATUS.RUNNING && changedState('scrolling', true)) {
+    if (status === STATUS.RUNNING && scrolling && changedState('positioned', true)) {
+      const target = getElement(step.target);
+      const beaconPosition = store.current.getPositionData('beacon');
       const hasCustomScroll = hasCustomScrollParent(target);
       const scrollParent = getScrollParent(target);
 
@@ -130,13 +143,14 @@ export default function useScrollEffect({
         }
 
         const baseScrollY = Math.floor(getScrollTo(target, step.scrollOffset)) || 0;
-        const scrollY = adjustForPlacement(baseScrollY, {
-          beaconPosition,
-          lifecycle,
-          scrollOffset: step.scrollOffset,
-          step,
-          tooltipPosition,
-        });
+        const scrollY = hasCustomScroll
+          ? baseScrollY
+          : adjustForPlacement(baseScrollY, {
+              beaconPosition,
+              lifecycle,
+              scrollOffset: step.scrollOffset,
+              step,
+            });
 
         const { cancel, promise } = scrollTo(scrollY, {
           element: scrollParent as Element,
@@ -146,11 +160,11 @@ export default function useScrollEffect({
         cancelScrollRef.current = cancel;
         await promise;
 
-        store.current.updateState({ scrolling: false });
+        store.current.updateState({ positioned: false, scrolling: false });
       };
 
       handleScroll().catch(() => {
-        store.current.updateState({ scrolling: false });
+        store.current.updateState({ positioned: false, scrolling: false });
       });
     }
   }, [
@@ -158,6 +172,7 @@ export default function useScrollEffect({
     debug,
     index,
     lifecycle,
+    positioned,
     previousState,
     scrollDuration,
     scrolling,

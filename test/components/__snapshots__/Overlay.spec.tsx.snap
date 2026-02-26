@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Overlay (Safari) > should wrap Spotlight for Safari mix-blend-mode hack 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; mix-blend-mode: hard-light;"
+>
+  <div
+    style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; background-color: rgba(0, 0, 0, 0.5);"
+  >
+    <div
+      class="react-joyride__spotlight"
+      data-test-id="spotlight"
+      style="background-color: gray; border-radius: 4px; height: 0px; left: 0px; opacity: 1; pointer-events: auto; position: absolute; top: 0px; transition: opacity 0.2s; width: 0px;"
+    />
+  </div>
+</div>
+`;
+
+exports[`Overlay > should not render Spotlight for center placement 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+/>
+`;
+
+exports[`Overlay > should not render Spotlight when scrolling is true 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+/>
+`;
+
+exports[`Overlay > should not render Spotlight when waiting is true 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+/>
+`;
+
+exports[`Overlay > should render Spotlight when scrolling transitions to false 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+>
+  <div
+    class="react-joyride__spotlight"
+    data-test-id="spotlight"
+    style="background-color: gray; border-radius: 4px; height: 0px; left: 0px; opacity: 1; pointer-events: auto; position: absolute; top: 0px; transition: opacity 0.2s; width: 0px;"
+  />
+</div>
+`;
+
+exports[`Overlay > should render the overlay when lifecycle is TOOLTIP 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-test-id="overlay"
+  role="presentation"
+  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.5); mix-blend-mode: hard-light;"
+/>
+`;
