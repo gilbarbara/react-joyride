@@ -22,6 +22,7 @@ exports[`Joyride > Standard > should render STEP 1 Tooltip > tooltip 1`] = `
     aria-label="Let's begin our journey!"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="0"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -129,6 +130,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip > tooltip 1`] = `
     aria-label="The first step of many! Keep walking!"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="1"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -257,6 +259,7 @@ exports[`Joyride > Standard > should render STEP 2 Tooltip AGAIN > tooltip 1`] =
     aria-label="The first step of many! Keep walking!"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="1"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -410,6 +413,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip > tooltip 1`] = `
     aria-labelledby="joyride-tooltip-title"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="2"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -544,6 +548,7 @@ exports[`Joyride > Standard > should render STEP 3 Tooltip AGAIN > tooltip 1`] =
     aria-labelledby="joyride-tooltip-title"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="2"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -703,6 +708,7 @@ exports[`Joyride > Standard > should render STEP 4 Tooltip > tooltip 1`] = `
     aria-label="We are the people"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="3"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -850,6 +856,7 @@ exports[`Joyride > Standard > should render STEP 6 Tooltip > tooltip 1`] = `
     aria-label="Text only steps — Because sometimes you don't really need a proper heading"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="5"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -972,6 +979,7 @@ exports[`Joyride > Standard > should render STEP 7 Tooltip > tooltip 1`] = `
     aria-label="That's it folks!"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="6"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >
@@ -1164,6 +1172,7 @@ exports[`Joyride > Standard > should restart the tour > tooltip 1`] = `
     aria-label="Let's begin our journey!"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="0"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
   >

@@ -42,30 +42,36 @@ export default function useLifecycleEffect({
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollingTargetRef = useRef<StepTarget | null>(null);
   const loaderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const stepDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   propsRef.current = props;
   stateRef.current = state;
 
   const callbackState = () => omit(stateRef.current, 'scrolling', 'waiting');
 
-  const clearPolling = () => {
-    if (pollingRef.current) {
-      clearInterval(pollingRef.current);
-      pollingRef.current = null;
-    }
-
+  const cleanup = () => {
     if (loaderTimeoutRef.current) {
       clearTimeout(loaderTimeoutRef.current);
       loaderTimeoutRef.current = null;
     }
 
+    if (pollingRef.current) {
+      clearInterval(pollingRef.current);
+      pollingRef.current = null;
+    }
+
     pollingTargetRef.current = null;
+
+    if (stepDelayTimeoutRef.current) {
+      clearTimeout(stepDelayTimeoutRef.current);
+      stepDelayTimeoutRef.current = null;
+    }
   };
 
   useEffectDeepCompare(() => {
     if (!previousState) {
       return () => {
-        clearPolling();
+        cleanup();
       };
     }
 
@@ -82,7 +88,7 @@ export default function useLifecycleEffect({
 
     // Clear polling from previous step before starting new polling
     if (changedState('index')) {
-      clearPolling();
+      cleanup();
 
       logDebug({
         title: `step:${lifecycle}`,
@@ -94,56 +100,71 @@ export default function useLifecycleEffect({
     if (status === STATUS.RUNNING && step && lifecycle === LIFECYCLE.INIT) {
       store.current.cleanupPositionData();
 
-      // If polling for a different target (step changed), restart
-      if (pollingRef.current && pollingTargetRef.current !== step.target) {
-        clearPolling();
-      }
+      // Step delay: pause before processing the new step
 
-      const element = getElement(step.target);
-      const targetAvailable = element && isElementVisible(element);
+      if (step.stepDelay > 0 && !stepDelayTimeoutRef.current) {
+        store.current.updateState({ waiting: true });
 
-      if (targetAvailable) {
-        clearPolling();
-        store.current.updateState({
-          action: lastAction.current ?? ACTIONS.UPDATE,
-          lifecycle: LIFECYCLE.READY,
-          waiting: false,
-        });
-      } else if (step.targetWaitTimeout === 0) {
-        store.current.updateState({
-          action: lastAction.current ?? ACTIONS.UPDATE,
-          lifecycle: LIFECYCLE.READY,
-          waiting: false,
-        });
-      } else if (!pollingRef.current) {
-        const timeout = step.targetWaitTimeout ?? 150;
-        const loaderDelay = step.loaderDelay ?? 300;
-        const startTime = Date.now();
-
-        pollingTargetRef.current = step.target;
-
-        if (timeout > loaderDelay) {
-          loaderTimeoutRef.current = setTimeout(() => {
-            if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
-              store.current.updateState({ waiting: true });
-            }
-          }, loaderDelay);
+        stepDelayTimeoutRef.current = setTimeout(() => {
+          stepDelayTimeoutRef.current = null;
+          store.current.updateState({
+            action: lastAction.current ?? action,
+            waiting: false,
+            lifecycle: LIFECYCLE.READY,
+          });
+        }, step.stepDelay);
+      } else if (!stepDelayTimeoutRef.current) {
+        // If polling for a different target (step changed), restart
+        if (pollingRef.current && pollingTargetRef.current !== step.target) {
+          cleanup();
         }
 
-        pollingRef.current = setInterval(() => {
-          const el = getElement(step.target);
-          const elapsed = Date.now() - startTime;
-          const timedOut = elapsed >= timeout;
+        const element = getElement(step.target);
+        const targetAvailable = element && isElementVisible(element);
 
-          if ((el && isElementVisible(el)) || timedOut) {
-            clearPolling();
-            store.current.updateState({
-              action: lastAction.current ?? ACTIONS.UPDATE,
-              lifecycle: LIFECYCLE.READY,
-              waiting: false,
-            });
+        if (targetAvailable) {
+          cleanup();
+          store.current.updateState({
+            action: lastAction.current ?? ACTIONS.UPDATE,
+            lifecycle: LIFECYCLE.READY,
+            waiting: false,
+          });
+        } else if (step.targetWaitTimeout === 0) {
+          store.current.updateState({
+            action: lastAction.current ?? ACTIONS.UPDATE,
+            lifecycle: LIFECYCLE.READY,
+            waiting: false,
+          });
+        } else if (!pollingRef.current) {
+          const timeout = step.targetWaitTimeout ?? 150;
+          const loaderDelay = step.loaderDelay ?? 300;
+          const startTime = Date.now();
+
+          pollingTargetRef.current = step.target;
+
+          if (timeout > loaderDelay) {
+            loaderTimeoutRef.current = setTimeout(() => {
+              if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
+                store.current.updateState({ waiting: true });
+              }
+            }, loaderDelay);
           }
-        }, 100);
+
+          pollingRef.current = setInterval(() => {
+            const el = getElement(step.target);
+            const elapsed = Date.now() - startTime;
+            const timedOut = elapsed >= timeout;
+
+            if ((el && isElementVisible(el)) || timedOut) {
+              cleanup();
+              store.current.updateState({
+                action: lastAction.current ?? ACTIONS.UPDATE,
+                lifecycle: LIFECYCLE.READY,
+                waiting: false,
+              });
+            }
+          }, 100);
+        }
       }
     }
 
@@ -309,7 +330,7 @@ export default function useLifecycleEffect({
     }
 
     return () => {
-      clearPolling();
+      cleanup();
     };
   }, [
     action,

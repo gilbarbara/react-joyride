@@ -28,6 +28,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
     aria-label="The first step of many! Keep walking!"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="0"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
   >
@@ -147,6 +148,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
     aria-label="We are the people"
     aria-modal="true"
     class="react-joyride__tooltip"
+    data-joyride-step="2"
     role="alertdialog"
     style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
   >

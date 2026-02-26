@@ -9,18 +9,28 @@ import CloseButton from './CloseButton';
 export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
   const { backProps, closeProps, index, isLastStep, primaryProps, skipProps, step, tooltipProps } =
     props;
-  const { content, hideBackButton, hideCloseButton, hideFooter, showSkipButton, styles, title } =
-    step;
+  const {
+    content,
+    hideBackButton,
+    hideCloseButton,
+    hideFooter,
+    hidePrimaryButton,
+    showSkipButton,
+    styles,
+    title,
+  } = step;
   const output: Record<string, ReactNode> = {};
 
-  output.primary = (
-    <button
-      data-test-id="button-primary"
-      style={styles.buttonNext}
-      type="button"
-      {...primaryProps}
-    />
-  );
+  if (!hidePrimaryButton) {
+    output.primary = (
+      <button
+        data-test-id="button-primary"
+        style={styles.buttonNext}
+        type="button"
+        {...primaryProps}
+      />
+    );
+  }
 
   if (showSkipButton && !isLastStep) {
     output.skip = (
@@ -52,6 +62,8 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
     <div
       key="JoyrideTooltip"
       className="react-joyride__tooltip"
+      data-joyride-step={index}
+      {...(step.id && { 'data-joyride-id': step.id })}
       style={styles.tooltip}
       {...tooltipProps}
       {...ariaProps}

@@ -32,13 +32,17 @@ export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
     disableOverlay: false,
     disableOverlayClose: false,
     disableScrolling: false,
+    dismissAction: 'close',
     hideBackButton: false,
     hideCloseButton: false,
     hideFooter: false,
+    hidePrimaryButton: false,
+    scrollOffset: 20,
     showProgress: false,
     showSkipButton: false,
     spotlightClicks: false,
     spotlightPadding: 10,
+    stepDelay: 0,
     ...overrides,
   });
 

@@ -103,7 +103,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     return null;
   }
 
-  let spotlight = placement !== 'center' && showSpotlight && !scrolling && (
+  let spotlight = placement !== 'center' && showSpotlight && !scrolling && !waiting && (
     <Spotlight styles={spotlightStyles} />
   );
   let finalOverlayStyles = { ...overlayStyles };

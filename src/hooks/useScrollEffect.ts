@@ -81,7 +81,7 @@ export default function useScrollEffect({
   step,
   store,
 }: UseScrollEffectParams): void {
-  const { debug, scrollDuration, scrollOffset } = props;
+  const { debug, scrollDuration } = props;
   const { index, lifecycle, scrolling, status } = state;
   const cancelScrollRef = useRef<(() => void) | null>(null);
 
@@ -129,11 +129,11 @@ export default function useScrollEffect({
           await pagePromise;
         }
 
-        const baseScrollY = Math.floor(getScrollTo(target, scrollOffset)) || 0;
+        const baseScrollY = Math.floor(getScrollTo(target, step.scrollOffset)) || 0;
         const scrollY = adjustForPlacement(baseScrollY, {
           beaconPosition,
           lifecycle,
-          scrollOffset,
+          scrollOffset: step.scrollOffset,
           step,
           tooltipPosition,
         });
@@ -160,7 +160,6 @@ export default function useScrollEffect({
     lifecycle,
     previousState,
     scrollDuration,
-    scrollOffset,
     scrolling,
     status,
     step,

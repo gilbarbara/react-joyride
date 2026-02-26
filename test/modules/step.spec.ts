@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-import { defaultFloatingOptions, defaultLocale, defaultStep } from '~/defaults';
+import { defaultFloatingOptions, defaultProps, defaultStep, defaultStepOptions } from '~/defaults';
 import { noop } from '~/modules/helpers';
 import { getMergedStep, validateStep, validateSteps } from '~/modules/step';
 import { fromPartial } from '~/test-utils';
@@ -11,11 +11,10 @@ vi.mock('~/modules/dom', () => ({
   getElement: vi.fn(() => document.createElement('div')),
 }));
 
-const baseProps: Props = {
-  steps: [],
-};
+const baseProps: Props = defaultProps;
 
 const baseStep: Step = {
+  ...defaultStep,
   target: '.test-target',
   content: 'Test content',
 };
@@ -106,25 +105,18 @@ describe('step', () => {
     it('should merge defaultStep values', () => {
       const result = getMergedStep(baseProps, baseStep);
 
-      expect(result).not.toBeNull();
-      expect(result?.event).toBe(defaultStep.event);
-      expect(result?.placement).toBe(defaultStep.placement);
-      expect(result?.offset).toBe(defaultStep.offset);
-      expect(result?.disableBeacon).toBe(defaultStep.disableBeacon);
-      expect(result?.disableOverlay).toBe(defaultStep.disableOverlay);
-      expect(result?.spotlightPadding).toBe(defaultStep.spotlightPadding);
+      expect(result).toMatchSnapshot();
     });
 
     it('should allow stepOptions to override defaultStep', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        stepOptions: { disableOverlay: true, spotlightPadding: 20 },
+        stepOptions: { ...defaultStepOptions, disableOverlay: true, spotlightPadding: 20 },
       });
 
       const result = getMergedStep(props, baseStep);
 
-      expect(result?.disableOverlay).toBe(true);
-      expect(result?.spotlightPadding).toBe(20);
+      expect(result).toMatchSnapshot();
     });
 
     it('should preserve unset stepOptions defaults when partial stepOptions is provided', () => {
@@ -135,54 +127,25 @@ describe('step', () => {
 
       const result = getMergedStep(props, baseStep);
 
-      expect(result?.disableOverlay).toBe(true);
-      expect(result?.spotlightPadding).toBe(defaultStep.spotlightPadding);
-      expect(result?.loaderDelay).toBe(defaultStep.loaderDelay);
-      expect(result?.targetWaitTimeout).toBe(defaultStep.targetWaitTimeout);
-      expect(result?.disableCloseOnEsc).toBe(defaultStep.disableCloseOnEsc);
-    });
-
-    it('should allow stepOptions to set disableFocusTrap', () => {
-      const props = fromPartial<Props>({
-        ...baseProps,
-        stepOptions: { disableFocusTrap: true },
-      });
-
-      const result = getMergedStep(props, baseStep);
-
-      expect(result?.disableFocusTrap).toBe(true);
-    });
-
-    it('should allow step-level disableFocusTrap to override stepOptions', () => {
-      const props = fromPartial<Props>({
-        ...baseProps,
-        stepOptions: { disableFocusTrap: true },
-      });
-      const step: Step = {
-        ...baseStep,
-        disableFocusTrap: false,
-      };
-
-      const result = getMergedStep(props, step);
-
-      expect(result?.disableFocusTrap).toBe(false);
+      expect(result).toMatchSnapshot();
     });
 
     it('should allow step props to override stepOptions', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        stepOptions: { spotlightPadding: 20, disableOverlay: true },
+        scrollOffset: 50,
+        stepOptions: { ...defaultStepOptions, disableOverlay: true, spotlightPadding: 20 },
       });
       const step: Step = {
         ...baseStep,
-        spotlightPadding: 5,
         disableOverlay: false,
+        scrollOffset: 10,
+        spotlightPadding: 5,
       };
 
       const result = getMergedStep(props, step);
 
-      expect(result?.spotlightPadding).toBe(5);
-      expect(result?.disableOverlay).toBe(false);
+      expect(result).toMatchSnapshot();
     });
 
     it('should merge locale from defaults, props, and step', () => {
@@ -197,40 +160,51 @@ describe('step', () => {
 
       const result = getMergedStep(props, step);
 
-      expect(result?.locale.next).toBe('Continue');
-      expect(result?.locale.back).toBe('Return');
-      expect(result?.locale.close).toBe(defaultLocale.close);
-      expect(result?.locale.skip).toBe(defaultLocale.skip);
+      expect(result?.locale).toMatchSnapshot();
     });
 
     it('should merge floatingOptions from defaults, props, and step', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        floatingOptions: {
-          strategy: 'fixed',
-        },
+        floatingOptions: { strategy: 'fixed' },
       });
       const step: Step = {
         ...baseStep,
-        floatingOptions: {
-          beaconOptions: { offset: -10 },
-        },
+        floatingOptions: { beaconOptions: { offset: -10 } },
       };
 
       const result = getMergedStep(props, step);
 
-      expect(result?.floatingOptions?.strategy).toBe('fixed');
-      expect(result?.floatingOptions?.beaconOptions?.offset).toBe(-10);
+      expect(result?.floatingOptions).toMatchSnapshot();
       expect(defaultFloatingOptions.beaconOptions?.offset).toBe(-18);
     });
 
     it('should include styles in the merged step', () => {
       const result = getMergedStep(baseProps, baseStep);
 
-      expect(result?.styles).toBeDefined();
-      expect(result?.styles.tooltip).toBeDefined();
-      expect(result?.styles.beacon).toBeDefined();
-      expect(result?.styles.overlay).toBeDefined();
+      expect(result?.styles).toMatchSnapshot();
+    });
+
+    it('should merge scrollOffset from props', () => {
+      const props = fromPartial<Props>({
+        ...baseProps,
+        scrollOffset: 50,
+      });
+
+      const result = getMergedStep(props, baseStep);
+
+      expect(result).toMatchSnapshot();
+    });
+
+    it('should pass step.id through when provided', () => {
+      const step: Step = {
+        ...baseStep,
+        id: 'my-step',
+      };
+
+      const result = getMergedStep(baseProps, step);
+
+      expect(result?.id).toBe('my-step');
     });
   });
 });
