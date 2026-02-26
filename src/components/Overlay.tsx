@@ -1,5 +1,5 @@
-import { CSSProperties, useEffect, useMemo, useRef } from 'react';
-import { useIsMounted, useSetState, useWindowSize } from '@gilbarbara/hooks';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { useIsMounted, useWindowSize } from '@gilbarbara/hooks';
 import useTreeChanges from 'tree-changes-hook';
 
 import useTargetPosition from '~/hooks/useTargetPosition';
@@ -11,12 +11,7 @@ import { Lifecycle, OverlayProps } from '~/types';
 
 import Spotlight from './Spotlight';
 
-const hiddenLifecycles: Lifecycle[] = [
-  LIFECYCLE.INIT,
-  LIFECYCLE.BEACON,
-  LIFECYCLE.COMPLETE,
-  LIFECYCLE.ERROR,
-];
+const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON, LIFECYCLE.ERROR];
 
 const isSafari = getBrowser() === 'safari';
 
@@ -44,14 +39,10 @@ export default function JoyrideOverlay(props: OverlayProps) {
   } = props;
   const isMounted = useIsMounted();
   const windowSize = useWindowSize();
-
   const { changed } = useTreeChanges(props);
+  const targetRect = useTargetPosition(target, spotlightPadding, scrolling || waiting);
 
-  const [{ showSpotlight }, setState] = useSetState({
-    showSpotlight: true,
-  });
-
-  const targetRect = useTargetPosition(target, spotlightPadding);
+  const [showSpotlight, setShowSpotlight] = useState(false);
 
   const overlayStyles = useMemo(() => {
     return {
@@ -76,21 +67,17 @@ export default function JoyrideOverlay(props: OverlayProps) {
     } satisfies SpotlightStyles);
   }, [showSpotlight, spotlightClicks, styles.spotlight, targetRect]);
 
-  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-
   useEffect(() => {
-    if (changed('lifecycle', LIFECYCLE.TOOLTIP)) {
-      timerRef.current = setTimeout(() => {
-        if (isMounted() && !scrolling) {
-          setState({ showSpotlight: true });
-        }
-      }, 100);
+    if (!isMounted()) {
+      return;
     }
 
-    return () => {
-      clearTimeout(timerRef.current);
-    };
-  }, [changed, isMounted, scrolling, setState]);
+    if (changed('lifecycle', LIFECYCLE.TOOLTIP) && placement !== 'center') {
+      setShowSpotlight(true);
+    } else if (changed('lifecycle', LIFECYCLE.COMPLETE)) {
+      setShowSpotlight(false);
+    }
+  }, [changed, isMounted, placement]);
 
   if (
     disableOverlay ||
@@ -103,20 +90,22 @@ export default function JoyrideOverlay(props: OverlayProps) {
     return null;
   }
 
-  let spotlight = placement !== 'center' && showSpotlight && !scrolling && !waiting && (
-    <Spotlight styles={spotlightStyles} />
-  );
   let finalOverlayStyles = { ...overlayStyles };
+  let spotlight = null;
 
-  // Hack for Safari bug with mix-blend-mode with z-index
-  if (isSafari) {
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    const { backgroundColor, ...overlayWithoutBg } = overlayStyles;
+  if (showSpotlight && !scrolling && !waiting) {
+    spotlight = <Spotlight styles={spotlightStyles} />;
 
-    spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;
-    finalOverlayStyles = overlayWithoutBg as CSSProperties;
+    // Hack for Safari bug with mix-blend-mode with z-index
+    if (isSafari) {
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      const { backgroundColor, ...overlayWithoutBg } = overlayStyles;
+
+      spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;
+      finalOverlayStyles = overlayWithoutBg as CSSProperties;
+    }
   }
 
   return (

@@ -1,11 +1,19 @@
 import { type Page } from '@playwright/test';
 
-export function waitForScrollEnd(page: Page) {
-  return page.waitForFunction(() => {
+export function getScrollTop(page: Page, selector?: string): Promise<number> {
+  if (selector) {
+    return page.locator(selector).evaluate(el => Math.round(el.scrollTop));
+  }
+
+  return page.evaluate(() => Math.round(document.scrollingElement?.scrollTop ?? 0));
+}
+
+export function waitForScrollEnd(page: Page, containerSelector?: string) {
+  return page.waitForFunction((selector: string | undefined) => {
     return new Promise(resolve => {
       const getPositions = () => [
         document.scrollingElement?.scrollTop ?? 0,
-        document.querySelector('.scroll-content')?.scrollTop ?? 0,
+        selector ? (document.querySelector(selector)?.scrollTop ?? 0) : 0,
       ];
 
       let stableCount = 0;
@@ -32,5 +40,5 @@ export function waitForScrollEnd(page: Page) {
 
       setTimeout(check, 400);
     });
-  });
+  }, containerSelector);
 }

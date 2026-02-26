@@ -39,6 +39,7 @@ class Store {
       index: is.number(stepIndex) ? stepIndex : 0,
       lifecycle: LIFECYCLE.INIT,
       origin: null,
+      positioned: false,
       scrolling: false,
       size: steps.length,
       status: steps.length ? STATUS.READY : STATUS.IDLE,
@@ -80,6 +81,7 @@ class Store {
       index: index + 1,
       origin,
       lifecycle: LIFECYCLE.COMPLETE,
+      positioned: false,
       scrolling: false,
     });
   };
@@ -109,7 +111,7 @@ class Store {
 
   public getSnapshot = (): StoreState => this.snapshot;
 
-  public getState = (): State => omit(this.snapshot, 'scrolling', 'waiting');
+  public getState = (): State => omit(this.snapshot, 'positioned', 'scrolling', 'waiting');
 
   public go = (nextIndex: number) => {
     const { controlled, status } = this.state;
@@ -132,12 +134,13 @@ class Store {
       action: ACTIONS.GO,
       index: nextIndex,
       lifecycle: LIFECYCLE.COMPLETE,
+      positioned: false,
       scrolling: false,
       status: nextIndex < this.steps.length ? status : STATUS.FINISHED,
     });
   };
 
-  public info = (): State => omit(this.snapshot, 'scrolling', 'waiting');
+  public info = (): State => omit(this.snapshot, 'positioned', 'scrolling', 'waiting');
 
   public next = () => {
     const { index, status } = this.state;
@@ -150,6 +153,7 @@ class Store {
       action: ACTIONS.NEXT,
       index: this.getUpdatedIndex(index + 1),
       lifecycle: LIFECYCLE.COMPLETE,
+      positioned: false,
       scrolling: false,
     });
   };
@@ -161,7 +165,12 @@ class Store {
       return;
     }
 
-    this.updateState({ action: ACTIONS.UPDATE, lifecycle: LIFECYCLE.TOOLTIP, scrolling: false });
+    this.updateState({
+      action: ACTIONS.UPDATE,
+      lifecycle: LIFECYCLE.TOOLTIP,
+      positioned: false,
+      scrolling: false,
+    });
   };
 
   public prev = () => {
@@ -175,6 +184,7 @@ class Store {
       action: ACTIONS.PREV,
       index: this.getUpdatedIndex(index - 1),
       lifecycle: LIFECYCLE.COMPLETE,
+      positioned: false,
       scrolling: false,
     });
   };
@@ -196,6 +206,7 @@ class Store {
       action: ACTIONS.RESET,
       index: 0,
       lifecycle: LIFECYCLE.COMPLETE,
+      positioned: false,
       scrolling: false,
       status: restart ? STATUS.RUNNING : STATUS.READY,
     });
@@ -206,6 +217,10 @@ class Store {
       this.beaconPosition = data;
     } else {
       this.tooltipPosition = data;
+    }
+
+    if (this.state.scrolling && !this.state.positioned) {
+      this.updateState({ positioned: true });
     }
 
     const onPosition = this.getStep()?.floatingOptions?.onPosition;
@@ -232,6 +247,7 @@ class Store {
       action: ACTIONS.SKIP,
       lifecycle: LIFECYCLE.COMPLETE,
       origin,
+      positioned: false,
       scrolling: false,
       status: STATUS.SKIPPED,
     });
@@ -245,6 +261,7 @@ class Store {
         action: ACTIONS.START,
         index: is.number(nextIndex) ? nextIndex : index,
         lifecycle: LIFECYCLE.INIT,
+        positioned: false,
         scrolling: false,
         status: size ? STATUS.RUNNING : STATUS.WAITING,
       },
@@ -263,6 +280,7 @@ class Store {
       action: ACTIONS.STOP,
       index: index + (advance ? 1 : 0),
       lifecycle: LIFECYCLE.COMPLETE,
+      positioned: false,
       scrolling: false,
       status: STATUS.PAUSED,
     });
@@ -289,6 +307,7 @@ class Store {
       index: resolvedIndex,
       lifecycle: patch.lifecycle ?? this.state.lifecycle,
       origin: patch.origin ?? null,
+      positioned: patch.positioned ?? this.state.positioned,
       scrolling: patch.scrolling ?? this.state.scrolling,
       size: patch.size ?? this.state.size,
       status: patch.status ?? this.state.status,
