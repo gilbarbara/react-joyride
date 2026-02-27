@@ -282,7 +282,7 @@ describe('useJoyrideData', () => {
     it('should fire TARGET_NOT_FOUND and auto-advance when target is missing (uncontrolled)', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true },
+        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
@@ -325,7 +325,7 @@ describe('useJoyrideData', () => {
     it('should fire TARGET_NOT_FOUND when target is not visible', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 150 },
       ];
 
       const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
@@ -354,7 +354,7 @@ describe('useJoyrideData', () => {
     it('should NOT auto-advance in controlled mode when target is missing', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true },
+        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
       ];
 
       const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
@@ -970,7 +970,7 @@ describe('useJoyrideData', () => {
     it('should auto-advance backward when PREV target is missing', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true },
+        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
@@ -1146,6 +1146,151 @@ describe('useJoyrideData', () => {
       });
 
       // After real 200ms, TOOLTIP fires
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(false);
+    });
+
+    it('should delay step transition with async stepDelay', async () => {
+      let resolveDelay: () => void;
+      const delayPromise = new Promise<void>(resolve => {
+        resolveDelay = resolve;
+      });
+
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          stepDelay: () => delayPromise,
+        },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(true);
+
+      // Resolve the async delay
+      await act(async () => {
+        resolveDelay!();
+        await delayPromise;
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(false);
+    });
+
+    it('should pass callback data to async stepDelay', async () => {
+      const stepDelayFn = vi.fn(() => Promise.resolve());
+
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: stepDelayFn },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(stepDelayFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            action: expect.any(String),
+            index: expect.any(Number),
+            status: STATUS.RUNNING,
+            step: expect.objectContaining({ target: '.step-2' }),
+          }),
+        );
+      });
+    });
+
+    it('should proceed if async stepDelay rejects', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          stepDelay: () => Promise.reject(new Error('fail')),
+        },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      // Should still proceed to TOOLTIP despite rejection
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(false);
+    });
+
+    it('should proceed after targetWaitTimeout if async stepDelay never resolves', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          stepDelay: () => new Promise<void>(() => {}),
+          targetWaitTimeout: 200,
+        },
+      ];
+
+      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.store.current.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+        );
+      });
+
+      expect(result.current.state.waiting).toBe(true);
+
+      // After targetWaitTimeout (200ms), should proceed
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),

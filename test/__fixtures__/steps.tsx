@@ -40,6 +40,7 @@ export const standardSteps: Array<Step> = [
   {
     target: '.not-mounted',
     content: 'This step tests what happens when a target is missing',
+    targetWaitTimeout: 150,
     title: 'Unmounted target',
   },
   {

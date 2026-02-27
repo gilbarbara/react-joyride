@@ -12,7 +12,7 @@ import { Actions, Props, StepMerged, StepTarget, StoreState } from '~/types';
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 type Value = import('tree-changes-hook').Value;
 
-interface UseLifecycleEffectParams {
+interface UseLifecycleEffectOptions {
   changedState: (key?: string, actual?: Value, previous?: Value) => boolean;
   changedStateFrom: (key: string, previous: Value, actual?: Value) => boolean;
   previousState: StoreState | undefined;
@@ -23,16 +23,9 @@ interface UseLifecycleEffectParams {
   store: RefObject<ReturnType<typeof createStore>>;
 }
 
-export default function useLifecycleEffect({
-  changedState,
-  changedStateFrom,
-  previousState,
-  previousStep,
-  props,
-  state,
-  step,
-  store,
-}: UseLifecycleEffectParams): void {
+export default function useLifecycleEffect(options: UseLifecycleEffectOptions): void {
+  const { changedState, changedStateFrom, previousState, previousStep, props, state, step, store } =
+    options;
   const { callback, continuous, debug, scrollToFirstStep } = props;
   const { action, controlled, index, lifecycle, size, status } = state;
   const lastAction = useRef<Actions | null>(null);
@@ -42,7 +35,7 @@ export default function useLifecycleEffect({
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollingTargetRef = useRef<StepTarget | null>(null);
   const loaderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const stepDelayTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const stepDelayRef = useRef<{ cancel: () => void } | null>(null);
 
   propsRef.current = props;
   stateRef.current = state;
@@ -62,9 +55,9 @@ export default function useLifecycleEffect({
 
     pollingTargetRef.current = null;
 
-    if (stepDelayTimeoutRef.current) {
-      clearTimeout(stepDelayTimeoutRef.current);
-      stepDelayTimeoutRef.current = null;
+    if (stepDelayRef.current) {
+      stepDelayRef.current.cancel();
+      stepDelayRef.current = null;
     }
   };
 
@@ -101,19 +94,55 @@ export default function useLifecycleEffect({
       store.current.cleanupPositionData();
 
       // Step delay: pause before processing the new step
+      const hasStepDelay = typeof step.stepDelay === 'function' || step.stepDelay > 0;
 
-      if (step.stepDelay > 0 && !stepDelayTimeoutRef.current) {
+      if (hasStepDelay && !stepDelayRef.current) {
         store.current.updateState({ waiting: true });
 
-        stepDelayTimeoutRef.current = setTimeout(() => {
-          stepDelayTimeoutRef.current = null;
+        const proceed = () => {
+          stepDelayRef.current = null;
           store.current.updateState({
             action: lastAction.current ?? action,
             waiting: false,
             lifecycle: LIFECYCLE.READY,
           });
-        }, step.stepDelay);
-      } else if (!stepDelayTimeoutRef.current) {
+        };
+
+        if (typeof step.stepDelay === 'function') {
+          const abortController = new AbortController();
+          const timeout = step.targetWaitTimeout;
+
+          stepDelayRef.current = { cancel: () => abortController.abort() };
+
+          const timeoutId = timeout
+            ? setTimeout(() => {
+                if (!abortController.signal.aborted) {
+                  abortController.abort();
+                  proceed();
+                }
+              }, timeout)
+            : null;
+
+          step
+            .stepDelay({ ...callbackState(), step })
+            .then(() => {
+              if (!abortController.signal.aborted) {
+                if (timeoutId) clearTimeout(timeoutId);
+                proceed();
+              }
+            })
+            .catch(() => {
+              if (!abortController.signal.aborted) {
+                if (timeoutId) clearTimeout(timeoutId);
+                proceed();
+              }
+            });
+        } else {
+          const timeoutId = setTimeout(proceed, step.stepDelay);
+
+          stepDelayRef.current = { cancel: () => clearTimeout(timeoutId) };
+        }
+      } else if (!stepDelayRef.current) {
         // If polling for a different target (step changed), restart
         if (pollingRef.current && pollingTargetRef.current !== step.target) {
           cleanup();

@@ -32,7 +32,7 @@ export const defaultStepOptions: Required<StepOptions> = {
   spotlightClicks: false,
   spotlightPadding: 10,
   stepDelay: 0,
-  targetWaitTimeout: 150,
+  targetWaitTimeout: 1000,
 };
 
 export const defaultStep = {
