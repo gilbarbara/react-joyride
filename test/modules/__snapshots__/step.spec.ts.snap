@@ -206,7 +206,7 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
     },
   },
   "target": ".test-target",
-  "targetWaitTimeout": 150,
+  "targetWaitTimeout": 1000,
 }
 `;
 
@@ -416,7 +416,7 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
     },
   },
   "target": ".test-target",
-  "targetWaitTimeout": 150,
+  "targetWaitTimeout": 1000,
 }
 `;
 
@@ -795,7 +795,7 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
     },
   },
   "target": ".test-target",
-  "targetWaitTimeout": 150,
+  "targetWaitTimeout": 1000,
 }
 `;
 
@@ -1026,7 +1026,7 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
     },
   },
   "target": ".test-target",
-  "targetWaitTimeout": 150,
+  "targetWaitTimeout": 1000,
 }
 `;
 
@@ -1236,6 +1236,6 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
     },
   },
   "target": ".test-target",
-  "targetWaitTimeout": 150,
+  "targetWaitTimeout": 1000,
 }
 `;

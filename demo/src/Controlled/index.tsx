@@ -15,7 +15,7 @@ import { Menu as MenuIcon } from 'lucide-react';
 
 import Sidebar from '~/Controlled/Sidebar';
 
-import { logGroup } from '../modules/helpers';
+import { delay, logGroup } from '../modules/helpers';
 
 import Calendar from './Calendar';
 import Connections from './Connections';
@@ -67,6 +67,7 @@ export default function ControlledDemo() {
           hideFooter: true,
           placement: 'bottom',
           spotlightClicks: true,
+          stepDelay: ({ action }) => delay(action === ACTIONS.PREV ? 300 : 0),
           styles: {
             options: {
               zIndex: 10000,
@@ -78,9 +79,10 @@ export default function ControlledDemo() {
         {
           content: 'This is our sidebar, you can find everything you need here',
           disableBeacon: true,
+          loaderComponent: null,
           placement: 'right',
           spotlightPadding: 0,
-          stepDelay: 500,
+          stepDelay: ({ action }) => delay(action === ACTIONS.NEXT ? 500 : 0),
           styles: {
             options: {
               zIndex: 10000,
@@ -94,6 +96,7 @@ export default function ControlledDemo() {
           disableBeacon: true,
           placement: 'right',
           spotlightPadding: 0,
+          stepDelay: ({ action }) => (action === ACTIONS.PREV ? delay(300) : Promise.resolve()),
           styles: {
             options: {
               zIndex: 10000,

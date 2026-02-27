@@ -1,5 +1,9 @@
 /* eslint-disable no-console */
 
+export function delay(ms: number) {
+  return new Promise<void>(resolve => setTimeout(resolve, ms));
+}
+
 export function getScreenSize() {
   const { innerWidth } = window;
   let breakpoint = 'xs';

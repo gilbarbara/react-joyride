@@ -249,6 +249,8 @@ export type Step = Simplify<
     }
 >;
 
+export type StepDelayData = Omit<CallBackProps, 'type'>;
+
 export type StepMerged = Simplify<
   SetRequired<
     Step,
@@ -355,14 +357,19 @@ export type StepOptions = {
    */
   spotlightPadding?: number;
   /**
-   * Delay (ms) before transitioning to the next step.
+   * Delay before transitioning to the next step.
    * Shows the loader during the delay.
+   *
+   * - `number`: Fixed delay in milliseconds.
+   * - `function`: Async function that resolves when the step is ready.
+   *   Receives `{ action, index, step }`. Capped by `targetWaitTimeout`.
+   *
    * @default 0
    */
-  stepDelay?: number;
+  stepDelay?: number | ((data: StepDelayData) => Promise<void>);
   /**
    * Max time (ms) to wait for the target to appear. 0 = no waiting.
-   * @default 150
+   * @default 1000
    */
   targetWaitTimeout?: number;
 };
