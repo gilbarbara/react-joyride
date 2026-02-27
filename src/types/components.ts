@@ -16,7 +16,7 @@ export type BaseProps = {
   /**
    * A React component to use instead the default Loader.
    */
-  loaderComponent?: ElementType<LoaderRenderProps>;
+  loaderComponent?: ElementType<LoaderRenderProps> | null;
   /**
    * The strings used in the tooltip.
    */

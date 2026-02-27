@@ -12,9 +12,9 @@ describe('Loader', () => {
   });
 
   it('should render the loader with spinner', () => {
-    const { container } = render(<Loader step={step} />);
+    render(<Loader step={step} />);
 
-    expect(container.firstChild).toMatchSnapshot();
+    expect(screen.getByTestId('loader')).toMatchSnapshot();
   });
 
   it('should inject CSS keyframes on mount', () => {
@@ -52,5 +52,11 @@ describe('Loader', () => {
 
     expect(screen.getByTestId('custom-loader')).toMatchSnapshot();
     expect(document.getElementById('joyride-loader-animation')).not.toBeInTheDocument();
+  });
+
+  it('should not render when loaderComponent is "null"', () => {
+    render(<Loader step={{ ...step, loaderComponent: null }} />);
+
+    expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
   });
 });
