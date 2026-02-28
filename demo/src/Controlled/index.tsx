@@ -121,7 +121,7 @@ export default function ControlledDemo() {
         },
         {
           content: <div>Our rate is off the charts!</div>,
-          placement: 'left',
+          placement: 'left-end',
           spotlightClicks: true,
           target: growthRef,
           title: 'Our Growth',
@@ -153,7 +153,7 @@ export default function ControlledDemo() {
               </svg>
             </div>
           ),
-          placement: 'right',
+          placement: 'right-start',
           target: usersRef,
           title: 'Our Users',
         },

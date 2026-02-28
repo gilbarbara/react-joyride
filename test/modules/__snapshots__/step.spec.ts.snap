@@ -151,6 +151,7 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
     },
     "options": {
       "arrowColor": "#fff",
+      "arrowSpacing": 5,
       "backgroundColor": "#fff",
       "beaconSize": 36,
       "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -363,6 +364,7 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
     },
     "options": {
       "arrowColor": "#fff",
+      "arrowSpacing": 5,
       "backgroundColor": "#fff",
       "beaconSize": 36,
       "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -537,6 +539,7 @@ exports[`step > getMergedStep > should include styles in the merged step 1`] = `
   },
   "options": {
     "arrowColor": "#fff",
+    "arrowSpacing": 5,
     "backgroundColor": "#fff",
     "beaconSize": 36,
     "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -746,6 +749,7 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
     },
     "options": {
       "arrowColor": "#fff",
+      "arrowSpacing": 5,
       "backgroundColor": "#fff",
       "beaconSize": 36,
       "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -979,6 +983,7 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
     },
     "options": {
       "arrowColor": "#fff",
+      "arrowSpacing": 5,
       "backgroundColor": "#fff",
       "beaconSize": 36,
       "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -1191,6 +1196,7 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
     },
     "options": {
       "arrowColor": "#fff",
+      "arrowSpacing": 5,
       "backgroundColor": "#fff",
       "beaconSize": 36,
       "overlayColor": "rgba(0, 0, 0, 0.5)",

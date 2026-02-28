@@ -103,6 +103,11 @@ export interface Styles {
 
 export interface StylesOptions {
   arrowColor: string;
+  /**
+   * The distance between the arrow and the edge of the tooltip.
+   * @default 5
+   */
+  arrowSpacing: number;
   backgroundColor: string;
   beaconSize: number;
   overlayColor: string;

@@ -113,6 +113,7 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
   },
   "options": {
     "arrowColor": "#fff",
+    "arrowSpacing": 5,
     "backgroundColor": "#fff",
     "beaconSize": 36,
     "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -284,6 +285,7 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
   },
   "options": {
     "arrowColor": "#00f",
+    "arrowSpacing": 5,
     "backgroundColor": "#fff",
     "beaconSize": 36,
     "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -455,6 +457,7 @@ exports[`styles > should return the default styles 1`] = `
   },
   "options": {
     "arrowColor": "#fff",
+    "arrowSpacing": 5,
     "backgroundColor": "#fff",
     "beaconSize": 36,
     "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -626,6 +629,7 @@ exports[`styles > should return the inherited props' styles 1`] = `
   },
   "options": {
     "arrowColor": "#00f",
+    "arrowSpacing": 5,
     "backgroundColor": "#00f",
     "beaconSize": 36,
     "overlayColor": "rgba(0, 0, 0, 0.5)",
@@ -797,6 +801,7 @@ exports[`styles > should return the step's styles 1`] = `
   },
   "options": {
     "arrowColor": "#000",
+    "arrowSpacing": 5,
     "backgroundColor": "#000",
     "beaconSize": 36,
     "overlayColor": "rgba(0, 0, 0, 0.5)",

@@ -1,4 +1,5 @@
 import { LIFECYCLE } from '~/literals';
+import { hasPosition } from '~/modules/dom';
 import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/test-utils';
 
 import Floater from '~/components/Floater';
@@ -13,6 +14,7 @@ vi.mock('~/modules/dom', async importOriginal => {
   return {
     ...actual,
     hasCustomScrollParent: vi.fn(() => false),
+    hasPosition: vi.fn(() => false),
     getScrollParent: vi.fn(),
   };
 });
@@ -472,6 +474,60 @@ describe('Floater', () => {
       const tooltipCall = mockUseFloating.mock.calls[0][0];
 
       expect(tooltipCall.strategy).toBe('absolute');
+    });
+
+    it('should use fixed strategy when target has a fixed ancestor', () => {
+      vi.mocked(hasPosition).mockReturnValue(true);
+
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      const props = createProps();
+
+      render(<Floater {...props} />);
+
+      const tooltipCall = mockUseFloating.mock.calls[0][0];
+      const beaconCall = mockUseFloating.mock.calls[1][0];
+
+      expect(tooltipCall.strategy).toBe('fixed');
+      expect(beaconCall.strategy).toBe('fixed');
+    });
+
+    it('should use floatingOptions.strategy override for both tooltip and beacon', () => {
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      const props = createProps({
+        step: createStep({ floatingOptions: { strategy: 'fixed' } }),
+      });
+
+      render(<Floater {...props} />);
+
+      const tooltipCall = mockUseFloating.mock.calls[0][0];
+      const beaconCall = mockUseFloating.mock.calls[1][0];
+
+      expect(tooltipCall.strategy).toBe('fixed');
+      expect(beaconCall.strategy).toBe('fixed');
+    });
+
+    it('should use the same strategy for beacon as tooltip', () => {
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      const props = createProps({
+        step: createStep({ isFixed: true }),
+      });
+
+      render(<Floater {...props} />);
+
+      const tooltipCall = mockUseFloating.mock.calls[0][0];
+      const beaconCall = mockUseFloating.mock.calls[1][0];
+
+      expect(tooltipCall.strategy).toBe('fixed');
+      expect(beaconCall.strategy).toBe('fixed');
     });
   });
 });
