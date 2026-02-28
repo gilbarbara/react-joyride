@@ -20,7 +20,7 @@ import {
 } from '@floating-ui/react-dom';
 
 import { LIFECYCLE } from '~/literals';
-import { getScrollParent, hasCustomScrollParent } from '~/modules/dom';
+import { getScrollParent, hasCustomScrollParent, hasPosition } from '~/modules/dom';
 import { sortObjectKeys } from '~/modules/helpers';
 
 import { Lifecycle, Placement, PositionData, StepMerged, StoreHelpers, StoreState } from '~/types';
@@ -98,12 +98,15 @@ export default function JoyrideFloater(props: FloaterProps) {
 
   const tooltipPlacement = isCenter || isAuto ? 'bottom' : (step.placement as FloatingPlacement);
 
+  const strategy = isCenter
+    ? 'fixed'
+    : (step.floatingOptions?.strategy ??
+      (step.isFixed || hasPosition(target) ? 'fixed' : 'absolute'));
+
   const tooltipFloating = useFloating({
     ...(isCenter ? { elements: { reference: centerReference } } : {}),
     placement: tooltipPlacement,
-    strategy: isCenter
-      ? 'fixed'
-      : (step.floatingOptions?.strategy ?? (step.isFixed ? 'fixed' : 'absolute')),
+    strategy,
     middleware: isCenter
       ? [
           {
@@ -122,7 +125,9 @@ export default function JoyrideFloater(props: FloaterProps) {
           ),
           isAuto ? autoPlacement() : flip(),
           shift({ padding: 5, ...boundaryOptions }),
-          ...(step.floatingOptions?.hideArrow ? [] : [arrow({ element: arrowRef })]),
+          ...(step.floatingOptions?.hideArrow
+            ? []
+            : [arrow({ element: arrowRef, padding: step.styles.options.arrowSpacing })]),
           ...(step.floatingOptions?.middleware ?? []),
         ],
     whileElementsMounted: isCenter
@@ -134,6 +139,7 @@ export default function JoyrideFloater(props: FloaterProps) {
     step.placementBeacon ?? (isAuto || isCenter ? 'bottom' : (step.placement as FloatingPlacement));
 
   const beaconFloating = useFloating({
+    strategy,
     placement: beaconPlacement,
     middleware: [offset(step.floatingOptions?.beaconOptions?.offset ?? -18)],
     whileElementsMounted: autoUpdate,

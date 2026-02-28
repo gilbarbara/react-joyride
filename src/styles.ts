@@ -1,8 +1,9 @@
 import { deepMerge, hexToRGB } from './modules/helpers';
 import { Props, StepMerged, Styles, StylesOptions } from './types';
 
-const defaultOptions = {
+const defaultOptions: StylesOptions = {
   arrowColor: '#fff',
+  arrowSpacing: 5,
   backgroundColor: '#fff',
   beaconSize: 36,
   overlayColor: 'rgba(0, 0, 0, 0.5)',
@@ -10,7 +11,7 @@ const defaultOptions = {
   textColor: '#333',
   width: 380,
   zIndex: 100,
-} satisfies StylesOptions;
+};
 
 const buttonBase = {
   backgroundColor: 'transparent',
