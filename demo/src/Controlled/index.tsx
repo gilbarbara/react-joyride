@@ -19,6 +19,7 @@ import { delay, logGroup } from '../modules/helpers';
 
 import Calendar from './Calendar';
 import Connections from './Connections';
+import CustomArrow from './CustomArrow';
 import Growth from './Growth';
 import Users from './Users';
 
@@ -120,7 +121,7 @@ export default function ControlledDemo() {
         },
         {
           content: <div>Our rate is off the charts!</div>,
-          placement: 'bottom',
+          placement: 'left',
           spotlightClicks: true,
           target: growthRef,
           title: 'Our Growth',
@@ -218,6 +219,7 @@ export default function ControlledDemo() {
   return (
     <div className="flex flex-col h-[calc(100dvh-4rem)] bg-gray-700 p-8 ">
       <Joyride
+        arrowComponent={CustomArrow}
         callback={handleJoyrideCallback}
         continuous
         locale={{
@@ -231,6 +233,12 @@ export default function ControlledDemo() {
           showSkipButton: true,
         }}
         steps={steps}
+        styles={{
+          arrow: {
+            base: 64,
+            size: 16,
+          },
+        }}
       />
       <Sidebar
         disclaimerRef={disclaimerRef}

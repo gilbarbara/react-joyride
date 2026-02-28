@@ -56,10 +56,12 @@ export default function getStyles(props: Props, step: StepMerged) {
   const defaultStyles = {
     arrow: {
       base: 32,
+      size: 16,
+      alignItems: 'center',
       color: options.arrowColor,
       display: 'inline-flex',
+      justifyContent: 'center',
       position: 'absolute',
-      size: 16,
     },
     beacon: {
       ...buttonBase,

@@ -41,9 +41,11 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
   "stepDelay": 0,
   "styles": {
     "arrow": {
+      "alignItems": "center",
       "base": 32,
       "color": "#fff",
       "display": "inline-flex",
+      "justifyContent": "center",
       "position": "absolute",
       "size": 16,
     },
@@ -251,9 +253,11 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
   "stepDelay": 0,
   "styles": {
     "arrow": {
+      "alignItems": "center",
       "base": 32,
       "color": "#fff",
       "display": "inline-flex",
+      "justifyContent": "center",
       "position": "absolute",
       "size": 16,
     },
@@ -423,9 +427,11 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
 exports[`step > getMergedStep > should include styles in the merged step 1`] = `
 {
   "arrow": {
+    "alignItems": "center",
     "base": 32,
     "color": "#fff",
     "display": "inline-flex",
+    "justifyContent": "center",
     "position": "absolute",
     "size": 16,
   },
@@ -630,9 +636,11 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "stepDelay": 0,
   "styles": {
     "arrow": {
+      "alignItems": "center",
       "base": 32,
       "color": "#fff",
       "display": "inline-flex",
+      "justifyContent": "center",
       "position": "absolute",
       "size": 16,
     },
@@ -861,9 +869,11 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "stepDelay": 0,
   "styles": {
     "arrow": {
+      "alignItems": "center",
       "base": 32,
       "color": "#fff",
       "display": "inline-flex",
+      "justifyContent": "center",
       "position": "absolute",
       "size": 16,
     },
@@ -1071,9 +1081,11 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
   "stepDelay": 0,
   "styles": {
     "arrow": {
+      "alignItems": "center",
       "base": 32,
       "color": "#fff",
       "display": "inline-flex",
+      "justifyContent": "center",
       "position": "absolute",
       "size": 16,
     },

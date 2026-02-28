@@ -64,7 +64,7 @@ export default function JoyrideFloater(props: FloaterProps) {
     target,
     updateState,
   } = props;
-  const arrowRef = useRef<HTMLSpanElement>(null);
+  const arrowRef = useRef<HTMLElement>(null);
   const beaconMiddlewareRef = useRef<MiddlewareData>({});
   const tooltipMiddlewareRef = useRef<MiddlewareData>({});
 
@@ -228,6 +228,7 @@ export default function JoyrideFloater(props: FloaterProps) {
         />
         {!isCenter && !step.floatingOptions?.hideArrow && (
           <Arrow
+            arrowComponent={step.arrowComponent}
             arrowRef={arrowRef}
             placement={tooltipFloating.placement}
             position={tooltipFloating.middlewareData.arrow}

@@ -3,9 +3,11 @@
 exports[`styles > should return styles.arrow.color over styles.options.arrowColor (component level) 1`] = `
 {
   "arrow": {
+    "alignItems": "center",
     "base": 32,
     "color": "#fff",
     "display": "inline-flex",
+    "justifyContent": "center",
     "position": "absolute",
     "size": 16,
   },
@@ -172,9 +174,11 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
 exports[`styles > should return styles.arrow.color over styles.options.arrowColor (step level) 1`] = `
 {
   "arrow": {
+    "alignItems": "center",
     "base": 32,
     "color": "#f00",
     "display": "inline-flex",
+    "justifyContent": "center",
     "position": "absolute",
     "size": 16,
   },
@@ -341,9 +345,11 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
 exports[`styles > should return the default styles 1`] = `
 {
   "arrow": {
+    "alignItems": "center",
     "base": 32,
     "color": "#fff",
     "display": "inline-flex",
+    "justifyContent": "center",
     "position": "absolute",
     "size": 16,
   },
@@ -510,9 +516,11 @@ exports[`styles > should return the default styles 1`] = `
 exports[`styles > should return the inherited props' styles 1`] = `
 {
   "arrow": {
+    "alignItems": "center",
     "base": 32,
     "color": "#00f",
     "display": "inline-flex",
+    "justifyContent": "center",
     "position": "absolute",
     "size": 16,
   },
@@ -679,9 +687,11 @@ exports[`styles > should return the inherited props' styles 1`] = `
 exports[`styles > should return the step's styles 1`] = `
 {
   "arrow": {
+    "alignItems": "center",
     "base": 32,
     "color": "#000",
     "display": "inline-flex",
+    "justifyContent": "center",
     "position": "absolute",
     "size": 16,
   },

@@ -1,0 +1,165 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Arrow > arrowComponent > should render custom arrow 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: 10px; width: 32px; height: 16px;"
+>
+  <span
+    style="flex-shrink: 0;"
+  >
+    <svg
+      height="16"
+      preserveAspectRatio="none"
+      transform="rotate(0)"
+      viewBox="0 0 50 40"
+      width="32"
+    >
+      <path
+        d="M25,0 C25,32 10,38 0,40 L50,40 C40,38 25,32 25,0 Z"
+        fill="currentColor"
+      />
+    </svg>
+  </span>
+</span>
+`;
+
+exports[`Arrow > arrowComponent > should render with left placement 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; right: -16px; top: 20px; width: 16px; height: 32px;"
+>
+  <span
+    style="flex-shrink: 0;"
+  >
+    <svg
+      height="16"
+      preserveAspectRatio="none"
+      transform="rotate(90)"
+      viewBox="0 0 50 40"
+      width="32"
+    >
+      <path
+        d="M25,0 C25,32 10,38 0,40 L50,40 C40,38 25,32 25,0 Z"
+        fill="currentColor"
+      />
+    </svg>
+  </span>
+</span>
+`;
+
+exports[`Arrow > should not have visibility hidden when position is defined 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: 10px; width: 32px; height: 16px;"
+>
+  <svg
+    height="16"
+    width="32"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polygon
+      fill="currentColor"
+      points="32,16 16,0 0,16"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Arrow > should render hidden when position is undefined 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; visibility: hidden;"
+>
+  <svg
+    height="16"
+    width="32"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polygon
+      fill="currentColor"
+      points="32,16 16,0 0,16"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Arrow > should render with bottom placement 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: 10px; width: 32px; height: 16px;"
+>
+  <svg
+    height="16"
+    width="32"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polygon
+      fill="currentColor"
+      points="32,16 16,0 0,16"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Arrow > should render with left placement 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; right: -16px; top: 20px; width: 16px; height: 32px;"
+>
+  <svg
+    height="32"
+    width="16"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polygon
+      fill="currentColor"
+      points="0,0 16,16 0,32"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Arrow > should render with right placement 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; left: -16px; top: 20px; width: 16px; height: 32px;"
+>
+  <svg
+    height="32"
+    width="16"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polygon
+      fill="currentColor"
+      points="16,32 16,0 0,16"
+    />
+  </svg>
+</span>
+`;
+
+exports[`Arrow > should render with top placement 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; bottom: -16px; left: 10px; width: 32px; height: 16px;"
+>
+  <svg
+    height="16"
+    width="32"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <polygon
+      fill="currentColor"
+      points="0,0 16,16 32,0"
+    />
+  </svg>
+</span>
+`;
