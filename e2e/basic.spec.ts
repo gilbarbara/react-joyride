@@ -19,7 +19,7 @@ test('basic', async ({ page }) => {
     await expect(page).toHaveScreenshot('step1-tooltip.png');
   });
 
-  await test.step('Step 2 - Absolute elements', async () => {
+  await test.step('Step 2', async () => {
     await page.getByTestId('button-primary').click();
 
     await expect(page.locator('.react-joyride__loader')).toBeVisible();
@@ -27,7 +27,7 @@ test('basic', async ({ page }) => {
 
     await waitForScrollEnd(page);
     await expect.poll(() => getScrollTop(page)).toBeAround(109);
-    await expect(tooltip).toContainText('A step with delay (1000) and no arrowSkipBackNext');
+    await expect(tooltip).toContainText('A step with delay (500ms)');
     await expect(page).toHaveScreenshot('step2-tooltip.png');
   });
 
@@ -45,7 +45,7 @@ test('basic', async ({ page }) => {
     await waitForScrollEnd(page);
     await expect.poll(() => getScrollTop(page)).toBeAround(658);
 
-    await expect(tooltip).toContainText('Fixed elements');
+    await expect(tooltip).toContainText('Fixed elements and no arrow');
     await expect(page).toHaveScreenshot('step4-tooltip.png');
   });
 

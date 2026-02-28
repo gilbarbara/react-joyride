@@ -37,7 +37,12 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
   "showProgress": false,
   "showSkipButton": false,
   "spotlightClicks": false,
-  "spotlightPadding": 5,
+  "spotlightPadding": {
+    "bottom": 5,
+    "left": 5,
+    "right": 5,
+    "top": 5,
+  },
   "stepDelay": 0,
   "styles": {
     "arrow": {
@@ -250,7 +255,12 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
   "showProgress": false,
   "showSkipButton": false,
   "spotlightClicks": false,
-  "spotlightPadding": 10,
+  "spotlightPadding": {
+    "bottom": 10,
+    "left": 10,
+    "right": 10,
+    "top": 10,
+  },
   "stepDelay": 0,
   "styles": {
     "arrow": {
@@ -635,7 +645,12 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "showProgress": false,
   "showSkipButton": false,
   "spotlightClicks": false,
-  "spotlightPadding": 10,
+  "spotlightPadding": {
+    "bottom": 10,
+    "left": 10,
+    "right": 10,
+    "top": 10,
+  },
   "stepDelay": 0,
   "styles": {
     "arrow": {
@@ -869,7 +884,12 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "showProgress": false,
   "showSkipButton": false,
   "spotlightClicks": false,
-  "spotlightPadding": 10,
+  "spotlightPadding": {
+    "bottom": 10,
+    "left": 10,
+    "right": 10,
+    "top": 10,
+  },
   "stepDelay": 0,
   "styles": {
     "arrow": {
@@ -1082,7 +1102,12 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
   "showProgress": false,
   "showSkipButton": false,
   "spotlightClicks": false,
-  "spotlightPadding": 10,
+  "spotlightPadding": {
+    "bottom": 10,
+    "left": 10,
+    "right": 10,
+    "top": 10,
+  },
   "stepDelay": 0,
   "styles": {
     "arrow": {
