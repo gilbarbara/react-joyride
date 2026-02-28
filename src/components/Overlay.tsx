@@ -32,7 +32,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     placement,
     scrolling,
     spotlightClicks,
-    spotlightPadding = 0,
+    spotlightPadding,
     styles,
     target,
     waiting,

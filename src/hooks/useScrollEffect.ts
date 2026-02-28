@@ -40,7 +40,7 @@ function adjustForPlacement(
   },
 ): number {
   const { beaconPosition, lifecycle, scrollOffset, step } = options;
-  let adjustedY = scrollY - step.spotlightPadding;
+  let adjustedY = scrollY - step.spotlightPadding.top;
 
   if (lifecycle === LIFECYCLE.BEACON && beaconPosition?.placement) {
     const y = getMainAxisOffset(beaconPosition);
@@ -55,7 +55,7 @@ function adjustForPlacement(
       const floaterElement = document.querySelector('.react-joyride__floater');
       const floaterHeight = floaterElement?.getBoundingClientRect().height ?? 0;
       const arrowSize = step.floatingOptions?.hideArrow ? 0 : step.styles.arrow.size;
-      const gap = step.offset + step.spotlightPadding + arrowSize;
+      const gap = step.offset + step.spotlightPadding.top + arrowSize;
 
       adjustedY -= floaterHeight + gap;
     } else if (placement === 'left' || placement === 'right') {
@@ -65,7 +65,7 @@ function adjustForPlacement(
       const targetHeight = targetEl?.getBoundingClientRect().height ?? 0;
 
       // After base scroll, the target center sits at this distance from viewport top
-      const targetCenterY = scrollOffset + step.spotlightPadding + targetHeight / 2;
+      const targetCenterY = scrollOffset + step.spotlightPadding.top + targetHeight / 2;
       // The floater is centered on the target, so its top edge would be here
       const floaterTopY = targetCenterY - floaterHeight / 2;
 

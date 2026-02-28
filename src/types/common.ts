@@ -75,6 +75,13 @@ export interface Locale {
   skip?: ReactNode;
 }
 
+export interface SpotlightPadding {
+  bottom?: number;
+  left?: number;
+  right?: number;
+  top?: number;
+}
+
 export interface Styles {
   arrow: CSSProperties & {
     /** Width of the arrow base. @default 32 */

@@ -8,7 +8,7 @@ import {
   hasPosition,
 } from '~/modules/dom';
 
-import { StepTarget } from '~/types';
+import { SpotlightPadding, StepTarget } from '~/types';
 
 export interface TargetRect {
   height: number;
@@ -26,7 +26,7 @@ const defaultRect: TargetRect = {
   width: 0,
 };
 
-function computeRect(target: StepTarget, spotlightPadding: number): TargetRect {
+function computeRect(target: StepTarget, spotlightPadding: Required<SpotlightPadding>): TargetRect {
   const element = getElement(target);
 
   if (!element) {
@@ -35,20 +35,20 @@ function computeRect(target: StepTarget, spotlightPadding: number): TargetRect {
 
   const elementRect = getClientRect(element);
   const isFixed = hasPosition(element);
-  const top = getElementPosition(element, spotlightPadding);
+  const top = getElementPosition(element, spotlightPadding.top);
 
   return {
-    height: Math.round((elementRect?.height ?? 0) + spotlightPadding * 2),
+    height: Math.round((elementRect?.height ?? 0) + spotlightPadding.top + spotlightPadding.bottom),
     isFixed,
-    left: Math.round((elementRect?.left ?? 0) - spotlightPadding),
+    left: Math.round((elementRect?.left ?? 0) - spotlightPadding.left),
     top,
-    width: Math.round((elementRect?.width ?? 0) + spotlightPadding * 2),
+    width: Math.round((elementRect?.width ?? 0) + spotlightPadding.left + spotlightPadding.right),
   };
 }
 
 export default function useTargetPosition(
   target: StepTarget,
-  spotlightPadding: number,
+  spotlightPadding: Required<SpotlightPadding>,
   force: boolean,
 ): TargetRect {
   const [rect, setRect] = useState<TargetRect>(() => computeRect(target, spotlightPadding));

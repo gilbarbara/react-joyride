@@ -40,12 +40,9 @@ export default function BasicDemo(props: Props) {
         target: 'body',
       },
       {
-        content: <h2>A step with delay (1000) and no arrow</h2>,
+        content: <h2>A step with delay (500ms)</h2>,
         target: '.star-burst',
-        floatingOptions: {
-          hideArrow: true,
-        },
-        stepDelay: 1000,
+        stepDelay: 500,
       },
       {
         content: 'These are our super awesome projects!',
@@ -54,14 +51,25 @@ export default function BasicDemo(props: Props) {
           options: {
             width: 300,
           },
+          spotlight: {
+            borderRadius: 20,
+          },
         },
-        spotlightPadding: 30,
+        spotlightPadding: {
+          bottom: 20,
+          left: 40,
+          right: 40,
+          top: 20,
+        },
         target: '.demo__projects h2',
         title: 'Our projects',
       },
       {
-        content: <h2>Fixed elements</h2>,
+        content: <h2>Fixed elements and no arrow</h2>,
         target: '.toggle',
+        floatingOptions: {
+          hideArrow: true,
+        },
       },
       {
         content: (

@@ -41,7 +41,7 @@ export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
     showProgress: false,
     showSkipButton: false,
     spotlightClicks: false,
-    spotlightPadding: 10,
+    spotlightPadding: { top: 10, right: 10, bottom: 10, left: 10 },
     stepDelay: 0,
     ...overrides,
   });

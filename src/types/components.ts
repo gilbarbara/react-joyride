@@ -2,7 +2,17 @@ import { ElementType, MouseEventHandler, ReactNode, RefCallback, RefObject } fro
 import { AutoUpdateOptions, Middleware, MiddlewareData, Strategy } from '@floating-ui/react-dom';
 import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
-import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
+import {
+  Actions,
+  Events,
+  Lifecycle,
+  Locale,
+  Origin,
+  Placement,
+  SpotlightPadding,
+  Status,
+  Styles,
+} from './common';
 
 export type ArrowRenderProps = {
   base: number;
@@ -285,10 +295,10 @@ export type StepMerged = Simplify<
     | 'showProgress'
     | 'showSkipButton'
     | 'spotlightClicks'
-    | 'spotlightPadding'
     | 'stepDelay'
     | 'targetWaitTimeout'
   > & {
+    spotlightPadding: Required<SpotlightPadding>;
     styles: Styles;
   }
 >;
@@ -363,9 +373,10 @@ export type StepOptions = {
   spotlightClicks?: boolean;
   /**
    * The padding of the spotlight.
+   * Accepts a number for equal padding on all sides, or an object with `top`, `right`, `bottom`, `left`.
    * @default 10
    */
-  spotlightPadding?: number;
+  spotlightPadding?: number | SpotlightPadding;
   /**
    * Delay before transitioning to the next step.
    * Shows the loader during the delay.

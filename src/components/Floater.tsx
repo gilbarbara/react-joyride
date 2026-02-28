@@ -118,11 +118,21 @@ export default function JoyrideFloater(props: FloaterProps) {
           },
         ]
       : [
-          offset(
-            step.offset +
-              step.spotlightPadding +
-              (step.floatingOptions?.hideArrow ? 0 : arrowStyles.size),
-          ),
+          offset(({ placement: currentPlacement }) => {
+            const side = currentPlacement.startsWith('top')
+              ? 'top'
+              : currentPlacement.startsWith('bottom')
+                ? 'bottom'
+                : currentPlacement.startsWith('left')
+                  ? 'left'
+                  : 'right';
+
+            return (
+              step.offset +
+              step.spotlightPadding[side] +
+              (step.floatingOptions?.hideArrow ? 0 : arrowStyles.size)
+            );
+          }),
           isAuto ? autoPlacement() : flip(),
           shift({ padding: 5, ...boundaryOptions }),
           ...(step.floatingOptions?.hideArrow

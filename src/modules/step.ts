@@ -3,7 +3,7 @@ import is from 'is-lite';
 import { defaultFloatingOptions, defaultLocale, defaultStep, defaultStepOptions } from '~/defaults';
 import getStyles from '~/styles';
 
-import { FloatingOptions, Locale, Props, Step, StepMerged } from '~/types';
+import { FloatingOptions, Locale, Props, SpotlightPadding, Step, StepMerged } from '~/types';
 
 import { deepMerge, logDebug, pick } from './helpers';
 
@@ -41,7 +41,23 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
     ...mergedStep,
     locale: deepMerge<Locale>(defaultLocale, props.locale ?? {}, mergedStep.locale || {}),
     floatingOptions,
+    spotlightPadding: normalizeSpotlightPadding(mergedStep.spotlightPadding),
     styles: mergedStyles,
+  };
+}
+
+export function normalizeSpotlightPadding(
+  value: number | SpotlightPadding | undefined,
+): Required<SpotlightPadding> {
+  if (typeof value === 'number') {
+    return { top: value, right: value, bottom: value, left: value };
+  }
+
+  return {
+    top: value?.top ?? 0,
+    right: value?.right ?? 0,
+    bottom: value?.bottom ?? 0,
+    left: value?.left ?? 0,
   };
 }
 

@@ -384,12 +384,53 @@ describe('Floater', () => {
         .mockReturnValueOnce(createFloatingReturn());
 
       const props = createProps({
-        step: createStep({ floatingOptions: { hideArrow: true }, offset: 10, spotlightPadding: 5 }),
+        step: createStep({
+          floatingOptions: { hideArrow: true },
+          offset: 10,
+          spotlightPadding: { bottom: 5, left: 5, right: 5, top: 5 },
+        }),
       });
 
       render(<Floater {...props} />);
 
-      expect(offsetMock).toHaveBeenCalledWith(15);
+      expect(offsetMock).toHaveBeenCalledWith(expect.any(Function));
+
+      const offsetFn = (offsetMock as ReturnType<typeof vi.fn>).mock.calls[0][0] as (state: {
+        placement: string;
+      }) => number;
+
+      // offset (10) + spotlightPadding (5) + arrow (0) = 15
+      expect(offsetFn({ placement: 'bottom' })).toBe(15);
+    });
+  });
+
+  describe('offset', () => {
+    it('should use the matching side padding per placement', async () => {
+      const { offset: offsetMock } = await import('@floating-ui/react-dom');
+
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      const props = createProps({
+        step: createStep({
+          floatingOptions: { hideArrow: true },
+          offset: 10,
+          spotlightPadding: { bottom: 20, left: 25, right: 15, top: 5 },
+        }),
+      });
+
+      render(<Floater {...props} />);
+
+      const offsetFn = (offsetMock as ReturnType<typeof vi.fn>).mock.calls[0][0] as (state: {
+        placement: string;
+      }) => number;
+
+      expect(offsetFn({ placement: 'top' })).toBe(15); // 10 + top(5)
+      expect(offsetFn({ placement: 'top-start' })).toBe(15); // 10 + top(5)
+      expect(offsetFn({ placement: 'bottom' })).toBe(30); // 10 + bottom(20)
+      expect(offsetFn({ placement: 'left' })).toBe(35); // 10 + left(25)
+      expect(offsetFn({ placement: 'right' })).toBe(25); // 10 + right(15)
     });
   });
 
