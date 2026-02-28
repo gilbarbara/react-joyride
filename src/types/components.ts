@@ -4,7 +4,17 @@ import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
 import { Actions, Events, Lifecycle, Locale, Origin, Placement, Status, Styles } from './common';
 
+export type ArrowRenderProps = {
+  base: number;
+  placement: Placement;
+  size: number;
+};
+
 export type BaseProps = {
+  /**
+   * A React component to use instead the default Arrow.
+   */
+  arrowComponent?: ElementType<ArrowRenderProps>;
   /**
    * A React component to use instead the default Beacon.
    */

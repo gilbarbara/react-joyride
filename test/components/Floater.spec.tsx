@@ -5,6 +5,8 @@ import Floater from '~/components/Floater';
 
 import { Lifecycle, StoreHelpers } from '~/types';
 
+import CustomArrow from '../__fixtures__/components/CustomArrow';
+
 vi.mock('~/modules/dom', async importOriginal => {
   const actual = await importOriginal<typeof import('~/modules/dom')>();
 
@@ -386,6 +388,22 @@ describe('Floater', () => {
       render(<Floater {...props} />);
 
       expect(offsetMock).toHaveBeenCalledWith(15);
+    });
+  });
+
+  describe('arrowComponent', () => {
+    it('should render custom arrow component when provided', () => {
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      const props = createProps({
+        step: createStep({ arrowComponent: CustomArrow }),
+      });
+
+      render(<Floater {...props} />);
+
+      expect(screen.getByTestId('arrow')).toMatchSnapshot();
     });
   });
 

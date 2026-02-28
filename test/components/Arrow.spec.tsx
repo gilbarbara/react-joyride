@@ -3,13 +3,14 @@ import { createRef } from 'react';
 import { cleanup, createStep, render, screen } from '~/test-utils';
 
 import Arrow from '../../src/components/Arrow';
+import CustomArrow from '../__fixtures__/components/CustomArrow';
 
 const step = createStep();
 
 function createProps(overrides: Record<string, unknown> = {}) {
   return {
-    arrowRef: createRef<HTMLSpanElement>(),
-    placement: 'bottom',
+    arrowRef: createRef<HTMLElement>(),
+    placement: 'bottom' as const,
     position: { x: 10, y: 20 } as { x?: number; y?: number } | undefined,
     styles: step.styles.arrow,
     ...overrides,
@@ -26,19 +27,7 @@ describe('Arrow', () => {
 
     render(<Arrow {...props} />);
 
-    const arrow = screen.getByTestId('arrow');
-
-    expect(arrow).toHaveStyle({ top: '-16px', left: '10px' });
-
-    const svg = arrow.querySelector('svg')!;
-
-    expect(svg).toHaveAttribute('width', '32');
-    expect(svg).toHaveAttribute('height', '16');
-
-    const polygon = svg.querySelector('polygon')!;
-
-    expect(polygon).toHaveAttribute('points', '32,16 16,0 0,16');
-    expect(polygon).toHaveAttribute('fill', '#fff');
+    expect(screen.getByTestId('arrow')).toMatchSnapshot();
   });
 
   it('should render with top placement', () => {
@@ -46,15 +35,7 @@ describe('Arrow', () => {
 
     render(<Arrow {...props} />);
 
-    const arrow = screen.getByTestId('arrow');
-
-    expect(arrow).toHaveStyle({ bottom: '-16px', left: '10px' });
-
-    const svg = arrow.querySelector('svg')!;
-
-    expect(svg).toHaveAttribute('width', '32');
-    expect(svg).toHaveAttribute('height', '16');
-    expect(svg.querySelector('polygon')).toHaveAttribute('points', '0,0 16,16 32,0');
+    expect(screen.getByTestId('arrow')).toMatchSnapshot();
   });
 
   it('should render with left placement', () => {
@@ -62,15 +43,7 @@ describe('Arrow', () => {
 
     render(<Arrow {...props} />);
 
-    const arrow = screen.getByTestId('arrow');
-
-    expect(arrow).toHaveStyle({ right: '-16px', top: '20px' });
-
-    const svg = arrow.querySelector('svg')!;
-
-    expect(svg).toHaveAttribute('width', '16');
-    expect(svg).toHaveAttribute('height', '32');
-    expect(svg.querySelector('polygon')).toHaveAttribute('points', '0,0 16,16 0,32');
+    expect(screen.getByTestId('arrow')).toMatchSnapshot();
   });
 
   it('should render with right placement', () => {
@@ -78,15 +51,7 @@ describe('Arrow', () => {
 
     render(<Arrow {...props} />);
 
-    const arrow = screen.getByTestId('arrow');
-
-    expect(arrow).toHaveStyle({ left: '-16px', top: '20px' });
-
-    const svg = arrow.querySelector('svg')!;
-
-    expect(svg).toHaveAttribute('width', '16');
-    expect(svg).toHaveAttribute('height', '32');
-    expect(svg.querySelector('polygon')).toHaveAttribute('points', '16,32 16,0 0,16');
+    expect(screen.getByTestId('arrow')).toMatchSnapshot();
   });
 
   it('should render hidden when position is undefined', () => {
@@ -94,10 +59,7 @@ describe('Arrow', () => {
 
     render(<Arrow {...props} />);
 
-    const arrow = screen.getByTestId('arrow');
-
-    expect(arrow).toHaveStyle({ visibility: 'hidden' });
-    expect(arrow.querySelector('svg')).toBeInTheDocument();
+    expect(screen.getByTestId('arrow')).toMatchSnapshot();
   });
 
   it('should not have visibility hidden when position is defined', () => {
@@ -105,15 +67,15 @@ describe('Arrow', () => {
 
     render(<Arrow {...props} />);
 
-    expect(screen.getByTestId('arrow')).not.toHaveStyle({ visibility: 'hidden' });
+    expect(screen.getByTestId('arrow')).toMatchSnapshot();
   });
 
-  it('should return null for invalid placement', () => {
+  it('should return null for "center" placement', () => {
     const props = createProps({ placement: 'center' });
 
     const { container } = render(<Arrow {...props} />);
 
-    expect(container.innerHTML).toBe('');
+    expect(container.firstChild).toBeNull();
   });
 
   it('should attach ref to span', () => {
@@ -123,5 +85,51 @@ describe('Arrow', () => {
     render(<Arrow {...props} />);
 
     expect(ref.current).toBe(screen.getByTestId('arrow'));
+  });
+
+  describe('arrowComponent', () => {
+    it('should render custom arrow', () => {
+      const props = createProps({ arrowComponent: CustomArrow });
+
+      render(<Arrow {...props} />);
+
+      expect(screen.getByTestId('arrow')).toMatchSnapshot();
+    });
+
+    it('should render with left placement', () => {
+      const props = createProps({ arrowComponent: CustomArrow, placement: 'left' });
+
+      render(<Arrow {...props} />);
+
+      expect(screen.getByTestId('arrow')).toMatchSnapshot();
+    });
+
+    it('should pass correct props to the custom component', () => {
+      const arrowComponent = vi.fn(() => null);
+      const props = createProps({ arrowComponent, placement: 'right-start' });
+
+      render(<Arrow {...props} />);
+
+      expect(arrowComponent).toHaveBeenCalledWith(
+        { base: 32, placement: 'right-start', size: 16 },
+        undefined,
+      );
+    });
+
+    it('should return null for "center" placement', () => {
+      const props = createProps({ arrowComponent: CustomArrow, placement: 'center' });
+
+      const { container } = render(<Arrow {...props} />);
+
+      expect(container.firstChild).toBeNull();
+    });
+
+    it('should keep wrapper span hidden when position is undefined', () => {
+      const props = createProps({ arrowComponent: CustomArrow, position: undefined });
+
+      render(<Arrow {...props} />);
+
+      expect(screen.getByTestId('arrow')).toHaveStyle({ visibility: 'hidden' });
+    });
   });
 });

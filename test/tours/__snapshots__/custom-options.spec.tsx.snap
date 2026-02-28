@@ -102,7 +102,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
   <span
     class="react-joyride__arrow"
     data-test-id="arrow"
-    style="display: inline-flex; position: absolute; top: -16px; left: -1px;"
+    style="align-items: center; color: rgb(92, 255, 71); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
   >
     <svg
       height="16"
@@ -110,7 +110,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
       xmlns="http://www.w3.org/2000/svg"
     >
       <polygon
-        fill="#5cff47"
+        fill="currentColor"
         points="32,16 16,0 0,16"
       />
     </svg>
@@ -252,7 +252,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
   <span
     class="react-joyride__arrow"
     data-test-id="arrow"
-    style="display: inline-flex; position: absolute; top: -16px; left: -1px;"
+    style="align-items: center; color: rgb(92, 255, 71); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
   >
     <svg
       height="16"
@@ -260,7 +260,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
       xmlns="http://www.w3.org/2000/svg"
     >
       <polygon
-        fill="#5cff47"
+        fill="currentColor"
         points="32,16 16,0 0,16"
       />
     </svg>

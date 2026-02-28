@@ -1,0 +1,26 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Floater > arrowComponent > should render custom arrow component when provided 1`] = `
+<span
+  class="react-joyride__arrow"
+  data-test-id="arrow"
+  style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; visibility: hidden;"
+>
+  <span
+    style="flex-shrink: 0;"
+  >
+    <svg
+      height="16"
+      preserveAspectRatio="none"
+      transform="rotate(0)"
+      viewBox="0 0 50 40"
+      width="32"
+    >
+      <path
+        d="M25,0 C25,32 10,38 0,40 L50,40 C40,38 25,32 25,0 Z"
+        fill="currentColor"
+      />
+    </svg>
+  </span>
+</span>
+`;

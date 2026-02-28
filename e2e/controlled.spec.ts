@@ -56,7 +56,7 @@ test('controlled', async ({ page }) => {
     await expect(page).toHaveScreenshot('step6-loader.png');
   });
 
-  await test.step('Step 7 - Users (after fake step skipped)', async () => {
+  await test.step('Step 7 - Users', async () => {
     await expect(tooltip).toContainText('Our Users');
     await expect(page).toHaveScreenshot('step7-users.png');
   });

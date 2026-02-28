@@ -118,7 +118,7 @@ export default function Tooltip(props: TooltipProps) {
   };
 
   // eslint-disable-next-line unused-imports/no-unused-vars
-  const { beaconComponent, tooltipComponent, ...cleanStep } = step;
+  const { arrowComponent, beaconComponent, tooltipComponent, ...cleanStep } = step;
   let component;
 
   if (tooltipComponent) {

@@ -16,6 +16,7 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
     defaultStep,
     pick(
       props,
+      'arrowComponent',
       'beaconComponent',
       'floatingOptions',
       'loaderComponent',
