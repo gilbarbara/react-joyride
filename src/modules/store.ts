@@ -29,14 +29,36 @@ class Store {
   private tooltipPosition: PositionData | null = null;
 
   constructor(options?: Props) {
-    const { stepIndex, steps = [] } = options ?? {};
+    const { initialStepIndex, stepIndex, steps = [] } = options ?? {};
+    const isControlled = is.number(stepIndex);
+
+    let startIndex = 0;
+
+    if (isControlled) {
+      startIndex = stepIndex;
+
+      if (is.number(initialStepIndex)) {
+        logDebug({
+          title: 'initialStepIndex is ignored in controlled mode',
+          debug: options?.debug,
+          warn: true,
+        });
+      }
+    } else if (is.number(initialStepIndex)) {
+      if (initialStepIndex >= 0 && initialStepIndex < steps.length) {
+        startIndex = initialStepIndex;
+      } else if (steps.length > 0) {
+        // eslint-disable-next-line no-console
+        console.warn('react-joyride: initialStepIndex is out of bounds');
+      }
+    }
 
     this.props = options ?? { steps: [] };
     this.steps = steps;
     this.state = {
       action: ACTIONS.INIT,
-      controlled: is.number(stepIndex),
-      index: is.number(stepIndex) ? stepIndex : 0,
+      controlled: isControlled,
+      index: startIndex,
       lifecycle: LIFECYCLE.INIT,
       origin: null,
       positioned: false,
