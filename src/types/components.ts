@@ -154,6 +154,12 @@ export type Props = Simplify<
      */
     getHelpers?: (helpers: StoreHelpers) => void;
     /**
+     * The initial step index for uncontrolled tours.
+     * Ignored when stepIndex is set (controlled mode).
+     * @default 0
+     */
+    initialStepIndex?: number;
+    /**
      * A nonce value for inline styles (Content Security Policy - CSP)
      */
     nonce?: string;

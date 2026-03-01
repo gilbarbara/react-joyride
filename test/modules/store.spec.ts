@@ -239,6 +239,73 @@ describe('store', () => {
     });
   });
 
+  describe('with initialStepIndex', () => {
+    it('should start at the specified index', () => {
+      const store = createStore({ steps: standardSteps, initialStepIndex: 2 });
+      const state = store.info();
+
+      expect(state.index).toBe(2);
+      expect(state.controlled).toBe(false);
+    });
+
+    it('should keep the index after start()', () => {
+      const store = createStore({ steps: standardSteps, initialStepIndex: 2 });
+
+      store.start();
+
+      expect(store.info().index).toBe(2);
+    });
+
+    it('should reset to 0', () => {
+      const store = createStore({ steps: standardSteps, initialStepIndex: 2 });
+
+      store.start();
+      store.reset();
+
+      expect(store.info().index).toBe(0);
+    });
+
+    it('should fall back to 0 when out of bounds', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const store = createStore({ steps: standardSteps, initialStepIndex: 99 });
+
+      expect(store.info().index).toBe(0);
+      expect(warnSpy).toHaveBeenCalledWith('react-joyride: initialStepIndex is out of bounds');
+
+      warnSpy.mockRestore();
+    });
+
+    it('should fall back to 0 when negative', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const store = createStore({ steps: standardSteps, initialStepIndex: -1 });
+
+      expect(store.info().index).toBe(0);
+      expect(warnSpy).toHaveBeenCalledWith('react-joyride: initialStepIndex is out of bounds');
+
+      warnSpy.mockRestore();
+    });
+
+    it('should treat 0 the same as omitting it', () => {
+      const store = createStore({ steps: standardSteps, initialStepIndex: 0 });
+
+      expect(store.info().index).toBe(0);
+    });
+
+    it('should be ignored in controlled mode', () => {
+      const store = createStore({
+        debug: true,
+        steps: standardSteps,
+        stepIndex: 0,
+        initialStepIndex: 2,
+      });
+
+      expect(store.info().index).toBe(0);
+      expect(store.info().controlled).toBe(true);
+    });
+  });
+
   describe('with position data', () => {
     const store = createStore();
     const positionData = { placement: 'top' as const, x: 0, y: -10, middlewareData: {} };

@@ -1089,6 +1089,55 @@ describe('useJoyrideData', () => {
     });
   });
 
+  describe('initialStepIndex', () => {
+    it('should start at the specified step index', async () => {
+      renderHook(() => useJoyrideData(createProps({ initialStepIndex: 1 })));
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledTimes(3);
+      });
+
+      expect(mockCallback).toHaveBeenNthCalledWith(
+        1,
+        getCallbackResponse({
+          action: ACTIONS.START,
+          index: 1,
+          lifecycle: LIFECYCLE.INIT,
+          type: EVENTS.TOUR_START,
+        }),
+      );
+
+      expect(mockCallback).toHaveBeenNthCalledWith(
+        2,
+        getCallbackResponse({
+          action: ACTIONS.UPDATE,
+          index: 1,
+          lifecycle: LIFECYCLE.READY,
+          type: EVENTS.STEP_BEFORE,
+        }),
+      );
+    });
+
+    it('should be ignored in controlled mode', async () => {
+      renderHook(() => useJoyrideData(createProps({ initialStepIndex: 1, stepIndex: 0 })));
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledTimes(3);
+      });
+
+      expect(mockCallback).toHaveBeenNthCalledWith(
+        1,
+        getCallbackResponse({
+          action: ACTIONS.START,
+          controlled: true,
+          index: 0,
+          lifecycle: LIFECYCLE.INIT,
+          type: EVENTS.TOUR_START,
+        }),
+      );
+    });
+  });
+
   describe('Step Delay', () => {
     it('should delay step transition with stepDelay', async () => {
       const steps: Step[] = [
