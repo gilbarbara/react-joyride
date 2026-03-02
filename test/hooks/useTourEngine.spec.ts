@@ -1,4 +1,4 @@
-import useJoyrideData from '~/hooks/useJoyrideData';
+import useTourEngine from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, getScrollTo, isElementVisible, scrollTo } from '~/modules/dom';
 import { act, callbackResponseFactory, renderHook, waitFor } from '~/test-utils';
@@ -21,7 +21,7 @@ vi.mock('~/modules/dom', async () => {
   };
 });
 
-describe('useJoyrideData', () => {
+describe('useTourEngine', () => {
   const mockCallback = vi.fn();
   const getCallbackResponse = callbackResponseFactory({ size: 3 });
 
@@ -59,7 +59,7 @@ describe('useJoyrideData', () => {
 
   describe('Tour Lifecycle', () => {
     it('should start the tour and fire TOUR_START, STEP_BEFORE, TOOLTIP', async () => {
-      renderHook(() => useJoyrideData(createProps()));
+      renderHook(() => useTourEngine(createProps()));
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -97,14 +97,14 @@ describe('useJoyrideData', () => {
     });
 
     it('should advance to the next step with next()', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps()));
+      const { result } = renderHook(() => useTourEngine(createProps()));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       // next() sets lifecycle=COMPLETE → STEP_AFTER → COMPLETE→INIT → STEP_BEFORE → TOOLTIP
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -145,7 +145,7 @@ describe('useJoyrideData', () => {
     it('should show beacon in non-continuous mode', async () => {
       const steps: Step[] = [{ target: '.step-1', content: 'Step 1' }];
 
-      renderHook(() => useJoyrideData(createProps({ steps, continuous: false })));
+      renderHook(() => useTourEngine(createProps({ steps, continuous: false })));
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -169,13 +169,13 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2' }, // beacon enabled
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -195,13 +195,13 @@ describe('useJoyrideData', () => {
     it('should finish the tour when the last step completes', async () => {
       const steps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -219,13 +219,13 @@ describe('useJoyrideData', () => {
     });
 
     it('should skip the tour and fire TOUR_END', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps()));
+      const { result } = renderHook(() => useTourEngine(createProps()));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.skip('button_skip');
+        result.current.controls.skip('button_skip');
       });
 
       await waitFor(() => {
@@ -243,13 +243,13 @@ describe('useJoyrideData', () => {
     });
 
     it('should stop and resume the tour', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps()));
+      const { result } = renderHook(() => useTourEngine(createProps()));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.stop();
+        result.current.controls.stop();
       });
 
       await waitFor(() => {
@@ -267,7 +267,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.start();
+        result.current.controls.start();
       });
 
       await waitFor(() => {
@@ -286,7 +286,7 @@ describe('useJoyrideData', () => {
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -299,7 +299,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // STEP_AFTER fires, then COMPLETE→INIT, INIT polls, TARGET_NOT_FOUND, auto-advance to step 3
@@ -328,7 +328,7 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 150 },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -336,7 +336,7 @@ describe('useJoyrideData', () => {
       vi.mocked(isElementVisible).mockReturnValue(false);
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -357,7 +357,7 @@ describe('useJoyrideData', () => {
         { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
       ];
 
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
@@ -390,7 +390,7 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 1000 },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -403,7 +403,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // COMPLETE→INIT starts polling (target missing)
@@ -431,7 +431,7 @@ describe('useJoyrideData', () => {
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -445,7 +445,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // STEP_AFTER fires, then COMPLETE→INIT starts polling for 200ms
@@ -474,7 +474,7 @@ describe('useJoyrideData', () => {
         { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 0 },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
@@ -487,7 +487,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // TARGET_NOT_FOUND should fire immediately without polling delay
@@ -506,7 +506,7 @@ describe('useJoyrideData', () => {
         { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 300 },
       ];
 
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
@@ -552,7 +552,7 @@ describe('useJoyrideData', () => {
         },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
@@ -564,7 +564,7 @@ describe('useJoyrideData', () => {
       });
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // COMPLETE→INIT starts polling (target missing)
@@ -592,7 +592,7 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true },
       ];
 
-      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
@@ -623,7 +623,7 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true },
       ];
 
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps, stepIndex: 1 }),
       });
 
@@ -653,7 +653,7 @@ describe('useJoyrideData', () => {
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
-      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps, stepIndex: 1 }),
       });
 
@@ -661,7 +661,7 @@ describe('useJoyrideData', () => {
 
       // skip() at index > 0 so previousStep exists and TOUR_END fires
       act(() => {
-        result.current.store.current.skip();
+        result.current.controls.skip();
       });
 
       await waitFor(() => {
@@ -691,7 +691,7 @@ describe('useJoyrideData', () => {
 
   describe('Prop Changes', () => {
     it('should start the tour when run changes from false to true', async () => {
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ run: false }),
       });
 
@@ -707,7 +707,7 @@ describe('useJoyrideData', () => {
     });
 
     it('should stop the tour when run changes from true to false', async () => {
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ run: true }),
       });
 
@@ -737,7 +737,7 @@ describe('useJoyrideData', () => {
         run: true,
       };
 
-      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps,
       });
 
@@ -754,7 +754,7 @@ describe('useJoyrideData', () => {
     it('should update store size when steps change', async () => {
       const initialSteps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
 
-      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps: initialSteps, run: false }),
       });
 
@@ -777,7 +777,7 @@ describe('useJoyrideData', () => {
     };
 
     it('should call scrollTo when scrollToFirstStep is true', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
+      const { result } = renderHook(() => useTourEngine(createProps({ scrollToFirstStep: true })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
@@ -794,7 +794,7 @@ describe('useJoyrideData', () => {
       ];
 
       const { result } = renderHook(() =>
-        useJoyrideData(createProps({ steps, scrollToFirstStep: true })),
+        useTourEngine(createProps({ steps, scrollToFirstStep: true })),
       );
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
@@ -814,7 +814,7 @@ describe('useJoyrideData', () => {
         promise: Promise.resolve(),
       });
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
+      const { result } = renderHook(() => useTourEngine(createProps({ scrollToFirstStep: true })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
@@ -825,7 +825,7 @@ describe('useJoyrideData', () => {
       await waitFor(() => expect(scrollTo).toHaveBeenCalled());
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -844,7 +844,7 @@ describe('useJoyrideData', () => {
     it('should clamp negative scrollY to 0', async () => {
       vi.mocked(getScrollTo).mockReturnValue(-100);
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ scrollToFirstStep: true })));
+      const { result } = renderHook(() => useTourEngine(createProps({ scrollToFirstStep: true })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
@@ -858,7 +858,7 @@ describe('useJoyrideData', () => {
 
   describe('Edge Cases', () => {
     it('should not fire callbacks when run=false', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps({ run: false })));
+      const { result } = renderHook(() => useTourEngine(createProps({ run: false })));
 
       // Give time for any async effects
       await act(async () => {
@@ -873,33 +873,14 @@ describe('useJoyrideData', () => {
 
     it('should not crash with empty steps', () => {
       expect(() => {
-        renderHook(() => useJoyrideData(createProps({ steps: [] })));
+        renderHook(() => useTourEngine(createProps({ steps: [] })));
       }).not.toThrowError();
-    });
-
-    it('should deliver helpers via getHelpers prop', async () => {
-      const mockGetHelpers = vi.fn();
-
-      renderHook(() => useJoyrideData(createProps({ getHelpers: mockGetHelpers })));
-
-      expect(mockGetHelpers).toHaveBeenCalledWith(
-        expect.objectContaining({
-          close: expect.any(Function),
-          go: expect.any(Function),
-          info: expect.any(Function),
-          next: expect.any(Function),
-          open: expect.any(Function),
-          prev: expect.any(Function),
-          reset: expect.any(Function),
-          skip: expect.any(Function),
-        }),
-      );
     });
 
     it('should use TOOLTIP for center placement (beacon hidden)', async () => {
       const steps: Step[] = [{ target: '.step-1', content: 'Step 1', placement: 'center' }];
 
-      renderHook(() => useJoyrideData(createProps({ steps, continuous: false })));
+      renderHook(() => useTourEngine(createProps({ steps, continuous: false })));
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -918,13 +899,13 @@ describe('useJoyrideData', () => {
     });
 
     it('should track lastAction for STEP_BEFORE callback after NEXT', async () => {
-      const { result } = renderHook(() => useJoyrideData(createProps()));
+      const { result } = renderHook(() => useTourEngine(createProps()));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // next() triggers STEP_AFTER → STEP_BEFORE with NEXT action preserved
@@ -946,7 +927,7 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -974,14 +955,14 @@ describe('useJoyrideData', () => {
         { target: '.step-3', content: 'Step 3', disableBeacon: true },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
       // Advance to step 2
       mockCallback.mockClear();
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -992,7 +973,7 @@ describe('useJoyrideData', () => {
       // Advance to step 3
       mockCallback.mockClear();
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledWith(
@@ -1010,7 +991,7 @@ describe('useJoyrideData', () => {
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.prev();
+        result.current.controls.prev();
       });
 
       // STEP_AFTER for step 3, then TARGET_NOT_FOUND for step 2 (index 1)
@@ -1029,7 +1010,7 @@ describe('useJoyrideData', () => {
     });
 
     it('should warn when steps become invalid', async () => {
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps(),
       });
 
@@ -1047,7 +1028,7 @@ describe('useJoyrideData', () => {
     });
 
     it('should transition IDLE to READY when steps load before run', async () => {
-      const { rerender } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ run: false, steps: [] }),
       });
 
@@ -1069,13 +1050,13 @@ describe('useJoyrideData', () => {
     });
 
     it('should transition WAITING to RUNNING when steps arrive after start', async () => {
-      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ run: false, steps: [] }),
       });
 
       // Calling start() with size=0 sets status=WAITING
       act(() => {
-        result.current.store.current.start();
+        result.current.controls.start();
       });
 
       expect(result.current.state.status).toBe(STATUS.WAITING);
@@ -1091,7 +1072,7 @@ describe('useJoyrideData', () => {
 
   describe('initialStepIndex', () => {
     it('should start at the specified step index', async () => {
-      renderHook(() => useJoyrideData(createProps({ initialStepIndex: 1 })));
+      renderHook(() => useTourEngine(createProps({ initialStepIndex: 1 })));
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -1119,7 +1100,7 @@ describe('useJoyrideData', () => {
     });
 
     it('should be ignored in controlled mode', async () => {
-      renderHook(() => useJoyrideData(createProps({ initialStepIndex: 1, stepIndex: 0 })));
+      renderHook(() => useTourEngine(createProps({ initialStepIndex: 1, stepIndex: 0 })));
 
       await waitFor(() => {
         expect(mockCallback).toHaveBeenCalledTimes(3);
@@ -1145,13 +1126,13 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // STEP_AFTER fires immediately
@@ -1180,7 +1161,7 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
       ];
 
-      const { rerender, result } = renderHook((props: Props) => useJoyrideData(props), {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
@@ -1220,13 +1201,13 @@ describe('useJoyrideData', () => {
         },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -1260,12 +1241,12 @@ describe('useJoyrideData', () => {
         { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: stepDelayFn },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {
@@ -1291,13 +1272,13 @@ describe('useJoyrideData', () => {
         },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       // Should still proceed to TOOLTIP despite rejection
@@ -1322,13 +1303,13 @@ describe('useJoyrideData', () => {
         },
       ];
 
-      const { result } = renderHook(() => useJoyrideData(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
       mockCallback.mockClear();
 
       act(() => {
-        result.current.store.current.next();
+        result.current.controls.next();
       });
 
       await waitFor(() => {

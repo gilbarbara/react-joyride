@@ -253,8 +253,8 @@ describe('Joyride > Standard', () => {
     );
   });
 
-  it('should handle clicking the button in the spotlight', () => {
-    fireEvent.click(screen.getByTestId('mission-button'));
+  it('should handle clicking STEP 2 Primary button', () => {
+    fireEvent.click(screen.getByTestId('button-primary'));
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       14,
@@ -491,7 +491,7 @@ describe('Joyride > Standard', () => {
       getCallbackResponse({
         action: ACTIONS.RESET,
         index: 0,
-        lifecycle: LIFECYCLE.COMPLETE,
+        lifecycle: LIFECYCLE.INIT,
         status: STATUS.READY,
         type: EVENTS.TOUR_STATUS,
       }),

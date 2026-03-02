@@ -9,12 +9,13 @@ import { mergeProps } from '~/modules/helpers';
 import { validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { Actions, Props, State, Status } from '~/types';
+import { Actions, Controls, Props, State, Status } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
 interface UsePropSyncParams {
   changedProps: (key?: string) => boolean;
+  controls: Controls;
   previousProps: MergedProps | undefined;
   props: MergedProps;
   state: State;
@@ -23,6 +24,7 @@ interface UsePropSyncParams {
 
 export default function usePropSync({
   changedProps,
+  controls,
   previousProps,
   props,
   state,
@@ -51,10 +53,10 @@ export default function usePropSync({
       if (changedProps('run')) {
         if (run) {
           if (store.current.getState().size) {
-            store.current.start(stepIndex);
+            controls.start(stepIndex);
           }
         } else {
-          store.current.stop();
+          controls.stop();
         }
       } else if (is.number(stepIndex) && changedProps('stepIndex')) {
         const nextAction: Actions =
@@ -70,5 +72,5 @@ export default function usePropSync({
         }
       }
     }
-  }, [changedProps, debug, previousProps, run, status, stepIndex, steps, store]);
+  }, [changedProps, controls, debug, previousProps, run, status, stepIndex, steps, store]);
 }

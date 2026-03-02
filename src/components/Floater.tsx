@@ -23,7 +23,7 @@ import { LIFECYCLE } from '~/literals';
 import { getScrollParent, hasCustomScrollParent, hasPosition } from '~/modules/dom';
 import { sortObjectKeys } from '~/modules/helpers';
 
-import { Lifecycle, Placement, PositionData, StepMerged, StoreHelpers, StoreState } from '~/types';
+import { Controls, Lifecycle, Placement, PositionData, StepMerged, StoreState } from '~/types';
 
 import Arrow from './Arrow';
 import Beacon from './Beacon';
@@ -32,7 +32,7 @@ import Tooltip from './Tooltip';
 
 interface FloaterProps {
   continuous: boolean;
-  helpers: StoreHelpers;
+  controls: Controls;
   index: number;
   lifecycle: Lifecycle;
   nonce?: string;
@@ -50,7 +50,7 @@ interface FloaterProps {
 export default function JoyrideFloater(props: FloaterProps) {
   const {
     continuous,
-    helpers,
+    controls,
     index,
     lifecycle,
     nonce,
@@ -235,7 +235,7 @@ export default function JoyrideFloater(props: FloaterProps) {
       >
         <Tooltip
           continuous={continuous}
-          helpers={helpers}
+          controls={controls}
           index={index}
           isLastStep={index + 1 === size}
           setTooltipRef={setTooltipRef}

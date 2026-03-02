@@ -7,7 +7,7 @@ import { getElement, isElementVisible } from '~/modules/dom';
 import { hideBeacon, logDebug, mergeProps, needsScrolling, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Actions, Props, StepMerged, StepTarget, StoreState } from '~/types';
+import { Actions, Controls, Props, StepMerged, StepTarget, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 type Value = import('tree-changes-hook').Value;
@@ -15,6 +15,7 @@ type Value = import('tree-changes-hook').Value;
 interface UseLifecycleEffectOptions {
   changedState: (key?: string, actual?: Value, previous?: Value) => boolean;
   changedStateFrom: (key: string, previous: Value, actual?: Value) => boolean;
+  controls: Controls;
   previousState: StoreState | undefined;
   previousStep: StepMerged | null;
   props: MergedProps;
@@ -24,8 +25,17 @@ interface UseLifecycleEffectOptions {
 }
 
 export default function useLifecycleEffect(options: UseLifecycleEffectOptions): void {
-  const { changedState, changedStateFrom, previousState, previousStep, props, state, step, store } =
-    options;
+  const {
+    changedState,
+    changedStateFrom,
+    controls,
+    previousState,
+    previousStep,
+    props,
+    state,
+    step,
+    store,
+  } = options;
   const { callback, continuous, debug, scrollToFirstStep } = props;
   const { action, controlled, index, lifecycle, size, status } = state;
   const lastAction = useRef<Actions | null>(null);
@@ -325,7 +335,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         step: tourEndStep,
         type: EVENTS.TOUR_END,
       });
-      store.current.reset();
+      controls.reset();
       lastAction.current = null;
     }
 
@@ -368,6 +378,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     changedStateFrom,
     continuous,
     controlled,
+    controls,
     debug,
     index,
     lifecycle,

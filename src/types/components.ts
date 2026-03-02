@@ -116,6 +116,19 @@ export type CallBackProps = {
   type: Events;
 };
 
+export type Controls = {
+  close: (origin?: Origin | null) => void;
+  go: (nextIndex: number) => void;
+  info: () => State;
+  next: () => void;
+  open: () => void;
+  prev: () => void;
+  reset: (restart?: boolean) => void;
+  skip: (origin?: Extract<Origin, 'button_close' | 'button_skip'>) => void;
+  start: (nextIndex?: number) => void;
+  stop: (advance?: boolean) => void;
+};
+
 export type LoaderRenderProps = {
   nonce?: string;
   step: StepMerged;
@@ -149,10 +162,6 @@ export type Props = Simplify<
      * @default false
      */
     debug?: boolean;
-    /**
-     * Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`
-     */
-    getHelpers?: (helpers: StoreHelpers) => void;
     /**
      * The initial step index for uncontrolled tours.
      * Ignored when stepIndex is set (controlled mode).
@@ -404,8 +413,8 @@ export type StepOptions = {
 export type StepProps = Simplify<
   StoreState & {
     continuous: boolean;
+    controls: Controls;
     debug: boolean;
-    helpers: StoreHelpers;
     nonce?: string;
     portalElement: HTMLElement | null;
     setPositionData: (name: 'beacon' | 'tooltip', data: PositionData) => void;
@@ -421,22 +430,11 @@ export type StepTarget =
   | RefObject<HTMLElement | null>
   | (() => HTMLElement | null);
 
-export type StoreHelpers = {
-  close: (origin?: Origin | null) => void;
-  go: (nextIndex: number) => void;
-  info: () => State;
-  next: () => void;
-  open: () => void;
-  prev: () => void;
-  reset: (restart: boolean) => void;
-  skip: (origin: Extract<Origin, 'button_close' | 'button_skip'>) => void;
-};
-
 export type StoreState = State & { positioned: boolean; scrolling: boolean; waiting: boolean };
 
 export type TooltipProps = {
   continuous: boolean;
-  helpers: StoreHelpers;
+  controls: Controls;
   index: number;
   isLastStep: boolean;
   setTooltipRef: RefCallback<HTMLElement>;

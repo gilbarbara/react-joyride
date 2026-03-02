@@ -1116,12 +1116,6 @@ exports[`Joyride > Standard > should render the content 1`] = `
             Mission
           </span>
         </h2>
-        <button
-          data-test-id="mission-button"
-          type="button"
-        >
-          Click me
-        </button>
       </div>
     </div>
     <div

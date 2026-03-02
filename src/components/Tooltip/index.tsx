@@ -7,21 +7,21 @@ import { TooltipProps } from '~/types';
 import Container from './Container';
 
 export default function Tooltip(props: TooltipProps) {
-  const { continuous, helpers, index, isLastStep, setTooltipRef, size, step } = props;
+  const { continuous, controls, index, isLastStep, setTooltipRef, size, step } = props;
 
   const handleClickBack = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    helpers.prev();
+    controls.prev();
   };
 
   const handleClickClose = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
     if (step.dismissAction === 'skip') {
-      helpers.skip('button_close');
+      controls.skip('button_close');
     } else {
-      helpers.close('button_close');
+      controls.close('button_close');
     }
   };
 
@@ -29,18 +29,18 @@ export default function Tooltip(props: TooltipProps) {
     event.preventDefault();
 
     if (!continuous) {
-      helpers.close('button_primary');
+      controls.close('button_primary');
 
       return;
     }
 
-    helpers.next();
+    controls.next();
   };
 
   const handleClickSkip = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    helpers.skip('button_skip');
+    controls.skip('button_skip');
   };
 
   const getElementsProps = () => {

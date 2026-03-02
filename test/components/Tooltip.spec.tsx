@@ -1,12 +1,12 @@
 import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/test-utils';
 
-import { StoreHelpers } from '~/types';
+import { Controls } from '~/types';
 
 import Tooltip from '../../src/components/Tooltip';
 import TooltipComponent from '../__fixtures__/components/Tooltip';
 
-function createHelpers(overrides: Partial<StoreHelpers> = {}) {
-  return fromPartial<StoreHelpers>({
+function createControls(overrides: Partial<Controls> = {}) {
+  return fromPartial<Controls>({
     close: vi.fn(),
     go: vi.fn(),
     info: vi.fn(),
@@ -30,12 +30,12 @@ describe('Tooltip', () => {
   });
 
   it('should render "Next" on primary in continuous mode', () => {
-    const helpers = createHelpers();
+    const controls = createControls();
 
     const { container } = render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -48,12 +48,12 @@ describe('Tooltip', () => {
   });
 
   it('should render "Last" on primary when isLastStep', () => {
-    const helpers = createHelpers();
+    const controls = createControls();
 
     const { container } = render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={2}
         isLastStep
         setTooltipRef={setTooltipRefMock}
@@ -66,12 +66,12 @@ describe('Tooltip', () => {
   });
 
   it('should render "Close" on primary in non-continuous mode', () => {
-    const helpers = createHelpers();
+    const controls = createControls();
 
     const { container } = render(
       <Tooltip
         continuous={false}
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -83,13 +83,13 @@ describe('Tooltip', () => {
     expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('should call helpers.next() on primary click in continuous mode', () => {
-    const helpers = createHelpers();
+  it('should call controls.next() on primary click in continuous mode', () => {
+    const controls = createControls();
 
     render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -100,16 +100,16 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-primary'));
 
-    expect(helpers.next).toHaveBeenCalledTimes(1);
+    expect(controls.next).toHaveBeenCalledTimes(1);
   });
 
-  it('should call helpers.close on primary click in non-continuous mode', () => {
-    const helpers = createHelpers();
+  it('should call controls.close on primary click in non-continuous mode', () => {
+    const controls = createControls();
 
     render(
       <Tooltip
         continuous={false}
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -120,16 +120,16 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-primary'));
 
-    expect(helpers.close).toHaveBeenCalledWith('button_primary');
+    expect(controls.close).toHaveBeenCalledWith('button_primary');
   });
 
-  it('should call helpers.prev() on back click', () => {
-    const helpers = createHelpers();
+  it('should call controls.prev() on back click', () => {
+    const controls = createControls();
 
     const { container } = render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={1}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -142,16 +142,16 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-back'));
 
-    expect(helpers.prev).toHaveBeenCalledTimes(1);
+    expect(controls.prev).toHaveBeenCalledTimes(1);
   });
 
-  it('should call helpers.close on close button click', () => {
-    const helpers = createHelpers();
+  it('should call controls.close on close button click', () => {
+    const controls = createControls();
 
     render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -162,17 +162,17 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-close'));
 
-    expect(helpers.close).toHaveBeenCalledWith('button_close');
+    expect(controls.close).toHaveBeenCalledWith('button_close');
   });
 
-  it('should call helpers.skip() on skip click', () => {
-    const helpers = createHelpers();
+  it('should call controls.skip() on skip click', () => {
+    const controls = createControls();
     const skipStep = createStep({ showSkipButton: true });
 
     const { container } = render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -185,17 +185,17 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-skip'));
 
-    expect(helpers.skip).toHaveBeenCalledTimes(1);
+    expect(controls.skip).toHaveBeenCalledTimes(1);
   });
 
   it('should show progress label when showProgress is true', () => {
-    const helpers = createHelpers();
+    const controls = createControls();
     const progressStep = createStep({ showProgress: true });
 
     const { container } = render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
@@ -208,13 +208,13 @@ describe('Tooltip', () => {
   });
 
   it('should render custom tooltipComponent', () => {
-    const helpers = createHelpers();
+    const controls = createControls();
     const customStep = createStep({ tooltipComponent: TooltipComponent });
 
     const { container } = render(
       <Tooltip
         continuous
-        helpers={helpers}
+        controls={controls}
         index={0}
         isLastStep={false}
         setTooltipRef={setTooltipRefMock}
