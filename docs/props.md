@@ -55,9 +55,6 @@ floatingOptions={{
 
 See the [styling documentation](styling.md#advanced-positioning) for more examples.
 
-**getHelpers** `(helpers: StoreHelpers) => void`  
-Get the store methods to control the tour programmatically. `prev, next, go, close, skip, reset, info`.
-
 **hideBackButton** `boolean` ▶︎ **false**  
 Hide the **Back** button.
 

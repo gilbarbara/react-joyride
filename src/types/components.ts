@@ -1,4 +1,11 @@
-import { ElementType, MouseEventHandler, ReactNode, RefCallback, RefObject } from 'react';
+import {
+  ElementType,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  RefCallback,
+  RefObject,
+} from 'react';
 import { AutoUpdateOptions, Middleware, MiddlewareData, Strategy } from '@floating-ui/react-dom';
 import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
@@ -480,6 +487,13 @@ export type TooltipRenderProps = Simplify<
     };
   }
 >;
+
+export type UseJoyrideReturn = {
+  controls: Controls;
+  state: State;
+  step: StepMerged | null;
+  Tour: ReactElement | null;
+};
 
 export interface FloatingOptions {
   /**
