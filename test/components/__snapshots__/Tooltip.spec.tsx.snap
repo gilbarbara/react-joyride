@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Tooltip > should call helpers.prev() on back click 1`] = `
+exports[`Tooltip > should call controls.prev() on back click 1`] = `
 <div
   aria-describedby="joyride-tooltip-content"
   aria-label="Test content"
@@ -77,7 +77,7 @@ exports[`Tooltip > should call helpers.prev() on back click 1`] = `
 </div>
 `;
 
-exports[`Tooltip > should call helpers.skip() on skip click 1`] = `
+exports[`Tooltip > should call controls.skip() on skip click 1`] = `
 <div
   aria-describedby="joyride-tooltip-content"
   aria-label="Test content"

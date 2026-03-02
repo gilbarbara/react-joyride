@@ -1,7 +1,6 @@
-import { useRef } from 'react';
 import { useSetState } from '@gilbarbara/hooks';
 
-import Joyride, { STATUS, StoreHelpers } from '../../src';
+import Joyride, { STATUS } from '../../src';
 import { CallBackProps, Props, Status, Step } from '../../src/types';
 
 import { standardSteps } from './steps';
@@ -24,17 +23,15 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
         placement: 'center',
         target: 'body',
       },
-      ...standardSteps,
+      ...standardSteps.map(step => ({
+        ...step,
+        target: step.target === '.mission button' ? '.mission h2 span' : step.target,
+      })),
     ],
   });
-  const helpersRef = useRef<StoreHelpers>(null);
 
   const handleClickStart = () => {
     setState({ run: true });
-  };
-
-  const handleClickMissionButton = () => {
-    helpersRef.current?.next();
   };
 
   const handleJoyrideCallback = (data: CallBackProps) => {
@@ -55,9 +52,6 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
         <Joyride
           callback={handleJoyrideCallback}
           continuous
-          getHelpers={helpers => {
-            helpersRef.current = helpers;
-          }}
           portalElement="#portal"
           run={run}
           scrollToFirstStep
@@ -96,14 +90,6 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
               <h2>
                 <span>Mission</span>
               </h2>
-
-              <button
-                data-test-id="mission-button"
-                onClick={handleClickMissionButton}
-                type="button"
-              >
-                Click me
-              </button>
             </div>
           </div>
           <div className="demo__section about">

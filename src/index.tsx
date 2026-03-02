@@ -1,8 +1,9 @@
 import { useCallback, useEffect } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
-import useJoyrideData from '~/hooks/useJoyrideData';
+import useControls from '~/hooks/useControls';
 import { usePortalElement } from '~/hooks/usePortalElement';
+import useTourEngine from '~/hooks/useTourEngine';
 import { LIFECYCLE, STATUS } from '~/literals';
 import { canUseDOM } from '~/modules/dom';
 import { logDebug } from '~/modules/helpers';
@@ -15,8 +16,10 @@ import Step from '~/components/Step';
 import { Props } from '~/types';
 
 function Joyride(props: Props) {
-  const { mergedProps, state, step, store } = useJoyrideData(props);
+  const { mergedProps, state, step, store } = useTourEngine(props);
   const { continuous, debug, nonce, portalElement, scrollToFirstStep } = mergedProps;
+
+  const controls = useControls(store, debug);
 
   const element = usePortalElement(portalElement);
 
@@ -46,7 +49,7 @@ function Joyride(props: Props) {
       }
 
       if (event.key === 'Escape' && !step.disableCloseOnEsc) {
-        store.current.close('keyboard');
+        controls.close('keyboard');
       }
     };
 
@@ -55,13 +58,13 @@ function Joyride(props: Props) {
     return () => {
       document.body.removeEventListener('keydown', handleKeyboard);
     };
-  }, [isRunning, lifecycle, step, store]);
+  }, [controls, isRunning, lifecycle, step]);
 
   const handleClickOverlay = useCallback(() => {
     if (!step?.disableOverlayClose) {
-      store.current.close('overlay');
+      controls.close('overlay');
     }
-  }, [step?.disableOverlayClose, store]);
+  }, [controls, step?.disableOverlayClose]);
 
   if (!step || !isRunning) {
     return null;
@@ -73,8 +76,8 @@ function Joyride(props: Props) {
         <Step
           {...state}
           continuous={continuous}
+          controls={controls}
           debug={debug}
-          helpers={store.current.getHelpers()}
           nonce={nonce}
           portalElement={element}
           setPositionData={store.current.setPositionData}

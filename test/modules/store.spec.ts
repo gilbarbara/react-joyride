@@ -1,4 +1,4 @@
-import { LIFECYCLE, STATUS } from '~/literals';
+import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import createStore from '~/modules/store';
 
 import { standardSteps } from '../__fixtures__/steps';
@@ -10,259 +10,144 @@ describe('store', () => {
     mockSyncStore.mockClear();
   });
 
-  describe('without initial values', () => {
-    const store = createStore();
+  describe('constructor', () => {
+    it('should create a store without steps', () => {
+      const store = createStore();
 
-    const { close, go, info, next, open, prev, reset, setSteps, start, stop, updateState } = store;
-
-    it('should have initiated a new store', () => {
-      expect(store.constructor.name).toBe('Store');
-
-      expect(info()).toMatchSnapshot();
+      expect(store.getState()).toEqual({
+        action: ACTIONS.INIT,
+        controlled: false,
+        index: 0,
+        lifecycle: LIFECYCLE.INIT,
+        origin: null,
+        size: 0,
+        status: STATUS.IDLE,
+      });
     });
 
-    it("shouldn't be able to start without steps", () => {
-      start();
+    it('should create a store with steps', () => {
+      const store = createStore({ steps: standardSteps });
 
-      expect(info()).toMatchSnapshot();
+      expect(store.getState()).toEqual(
+        expect.objectContaining({
+          size: standardSteps.length,
+          status: STATUS.READY,
+        }),
+      );
     });
 
-    it('should ignore all back/forward methods', () => {
-      const initialStore = info();
+    it('should create a controlled store with stepIndex', () => {
+      const store = createStore({ steps: standardSteps, stepIndex: 0 });
 
-      next();
-      expect(info()).toEqual(initialStore);
-
-      prev();
-      expect(info()).toEqual(initialStore);
-
-      go(2);
-      expect(info()).toEqual(initialStore);
-    });
-
-    it('should be able to add steps', () => {
-      setSteps(standardSteps);
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "prev" but no changes [1st step]', () => {
-      prev();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it(`should handle "update" the lifecycle to ${LIFECYCLE.BEACON}`, () => {
-      updateState({ lifecycle: LIFECYCLE.BEACON });
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it(`should handle "update" the lifecycle to ${LIFECYCLE.TOOLTIP}`, () => {
-      updateState({ lifecycle: LIFECYCLE.TOOLTIP });
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "next" [2nd step]', () => {
-      next();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "prev" [1st step]', () => {
-      prev();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle `stop`', () => {
-      stop();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle `start` [1st step]', () => {
-      start();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle `stop` again but with `advance`', () => {
-      stop(true);
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle `start` [2nd step]', () => {
-      start();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "next" [3rd step]', () => {
-      next();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "next" [4th step]', () => {
-      next();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "next" [5th step]', () => {
-      next();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it(`should handle "update" the lifecycle to ${LIFECYCLE.BEACON}`, () => {
-      updateState({ lifecycle: LIFECYCLE.BEACON });
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "next" again but the tour has finished', () => {
-      next();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "next" past the last step', () => {
-      next();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "reset"', () => {
-      reset();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "reset" to restart', () => {
-      reset(true);
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "start" with custom index and lifecycle', () => {
-      start(2);
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "go" [2nd step]', () => {
-      go(2);
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "go" [3rd step]', () => {
-      go(1);
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "close"', () => {
-      close();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "close" with origin "overlay"', () => {
-      close('overlay');
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "close" with origin "keyboard', () => {
-      close('keyboard');
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "open"', () => {
-      open();
-
-      expect(info()).toMatchSnapshot();
-    });
-
-    it('should handle "go" with a number higher that the steps length and finish the tour', () => {
-      go(10);
-
-      expect(info()).toMatchSnapshot();
+      expect(store.getState()).toEqual(
+        expect.objectContaining({
+          controlled: true,
+          index: 0,
+        }),
+      );
     });
   });
 
-  describe('with initial steps', () => {
-    const store = createStore({ run: false, steps: standardSteps });
+  describe('setSteps', () => {
+    it('should update steps and size', () => {
+      const store = createStore();
 
-    const { info, updateState } = store;
+      store.setSteps(standardSteps);
 
-    it('should have initiated a new store', () => {
-      expect(store.constructor.name).toBe('Store');
+      expect(store.getState().size).toBe(standardSteps.length);
+    });
+  });
 
-      expect(info()).toMatchSnapshot();
+  describe('updateState', () => {
+    it('should update state and notify listeners', () => {
+      const store = createStore({ steps: standardSteps });
+
+      store.subscribe(mockSyncStore);
+      store.updateState({ status: STATUS.RUNNING });
+
+      expect(store.getState().status).toBe(STATUS.RUNNING);
+      expect(mockSyncStore).toHaveBeenCalledTimes(1);
     });
 
-    it('should handle subscribe and notify on changes', () => {
+    it('should not notify when state has not changed', () => {
+      const store = createStore({ steps: standardSteps });
+
+      store.subscribe(mockSyncStore);
+      store.updateState({ status: STATUS.READY });
+
+      expect(mockSyncStore).toHaveBeenCalledTimes(0);
+    });
+
+    it('should apply WAITING→RUNNING transition when size > 0', () => {
+      const store = createStore({ steps: standardSteps });
+
+      store.updateState({ status: STATUS.WAITING });
+
+      expect(store.getState().status).toBe(STATUS.RUNNING);
+    });
+
+    it('should respect forceIndex in controlled mode', () => {
+      const store = createStore({ steps: standardSteps, stepIndex: 0 });
+
+      store.updateState({ index: 3 }, true);
+      expect(store.getState().index).toBe(3);
+    });
+
+    it('should ignore index changes in controlled mode without forceIndex', () => {
+      const store = createStore({ steps: standardSteps, stepIndex: 0 });
+
+      store.updateState({ index: 3 });
+      expect(store.getState().index).toBe(0);
+    });
+  });
+
+  describe('subscribe', () => {
+    it('should handle subscribe and unsubscribe', () => {
+      const store = createStore({ steps: standardSteps });
+
       const unsubscribe = store.subscribe(mockSyncStore);
 
-      updateState({ status: STATUS.FINISHED });
-      updateState({ status: STATUS.FINISHED });
+      store.updateState({ status: STATUS.FINISHED });
       expect(mockSyncStore).toHaveBeenCalledTimes(1);
 
-      updateState({ status: STATUS.IDLE });
-      updateState({ status: STATUS.READY });
-
-      expect(mockSyncStore).toHaveBeenCalledTimes(3);
-
       unsubscribe();
-      updateState({ status: STATUS.IDLE });
-      expect(mockSyncStore).toHaveBeenCalledTimes(3);
+      store.updateState({ status: STATUS.IDLE });
+      expect(mockSyncStore).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('getSnapshot', () => {
     it('should return stable snapshot reference when state has not changed', () => {
+      const store = createStore({ steps: standardSteps });
+
       const snapshot1 = store.getSnapshot();
       const snapshot2 = store.getSnapshot();
 
       expect(snapshot1).toBe(snapshot2);
 
-      updateState({ status: STATUS.FINISHED });
+      store.updateState({ status: STATUS.FINISHED });
 
       const snapshot3 = store.getSnapshot();
 
       expect(snapshot3).not.toBe(snapshot1);
     });
+
+    it('should return frozen snapshots', () => {
+      const store = createStore({ steps: standardSteps });
+
+      const snapshot = store.getSnapshot();
+
+      expect(Object.isFrozen(snapshot)).toBe(true);
+    });
   });
 
-  describe('with initialStepIndex', () => {
+  describe('initialStepIndex', () => {
     it('should start at the specified index', () => {
       const store = createStore({ steps: standardSteps, initialStepIndex: 2 });
-      const state = store.info();
+      const state = store.getState();
 
       expect(state.index).toBe(2);
       expect(state.controlled).toBe(false);
-    });
-
-    it('should keep the index after start()', () => {
-      const store = createStore({ steps: standardSteps, initialStepIndex: 2 });
-
-      store.start();
-
-      expect(store.info().index).toBe(2);
-    });
-
-    it('should reset to 0', () => {
-      const store = createStore({ steps: standardSteps, initialStepIndex: 2 });
-
-      store.start();
-      store.reset();
-
-      expect(store.info().index).toBe(0);
     });
 
     it('should fall back to 0 when out of bounds', () => {
@@ -270,7 +155,7 @@ describe('store', () => {
 
       const store = createStore({ steps: standardSteps, initialStepIndex: 99 });
 
-      expect(store.info().index).toBe(0);
+      expect(store.getState().index).toBe(0);
       expect(warnSpy).toHaveBeenCalledWith('react-joyride: initialStepIndex is out of bounds');
 
       warnSpy.mockRestore();
@@ -281,7 +166,7 @@ describe('store', () => {
 
       const store = createStore({ steps: standardSteps, initialStepIndex: -1 });
 
-      expect(store.info().index).toBe(0);
+      expect(store.getState().index).toBe(0);
       expect(warnSpy).toHaveBeenCalledWith('react-joyride: initialStepIndex is out of bounds');
 
       warnSpy.mockRestore();
@@ -290,7 +175,7 @@ describe('store', () => {
     it('should treat 0 the same as omitting it', () => {
       const store = createStore({ steps: standardSteps, initialStepIndex: 0 });
 
-      expect(store.info().index).toBe(0);
+      expect(store.getState().index).toBe(0);
     });
 
     it('should be ignored in controlled mode', () => {
@@ -301,12 +186,12 @@ describe('store', () => {
         initialStepIndex: 2,
       });
 
-      expect(store.info().index).toBe(0);
-      expect(store.info().controlled).toBe(true);
+      expect(store.getState().index).toBe(0);
+      expect(store.getState().controlled).toBe(true);
     });
   });
 
-  describe('with position data', () => {
+  describe('position data', () => {
     const store = createStore();
     const positionData = { placement: 'top' as const, x: 0, y: -10, middlewareData: {} };
 

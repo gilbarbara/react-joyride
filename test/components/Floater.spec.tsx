@@ -4,7 +4,7 @@ import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/t
 
 import Floater from '~/components/Floater';
 
-import { Lifecycle, StoreHelpers } from '~/types';
+import { Controls, Lifecycle } from '~/types';
 
 import CustomArrow from '../__fixtures__/components/CustomArrow';
 
@@ -60,7 +60,7 @@ beforeEach(() => {
 function createProps(overrides: Record<string, unknown> = {}) {
   return {
     continuous: true,
-    helpers: fromPartial<StoreHelpers>({
+    controls: fromPartial<Controls>({
       close: vi.fn(),
       go: vi.fn(),
       info: vi.fn(),

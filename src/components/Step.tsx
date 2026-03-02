@@ -15,8 +15,8 @@ import Floater from './Floater';
 export default function JoyrideStep(props: StepProps) {
   const {
     continuous,
+    controls,
     debug,
-    helpers,
     index,
     lifecycle,
     nonce,
@@ -52,7 +52,7 @@ export default function JoyrideStep(props: StepProps) {
       <Floater
         key={`JoyrideStep-${index}`}
         continuous={continuous}
-        helpers={helpers}
+        controls={controls}
         index={index}
         lifecycle={lifecycle}
         nonce={nonce}

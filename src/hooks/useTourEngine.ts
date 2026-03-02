@@ -3,6 +3,7 @@ import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gil
 import useTreeChanges from 'tree-changes-hook';
 
 import { defaultProps } from '~/defaults';
+import useControls from '~/hooks/useControls';
 import useLifecycleEffect from '~/hooks/useLifecycleEffect';
 import usePropSync from '~/hooks/usePropSync';
 import useScrollEffect from '~/hooks/useScrollEffect';
@@ -11,20 +12,21 @@ import { mergeProps } from '~/modules/helpers';
 import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { Props, StepMerged, StoreState } from '~/types';
+import { Controls, Props, StepMerged, StoreState } from '~/types';
 
 export type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
-export interface UseJoyrideDataReturn {
+export interface UseTourEngineReturn {
+  controls: Controls;
   mergedProps: MergedProps;
   state: StoreState;
   step: StepMerged | null;
   store: RefObject<ReturnType<typeof createStore>>;
 }
 
-export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
+export default function useTourEngine(props: Props): UseTourEngineReturn {
   const mergedProps = useMemoDeepCompare(() => mergeProps(defaultProps, props), [props]);
-  const { debug, getHelpers, run, steps } = mergedProps;
+  const { debug, run, steps } = mergedProps;
 
   const store = useRef(createStore(mergedProps));
   const state = useSyncExternalStore<StoreState>(
@@ -32,6 +34,8 @@ export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
     store.current.getSnapshot,
     store.current.getServerSnapshot,
   );
+
+  const controls = useControls(store, debug);
 
   const { index, size, status } = state;
 
@@ -48,11 +52,7 @@ export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
 
   useMount(() => {
     if (run && size && validateSteps(steps, debug)) {
-      store.current.start();
-    }
-
-    if (getHelpers) {
-      getHelpers(store.current.getHelpers());
+      controls.start();
     }
   });
 
@@ -60,14 +60,11 @@ export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
     if (run && size && status === STATUS.IDLE) {
       store.current.updateState({ status: STATUS.READY });
     }
-
-    if (getHelpers) {
-      getHelpers(store.current.getHelpers());
-    }
-  }, [getHelpers, run, size, status]);
+  }, [run, size, status]);
 
   usePropSync({
     changedProps,
+    controls,
     previousProps,
     props: mergedProps,
     state,
@@ -77,6 +74,7 @@ export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
   useLifecycleEffect({
     changedState,
     changedStateFrom,
+    controls,
     previousState,
     previousStep,
     props: mergedProps,
@@ -94,5 +92,5 @@ export default function useJoyrideData(props: Props): UseJoyrideDataReturn {
     store,
   });
 
-  return { mergedProps, state, step, store };
+  return { controls, mergedProps, state, step, store };
 }
