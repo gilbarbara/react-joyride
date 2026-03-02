@@ -1,12 +1,11 @@
-import { type ChangeEvent, forwardRef, Fragment, type ReactNode, useRef, useState } from 'react';
+import { type ChangeEvent, forwardRef, Fragment, type ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import Joyride, {
+import {
   type BeaconRenderProps,
-  type CallBackProps,
   STATUS,
   type Step,
-  type StoreHelpers,
   type TooltipRenderProps,
+  useJoyride,
 } from 'react-joyride';
 import { useMount, useSetState } from '@gilbarbara/hooks';
 import { Button, Input, Select, SelectItem } from '@heroui/react';
@@ -127,32 +126,43 @@ function Custom(props: Props) {
       },
     ],
   });
-  const helpers = useRef<StoreHelpers>(null);
+
+  const { controls, Tour } = useJoyride({
+    beaconComponent: BeaconComponent,
+    callback: data => {
+      const { status, type } = data;
+      const options: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
+
+      if (options.includes(status)) {
+        setState({ complete: true, run: false });
+      }
+
+      logGroup(type, data);
+    },
+    locale: messages,
+    run,
+    stepOptions: {
+      showSkipButton: true,
+    },
+    steps,
+    styles: {
+      options: {
+        zIndex: 2000000,
+      },
+      overlay: {
+        backgroundColor: 'rgba(79, 46, 8, 0.5)',
+      },
+    },
+    tooltipComponent: Tooltip,
+  });
 
   useMount(() => {
     a11yChecker();
   });
 
-  const setHelpers = (storeHelpers: StoreHelpers) => {
-    helpers.current = storeHelpers;
-  };
-
   const handleClickRestart = () => {
-    const { reset } = helpers.current!;
-
     setState({ complete: false });
-    reset(true);
-  };
-
-  const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type } = data;
-    const options: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
-    if (options.includes(status)) {
-      setState({ complete: true, run: false });
-    }
-
-    logGroup(type, data);
+    controls.reset(true);
   };
 
   const handleSelect = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -183,26 +193,7 @@ function Custom(props: Props) {
           </Button>
         )}
       </div>
-      <Joyride
-        beaconComponent={BeaconComponent}
-        callback={handleJoyrideCallback}
-        getHelpers={setHelpers}
-        locale={messages}
-        run={run}
-        stepOptions={{
-          showSkipButton: true,
-        }}
-        steps={steps}
-        styles={{
-          options: {
-            zIndex: 2000000,
-          },
-          overlay: {
-            backgroundColor: 'rgba(79, 46, 8, 0.5)',
-          },
-        }}
-        tooltipComponent={Tooltip}
-      />
+      {Tour}
       <Grid />
     </div>
   );
