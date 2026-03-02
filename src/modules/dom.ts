@@ -107,10 +107,7 @@ export function getElementPosition(element: HTMLElement | null, offset: number):
   let top = elementRect?.top ?? 0;
 
   if (hasScrollParent && isFixedTarget) {
-    const offsetTop = element?.offsetTop ?? 0;
-    const parentScrollTop = (parent as HTMLElement)?.scrollTop ?? 0;
-
-    top = offsetTop - parentScrollTop;
+    top = elementRect?.top ?? 0;
   } else if (parent instanceof HTMLElement) {
     parentTop = parent.scrollTop;
 
@@ -174,6 +171,7 @@ export function getScrollTo(element: HTMLElement | null, offset: number): number
   }
 
   const parentElement = scrollParent(element) ?? (scrollDocument() as HTMLElement);
+  const scrollMarginTop = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
 
   const parentRect = getClientRect(parentElement);
   const parentScrollTop = parentElement?.scrollTop ?? 0;
@@ -194,7 +192,7 @@ export function getScrollTo(element: HTMLElement | null, offset: number): number
     }
   }
 
-  const output = Math.floor(top - offset);
+  const output = Math.floor(top - offset - scrollMarginTop);
 
   return output < 0 ? 0 : output;
 }
