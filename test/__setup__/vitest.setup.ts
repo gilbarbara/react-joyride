@@ -34,6 +34,12 @@ if (typeof window !== 'undefined') {
     value: 50,
   });
 
+  window.requestAnimationFrame = (callback: FrameRequestCallback) => {
+    callback(0);
+
+    return 0;
+  };
+
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: (query: any) => ({

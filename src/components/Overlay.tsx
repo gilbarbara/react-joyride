@@ -5,22 +5,11 @@ import useTreeChanges from 'tree-changes-hook';
 import useTargetPosition from '~/hooks/useTargetPosition';
 import { LIFECYCLE } from '~/literals';
 import { getDocumentHeight } from '~/modules/dom';
-import { getBrowser, sortObjectKeys } from '~/modules/helpers';
+import { generateOverlayPath, generateSpotlightPath } from '~/modules/svg';
 
 import { Lifecycle, OverlayProps } from '~/types';
 
-import Spotlight from './Spotlight';
-
 const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON, LIFECYCLE.ERROR];
-
-const isSafari = getBrowser() === 'safari';
-
-interface SpotlightStyles extends CSSProperties {
-  height: number;
-  left: number;
-  top: number;
-  width: number;
-}
 
 export default function JoyrideOverlay(props: OverlayProps) {
   const {
@@ -31,7 +20,6 @@ export default function JoyrideOverlay(props: OverlayProps) {
     onClickOverlay,
     placement,
     scrolling,
-    spotlightClicks,
     spotlightPadding,
     styles,
     target,
@@ -43,29 +31,22 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const targetRect = useTargetPosition(target, spotlightPadding, scrolling || waiting);
 
   const [showSpotlight, setShowSpotlight] = useState(false);
+  const [spotlightReady, setSpotlightReady] = useState(false);
+
+  const overlayHeight = useMemo(() => getDocumentHeight() || windowSize.height, [windowSize]);
+
+  const overlayColor = (styles.overlay?.backgroundColor ?? 'rgba(0, 0, 0, 0.5)') as string;
+  const spotlightRadius = styles.options?.spotlightRadius ?? 4;
 
   const overlayStyles = useMemo(() => {
-    return {
-      cursor: disableOverlayClose || spotlightClicks ? 'default' : 'pointer',
-      height: getDocumentHeight() || windowSize.height,
-      pointerEvents: spotlightClicks ? 'none' : 'auto',
-      ...styles.overlay,
-    } as CSSProperties;
-  }, [disableOverlayClose, spotlightClicks, styles.overlay, windowSize]);
+    const { backgroundColor: _bg, mixBlendMode: _mbm, ...rest } = styles.overlay;
 
-  const spotlightStyles = useMemo(() => {
-    return sortObjectKeys({
-      ...styles.spotlight,
-      height: targetRect.height,
-      left: targetRect.left,
-      opacity: showSpotlight ? 1 : 0,
-      pointerEvents: spotlightClicks ? 'none' : 'auto',
-      position: targetRect.isFixed ? 'fixed' : 'absolute',
-      top: targetRect.top,
-      transition: 'opacity 0.2s',
-      width: targetRect.width,
-    } satisfies SpotlightStyles);
-  }, [showSpotlight, spotlightClicks, styles.spotlight, targetRect]);
+    return {
+      height: overlayHeight,
+      pointerEvents: 'none',
+      ...rest,
+    } as CSSProperties;
+  }, [overlayHeight, styles.overlay]);
 
   useEffect(() => {
     if (!isMounted()) {
@@ -79,6 +60,16 @@ export default function JoyrideOverlay(props: OverlayProps) {
     }
   }, [changed, isMounted, placement]);
 
+  const showCutout = showSpotlight && !scrolling && !waiting;
+
+  useEffect(() => {
+    if (showCutout) {
+      requestAnimationFrame(() => setSpotlightReady(true));
+    } else {
+      setSpotlightReady(false);
+    }
+  }, [showCutout]);
+
   if (
     disableOverlay ||
     (waiting
@@ -90,34 +81,57 @@ export default function JoyrideOverlay(props: OverlayProps) {
     return null;
   }
 
-  let finalOverlayStyles = { ...overlayStyles };
-  let spotlight = null;
-
-  if (showSpotlight && !scrolling && !waiting) {
-    spotlight = <Spotlight styles={spotlightStyles} />;
-
-    // Hack for Safari bug with mix-blend-mode with z-index
-    if (isSafari) {
-      // eslint-disable-next-line unused-imports/no-unused-vars
-      const { mixBlendMode, zIndex, ...safariOverlay } = overlayStyles;
-      // eslint-disable-next-line unused-imports/no-unused-vars
-      const { backgroundColor, ...overlayWithoutBg } = overlayStyles;
-
-      spotlight = <div style={{ ...safariOverlay }}>{spotlight}</div>;
-      finalOverlayStyles = overlayWithoutBg as CSSProperties;
-    }
-  }
+  const coverPath = showCutout
+    ? generateSpotlightPath(
+        targetRect.left,
+        targetRect.top,
+        targetRect.width,
+        targetRect.height,
+        spotlightRadius,
+      )
+    : '';
+  const path = generateOverlayPath(windowSize.width, overlayHeight, coverPath);
 
   return (
     <div
       aria-hidden="true"
       className="react-joyride__overlay"
       data-test-id="overlay"
-      onClick={onClickOverlay}
-      role="presentation"
-      style={finalOverlayStyles}
+      style={overlayStyles}
     >
-      {spotlight}
+      <svg
+        className="react-joyride__spotlight"
+        data-test-id="spotlight"
+        style={{
+          height: overlayHeight,
+          left: 0,
+          position: targetRect.isFixed ? 'fixed' : 'absolute',
+          top: 0,
+          width: windowSize.width,
+        }}
+      >
+        <path
+          d={path}
+          fill={overlayColor}
+          fillRule="evenodd"
+          onClick={onClickOverlay}
+          style={{
+            cursor: disableOverlayClose ? 'default' : 'pointer',
+            pointerEvents: 'auto',
+          }}
+        />
+        {coverPath && (
+          <path
+            d={coverPath}
+            fill={overlayColor}
+            style={{
+              opacity: spotlightReady ? 0 : 1,
+              pointerEvents: 'none',
+              transition: 'opacity 0.2s',
+            }}
+          />
+        )}
+      </svg>
     </div>
   );
 }

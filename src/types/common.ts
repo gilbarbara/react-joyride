@@ -30,11 +30,6 @@ export type Placement =
   | 'right-start'
   | 'right-end';
 
-export type SpotlightCSSProperties = Omit<
-  CSSProperties,
-  'height' | 'width' | 'bottom' | 'left' | 'right' | 'top'
->;
-
 export type Status = ValueOf<typeof STATUS>;
 
 export interface Locale {
@@ -100,7 +95,6 @@ export interface Styles {
   floater: CSSProperties;
   options: StylesOptions;
   overlay: CSSProperties;
-  spotlight: SpotlightCSSProperties;
   tooltip: CSSProperties;
   tooltipContainer: CSSProperties;
   tooltipContent: CSSProperties;
@@ -120,6 +114,11 @@ export interface StylesOptions {
   beaconSize: number;
   overlayColor: string;
   primaryColor: string;
+  /**
+   * The border radius of the spotlight cutout in pixels.
+   * @default 4
+   */
+  spotlightRadius: number;
   textColor: string;
   width?: string | number;
   zIndex: number;

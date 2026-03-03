@@ -13,7 +13,7 @@ test('controlled', async ({ page }) => {
     await page.goto('/controlled');
   });
 
-  await test.step('Step 1 - Menu (spotlightClicks)', async () => {
+  await test.step('Step 1 - Menu', async () => {
     await expect(tooltip).toContainText('Click the menu above!');
     await expect(page).toHaveScreenshot('step1-menu.png');
   });

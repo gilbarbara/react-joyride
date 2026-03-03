@@ -8,6 +8,7 @@ const defaultOptions: StylesOptions = {
   beaconSize: 36,
   overlayColor: 'rgba(0, 0, 0, 0.5)',
   primaryColor: '#f04',
+  spotlightRadius: 4,
   textColor: '#333',
   width: 380,
   zIndex: 100,
@@ -23,11 +24,6 @@ const buttonBase = {
   lineHeight: 1,
   padding: 8,
   WebkitAppearance: 'none',
-};
-
-const spotlight = {
-  borderRadius: 4,
-  position: 'absolute',
 };
 
 export default function getStyles(props: Props, step: StepMerged) {
@@ -136,11 +132,6 @@ export default function getStyles(props: Props, step: StepMerged) {
     overlay: {
       ...overlay,
       backgroundColor: options.overlayColor,
-      mixBlendMode: 'hard-light',
-    },
-    spotlight: {
-      ...spotlight,
-      backgroundColor: 'gray',
     },
     tooltip: {
       backgroundColor: options.backgroundColor,

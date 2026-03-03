@@ -69,7 +69,7 @@ export default function ControlledDemo() {
           hideCloseButton: true,
           hideFooter: true,
           placement: 'bottom',
-          spotlightClicks: true,
+
           stepDelay: ({ action }) => delay(action === ACTIONS.PREV ? 300 : 0),
           styles: {
             options: {
@@ -124,7 +124,7 @@ export default function ControlledDemo() {
         {
           content: <div>Our rate is off the charts!</div>,
           placement: 'left-end',
-          spotlightClicks: true,
+
           target: growthRef,
           title: 'Our Growth',
         },

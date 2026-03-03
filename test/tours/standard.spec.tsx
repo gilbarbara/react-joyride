@@ -299,7 +299,7 @@ describe('Joyride > Standard', () => {
   });
 
   it('should handle clicking STEP 3 Overlay', () => {
-    fireEvent.click(screen.getByTestId('overlay'));
+    fireEvent.click(screen.getByTestId('spotlight').querySelector('path')!);
 
     expect(mockCallback).toHaveBeenNthCalledWith(
       17,

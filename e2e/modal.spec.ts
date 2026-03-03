@@ -23,7 +23,7 @@ test('modal', async ({ page }) => {
     await beacon.click();
   });
 
-  await test.step('Step 1 - Input (spotlightClicks)', async () => {
+  await test.step('Step 1 - Input', async () => {
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toContainText('input inside a modal');
     await expect(page).toHaveScreenshot('step1-tooltip.png');

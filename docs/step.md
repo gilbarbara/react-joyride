@@ -74,7 +74,6 @@ Step will inherit some properties from Joyride's own [props](props.md), but you 
 - locale
 - showProgress
 - showSkipButton
-- spotlightClicks
 - spotlightPadding
 - styles
 - tooltipComponent
