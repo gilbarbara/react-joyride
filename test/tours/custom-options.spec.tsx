@@ -57,7 +57,7 @@ describe('Joyride > Custom Options', () => {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    fireEvent.click(screen.getByTestId('overlay'));
+    fireEvent.click(screen.getByTestId('spotlight').querySelector('path')!);
 
     await waitFor(() => {
       expect(screen.getByTestId('button-beacon')).toBeInTheDocument();

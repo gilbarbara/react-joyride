@@ -64,17 +64,23 @@ describe('Overlay', () => {
     // Transition to TOOLTIP to trigger showSpotlight=true
     rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP, scrolling: true }} />);
 
-    expect(screen.queryByTestId('spotlight')).not.toBeInTheDocument();
+    // While scrolling, path has no cutout (outer rect only)
+    expect(screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d')).toBe(
+      'M0 0H1024V50H0Z',
+    );
 
     // Transition scrolling to false
     rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP, scrolling: false }} />);
 
     expect(screen.getByTestId('overlay')).toMatchSnapshot();
 
-    // Transition scrolling to false
+    // Transition to COMPLETE to hide spotlight
     rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.COMPLETE }} />);
 
-    expect(screen.queryByTestId('spotlight')).not.toBeInTheDocument();
+    // After COMPLETE, path has no cutout
+    expect(screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d')).toBe(
+      'M0 0H1024V50H0Z',
+    );
   });
 
   it('should not render Spotlight for center placement', () => {
@@ -88,7 +94,9 @@ describe('Overlay', () => {
 
     render(<Overlay {...createProps({ onClickOverlay })} />);
 
-    fireEvent.click(screen.getByTestId('overlay'));
+    const path = screen.getByTestId('spotlight').querySelector('path')!;
+
+    fireEvent.click(path);
 
     expect(onClickOverlay).toHaveBeenCalledTimes(1);
   });
@@ -96,43 +104,8 @@ describe('Overlay', () => {
   it('should set cursor to default when disableOverlayClose is true', () => {
     render(<Overlay {...createProps({ disableOverlayClose: true })} />);
 
-    const overlay = screen.getByTestId('overlay');
+    const path = screen.getByTestId('spotlight').querySelector('path')! as SVGPathElement;
 
-    expect(overlay.style.cursor).toBe('default');
-  });
-
-  it('should set cursor to default when spotlightClicks is true', () => {
-    render(<Overlay {...createProps({ spotlightClicks: true })} />);
-
-    const overlay = screen.getByTestId('overlay');
-
-    expect(overlay.style.cursor).toBe('default');
-  });
-});
-
-describe('Overlay (Safari)', () => {
-  afterEach(() => {
-    cleanup();
-    vi.restoreAllMocks();
-  });
-
-  it('should wrap Spotlight for Safari mix-blend-mode hack', async () => {
-    vi.resetModules();
-    vi.doMock('~/modules/helpers', async importOriginal => {
-      const actual = await importOriginal<typeof import('~/modules/helpers')>();
-
-      return { ...actual, getBrowser: () => 'safari' };
-    });
-
-    const { default: SafariOverlay } = await import('~/components/Overlay');
-
-    const props = createProps({ lifecycle: LIFECYCLE.READY });
-
-    const { rerender } = render(<SafariOverlay {...props} />);
-
-    rerender(<SafariOverlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP, scrolling: true }} />);
-    rerender(<SafariOverlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP, scrolling: false }} />);
-
-    expect(screen.getByTestId('overlay')).toMatchSnapshot();
+    expect(path.style.cursor).toBe('default');
   });
 });

@@ -85,9 +85,6 @@ Display the tour progress in the next button, `2/5`, in `continuous` tours.
 **showSkipButton** `boolean` ▶︎ **false**  
 Display a button to skip the tour.
 
-**spotlightClicks** `boolean` ▶︎ **false**  
-Allow mouse and touch events through the spotlight. You can click links in your app.
-
 **spotlightPadding** `number` ▶︎ **10**  
 The padding of the spotlight.
 

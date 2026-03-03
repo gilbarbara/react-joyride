@@ -29,7 +29,6 @@ export const defaultStepOptions: Required<StepOptions> = {
   loaderDelay: 300,
   showProgress: false,
   showSkipButton: false,
-  spotlightClicks: false,
   spotlightPadding: 10,
   stepDelay: 0,
   targetWaitTimeout: 1000,

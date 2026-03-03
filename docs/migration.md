@@ -14,7 +14,7 @@ V2 uses inline styles instead of SCSS/CSS, so you must remove the imports. Check
 
 ### Renamed \(breaking\)
 
-**allowClicksThruHole** ▶︎ **spotlightClicks**
+**allowClicksThruHole** ▶︎ removed (clicks through the spotlight are now always enabled)
 
 **disableOverlay** `false` ▶︎ **disableOverlayClicks** `false`
 
@@ -57,7 +57,7 @@ The default is **bottom** now.
 
 **type** ▶︎ **event**
 
-**allowClicksThruHole** ▶︎ **spotlightClicks**
+**allowClicksThruHole** ▶︎ removed
 
 **style** ▶︎ **styles**  
 The properties have changed. Be sure to update to the new [syntax](styling.md).

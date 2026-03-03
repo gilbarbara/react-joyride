@@ -316,7 +316,6 @@ export type StepMerged = Simplify<
     | 'scrollOffset'
     | 'showProgress'
     | 'showSkipButton'
-    | 'spotlightClicks'
     | 'stepDelay'
     | 'targetWaitTimeout'
   > & {
@@ -388,11 +387,6 @@ export type StepOptions = {
    * @default false
    */
   showSkipButton?: boolean;
-  /**
-   * Allow mouse and touch events within the spotlight.
-   * @default false
-   */
-  spotlightClicks?: boolean;
   /**
    * The padding of the spotlight.
    * Accepts a number for equal padding on all sides, or an object with `top`, `right`, `bottom`, `left`.

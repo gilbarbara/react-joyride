@@ -25,7 +25,6 @@ export default function ModalDemo() {
         content: "Here's an input inside a modal that can be used through the spotlight",
         placement: 'bottom',
         target: '.modal-items > div:nth-child(1)',
-        spotlightClicks: true,
         disableFocusTrap: true,
       },
       {

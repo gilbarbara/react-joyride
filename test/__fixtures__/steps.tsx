@@ -11,7 +11,6 @@ export const standardSteps: Array<Step> = [
     placement: 'bottom',
     content: 'Can be advanced by clicking an element through the overlay hole.',
     title: 'Our Mission',
-    spotlightClicks: true,
   },
   {
     target: '.about h2 span',
@@ -71,7 +70,6 @@ export const scrollSteps: Array<Step> = [
     hideFooter: true,
     placement: 'top',
     target: '.scroll-content h3:nth-of-type(1)',
-    spotlightClicks: true,
   },
   {
     content: 'This is the way.',

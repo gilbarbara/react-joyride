@@ -5,14 +5,25 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
   aria-hidden="true"
   class="react-joyride__overlay"
   data-test-id="overlay"
-  role="presentation"
-  style="cursor: pointer; height: 50px; pointer-events: auto; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100; background-color: rgba(0, 0, 0, 0.3); mix-blend-mode: hard-light;"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
-  <div
+  <svg
     class="react-joyride__spotlight"
     data-test-id="spotlight"
-    style="background-color: gray; border-radius: 4px; height: 20px; left: -10px; opacity: 1; pointer-events: auto; position: absolute; top: -10px; transition: opacity 0.2s; width: 20px;"
-  />
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.3)"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.3)"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
 </div>
 `;
 
