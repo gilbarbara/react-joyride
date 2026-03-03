@@ -15,6 +15,8 @@ import { Menu as MenuIcon } from 'lucide-react';
 
 import Sidebar from '~/Controlled/Sidebar';
 
+import Container from '~/components/Container';
+
 import { delay, logGroup } from '../modules/helpers';
 
 import Calendar from './Calendar';
@@ -217,53 +219,55 @@ export default function ControlledDemo() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100dvh-4rem)] bg-gray-700 p-8 ">
-      <Joyride
-        arrowComponent={CustomArrow}
-        callback={handleJoyrideCallback}
-        continuous
-        locale={{
-          nextLabelWithProgress: 'Next ({step} of {steps})',
-        }}
-        run={run}
-        scrollToFirstStep
-        stepIndex={stepIndex}
-        stepOptions={{
-          showProgress: true,
-          showSkipButton: true,
-        }}
-        steps={steps}
-        styles={{
-          arrow: {
-            base: 64,
-            size: 16,
-          },
-        }}
-      />
-      <Sidebar
-        disclaimerRef={disclaimerRef}
-        handleStateChange={handleStateChange}
-        sidebarOpen={sidebarOpen}
-        sidebarRef={sidebarRef}
-      />
-      <Button
-        ref={menuRef}
-        aria-label="Toggle Sidebar"
-        className="absolute left-4 top-4 md:left-8 md:top-8"
-        isIconOnly
-        onPress={handleClickOpen}
-      >
-        <MenuIcon aria-hidden="true" color="#f04" size={24} />
-      </Button>
-      <div className="flex flex-col flex-1 min-h-0" id="innerContainer">
-        <h1 className="text-4xl font-bold text-center text-white mb-2">DASHBOARD</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 flex-1 min-h-0">
-          <Calendar ref={calendarRef} />
-          <Growth ref={growthRef} />
-          <Users ref={usersRef} />
-          <Connections ref={connectionsRef} />
+    <div className="flex flex-col h-[calc(100dvh-4rem)] bg-gray-700">
+      <Container className="py-4 overflow-hidden">
+        <Joyride
+          arrowComponent={CustomArrow}
+          callback={handleJoyrideCallback}
+          continuous
+          locale={{
+            nextLabelWithProgress: 'Next ({step} of {steps})',
+          }}
+          run={run}
+          scrollToFirstStep
+          stepIndex={stepIndex}
+          stepOptions={{
+            showProgress: true,
+            showSkipButton: true,
+          }}
+          steps={steps}
+          styles={{
+            arrow: {
+              base: 64,
+              size: 16,
+            },
+          }}
+        />
+        <Sidebar
+          disclaimerRef={disclaimerRef}
+          handleStateChange={handleStateChange}
+          sidebarOpen={sidebarOpen}
+          sidebarRef={sidebarRef}
+        />
+        <Button
+          ref={menuRef}
+          aria-label="Toggle Sidebar"
+          className="absolute left-8 top-4"
+          isIconOnly
+          onPress={handleClickOpen}
+        >
+          <MenuIcon aria-hidden="true" color="#f04" size={24} />
+        </Button>
+        <div className="flex flex-col flex-1 min-h-0" id="innerContainer">
+          <h1 className="text-4xl font-bold text-center text-white mb-4">DASHBOARD</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 flex-1 min-h-0">
+            <Calendar ref={calendarRef} />
+            <Growth ref={growthRef} />
+            <Users ref={usersRef} />
+            <Connections ref={connectionsRef} />
+          </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

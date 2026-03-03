@@ -28,7 +28,7 @@ export default function Sidebar(props: SidebarProps) {
             top: '0',
           },
           bmMenuWrap: {
-            position: 'fixed',
+            position: 'absolute',
             height: '100%',
             top: '0',
             left: '0',

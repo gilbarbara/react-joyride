@@ -6,8 +6,8 @@ import Basic from './Basic';
 import Carousel from './Carousel';
 import CodeSandboxEdit from './components/CodeSandboxEdit';
 import ErrorFallback from './components/ErrorFallback';
-import Footer from './components/Footer';
 import GitHubRepo from './components/GitHubRepo';
+import Header from './components/Header';
 import Controlled from './Controlled';
 import CustomComponents from './CustomComponents';
 import Modal from './Modal';
@@ -46,7 +46,8 @@ function App() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <BrowserRouter>
-        <main className="flex flex-col min-h-dvh pb-16 " role="main">
+        <Header />
+        <main className="flex flex-col min-h-dvh pt-16" role="main">
           <Routes>
             <Route element={<Basic breakpoint={breakpoint} />} path="/" />
             <Route element={<Controlled />} path="/controlled" />
@@ -64,7 +65,6 @@ function App() {
         </main>
         {NODE_ENV === 'production' && <CodeSandboxEdit />}
         {NODE_ENV === 'production' && <GitHubRepo />}
-        <Footer />
       </BrowserRouter>
     </ErrorBoundary>
   );

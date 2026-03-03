@@ -3,7 +3,7 @@ import { defineConfig, devices, expect } from '@playwright/test';
 const config = defineConfig({
   expect: {
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.01,
+      maxDiffPixelRatio: 0.001,
     },
   },
   forbidOnly: !!process.env.CI,

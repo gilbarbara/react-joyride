@@ -35,5 +35,6 @@ test('multi-route', async ({ page }) => {
   await test.step('Finish the tour', async () => {
     await page.getByTestId('button-primary').click();
     await expect(overlay).not.toBeVisible();
+    await expect(page).toHaveScreenshot('step3-route-b-after.png');
   });
 });
