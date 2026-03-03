@@ -95,7 +95,7 @@ export default function MultiRouteWrapper() {
   };
 
   return (
-    <div>
+    <div className="bg-secondary-50 flex flex-col flex-1">
       <Header />
       <Outlet />
       <Joyride

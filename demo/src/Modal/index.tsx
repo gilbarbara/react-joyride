@@ -6,6 +6,8 @@ import { Button, Input } from '@heroui/react';
 // @ts-ignore
 import a11yChecker from 'a11y-checker';
 
+import Container from '~/components/Container';
+
 import { logGroup } from '../modules/helpers';
 
 interface State {
@@ -93,83 +95,88 @@ export default function ModalDemo() {
 
   const customStyles = {
     content: {
+      top: 100,
+      margin: '0 auto',
       maxHeight: '70%',
+      maxWidth: 1280,
       textAlign: 'center' as const,
     },
   };
 
   return (
-    <div className="bg-green-200 p-8 flex flex-col items-center justify-center flex-1">
-      <Joyride
-        callback={handleJoyrideCallback}
-        continuous
-        run={run}
-        stepOptions={{
-          showSkipButton: true,
-        }}
-        steps={steps}
-        styles={{
-          options: {
-            arrowColor: '#bbf7d0',
-            backgroundColor: '#bbf7d0',
-            primaryColor: '#22c55e',
-            textColor: '#000',
-          },
-        }}
-      />
-      <h1 className="text-4xl font-bold mb-2">It works with modals</h1>
-      <h2 className="text-2xl font-bold mb-2">
-        (using{' '}
-        <a
-          aria-label="Open react-modal in a new window"
-          className="text-green-600 underline"
-          href="https://github.com/reactjs/react-modal"
-          rel="noopener noreferrer"
-          target="_blank"
+    <div className="bg-green-200 flex flex-col flex-1">
+      <Container className="py-8 items-center justify-center">
+        <Joyride
+          callback={handleJoyrideCallback}
+          continuous
+          run={run}
+          stepOptions={{
+            showSkipButton: true,
+          }}
+          steps={steps}
+          styles={{
+            options: {
+              arrowColor: '#bbf7d0',
+              backgroundColor: '#bbf7d0',
+              primaryColor: '#000',
+              textColor: '#000',
+            },
+          }}
+        />
+        <h1 className="text-4xl font-bold mb-2">It works with modals</h1>
+        <h2 className="text-2xl font-bold mb-2">
+          (using{' '}
+          <a
+            aria-label="Open react-modal in a new window"
+            className="text-green-600 underline"
+            href="https://github.com/reactjs/react-modal"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            react-modal
+          </a>
+          )
+        </h2>
+        <Button color="success" onPress={openModal}>
+          Open Modal
+        </Button>
+        <Modal
+          ariaHideApp={false}
+          contentLabel="Example Modal"
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
         >
-          react-modal
-        </a>
-        )
-      </h2>
-      <Button color="success" onPress={openModal}>
-        Open Modal
-      </Button>
-      <Modal
-        ariaHideApp={false}
-        contentLabel="Example Modal"
-        isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-      >
-        <h2 className="text-2xl font-bold mb-2">A react-modal example</h2>
-        <p>I am a modal</p>
-        <div className="modal-items flex justify-center gap-4 flex-wrap mt-4">
-          <div>
-            <Input name="test" type="text" />
+          <h2 className="text-2xl font-bold mb-2">A react-modal example</h2>
+          <p>I am a modal</p>
+          <div className="modal-items flex justify-center gap-4 flex-wrap mt-4">
+            <div>
+              <Input name="test" type="text" />
+            </div>
+            <div>
+              <Button color="success" tabIndex={0}>
+                tab navigation
+              </Button>
+            </div>
+            <div>
+              <Button color="success" tabIndex={0}>
+                stays
+              </Button>
+            </div>
+            <div>
+              <Button color="success" tabIndex={0}>
+                inside
+              </Button>
+            </div>
+            <div>
+              <Button color="success" tabIndex={0}>
+                the modal
+              </Button>
+            </div>
           </div>
-          <div>
-            <Button color="success" tabIndex={0}>
-              tab navigation
-            </Button>
-          </div>
-          <div>
-            <Button color="success" tabIndex={0}>
-              stays
-            </Button>
-          </div>
-          <div>
-            <Button color="success" tabIndex={0}>
-              inside
-            </Button>
-          </div>
-          <div>
-            <Button color="success" tabIndex={0}>
-              the modal
-            </Button>
-          </div>
-        </div>
-      </Modal>
+        </Modal>
+      </Container>
     </div>
   );
 }

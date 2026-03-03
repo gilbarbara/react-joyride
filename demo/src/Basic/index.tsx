@@ -4,7 +4,6 @@ import { useMount, useSetState } from '@gilbarbara/hooks';
 import { Button, cn, Divider } from '@heroui/react';
 // @ts-ignore
 import a11yChecker from 'a11y-checker';
-import { SunIcon } from 'lucide-react';
 
 import Logo from '../components/Logo';
 import StarBurst from '../components/StarBurst';
@@ -22,7 +21,10 @@ interface State {
 function Section({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('h-lvh flex items-center justify-center px-4 py-8 text-white', className)}
+      className={cn(
+        'h-[calc(100lvh-4rem)] flex items-center justify-center px-4 py-8 text-white',
+        className,
+      )}
       {...props}
     />
   );
@@ -66,7 +68,7 @@ export default function BasicDemo(props: Props) {
       },
       {
         content: <h2>Fixed elements and no arrow</h2>,
-        target: '.toggle',
+        target: '#maze',
         floatingOptions: {
           hideArrow: true,
         },
@@ -154,11 +156,6 @@ export default function BasicDemo(props: Props) {
           },
         }}
       />
-      <header className="fixed top-0 left-0 z-50 w-full flex items-center justify-end p-4">
-        <Button className="toggle" isIconOnly>
-          <SunIcon />
-        </Button>
-      </header>
       <Section className="demo__hero bg-red">
         <div className="flex flex-col items-center text-white max-w-150 relative">
           <StarBurst>V3</StarBurst>

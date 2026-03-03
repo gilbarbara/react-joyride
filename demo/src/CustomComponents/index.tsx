@@ -15,6 +15,8 @@ import { Globe } from 'lucide-react';
 
 import { messages } from '~/CustomComponents/messages';
 
+import Container from '~/components/Container';
+
 import { logGroup } from '../modules/helpers';
 
 import Grid from './Grid';
@@ -170,7 +172,7 @@ function Custom(props: Props) {
   };
 
   return (
-    <div className="p-8">
+    <Container className="bg-danger-50 py-8">
       <FormattedMessage id="title">
         {value => <h1 className="text-4xl font-bold text-center">{value}</h1>}
       </FormattedMessage>
@@ -195,7 +197,7 @@ function Custom(props: Props) {
       </div>
       {Tour}
       <Grid />
-    </div>
+    </Container>
   );
 }
 

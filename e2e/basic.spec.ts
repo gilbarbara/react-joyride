@@ -26,7 +26,7 @@ test('basic', async ({ page }) => {
     await expect(page).toHaveScreenshot('step2-loader.png');
 
     await waitForScrollEnd(page);
-    await expect.poll(() => getScrollTop(page)).toBeAround(109);
+    await expect.poll(() => getScrollTop(page)).toBeAround(77);
     await expect(tooltip).toContainText('A step with delay (500ms)');
     await expect(page).toHaveScreenshot('step2-tooltip.png');
   });
@@ -34,7 +34,7 @@ test('basic', async ({ page }) => {
   await test.step('Step 3 - Our projects', async () => {
     await page.getByTestId('button-primary').click();
     await waitForScrollEnd(page);
-    await expect.poll(() => getScrollTop(page)).toBeAround(658);
+    await expect.poll(() => getScrollTop(page)).toBeAround(604);
 
     await expect(tooltip).toContainText('Our projects');
     await expect(page).toHaveScreenshot('step3-tooltip.png');
@@ -43,7 +43,7 @@ test('basic', async ({ page }) => {
   await test.step('Step 4 - Fixed elements', async () => {
     await page.getByTestId('button-primary').click();
     await waitForScrollEnd(page);
-    await expect.poll(() => getScrollTop(page)).toBeAround(658);
+    await expect.poll(() => getScrollTop(page)).toBeAround(604);
 
     await expect(tooltip).toContainText('Fixed elements and no arrow');
     await expect(page).toHaveScreenshot('step4-tooltip.png');
@@ -52,7 +52,7 @@ test('basic', async ({ page }) => {
   await test.step('Step 5 - Our Mission', async () => {
     await page.getByTestId('button-primary').click();
     await waitForScrollEnd(page);
-    await expect.poll(() => getScrollTop(page)).toBeAround(1175);
+    await expect.poll(() => getScrollTop(page)).toBeAround(1047);
 
     await expect(tooltip).toContainText('Our Mission');
     await expect(page).toHaveScreenshot('step5-tooltip.png');
@@ -61,7 +61,7 @@ test('basic', async ({ page }) => {
   await test.step('Step 6 - All about us', async () => {
     await page.getByTestId('button-primary').click();
     await waitForScrollEnd(page);
-    await expect.poll(() => getScrollTop(page)).toBeAround(2051);
+    await expect.poll(() => getScrollTop(page)).toBeAround(1859);
 
     await expect(tooltip).toContainText('All about us');
     await expect(page).toHaveScreenshot('step6-tooltip.png');
@@ -69,7 +69,7 @@ test('basic', async ({ page }) => {
 
   await test.step('Step 7 - Final', async () => {
     await page.getByTestId('button-primary').click();
-    await waitForScrollEnd(page);
+    await expect.poll(() => getScrollTop(page)).toBeAround(1859);
 
     await expect(tooltip).toContainText("Let's all folks");
     await expect(page).toHaveScreenshot('step7-tooltip.png');

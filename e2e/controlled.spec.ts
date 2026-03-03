@@ -30,7 +30,7 @@ test('controlled', async ({ page }) => {
     await page.getByTestId('button-primary').click();
 
     await waitForScrollEnd(page, '#sidebar');
-    await expect.poll(() => getScrollTop(page, '#sidebar')).toBeAround(1008);
+    await expect.poll(() => getScrollTop(page, '#sidebar')).toBeAround(1072);
 
     await expect(tooltip).toContainText('disclaimer of the terms of service');
     await expect(page).toHaveScreenshot('step3-disclaimer.png');

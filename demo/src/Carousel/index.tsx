@@ -7,6 +7,8 @@ import { Button } from '@heroui/react';
 // @ts-ignore
 import a11yChecker from 'a11y-checker';
 
+import Container from '~/components/Container';
+
 import { logGroup } from '../modules/helpers';
 
 interface State {
@@ -109,49 +111,51 @@ export default function CarouselDemo() {
   };
 
   return (
-    <div className="bg-red-200 min-h-screen p-8">
-      <Joyride
-        callback={handleJoyrideCallback}
-        continuous
-        run={run}
-        scrollToFirstStep
-        stepIndex={stepIndex}
-        stepOptions={{
-          showProgress: true,
-        }}
-        steps={steps}
-        styles={{
-          options: {
-            primaryColor: '#0049DB',
-          },
-        }}
-      />
-      <div
-        ref={ref}
-        className="app__carousel overflow-hidden"
-        style={{ height: Math.floor(width * ratio) }}
-      >
-        <Carousel
-          selectedItem={stepIndex}
-          showArrows={!run}
-          showIndicators={false}
-          showStatus={false}
-          showThumbs={false}
+    <div className="bg-warning-50 min-h-screen">
+      <Container className="py-8">
+        <Joyride
+          callback={handleJoyrideCallback}
+          continuous
+          run={run}
+          scrollToFirstStep
+          stepIndex={stepIndex}
+          stepOptions={{
+            showProgress: true,
+          }}
+          steps={steps}
+          styles={{
+            options: {
+              primaryColor: '#0049DB',
+            },
+          }}
+        />
+        <div
+          ref={ref}
+          className="app__carousel overflow-hidden"
+          style={{ height: Math.floor(width * ratio) }}
         >
-          <img alt="1" src={images[0]} style={{ cursor: 'pointer' }} />
-          <img alt="2" src={images[1]} />
-          <img alt="3" src={images[2]} />
-          <img alt="4" src={images[3]} />
-          <img alt="5" src={images[4]} />
-        </Carousel>
-      </div>
-      {!run && stepIndex > 0 && (
-        <div className="flex items-center justify-center mt-8">
-          <Button color="primary" onPress={handleClickReset}>
-            Restart
-          </Button>
+          <Carousel
+            selectedItem={stepIndex}
+            showArrows={!run}
+            showIndicators={false}
+            showStatus={false}
+            showThumbs={false}
+          >
+            <img alt="1" src={images[0]} style={{ cursor: 'pointer' }} />
+            <img alt="2" src={images[1]} />
+            <img alt="3" src={images[2]} />
+            <img alt="4" src={images[3]} />
+            <img alt="5" src={images[4]} />
+          </Carousel>
         </div>
-      )}
+        {!run && stepIndex > 0 && (
+          <div className="flex items-center justify-center mt-8">
+            <Button color="primary" onPress={handleClickReset}>
+              Restart
+            </Button>
+          </div>
+        )}
+      </Container>
     </div>
   );
 }
