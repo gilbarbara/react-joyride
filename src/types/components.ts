@@ -83,45 +83,14 @@ export type BeaconRenderProps = {
 
 export type Callback = (data: CallBackProps) => void;
 
-export type CallBackProps = {
-  /**
-   * The action that updated the state.
-   */
-  action: Actions;
-  /**
-   * It the tour is in `controlled` mode.
-   * (using the `stepIndex` prop)
-   */
-  controlled: boolean;
-  /**
-   * The current step's index
-   */
-  index: number;
-  /**
-   *  The step's lifecycle.
-   */
-  lifecycle: Lifecycle;
-  /**
-   * The element that triggered the action (if available).
-   */
-  origin: Origin | null;
-  /**
-   * The number of steps
-   */
-  size: number;
-  /**
-   * The tour's status.
-   */
-  status: Status;
-  /**
-   * The current step's data.
-   */
-  step: Step;
-  /**
-   * The type of the event.
-   */
-  type: Events;
-};
+export type CallBackProps = Simplify<
+  TourData & {
+    /**
+     * The type of the event.
+     */
+    type: Events;
+  }
+>;
 
 export type Controls = {
   close: (origin?: Origin | null) => void;
@@ -291,8 +260,6 @@ export type Step = Simplify<
     }
 >;
 
-export type StepDelayData = Omit<CallBackProps, 'type'>;
-
 export type StepMerged = Simplify<
   SetRequired<
     Step,
@@ -316,7 +283,6 @@ export type StepMerged = Simplify<
     | 'scrollOffset'
     | 'showProgress'
     | 'showSkipButton'
-    | 'stepDelay'
     | 'targetWaitTimeout'
   > & {
     spotlightPadding: Required<SpotlightPadding>;
@@ -325,6 +291,17 @@ export type StepMerged = Simplify<
 >;
 
 export type StepOptions = {
+  /**
+   * A hook that runs after the step completes (user clicked next, prev, close, or skip).
+   * Fire-and-forget — does not block the tour.
+   */
+  after?: (data: TourData) => void;
+  /**
+   * A hook that runs before the step is shown.
+   * The tour waits for the returned promise to resolve and shows the loader while waiting (after loaderDelay).
+   * Capped by `targetWaitTimeout`.
+   */
+  before?: (data: TourData) => Promise<void>;
   /**
    * Disable closing the tooltip on ESC.
    * @default false
@@ -393,17 +370,6 @@ export type StepOptions = {
    * @default 10
    */
   spotlightPadding?: number | SpotlightPadding;
-  /**
-   * Delay before transitioning to the next step.
-   * Shows the loader during the delay.
-   *
-   * - `number`: Fixed delay in milliseconds.
-   * - `function`: Async function that resolves when the step is ready.
-   *   Receives `{ action, index, step }`. Capped by `targetWaitTimeout`.
-   *
-   * @default 0
-   */
-  stepDelay?: number | ((data: StepDelayData) => Promise<void>);
   /**
    * Max time (ms) to wait for the target to appear. 0 = no waiting.
    * @default 1000
@@ -525,4 +491,40 @@ export interface PositionData {
   placement: Placement;
   x: number;
   y: number;
+}
+
+export interface TourData {
+  /**
+   * The action that updated the state.
+   */
+  action: Actions;
+  /**
+   * It the tour is in `controlled` mode.
+   * (using the `stepIndex` prop)
+   */
+  controlled: boolean;
+  /**
+   * The current step's index
+   */
+  index: number;
+  /**
+   *  The step's lifecycle.
+   */
+  lifecycle: Lifecycle;
+  /**
+   * The element that triggered the action (if available).
+   */
+  origin: Origin | null;
+  /**
+   * The number of steps
+   */
+  size: number;
+  /**
+   * The tour's status.
+   */
+  status: Status;
+  /**
+   * The current step's data.
+   */
+  step: Step;
 }

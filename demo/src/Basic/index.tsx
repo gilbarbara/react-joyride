@@ -7,7 +7,7 @@ import a11yChecker from 'a11y-checker';
 
 import Logo from '../components/Logo';
 import StarBurst from '../components/StarBurst';
-import { logGroup } from '../modules/helpers';
+import { delay, logGroup } from '../modules/helpers';
 
 interface Props {
   breakpoint: string;
@@ -44,17 +44,15 @@ export default function BasicDemo(props: Props) {
       {
         content: <h2>A step with delay (500ms)</h2>,
         target: '.star-burst',
-        stepDelay: 500,
+        before: () => delay(500),
       },
       {
         content: 'These are our super awesome projects!',
         placement: 'bottom',
         styles: {
           options: {
+            spotlightRadius: 20,
             width: 300,
-          },
-          spotlight: {
-            borderRadius: 20,
           },
         },
         spotlightPadding: {

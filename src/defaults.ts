@@ -16,7 +16,7 @@ export const defaultLocale: Locale = {
   skip: 'Skip',
 };
 
-export const defaultStepOptions: Required<StepOptions> = {
+export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>> = {
   disableCloseOnEsc: false,
   disableFocusTrap: false,
   disableOverlay: false,
@@ -30,7 +30,6 @@ export const defaultStepOptions: Required<StepOptions> = {
   showProgress: false,
   showSkipButton: false,
   spotlightPadding: 10,
-  stepDelay: 0,
   targetWaitTimeout: 1000,
 };
 
