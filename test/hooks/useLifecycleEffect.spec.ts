@@ -726,11 +726,16 @@ describe('useLifecycleEffect', () => {
     });
   });
 
-  describe('Step delay', () => {
-    it('should delay step transition with numeric stepDelay', async () => {
+  describe('before hook', () => {
+    it('should delay step transition with before hook', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          before: () => new Promise(resolve => setTimeout(resolve, 200)),
+        },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -759,7 +764,7 @@ describe('useLifecycleEffect', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should delay step transition with async stepDelay', async () => {
+    it('should delay step transition with async before', async () => {
       let resolveDelay: () => void;
       const delayPromise = new Promise<void>(resolve => {
         resolveDelay = resolve;
@@ -771,7 +776,7 @@ describe('useLifecycleEffect', () => {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          stepDelay: () => delayPromise,
+          before: () => delayPromise,
         },
       ];
 
@@ -802,14 +807,14 @@ describe('useLifecycleEffect', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should proceed if async stepDelay rejects', async () => {
+    it('should proceed if async before rejects', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          stepDelay: () => Promise.reject(new Error('fail')),
+          before: () => Promise.reject(new Error('fail')),
         },
       ];
 
@@ -831,14 +836,14 @@ describe('useLifecycleEffect', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should proceed after targetWaitTimeout if async stepDelay never resolves', async () => {
+    it('should proceed after targetWaitTimeout if async before never resolves', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          stepDelay: () => new Promise<void>(() => {}),
+          before: () => new Promise<void>(() => {}),
           targetWaitTimeout: 200,
         },
       ];

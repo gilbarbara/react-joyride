@@ -45,7 +45,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollingTargetRef = useRef<StepTarget | null>(null);
   const loaderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const stepDelayRef = useRef<{ cancel: () => void } | null>(null);
+  const beforeRef = useRef<{ cancel: () => void } | null>(null);
 
   propsRef.current = props;
   stateRef.current = state;
@@ -65,9 +65,9 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     pollingTargetRef.current = null;
 
-    if (stepDelayRef.current) {
-      stepDelayRef.current.cancel();
-      stepDelayRef.current = null;
+    if (beforeRef.current) {
+      beforeRef.current.cancel();
+      beforeRef.current = null;
     }
   };
 
@@ -103,14 +103,11 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     if (status === STATUS.RUNNING && step && lifecycle === LIFECYCLE.INIT) {
       store.current.cleanupPositionData();
 
-      // Step delay: pause before processing the new step
-      const hasStepDelay = typeof step.stepDelay === 'function' || step.stepDelay > 0;
-
-      if (hasStepDelay && !stepDelayRef.current) {
+      if (step.before && !beforeRef.current) {
         store.current.updateState({ waiting: true });
 
         const proceed = () => {
-          stepDelayRef.current = null;
+          beforeRef.current = null;
           store.current.updateState({
             action: lastAction.current ?? action,
             waiting: false,
@@ -118,41 +115,35 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           });
         };
 
-        if (typeof step.stepDelay === 'function') {
-          const abortController = new AbortController();
-          const timeout = step.targetWaitTimeout;
+        const abortController = new AbortController();
+        const timeout = step.targetWaitTimeout;
 
-          stepDelayRef.current = { cancel: () => abortController.abort() };
+        beforeRef.current = { cancel: () => abortController.abort() };
 
-          const timeoutId = timeout
-            ? setTimeout(() => {
-                if (!abortController.signal.aborted) {
-                  abortController.abort();
-                  proceed();
-                }
-              }, timeout)
-            : null;
-
-          step
-            .stepDelay({ ...callbackState(), step })
-            .then(() => {
+        const timeoutId = timeout
+          ? setTimeout(() => {
               if (!abortController.signal.aborted) {
-                if (timeoutId) clearTimeout(timeoutId);
+                abortController.abort();
                 proceed();
               }
-            })
-            .catch(() => {
-              if (!abortController.signal.aborted) {
-                if (timeoutId) clearTimeout(timeoutId);
-                proceed();
-              }
-            });
-        } else {
-          const timeoutId = setTimeout(proceed, step.stepDelay);
+            }, timeout)
+          : null;
 
-          stepDelayRef.current = { cancel: () => clearTimeout(timeoutId) };
-        }
-      } else if (!stepDelayRef.current) {
+        step
+          .before({ ...callbackState(), step })
+          .then(() => {
+            if (!abortController.signal.aborted) {
+              if (timeoutId) clearTimeout(timeoutId);
+              proceed();
+            }
+          })
+          .catch(() => {
+            if (!abortController.signal.aborted) {
+              if (timeoutId) clearTimeout(timeoutId);
+              proceed();
+            }
+          });
+      } else if (!beforeRef.current) {
         // If polling for a different target (step changed), restart
         if (pollingRef.current && pollingTargetRef.current !== step.target) {
           cleanup();
@@ -316,6 +307,18 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         step: callbackStep,
         type: EVENTS.STEP_AFTER,
       });
+
+      try {
+        previousStep?.after?.({
+          ...callbackState(),
+          action: lastAction.current ?? ACTIONS.UPDATE,
+          index: previousState.index ?? index,
+          lifecycle,
+          step: previousStep,
+        });
+      } catch {
+        // fire-and-forget: don't let user code break the tour
+      }
     }
 
     if (changedState('lifecycle', LIFECYCLE.COMPLETE) && index >= size) {

@@ -42,7 +42,6 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
     "right": 5,
     "top": 5,
   },
-  "stepDelay": 0,
   "styles": {
     "arrow": {
       "alignItems": "center",
@@ -254,7 +253,6 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
     "right": 10,
     "top": 10,
   },
-  "stepDelay": 0,
   "styles": {
     "arrow": {
       "alignItems": "center",
@@ -633,7 +631,6 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
     "right": 10,
     "top": 10,
   },
-  "stepDelay": 0,
   "styles": {
     "arrow": {
       "alignItems": "center",
@@ -866,7 +863,6 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
     "right": 10,
     "top": 10,
   },
-  "stepDelay": 0,
   "styles": {
     "arrow": {
       "alignItems": "center",
@@ -1078,7 +1074,6 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
     "right": 10,
     "top": 10,
   },
-  "stepDelay": 0,
   "styles": {
     "arrow": {
       "alignItems": "center",

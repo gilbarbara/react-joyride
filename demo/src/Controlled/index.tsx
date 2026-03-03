@@ -70,7 +70,7 @@ export default function ControlledDemo() {
           hideFooter: true,
           placement: 'bottom',
 
-          stepDelay: ({ action }) => delay(action === ACTIONS.PREV ? 300 : 0),
+          before: ({ action }) => delay(action === ACTIONS.PREV ? 300 : 0),
           styles: {
             options: {
               zIndex: 10000,
@@ -85,7 +85,7 @@ export default function ControlledDemo() {
           loaderComponent: null,
           placement: 'right',
           spotlightPadding: 0,
-          stepDelay: ({ action }) => delay(action === ACTIONS.NEXT ? 500 : 0),
+          before: ({ action }) => delay(action === ACTIONS.NEXT ? 500 : 0),
           styles: {
             options: {
               zIndex: 10000,
@@ -99,7 +99,7 @@ export default function ControlledDemo() {
           disableBeacon: true,
           placement: 'right',
           spotlightPadding: 0,
-          stepDelay: ({ action }) => (action === ACTIONS.PREV ? delay(300) : Promise.resolve()),
+          before: ({ action }) => (action === ACTIONS.PREV ? delay(300) : Promise.resolve()),
           styles: {
             options: {
               zIndex: 10000,
@@ -112,7 +112,7 @@ export default function ControlledDemo() {
           content: 'Check the availability of the team!',
           disableBeacon: true,
           placement: 'bottom',
-          stepDelay: 500,
+          before: () => delay(500),
           styles: {
             options: {
               zIndex: 10000,

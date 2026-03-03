@@ -1119,11 +1119,16 @@ describe('useTourEngine', () => {
     });
   });
 
-  describe('Step Delay', () => {
-    it('should delay step transition with stepDelay', async () => {
+  describe('before hook', () => {
+    it('should delay step transition with before hook', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          before: () => new Promise(resolve => setTimeout(resolve, 200)),
+        },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1155,10 +1160,15 @@ describe('useTourEngine', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should delay step transition with stepDelay in controlled mode', async () => {
+    it('should delay step transition with before in controlled mode', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: 200 },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          before: () => new Promise(resolve => setTimeout(resolve, 200)),
+        },
       ];
 
       const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
@@ -1185,7 +1195,7 @@ describe('useTourEngine', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should delay step transition with async stepDelay', async () => {
+    it('should delay step transition with async before', async () => {
       let resolveDelay: () => void;
       const delayPromise = new Promise<void>(resolve => {
         resolveDelay = resolve;
@@ -1197,7 +1207,7 @@ describe('useTourEngine', () => {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          stepDelay: () => delayPromise,
+          before: () => delayPromise,
         },
       ];
 
@@ -1233,12 +1243,12 @@ describe('useTourEngine', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should pass callback data to async stepDelay', async () => {
-      const stepDelayFn = vi.fn(() => Promise.resolve());
+    it('should pass callback data to async before', async () => {
+      const beforeFn = vi.fn(() => Promise.resolve());
 
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, stepDelay: stepDelayFn },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true, before: beforeFn },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1250,7 +1260,7 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(stepDelayFn).toHaveBeenCalledWith(
+        expect(beforeFn).toHaveBeenCalledWith(
           expect.objectContaining({
             action: expect.any(String),
             index: expect.any(Number),
@@ -1261,14 +1271,14 @@ describe('useTourEngine', () => {
       });
     });
 
-    it('should proceed if async stepDelay rejects', async () => {
+    it('should proceed if async before rejects', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          stepDelay: () => Promise.reject(new Error('fail')),
+          before: () => Promise.reject(new Error('fail')),
         },
       ];
 
@@ -1291,14 +1301,14 @@ describe('useTourEngine', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should proceed after targetWaitTimeout if async stepDelay never resolves', async () => {
+    it('should proceed after targetWaitTimeout if async before never resolves', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          stepDelay: () => new Promise<void>(() => {}),
+          before: () => new Promise<void>(() => {}),
           targetWaitTimeout: 200,
         },
       ];
@@ -1328,6 +1338,61 @@ describe('useTourEngine', () => {
       });
 
       expect(result.current.state.waiting).toBe(false);
+    });
+  });
+
+  describe('after hook', () => {
+    it('should call after with correct data when step completes', async () => {
+      const afterFn = vi.fn();
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(afterFn).toHaveBeenCalledWith(
+          expect.objectContaining({
+            action: ACTIONS.NEXT,
+            index: 0,
+            step: expect.objectContaining({ target: '.step-1' }),
+          }),
+        );
+      });
+    });
+
+    it('should not break the tour if after throws', async () => {
+      const afterFn = vi.fn(() => {
+        throw new Error('user error');
+      });
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      mockCallback.mockClear();
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(mockCallback).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      expect(afterFn).toHaveBeenCalled();
     });
   });
 });
