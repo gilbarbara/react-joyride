@@ -8,7 +8,7 @@ const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>((_, ref
       ref={ref}
       aria-label="Beacon"
       className="react-joyride__beacon"
-      data-test-id="button-beacon"
+      data-testid="button-beacon"
       type="button"
     >
       <span className="react-joyride__beacon__outer" />

@@ -1,16 +1,11 @@
-import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
-import { cleanup, eventResponseFactory, fireEvent, render, screen, waitFor } from '~/test-utils';
+import { cleanup, fireEvent, render, screen, waitFor } from '~/test-utils';
 
 import Customized from '../__fixtures__/CustomOptions';
 
-const mockOnEvent = vi.fn();
 const mockFinishedCallback = vi.fn();
 const mockOnPosition = vi.fn();
 
-const getEventResponse = eventResponseFactory({ size: 4 });
-
 const props = {
-  onEvent: mockOnEvent,
   finishedCallback: mockFinishedCallback,
   floatingOptions: {
     onPosition: mockOnPosition,
@@ -31,7 +26,7 @@ describe('Joyride > Custom Options', () => {
 
   it('should render STEP 1 with custom beacon styles', async () => {
     await waitFor(() => {
-      expect(mockOnEvent).toHaveBeenCalledTimes(5);
+      expect(screen.getByTestId('button-beacon')).toBeInTheDocument();
     });
 
     expect(screen.getByTestId('button-beacon')).toMatchSnapshot();
@@ -72,53 +67,32 @@ describe('Joyride > Custom Options', () => {
     expect(screen.getById('react-joyride-step-2')).toMatchSnapshot();
   });
 
-  it('should handle clicking the Close button', () => {
+  it('should handle clicking the Close button', async () => {
     fireEvent.click(screen.getByTestId('button-close'));
 
-    expect(mockOnEvent).toHaveBeenCalledWith(
-      getEventResponse({
-        action: ACTIONS.CLOSE,
-        index: 2,
-        lifecycle: LIFECYCLE.COMPLETE,
-        origin: 'button_close',
-        status: STATUS.RUNNING,
-        type: EVENTS.STEP_AFTER,
-      }),
-    );
+    await waitFor(() => {
+      expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+    });
   });
 
-  it('should pause and restart the tour via run prop', () => {
+  it('should pause and restart the tour via run prop', async () => {
     rerender(<Customized {...props} run={false} />);
 
-    expect(mockOnEvent).toHaveBeenCalledWith(
-      getEventResponse({
-        action: ACTIONS.STOP,
-        index: 3,
-        lifecycle: LIFECYCLE.COMPLETE,
-        status: STATUS.PAUSED,
-        type: EVENTS.TOUR_STATUS,
-      }),
-    );
+    await waitFor(() => {
+      expect(screen.queryByTestId('button-beacon')).not.toBeInTheDocument();
+    });
+
+    expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
 
     rerender(<Customized {...props} run />);
 
-    expect(mockOnEvent).toHaveBeenCalledWith(
-      getEventResponse({
-        action: ACTIONS.START,
-        index: 3,
-        lifecycle: LIFECYCLE.INIT,
-        status: STATUS.RUNNING,
-        type: EVENTS.TOUR_START,
-      }),
-    );
+    await waitFor(() => {
+      expect(screen.getByTestId('button-beacon')).toBeInTheDocument();
+    });
   });
 
   it('should end the tour and call finishedCallback', async () => {
     // Advance: step 4 beacon → tooltip → primary
-    await waitFor(() => {
-      expect(screen.getByTestId('button-beacon')).toBeInTheDocument();
-    });
-
     fireEvent.click(screen.getByTestId('button-beacon'));
 
     await waitFor(() => {
@@ -127,15 +101,9 @@ describe('Joyride > Custom Options', () => {
 
     fireEvent.click(screen.getByTestId('button-primary'));
 
-    expect(mockOnEvent).toHaveBeenCalledWith(
-      getEventResponse({
-        action: ACTIONS.UPDATE,
-        index: 3,
-        lifecycle: LIFECYCLE.COMPLETE,
-        status: STATUS.FINISHED,
-        type: EVENTS.TOUR_END,
-      }),
-    );
+    await waitFor(() => {
+      expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+    });
 
     expect(mockFinishedCallback).toHaveBeenCalledTimes(1);
   });

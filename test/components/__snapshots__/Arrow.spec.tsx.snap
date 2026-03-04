@@ -3,7 +3,7 @@
 exports[`Arrow > arrowComponent > should render custom arrow 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: 10px; width: 32px; height: 16px;"
 >
   <span
@@ -28,7 +28,7 @@ exports[`Arrow > arrowComponent > should render custom arrow 1`] = `
 exports[`Arrow > arrowComponent > should render with left placement 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; right: -16px; top: 20px; width: 16px; height: 32px;"
 >
   <span
@@ -53,7 +53,7 @@ exports[`Arrow > arrowComponent > should render with left placement 1`] = `
 exports[`Arrow > should not have visibility hidden when position is defined 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: 10px; width: 32px; height: 16px;"
 >
   <svg
@@ -72,7 +72,7 @@ exports[`Arrow > should not have visibility hidden when position is defined 1`] 
 exports[`Arrow > should render hidden when position is undefined 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; visibility: hidden;"
 >
   <svg
@@ -91,7 +91,7 @@ exports[`Arrow > should render hidden when position is undefined 1`] = `
 exports[`Arrow > should render with bottom placement 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: 10px; width: 32px; height: 16px;"
 >
   <svg
@@ -110,7 +110,7 @@ exports[`Arrow > should render with bottom placement 1`] = `
 exports[`Arrow > should render with left placement 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; right: -16px; top: 20px; width: 16px; height: 32px;"
 >
   <svg
@@ -129,7 +129,7 @@ exports[`Arrow > should render with left placement 1`] = `
 exports[`Arrow > should render with right placement 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; left: -16px; top: 20px; width: 16px; height: 32px;"
 >
   <svg
@@ -148,7 +148,7 @@ exports[`Arrow > should render with right placement 1`] = `
 exports[`Arrow > should render with top placement 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; bottom: -16px; left: 10px; width: 32px; height: 16px;"
 >
   <svg

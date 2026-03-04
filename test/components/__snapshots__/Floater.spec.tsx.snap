@@ -3,7 +3,7 @@
 exports[`Floater > arrowComponent > should render custom arrow component when provided 1`] = `
 <span
   class="react-joyride__arrow"
-  data-test-id="arrow"
+  data-testid="arrow"
   style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; visibility: hidden;"
 >
   <span

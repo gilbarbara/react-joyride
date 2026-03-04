@@ -126,7 +126,7 @@ export default function JoyrideBeacon(props: BeaconProps) {
       <button
         key="JoyrideBeacon"
         className="react-joyride__beacon"
-        data-test-id="button-beacon"
+        data-testid="button-beacon"
         style={styles.beacon}
         type="button"
         {...sharedProps}

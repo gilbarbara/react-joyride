@@ -54,7 +54,7 @@ const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>((props,
     <button
       ref={ref}
       className="relative h-12 w-12"
-      data-test-id="button-beacon"
+      data-testid="button-beacon"
       type="button"
       {...rest}
     >
@@ -213,7 +213,7 @@ function Tooltip(props: TooltipRenderProps) {
     <div
       {...tooltipProps}
       className="bg-white w-xs overflow-hidden rounded-md"
-      data-test-id="tooltip"
+      data-testid="tooltip"
     >
       <div className="p-4">
         {step.title && <h3 className="text-xl font-bold text-primary mb-4">{step.title}</h3>}

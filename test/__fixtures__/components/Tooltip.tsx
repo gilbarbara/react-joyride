@@ -26,7 +26,7 @@ function TooltipComponent({
     >
       <button
         {...closeProps}
-        data-test-id="button-close"
+        data-testid="button-close"
         style={{
           backgroundColor: 'transparent',
           borderRadius: 0,
@@ -72,7 +72,7 @@ function TooltipComponent({
           <div style={{ display: 'flex', flex: 1 }}>
             <button
               {...skipProps}
-              data-test-id="button-skip"
+              data-testid="button-skip"
               style={{ backgroundColor: 'transparent', color: '#555', padding: 0 }}
               type="button"
             >
@@ -87,11 +87,11 @@ function TooltipComponent({
           }}
         >
           {index > 0 && (
-            <button {...backProps} data-test-id="button-back" type="button">
+            <button {...backProps} data-testid="button-back" type="button">
               {backProps.title}
             </button>
           )}
-          <button {...primaryProps} data-test-id="button-primary" type="button">
+          <button {...primaryProps} data-testid="button-primary" type="button">
             {primaryProps.title}
           </button>
         </div>

@@ -1,18 +1,9 @@
-import { useSetState } from '@gilbarbara/hooks';
-
 import { hexToRGB } from '~/modules/helpers';
 
 import Joyride, { EventData, Props, STATUS, Step } from '../../src';
 
-import { standardSteps } from './steps';
-
 interface CustomOptionsProps extends Omit<Props, 'steps'> {
   finishedCallback: () => void;
-}
-
-interface State {
-  index: number;
-  steps: Array<Step>;
 }
 
 function NextWithProgress() {
@@ -20,39 +11,50 @@ function NextWithProgress() {
 }
 
 function Skip() {
-  return <strong data-test-id="skip-label">Do you really want to skip?</strong>;
+  return <strong data-testid="skip-label">Do you really want to skip?</strong>;
 }
 
 const tourSteps: Array<Step> = [
-  ...standardSteps.slice(0, 3).map(step => {
-    if (step.target === '.mission button') {
-      return {
-        ...step,
-        showProgress: true,
-        locale: {
-          nextLabelWithProgress: <NextWithProgress />,
-          back: <strong>Go Back</strong>,
-          skip: <Skip />,
-        },
-        target: '.mission h2 span',
-        styles: {
-          arrow: {
-            base: 50,
-            color: '#fff',
-            size: 50,
-          },
-          buttonNext: {
-            backgroundColor: '#f04',
-          },
-          options: {
-            arrowColor: '#66a5ff',
-          },
-        },
-      };
-    }
-
-    return step;
-  }),
+  {
+    target: '.projects h2 span',
+    placement: 'bottom',
+    content: 'The first step of many! Keep walking!',
+  },
+  {
+    target: '.mission h2 span',
+    placement: 'bottom',
+    content: 'Can be advanced by clicking an element through the overlay hole.',
+    title: 'Our Mission',
+    showProgress: true,
+    locale: {
+      nextLabelWithProgress: <NextWithProgress />,
+      back: <strong>Go Back</strong>,
+      skip: <Skip />,
+    },
+    styles: {
+      arrow: {
+        base: 50,
+        color: '#fff',
+        size: 50,
+      },
+      buttonNext: {
+        backgroundColor: '#f04',
+      },
+      options: {
+        arrowColor: '#66a5ff',
+      },
+    },
+  },
+  {
+    target: '.about h2 span',
+    placement: 'bottom',
+    content: (
+      <div>
+        <h3>We are the people</h3>
+        <p>Yes, we are, and we are here to make sure all our rights are secure.</p>
+      </div>
+    ),
+  },
   {
     target: '.outro h2 span',
     placement: 'top',
@@ -62,31 +64,23 @@ const tourSteps: Array<Step> = [
 
 export default function CustomOptions(props: CustomOptionsProps) {
   const { finishedCallback, onEvent, ...rest } = props;
-  const [{ steps }, setState] = useSetState<State>({
-    index: 0,
-    steps: tourSteps,
-  });
 
-  const handleJoyrideCallback = (data: EventData) => {
-    const { status } = data;
-
-    setState({ index: data.index });
-
+  const handleEvent = (data: EventData) => {
     onEvent?.(data);
 
-    if (status === STATUS.FINISHED) {
+    if (data.status === STATUS.FINISHED) {
       finishedCallback();
     }
   };
 
   return (
-    <div data-test-id="demo">
+    <div data-testid="demo">
       <Joyride
         continuous
-        onEvent={handleJoyrideCallback}
+        onEvent={handleEvent}
         scrollToFirstStep
         stepOptions={{ showSkipButton: true }}
-        steps={steps}
+        steps={tourSteps}
         styles={{
           beaconInner: {
             backgroundColor: '#ffe166',

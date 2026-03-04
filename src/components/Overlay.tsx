@@ -99,12 +99,12 @@ export default function JoyrideOverlay(props: OverlayProps) {
     <div
       aria-hidden="true"
       className="react-joyride__overlay"
-      data-test-id="overlay"
+      data-testid="overlay"
       style={overlayStyles}
     >
       <svg
         className="react-joyride__spotlight"
-        data-test-id="spotlight"
+        data-testid="spotlight"
         style={{
           height: overlayHeight,
           left: 0,

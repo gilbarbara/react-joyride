@@ -24,7 +24,7 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
   if (!hidePrimaryButton) {
     output.primary = (
       <button
-        data-test-id="button-primary"
+        data-testid="button-primary"
         style={styles.buttonNext}
         type="button"
         {...primaryProps}
@@ -36,7 +36,7 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
     output.skip = (
       <button
         aria-live="off"
-        data-test-id="button-skip"
+        data-testid="button-skip"
         style={styles.buttonSkip}
         type="button"
         {...skipProps}
@@ -46,12 +46,12 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
 
   if (!hideBackButton && index > 0) {
     output.back = (
-      <button data-test-id="button-back" style={styles.buttonBack} type="button" {...backProps} />
+      <button data-testid="button-back" style={styles.buttonBack} type="button" {...backProps} />
     );
   }
 
   output.close = !hideCloseButton && (
-    <CloseButton data-test-id="button-close" styles={styles.buttonClose} {...closeProps} />
+    <CloseButton data-testid="button-close" styles={styles.buttonClose} {...closeProps} />
   );
 
   const ariaProps = title

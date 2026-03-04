@@ -5,14 +5,19 @@ import { EventData, Props, Status, Step } from '../../src/types';
 
 import { standardSteps } from './steps';
 
+interface StandardProps extends Omit<Props, 'run' | 'steps'> {
+  afterHook?: Step['after'];
+  beforeHook?: Step['before'];
+}
+
 interface State {
   index: number;
   run: boolean;
   steps: Array<Step>;
 }
 
-export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
-  const { onEvent, ...rest } = props;
+export default function Component(props: StandardProps) {
+  const { afterHook, beforeHook, onEvent, ...rest } = props;
   const [{ run, steps }, setState] = useSetState<State>({
     index: 0,
     run: false,
@@ -23,10 +28,9 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
         placement: 'center',
         target: 'body',
       },
-      ...standardSteps.map(step => ({
-        ...step,
-        target: step.target === '.mission button' ? '.mission h2 span' : step.target,
-      })),
+      standardSteps[0],
+      { ...standardSteps[1], before: beforeHook, after: afterHook },
+      ...standardSteps.slice(2),
     ],
   });
 
@@ -48,7 +52,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
 
   return (
     <>
-      <div data-test-id="demo">
+      <div data-testid="demo">
         <Joyride
           continuous
           onEvent={handleJoyrideCallback}
@@ -66,7 +70,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
                 </h1>
-                <button data-test-id="start" onClick={handleClickStart} type="button">
+                <button data-testid="start" onClick={handleClickStart} type="button">
                   Let's Go!
                 </button>
               </div>

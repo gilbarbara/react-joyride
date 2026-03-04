@@ -229,7 +229,7 @@ export default function JoyrideFloater(props: FloaterProps) {
       <div
         ref={tooltipFloating.refs.setFloating}
         className="react-joyride__floater"
-        data-test-id="floater"
+        data-testid="floater"
         id={`react-joyride-step-${index}`}
         style={styles}
       >
@@ -258,7 +258,7 @@ export default function JoyrideFloater(props: FloaterProps) {
       <div
         ref={beaconFloating.refs.setFloating}
         className="react-joyride__floater"
-        data-test-id="floater-beacon"
+        data-testid="floater-beacon"
         id={`react-joyride-step-${index}-beacon`}
         style={sortObjectKeys({
           ...beaconFloating.floatingStyles,
