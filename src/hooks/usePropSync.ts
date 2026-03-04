@@ -1,76 +1,75 @@
-import { RefObject } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 import isEqual from '@gilbarbara/deep-equal';
-import { useEffectDeepCompare } from '@gilbarbara/hooks';
 import is from 'is-lite';
 
 import { defaultProps } from '~/defaults';
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+import { treeChanges } from '~/modules/changes';
 import { mergeProps } from '~/modules/helpers';
 import { validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { Actions, Controls, Props, State, Status } from '~/types';
+import { Actions, Controls, Props, Status, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
 interface UsePropSyncParams {
-  changedProps: (key?: string) => boolean;
   controls: Controls;
-  previousProps: MergedProps | undefined;
   props: MergedProps;
-  state: State;
+  state: StoreState;
   store: RefObject<ReturnType<typeof createStore>>;
 }
 
-export default function usePropSync({
-  changedProps,
-  controls,
-  previousProps,
-  props,
-  state,
-  store,
-}: UsePropSyncParams): void {
+export default function usePropSync({ controls, props, state, store }: UsePropSyncParams): void {
   const { debug, run, stepIndex, steps } = props;
-  const { status } = state;
 
-  useEffectDeepCompare(() => {
-    if (!previousProps) {
+  const previousPropsRef = useRef<MergedProps | undefined>(undefined);
+  const stateRef = useRef(state);
+  const controlsRef = useRef(controls);
+
+  stateRef.current = state;
+  controlsRef.current = controls;
+
+  useEffect(() => {
+    const previousProps = previousPropsRef.current;
+
+    previousPropsRef.current = props;
+
+    if (!previousProps || props === previousProps) {
       return;
     }
 
-    if (changedProps()) {
-      const { stepIndex: previousStepIndex, steps: previousSteps } = previousProps;
+    const { changed } = treeChanges(props, previousProps);
 
-      if (!isEqual(previousSteps, steps)) {
-        if (validateSteps(steps, debug)) {
-          store.current.setSteps(steps);
-        } else {
-          // eslint-disable-next-line no-console
-          console.warn('Steps are not valid', steps);
-        }
-      }
-
-      if (changedProps('run')) {
-        if (run) {
-          if (store.current.getState().size) {
-            controls.start(stepIndex);
-          }
-        } else {
-          controls.stop();
-        }
-      } else if (is.number(stepIndex) && changedProps('stepIndex')) {
-        const nextAction: Actions =
-          is.number(previousStepIndex) && previousStepIndex < stepIndex
-            ? ACTIONS.NEXT
-            : ACTIONS.PREV;
-
-        if (!([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
-          store.current.updateState(
-            { action: nextAction, index: stepIndex, lifecycle: LIFECYCLE.INIT },
-            true,
-          );
-        }
+    if (!isEqual(previousProps.steps, steps)) {
+      if (validateSteps(steps, debug)) {
+        store.current.setSteps(steps);
+      } else {
+        // eslint-disable-next-line no-console
+        console.warn('Steps are not valid', steps);
       }
     }
-  }, [changedProps, controls, debug, previousProps, run, status, stepIndex, steps, store]);
+
+    if (changed('run')) {
+      if (run) {
+        if (store.current.getState().size) {
+          controlsRef.current.start(stepIndex);
+        }
+      } else {
+        controlsRef.current.stop();
+      }
+    } else if (is.number(stepIndex) && changed('stepIndex')) {
+      const nextAction: Actions =
+        is.number(previousProps.stepIndex) && previousProps.stepIndex < stepIndex
+          ? ACTIONS.NEXT
+          : ACTIONS.PREV;
+
+      if (!([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(stateRef.current.status)) {
+        store.current.updateState(
+          { action: nextAction, index: stepIndex, lifecycle: LIFECYCLE.INIT },
+          true,
+        );
+      }
+    }
+  }, [debug, props, run, stepIndex, steps, store]);
 }

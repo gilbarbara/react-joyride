@@ -47,8 +47,7 @@
     "is-lite": "^2.0.0",
     "react-innertext": "^1.1.5",
     "scroll": "^3.0.1",
-    "scrollparent": "^2.1.0",
-    "tree-changes-hook": "^0.11.3"
+    "scrollparent": "^2.1.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
