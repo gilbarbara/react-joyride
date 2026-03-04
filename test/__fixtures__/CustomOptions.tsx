@@ -2,7 +2,7 @@ import { useSetState } from '@gilbarbara/hooks';
 
 import { hexToRGB } from '~/modules/helpers';
 
-import Joyride, { CallBackProps, Props, STATUS, Step } from '../../src';
+import Joyride, { EventData, Props, STATUS, Step } from '../../src';
 
 import { standardSteps } from './steps';
 
@@ -61,18 +61,18 @@ const tourSteps: Array<Step> = [
 ];
 
 export default function CustomOptions(props: CustomOptionsProps) {
-  const { callback, finishedCallback, ...rest } = props;
+  const { finishedCallback, onEvent, ...rest } = props;
   const [{ steps }, setState] = useSetState<State>({
     index: 0,
     steps: tourSteps,
   });
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = (data: EventData) => {
     const { status } = data;
 
     setState({ index: data.index });
 
-    callback?.(data);
+    onEvent?.(data);
 
     if (status === STATUS.FINISHED) {
       finishedCallback();
@@ -82,8 +82,8 @@ export default function CustomOptions(props: CustomOptionsProps) {
   return (
     <div data-test-id="demo">
       <Joyride
-        callback={handleJoyrideCallback}
         continuous
+        onEvent={handleJoyrideCallback}
         scrollToFirstStep
         stepOptions={{ showSkipButton: true }}
         steps={steps}

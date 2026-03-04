@@ -146,7 +146,7 @@ describe('useControls', () => {
       const state = store.getSnapshot();
 
       expect(state.action).toBe(ACTIONS.UPDATE);
-      expect(state.lifecycle).toBe(LIFECYCLE.TOOLTIP);
+      expect(state.lifecycle).toBe(LIFECYCLE.TOOLTIP_BEFORE);
     });
 
     it('should not update state when not RUNNING', () => {
@@ -334,14 +334,12 @@ describe('useControls', () => {
   });
 
   describe('info', () => {
-    it('should return state without positioned, scrolling, and waiting', () => {
+    it('should return state without positioned', () => {
       const { result } = setup({ index: 1 });
 
       const info = result.current.info();
 
       expect(info).not.toHaveProperty('positioned');
-      expect(info).not.toHaveProperty('scrolling');
-      expect(info).not.toHaveProperty('waiting');
       expect(info).toHaveProperty('index', 1);
       expect(info).toHaveProperty('status', STATUS.RUNNING);
     });

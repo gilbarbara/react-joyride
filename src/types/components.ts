@@ -81,17 +81,6 @@ export type BeaconRenderProps = {
   step: StepMerged;
 };
 
-export type Callback = (data: CallBackProps) => void;
-
-export type CallBackProps = Simplify<
-  TourData & {
-    /**
-     * The type of the event.
-     */
-    type: Events;
-  }
->;
-
 export type Controls = {
   close: (origin?: Origin | null) => void;
   go: (nextIndex: number) => void;
@@ -104,6 +93,33 @@ export type Controls = {
   start: (nextIndex?: number) => void;
   stop: (advance?: boolean) => void;
 };
+
+export type EventData = Simplify<
+  TourData & {
+    /**
+     * The error that occurred (only populated for ERROR events).
+     */
+    error: Error | null;
+    /**
+     * Scroll data (only populated for SCROLL_START/SCROLL_END events).
+     */
+    scroll: ScrollData | null;
+    /**
+     * Whether the tour is currently scrolling to a target.
+     */
+    scrolling: boolean;
+    /**
+     * The type of the event.
+     */
+    type: Events;
+    /**
+     * Whether the tour is waiting for a before hook or target polling.
+     */
+    waiting: boolean;
+  }
+>;
+
+export type EventHandler = (data: EventData) => void;
 
 export type LoaderRenderProps = {
   nonce?: string;
@@ -124,11 +140,6 @@ export type OverlayProps = Simplify<
 export type Props = Simplify<
   BaseProps & {
     /**
-     * A function to be called when Joyride's state changes.
-     * It returns a single parameter with the state.
-     */
-    callback?: Callback;
-    /**
      * The tour is played sequentially with the Next button.
      * @default false
      */
@@ -148,6 +159,10 @@ export type Props = Simplify<
      * A nonce value for inline styles (Content Security Policy - CSP)
      */
     nonce?: string;
+    /**
+     * A function called when Joyride fires an event.
+     */
+    onEvent?: EventHandler;
     /**
      *  A custom element to render the tooltip.
      *  It can be a string (CSS selector) or an HTMLElement.
@@ -170,7 +185,7 @@ export type Props = Simplify<
     scrollToFirstStep?: boolean;
     /**
      * Setting a number here will turn Joyride into `controlled` mode.
-     * You'll have to keep an internal state by yourself and update it with the events in the `callback`.
+     * You'll have to keep an internal state by yourself and update it with the events in `onEvent`.
      */
     stepIndex?: number;
     /**
@@ -184,6 +199,25 @@ export type Props = Simplify<
   }
 >;
 
+export type ScrollData = {
+  /**
+   * The scroll duration in milliseconds.
+   */
+  duration: number;
+  /**
+   * The element being scrolled.
+   */
+  element: Element;
+  /**
+   * The scroll position before scrolling.
+   */
+  initial: number;
+  /**
+   * The computed scroll destination.
+   */
+  target: number;
+};
+
 export type SelectorOrElement = string | null | HTMLElement;
 
 export type State = {
@@ -192,8 +226,10 @@ export type State = {
   index: number;
   lifecycle: Lifecycle;
   origin: Origin | null;
+  scrolling: boolean;
   size: number;
   status: Status;
+  waiting: boolean;
 };
 
 export type Step = Simplify<
@@ -397,7 +433,7 @@ export type StepTarget =
   | RefObject<HTMLElement | null>
   | (() => HTMLElement | null);
 
-export type StoreState = State & { positioned: boolean; scrolling: boolean; waiting: boolean };
+export type StoreState = State & { positioned: boolean };
 
 export type TooltipProps = {
   continuous: boolean;

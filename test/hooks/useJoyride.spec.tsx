@@ -1,7 +1,7 @@
 import useJoyride from '~/hooks/useJoyride';
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, isElementVisible, scrollTo } from '~/modules/dom';
-import { act, callbackResponseFactory, renderHook, waitFor } from '~/test-utils';
+import { act, eventResponseFactory, renderHook, waitFor } from '~/test-utils';
 
 import { Step } from '~/types';
 
@@ -21,9 +21,18 @@ vi.mock('~/modules/dom', async () => {
   };
 });
 
+vi.mock('~/modules/helpers', async () => {
+  const actual = await vi.importActual('~/modules/helpers');
+
+  return {
+    ...actual,
+    needsScrolling: vi.fn(() => false),
+  };
+});
+
 describe('useJoyride', () => {
-  const mockCallback = vi.fn();
-  const getCallbackResponse = callbackResponseFactory({ size: 3 });
+  const mockOnEvent = vi.fn();
+  const getEventResponse = eventResponseFactory({ size: 3 });
 
   const testSteps: Step[] = [
     { target: '.step-1', content: 'Step 1', disableBeacon: true },
@@ -34,7 +43,7 @@ describe('useJoyride', () => {
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
   beforeEach(() => {
-    mockCallback.mockClear();
+    mockOnEvent.mockClear();
     consoleWarnSpy.mockClear();
     vi.mocked(getElement).mockClear();
     vi.mocked(getElement).mockReturnValue(mockElement);
@@ -50,7 +59,7 @@ describe('useJoyride', () => {
   describe('Return Shape', () => {
     it('should return controls, state, step, and Tour', () => {
       const { result } = renderHook(() =>
-        useJoyride({ steps: testSteps, callback: mockCallback, run: true, continuous: true }),
+        useJoyride({ steps: testSteps, onEvent: mockOnEvent, run: true, continuous: true }),
       );
 
       expect(result.current).toHaveProperty('controls');
@@ -94,8 +103,6 @@ describe('useJoyride', () => {
       expect(state).toHaveProperty('status');
 
       expect(state).not.toHaveProperty('positioned');
-      expect(state).not.toHaveProperty('scrolling');
-      expect(state).not.toHaveProperty('waiting');
     });
 
     it('should return step as null when no steps', () => {
@@ -146,7 +153,7 @@ describe('useJoyride', () => {
       const { result } = renderHook(() =>
         useJoyride({
           steps: testSteps,
-          callback: mockCallback,
+          onEvent: mockOnEvent,
           run: true,
           continuous: true,
         }),
@@ -169,7 +176,7 @@ describe('useJoyride', () => {
       const { result } = renderHook(() =>
         useJoyride({
           steps: testSteps,
-          callback: mockCallback,
+          onEvent: mockOnEvent,
           run: true,
           continuous: true,
         }),
@@ -200,7 +207,7 @@ describe('useJoyride', () => {
       const { result } = renderHook(() =>
         useJoyride({
           steps: testSteps,
-          callback: mockCallback,
+          onEvent: mockOnEvent,
           run: true,
           continuous: true,
         }),
@@ -218,7 +225,7 @@ describe('useJoyride', () => {
         expect(result.current.state.status).toBe(STATUS.READY);
       });
 
-      expect(mockCallback).toHaveBeenCalledWith(
+      expect(mockOnEvent).toHaveBeenCalledWith(
         expect.objectContaining({
           action: ACTIONS.SKIP,
           status: STATUS.SKIPPED,
@@ -266,7 +273,7 @@ describe('useJoyride', () => {
           run: true,
           continuous: true,
           stepIndex: 0,
-          callback: mockCallback,
+          onEvent: mockOnEvent,
         },
       });
 
@@ -279,7 +286,7 @@ describe('useJoyride', () => {
         run: true,
         continuous: true,
         stepIndex: 1,
-        callback: mockCallback,
+        onEvent: mockOnEvent,
       });
 
       await waitFor(() => {
@@ -293,19 +300,19 @@ describe('useJoyride', () => {
       renderHook(() =>
         useJoyride({
           steps: testSteps,
-          callback: mockCallback,
+          onEvent: mockOnEvent,
           run: true,
           continuous: true,
         }),
       );
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         1,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.START,
           index: 0,
           lifecycle: LIFECYCLE.INIT,

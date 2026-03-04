@@ -250,7 +250,7 @@ describe('Floater', () => {
 
       fireEvent.click(screen.getByTestId('button-beacon'));
 
-      expect(updateState).toHaveBeenCalledWith({ lifecycle: LIFECYCLE.TOOLTIP });
+      expect(updateState).toHaveBeenCalledWith({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE });
     });
 
     it('should ignore mouseenter when step.event is not hover', () => {
@@ -288,7 +288,7 @@ describe('Floater', () => {
 
       fireEvent.mouseEnter(screen.getByTestId('button-beacon'));
 
-      expect(updateState).toHaveBeenCalledWith({ lifecycle: LIFECYCLE.TOOLTIP });
+      expect(updateState).toHaveBeenCalledWith({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE });
     });
   });
 

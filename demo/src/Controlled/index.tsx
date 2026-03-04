@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import Joyride, {
   ACTIONS,
-  type CallBackProps,
+  type EventData,
   EVENTS,
   type Events,
   STATUS,
@@ -170,7 +170,7 @@ export default function ControlledDemo() {
     a11yChecker();
   });
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleEvent = (data: EventData) => {
     const { action, index, status, type } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)) {
@@ -223,11 +223,11 @@ export default function ControlledDemo() {
       <Container className="py-4 overflow-hidden">
         <Joyride
           arrowComponent={CustomArrow}
-          callback={handleJoyrideCallback}
           continuous
           locale={{
             nextLabelWithProgress: 'Next ({step} of {steps})',
           }}
+          onEvent={handleEvent}
           run={run}
           scrollToFirstStep
           stepIndex={stepIndex}

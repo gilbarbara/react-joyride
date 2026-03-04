@@ -212,12 +212,12 @@ export default function JoyrideFloater(props: FloaterProps) {
       return;
     }
 
-    updateState({ lifecycle: LIFECYCLE.TOOLTIP });
+    updateState({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE });
   };
 
   let content: ReactNode = null;
 
-  if (lifecycle === LIFECYCLE.TOOLTIP) {
+  if (lifecycle === LIFECYCLE.TOOLTIP || lifecycle === LIFECYCLE.TOOLTIP_BEFORE) {
     const styles: CSSProperties = sortObjectKeys({
       ...floaterStyles,
       ...tooltipFloating.floatingStyles,
@@ -253,7 +253,7 @@ export default function JoyrideFloater(props: FloaterProps) {
         )}
       </div>
     );
-  } else if (lifecycle === LIFECYCLE.BEACON) {
+  } else if (lifecycle === LIFECYCLE.BEACON || lifecycle === LIFECYCLE.BEACON_BEFORE) {
     content = (
       <div
         ref={beaconFloating.refs.setFloating}

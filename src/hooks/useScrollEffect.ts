@@ -1,7 +1,7 @@
 import { RefObject, useEffect, useRef } from 'react';
 
 import { defaultProps } from '~/defaults';
-import { LIFECYCLE, STATUS } from '~/literals';
+import { EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
 import {
   getElement,
@@ -16,11 +16,12 @@ import {
 import { logDebug, mergeProps } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
+import { EventHandler, Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
 interface UseScrollEffectParams {
+  onEvent: EventHandler | undefined;
   previousState: StoreState | undefined;
   props: MergedProps;
   state: StoreState;
@@ -40,13 +41,13 @@ function adjustForPlacement(
   const { beaconPosition, lifecycle, scrollOffset, step } = options;
   let adjustedY = scrollY - step.spotlightPadding.top;
 
-  if (lifecycle === LIFECYCLE.BEACON && beaconPosition?.placement) {
+  if (lifecycle === LIFECYCLE.BEACON_BEFORE && beaconPosition?.placement) {
     const y = getMainAxisOffset(beaconPosition);
 
     if (!['bottom'].includes(beaconPosition.placement)) {
       adjustedY += Math.floor(y - scrollOffset);
     }
-  } else if (lifecycle === LIFECYCLE.TOOLTIP) {
+  } else if (lifecycle === LIFECYCLE.TOOLTIP_BEFORE) {
     const { placement } = step;
 
     if (placement === 'top') {
@@ -87,6 +88,7 @@ function getMainAxisOffset(data: PositionData): number {
 }
 
 export default function useScrollEffect({
+  onEvent,
   previousState,
   props,
   state,
@@ -99,11 +101,13 @@ export default function useScrollEffect({
   const previousStateRef = useRef(previousState);
   const propsRef = useRef(props);
   const stepRef = useRef(step);
+  const onEventRef = useRef(onEvent);
 
   stateRef.current = state;
   previousStateRef.current = previousState;
   propsRef.current = props;
   stepRef.current = step;
+  onEventRef.current = onEvent;
 
   useEffect(() => {
     return () => {
@@ -120,7 +124,10 @@ export default function useScrollEffect({
     const currentStep = stepRef.current;
     const { debug, scrollDuration } = propsRef.current;
 
-    if (status === STATUS.RUNNING && scrolling && changedTo('positioned', true)) {
+    const isBeforePhase =
+      lifecycle === LIFECYCLE.BEACON_BEFORE || lifecycle === LIFECYCLE.TOOLTIP_BEFORE;
+
+    if (status === STATUS.RUNNING && isBeforePhase && scrolling && changedTo('positioned', true)) {
       const target = getElement(currentStep.target);
       const beaconPosition = store.current.getPositionData('beacon');
       const hasCustomScroll = hasCustomScrollParent(target);
@@ -138,17 +145,41 @@ export default function useScrollEffect({
 
       cancelScrollRef.current?.();
 
+      const fireScrollEvent = (
+        type: typeof EVENTS.SCROLL_START | typeof EVENTS.SCROLL_END,
+        scrollData: { duration: number; element: Element; initial: number; target: number },
+      ) => {
+        onEventRef.current?.({
+          ...store.current.getEventState(),
+          error: null,
+          scroll: scrollData,
+          step: currentStep,
+          type,
+        });
+      };
+
       const handleScroll = async () => {
         if (hasCustomScroll && !hasPosition(scrollParent as HTMLElement)) {
+          const pageElement = scrollDocument();
           const pageScrollY = getScrollTargetToCenter(scrollParent as Element);
+          const pageScrollData = {
+            initial: pageElement.scrollTop,
+            target: pageScrollY,
+            element: pageElement,
+            duration: scrollDuration,
+          };
+
+          fireScrollEvent(EVENTS.SCROLL_START, pageScrollData);
 
           const { cancel: cancelPage, promise: pagePromise } = scrollTo(pageScrollY, {
-            element: scrollDocument(),
+            element: pageElement,
             duration: scrollDuration,
           });
 
           cancelScrollRef.current = cancelPage;
           await pagePromise;
+
+          fireScrollEvent(EVENTS.SCROLL_END, pageScrollData);
         }
 
         const baseScrollY = Math.floor(getScrollTo(target, currentStep.scrollOffset)) || 0;
@@ -161,19 +192,30 @@ export default function useScrollEffect({
               step: currentStep,
             });
 
+        const scrollElement = scrollParent as Element;
+        const scrollData = {
+          initial: scrollElement.scrollTop,
+          target: scrollY,
+          element: scrollElement,
+          duration: scrollDuration,
+        };
+
+        fireScrollEvent(EVENTS.SCROLL_START, scrollData);
+
         const { cancel, promise } = scrollTo(scrollY, {
-          element: scrollParent as Element,
+          element: scrollElement,
           duration: scrollDuration,
         });
 
         cancelScrollRef.current = cancel;
         await promise;
 
-        store.current.updateState({ positioned: false, scrolling: false });
+        fireScrollEvent(EVENTS.SCROLL_END, scrollData);
+        store.current.updateState({ scrolling: false });
       };
 
       handleScroll().catch(() => {
-        store.current.updateState({ positioned: false, scrolling: false });
+        store.current.updateState({ scrolling: false });
       });
     }
   }, [index, lifecycle, positioned, scrolling, status, store]);

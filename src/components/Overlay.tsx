@@ -8,7 +8,7 @@ import { generateOverlayPath, generateSpotlightPath } from '~/modules/svg';
 
 import { Lifecycle, OverlayProps } from '~/types';
 
-const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON, LIFECYCLE.ERROR];
+const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON_BEFORE, LIFECYCLE.BEACON, LIFECYCLE.ERROR];
 
 export default function JoyrideOverlay(props: OverlayProps) {
   const {
@@ -52,8 +52,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
     previousLifecycleRef.current = lifecycle;
 
     if (
-      lifecycle === LIFECYCLE.TOOLTIP &&
+      (lifecycle === LIFECYCLE.TOOLTIP || lifecycle === LIFECYCLE.TOOLTIP_BEFORE) &&
       previousLifecycle !== LIFECYCLE.TOOLTIP &&
+      previousLifecycle !== LIFECYCLE.TOOLTIP_BEFORE &&
       placement !== 'center'
     ) {
       setShowSpotlight(true);

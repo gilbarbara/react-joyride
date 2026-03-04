@@ -21,7 +21,6 @@ export default function JoyrideStep(props: StepProps) {
     lifecycle,
     nonce,
     portalElement,
-    scrolling,
     setPositionData,
     shouldScroll,
     size,
@@ -41,7 +40,7 @@ export default function JoyrideStep(props: StepProps) {
   });
 
   const target = getElement(step.target);
-  const open = lifecycle === LIFECYCLE.TOOLTIP && !scrolling;
+  const open = lifecycle === LIFECYCLE.TOOLTIP;
 
   if (!validateStep(step) || !is.domElement(target)) {
     return null;
