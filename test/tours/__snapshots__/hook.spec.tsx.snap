@@ -1,0 +1,1278 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Joyride > Hook > should advance to STEP 7 and finish the tour > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-6"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: fixed; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(487px, 359px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="That's it folks!"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="6"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px; text-align: center;"
+      >
+        That's it folks!
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      />
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Last"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Last"
+        type="button"
+      >
+        Last
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Hook > should fire STEP 3 before hook again and render Tooltip > overlay 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Joyride > Hook > should fire STEP 3 before hook again and render Tooltip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-2"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-labelledby="joyride-tooltip-title"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="2"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <h4
+        id="joyride-tooltip-title"
+        style="font-size: 18px; margin: 0px;"
+      >
+        Our Mission
+      </h4>
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        Can be advanced by clicking an element through the overlay hole.
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="Skip"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="Skip"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <span
+    class="react-joyride__arrow"
+    data-testid="arrow"
+    style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
+  >
+    <svg
+      height="16"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        fill="currentColor"
+        points="32,16 16,0 0,16"
+      />
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Hook > should fire STEP 3 before hook and render Beacon 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater-beacon"
+  id="react-joyride-step-2-beacon"
+  style="left: 0px; position: absolute; top: 0px; z-index: 200; transform: translate(-25px, -18px);"
+>
+  <button
+    aria-label="Open the dialog"
+    class="react-joyride__beacon"
+    data-testid="button-beacon"
+    style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px;"
+    title="Open the dialog"
+    type="button"
+  >
+    <span
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid rgb(255, 0, 68); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    />
+    <span
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+    />
+  </button>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 1 Tooltip > overlay 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 1 Tooltip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-0"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: fixed; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(487px, 359px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="Let's begin our journey!"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="0"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        <h2>
+          Let's begin our journey!
+        </h2>
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="S-K-I-P"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="S-K-I-P"
+          type="button"
+        >
+          <strong
+            aria-label="skip"
+          >
+            S-K-I-P
+          </strong>
+        </button>
+      </div>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 2 Tooltip > overlay 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 2 Tooltip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-1"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="The first step of many! Keep walking!"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="1"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        The first step of many! Keep walking!
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="Skip"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="Skip"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <span
+    class="react-joyride__arrow"
+    data-testid="arrow"
+    style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
+  >
+    <svg
+      height="16"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        fill="currentColor"
+        points="32,16 16,0 0,16"
+      />
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 2 Tooltip AGAIN > overlay 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 2 Tooltip AGAIN > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-1"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="The first step of many! Keep walking!"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="1"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        The first step of many! Keep walking!
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="Skip"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="Skip"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <span
+    class="react-joyride__arrow"
+    data-testid="arrow"
+    style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
+  >
+    <svg
+      height="16"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        fill="currentColor"
+        points="32,16 16,0 0,16"
+      />
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 3 Tooltip > overlay 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 3 Tooltip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-2"
+  style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-labelledby="joyride-tooltip-title"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="2"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <h4
+        id="joyride-tooltip-title"
+        style="font-size: 18px; margin: 0px;"
+      >
+        Our Mission
+      </h4>
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        Can be advanced by clicking an element through the overlay hole.
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="Skip"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="Skip"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <span
+    class="react-joyride__arrow"
+    data-testid="arrow"
+    style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
+  >
+    <svg
+      height="16"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        fill="currentColor"
+        points="32,16 16,0 0,16"
+      />
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 4 Beacon 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater-beacon"
+  id="react-joyride-step-3-beacon"
+  style="left: 0px; position: absolute; top: 0px; z-index: 200; transform: translate(-25px, -18px);"
+>
+  <button
+    aria-label="Open the dialog"
+    class="react-joyride__beacon"
+    data-testid="button-beacon"
+    style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px;"
+    title="Open the dialog"
+    type="button"
+  >
+    <span
+      style="animation: joyride-beacon-outer 1.2s infinite ease-in-out; background-color: rgba(255, 0, 68, 0.2); border: 2px solid rgb(255, 0, 68); border-radius: 50%; box-sizing: border-box; display: block; height: 100%; left: 0px; opacity: 0.9; position: absolute; top: 0px; transform-origin: center; width: 100%;"
+    />
+    <span
+      style="animation: joyride-beacon-inner 1.2s infinite ease-in-out; background-color: rgb(255, 0, 68); border-radius: 50%; display: block; height: 50%; left: 50%; opacity: 0.7; position: absolute; top: 50%; transform: translate(-50%, -50%); width: 50%;"
+    />
+  </button>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 4 Tooltip > overlay 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      fill-rule="evenodd"
+      style="cursor: default; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="rgba(0, 0, 0, 0.5)"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 4 Tooltip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-3"
+  style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="We are the people"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="3"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        <div>
+          <h3>
+            We are the people
+          </h3>
+          <svg
+            height="96px"
+            preserveAspectRatio="xMidYMid"
+            version="1.1"
+            viewBox="0 0 96 96"
+            width="96px"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g>
+              <path
+                d="M83.2922435,72.3864207 C69.5357835,69.2103145 56.7313553,66.4262214 62.9315626,54.7138297 C81.812194,19.0646376 67.93573,0 48.0030634,0 C27.6743835,0 14.1459311,19.796662 33.0745641,54.7138297 C39.4627778,66.4942237 26.1743334,69.2783168 12.7138832,72.3864207 C0.421472164,75.2265157 -0.0385432192,81.3307198 0.0014581185,92.0030767 L0.0174586536,96.0032105 L95.9806678,96.0032105 L95.9966684,92.1270809 C96.04467,81.3747213 95.628656,75.2385161 83.2922435,72.3864207 Z"
+                fill="#000000"
+              />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="Skip"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="Skip"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <span
+    class="react-joyride__arrow"
+    data-testid="arrow"
+    style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
+  >
+    <svg
+      height="16"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        fill="currentColor"
+        points="32,16 16,0 0,16"
+      />
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Hook > should render STEP 6 Tooltip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-5"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, -86px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="Text only steps — Because sometimes you don't really need a proper heading"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="5"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        Text only steps — Because sometimes you don't really need a proper heading
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="Skip"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="Skip"
+          type="button"
+        >
+          Skip
+        </button>
+      </div>
+      <button
+        aria-label="Back"
+        data-action="back"
+        data-testid="button-back"
+        role="button"
+        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
+        title="Back"
+        type="button"
+      >
+        Back
+      </button>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+  <span
+    class="react-joyride__arrow"
+    data-testid="arrow"
+    style="align-items: center; color: rgb(255, 255, 255); display: inline-flex; justify-content: center; position: absolute; bottom: -16px; left: -1px; width: 32px; height: 16px;"
+  >
+    <svg
+      height="16"
+      width="32"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon
+        fill="currentColor"
+        points="0,0 16,16 32,0"
+      />
+    </svg>
+  </span>
+</div>
+`;
+
+exports[`Joyride > Hook > should render the content 1`] = `
+<div
+  data-testid="demo"
+>
+  <main>
+    <div
+      class="hero"
+    >
+      <div
+        class="container"
+      >
+        <div
+          class="hero__content"
+        >
+          <h1>
+            <span>
+              Create walkthroughs and guided tours for your ReactJS apps.
+            </span>
+          </h1>
+          <button
+            data-testid="start"
+            type="button"
+          >
+            Let's Go!
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="demo__section projects"
+    >
+      <div
+        class="container"
+      >
+        <h2>
+          <span>
+            Projects
+          </span>
+        </h2>
+        <div
+          class="list"
+        >
+          <div>
+            Installation
+          </div>
+          <div>
+            Documentation
+          </div>
+          <div>
+            Support
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="demo__section mission"
+    >
+      <div
+        class="container"
+      >
+        <h2>
+          <span>
+            Mission
+          </span>
+        </h2>
+      </div>
+    </div>
+    <div
+      class="demo__section about"
+    >
+      <div
+        class="container"
+      >
+        <h2>
+          <span>
+            About
+          </span>
+        </h2>
+      </div>
+    </div>
+  </main>
+  <footer
+    class="demo__footer"
+  >
+    <button
+      type="button"
+    >
+      Joyride
+    </button>
+  </footer>
+</div>
+`;
+
+exports[`Joyride > Hook > should restart the tour after skip > tooltip 1`] = `
+<div
+  class="react-joyride__floater"
+  data-testid="floater"
+  id="react-joyride-step-0"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: fixed; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(487px, 359px);"
+>
+  <div
+    aria-describedby="joyride-tooltip-content"
+    aria-label="Let's begin our journey!"
+    aria-modal="true"
+    class="react-joyride__tooltip"
+    data-joyride-step="0"
+    role="alertdialog"
+    style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  >
+    <div
+      style="line-height: 1.4; text-align: center;"
+    >
+      <div
+        id="joyride-tooltip-content"
+        style="padding: 20px 10px;"
+      >
+        <h2>
+          Let's begin our journey!
+        </h2>
+      </div>
+    </div>
+    <div
+      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+    >
+      <div
+        style="flex: 1 1 0%;"
+      >
+        <button
+          aria-label="S-K-I-P"
+          aria-live="off"
+          data-action="skip"
+          data-testid="button-skip"
+          role="button"
+          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+          title="S-K-I-P"
+          type="button"
+        >
+          <strong
+            aria-label="skip"
+          >
+            S-K-I-P
+          </strong>
+        </button>
+      </div>
+      <button
+        aria-label="Next"
+        data-action="primary"
+        data-testid="button-primary"
+        role="button"
+        style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
+        title="Next"
+        type="button"
+      >
+        Next
+      </button>
+    </div>
+    <button
+      aria-label="Close"
+      data-action="close"
+      data-testid="button-close"
+      role="button"
+      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
+      title="Close"
+      type="button"
+    >
+      <svg
+        height="14px"
+        preserveAspectRatio="xMidYMid"
+        version="1.1"
+        viewBox="0 0 18 18"
+        width="14px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g>
+          <path
+            d="M8.13911129,9.00268191 L0.171521827,17.0258467 C-0.0498027049,17.248715 -0.0498027049,17.6098394 0.171521827,17.8327545 C0.28204354,17.9443526 0.427188206,17.9998706 0.572051765,17.9998706 C0.71714958,17.9998706 0.862013139,17.9443526 0.972581703,17.8327545 L9.0000937,9.74924618 L17.0276057,17.8327545 C17.1384085,17.9443526 17.2832721,17.9998706 17.4281356,17.9998706 C17.5729992,17.9998706 17.718097,17.9443526 17.8286656,17.8327545 C18.0499901,17.6098862 18.0499901,17.2487618 17.8286656,17.0258467 L9.86135722,9.00268191 L17.8340066,0.973848225 C18.0553311,0.750979934 18.0553311,0.389855532 17.8340066,0.16694039 C17.6126821,-0.0556467968 17.254037,-0.0556467968 17.0329467,0.16694039 L9.00042166,8.25611765 L0.967006424,0.167268345 C0.745681892,-0.0553188426 0.387317931,-0.0553188426 0.165993399,0.167268345 C-0.0553311331,0.390136635 -0.0553311331,0.751261038 0.165993399,0.974176179 L8.13920499,9.00268191 L8.13911129,9.00268191 Z"
+            fill="#333"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</div>
+`;

@@ -3,7 +3,7 @@
 exports[`Loader > should render custom loaderComponent and skip CSS injection 1`] = `
 <div
   class="react-joyride__loader"
-  data-test-id="custom-loader"
+  data-testid="custom-loader"
   style="align-items: center; display: flex; inset: 0px; justify-content: center; pointer-events: none; position: fixed; z-index: 10001;"
 >
   <span
@@ -17,7 +17,7 @@ exports[`Loader > should render custom loaderComponent and skip CSS injection 1`
 exports[`Loader > should render the loader with spinner 1`] = `
 <div
   class="react-joyride__loader"
-  data-test-id="loader"
+  data-testid="loader"
   style="align-items: center; display: flex; inset: 0px; justify-content: center; pointer-events: none; position: fixed; z-index: 10001;"
 >
   <div

@@ -29,7 +29,6 @@ const config = defineConfig({
   testDir: './e2e',
   use: {
     baseURL: 'http://localhost:3000',
-    testIdAttribute: 'data-test-id',
     trace: 'on-first-retry',
     launchOptions: {
       slowMo: process.env.SLO_MO ? Number(process.env.SLO_MO) : 0,

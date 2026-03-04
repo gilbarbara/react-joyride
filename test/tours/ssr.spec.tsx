@@ -5,11 +5,11 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import Standard from '../__fixtures__/Standard';
+import Component from '../__fixtures__/Component';
 
 describe('Joyride > SSR', () => {
   it('should render without errors', async () => {
-    const view = renderToStaticMarkup(<Standard />);
+    const view = renderToStaticMarkup(<Component />);
 
     expect(view).toMatchSnapshot();
   });

@@ -4,7 +4,7 @@ function LoaderComponent({ step }: LoaderRenderProps) {
   return (
     <div
       className="react-joyride__loader"
-      data-test-id="custom-loader"
+      data-testid="custom-loader"
       style={{
         alignItems: 'center',
         display: 'flex',

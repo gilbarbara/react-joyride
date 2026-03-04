@@ -1,17 +1,23 @@
 import { useSetState } from '@gilbarbara/hooks';
 
 import { STATUS, useJoyride } from '../../src';
-import { EventData, Props, Status, Step } from '../../src/types';
+import { Controls, EventData, Props, Status, Step } from '../../src/types';
 
 import { standardSteps } from './steps';
+
+interface HookProps extends Omit<Props, 'run' | 'steps'> {
+  afterHook?: Step['after'];
+  beforeHook?: Step['before'];
+  onControls?: (controls: Controls) => void;
+}
 
 interface State {
   run: boolean;
   steps: Array<Step>;
 }
 
-export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
-  const { onEvent, ...rest } = props;
+export default function Hook(props: HookProps) {
+  const { afterHook, beforeHook, onControls, onEvent, ...rest } = props;
   const [{ run, steps }, setState] = useSetState<State>({
     run: false,
     steps: [
@@ -21,7 +27,9 @@ export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
         placement: 'center',
         target: 'body',
       },
-      ...standardSteps,
+      standardSteps[0],
+      { ...standardSteps[1], before: beforeHook, after: afterHook },
+      ...standardSteps.slice(2),
     ],
   });
 
@@ -46,18 +54,16 @@ export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
     ...rest,
   });
 
+  onControls?.(controls);
+
   const handleClickStart = () => {
     setState({ run: true });
-  };
-
-  const handleClickMissionButton = () => {
-    controls.next();
   };
 
   return (
     <>
       {Tour}
-      <div data-test-id="demo">
+      <div data-testid="demo">
         <main>
           <div className="hero">
             <div className="container">
@@ -65,7 +71,7 @@ export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
                 <h1>
                   <span>Create walkthroughs and guided tours for your ReactJS apps.</span>
                 </h1>
-                <button data-test-id="start" onClick={handleClickStart} type="button">
+                <button data-testid="start" onClick={handleClickStart} type="button">
                   Let's Go!
                 </button>
               </div>
@@ -89,14 +95,6 @@ export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
               <h2>
                 <span>Mission</span>
               </h2>
-
-              <button
-                data-test-id="mission-button"
-                onClick={handleClickMissionButton}
-                type="button"
-              >
-                Click me
-              </button>
             </div>
           </div>
           <div className="demo__section about">

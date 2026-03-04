@@ -76,7 +76,7 @@ export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
   }
 
   return (
-    <div className="react-joyride__loader" data-test-id="loader" style={loaderStyles.wrapper}>
+    <div className="react-joyride__loader" data-testid="loader" style={loaderStyles.wrapper}>
       <div style={{ ...loaderStyles.spinner, borderTopColor: styles.options.primaryColor }} />
     </div>
   );

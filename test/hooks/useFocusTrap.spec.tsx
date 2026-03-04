@@ -19,23 +19,23 @@ function FocusTrapComponent({ selector = null, tabbable = true }: Props) {
   useFocusTrap(element, selector);
 
   return (
-    <div ref={setElement} data-test-id="container">
+    <div ref={setElement} data-testid="container">
       <h2>Title</h2>
       <p>My awesome content</p>
       {tabbable && (
         <>
           <footer>
-            <button data-test-id="skip" type="button">
+            <button data-testid="skip" type="button">
               SKIP
             </button>
-            <button data-test-id="back" type="button">
+            <button data-testid="back" type="button">
               BACK
             </button>
-            <button data-test-id="primary" type="button">
+            <button data-testid="primary" type="button">
               GO
             </button>
           </footer>
-          <a data-test-id="close" href="#close">
+          <a data-testid="close" href="#close">
             X
           </a>
         </>
@@ -107,7 +107,7 @@ describe('hooks/useFocusTrap', () => {
 
   describe('with selector', () => {
     it('should focus the matching element', async () => {
-      const { unmount } = render(<FocusTrapComponent selector="[data-test-id=primary]" />);
+      const { unmount } = render(<FocusTrapComponent selector="[data-testid=primary]" />);
 
       await vi.waitFor(() => {
         expect(screen.getByTestId('primary') === document.activeElement).toBeTrue();

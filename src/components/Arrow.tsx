@@ -122,7 +122,7 @@ export default function Arrow({
     <span
       ref={arrowRef}
       className="react-joyride__arrow"
-      data-test-id="arrow"
+      data-testid="arrow"
       style={{
         ...restStyles,
         ...getPositionStyle(placement, position, size, base),

@@ -4,12 +4,12 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
 <div
   aria-hidden="true"
   class="react-joyride__overlay"
-  data-test-id="overlay"
+  data-testid="overlay"
   style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
   <svg
     class="react-joyride__spotlight"
-    data-test-id="spotlight"
+    data-testid="spotlight"
     style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
   >
     <path
@@ -30,7 +30,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
 exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom styles > tooltip 1`] = `
 <div
   class="react-joyride__floater"
-  data-test-id="floater"
+  data-testid="floater"
   id="react-joyride-step-0"
   style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
 >
@@ -63,7 +63,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
           aria-label="Skip"
           aria-live="off"
           data-action="skip"
-          data-test-id="button-skip"
+          data-testid="button-skip"
           role="button"
           style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
           title="Skip"
@@ -75,7 +75,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
       <button
         aria-label="Next"
         data-action="primary"
-        data-test-id="button-primary"
+        data-testid="button-primary"
         role="button"
         style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; background-color: rgb(169, 71, 255);"
         title="Next"
@@ -87,7 +87,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
     <button
       aria-label="Close"
       data-action="close"
-      data-test-id="button-close"
+      data-testid="button-close"
       role="button"
       style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
       title="Close"
@@ -112,7 +112,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
   </div>
   <span
     class="react-joyride__arrow"
-    data-test-id="arrow"
+    data-testid="arrow"
     style="align-items: center; color: rgb(92, 255, 71); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
   >
     <svg
@@ -133,7 +133,7 @@ exports[`Joyride > Custom Options > should render STEP 1 with custom beacon styl
 <button
   aria-label="Open the dialog"
   class="react-joyride__beacon"
-  data-test-id="button-beacon"
+  data-testid="button-beacon"
   style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; display: inline-block; height: 36px; position: relative; width: 36px;"
   title="Open the dialog"
   type="button"
@@ -150,13 +150,13 @@ exports[`Joyride > Custom Options > should render STEP 1 with custom beacon styl
 exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arrow and locale 1`] = `
 <div
   class="react-joyride__floater"
-  data-test-id="floater"
+  data-testid="floater"
   id="react-joyride-step-2"
   style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"
-    aria-label="We are the people"
+    aria-label="We are the peopleYes, we are, and we are here to make sure all our rights are secure."
     aria-modal="true"
     class="react-joyride__tooltip"
     data-joyride-step="2"
@@ -174,21 +174,9 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
           <h3>
             We are the people
           </h3>
-          <svg
-            height="96px"
-            preserveAspectRatio="xMidYMid"
-            version="1.1"
-            viewBox="0 0 96 96"
-            width="96px"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g>
-              <path
-                d="M83.2922435,72.3864207 C69.5357835,69.2103145 56.7313553,66.4262214 62.9315626,54.7138297 C81.812194,19.0646376 67.93573,0 48.0030634,0 C27.6743835,0 14.1459311,19.796662 33.0745641,54.7138297 C39.4627778,66.4942237 26.1743334,69.2783168 12.7138832,72.3864207 C0.421472164,75.2265157 -0.0385432192,81.3307198 0.0014581185,92.0030767 L0.0174586536,96.0032105 L95.9806678,96.0032105 L95.9966684,92.1270809 C96.04467,81.3747213 95.628656,75.2385161 83.2922435,72.3864207 Z"
-                fill="#000000"
-              />
-            </g>
-          </svg>
+          <p>
+            Yes, we are, and we are here to make sure all our rights are secure.
+          </p>
         </div>
       </div>
     </div>
@@ -202,7 +190,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
           aria-label="Skip"
           aria-live="off"
           data-action="skip"
-          data-test-id="button-skip"
+          data-testid="button-skip"
           role="button"
           style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
           title="Skip"
@@ -214,7 +202,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
       <button
         aria-label="Back"
         data-action="back"
-        data-test-id="button-back"
+        data-testid="button-back"
         role="button"
         style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 0); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
         title="Back"
@@ -225,7 +213,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
       <button
         aria-label="Next"
         data-action="primary"
-        data-test-id="button-primary"
+        data-testid="button-primary"
         role="button"
         style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; background-color: rgb(169, 71, 255);"
         title="Next"
@@ -237,7 +225,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
     <button
       aria-label="Close"
       data-action="close"
-      data-test-id="button-close"
+      data-testid="button-close"
       role="button"
       style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
       title="Close"
@@ -262,7 +250,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
   </div>
   <span
     class="react-joyride__arrow"
-    data-test-id="arrow"
+    data-testid="arrow"
     style="align-items: center; color: rgb(92, 255, 71); display: inline-flex; justify-content: center; position: absolute; top: -16px; left: -1px; width: 32px; height: 16px;"
   >
     <svg

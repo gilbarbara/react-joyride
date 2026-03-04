@@ -33,11 +33,11 @@ interface Props {
 const baseObject = { a: 1, b: '', c: [1], d: { a: null }, e: undefined };
 
 function NextWithProgress() {
-  return <strong data-test-id="next-label">{`Go ({step} of {steps})`}</strong>;
+  return <strong data-testid="next-label">{`Go ({step} of {steps})`}</strong>;
 }
 
 function Skip() {
-  return <strong data-test-id="skip-label">Do you really want to skip?</strong>;
+  return <strong data-testid="skip-label">Do you really want to skip?</strong>;
 }
 
 describe('helpers', () => {
@@ -414,7 +414,7 @@ describe('helpers', () => {
   describe('replaceLocaleContent', () => {
     it('should replace the content properly', () => {
       expect(replaceLocaleContent(<NextWithProgress />, 2, 5)).toEqual(
-        <strong data-test-id="next-label">Go (2 of 5)</strong>,
+        <strong data-testid="next-label">Go (2 of 5)</strong>,
       );
       expect(replaceLocaleContent(<span>{`Next ({step} of {steps})`}</span>, 2, 5)).toEqual(
         <span>Next (2 of 5)</span>,

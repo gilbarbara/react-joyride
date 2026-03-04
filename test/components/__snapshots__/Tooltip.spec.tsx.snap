@@ -29,7 +29,7 @@ exports[`Tooltip > should call controls.prev() on back click 1`] = `
     <button
       aria-label="Back"
       data-action="back"
-      data-test-id="button-back"
+      data-testid="button-back"
       role="button"
       style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
       title="Back"
@@ -40,7 +40,7 @@ exports[`Tooltip > should call controls.prev() on back click 1`] = `
     <button
       aria-label="Next"
       data-action="primary"
-      data-test-id="button-primary"
+      data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
       title="Next"
@@ -52,7 +52,7 @@ exports[`Tooltip > should call controls.prev() on back click 1`] = `
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
     title="Close"
@@ -107,7 +107,7 @@ exports[`Tooltip > should call controls.skip() on skip click 1`] = `
         aria-label="Skip"
         aria-live="off"
         data-action="skip"
-        data-test-id="button-skip"
+        data-testid="button-skip"
         role="button"
         style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
         title="Skip"
@@ -119,7 +119,7 @@ exports[`Tooltip > should call controls.skip() on skip click 1`] = `
     <button
       aria-label="Next"
       data-action="primary"
-      data-test-id="button-primary"
+      data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
       title="Next"
@@ -131,7 +131,7 @@ exports[`Tooltip > should call controls.skip() on skip click 1`] = `
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
     title="Close"
@@ -185,7 +185,7 @@ exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] =
     <button
       aria-label="Close"
       data-action="primary"
-      data-test-id="button-primary"
+      data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
       title="Close"
@@ -197,7 +197,7 @@ exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] =
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
     title="Close"
@@ -251,7 +251,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
     <button
       aria-label="Back"
       data-action="back"
-      data-test-id="button-back"
+      data-testid="button-back"
       role="button"
       style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 68); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
       title="Back"
@@ -262,7 +262,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
     <button
       aria-label="Last"
       data-action="primary"
-      data-test-id="button-primary"
+      data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
       title="Last"
@@ -274,7 +274,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
     title="Close"
@@ -328,7 +328,7 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
     <button
       aria-label="Next"
       data-action="primary"
-      data-test-id="button-primary"
+      data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
       title="Next"
@@ -340,7 +340,7 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
     title="Close"
@@ -375,7 +375,7 @@ exports[`Tooltip > should render custom tooltipComponent 1`] = `
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border-radius: 0px; color: rgb(0, 0, 0); display: inline-flex; font-size: 24px; padding: 8px; position: absolute; right: 0px; top: 0px;"
     title="Close"
@@ -415,7 +415,7 @@ exports[`Tooltip > should render custom tooltipComponent 1`] = `
       <button
         aria-label="Skip"
         data-action="skip"
-        data-test-id="button-skip"
+        data-testid="button-skip"
         role="button"
         style="background-color: transparent; color: rgb(85, 85, 85); padding: 0px;"
         title="Skip"
@@ -430,7 +430,7 @@ exports[`Tooltip > should render custom tooltipComponent 1`] = `
       <button
         aria-label="Next"
         data-action="primary"
-        data-test-id="button-primary"
+        data-testid="button-primary"
         role="button"
         title="Next"
         type="button"
@@ -471,7 +471,7 @@ exports[`Tooltip > should show progress label when showProgress is true 1`] = `
     <button
       aria-label="Next (Step 1 of 3)"
       data-action="primary"
-      data-test-id="button-primary"
+      data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none;"
       title="Next (Step 1 of 3)"
@@ -483,7 +483,7 @@ exports[`Tooltip > should show progress label when showProgress is true 1`] = `
   <button
     aria-label="Close"
     data-action="close"
-    data-test-id="button-close"
+    data-testid="button-close"
     role="button"
     style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; padding: 15px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
     title="Close"

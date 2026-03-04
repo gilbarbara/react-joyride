@@ -20,12 +20,12 @@ describe('Portal', () => {
   it('should render children into the provided element', () => {
     const portalTarget = document.createElement('div');
 
-    portalTarget.setAttribute('data-test-id', 'portal-target');
+    portalTarget.setAttribute('data-testid', 'portal-target');
     document.body.appendChild(portalTarget);
 
     render(
       <Portal element={portalTarget}>
-        <div data-test-id="portal-content">content</div>
+        <div data-testid="portal-content">content</div>
       </Portal>,
     );
 

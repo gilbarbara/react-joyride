@@ -2,7 +2,7 @@ import React from 'react';
 
 import { fireEvent, render, screen } from '~/test-utils';
 
-import Standard from '../__fixtures__/Standard';
+import Component from '../__fixtures__/Component';
 
 const mockOnEvent = vi.fn();
 
@@ -16,7 +16,7 @@ vi.mock('~/modules/dom', async () => {
 });
 
 describe('Joyride > NO-DOM', () => {
-  render(<Standard onEvent={mockOnEvent} />);
+  render(<Component onEvent={mockOnEvent} />);
 
   it('should not render the step when starting the tour', async () => {
     fireEvent.click(screen.getByTestId('start'));

@@ -4,12 +4,12 @@ exports[`Overlay > should not render Spotlight for center placement 1`] = `
 <div
   aria-hidden="true"
   class="react-joyride__overlay"
-  data-test-id="overlay"
+  data-testid="overlay"
   style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
   <svg
     class="react-joyride__spotlight"
-    data-test-id="spotlight"
+    data-testid="spotlight"
     style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
   >
     <path
@@ -26,12 +26,12 @@ exports[`Overlay > should not render Spotlight when scrolling is true 1`] = `
 <div
   aria-hidden="true"
   class="react-joyride__overlay"
-  data-test-id="overlay"
+  data-testid="overlay"
   style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
   <svg
     class="react-joyride__spotlight"
-    data-test-id="spotlight"
+    data-testid="spotlight"
     style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
   >
     <path
@@ -48,12 +48,12 @@ exports[`Overlay > should not render Spotlight when waiting is true 1`] = `
 <div
   aria-hidden="true"
   class="react-joyride__overlay"
-  data-test-id="overlay"
+  data-testid="overlay"
   style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
   <svg
     class="react-joyride__spotlight"
-    data-test-id="spotlight"
+    data-testid="spotlight"
     style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
   >
     <path
@@ -70,12 +70,12 @@ exports[`Overlay > should render Spotlight when scrolling transitions to false 1
 <div
   aria-hidden="true"
   class="react-joyride__overlay"
-  data-test-id="overlay"
+  data-testid="overlay"
   style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
   <svg
     class="react-joyride__spotlight"
-    data-test-id="spotlight"
+    data-testid="spotlight"
     style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
   >
     <path
@@ -92,12 +92,12 @@ exports[`Overlay > should render the overlay when lifecycle is TOOLTIP 1`] = `
 <div
   aria-hidden="true"
   class="react-joyride__overlay"
-  data-test-id="overlay"
+  data-testid="overlay"
   style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
 >
   <svg
     class="react-joyride__spotlight"
-    data-test-id="spotlight"
+    data-testid="spotlight"
     style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
   >
     <path
