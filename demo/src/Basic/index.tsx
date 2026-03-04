@@ -1,5 +1,5 @@
 import { type HTMLAttributes } from 'react';
-import Joyride, { type CallBackProps, STATUS, type Step } from 'react-joyride';
+import Joyride, { type EventData, STATUS, type Step } from 'react-joyride';
 import { useMount, useSetState } from '@gilbarbara/hooks';
 import { Button, cn, Divider } from '@heroui/react';
 // @ts-ignore
@@ -124,7 +124,7 @@ export default function BasicDemo(props: Props) {
     });
   };
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleEvent = (data: EventData) => {
     const { status, type } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
@@ -138,8 +138,8 @@ export default function BasicDemo(props: Props) {
   return (
     <div className="min-h-[90vh]">
       <Joyride
-        callback={handleJoyrideCallback}
         continuous
+        onEvent={handleEvent}
         run={run}
         scrollOffset={64}
         scrollToFirstStep

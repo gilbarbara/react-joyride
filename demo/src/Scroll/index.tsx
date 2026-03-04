@@ -1,4 +1,4 @@
-import Joyride, { type CallBackProps, type Step } from 'react-joyride';
+import Joyride, { type EventData, type Step } from 'react-joyride';
 import { useMount, useSetState } from '@gilbarbara/hooks';
 // @ts-ignore
 import a11yChecker from 'a11y-checker';
@@ -48,7 +48,7 @@ export default function ScrollDemo() {
     a11yChecker();
   });
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleEvent = (data: EventData) => {
     const { type } = data;
 
     logGroup(type, data);
@@ -57,13 +57,7 @@ export default function ScrollDemo() {
   return (
     <div className="bg-gray-200 flex flex-col flex-1">
       <Container className="items-center justify-center py-8">
-        <Joyride
-          callback={handleJoyrideCallback}
-          continuous
-          run={run}
-          scrollToFirstStep
-          steps={steps}
-        />
+        <Joyride continuous onEvent={handleEvent} run={run} scrollToFirstStep steps={steps} />
         <h1 className="text-4xl font-bold text-red mb-8">Works with custom scrolling parents!</h1>
         <div className="app__scroller bg-white h-[50vh] p-4 overflow-scroll">
           <h2 className="text-2xl font-bold mb-2">New Features in React 18</h2>

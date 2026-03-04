@@ -1,7 +1,7 @@
 import { useSetState } from '@gilbarbara/hooks';
 
 import { STATUS, useJoyride } from '../../src';
-import { CallBackProps, Props, Status, Step } from '../../src/types';
+import { EventData, Props, Status, Step } from '../../src/types';
 
 import { standardSteps } from './steps';
 
@@ -11,7 +11,7 @@ interface State {
 }
 
 export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
-  const { callback, ...rest } = props;
+  const { onEvent, ...rest } = props;
   const [{ run, steps }, setState] = useSetState<State>({
     run: false,
     steps: [
@@ -25,18 +25,18 @@ export default function Hook(props: Omit<Props, 'run' | 'steps'>) {
     ],
   });
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = (data: EventData) => {
     const { status } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
       setState({ run: false });
     }
 
-    callback?.(data);
+    onEvent?.(data);
   };
 
   const { controls, Tour } = useJoyride({
-    callback: handleJoyrideCallback,
+    onEvent: handleJoyrideCallback,
     continuous: true,
     portalElement: '#portal',
     run,

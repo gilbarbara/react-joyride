@@ -1,7 +1,7 @@
 import { useSetState } from '@gilbarbara/hooks';
 
 import Joyride, { STATUS } from '../../src';
-import { CallBackProps, Props, Status, Step } from '../../src/types';
+import { EventData, Props, Status, Step } from '../../src/types';
 
 import { standardSteps } from './steps';
 
@@ -12,7 +12,7 @@ interface State {
 }
 
 export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
-  const { callback, ...rest } = props;
+  const { onEvent, ...rest } = props;
   const [{ run, steps }, setState] = useSetState<State>({
     index: 0,
     run: false,
@@ -34,7 +34,7 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
     setState({ run: true });
   };
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = (data: EventData) => {
     const { status } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
@@ -43,15 +43,15 @@ export default function Standard(props: Omit<Props, 'run' | 'steps'>) {
 
     setState({ index: data.index });
 
-    callback?.(data);
+    onEvent?.(data);
   };
 
   return (
     <>
       <div data-test-id="demo">
         <Joyride
-          callback={handleJoyrideCallback}
           continuous
+          onEvent={handleJoyrideCallback}
           portalElement="#portal"
           run={run}
           scrollToFirstStep

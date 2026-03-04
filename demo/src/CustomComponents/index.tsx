@@ -131,7 +131,7 @@ function Custom(props: Props) {
 
   const { controls, Tour } = useJoyride({
     beaconComponent: BeaconComponent,
-    callback: data => {
+    onEvent: data => {
       const { status, type } = data;
       const options: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 

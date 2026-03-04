@@ -66,7 +66,7 @@ export default function useControls(
       });
     };
 
-    const info = () => omit(store.current.getSnapshot(), 'positioned', 'scrolling', 'waiting');
+    const info = () => omit(store.current.getSnapshot(), 'positioned');
 
     const next = () => {
       const { index, size, status } = getState();
@@ -93,7 +93,7 @@ export default function useControls(
 
       store.current.updateState({
         action: ACTIONS.UPDATE,
-        lifecycle: LIFECYCLE.TOOLTIP,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
         positioned: false,
         scrolling: false,
       });

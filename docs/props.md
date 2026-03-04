@@ -8,8 +8,8 @@ Below is the complete list of possible props and options:
 **beaconComponent** `ElementType<BeaconRenderProps>`  
 A React component to use instead of the default Beacon. Check [custom components](custom-components.md) for details.
 
-**callback** `() => CallBackProps`  
-A function to be called when Joyride's state changes. It returns a single parameter with the state.
+**onEvent** `EventHandler`
+A function to be called when Joyride's state changes. It returns a single parameter with the state. See [Events](events.md) for details.
 
 **continuous** `boolean` ▶︎ **false**  
 The tour is played sequentially with the **Next** button.
@@ -91,7 +91,7 @@ The padding of the spotlight.
 **stepIndex** `number`  
 Setting a number here will turn Joyride into `controlled` mode.
 
-You'll have to keep an internal state and update it with the events in the `callback`.
+You'll have to keep an internal state and update it with the events in `onEvent`.
 
 > **Do not use it if you don't need it.**
 

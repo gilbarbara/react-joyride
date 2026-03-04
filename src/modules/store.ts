@@ -89,7 +89,9 @@ class Store {
 
   public getSnapshot = (): StoreState => this.snapshot;
 
-  public getState = (): State => omit(this.snapshot, 'positioned', 'scrolling', 'waiting');
+  public getEventState = (): Omit<StoreState, 'positioned'> => omit(this.snapshot, 'positioned');
+
+  public getState = (): State => omit(this.snapshot, 'positioned');
 
   public setPositionData = (name: 'beacon' | 'tooltip', data: PositionData) => {
     if (name === 'beacon') {
@@ -98,7 +100,11 @@ class Store {
       this.tooltipPosition = data;
     }
 
-    if (this.state.scrolling && !this.state.positioned) {
+    const isBeforePhase =
+      this.state.lifecycle === LIFECYCLE.BEACON_BEFORE ||
+      this.state.lifecycle === LIFECYCLE.TOOLTIP_BEFORE;
+
+    if (isBeforePhase && !this.state.positioned) {
       this.updateState({ positioned: true });
     }
 

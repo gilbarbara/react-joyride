@@ -7,7 +7,7 @@ import { getElement, isElementVisible } from '~/modules/dom';
 import { hideBeacon, logDebug, mergeProps, needsScrolling, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Actions, Controls, Props, StepMerged, StepTarget, StoreState } from '~/types';
+import { Actions, Controls, Props, ScrollData, StepMerged, StepTarget, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
@@ -23,7 +23,7 @@ interface UseLifecycleEffectOptions {
 
 export default function useLifecycleEffect(options: UseLifecycleEffectOptions): void {
   const { controls, previousState, previousStep, props, state, step, store } = options;
-  const { action, index, lifecycle, size, status } = state;
+  const { action, index, lifecycle, positioned, scrolling, size, status } = state;
 
   const lastAction = useRef<Actions | null>(null);
   const propsRef = useRef(props);
@@ -44,7 +44,13 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   previousStepRef.current = previousStep;
   controlsRef.current = controls;
 
-  const callbackState = () => omit(stateRef.current, 'positioned', 'scrolling', 'waiting');
+  const eventState = () => {
+    return {
+      ...omit(stateRef.current, 'positioned'),
+      error: null as Error | null,
+      scroll: null as ScrollData | null,
+    };
+  };
 
   const cleanup = () => {
     if (loaderTimeoutRef.current) {
@@ -115,7 +121,13 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     store.current.cleanupPositionData();
 
     if (currentStep.before && !beforeRef.current) {
+      beforeRef.current = { cancel: () => {} };
       store.current.updateState({ waiting: true });
+      propsRef.current.onEvent?.({
+        ...eventState(),
+        step: currentStep,
+        type: EVENTS.STEP_BEFORE_HOOK,
+      });
 
       const proceed = () => {
         beforeRef.current = null;
@@ -135,22 +147,34 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         ? setTimeout(() => {
             if (!abortController.signal.aborted) {
               abortController.abort();
+              propsRef.current.onEvent?.({
+                ...eventState(),
+                step: currentStep,
+                error: new Error('Step before hook timed out'),
+                type: EVENTS.ERROR,
+              });
               proceed();
             }
           }, timeout)
         : null;
 
       currentStep
-        .before({ ...callbackState(), step: currentStep })
+        .before({ ...store.current.getState(), step: currentStep })
         .then(() => {
           if (!abortController.signal.aborted) {
             if (timeoutId) clearTimeout(timeoutId);
             proceed();
           }
         })
-        .catch(() => {
+        .catch((error: unknown) => {
           if (!abortController.signal.aborted) {
             if (timeoutId) clearTimeout(timeoutId);
+            propsRef.current.onEvent?.({
+              ...eventState(),
+              step: currentStep,
+              error: error instanceof Error ? error : new Error(String(error)),
+              type: EVENTS.ERROR,
+            });
             proceed();
           }
         });
@@ -212,7 +236,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     };
   }, [index, lifecycle, status, store]);
 
-  // Effect 3: Step presentation (READY → BEACON/TOOLTIP) + target not found
+  // Effect 3: Step presentation (READY → *_BEFORE → BEACON/TOOLTIP) + target not found
   useEffect(() => {
     if (!previousStateRef.current) {
       return;
@@ -231,11 +255,10 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     const element = getElement(currentStep.target);
     const elementExists = !!element;
 
-    // STEP_BEFORE callback + READY → BEACON/TOOLTIP transition
     if (elementExists && isElementVisible(element)) {
       if (changedTo('lifecycle', LIFECYCLE.READY) && previous.lifecycle === LIFECYCLE.INIT) {
-        propsRef.current.callback?.({
-          ...callbackState(),
+        propsRef.current.onEvent?.({
+          ...eventState(),
           action: lastAction.current ?? stateRef.current.action,
           step: currentStep,
           type: EVENTS.STEP_BEFORE,
@@ -244,7 +267,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
       if (changedTo('lifecycle', LIFECYCLE.READY)) {
         const currentState = stateRef.current;
-        const targetLifecycle = hideBeacon(currentStep, currentState, propsRef.current.continuous)
+        const finalLifecycle = hideBeacon(currentStep, currentState, propsRef.current.continuous)
           ? LIFECYCLE.TOOLTIP
           : LIFECYCLE.BEACON;
 
@@ -254,12 +277,15 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           scrollToFirstStep: propsRef.current.scrollToFirstStep,
           step: currentStep,
           target,
-          targetLifecycle,
+          targetLifecycle: finalLifecycle,
         });
+
+        const beforeLifecycle =
+          finalLifecycle === LIFECYCLE.TOOLTIP ? LIFECYCLE.TOOLTIP_BEFORE : LIFECYCLE.BEACON_BEFORE;
 
         store.current.updateState({
           action: ACTIONS.UPDATE,
-          lifecycle: targetLifecycle,
+          lifecycle: beforeLifecycle,
           scrolling: willScroll,
         });
       }
@@ -269,12 +295,11 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       lifecycle !== LIFECYCLE.COMPLETE &&
       changed('lifecycle')
     ) {
-      // TARGET_NOT_FOUND callback stays here because auto-advance is conditional on it
       // eslint-disable-next-line no-console
       console.warn(elementExists ? 'Target not visible' : 'Target not mounted', currentStep);
 
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         type: EVENTS.TARGET_NOT_FOUND,
         step: currentStep,
       });
@@ -291,7 +316,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     }
   }, [lifecycle, store]);
 
-  // Effect 4: Lifecycle callbacks (BEACON, TOOLTIP, STEP_AFTER)
+  // Effect 4: *_BEFORE → BEACON/TOOLTIP transition + lifecycle callbacks
   useEffect(() => {
     if (!previousStateRef.current) {
       return;
@@ -301,17 +326,28 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     const currentStep = stepRef.current;
     const previousStepValue = previousStepRef.current;
 
+    // *_BEFORE → BEACON/TOOLTIP when scroll is done
+    const isBeforePhase =
+      lifecycle === LIFECYCLE.BEACON_BEFORE || lifecycle === LIFECYCLE.TOOLTIP_BEFORE;
+
+    if (currentStep && isBeforePhase && !scrolling) {
+      const finalLifecycle =
+        lifecycle === LIFECYCLE.TOOLTIP_BEFORE ? LIFECYCLE.TOOLTIP : LIFECYCLE.BEACON;
+
+      store.current.updateState({ action: ACTIONS.UPDATE, lifecycle: finalLifecycle });
+    }
+
     if (currentStep && changedTo('lifecycle', LIFECYCLE.BEACON)) {
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         step: currentStep,
         type: EVENTS.BEACON,
       });
     }
 
     if (currentStep && changedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         step: currentStep,
         type: EVENTS.TOOLTIP,
       });
@@ -323,37 +359,48 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     const isRunningOrPausedWithStep =
       currentState.status === STATUS.RUNNING ||
       (currentState.controlled && currentState.status === STATUS.PAUSED && !!currentStep);
-    const callbackStep = currentStep ?? previousStepValue;
-    const shouldSendCallback =
+    const eventStep = currentStep ?? previousStepValue;
+    const shouldFireStepAfter =
       isRunningOrPausedWithStep &&
-      callbackStep &&
+      eventStep &&
       changedTo('lifecycle', LIFECYCLE.COMPLETE) &&
       previous.lifecycle === LIFECYCLE.TOOLTIP &&
       (elementExists || !currentStep);
 
-    if (shouldSendCallback) {
-      propsRef.current.callback?.({
-        ...callbackState(),
+    if (shouldFireStepAfter) {
+      propsRef.current.onEvent?.({
+        ...eventState(),
         action: lastAction.current ?? ACTIONS.UPDATE,
         index: previous.index ?? currentState.index,
         lifecycle: currentState.lifecycle,
-        step: callbackStep,
+        step: eventStep,
         type: EVENTS.STEP_AFTER,
       });
 
-      try {
-        previousStepValue?.after?.({
-          ...callbackState(),
+      if (previousStepValue?.after) {
+        propsRef.current.onEvent?.({
+          ...eventState(),
           action: lastAction.current ?? ACTIONS.UPDATE,
           index: previous.index ?? currentState.index,
           lifecycle: currentState.lifecycle,
           step: previousStepValue,
+          type: EVENTS.STEP_AFTER_HOOK,
         });
-      } catch {
-        // fire-and-forget: don't let user code break the tour
+
+        try {
+          previousStepValue.after({
+            ...store.current.getState(),
+            action: lastAction.current ?? ACTIONS.UPDATE,
+            index: previous.index ?? currentState.index,
+            lifecycle: currentState.lifecycle,
+            step: previousStepValue,
+          });
+        } catch {
+          // fire-and-forget: don't let user code break the tour
+        }
       }
     }
-  }, [lifecycle]);
+  }, [lifecycle, positioned, scrolling, store]);
 
   // Effect 5: Tour flow + tour-level callbacks
   useEffect(() => {
@@ -393,8 +440,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     const tourEndStep = previousStepValue ?? currentStep;
 
     if (tourEndStep && changedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         index: previousStepValue ? index - 1 : index,
         step: tourEndStep,
         type: EVENTS.TOUR_END,
@@ -408,8 +455,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       changedTo('status', STATUS.RUNNING) &&
       ([STATUS.IDLE, STATUS.READY, STATUS.PAUSED] as string[]).includes(previous.status)
     ) {
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         step: currentStep,
         type: EVENTS.TOUR_START,
       });
@@ -417,16 +464,16 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     if (currentStep && changedTo('action', ACTIONS.STOP)) {
       lastAction.current = null;
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         step: currentStep,
         type: EVENTS.TOUR_STATUS,
       });
     }
 
     if (currentStep && changedTo('action', ACTIONS.RESET)) {
-      propsRef.current.callback?.({
-        ...callbackState(),
+      propsRef.current.onEvent?.({
+        ...eventState(),
         step: currentStep,
         type: EVENTS.TOUR_STATUS,
       });

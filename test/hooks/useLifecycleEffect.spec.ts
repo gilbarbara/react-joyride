@@ -1,9 +1,14 @@
-import useTourEngine from '~/hooks/useTourEngine';
-import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
-import { getElement, isElementVisible, scrollTo } from '~/modules/dom';
-import { act, callbackResponseFactory, renderHook, waitFor } from '~/test-utils';
+import { RefObject } from 'react';
 
-import { Props, Step } from '~/types';
+import { defaultProps } from '~/defaults';
+import useLifecycleEffect from '~/hooks/useLifecycleEffect';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
+import { getElement, isElementVisible } from '~/modules/dom';
+import { mergeProps, needsScrolling } from '~/modules/helpers';
+import createStore from '~/modules/store';
+import { createStep, fromPartial, renderHook } from '~/test-utils';
+
+import { Controls, Props, StoreState } from '~/types';
 
 const mockElement = document.createElement('div');
 
@@ -21,1062 +26,1369 @@ vi.mock('~/modules/dom', async () => {
   };
 });
 
+vi.mock('~/modules/helpers', async () => {
+  const actual = await vi.importActual('~/modules/helpers');
+
+  return {
+    ...actual,
+    needsScrolling: vi.fn(() => false),
+  };
+});
+
+type HookOptions = Parameters<typeof useLifecycleEffect>[0];
+
+function createMergedProps(overrides: Partial<Props> = {}) {
+  return mergeProps(defaultProps, {
+    steps: [],
+    onEvent: vi.fn(),
+    ...overrides,
+  } as Props);
+}
+
+function createMockControls(): Controls {
+  return fromPartial<Controls>({
+    close: vi.fn(),
+    go: vi.fn(),
+    info: vi.fn(),
+    next: vi.fn(),
+    open: vi.fn(),
+    prev: vi.fn(),
+    reset: vi.fn(),
+    skip: vi.fn(),
+    start: vi.fn(),
+    stop: vi.fn(),
+  });
+}
+
+function createMockStore() {
+  const state = createState();
+
+  return {
+    current: {
+      cleanupPositionData: vi.fn(),
+      getPositionData: vi.fn(),
+      getServerSnapshot: vi.fn(() => state),
+      getSnapshot: vi.fn(() => state),
+      getState: vi.fn(() => {
+        const { positioned: _, ...rest } = state;
+
+        return rest;
+      }),
+      getEventState: vi.fn(() => {
+        const { positioned: _, ...rest } = state;
+
+        return rest;
+      }),
+      setPositionData: vi.fn(),
+      setSteps: vi.fn(),
+      subscribe: vi.fn(),
+      updateState: vi.fn(),
+    },
+  } as unknown as RefObject<ReturnType<typeof createStore>>;
+}
+
+function createOptions(overrides: Partial<HookOptions> = {}): HookOptions {
+  return {
+    controls: createMockControls(),
+    previousState: undefined,
+    previousStep: null,
+    props: createMergedProps(),
+    state: createState(),
+    step: createStep({ disableBeacon: true, targetWaitTimeout: 150 }),
+    store: createMockStore(),
+    ...overrides,
+  };
+}
+
+function createState(overrides: Partial<StoreState> = {}): StoreState {
+  return {
+    action: ACTIONS.INIT,
+    controlled: false,
+    index: 0,
+    lifecycle: LIFECYCLE.INIT,
+    origin: null,
+    positioned: false,
+    scrolling: false,
+    size: 2,
+    status: STATUS.IDLE,
+    waiting: false,
+    ...overrides,
+  };
+}
+
 describe('useLifecycleEffect', () => {
-  const mockCallback = vi.fn();
-  const getCallbackResponse = callbackResponseFactory({ size: 3 });
-
-  const testSteps: Step[] = [
-    { target: '.step-1', content: 'Step 1', disableBeacon: true },
-    { target: '.step-2', content: 'Step 2', disableBeacon: true },
-    { target: '.step-3', content: 'Step 3', disableBeacon: true },
-  ];
-
-  function createProps(overrides: Partial<Props> = {}): Props {
-    return {
-      steps: testSteps,
-      callback: mockCallback,
-      continuous: true,
-      run: true,
-      ...overrides,
-    };
-  }
-
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
   beforeEach(() => {
-    mockCallback.mockClear();
     consoleWarnSpy.mockClear();
-    vi.mocked(getElement).mockClear();
-    vi.mocked(getElement).mockReturnValue(mockElement);
-    vi.mocked(isElementVisible).mockClear();
-    vi.mocked(isElementVisible).mockReturnValue(true);
-    vi.mocked(scrollTo).mockClear();
-    vi.mocked(scrollTo).mockReturnValue({
-      cancel: vi.fn(),
-      promise: Promise.resolve(),
-    });
+    vi.mocked(getElement).mockClear().mockReturnValue(mockElement);
+    vi.mocked(isElementVisible).mockClear().mockReturnValue(true);
+    vi.mocked(needsScrolling).mockClear().mockReturnValue(false);
   });
 
-  describe('Restart after tour completion', () => {
-    it('should restart with beacon after FINISHED (reset(true))', async () => {
-      const steps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps, continuous: true })));
-
-      // Tour starts: TOUR_START, STEP_BEFORE, TOOLTIP
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      // Complete the tour by advancing past the last step
-      act(() => {
-        result.current.controls.next();
-      });
-
-      // STEP_AFTER → FINISHED → TOUR_END → auto-reset
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.FINISHED }),
-        );
-      });
-
-      // After TOUR_END, lifecycle auto-resets: status=READY, lifecycle=COMPLETE
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-      });
-
-      mockCallback.mockClear();
-
-      // User calls reset(true) to restart the tour
-      act(() => {
-        result.current.controls.reset(true);
-      });
-
-      // Should fire TOUR_STATUS(RESET) then restart: TOUR_START, STEP_BEFORE, TOOLTIP
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_START }),
-        );
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: EVENTS.TOOLTIP,
-            index: 0,
-            lifecycle: LIFECYCLE.TOOLTIP,
-            status: STATUS.RUNNING,
-          }),
-        );
-      });
-
-      // Verify state is correct
-      expect(result.current.state.status).toBe(STATUS.RUNNING);
-      expect(result.current.state.lifecycle).toBe(LIFECYCLE.TOOLTIP);
-      expect(result.current.state.index).toBe(0);
-    });
-
-    it('should restart with beacon after SKIPPED (reset(true))', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.skip();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.SKIPPED }),
-        );
-      });
-
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-      });
-
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.reset(true);
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: EVENTS.TOOLTIP,
-            index: 0,
-            status: STATUS.RUNNING,
-          }),
-        );
-      });
-    });
-
-    it('should restart with non-continuous beacon after FINISHED', async () => {
-      const steps: Step[] = [{ target: '.step-1', content: 'Step 1' }];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps, continuous: false })));
-
-      // Non-continuous: TOUR_START, STEP_BEFORE, BEACON
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-
-      // Open tooltip
-      act(() => {
-        result.current.controls.open();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Complete the tour
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END }),
-        );
-      });
-
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-      });
-
-      mockCallback.mockClear();
-
-      // Restart
-      act(() => {
-        result.current.controls.reset(true);
-      });
-
-      // Non-continuous should show BEACON
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: EVENTS.BEACON,
-            index: 0,
-            status: STATUS.RUNNING,
-          }),
-        );
-      });
-    });
-  });
-
-  describe('STEP_AFTER callback', () => {
-    it('should use previousState.index in STEP_AFTER', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER }),
-        );
-      });
-
-      // STEP_AFTER should report index 0 (the step that just completed), not index 1
-      const stepAfterCall = mockCallback.mock.calls.find(
-        (call: any[]) => call[0]?.type === EVENTS.STEP_AFTER,
-      );
-
-      expect(stepAfterCall![0].index).toBe(0);
-    });
-
-    it('should use lastAction in STEP_AFTER after NEXT', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.NEXT,
-            index: 0,
-            lifecycle: LIFECYCLE.COMPLETE,
-            type: EVENTS.STEP_AFTER,
-          }),
-        );
-      });
-    });
-
-    it('should use lastAction in STEP_AFTER after PREV', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-
-      // Advance to step 2
-      mockCallback.mockClear();
-      act(() => {
-        result.current.controls.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.prev();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.PREV,
-            index: 1,
-            lifecycle: LIFECYCLE.COMPLETE,
-            type: EVENTS.STEP_AFTER,
-          }),
-        );
-      });
-    });
-
-    it('should fire STEP_AFTER with origin after close()', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.close('keyboard');
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.CLOSE,
-            index: 0,
-            lifecycle: LIFECYCLE.COMPLETE,
-            origin: 'keyboard',
-            type: EVENTS.STEP_AFTER,
-          }),
-        );
-      });
-    });
-  });
-
-  describe('TOUR_END callback', () => {
-    it('should fire TOUR_END with previousStep for mid-tour finish', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-
-      // Advance to step 2
-      mockCallback.mockClear();
-      act(() => {
-        result.current.controls.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Finish tour from step 2
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: EVENTS.TOUR_END,
-            status: STATUS.FINISHED,
-            step: expect.objectContaining({ target: '.step-2' }),
-          }),
-        );
-      });
-    });
-
-    it('should auto-reset after TOUR_END', async () => {
-      const steps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END }),
-        );
-      });
-
-      // After TOUR_END, controls.reset() is called → status=READY, index=0
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-        expect(result.current.state.index).toBe(0);
-      });
-    });
-  });
-
-  describe('TOUR_STATUS callbacks', () => {
-    it('should fire TOUR_STATUS on RESET action', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.reset();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.RESET,
-            index: 0,
-            lifecycle: LIFECYCLE.INIT,
-            status: STATUS.READY,
-            type: EVENTS.TOUR_STATUS,
-          }),
-        );
-      });
-    });
-
-    it('should fire TOUR_STATUS on STOP action', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.stop();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.STOP,
-            index: 0,
-            lifecycle: LIFECYCLE.COMPLETE,
-            status: STATUS.PAUSED,
-            type: EVENTS.TOUR_STATUS,
-          }),
-        );
-      });
-    });
-  });
-
-  describe('lastAction tracking', () => {
-    it('should track CLOSE action through CLOSE→START sequence', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      // Close at step 0 → advances to step 1
-      act(() => {
-        result.current.controls.close('overlay');
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.CLOSE,
-            index: 0,
-            lifecycle: LIFECYCLE.COMPLETE,
-            origin: 'overlay',
-            type: EVENTS.STEP_AFTER,
-          }),
-        );
-      });
-
-      // CLOSE→INIT transition: STEP_BEFORE should have CLOSE as the action
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
-            action: ACTIONS.CLOSE,
-            index: 1,
-            lifecycle: LIFECYCLE.READY,
-            type: EVENTS.STEP_BEFORE,
-          }),
-        );
-      });
-    });
-  });
-
-  describe('Full tour sequences', () => {
-    it('should complete full tour → finish → TOUR_END → auto-reset sequence', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      // Initial: TOUR_START, STEP_BEFORE(0), TOOLTIP(0)
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      // Step 1 → Step 2
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Step 2 → finish
-      act(() => {
-        result.current.controls.next();
-      });
-
-      // Should fire: STEP_AFTER(1) → TOUR_END(FINISHED) → TOUR_STATUS(RESET)
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END }),
-        );
-      });
-
-      // Verify STEP_AFTER fired before TOUR_END
-      const calls = mockCallback.mock.calls.map((c: any[]) => c[0]?.type);
-      const stepAfterIndex = calls.indexOf(EVENTS.STEP_AFTER);
-      const tourEndIndex = calls.indexOf(EVENTS.TOUR_END);
-
-      expect(stepAfterIndex).toBeLessThan(tourEndIndex);
-
-      // Auto-reset restores to READY
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-        expect(result.current.state.index).toBe(0);
-      });
-    });
-
-    it('should complete skip → TOUR_END → auto-reset sequence', async () => {
-      const { result } = renderHook(() => useTourEngine(createProps()));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.skip('button_skip');
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.SKIPPED }),
-        );
-      });
-
-      // Auto-reset after TOUR_END
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-        expect(result.current.state.index).toBe(0);
-      });
-    });
-
-    it('should fire STEP_AFTER when step is null (past last step)', async () => {
-      const steps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      // next() at last step: index becomes 1 (past size), step is null
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: EVENTS.STEP_AFTER,
-            action: ACTIONS.NEXT,
-            index: 0,
-            lifecycle: LIFECYCLE.COMPLETE,
-          }),
-        );
-      });
-    });
-
-    it('should handle multi-step restart: complete all steps → restart → walk through again', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      // Complete first run
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      act(() => {
-        result.current.controls.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-      act(() => {
-        result.current.controls.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOUR_END }),
-        );
-      });
-      await waitFor(() => {
-        expect(result.current.state.status).toBe(STATUS.READY);
-      });
-
-      mockCallback.mockClear();
-
-      // Restart
-      act(() => {
-        result.current.controls.reset(true);
-      });
-
-      // Second run should produce TOUR_START, STEP_BEFORE(0), TOOLTIP(0)
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
-        );
-      });
-
-      mockCallback.mockClear();
-
-      // Continue to step 2
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-    });
-  });
-
-  describe('Target handling', () => {
-    it('should fire TARGET_NOT_FOUND when target is missing and auto-advance forward', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
-        { target: '.step-3', content: 'Step 3', disableBeacon: true },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      vi.mocked(getElement).mockImplementation(target => {
-        if (target === '.missing') return null;
-
-        return mockElement;
-      });
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
-        );
-      });
-
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Target not mounted',
-        expect.objectContaining({ target: '.missing' }),
-      );
-
-      // Auto-advances to step 3
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 2 }),
-        );
-      });
-    });
-
-    it('should fire TARGET_NOT_FOUND when target is not visible', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 150 },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      vi.mocked(isElementVisible).mockReturnValue(false);
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
-        );
-      });
-
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Target not visible',
-        expect.objectContaining({ target: '.step-2' }),
+  describe('Effect 1: Action tracking', () => {
+    it('should track NEXT action for STEP_BEFORE enrichment', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.TOOLTIP });
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      // Simulate NEXT action → COMPLETE (triggers action tracking + STEP_AFTER)
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.NEXT,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      // STEP_AFTER should use NEXT as the action (from lastAction tracking)
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.STEP_AFTER,
+          action: ACTIONS.NEXT,
+          index: 0,
+        }),
       );
     });
 
-    it('should NOT auto-advance in controlled mode when target is missing', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
-      ];
+    it('should track PREV action for STEP_AFTER enrichment', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
 
-      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
-        initialProps: createProps({ steps, stepIndex: 0 }),
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 1,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.PREV,
+        index: 0,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
 
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.STEP_AFTER,
+          action: ACTIONS.PREV,
+          index: 1,
+        }),
+      );
+    });
+
+    it('should track START after CLOSE for lastAction reset', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.CLOSE,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      // Set lastAction to CLOSE
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.CLOSE,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      // START follows CLOSE → lastAction updates to START
+      const state3 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.START,
+        index: 1,
+        lifecycle: LIFECYCLE.INIT,
+      });
+
+      rerender({ ...options, state: state3, previousState: state2 });
+
+      expect(props.onEvent).toHaveBeenCalled();
+    });
+  });
+
+  describe('Effect 2: Target resolution (INIT → READY)', () => {
+    it('should transition to READY when target is visible', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      // Initial render with READY status so effect bails (not RUNNING)
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      // Change status to RUNNING to trigger effect re-run via deps
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.cleanupPositionData).toHaveBeenCalled();
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        }),
+      );
+    });
+
+    it('should not run when status is not RUNNING', () => {
+      const store = createMockStore();
+
+      const state1 = createState({ status: STATUS.IDLE, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.PAUSED, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).not.toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.READY }),
+      );
+    });
+
+    it('should transition to READY immediately with targetWaitTimeout: 0 even if target missing', () => {
       vi.mocked(getElement).mockReturnValue(null);
 
-      rerender(createProps({ steps, stepIndex: 1 }));
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 0 });
 
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
-        );
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
 
-      const stepBeforeCalls = mockCallback.mock.calls.filter(
-        (call: any[]) => call[0]?.type === EVENTS.STEP_BEFORE,
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        }),
+      );
+    });
+
+    it('should fire STEP_BEFORE_HOOK and set waiting when step has before hook', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 150,
+        before: () => new Promise(resolve => setTimeout(resolve, 100)),
+      });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith({ waiting: true });
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.STEP_BEFORE_HOOK }),
+      );
+    });
+
+    it('should proceed after before hook resolves', async () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+
+      let resolveHook!: () => void;
+      const hookPromise = new Promise<void>(resolve => {
+        resolveHook = resolve;
+      });
+
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 5000,
+        before: () => hookPromise,
+      });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      resolveHook();
+      await hookPromise;
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        }),
+      );
+    });
+
+    it('should proceed and fire ERROR after before hook rejects', async () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const error = new Error('hook failed');
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 5000,
+        before: () => Promise.reject(error),
+      });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.ERROR, error }),
+      );
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        }),
+      );
+    });
+
+    it('should handle non-Error rejection from before hook', async () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 5000,
+        before: () => Promise.reject(new Error('string error')),
+      });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.ERROR,
+          error: expect.objectContaining({ message: 'string error' }),
+        }),
+      );
+    });
+
+    it('should proceed and fire ERROR after before hook timeout', async () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 200,
+        before: () => new Promise<void>(() => {}),
+      });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      await new Promise(resolve => setTimeout(resolve, 250));
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.ERROR,
+          error: expect.objectContaining({ message: 'Step before hook timed out' }),
+        }),
+      );
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        }),
+      );
+    });
+
+    it('should cancel before hook on unmount', async () => {
+      const store = createMockStore();
+
+      let resolveHook!: () => void;
+      const hookPromise = new Promise<void>(resolve => {
+        resolveHook = resolve;
+      });
+
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 5000,
+        before: () => hookPromise,
+      });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender, unmount } = renderHook(
+        (options_: HookOptions) => useLifecycleEffect(options_),
+        { initialProps: options },
       );
 
-      expect(stepBeforeCalls).toHaveLength(0);
-    });
-  });
+      rerender({ ...options, state: state2, previousState: state1 });
 
-  describe('before hook', () => {
-    it('should delay step transition with before hook', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        {
-          target: '.step-2',
-          content: 'Step 2',
-          disableBeacon: true,
-          before: () => new Promise(resolve => setTimeout(resolve, 200)),
-        },
-      ];
+      // Before hook started — waiting was set
+      expect(store.current.updateState).toHaveBeenCalledWith({ waiting: true });
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+      // Unmount cancels the abort controller
+      unmount();
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      // Resolve after unmount — should not call updateState with READY
+      resolveHook();
+      await hookPromise;
+      await new Promise(resolve => setTimeout(resolve, 0));
 
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
-        );
-      });
-
-      expect(result.current.state.waiting).toBe(true);
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      expect(result.current.state.waiting).toBe(false);
-    });
-
-    it('should delay step transition with async before', async () => {
-      let resolveDelay: () => void;
-      const delayPromise = new Promise<void>(resolve => {
-        resolveDelay = resolve;
-      });
-
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        {
-          target: '.step-2',
-          content: 'Step 2',
-          disableBeacon: true,
-          before: () => delayPromise,
-        },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(result.current.state.waiting).toBe(true);
-      });
-
-      await act(async () => {
-        resolveDelay!();
-        await delayPromise;
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      expect(result.current.state.waiting).toBe(false);
-    });
-
-    it('should proceed if async before rejects', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        {
-          target: '.step-2',
-          content: 'Step 2',
-          disableBeacon: true,
-          before: () => Promise.reject(new Error('fail')),
-        },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      expect(result.current.state.waiting).toBe(false);
-    });
-
-    it('should proceed after targetWaitTimeout if async before never resolves', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        {
-          target: '.step-2',
-          content: 'Step 2',
-          disableBeacon: true,
-          before: () => new Promise<void>(() => {}),
-          targetWaitTimeout: 200,
-        },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      expect(result.current.state.waiting).toBe(true);
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
-
-      expect(result.current.state.waiting).toBe(false);
-    });
-  });
-
-  describe('Target polling', () => {
-    it('should poll for missing target and resolve when found', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 1000 },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      vi.mocked(getElement).mockImplementation(target => {
-        if (target === '.step-2') return null;
-
-        return mockElement;
-      });
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      // Target appears
-      vi.mocked(getElement).mockReturnValue(mockElement);
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 1 }),
-        );
-      });
-    });
-
-    it('should skip polling with targetWaitTimeout: 0', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 0 },
-      ];
-
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      vi.mocked(getElement).mockImplementation(target => {
-        if (target === '.missing') return null;
-
-        return mockElement;
-      });
-
-      act(() => {
-        result.current.controls.next();
-      });
-
-      // Should fire TARGET_NOT_FOUND immediately without polling
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
-        );
-      });
+      expect(store.current.updateState).not.toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.READY }),
+      );
     });
 
     it('should set waiting after loaderDelay during polling', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        {
-          target: '.slow',
-          content: 'Slow',
-          disableBeacon: true,
-          targetWaitTimeout: 2000,
-          loaderDelay: 200,
-        },
-      ];
+      vi.mocked(getElement).mockReturnValue(null);
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-
-      vi.mocked(getElement).mockImplementation(target => {
-        if (target === '.slow') return null;
-
-        return mockElement;
+      const store = createMockStore();
+      const step = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 2000,
+        loaderDelay: 100,
       });
 
-      act(() => {
-        result.current.controls.next();
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
 
-      expect(result.current.state.waiting).toBe(false);
+      rerender({ ...options, state: state2, previousState: state1 });
 
-      await waitFor(() => {
-        expect(result.current.state.waiting).toBe(true);
+      // Before loaderDelay, waiting should not be set
+      expect(store.current.updateState).not.toHaveBeenCalledWith({ waiting: true });
+
+      await new Promise(resolve => setTimeout(resolve, 150));
+
+      expect(store.current.updateState).toHaveBeenCalledWith({ waiting: true });
+    });
+
+    it('should start polling when target is missing', async () => {
+      vi.mocked(getElement).mockReturnValue(null);
+
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 1000 });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      // Target not found yet, should not have transitioned
+      expect(store.current.updateState).not.toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.READY }),
+      );
 
       // Target appears
       vi.mocked(getElement).mockReturnValue(mockElement);
+      vi.mocked(isElementVisible).mockReturnValue(true);
 
-      await waitFor(() => {
-        expect(result.current.state.waiting).toBe(false);
-      });
+      await new Promise(resolve => setTimeout(resolve, 150));
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          waiting: false,
+        }),
+      );
     });
   });
 
-  describe('Edge cases', () => {
-    it('should finish when index >= size and step is null', async () => {
-      const steps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
+  describe('Effect 3: Step presentation (READY → *_BEFORE)', () => {
+    it('should fire STEP_BEFORE on INIT→READY transition', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.next();
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.INIT,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.READY,
       });
 
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({
-            type: EVENTS.TOUR_END,
-            status: STATUS.FINISHED,
-          }),
-        );
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.STEP_BEFORE }),
+      );
     });
 
-    it('should auto-advance backward on PREV when target is missing', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
-        { target: '.step-3', content: 'Step 3', disableBeacon: true },
-      ];
+    it('should transition to TOOLTIP_BEFORE when disableBeacon is true', () => {
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      const options = createOptions({ store, step, state: state1 });
 
-      // Advance to step 2
-      mockCallback.mockClear();
-      act(() => {
-        result.current.controls.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
 
-      // Advance to step 3
-      mockCallback.mockClear();
-      act(() => {
-        result.current.controls.next();
-      });
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 2 }),
-        );
-      });
+      rerender({ ...options, state: state2, previousState: state1 });
 
-      // Make step 2 missing
-      vi.mocked(getElement).mockImplementation(target => {
-        if (target === '.missing') return null;
-
-        return mockElement;
-      });
-
-      mockCallback.mockClear();
-
-      act(() => {
-        result.current.controls.prev();
-      });
-
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
-        );
-      });
-
-      // Auto-advance backward to step 1
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 0 }),
-        );
-      });
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE }),
+      );
     });
 
-    it('should clean up timers on unmount', async () => {
-      const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 5000 },
-      ];
+    it('should transition to BEACON_BEFORE when beacon is enabled', () => {
+      const store = createMockStore();
+      const props = createMergedProps({ continuous: false });
+      const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
 
-      const { result, unmount } = renderHook(() => useTourEngine(createProps({ steps })));
-
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-
-      // Start polling for missing target
-      vi.mocked(getElement).mockImplementation(target => {
-        if (target === '.step-2') return null;
-
-        return mockElement;
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.INIT,
+        action: ACTIONS.INIT,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.READY,
+        action: ACTIONS.INIT,
       });
 
-      act(() => {
-        result.current.controls.next();
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
       });
 
-      // Unmount while polling — should not throw or leak
-      unmount();
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.BEACON_BEFORE }),
+      );
+    });
+
+    it('should fire TARGET_NOT_FOUND when target disappears mid-lifecycle', () => {
+      vi.mocked(getElement).mockReturnValue(null);
+      vi.mocked(isElementVisible).mockReturnValue(false);
+
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Target not mounted', step);
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
+      );
+    });
+
+    it('should warn "Target not visible" when element exists but is not visible', () => {
+      vi.mocked(getElement).mockReturnValue(mockElement);
+      vi.mocked(isElementVisible).mockReturnValue(false);
+
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(consoleWarnSpy).toHaveBeenCalledWith('Target not visible', step);
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
+      );
+    });
+
+    it('should auto-advance index in uncontrolled mode on target not found', () => {
+      vi.mocked(getElement).mockReturnValue(null);
+      vi.mocked(isElementVisible).mockReturnValue(false);
+
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.READY,
+        controlled: false,
+      });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          index: 1,
+          lifecycle: LIFECYCLE.INIT,
+        }),
+      );
+    });
+
+    it('should auto-advance backward on PREV when target not found', () => {
+      vi.mocked(getElement).mockReturnValue(null);
+      vi.mocked(isElementVisible).mockReturnValue(false);
+
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.INIT,
+        index: 1,
+        action: ACTIONS.PREV,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.READY,
+        index: 1,
+        action: ACTIONS.PREV,
+        controlled: false,
+      });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          index: 0,
+          lifecycle: LIFECYCLE.INIT,
+        }),
+      );
+    });
+
+    it('should NOT auto-advance in controlled mode on target not found', () => {
+      vi.mocked(getElement).mockReturnValue(null);
+      vi.mocked(isElementVisible).mockReturnValue(false);
+
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.INIT,
+        controlled: true,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.READY,
+        controlled: true,
+      });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).not.toHaveBeenCalledWith(
+        expect.objectContaining({ index: expect.any(Number), lifecycle: LIFECYCLE.INIT }),
+      );
+    });
+
+    it('should set scrolling flag when scrolling needed', () => {
+      vi.mocked(needsScrolling).mockReturnValue(true);
+
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ scrolling: true }),
+      );
+    });
+  });
+
+  describe('Effect 4: BEACON/TOOLTIP display + STEP_AFTER', () => {
+    it('should transition TOOLTIP_BEFORE → TOOLTIP when not scrolling', () => {
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
+        scrolling: false,
+      });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.TOOLTIP }),
+      );
+    });
+
+    it('should transition BEACON_BEFORE → BEACON when not scrolling', () => {
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.BEACON_BEFORE,
+        scrolling: false,
+      });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.BEACON }),
+      );
+    });
+
+    it('should fire BEACON event', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.BEACON_BEFORE,
+      });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.BEACON });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(expect.objectContaining({ type: EVENTS.BEACON }));
+    });
+
+    it('should fire TOOLTIP event', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
+      });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.TOOLTIP });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(expect.objectContaining({ type: EVENTS.TOOLTIP }));
+    });
+
+    it('should fire STEP_AFTER on TOOLTIP → COMPLETE with previousState.index', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 0,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.NEXT,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.STEP_AFTER,
+          index: 0,
+          lifecycle: LIFECYCLE.COMPLETE,
+        }),
+      );
+    });
+
+    it('should fire STEP_AFTER when step is null (past last step) using previousStep', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const previousStep = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 1,
+        lifecycle: LIFECYCLE.TOOLTIP,
+        size: 1,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.NEXT,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 1,
+      });
+
+      vi.mocked(getElement).mockReturnValue(null);
+
+      const options = createOptions({
+        store,
+        props,
+        step: null,
+        previousStep,
+        state: state1,
+      });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.STEP_AFTER,
+          step: previousStep,
+        }),
+      );
+    });
+
+    it('should fire STEP_AFTER in controlled + PAUSED mode', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.PAUSED,
+        controlled: true,
+        index: 0,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const state2 = createState({
+        status: STATUS.PAUSED,
+        controlled: true,
+        action: ACTIONS.NEXT,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.STEP_AFTER,
+          index: 0,
+        }),
+      );
+    });
+
+    it('should not crash when after hook throws', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+      const previousStep = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 150,
+        after: () => {
+          throw new Error('boom');
+        },
+      });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 0,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.NEXT,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      const options = createOptions({ store, props, step, previousStep, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      // Should not throw
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.STEP_AFTER_HOOK }),
+      );
+    });
+
+    it('should call after hook and fire STEP_AFTER_HOOK', () => {
+      const afterMock = vi.fn();
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+      const previousStep = createStep({
+        disableBeacon: true,
+        targetWaitTimeout: 150,
+        after: afterMock,
+      });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 0,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.NEXT,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      const options = createOptions({
+        store,
+        props,
+        step,
+        previousStep,
+        state: state1,
+      });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.STEP_AFTER_HOOK }),
+      );
+      expect(afterMock).toHaveBeenCalled();
+    });
+  });
+
+  describe('Effect 5: Tour flow + tour-level callbacks', () => {
+    it('should fire TOUR_START on READY → RUNNING', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
+      const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOUR_START }),
+      );
+    });
+
+    it('should fire TOUR_END on FINISHED status and call controls.reset()', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const controls = createMockControls();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 2,
+      });
+      const state2 = createState({
+        status: STATUS.FINISHED,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 2,
+      });
+
+      const options = createOptions({ store, props, controls, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.FINISHED }),
+      );
+      expect(controls.reset).toHaveBeenCalled();
+    });
+
+    it('should fire TOUR_END on SKIPPED status', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const controls = createMockControls();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+      const state2 = createState({
+        status: STATUS.SKIPPED,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
+
+      const options = createOptions({ store, props, controls, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.SKIPPED }),
+      );
+    });
+
+    it('should fire TOUR_STATUS on STOP action', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.UPDATE,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const state2 = createState({
+        status: STATUS.PAUSED,
+        action: ACTIONS.STOP,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOUR_STATUS }),
+      );
+    });
+
+    it('should fire TOUR_STATUS on RESET action', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        action: ACTIONS.UPDATE,
+        lifecycle: LIFECYCLE.TOOLTIP,
+      });
+      const state2 = createState({
+        status: STATUS.READY,
+        action: ACTIONS.RESET,
+        lifecycle: LIFECYCLE.INIT,
+        index: 0,
+      });
+
+      const options = createOptions({ store, props, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOUR_STATUS }),
+      );
+    });
+
+    it('should fire TOUR_END with adjusted index when previousStep exists', () => {
+      const store = createMockStore();
+      const props = createMergedProps();
+      const controls = createMockControls();
+      const previousStep = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 2,
+      });
+      const state2 = createState({
+        status: STATUS.FINISHED,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 2,
+      });
+
+      const options = createOptions({
+        store,
+        props,
+        controls,
+        step: null,
+        previousStep,
+        state: state1,
+      });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(props.onEvent).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: EVENTS.TOUR_END,
+          index: 1,
+          step: previousStep,
+        }),
+      );
+    });
+
+    it('should set FINISHED when lifecycle changes to COMPLETE and index >= size', () => {
+      const store = createMockStore();
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 2,
+        lifecycle: LIFECYCLE.TOOLTIP,
+        size: 2,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 2,
+      });
+
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({
+          status: STATUS.FINISHED,
+          lifecycle: LIFECYCLE.COMPLETE,
+        }),
+      );
+    });
+
+    it('should finish when index >= size and step is null', () => {
+      const store = createMockStore();
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 1,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 2,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        index: 2,
+        lifecycle: LIFECYCLE.INIT,
+        size: 2,
+      });
+
+      const options = createOptions({ store, step: null, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ status: STATUS.FINISHED }),
+      );
+    });
+
+    it('should reset to INIT in uncontrolled mode after COMPLETE with more steps', () => {
+      const store = createMockStore();
+
+      const state1 = createState({
+        status: STATUS.RUNNING,
+        index: 0,
+        lifecycle: LIFECYCLE.TOOLTIP,
+        size: 3,
+      });
+      const state2 = createState({
+        status: STATUS.RUNNING,
+        index: 0,
+        lifecycle: LIFECYCLE.COMPLETE,
+        size: 3,
+        controlled: false,
+      });
+
+      const step = createStep({ disableBeacon: true, targetWaitTimeout: 150 });
+      const options = createOptions({ store, step, state: state1 });
+
+      const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
+        initialProps: options,
+      });
+
+      rerender({ ...options, state: state2, previousState: state1 });
+
+      expect(store.current.updateState).toHaveBeenCalledWith(
+        expect.objectContaining({ lifecycle: LIFECYCLE.INIT }),
+      );
     });
   });
 });

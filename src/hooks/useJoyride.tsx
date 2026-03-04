@@ -24,7 +24,7 @@ export default function useJoyride(props: Props): UseJoyrideReturn {
     });
   });
 
-  const publicState = useMemo(() => omit(state, 'positioned', 'scrolling', 'waiting'), [state]);
+  const publicState = useMemo(() => omit(state, 'positioned'), [state]);
 
   const Tour = canUseDOM() ? (
     <TourRenderer

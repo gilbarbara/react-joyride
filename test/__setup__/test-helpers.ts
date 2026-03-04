@@ -4,22 +4,7 @@ import { defaultLocale } from '~/defaults';
 import { STATUS } from '~/literals';
 import getStyles from '~/styles';
 
-import { CallBackProps, Props, StepMerged } from '~/types';
-
-export function callbackResponseFactory(initial?: Partial<CallBackProps>) {
-  const { controlled = false, size = 6, status = STATUS.RUNNING } = initial ?? {};
-
-  return (input: Partial<CallBackProps>) => {
-    return {
-      controlled,
-      origin: null,
-      size,
-      status,
-      step: expect.any(Object),
-      ...input,
-    };
-  };
-}
+import { EventData, Props, StepMerged } from '~/types';
 
 export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
   const base = fromPartial<StepMerged>({
@@ -47,4 +32,23 @@ export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
   const styles = getStyles(fromPartial<Props>({}), base);
 
   return { ...base, styles: overrides.styles ? { ...styles, ...overrides.styles } : styles };
+}
+
+export function eventResponseFactory(initial?: Partial<EventData>) {
+  const { controlled = false, size = 6, status = STATUS.RUNNING } = initial ?? {};
+
+  return (input: Partial<EventData>) => {
+    return {
+      controlled,
+      error: null,
+      origin: null,
+      scroll: null,
+      scrolling: false,
+      size,
+      status,
+      step: expect.any(Object),
+      waiting: false,
+      ...input,
+    };
+  };
 }

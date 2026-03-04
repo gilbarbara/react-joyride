@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Joyride, { type CallBackProps, STATUS, type Step } from 'react-joyride';
+import Joyride, { type EventData, STATUS, type Step } from 'react-joyride';
 import Modal from 'react-modal';
 import { useMount, usePrevious, useSetState } from '@gilbarbara/hooks';
 import { Button, Input } from '@heroui/react';
@@ -63,7 +63,7 @@ export default function ModalDemo() {
     }
   });
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleEvent = (data: EventData) => {
     const { status, type } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)) {
@@ -106,8 +106,8 @@ export default function ModalDemo() {
     <div className="bg-green-200 flex flex-col flex-1">
       <Container className="py-8 items-center justify-center">
         <Joyride
-          callback={handleJoyrideCallback}
           continuous
+          onEvent={handleEvent}
           run={run}
           stepOptions={{
             showSkipButton: true,

@@ -1,7 +1,8 @@
 import useTourEngine from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, getScrollTo, isElementVisible, scrollTo } from '~/modules/dom';
-import { act, callbackResponseFactory, renderHook, waitFor } from '~/test-utils';
+import { needsScrolling } from '~/modules/helpers';
+import { act, eventResponseFactory, renderHook, waitFor } from '~/test-utils';
 
 import { Props, Step } from '~/types';
 
@@ -21,9 +22,18 @@ vi.mock('~/modules/dom', async () => {
   };
 });
 
+vi.mock('~/modules/helpers', async () => {
+  const actual = await vi.importActual('~/modules/helpers');
+
+  return {
+    ...actual,
+    needsScrolling: vi.fn(() => false),
+  };
+});
+
 describe('useTourEngine', () => {
-  const mockCallback = vi.fn();
-  const getCallbackResponse = callbackResponseFactory({ size: 3 });
+  const mockOnEvent = vi.fn();
+  const getEventResponse = eventResponseFactory({ size: 3 });
 
   const testSteps: Step[] = [
     { target: '.step-1', content: 'Step 1', disableBeacon: true },
@@ -34,7 +44,7 @@ describe('useTourEngine', () => {
   function createProps(overrides: Partial<Props> = {}): Props {
     return {
       steps: testSteps,
-      callback: mockCallback,
+      onEvent: mockOnEvent,
       continuous: true,
       run: true,
       ...overrides,
@@ -44,7 +54,7 @@ describe('useTourEngine', () => {
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
   beforeEach(() => {
-    mockCallback.mockClear();
+    mockOnEvent.mockClear();
     consoleWarnSpy.mockClear();
     vi.mocked(getElement).mockClear();
     vi.mocked(getElement).mockReturnValue(mockElement);
@@ -62,12 +72,12 @@ describe('useTourEngine', () => {
       renderHook(() => useTourEngine(createProps()));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         1,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.START,
           index: 0,
           lifecycle: LIFECYCLE.INIT,
@@ -75,9 +85,9 @@ describe('useTourEngine', () => {
         }),
       );
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         2,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.UPDATE,
           index: 0,
           lifecycle: LIFECYCLE.READY,
@@ -85,9 +95,9 @@ describe('useTourEngine', () => {
         }),
       );
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         3,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.UPDATE,
           index: 0,
           lifecycle: LIFECYCLE.TOOLTIP,
@@ -99,8 +109,8 @@ describe('useTourEngine', () => {
     it('should advance to the next step with next()', async () => {
       const { result } = renderHook(() => useTourEngine(createProps()));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       // next() sets lifecycle=COMPLETE → STEP_AFTER → COMPLETE→INIT → STEP_BEFORE → TOOLTIP
       act(() => {
@@ -108,12 +118,12 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         1,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.NEXT,
           index: 0,
           lifecycle: LIFECYCLE.COMPLETE,
@@ -121,9 +131,9 @@ describe('useTourEngine', () => {
         }),
       );
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         2,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.NEXT,
           index: 1,
           lifecycle: LIFECYCLE.READY,
@@ -131,9 +141,9 @@ describe('useTourEngine', () => {
         }),
       );
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         3,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.UPDATE,
           index: 1,
           lifecycle: LIFECYCLE.TOOLTIP,
@@ -148,12 +158,12 @@ describe('useTourEngine', () => {
       renderHook(() => useTourEngine(createProps({ steps, continuous: false })));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         3,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.UPDATE,
           index: 0,
           lifecycle: LIFECYCLE.BEACON,
@@ -171,21 +181,19 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP }),
-        );
+        expect(mockOnEvent).toHaveBeenCalledWith(expect.objectContaining({ type: EVENTS.TOOLTIP }));
       });
 
       // Should be TOOLTIP, not BEACON (continuous + NEXT hides beacon)
-      const beaconCalls = mockCallback.mock.calls.filter(
+      const beaconCalls = mockOnEvent.mock.calls.filter(
         (call: any[]) => call[0]?.type === EVENTS.BEACON,
       );
 
@@ -197,16 +205,16 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.UPDATE,
             index: 0,
             lifecycle: LIFECYCLE.COMPLETE,
@@ -221,16 +229,16 @@ describe('useTourEngine', () => {
     it('should skip the tour and fire TOUR_END', async () => {
       const { result } = renderHook(() => useTourEngine(createProps()));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.skip('button_skip');
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.SKIP,
             index: 0,
             lifecycle: LIFECYCLE.COMPLETE,
@@ -245,16 +253,16 @@ describe('useTourEngine', () => {
     it('should stop and resume the tour', async () => {
       const { result } = renderHook(() => useTourEngine(createProps()));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.stop();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.STOP,
             index: 0,
             lifecycle: LIFECYCLE.COMPLETE,
@@ -264,14 +272,14 @@ describe('useTourEngine', () => {
         );
       });
 
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.start();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_START }),
         );
       });
@@ -288,8 +296,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       // Make .missing target not found before advancing
       vi.mocked(getElement).mockImplementation(target => {
@@ -304,7 +312,7 @@ describe('useTourEngine', () => {
 
       // STEP_AFTER fires, then COMPLETE→INIT, INIT polls, TARGET_NOT_FOUND, auto-advance to step 3
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
         );
       });
@@ -316,7 +324,7 @@ describe('useTourEngine', () => {
 
       // Auto-advance sets lifecycle=INIT → step 3 shows
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 2 }),
         );
       });
@@ -330,8 +338,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       vi.mocked(isElementVisible).mockReturnValue(false);
 
@@ -340,7 +348,7 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
         );
       });
@@ -361,21 +369,21 @@ describe('useTourEngine', () => {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       vi.mocked(getElement).mockReturnValue(null);
 
       rerender(createProps({ steps, stepIndex: 1 }));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
         );
       });
 
       // No STEP_BEFORE for index 2 (controlled mode doesn't auto-advance)
-      const stepBeforeCalls = mockCallback.mock.calls.filter(
+      const stepBeforeCalls = mockOnEvent.mock.calls.filter(
         (call: any[]) => call[0]?.type === EVENTS.STEP_BEFORE,
       );
 
@@ -392,8 +400,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       // Make step-2 target missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
@@ -408,7 +416,7 @@ describe('useTourEngine', () => {
 
       // COMPLETE→INIT starts polling (target missing)
       // No STEP_BEFORE yet — target missing, polling in INIT
-      const stepBeforeCalls = mockCallback.mock.calls.filter(
+      const stepBeforeCalls = mockOnEvent.mock.calls.filter(
         (call: any[]) => call[0]?.type === EVENTS.STEP_BEFORE && call[0]?.index === 1,
       );
 
@@ -418,7 +426,7 @@ describe('useTourEngine', () => {
       vi.mocked(getElement).mockReturnValue(mockElement);
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 1 }),
         );
       });
@@ -433,8 +441,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
       consoleWarnSpy.mockClear();
 
       // Make .missing target permanently missing before advancing
@@ -451,12 +459,12 @@ describe('useTourEngine', () => {
       // STEP_AFTER fires, then COMPLETE→INIT starts polling for 200ms
       // Wait for polling to time out and fire TARGET_NOT_FOUND
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
         );
       });
 
-      const notFoundCalls = mockCallback.mock.calls.filter(
+      const notFoundCalls = mockOnEvent.mock.calls.filter(
         (call: any[]) => call[0]?.type === EVENTS.TARGET_NOT_FOUND,
       );
 
@@ -476,8 +484,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       // Make target missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
@@ -492,7 +500,7 @@ describe('useTourEngine', () => {
 
       // TARGET_NOT_FOUND should fire immediately without polling delay
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
         );
       });
@@ -510,8 +518,8 @@ describe('useTourEngine', () => {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       vi.mocked(getElement).mockImplementation(target => {
         if (target === '.missing') return null;
@@ -526,12 +534,12 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
         );
       });
 
-      const notFoundCalls = mockCallback.mock.calls.filter(
+      const notFoundCalls = mockOnEvent.mock.calls.filter(
         (call: any[]) => call[0]?.type === EVENTS.TARGET_NOT_FOUND,
       );
 
@@ -554,7 +562,7 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       // Make .slow target missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
@@ -596,16 +604,16 @@ describe('useTourEngine', () => {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       expect(result.current.state.controlled).toBe(true);
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
 
       rerender(createProps({ steps, stepIndex: 1 }));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.NEXT,
             controlled: true,
             index: 1,
@@ -627,14 +635,14 @@ describe('useTourEngine', () => {
         initialProps: createProps({ steps, stepIndex: 1 }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       rerender(createProps({ steps, stepIndex: 0 }));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.PREV,
             controlled: true,
             index: 0,
@@ -657,7 +665,7 @@ describe('useTourEngine', () => {
         initialProps: createProps({ steps, stepIndex: 1 }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       // skip() at index > 0 so previousStep exists and TOUR_END fires
       act(() => {
@@ -665,12 +673,12 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_END }),
         );
       });
 
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
 
       rerender(createProps({ steps, stepIndex: 2 }));
 
@@ -681,7 +689,7 @@ describe('useTourEngine', () => {
         });
       });
 
-      const navCallbacks = mockCallback.mock.calls.filter(
+      const navCallbacks = mockOnEvent.mock.calls.filter(
         (call: any[]) => call[0] && [EVENTS.STEP_BEFORE, EVENTS.TOUR_START].includes(call[0].type),
       );
 
@@ -695,12 +703,12 @@ describe('useTourEngine', () => {
         initialProps: createProps({ run: false }),
       });
 
-      expect(mockCallback).not.toHaveBeenCalled();
+      expect(mockOnEvent).not.toHaveBeenCalled();
 
       rerender(createProps({ run: true }));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_START }),
         );
       });
@@ -711,14 +719,14 @@ describe('useTourEngine', () => {
         initialProps: createProps({ run: true }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       rerender(createProps({ run: false }));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.STOP,
             index: 0,
             lifecycle: LIFECYCLE.COMPLETE,
@@ -732,7 +740,7 @@ describe('useTourEngine', () => {
     it('should return stable mergedProps reference when props are deeply equal', async () => {
       const initialProps: Props = {
         steps: testSteps,
-        callback: mockCallback,
+        onEvent: mockOnEvent,
         continuous: true,
         run: true,
       };
@@ -741,7 +749,7 @@ describe('useTourEngine', () => {
         initialProps,
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       const firstRef = result.current.mergedProps;
 
@@ -769,6 +777,14 @@ describe('useTourEngine', () => {
   });
 
   describe('Scroll', () => {
+    beforeEach(() => {
+      vi.mocked(needsScrolling).mockReturnValue(true);
+    });
+
+    afterEach(() => {
+      vi.mocked(needsScrolling).mockReturnValue(false);
+    });
+
     const mockPositionData = {
       placement: 'bottom' as const,
       x: 0,
@@ -779,7 +795,7 @@ describe('useTourEngine', () => {
     it('should call scrollTo when scrollToFirstStep is true', async () => {
       const { result } = renderHook(() => useTourEngine(createProps({ scrollToFirstStep: true })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(2));
 
       act(() => {
         result.current.store.current.setPositionData('tooltip', mockPositionData);
@@ -789,6 +805,7 @@ describe('useTourEngine', () => {
     });
 
     it('should NOT call scrollTo when disableScrolling is true on the step', async () => {
+      vi.mocked(needsScrolling).mockReturnValue(false);
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true, disableScrolling: true },
       ];
@@ -797,7 +814,7 @@ describe('useTourEngine', () => {
         useTourEngine(createProps({ steps, scrollToFirstStep: true })),
       );
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       act(() => {
         result.current.store.current.setPositionData('tooltip', mockPositionData);
@@ -816,7 +833,7 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ scrollToFirstStep: true })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(2));
 
       act(() => {
         result.current.store.current.setPositionData('tooltip', mockPositionData);
@@ -828,11 +845,7 @@ describe('useTourEngine', () => {
         result.current.controls.next();
       });
 
-      await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
-        );
-      });
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(7));
 
       act(() => {
         result.current.store.current.setPositionData('tooltip', mockPositionData);
@@ -846,7 +859,7 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ scrollToFirstStep: true })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(2));
 
       act(() => {
         result.current.store.current.setPositionData('tooltip', mockPositionData);
@@ -867,7 +880,7 @@ describe('useTourEngine', () => {
         });
       });
 
-      expect(mockCallback).not.toHaveBeenCalled();
+      expect(mockOnEvent).not.toHaveBeenCalled();
       expect(result.current.state.status).toBe(STATUS.READY);
     });
 
@@ -883,12 +896,12 @@ describe('useTourEngine', () => {
       renderHook(() => useTourEngine(createProps({ steps, continuous: false })));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         3,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.UPDATE,
           index: 0,
           lifecycle: LIFECYCLE.TOOLTIP,
@@ -901,8 +914,8 @@ describe('useTourEngine', () => {
     it('should track lastAction for STEP_BEFORE callback after NEXT', async () => {
       const { result } = renderHook(() => useTourEngine(createProps()));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
@@ -910,8 +923,8 @@ describe('useTourEngine', () => {
 
       // next() triggers STEP_AFTER → STEP_BEFORE with NEXT action preserved
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
-          getCallbackResponse({
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          getEventResponse({
             action: ACTIONS.NEXT,
             index: 1,
             lifecycle: LIFECYCLE.READY,
@@ -930,11 +943,11 @@ describe('useTourEngine', () => {
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
         );
       });
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
 
       // Manually set lifecycle to COMPLETE — should reset COMPLETE→INIT→READY→TOOLTIP
       act(() => {
@@ -942,7 +955,7 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
         );
       });
@@ -957,26 +970,26 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       // Advance to step 2
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
       act(() => {
         result.current.controls.next();
       });
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
 
       // Advance to step 3
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
       act(() => {
         result.current.controls.next();
       });
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 2 }),
         );
       });
@@ -988,7 +1001,7 @@ describe('useTourEngine', () => {
         return mockElement;
       });
 
-      mockCallback.mockClear();
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.prev();
@@ -996,14 +1009,14 @@ describe('useTourEngine', () => {
 
       // STEP_AFTER for step 3, then TARGET_NOT_FOUND for step 2 (index 1)
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
         );
       });
 
       // Auto-advance backward to step 1 (index 0)
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 0 }),
         );
       });
@@ -1014,7 +1027,7 @@ describe('useTourEngine', () => {
         initialProps: createProps(),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
       consoleWarnSpy.mockClear();
 
       // Steps without target are invalid
@@ -1043,7 +1056,7 @@ describe('useTourEngine', () => {
       rerender(createProps({ run: true }));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_START }),
         );
       });
@@ -1075,12 +1088,12 @@ describe('useTourEngine', () => {
       renderHook(() => useTourEngine(createProps({ initialStepIndex: 1 })));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         1,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.START,
           index: 1,
           lifecycle: LIFECYCLE.INIT,
@@ -1088,9 +1101,9 @@ describe('useTourEngine', () => {
         }),
       );
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         2,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.UPDATE,
           index: 1,
           lifecycle: LIFECYCLE.READY,
@@ -1103,12 +1116,12 @@ describe('useTourEngine', () => {
       renderHook(() => useTourEngine(createProps({ initialStepIndex: 1, stepIndex: 0 })));
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledTimes(3);
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
       });
 
-      expect(mockCallback).toHaveBeenNthCalledWith(
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
         1,
-        getCallbackResponse({
+        getEventResponse({
           action: ACTIONS.START,
           controlled: true,
           index: 0,
@@ -1133,8 +1146,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
@@ -1142,7 +1155,7 @@ describe('useTourEngine', () => {
 
       // STEP_AFTER fires immediately
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
         );
       });
@@ -1152,7 +1165,7 @@ describe('useTourEngine', () => {
 
       // After real 200ms, STEP_BEFORE and TOOLTIP fire
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
@@ -1175,8 +1188,8 @@ describe('useTourEngine', () => {
         initialProps: createProps({ steps, stepIndex: 0 }),
       });
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       rerender(createProps({ steps, stepIndex: 1 }));
 
@@ -1187,7 +1200,7 @@ describe('useTourEngine', () => {
 
       // After real 200ms, TOOLTIP fires
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
@@ -1213,15 +1226,15 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
         );
       });
@@ -1235,7 +1248,7 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
@@ -1253,7 +1266,7 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       act(() => {
         result.current.controls.next();
@@ -1284,8 +1297,8 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
@@ -1293,7 +1306,7 @@ describe('useTourEngine', () => {
 
       // Should still proceed to TOOLTIP despite rejection
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
@@ -1315,15 +1328,15 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
         );
       });
@@ -1332,7 +1345,7 @@ describe('useTourEngine', () => {
 
       // After targetWaitTimeout (200ms), should proceed
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });
@@ -1351,7 +1364,7 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
 
       act(() => {
         result.current.controls.next();
@@ -1379,15 +1392,15 @@ describe('useTourEngine', () => {
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
-      await waitFor(() => expect(mockCallback).toHaveBeenCalledTimes(3));
-      mockCallback.mockClear();
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
 
       act(() => {
         result.current.controls.next();
       });
 
       await waitFor(() => {
-        expect(mockCallback).toHaveBeenCalledWith(
+        expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
         );
       });

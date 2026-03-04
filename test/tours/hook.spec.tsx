@@ -1,8 +1,8 @@
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
 import {
   act,
-  callbackResponseFactory,
   cleanup,
+  eventResponseFactory,
   fireEvent,
   render,
   screen,
@@ -11,12 +11,12 @@ import {
 
 import Hook from '../__fixtures__/Hook';
 
-const getCallbackResponse = callbackResponseFactory({ size: 7 });
+const getEventResponse = eventResponseFactory({ size: 7 });
 
-const mockCallback = vi.fn();
+const mockOnEvent = vi.fn();
 
 describe('Joyride > Standard With Hook', () => {
-  render(<Hook callback={mockCallback} />);
+  render(<Hook onEvent={mockOnEvent} />);
 
   beforeAll(() => {
     vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -28,15 +28,15 @@ describe('Joyride > Standard With Hook', () => {
 
   it('should render the content', () => {
     expect(screen.getByTestId('demo')).toBeInTheDocument();
-    expect(mockCallback).toHaveBeenCalledTimes(0);
+    expect(mockOnEvent).toHaveBeenCalledTimes(0);
   });
 
   it('should start the tour', async () => {
     fireEvent.click(screen.getByTestId('start'));
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
       1,
-      getCallbackResponse({
+      getEventResponse({
         action: ACTIONS.START,
         index: 0,
         lifecycle: LIFECYCLE.INIT,
@@ -47,12 +47,12 @@ describe('Joyride > Standard With Hook', () => {
 
   it('should show STEP 1 Tooltip (center placement, no beacon)', async () => {
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(3);
+      expect(mockOnEvent).toHaveBeenCalledTimes(3);
     });
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
       2,
-      getCallbackResponse({
+      getEventResponse({
         action: ACTIONS.UPDATE,
         index: 0,
         lifecycle: LIFECYCLE.READY,
@@ -60,9 +60,9 @@ describe('Joyride > Standard With Hook', () => {
       }),
     );
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
       3,
-      getCallbackResponse({
+      getEventResponse({
         action: ACTIONS.UPDATE,
         index: 0,
         lifecycle: LIFECYCLE.TOOLTIP,
@@ -79,12 +79,12 @@ describe('Joyride > Standard With Hook', () => {
     fireEvent.click(screen.getByTestId('button-primary'));
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(6);
+      expect(mockOnEvent).toHaveBeenCalledTimes(8);
     });
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
       4,
-      getCallbackResponse({
+      getEventResponse({
         action: ACTIONS.NEXT,
         index: 0,
         lifecycle: LIFECYCLE.COMPLETE,
@@ -92,9 +92,9 @@ describe('Joyride > Standard With Hook', () => {
       }),
     );
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
       5,
-      getCallbackResponse({
+      getEventResponse({
         action: ACTIONS.NEXT,
         index: 1,
         lifecycle: LIFECYCLE.READY,
@@ -102,9 +102,33 @@ describe('Joyride > Standard With Hook', () => {
       }),
     );
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
       6,
-      getCallbackResponse({
+      getEventResponse({
+        action: ACTIONS.UPDATE,
+        index: 1,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
+        scroll: expect.any(Object),
+        scrolling: true,
+        type: EVENTS.SCROLL_START,
+      }),
+    );
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      7,
+      getEventResponse({
+        action: ACTIONS.UPDATE,
+        index: 1,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
+        scroll: expect.any(Object),
+        scrolling: true,
+        type: EVENTS.SCROLL_END,
+      }),
+    );
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      8,
+      getEventResponse({
         action: ACTIONS.UPDATE,
         index: 1,
         lifecycle: LIFECYCLE.TOOLTIP,
@@ -122,9 +146,9 @@ describe('Joyride > Standard With Hook', () => {
       document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     });
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
-      7,
-      getCallbackResponse({
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      9,
+      getEventResponse({
         action: ACTIONS.CLOSE,
         index: 1,
         lifecycle: LIFECYCLE.COMPLETE,
@@ -136,12 +160,12 @@ describe('Joyride > Standard With Hook', () => {
 
   it('should show STEP 3 Beacon', async () => {
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledTimes(9);
+      expect(mockOnEvent).toHaveBeenCalledTimes(13);
     });
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
-      8,
-      getCallbackResponse({
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      10,
+      getEventResponse({
         action: ACTIONS.CLOSE,
         index: 2,
         lifecycle: LIFECYCLE.READY,
@@ -149,9 +173,33 @@ describe('Joyride > Standard With Hook', () => {
       }),
     );
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
-      9,
-      getCallbackResponse({
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      11,
+      getEventResponse({
+        action: ACTIONS.UPDATE,
+        index: 2,
+        lifecycle: LIFECYCLE.BEACON_BEFORE,
+        scroll: expect.any(Object),
+        scrolling: true,
+        type: EVENTS.SCROLL_START,
+      }),
+    );
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      12,
+      getEventResponse({
+        action: ACTIONS.UPDATE,
+        index: 2,
+        lifecycle: LIFECYCLE.BEACON_BEFORE,
+        scroll: expect.any(Object),
+        scrolling: true,
+        type: EVENTS.SCROLL_END,
+      }),
+    );
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      13,
+      getEventResponse({
         action: ACTIONS.UPDATE,
         index: 2,
         lifecycle: LIFECYCLE.BEACON,
@@ -167,9 +215,9 @@ describe('Joyride > Standard With Hook', () => {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    expect(mockCallback).toHaveBeenNthCalledWith(
-      10,
-      getCallbackResponse({
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      14,
+      getEventResponse({
         action: ACTIONS.UPDATE,
         index: 2,
         lifecycle: LIFECYCLE.TOOLTIP,
@@ -182,7 +230,7 @@ describe('Joyride > Standard With Hook', () => {
     fireEvent.click(screen.getByTestId('mission-button'));
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledWith(
+      expect(mockOnEvent).toHaveBeenCalledWith(
         expect.objectContaining({
           action: ACTIONS.NEXT,
           index: 2,
@@ -201,7 +249,7 @@ describe('Joyride > Standard With Hook', () => {
     fireEvent.click(screen.getByTestId('button-skip'));
 
     await waitFor(() => {
-      expect(mockCallback).toHaveBeenCalledWith(
+      expect(mockOnEvent).toHaveBeenCalledWith(
         expect.objectContaining({
           action: ACTIONS.SKIP,
           status: STATUS.SKIPPED,

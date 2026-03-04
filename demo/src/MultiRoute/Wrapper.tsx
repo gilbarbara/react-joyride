@@ -1,4 +1,4 @@
-import Joyride, { type CallBackProps, EVENTS } from 'react-joyride';
+import Joyride, { type EventData, EVENTS } from 'react-joyride';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useMount } from '@gilbarbara/hooks';
 
@@ -66,7 +66,7 @@ export default function MultiRouteWrapper() {
     });
   });
 
-  const handleCallback = (data: CallBackProps) => {
+  const handleEvent = (data: EventData) => {
     const {
       action,
       index,
@@ -99,8 +99,8 @@ export default function MultiRouteWrapper() {
       <Header />
       <Outlet />
       <Joyride
-        callback={handleCallback}
         continuous
+        onEvent={handleEvent}
         run={run}
         stepIndex={stepIndex}
         steps={steps}

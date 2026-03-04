@@ -176,8 +176,10 @@ describe('helpers', () => {
       index: 0,
       lifecycle: LIFECYCLE.INIT,
       origin: null,
+      scrolling: false,
       size: 5,
       status: STATUS.RUNNING,
+      waiting: false,
     };
 
     const baseParameters = { step: { placement: 'auto' }, state: baseState, continuous: true };

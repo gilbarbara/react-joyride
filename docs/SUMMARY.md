@@ -5,7 +5,7 @@
 * [Step](step.md)
 * [Styling](styling.md)
 * [Custom Components](custom-components.md)
-* [Callback](callback.md)
+* [Events](events.md)
 * [Constants](constants.md)
 * [Accessibility](accessibility.md)
 * [Migration](migration.md)

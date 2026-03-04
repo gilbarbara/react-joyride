@@ -25,7 +25,7 @@ export interface UseTourEngineReturn {
 
 export default function useTourEngine(props: Props): UseTourEngineReturn {
   const mergedProps = useMemoDeepCompare(() => mergeProps(defaultProps, props), [props]);
-  const { debug, run, steps } = mergedProps;
+  const { debug, onEvent, run, steps } = mergedProps;
 
   const store = useRef(createStore(mergedProps));
   const state = useSyncExternalStore<StoreState>(
@@ -60,6 +60,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
 
   usePropSync({
     controls,
+    onEvent,
     props: mergedProps,
     state,
     store,
@@ -76,6 +77,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   });
 
   useScrollEffect({
+    onEvent,
     previousState,
     props: mergedProps,
     state,

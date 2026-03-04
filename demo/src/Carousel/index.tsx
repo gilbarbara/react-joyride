@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Joyride, { ACTIONS, type CallBackProps, EVENTS, STATUS, type Step } from 'react-joyride';
+import Joyride, { ACTIONS, type EventData, EVENTS, STATUS, type Step } from 'react-joyride';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useElementMeasure, useMount, useSetState } from '@gilbarbara/hooks';
@@ -96,7 +96,7 @@ export default function CarouselDemo() {
     setState({ run: true, stepIndex: 0 });
   };
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleEvent = (data: EventData) => {
     const { action, index, status, type } = data;
 
     if (([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] as string[]).includes(type)) {
@@ -114,8 +114,8 @@ export default function CarouselDemo() {
     <div className="bg-warning-50 min-h-screen">
       <Container className="py-8">
         <Joyride
-          callback={handleJoyrideCallback}
           continuous
+          onEvent={handleEvent}
           run={run}
           scrollToFirstStep
           stepIndex={stepIndex}

@@ -20,8 +20,10 @@ describe('store', () => {
         index: 0,
         lifecycle: LIFECYCLE.INIT,
         origin: null,
+        scrolling: false,
         size: 0,
         status: STATUS.IDLE,
+        waiting: false,
       });
     });
 

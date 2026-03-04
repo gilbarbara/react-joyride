@@ -4,7 +4,7 @@ import { fireEvent, render, screen } from '~/test-utils';
 
 import Standard from '../__fixtures__/Standard';
 
-const mockCallback = vi.fn();
+const mockOnEvent = vi.fn();
 
 vi.mock('~/modules/dom', async () => {
   const originalModule = await vi.importActual('~/modules/dom');
@@ -16,13 +16,13 @@ vi.mock('~/modules/dom', async () => {
 });
 
 describe('Joyride > NO-DOM', () => {
-  render(<Standard callback={mockCallback} />);
+  render(<Standard onEvent={mockOnEvent} />);
 
   it('should not render the step when starting the tour', async () => {
     fireEvent.click(screen.getByTestId('start'));
 
     expect(screen.queryById('react-joyride-step-0')).not.toBeInTheDocument();
 
-    expect(mockCallback).not.toHaveBeenCalled();
+    expect(mockOnEvent).not.toHaveBeenCalled();
   });
 });
