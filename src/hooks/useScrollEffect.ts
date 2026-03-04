@@ -1,8 +1,8 @@
 import { RefObject, useEffect, useRef } from 'react';
-import { useEffectDeepCompare } from '@gilbarbara/hooks';
 
 import { defaultProps } from '~/defaults';
 import { LIFECYCLE, STATUS } from '~/literals';
+import { treeChanges } from '~/modules/changes';
 import {
   getElement,
   getScrollParent,
@@ -19,10 +19,8 @@ import createStore from '~/modules/store';
 import { Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
-type Value = import('tree-changes-hook').Value;
 
 interface UseScrollEffectParams {
-  changedState: (key?: string, actual?: Value, previous?: Value) => boolean;
   previousState: StoreState | undefined;
   props: MergedProps;
   state: StoreState;
@@ -89,16 +87,23 @@ function getMainAxisOffset(data: PositionData): number {
 }
 
 export default function useScrollEffect({
-  changedState,
   previousState,
   props,
   state,
   step,
   store,
 }: UseScrollEffectParams): void {
-  const { debug, scrollDuration } = props;
   const { index, lifecycle, positioned, scrolling, status } = state;
   const cancelScrollRef = useRef<(() => void) | null>(null);
+  const stateRef = useRef(state);
+  const previousStateRef = useRef(previousState);
+  const propsRef = useRef(props);
+  const stepRef = useRef(step);
+
+  stateRef.current = state;
+  previousStateRef.current = previousState;
+  propsRef.current = props;
+  stepRef.current = step;
 
   useEffect(() => {
     return () => {
@@ -106,13 +111,17 @@ export default function useScrollEffect({
     };
   }, []);
 
-  useEffectDeepCompare(() => {
-    if (!previousState || !step) {
+  useEffect(() => {
+    if (!previousStateRef.current || !stepRef.current) {
       return;
     }
 
-    if (status === STATUS.RUNNING && scrolling && changedState('positioned', true)) {
-      const target = getElement(step.target);
+    const { changedTo } = treeChanges(stateRef.current, previousStateRef.current);
+    const currentStep = stepRef.current;
+    const { debug, scrollDuration } = propsRef.current;
+
+    if (status === STATUS.RUNNING && scrolling && changedTo('positioned', true)) {
+      const target = getElement(currentStep.target);
       const beaconPosition = store.current.getPositionData('beacon');
       const hasCustomScroll = hasCustomScrollParent(target);
       const scrollParent = getScrollParent(target);
@@ -142,14 +151,14 @@ export default function useScrollEffect({
           await pagePromise;
         }
 
-        const baseScrollY = Math.floor(getScrollTo(target, step.scrollOffset)) || 0;
+        const baseScrollY = Math.floor(getScrollTo(target, currentStep.scrollOffset)) || 0;
         const scrollY = hasCustomScroll
           ? baseScrollY
           : adjustForPlacement(baseScrollY, {
               beaconPosition,
               lifecycle,
-              scrollOffset: step.scrollOffset,
-              step,
+              scrollOffset: currentStep.scrollOffset,
+              step: currentStep,
             });
 
         const { cancel, promise } = scrollTo(scrollY, {
@@ -167,17 +176,5 @@ export default function useScrollEffect({
         store.current.updateState({ positioned: false, scrolling: false });
       });
     }
-  }, [
-    changedState,
-    debug,
-    index,
-    lifecycle,
-    positioned,
-    previousState,
-    scrollDuration,
-    scrolling,
-    status,
-    step,
-    store,
-  ]);
+  }, [index, lifecycle, positioned, scrolling, status, store]);
 }

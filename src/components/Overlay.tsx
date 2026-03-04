@@ -1,6 +1,5 @@
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
-import { useIsMounted, useWindowSize } from '@gilbarbara/hooks';
-import useTreeChanges from 'tree-changes-hook';
+import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { useWindowSize } from '@gilbarbara/hooks';
 
 import useTargetPosition from '~/hooks/useTargetPosition';
 import { LIFECYCLE } from '~/literals';
@@ -25,10 +24,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
     target,
     waiting,
   } = props;
-  const isMounted = useIsMounted();
   const windowSize = useWindowSize();
-  const { changed } = useTreeChanges(props);
   const targetRect = useTargetPosition(target, spotlightPadding, scrolling || waiting);
+  const previousLifecycleRef = useRef(lifecycle);
 
   const [showSpotlight, setShowSpotlight] = useState(false);
   const [spotlightReady, setSpotlightReady] = useState(false);
@@ -49,16 +47,20 @@ export default function JoyrideOverlay(props: OverlayProps) {
   }, [overlayHeight, styles.overlay]);
 
   useEffect(() => {
-    if (!isMounted()) {
-      return;
-    }
+    const previousLifecycle = previousLifecycleRef.current;
 
-    if (changed('lifecycle', LIFECYCLE.TOOLTIP) && placement !== 'center') {
+    previousLifecycleRef.current = lifecycle;
+
+    if (
+      lifecycle === LIFECYCLE.TOOLTIP &&
+      previousLifecycle !== LIFECYCLE.TOOLTIP &&
+      placement !== 'center'
+    ) {
       setShowSpotlight(true);
-    } else if (changed('lifecycle', LIFECYCLE.COMPLETE)) {
+    } else if (lifecycle === LIFECYCLE.COMPLETE && previousLifecycle !== LIFECYCLE.COMPLETE) {
       setShowSpotlight(false);
     }
-  }, [changed, isMounted, placement]);
+  }, [lifecycle, placement]);
 
   const showCutout = showSpotlight && !scrolling && !waiting;
 

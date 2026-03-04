@@ -1,6 +1,5 @@
 import { RefObject, useMemo, useRef, useSyncExternalStore } from 'react';
 import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gilbarbara/hooks';
-import useTreeChanges from 'tree-changes-hook';
 
 import { defaultProps } from '~/defaults';
 import useControls from '~/hooks/useControls';
@@ -39,10 +38,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
 
   const { index, size, status } = state;
 
-  const previousProps = usePrevious(mergedProps);
   const previousState = usePrevious(state);
-  const { changed: changedProps } = useTreeChanges(mergedProps);
-  const { changed: changedState, changedFrom: changedStateFrom } = useTreeChanges(state);
 
   const step = useMemo(() => getMergedStep(mergedProps, steps[index]), [index, mergedProps, steps]);
   const previousStep = useMemo(
@@ -63,17 +59,13 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   }, [run, size, status]);
 
   usePropSync({
-    changedProps,
     controls,
-    previousProps,
     props: mergedProps,
     state,
     store,
   });
 
   useLifecycleEffect({
-    changedState,
-    changedStateFrom,
     controls,
     previousState,
     previousStep,
@@ -84,7 +76,6 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   });
 
   useScrollEffect({
-    changedState,
     previousState,
     props: mergedProps,
     state,
