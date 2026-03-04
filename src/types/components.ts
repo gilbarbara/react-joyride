@@ -7,7 +7,6 @@ import {
   RefObject,
 } from 'react';
 import { AutoUpdateOptions, Middleware, MiddlewareData, Strategy } from '@floating-ui/react-dom';
-import { PartialDeep, SetRequired, Simplify } from '@gilbarbara/types';
 
 import {
   Actions,
@@ -20,6 +19,7 @@ import {
   Status,
   Styles,
 } from './common';
+import { PartialDeep, SetRequired, Simplify } from './utilities';
 
 export type ArrowRenderProps = {
   base: number;

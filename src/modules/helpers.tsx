@@ -1,12 +1,21 @@
 import { cloneElement, FC, isValidElement, ReactElement, ReactNode } from 'react';
 import innerText from 'react-innertext';
 import deepmergeFactory from '@fastify/deepmerge';
-import { PlainObject, Simplify } from '@gilbarbara/types';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE } from '~/literals';
 
-import { Actions, AnyObject, Lifecycle, NarrowPlainObject, State, Step, StepMerged } from '~/types';
+import {
+  Actions,
+  AnyObject,
+  Lifecycle,
+  NarrowPlainObject,
+  PlainObject,
+  Simplify,
+  State,
+  Step,
+  StepMerged,
+} from '~/types';
 
 import { getScrollParent, hasCustomScrollParent, hasPosition, scrollDocument } from './dom';
 

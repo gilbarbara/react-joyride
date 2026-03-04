@@ -1,7 +1,8 @@
 import { CSSProperties, ReactNode } from 'react';
-import { ValueOf } from '@gilbarbara/types';
 
 import { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
+
+import { ValueOf } from '~/types';
 
 export type Actions = ValueOf<typeof ACTIONS>;
 export type AnyObject<T = any> = Record<string, T>;
