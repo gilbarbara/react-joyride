@@ -66,7 +66,7 @@ Step will inherit some properties from Joyride's own [props](props.md), but you 
 - beaconComponent
 - disableCloseOnEsc
 - disableOverlay
-- disableOverlayClose
+- overlayClickBehavior
 - disableScrolling
 - floatingOptions - Options passed to Floating UI for positioning. Step-level floatingOptions are merged with component-level floatingOptions, allowing per-step customization. See [styling documentation](styling.md#advanced-positioning) for detailed examples.
 - hideBackButton

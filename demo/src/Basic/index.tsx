@@ -144,6 +144,7 @@ export default function BasicDemo(props: Props) {
         scrollOffset={64}
         scrollToFirstStep
         stepOptions={{
+          overlayClickBehavior: 'next',
           showProgress: true,
           showSkipButton: true,
         }}

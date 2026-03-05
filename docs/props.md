@@ -23,8 +23,8 @@ Disable closing the tooltip on ESC.
 **disableOverlay** `boolean` ▶︎ **false**  
 Don't show the overlay.
 
-**disableOverlayClose** `boolean` ▶︎ **false**  
-Don't close the tooltip when clicking the overlay.
+**overlayClickBehavior** `'close' | 'next' | false` ▶︎ **'close'**
+The action to take when the overlay is clicked. `'close'` closes the current step, `'next'` advances to the next step, `false` disables overlay click.
 
 **disableScrolling** `boolean` ▶︎ **false**  
 Disable autoscrolling between steps.

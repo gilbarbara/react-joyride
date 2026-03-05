@@ -65,12 +65,12 @@ export default function ControlledDemo() {
             </div>
           ),
           disableBeacon: true,
-          disableOverlayClose: true,
+          overlayClickBehavior: false,
           hideCloseButton: true,
           hideFooter: true,
           placement: 'bottom',
 
-          before: ({ action }) => delay(action === ACTIONS.PREV ? 300 : 0),
+          before: ({ action }) => delay(action === ACTIONS.PREV ? 400 : 0),
           styles: {
             options: {
               zIndex: 10000,
