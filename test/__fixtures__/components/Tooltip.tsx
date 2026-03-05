@@ -1,4 +1,4 @@
-import { TooltipRenderProps } from '~/types';
+import type { TooltipRenderProps } from '~/types';
 
 function TooltipComponent({
   backProps,

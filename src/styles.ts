@@ -1,5 +1,6 @@
-import { deepMerge, hexToRGB } from './modules/helpers';
-import { Props, StepMerged, Styles, StylesOptions } from './types';
+import { deepMerge, hexToRGB } from '~/modules/helpers';
+
+import type { Props, StepMerged, Styles, StylesOptions } from '~/types';
 
 const defaultOptions: StylesOptions = {
   arrowColor: '#fff',

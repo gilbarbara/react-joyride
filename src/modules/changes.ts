@@ -1,4 +1,4 @@
-import { StoreState } from '~/types';
+import type { StoreState } from '~/types';
 
 export function treeChanges<T extends Record<string, any> = StoreState>(state: T, previous: T) {
   return {

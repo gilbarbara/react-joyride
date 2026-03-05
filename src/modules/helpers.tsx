@@ -1,11 +1,11 @@
-import { cloneElement, FC, isValidElement, ReactElement, ReactNode } from 'react';
+import { cloneElement, type FC, isValidElement, type ReactElement, type ReactNode } from 'react';
 import innerText from 'react-innertext';
 import deepmergeFactory from '@fastify/deepmerge';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE } from '~/literals';
 
-import {
+import type {
   Actions,
   AnyObject,
   Lifecycle,

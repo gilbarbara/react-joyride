@@ -1,8 +1,9 @@
 import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/test-utils';
 
-import { Controls } from '~/types';
+import Tooltip from '~/components/Tooltip';
 
-import Tooltip from '../../src/components/Tooltip';
+import type { Controls } from '~/types';
+
 import TooltipComponent from '../__fixtures__/components/Tooltip';
 
 function createControls(overrides: Partial<Controls> = {}) {

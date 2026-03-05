@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '~/test-utils';
 
-import Portal from '../../src/components/Portal';
+import Portal from '~/components/Portal';
 
 describe('Portal', () => {
   afterEach(() => {

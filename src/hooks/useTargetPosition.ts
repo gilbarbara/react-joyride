@@ -8,7 +8,7 @@ import {
   hasPosition,
 } from '~/modules/dom';
 
-import { SpotlightPadding, StepTarget } from '~/types';
+import type { SpotlightPadding, StepTarget } from '~/types';
 
 export interface TargetRect {
   height: number;

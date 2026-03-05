@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
 
 import { defaultProps } from '~/defaults';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
@@ -7,7 +7,15 @@ import { getElement, isElementVisible } from '~/modules/dom';
 import { hideBeacon, logDebug, mergeProps, needsScrolling, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Actions, Controls, Props, ScrollData, StepMerged, StepTarget, StoreState } from '~/types';
+import type {
+  Actions,
+  Controls,
+  Props,
+  ScrollData,
+  StepMerged,
+  StepTarget,
+  StoreState,
+} from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 

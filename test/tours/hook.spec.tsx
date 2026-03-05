@@ -1,9 +1,9 @@
 import { act, cleanup, fireEvent, render, screen } from '~/test-utils';
 
-import { Controls } from '~/types';
+import type { Controls } from '~/types';
 
 import Hook from '../__fixtures__/Hook';
-import { registerTourFlowTests, TourInteractions } from '../__setup__/tour-flow';
+import { registerTourFlowTests, type TourInteractions } from '../__setup__/tour-flow';
 
 const mockOnEvent = vi.fn();
 const mockBefore = vi.fn(() => Promise.resolve());

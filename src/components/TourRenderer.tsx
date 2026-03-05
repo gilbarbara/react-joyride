@@ -1,7 +1,7 @@
-import { RefObject, useCallback, useEffect } from 'react';
+import { type RefObject, useCallback, useEffect } from 'react';
 
 import { usePortalElement } from '~/hooks/usePortalElement';
-import { MergedProps } from '~/hooks/useTourEngine';
+import type { MergedProps } from '~/hooks/useTourEngine';
 import { LIFECYCLE, STATUS } from '~/literals';
 import createStore from '~/modules/store';
 
@@ -10,7 +10,7 @@ import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';
 import Step from '~/components/Step';
 
-import { Controls, StepMerged, StoreState } from '~/types';
+import type { Controls, StepMerged, StoreState } from '~/types';
 
 interface TourRendererProps {
   controls: Controls;

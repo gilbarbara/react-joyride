@@ -1,13 +1,13 @@
 /* eslint-disable import-x/export */
-import { ReactElement } from 'react';
-import { Matcher, MatcherOptions } from '@testing-library/dom/types/matches';
+import type { ReactElement } from 'react';
+import type { Matcher, MatcherOptions } from '@testing-library/dom/types/matches';
 import {
   buildQueries,
   queries,
   queryHelpers,
   render,
-  RenderOptions,
-  Screen,
+  type RenderOptions,
+  type Screen,
   screen,
   within,
 } from '@testing-library/react';

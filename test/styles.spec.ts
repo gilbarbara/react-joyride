@@ -1,7 +1,7 @@
 import { getMergedStep } from '~/modules/step';
 import getStyles from '~/styles';
 
-import { Props, Step } from '~/types';
+import type { Props, Step } from '~/types';
 
 const props: Props = {
   run: false,

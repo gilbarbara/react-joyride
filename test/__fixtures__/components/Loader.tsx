@@ -1,4 +1,4 @@
-import { LoaderRenderProps } from '~/types';
+import type { LoaderRenderProps } from '~/types';
 
 function LoaderComponent({ step }: LoaderRenderProps) {
   return (

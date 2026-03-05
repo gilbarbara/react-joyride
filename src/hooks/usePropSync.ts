@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
 import isEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
@@ -9,7 +9,7 @@ import { mergeProps } from '~/modules/helpers';
 import { validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { Actions, Controls, EventHandler, Props, Status, StoreState } from '~/types';
+import type { Actions, Controls, EventHandler, Props, Status, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 

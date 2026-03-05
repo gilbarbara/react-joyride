@@ -7,7 +7,8 @@
     "paths": {
       "~/*": ["src/*"],
       "~/test-utils": ["test/__setup__/test-utils.ts"]
-    }
+    },
+    "verbatimModuleSyntax": true
   },
   "include": ["src/**/*"]
 }

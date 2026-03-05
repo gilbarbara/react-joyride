@@ -1,11 +1,11 @@
-import { RefObject, useMemo, useRef } from 'react';
+import { type RefObject, useMemo, useRef } from 'react';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { logDebug, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { Controls, Origin, Status, StoreState } from '~/types';
+import type { Controls, Origin, Status, StoreState } from '~/types';
 
 function getUpdatedIndex(nextIndex: number, size: number): number {
   return Math.min(Math.max(nextIndex, 0), size);

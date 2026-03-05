@@ -5,7 +5,7 @@ import { noop } from '~/modules/helpers';
 import { getMergedStep, validateStep, validateSteps } from '~/modules/step';
 import { fromPartial } from '~/test-utils';
 
-import { Props, Step } from '~/types';
+import type { Props, Step } from '~/types';
 
 vi.mock('~/modules/dom', () => ({
   getElement: vi.fn(() => document.createElement('div')),

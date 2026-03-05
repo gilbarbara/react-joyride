@@ -5,7 +5,7 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { logDebug, omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
-import { PositionData, Props, State, Step, StepMerged, StoreState } from '~/types';
+import type { PositionData, Props, State, Step, StepMerged, StoreState } from '~/types';
 
 type Listener = (state: StoreState) => void;
 

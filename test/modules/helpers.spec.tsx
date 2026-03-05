@@ -22,7 +22,7 @@ import {
 } from '~/modules/helpers';
 import { fromPartial } from '~/test-utils';
 
-import { Step, StepMerged } from '~/types';
+import type { Step, StepMerged } from '~/types';
 
 interface Props {
   name: string;

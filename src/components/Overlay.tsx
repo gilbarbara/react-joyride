@@ -1,4 +1,4 @@
-import { CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react';
 import { useWindowSize } from '@gilbarbara/hooks';
 
 import useTargetPosition from '~/hooks/useTargetPosition';
@@ -6,7 +6,7 @@ import { LIFECYCLE } from '~/literals';
 import { getDocumentHeight } from '~/modules/dom';
 import { generateOverlayPath, generateSpotlightPath } from '~/modules/svg';
 
-import { Lifecycle, OverlayProps } from '~/types';
+import type { Lifecycle, OverlayProps } from '~/types';
 
 const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON_BEFORE, LIFECYCLE.BEACON, LIFECYCLE.ERROR];
 

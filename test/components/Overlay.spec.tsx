@@ -3,7 +3,7 @@ import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/t
 
 import Overlay from '~/components/Overlay';
 
-import { OverlayProps } from '~/types';
+import type { OverlayProps } from '~/types';
 
 function createProps(overrides: Partial<OverlayProps> = {}) {
   const step = createStep(overrides);

@@ -8,7 +8,7 @@ import { getElement } from '~/modules/dom';
 import { logDebug } from '~/modules/helpers';
 import { validateStep } from '~/modules/step';
 
-import { StepProps } from '~/types';
+import type { StepProps } from '~/types';
 
 import Floater from './Floater';
 

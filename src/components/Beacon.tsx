@@ -3,7 +3,7 @@ import is from 'is-lite';
 
 import { getReactNodeText, noop } from '~/modules/helpers';
 
-import { BeaconProps } from '~/types';
+import type { BeaconProps } from '~/types';
 
 export default function JoyrideBeacon(props: BeaconProps) {
   const {

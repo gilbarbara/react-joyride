@@ -1,4 +1,4 @@
-import { FloatingOptions, Locale, Props, Step, StepOptions } from '~/types';
+import type { FloatingOptions, Locale, Props, Step, StepOptions } from '~/types';
 
 export const defaultFloatingOptions: FloatingOptions = {
   beaconOptions: {

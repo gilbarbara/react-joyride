@@ -4,7 +4,7 @@ import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/t
 
 import Floater from '~/components/Floater';
 
-import { Controls, Lifecycle } from '~/types';
+import type { Controls, Lifecycle } from '~/types';
 
 import CustomArrow from '../__fixtures__/components/CustomArrow';
 

@@ -3,7 +3,7 @@ import is from 'is-lite';
 import { defaultFloatingOptions, defaultLocale, defaultStep, defaultStepOptions } from '~/defaults';
 import getStyles from '~/styles';
 
-import { FloatingOptions, Locale, Props, SpotlightPadding, Step, StepMerged } from '~/types';
+import type { FloatingOptions, Locale, Props, SpotlightPadding, Step, StepMerged } from '~/types';
 
 import { deepMerge, logDebug, pick } from './helpers';
 

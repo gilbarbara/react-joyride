@@ -1,7 +1,7 @@
 import { act, cleanup, fireEvent, render, screen } from '~/test-utils';
 
 import Component from '../__fixtures__/Component';
-import { registerTourFlowTests, TourInteractions } from '../__setup__/tour-flow';
+import { registerTourFlowTests, type TourInteractions } from '../__setup__/tour-flow';
 
 const mockOnEvent = vi.fn();
 const mockOnPosition = vi.fn();

@@ -1,8 +1,8 @@
 import {
-  CSSProperties,
-  MouseEvent,
-  ReactNode,
-  RefCallback,
+  type CSSProperties,
+  type MouseEvent,
+  type ReactNode,
+  type RefCallback,
   useEffect,
   useMemo,
   useRef,
@@ -23,7 +23,7 @@ import { LIFECYCLE } from '~/literals';
 import { getScrollParent, hasCustomScrollParent, hasPosition } from '~/modules/dom';
 import { sortObjectKeys } from '~/modules/helpers';
 
-import { Controls, Lifecycle, Placement, PositionData, StepMerged, StoreState } from '~/types';
+import type { Controls, Lifecycle, Placement, PositionData, StepMerged, StoreState } from '~/types';
 
 import Arrow from './Arrow';
 import Beacon from './Beacon';

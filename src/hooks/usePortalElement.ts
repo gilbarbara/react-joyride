@@ -3,7 +3,7 @@ import is from 'is-lite';
 
 import { PORTAL_ELEMENT_ID } from '~/literals';
 
-import { SelectorOrElement } from '~/types';
+import type { SelectorOrElement } from '~/types';
 
 export function usePortalElement(portalElement?: SelectorOrElement) {
   const [element, setElement] = useState<HTMLElement | null>(null);
