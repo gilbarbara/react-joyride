@@ -1,8 +1,8 @@
-import { CSSProperties, useEffect } from 'react';
+import { type CSSProperties, useEffect } from 'react';
 
 import { noop } from '~/modules/helpers';
 
-import { LoaderRenderProps } from '~/types';
+import type { LoaderRenderProps } from '~/types';
 
 const loaderStyles: Record<string, CSSProperties> = {
   wrapper: {

@@ -3,7 +3,7 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import createStore from '~/modules/store';
 import { renderHook } from '~/test-utils';
 
-import { Step, StoreState } from '~/types';
+import type { Step, StoreState } from '~/types';
 
 const steps: Step[] = [
   { target: '.step-1', content: 'Step 1' },

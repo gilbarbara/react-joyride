@@ -1,6 +1,6 @@
-import { CSSProperties, ElementType, Ref } from 'react';
+import type { CSSProperties, ElementType, Ref } from 'react';
 
-import { ArrowRenderProps, Placement, Styles } from '~/types';
+import type { ArrowRenderProps, Placement, Styles } from '~/types';
 
 interface ArrowProps {
   arrowComponent?: ElementType<ArrowRenderProps>;

@@ -1,4 +1,4 @@
-import { Step } from '~/types';
+import type { Step } from '~/types';
 
 export const standardSteps: Array<Step> = [
   {

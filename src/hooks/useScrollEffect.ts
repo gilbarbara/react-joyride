@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { type RefObject, useEffect, useRef } from 'react';
 
 import { defaultProps } from '~/defaults';
 import { EVENTS, LIFECYCLE, STATUS } from '~/literals';
@@ -16,7 +16,7 @@ import {
 import { logDebug, mergeProps } from '~/modules/helpers';
 import createStore from '~/modules/store';
 
-import { EventHandler, Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
+import type { EventHandler, Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
 
 type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 

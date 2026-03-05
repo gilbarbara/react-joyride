@@ -4,7 +4,7 @@ import { defaultLocale } from '~/defaults';
 import { STATUS } from '~/literals';
 import getStyles from '~/styles';
 
-import { EventData, Props, StepMerged } from '~/types';
+import type { EventData, Props, StepMerged } from '~/types';
 
 export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
   const base = fromPartial<StepMerged>({

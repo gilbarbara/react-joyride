@@ -1,6 +1,6 @@
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
 
-import { Origin } from '~/types';
+import type { Origin } from '~/types';
 
 import { act, eventResponseFactory, fireEvent, screen, waitFor } from './test-utils';
 

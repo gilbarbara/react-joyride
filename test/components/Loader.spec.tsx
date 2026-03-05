@@ -1,6 +1,7 @@
 import { cleanup, createStep, render, screen } from '~/test-utils';
 
-import Loader from '../../src/components/Loader';
+import Loader from '~/components/Loader';
+
 import LoaderComponent from '../__fixtures__/components/Loader';
 
 const step = createStep();

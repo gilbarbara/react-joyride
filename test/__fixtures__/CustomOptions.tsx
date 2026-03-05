@@ -1,6 +1,5 @@
+import Joyride, { type EventData, type Props, STATUS, type Step } from '~/index';
 import { hexToRGB } from '~/modules/helpers';
-
-import Joyride, { EventData, Props, STATUS, Step } from '../../src';
 
 interface CustomOptionsProps extends Omit<Props, 'steps'> {
   finishedCallback: () => void;

@@ -4,7 +4,7 @@ import { getElement, getScrollTo, isElementVisible, scrollTo } from '~/modules/d
 import { needsScrolling } from '~/modules/helpers';
 import { act, eventResponseFactory, renderHook, waitFor } from '~/test-utils';
 
-import { Props, Step } from '~/types';
+import type { Props, Step } from '~/types';
 
 const mockElement = document.createElement('div');
 

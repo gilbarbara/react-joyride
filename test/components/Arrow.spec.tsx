@@ -2,7 +2,8 @@ import { createRef } from 'react';
 
 import { cleanup, createStep, render, screen } from '~/test-utils';
 
-import Arrow from '../../src/components/Arrow';
+import Arrow from '~/components/Arrow';
+
 import CustomArrow from '../__fixtures__/components/CustomArrow';
 
 const step = createStep();

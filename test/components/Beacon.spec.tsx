@@ -1,6 +1,7 @@
 import { cleanup, createStep, fireEvent, render, screen, waitFor } from '~/test-utils';
 
-import Beacon from '../../src/components/Beacon';
+import Beacon from '~/components/Beacon';
+
 import BeaconComponent from '../__fixtures__/components/Beacon';
 
 const step = createStep();

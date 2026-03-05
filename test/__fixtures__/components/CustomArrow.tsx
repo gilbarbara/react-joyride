@@ -1,4 +1,4 @@
-import { ArrowRenderProps } from '~/types';
+import type { ArrowRenderProps } from '~/types';
 
 export default function CustomArrow(props: ArrowRenderProps) {
   const { base, placement, size } = props;

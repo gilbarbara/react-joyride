@@ -1,7 +1,7 @@
 import scroll from 'scroll';
 import scrollParent from 'scrollparent';
 
-import { StepTarget } from '~/types';
+import type { StepTarget } from '~/types';
 
 export function canUseDOM() {
   return !!(typeof window !== 'undefined' && window.document?.createElement);

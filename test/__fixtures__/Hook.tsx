@@ -1,7 +1,8 @@
 import { useSetState } from '@gilbarbara/hooks';
 
-import { STATUS, useJoyride } from '../../src';
-import { Controls, EventData, Props, Status, Step } from '../../src/types';
+import { STATUS, useJoyride } from '~/index';
+
+import type { Controls, EventData, Props, Status, Step } from '~/types';
 
 import { standardSteps } from './steps';
 

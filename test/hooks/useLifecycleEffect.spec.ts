@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import type { RefObject } from 'react';
 
 import { defaultProps } from '~/defaults';
 import useLifecycleEffect from '~/hooks/useLifecycleEffect';
@@ -8,7 +8,7 @@ import { mergeProps, needsScrolling } from '~/modules/helpers';
 import createStore from '~/modules/store';
 import { createStep, fromPartial, renderHook } from '~/test-utils';
 
-import { Controls, Props, StoreState } from '~/types';
+import type { Controls, Props, StoreState } from '~/types';
 
 const mockElement = document.createElement('div');
 

@@ -3,7 +3,7 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, isElementVisible, scrollTo } from '~/modules/dom';
 import { act, eventResponseFactory, renderHook, waitFor } from '~/test-utils';
 
-import { Step } from '~/types';
+import type { Step } from '~/types';
 
 const mockElement = document.createElement('div');
 

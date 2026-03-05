@@ -1,4 +1,4 @@
-import { RefObject, useMemo, useRef, useSyncExternalStore } from 'react';
+import { type RefObject, useMemo, useRef, useSyncExternalStore } from 'react';
 import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gilbarbara/hooks';
 
 import { defaultProps } from '~/defaults';
@@ -11,7 +11,7 @@ import { mergeProps } from '~/modules/helpers';
 import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 
-import { Controls, Props, StepMerged, StoreState } from '~/types';
+import type { Controls, Props, StepMerged, StoreState } from '~/types';
 
 export type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 

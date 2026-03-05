@@ -1,39 +1,28 @@
-import {
-  ElementType,
-  MouseEventHandler,
-  ReactElement,
-  ReactNode,
-  RefCallback,
-  RefObject,
-} from 'react';
-import { AutoUpdateOptions, Middleware, MiddlewareData, Strategy } from '@floating-ui/react-dom';
+import type { ElementType, MouseEventHandler, RefCallback } from 'react';
 
-import {
-  Actions,
-  Events,
-  Lifecycle,
-  Locale,
-  Origin,
-  Placement,
-  SpotlightPadding,
-  Status,
-  Styles,
-} from './common';
-import { PartialDeep, SetRequired, Simplify } from './utilities';
+import type { Locale, Placement, Styles } from './common';
+import type { FloatingOptions } from './floating';
+import type { StepMerged } from './step';
+import type { PartialDeep, Simplify } from './utilities';
 
+/** Props passed to a custom arrow component. */
 export type ArrowRenderProps = {
+  /** Width of the arrow base in pixels. */
   base: number;
+  /** The computed placement of the tooltip. */
   placement: Placement;
+  /** Height of the arrow in pixels. */
   size: number;
 };
 
+/** Shared configuration inherited by both `Props` and `Step`. */
 export type BaseProps = {
   /**
-   * A React component to use instead the default Arrow.
+   * Custom Arrow component.
    */
   arrowComponent?: ElementType<ArrowRenderProps>;
   /**
-   * A React component to use instead the default Beacon.
+   * Custom Beacon component.
    */
   beaconComponent?: ElementType<BeaconRenderProps>;
   /**
@@ -41,7 +30,7 @@ export type BaseProps = {
    */
   floatingOptions?: Partial<FloatingOptions>;
   /**
-   * A React component to use instead the default Loader.
+   * Custom Loader component. Set to `null` to disable.
    */
   loaderComponent?: ElementType<LoaderRenderProps> | null;
   /**
@@ -54,399 +43,41 @@ export type BaseProps = {
    */
   scrollOffset?: number;
   /**
-   * Override the styling of the Tooltip
+   * Override the styling of the Tooltip.
    */
   styles?: PartialDeep<Styles>;
   /**
-   * A React component to use instead the default Tooltip.
+   * Custom Tooltip component.
    */
   tooltipComponent?: ElementType<TooltipRenderProps>;
 };
 
-export type BeaconProps = Simplify<
-  Pick<Props, 'beaconComponent' | 'nonce'> &
-    BeaconRenderProps & {
-      locale: Locale;
-      onClickOrHover: MouseEventHandler<HTMLElement>;
-      shouldFocus: boolean;
-      styles: Styles;
-    }
->;
-
+/** Props passed to a custom beacon component. */
 export type BeaconRenderProps = {
+  /** Whether the tour is in continuous mode. */
   continuous: boolean;
+  /** The current step index. */
   index: number;
+  /** Whether this is the last step. */
   isLastStep: boolean;
+  /** The total number of steps. */
   size: number;
+  /** The current step data. */
   step: StepMerged;
 };
 
-export type Controls = {
-  close: (origin?: Origin | null) => void;
-  go: (nextIndex: number) => void;
-  info: () => State;
-  next: () => void;
-  open: () => void;
-  prev: () => void;
-  reset: (restart?: boolean) => void;
-  skip: (origin?: Extract<Origin, 'button_close' | 'button_skip'>) => void;
-  start: (nextIndex?: number) => void;
-  stop: (advance?: boolean) => void;
-};
-
-export type EventData = Simplify<
-  TourData & {
-    /**
-     * The error that occurred (only populated for ERROR events).
-     */
-    error: Error | null;
-    /**
-     * Scroll data (only populated for SCROLL_START/SCROLL_END events).
-     */
-    scroll: ScrollData | null;
-    /**
-     * Whether the tour is currently scrolling to a target.
-     */
-    scrolling: boolean;
-    /**
-     * The type of the event.
-     */
-    type: Events;
-    /**
-     * Whether the tour is waiting for a before hook or target polling.
-     */
-    waiting: boolean;
-  }
->;
-
-export type EventHandler = (data: EventData) => void;
-
+/** Props passed to a custom loader component. */
 export type LoaderRenderProps = {
+  /** CSP nonce for inline styles. */
   nonce?: string;
+  /** The current step data. */
   step: StepMerged;
 };
 
-export type OverlayProps = Simplify<
-  StepMerged & {
-    continuous: boolean;
-    debug: boolean;
-    lifecycle: Lifecycle;
-    onClickOverlay: () => void;
-    scrolling: boolean;
-    waiting: boolean;
-  }
->;
-
-export type Props = Simplify<
-  BaseProps & {
-    /**
-     * The tour is played sequentially with the Next button.
-     * @default false
-     */
-    continuous?: boolean;
-    /**
-     * Log Joyride's actions to the console.
-     * @default false
-     */
-    debug?: boolean;
-    /**
-     * The initial step index for uncontrolled tours.
-     * Ignored when stepIndex is set (controlled mode).
-     * @default 0
-     */
-    initialStepIndex?: number;
-    /**
-     * A nonce value for inline styles (Content Security Policy - CSP)
-     */
-    nonce?: string;
-    /**
-     * A function called when Joyride fires an event.
-     */
-    onEvent?: EventHandler;
-    /**
-     *  A custom element to render the tooltip.
-     *  It can be a string (CSS selector) or an HTMLElement.
-     */
-    portalElement?: SelectorOrElement;
-    /**
-     * Run/stop the tour.
-     * @default true
-     */
-    run?: boolean;
-    /**
-     * The duration for scroll to element.
-     * @default 300
-     */
-    scrollDuration?: number;
-    /**
-     * Scroll the page for the first step.
-     * @default false
-     */
-    scrollToFirstStep?: boolean;
-    /**
-     * Setting a number here will turn Joyride into `controlled` mode.
-     * You'll have to keep an internal state by yourself and update it with the events in `onEvent`.
-     */
-    stepIndex?: number;
-    /**
-     * Default options for all steps.
-     */
-    stepOptions?: StepOptions;
-    /**
-     * The tour's steps.
-     */
-    steps: Array<Step>;
-  }
->;
-
-export type ScrollData = {
-  /**
-   * The scroll duration in milliseconds.
-   */
-  duration: number;
-  /**
-   * The element being scrolled.
-   */
-  element: Element;
-  /**
-   * The scroll position before scrolling.
-   */
-  initial: number;
-  /**
-   * The computed scroll destination.
-   */
-  target: number;
-};
-
-export type SelectorOrElement = string | null | HTMLElement;
-
-export type State = {
-  action: Actions;
-  controlled: boolean;
-  index: number;
-  lifecycle: Lifecycle;
-  origin: Origin | null;
-  scrolling: boolean;
-  size: number;
-  status: Status;
-  waiting: boolean;
-};
-
-export type Step = Simplify<
-  BaseProps &
-    StepOptions & {
-      /**
-       * The tooltip's body.
-       */
-      content: ReactNode;
-      /**
-       * Additional data you can add to the step.
-       */
-      data?: any;
-      /**
-       * Don't show the Beacon before the tooltip.
-       * @default false
-       */
-      disableBeacon?: boolean;
-      /**
-       * The event to trigger the beacon.
-       * @default click
-       */
-      event?: 'click' | 'hover';
-      /**
-       * Options for the floating positioning.
-       */
-      floatingOptions?: Partial<FloatingOptions>;
-      /**
-       * Hide the tooltip's footer.
-       * @default false
-       */
-      hideFooter?: boolean;
-      /**
-       * A unique identifier for the step.
-       */
-      id?: string;
-      /**
-       * Force the step to be fixed.
-       * @default false
-       */
-      isFixed?: boolean;
-      /**
-       * @default 10
-       */
-      offset?: number;
-      /**
-       * The placement of the beacon and tooltip. It will re-position itself if there's no space available.
-       * @default bottom
-       */
-      placement?: Placement | 'auto' | 'center';
-      /**
-       * The placement of the beacon. It will use the `placement` if nothing is passed
-       */
-      placementBeacon?: Placement;
-      /**
-       * The target for the step.
-       * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
-       */
-      target: StepTarget;
-      /**
-       * The tooltip's title.
-       */
-      title?: ReactNode;
-    }
->;
-
-export type StepMerged = Simplify<
-  SetRequired<
-    Step,
-    | 'disableBeacon'
-    | 'disableCloseOnEsc'
-    | 'disableFocusTrap'
-    | 'disableOverlay'
-    | 'disableOverlayClose'
-    | 'disableScrolling'
-    | 'dismissAction'
-    | 'event'
-    | 'hideBackButton'
-    | 'hideCloseButton'
-    | 'hideFooter'
-    | 'hidePrimaryButton'
-    | 'isFixed'
-    | 'loaderDelay'
-    | 'locale'
-    | 'offset'
-    | 'placement'
-    | 'scrollOffset'
-    | 'showProgress'
-    | 'showSkipButton'
-    | 'targetWaitTimeout'
-  > & {
-    spotlightPadding: Required<SpotlightPadding>;
-    styles: Styles;
-  }
->;
-
-export type StepOptions = {
-  /**
-   * A hook that runs after the step completes (user clicked next, prev, close, or skip).
-   * Fire-and-forget — does not block the tour.
-   */
-  after?: (data: TourData) => void;
-  /**
-   * A hook that runs before the step is shown.
-   * The tour waits for the returned promise to resolve and shows the loader while waiting (after loaderDelay).
-   * Capped by `targetWaitTimeout`.
-   */
-  before?: (data: TourData) => Promise<void>;
-  /**
-   * Disable closing the tooltip on ESC.
-   * @default false
-   */
-  disableCloseOnEsc?: boolean;
-  /**
-   * Disable the focus trap for the tooltip.
-   * @default false
-   */
-  disableFocusTrap?: boolean;
-  /**
-   * Don't show the overlay.
-   * @default false
-   */
-  disableOverlay?: boolean;
-  /**
-   * Don't close the tooltip when clicking the overlay.
-   * @default false
-   */
-  disableOverlayClose?: boolean;
-  /**
-   * Disable scrolling to the target.
-   * @default false
-   */
-  disableScrolling?: boolean;
-  /**
-   * The action to take when the close button is clicked.
-   * - `'close'`: Advances to the next step (default behavior).
-   * - `'skip'`: Ends the tour entirely.
-   * @default 'close'
-   */
-  dismissAction?: 'close' | 'skip';
-  /**
-   * Hide the Back button.
-   * @default false
-   */
-  hideBackButton?: boolean;
-  /**
-   * Hide the Close button.
-   * @default false
-   */
-  hideCloseButton?: boolean;
-  /**
-   * Hide the Next (or Last) button.
-   * @default false
-   */
-  hidePrimaryButton?: boolean;
-  /**
-   * Delay (ms) before showing the loader while waiting for a target.
-   * @default 300
-   */
-  loaderDelay?: number;
-  /**
-   * Show the progress (e.g. 1 of 5) in the tooltip.
-   * @default false
-   */
-  showProgress?: boolean;
-  /**
-   * Show the skip button in the tooltip.
-   * @default false
-   */
-  showSkipButton?: boolean;
-  /**
-   * The padding of the spotlight.
-   * Accepts a number for equal padding on all sides, or an object with `top`, `right`, `bottom`, `left`.
-   * @default 10
-   */
-  spotlightPadding?: number | SpotlightPadding;
-  /**
-   * Max time (ms) to wait for the target to appear. 0 = no waiting.
-   * @default 1000
-   */
-  targetWaitTimeout?: number;
-};
-
-export type StepProps = Simplify<
-  StoreState & {
-    continuous: boolean;
-    controls: Controls;
-    debug: boolean;
-    nonce?: string;
-    portalElement: HTMLElement | null;
-    setPositionData: (name: 'beacon' | 'tooltip', data: PositionData) => void;
-    shouldScroll: boolean;
-    step: StepMerged;
-    updateState: (state: Partial<StoreState>) => void;
-  }
->;
-
-export type StepTarget =
-  | string
-  | HTMLElement
-  | RefObject<HTMLElement | null>
-  | (() => HTMLElement | null);
-
-export type StoreState = State & { positioned: boolean };
-
-export type TooltipProps = {
-  continuous: boolean;
-  controls: Controls;
-  index: number;
-  isLastStep: boolean;
-  setTooltipRef: RefCallback<HTMLElement>;
-  size: number;
-  step: StepMerged;
-};
-
+/** Props passed to a custom tooltip component. */
 export type TooltipRenderProps = Simplify<
   BeaconRenderProps & {
+    /** Props to spread on the back button. */
     backProps: {
       'aria-label': string;
       'data-action': string;
@@ -454,6 +85,7 @@ export type TooltipRenderProps = Simplify<
       role: string;
       title: string;
     };
+    /** Props to spread on the close button. */
     closeProps: {
       'aria-label': string;
       'data-action': string;
@@ -461,6 +93,7 @@ export type TooltipRenderProps = Simplify<
       role: string;
       title: string;
     };
+    /** Props to spread on the next/last button. */
     primaryProps: {
       'aria-label': string;
       'data-action': string;
@@ -468,6 +101,7 @@ export type TooltipRenderProps = Simplify<
       role: string;
       title: string;
     };
+    /** Props to spread on the skip button. */
     skipProps: {
       'aria-label': string;
       'data-action': string;
@@ -475,6 +109,7 @@ export type TooltipRenderProps = Simplify<
       role: string;
       title: string;
     };
+    /** Props to spread on the tooltip container. */
     tooltipProps: {
       'aria-describedby': string;
       'aria-modal': boolean;
@@ -483,84 +118,3 @@ export type TooltipRenderProps = Simplify<
     };
   }
 >;
-
-export type UseJoyrideReturn = {
-  controls: Controls;
-  state: State;
-  step: StepMerged | null;
-  Tour: ReactElement | null;
-};
-
-export interface FloatingOptions {
-  /**
-   * Options passed to autoUpdate (ancestorScroll, elementResize, animationFrame, etc).
-   */
-  autoUpdate?: Partial<AutoUpdateOptions>;
-  /**
-   * Beacon positioning config.
-   */
-  beaconOptions?: { offset?: number };
-  /**
-   * Hide the arrow element.
-   * Centered placement already hides the arrow.
-   *
-   * @default false
-   */
-  hideArrow?: boolean;
-  /**
-   * Additional Floating UI middleware appended to defaults (offset, flip/autoPlacement, shift, arrow).
-   */
-  middleware?: Array<Middleware>;
-  /**
-   * Called after each position calculation.
-   */
-  onPosition?: (data: PositionData) => void;
-  /**
-   * Positioning strategy.
-   * Defaults to 'fixed' when step.isFixed is true, 'absolute' otherwise.
-   */
-  strategy?: Strategy;
-}
-
-export interface PositionData {
-  middlewareData: MiddlewareData;
-  placement: Placement;
-  x: number;
-  y: number;
-}
-
-export interface TourData {
-  /**
-   * The action that updated the state.
-   */
-  action: Actions;
-  /**
-   * It the tour is in `controlled` mode.
-   * (using the `stepIndex` prop)
-   */
-  controlled: boolean;
-  /**
-   * The current step's index
-   */
-  index: number;
-  /**
-   *  The step's lifecycle.
-   */
-  lifecycle: Lifecycle;
-  /**
-   * The element that triggered the action (if available).
-   */
-  origin: Origin | null;
-  /**
-   * The number of steps
-   */
-  size: number;
-  /**
-   * The tour's status.
-   */
-  status: Status;
-  /**
-   * The current step's data.
-   */
-  step: Step;
-}

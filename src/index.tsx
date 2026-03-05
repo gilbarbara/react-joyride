@@ -1,7 +1,7 @@
 import useJoyride from '~/hooks/useJoyride';
 import { canUseDOM } from '~/modules/dom';
 
-import { Props } from '~/types';
+import type { Props } from '~/types';
 
 function Joyride(props: Props) {
   const { Tour } = useJoyride(props);
