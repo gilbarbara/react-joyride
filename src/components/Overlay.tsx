@@ -14,9 +14,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const {
     continuous,
     disableOverlay,
-    disableOverlayClose,
     lifecycle,
     onClickOverlay,
+    overlayClickBehavior,
     placement,
     scrolling,
     spotlightPadding,
@@ -119,7 +119,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
           fillRule="evenodd"
           onClick={onClickOverlay}
           style={{
-            cursor: disableOverlayClose ? 'default' : 'pointer',
+            cursor: overlayClickBehavior ? 'pointer' : 'default',
             pointerEvents: 'auto',
           }}
         />

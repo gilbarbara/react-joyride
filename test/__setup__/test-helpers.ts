@@ -15,7 +15,7 @@ export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
     disableBeacon: false,
     disableCloseOnEsc: false,
     disableOverlay: false,
-    disableOverlayClose: false,
+    overlayClickBehavior: 'close',
     disableScrolling: false,
     dismissAction: 'close',
     hideBackButton: false,

@@ -20,7 +20,13 @@ test('basic', async ({ page }) => {
   });
 
   await test.step('Step 2', async () => {
-    await page.getByTestId('button-primary').click();
+    await page
+      .getByTestId('spotlight')
+      .locator('path')
+      .first()
+      .click({
+        position: { x: 10, y: 10 },
+      });
 
     await expect(page.locator('.react-joyride__loader')).toBeVisible();
     await expect(page).toHaveScreenshot('step2-loader.png');

@@ -101,8 +101,8 @@ describe('Overlay', () => {
     expect(onClickOverlay).toHaveBeenCalledTimes(1);
   });
 
-  it('should set cursor to default when disableOverlayClose is true', () => {
-    render(<Overlay {...createProps({ disableOverlayClose: true })} />);
+  it('should set cursor to default when overlayClickBehavior is false', () => {
+    render(<Overlay {...createProps({ overlayClickBehavior: false })} />);
 
     const path = screen.getByTestId('spotlight').querySelector('path')! as SVGPathElement;
 

@@ -57,10 +57,12 @@ export default function TourRenderer({
   }, [controls, isRunning, lifecycle, step]);
 
   const handleClickOverlay = useCallback(() => {
-    if (!step?.disableOverlayClose) {
+    if (step?.overlayClickBehavior === 'close') {
       controls.close('overlay');
+    } else if (step?.overlayClickBehavior === 'next') {
+      controls.next();
     }
-  }, [controls, step?.disableOverlayClose]);
+  }, [controls, step?.overlayClickBehavior]);
 
   if (!step || !isRunning) {
     return null;

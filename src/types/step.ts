@@ -83,7 +83,7 @@ export type StepMerged = Simplify<
     | 'disableCloseOnEsc'
     | 'disableFocusTrap'
     | 'disableOverlay'
-    | 'disableOverlayClose'
+    | 'overlayClickBehavior'
     | 'disableScrolling'
     | 'dismissAction'
     | 'event'
@@ -135,11 +135,6 @@ export type StepOptions = {
    */
   disableOverlay?: boolean;
   /**
-   * Don't close the tooltip when clicking the overlay.
-   * @default false
-   */
-  disableOverlayClose?: boolean;
-  /**
    * Disable scrolling to the target.
    * @default false
    */
@@ -171,6 +166,14 @@ export type StepOptions = {
    * @default 300
    */
   loaderDelay?: number;
+  /**
+   * The action to take when the overlay is clicked.
+   * - `'close'`: Closes the step (fires a CLOSE action).
+   * - `'next'`: Advances to the next step (ends the tour on the last step).
+   * - `false`: Disables overlay click.
+   * @default 'close'
+   */
+  overlayClickBehavior?: 'close' | 'next' | false;
   /**
    * Show the progress (e.g. 1 of 5) in the tooltip.
    * @default false

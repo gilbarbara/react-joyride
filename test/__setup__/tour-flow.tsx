@@ -335,8 +335,12 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     );
   });
 
-  test('should handle clicking STEP 2 Primary button', () => {
-    interactions.next();
+  test('should advance STEP 2 via overlay click (overlayClickBehavior: next)', () => {
+    if (interactions.supportsUIGuards) {
+      fireEvent.click(screen.getByTestId('spotlight').querySelector('path')!);
+    } else {
+      interactions.next();
+    }
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
       21,
@@ -477,7 +481,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    test('should not close STEP 4 Tooltip on overlay click (disableOverlayClose)', () => {
+    test('should not close STEP 4 Tooltip on overlay click (overlayClickBehavior: false)', () => {
       fireEvent.click(screen.getByTestId('spotlight').querySelector('path')!);
 
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
