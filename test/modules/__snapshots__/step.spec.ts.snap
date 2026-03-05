@@ -8,6 +8,7 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
   "disableFocusTrap": false,
   "disableOverlay": false,
   "disableScrolling": false,
+  "disableTargetInteraction": false,
   "dismissAction": "close",
   "event": "click",
   "floatingOptions": {
@@ -219,6 +220,7 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
   "disableFocusTrap": false,
   "disableOverlay": false,
   "disableScrolling": false,
+  "disableTargetInteraction": false,
   "dismissAction": "close",
   "event": "click",
   "floatingOptions": {
@@ -597,6 +599,7 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "disableFocusTrap": false,
   "disableOverlay": false,
   "disableScrolling": false,
+  "disableTargetInteraction": false,
   "dismissAction": "close",
   "event": "click",
   "floatingOptions": {
@@ -829,6 +832,7 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "disableFocusTrap": false,
   "disableOverlay": false,
   "disableScrolling": false,
+  "disableTargetInteraction": false,
   "dismissAction": "close",
   "event": "click",
   "floatingOptions": {
@@ -1040,6 +1044,7 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
   "disableFocusTrap": false,
   "disableOverlay": false,
   "disableScrolling": false,
+  "disableTargetInteraction": false,
   "dismissAction": "close",
   "event": "click",
   "floatingOptions": {

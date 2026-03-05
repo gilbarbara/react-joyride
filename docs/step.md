@@ -65,6 +65,7 @@ Step will inherit some properties from Joyride's own [props](props.md), but you 
 
 - beaconComponent
 - disableCloseOnEsc
+- disableTargetInteraction
 - disableOverlay
 - overlayClickBehavior
 - disableScrolling

@@ -81,6 +81,7 @@ export type StepMerged = Simplify<
     Step,
     | 'disableBeacon'
     | 'disableCloseOnEsc'
+    | 'disableTargetInteraction'
     | 'disableFocusTrap'
     | 'disableOverlay'
     | 'overlayClickBehavior'
@@ -139,6 +140,11 @@ export type StepOptions = {
    * @default false
    */
   disableScrolling?: boolean;
+  /**
+   * Block pointer events on the highlighted element through the spotlight cutout.
+   * @default false
+   */
+  disableTargetInteraction?: boolean;
   /**
    * The action to take when the close button is clicked.
    * - `'close'`: Advances to the next step (default behavior).
