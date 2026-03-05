@@ -1,26 +1,21 @@
-import { type ChangeEvent, forwardRef, Fragment, type ReactNode, useState } from 'react';
+import { type ChangeEvent, Fragment, type ReactNode, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import {
-  type BeaconRenderProps,
-  STATUS,
-  type Step,
-  type TooltipRenderProps,
-  useJoyride,
-} from 'react-joyride';
+import { STATUS, type Step, useJoyride } from 'react-joyride';
 import { useMount, useSetState } from '@gilbarbara/hooks';
 import { Button, Input, Select, SelectItem } from '@heroui/react';
 // @ts-ignore
 import a11yChecker from 'a11y-checker';
 import { Globe } from 'lucide-react';
 
-import { messages } from '~/CustomComponents/messages';
-
 import Container from '~/components/Container';
 
 import { logGroup } from '../modules/helpers';
 
+import Beacon from './BeaconComponent';
 import Grid from './Grid';
 import Intl from './Intl';
+import { messages } from './messages';
+import Tooltip from './TooltipComponent';
 
 interface IntlProps {
   children: ReactNode;
@@ -45,24 +40,6 @@ const languageOptions = [
   { label: 'Français', value: 'fr' },
   { label: 'Português', value: 'pt' },
 ];
-
-const BeaconComponent = forwardRef<HTMLButtonElement, BeaconRenderProps>((props, ref) => {
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  const { continuous, index, isLastStep, size, step, ...rest } = props;
-
-  return (
-    <button
-      ref={ref}
-      className="relative h-12 w-12"
-      data-testid="button-beacon"
-      type="button"
-      {...rest}
-    >
-      <span className="absolute inset-0 animate-ping rounded-full bg-[rgba(48,48,232,0.6)]" />
-      <span className="absolute inset-0 rounded-full bg-[rgba(48,48,232,0.6)]" />
-    </button>
-  );
-});
 
 function Custom(props: Props) {
   const { locale, setLocale } = props;
@@ -130,7 +107,7 @@ function Custom(props: Props) {
   });
 
   const { controls, Tour } = useJoyride({
-    beaconComponent: BeaconComponent,
+    beaconComponent: Beacon,
     onEvent: data => {
       const { status, type } = data;
       const options: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
@@ -153,6 +130,9 @@ function Custom(props: Props) {
       },
       overlay: {
         backgroundColor: 'rgba(79, 46, 8, 0.5)',
+      },
+      beaconWrapper: {
+        borderRadius: '50%',
       },
     },
     tooltipComponent: Tooltip,
@@ -203,55 +183,6 @@ function Custom(props: Props) {
 
 function IntlWrapper({ children, locale }: IntlProps) {
   return <Intl locale={locale}>{children}</Intl>;
-}
-
-function Tooltip(props: TooltipRenderProps) {
-  const { backProps, continuous, index, isLastStep, primaryProps, skipProps, step, tooltipProps } =
-    props;
-
-  return (
-    <div
-      {...tooltipProps}
-      className="bg-white w-xs overflow-hidden rounded-md"
-      data-testid="tooltip"
-    >
-      <div className="p-4">
-        {step.title && <h3 className="text-xl font-bold text-primary mb-4">{step.title}</h3>}
-        {step.content && <div>{step.content}</div>}
-      </div>
-      <div className="bg-blue-100 p-2">
-        <div className="flex justify-between">
-          {!isLastStep && (
-            <button
-              {...skipProps}
-              className="px-3 py-1 text-sm rounded hover:bg-blue-200"
-              type="button"
-            >
-              <FormattedMessage id="skip" />
-            </button>
-          )}
-          <div className="flex gap-2">
-            {index > 0 && (
-              <button
-                {...backProps}
-                className="px-3 py-1 text-sm rounded hover:bg-blue-200"
-                type="button"
-              >
-                <FormattedMessage id="back" />
-              </button>
-            )}
-            <button
-              {...primaryProps}
-              className="px-3 py-1 text-sm rounded bg-primary text-white hover:opacity-90"
-              type="button"
-            >
-              <FormattedMessage id={continuous ? 'next' : 'close'} />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 export default function CustomIntl() {

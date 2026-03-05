@@ -15,7 +15,7 @@ const defaultOptions: StylesOptions = {
   zIndex: 100,
 };
 
-const buttonBase = {
+const buttonReset = {
   backgroundColor: 'transparent',
   border: 0,
   borderRadius: 0,
@@ -23,15 +23,18 @@ const buttonBase = {
   cursor: 'pointer',
   fontSize: 16,
   lineHeight: 1,
-  padding: 8,
   WebkitAppearance: 'none',
+};
+
+const buttonBase = {
+  ...buttonReset,
+  padding: 8,
 };
 
 export default function getStyles(props: Props, step: StepMerged) {
   const { styles } = props;
   const mergedStyles = deepMerge<Styles>(styles ?? {}, step.styles ?? {});
   const options = deepMerge<StylesOptions>(defaultOptions, mergedStyles.options || {});
-  const hideBeacon = step.placement === 'center' || step.disableBeacon;
   let { width } = options;
 
   if ('width' in options) {
@@ -61,12 +64,14 @@ export default function getStyles(props: Props, step: StepMerged) {
       justifyContent: 'center',
       position: 'absolute',
     },
-    beacon: {
-      ...buttonBase,
-      display: hideBeacon ? 'none' : 'inline-block',
-      height: options.beaconSize,
+    beaconWrapper: {
+      ...buttonReset,
+      display: 'inline-flex',
       borderRadius: '50%',
       position: 'relative',
+    },
+    beacon: {
+      height: options.beaconSize,
       width: options.beaconSize,
     },
     beaconInner: {

@@ -52,7 +52,9 @@ export type BaseProps = {
   tooltipComponent?: ElementType<TooltipRenderProps>;
 };
 
-/** Props passed to a custom beacon component. */
+/** Props passed to a custom beacon component.
+ * Must render a span since it's placed inside a `<button>` wrapper.
+ */
 export type BeaconRenderProps = {
   /** Whether the tour is in continuous mode. */
   continuous: boolean;
