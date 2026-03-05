@@ -334,6 +334,28 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     const currentStep = stepRef.current;
     const previousStepValue = previousStepRef.current;
 
+    // BEACON → TOOLTIP_BEFORE: check if scroll adjustment is needed
+    if (
+      currentStep &&
+      changedTo('lifecycle', LIFECYCLE.TOOLTIP_BEFORE) &&
+      previous.lifecycle === LIFECYCLE.BEACON
+    ) {
+      const target = getElement(currentStep.target);
+      const willScroll = needsScrolling({
+        isFirstStep: stateRef.current.index === 0,
+        scrollToFirstStep: propsRef.current.scrollToFirstStep,
+        step: currentStep,
+        target,
+        targetLifecycle: LIFECYCLE.TOOLTIP,
+      });
+
+      if (willScroll) {
+        store.current.updateState({ scrolling: true, positioned: false });
+
+        return;
+      }
+    }
+
     // *_BEFORE → BEACON/TOOLTIP when scroll is done
     const isBeforePhase =
       lifecycle === LIFECYCLE.BEACON_BEFORE || lifecycle === LIFECYCLE.TOOLTIP_BEFORE;
@@ -342,7 +364,10 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       const finalLifecycle =
         lifecycle === LIFECYCLE.TOOLTIP_BEFORE ? LIFECYCLE.TOOLTIP : LIFECYCLE.BEACON;
 
-      store.current.updateState({ action: ACTIONS.UPDATE, lifecycle: finalLifecycle });
+      store.current.updateState({
+        action: ACTIONS.UPDATE,
+        lifecycle: finalLifecycle,
+      });
     }
 
     if (currentStep && changedTo('lifecycle', LIFECYCLE.BEACON)) {
