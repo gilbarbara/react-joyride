@@ -91,12 +91,14 @@ export interface Styles {
     /** Height/depth of the arrow (tip to edge). @default 16 */
     size: number;
   };
-  /** Beacon button styles. */
+  /** Beacon visual styles (size, border-radius). Applied to the default beacon content. */
   beacon: CSSProperties;
   /** Beacon inner pulse element styles. */
   beaconInner: CSSProperties;
   /** Beacon outer ring element styles. */
   beaconOuter: CSSProperties;
+  /** Beacon wrapper button styles (interaction, layout). */
+  beaconWrapper: CSSProperties;
   /** Back button styles. */
   buttonBack: CSSProperties;
   /** Close button styles. */

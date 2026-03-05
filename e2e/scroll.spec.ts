@@ -15,7 +15,7 @@ test('scroll', async ({ page }) => {
   });
 
   await test.step('Step 1 - Beacon', async () => {
-    const beacon = page.locator('.react-joyride__beacon');
+    const beacon = page.getByTestId('button-beacon');
 
     await waitForScrollEnd(page, container);
     await expect.poll(() => getScrollTop(page, container)).toBeAround(0);

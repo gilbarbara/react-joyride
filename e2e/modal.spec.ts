@@ -16,7 +16,7 @@ test('modal', async ({ page }) => {
   });
 
   await test.step('Step 1 - Beacon', async () => {
-    const beacon = page.locator('.react-joyride__beacon');
+    const beacon = page.getByTestId('button-beacon');
 
     await expect(beacon).toBeVisible();
     await expect(page).toHaveScreenshot('step1-beacon.png');

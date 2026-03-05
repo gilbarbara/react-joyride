@@ -12,13 +12,14 @@ export default function JoyrideBeacon(props: BeaconProps) {
     index,
     isLastStep,
     locale,
+    nonce,
     onClickOrHover,
     shouldFocus,
     size,
     step,
     styles,
   } = props;
-  const beaconRef = useRef<HTMLElement | null>(null);
+  const beaconRef = useRef<HTMLButtonElement | null>(null);
 
   const hasBeaconComponent = Boolean(beaconComponent);
 
@@ -41,8 +42,8 @@ export default function JoyrideBeacon(props: BeaconProps) {
 
     style.id = 'joyride-beacon-animation';
 
-    if (props.nonce) {
-      style.setAttribute('nonce', props.nonce);
+    if (nonce) {
+      style.setAttribute('nonce', nonce);
     }
 
     const css = `
@@ -92,50 +93,45 @@ export default function JoyrideBeacon(props: BeaconProps) {
         insertedStyle.parentNode.removeChild(insertedStyle);
       }
     };
-  }, [hasBeaconComponent, props.nonce, shouldFocus]);
-
-  const setBeaconRef = (el: HTMLElement | null) => {
-    beaconRef.current = el;
-  };
+  }, [hasBeaconComponent, nonce, shouldFocus]);
 
   const title = getReactNodeText(locale.open);
-  const sharedProps = {
-    'aria-label': title,
-    onClick: onClickOrHover,
-    onMouseEnter: onClickOrHover,
-    ref: setBeaconRef,
-    title,
-  };
-  let component;
+  let content;
 
   if (beaconComponent) {
     const BeaconComponent = beaconComponent;
 
-    component = (
+    content = (
       <BeaconComponent
         continuous={continuous}
         index={index}
         isLastStep={isLastStep}
         size={size}
         step={step}
-        {...sharedProps}
       />
     );
   } else {
-    component = (
-      <button
-        key="JoyrideBeacon"
-        className="react-joyride__beacon"
-        data-testid="button-beacon"
-        style={styles.beacon}
-        type="button"
-        {...sharedProps}
-      >
+    content = (
+      <span style={styles.beacon}>
         <span style={styles.beaconOuter} />
         <span style={styles.beaconInner} />
-      </button>
+      </span>
     );
   }
 
-  return component;
+  return (
+    <button
+      ref={beaconRef}
+      aria-label={title}
+      className="react-joyride__beacon"
+      data-testid="button-beacon"
+      onClick={onClickOrHover}
+      onMouseEnter={onClickOrHover}
+      style={styles.beaconWrapper}
+      title={title}
+      type="button"
+    >
+      {content}
+    </button>
+  );
 }
