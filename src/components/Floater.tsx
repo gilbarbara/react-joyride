@@ -90,9 +90,18 @@ export default function JoyrideFloater(props: FloaterProps) {
   const scrollParent = hasCustomScrollParent(target as HTMLElement)
     ? getScrollParent(target as HTMLElement)
     : undefined;
-  const boundaryOptions = scrollParent
-    ? { boundary: scrollParent as Element, rootBoundary: 'viewport' as const }
-    : {};
+  const boundaryOptions = useMemo(
+    () =>
+      scrollParent ? { boundary: scrollParent as Element, rootBoundary: 'viewport' as const } : {},
+    [scrollParent],
+  );
+  const arrowMiddleware = useMemo(
+    () =>
+      step.floatingOptions?.hideArrow
+        ? []
+        : [arrow({ element: arrowRef, padding: step.styles.options.arrowSpacing })],
+    [step.floatingOptions?.hideArrow, step.styles.options.arrowSpacing],
+  );
 
   const { arrow: arrowStyles, floater: floaterStyles } = step.styles;
 
@@ -135,9 +144,7 @@ export default function JoyrideFloater(props: FloaterProps) {
           }),
           isAuto ? autoPlacement() : flip(),
           shift({ padding: 5, ...boundaryOptions }),
-          ...(step.floatingOptions?.hideArrow
-            ? []
-            : [arrow({ element: arrowRef, padding: step.styles.options.arrowSpacing })]),
+          ...arrowMiddleware,
           ...(step.floatingOptions?.middleware ?? []),
         ],
     whileElementsMounted: isCenter
@@ -212,7 +219,7 @@ export default function JoyrideFloater(props: FloaterProps) {
       return;
     }
 
-    updateState({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE });
+    updateState({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE, positioned: false });
   };
 
   let content: ReactNode = null;
@@ -223,6 +230,7 @@ export default function JoyrideFloater(props: FloaterProps) {
       ...tooltipFloating.floatingStyles,
       zIndex,
       opacity: open && tooltipFloating.isPositioned ? 1 : 0,
+      ...(!open && { transition: 'none' }),
     });
 
     content = (
