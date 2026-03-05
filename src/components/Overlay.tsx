@@ -14,6 +14,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const {
     continuous,
     disableOverlay,
+    disableTargetInteraction,
     lifecycle,
     onClickOverlay,
     overlayClickBehavior,
@@ -129,7 +130,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
             fill={overlayColor}
             style={{
               opacity: spotlightReady ? 0 : 1,
-              pointerEvents: 'none',
+              pointerEvents: disableTargetInteraction ? 'auto' : 'none',
               transition: 'opacity 0.2s',
             }}
           />

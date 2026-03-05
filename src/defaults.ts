@@ -18,6 +18,7 @@ export const defaultLocale: Locale = {
 
 export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>> = {
   disableCloseOnEsc: false,
+  disableTargetInteraction: false,
   disableFocusTrap: false,
   disableOverlay: false,
   disableScrolling: false,

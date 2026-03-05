@@ -20,7 +20,10 @@ Log Joyride's actions to the console.
 **disableCloseOnEsc** `boolean` ▶︎ **false**  
 Disable closing the tooltip on ESC.
 
-**disableOverlay** `boolean` ▶︎ **false**  
+**disableTargetInteraction** `boolean` ▶︎ **false**
+Block pointer events on the highlighted element through the spotlight cutout.
+
+**disableOverlay** `boolean` ▶︎ **false**
 Don't show the overlay.
 
 **overlayClickBehavior** `'close' | 'next' | false` ▶︎ **'close'**
