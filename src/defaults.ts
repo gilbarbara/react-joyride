@@ -17,16 +17,20 @@ export const defaultLocale: Locale = {
 };
 
 export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>> = {
+  disableBeacon: false,
   disableCloseOnEsc: false,
-  disableTargetInteraction: false,
   disableFocusTrap: false,
   disableOverlay: false,
   disableScrolling: false,
+  disableTargetInteraction: false,
   dismissAction: 'close',
+  event: 'click',
   hideBackButton: false,
   hideCloseButton: false,
+  hideFooter: false,
   hidePrimaryButton: false,
   loaderDelay: 300,
+  offset: 10,
   overlayClickBehavior: 'close',
   showProgress: false,
   showSkipButton: false,
@@ -35,13 +39,9 @@ export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>>
 };
 
 export const defaultStep = {
-  event: 'click',
-  placement: 'bottom',
-  offset: 10,
-  disableBeacon: false,
-  hideFooter: false,
   isFixed: false,
   locale: defaultLocale,
+  placement: 'bottom',
   scrollOffset: 20,
   ...defaultStepOptions,
 } satisfies Omit<Step, 'content' | 'target'>;
