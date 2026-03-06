@@ -181,7 +181,7 @@ export type StepOptions = {
    */
   overlayClickBehavior?: 'close' | 'next' | false;
   /**
-   * Show the progress (e.g. 1 of 5) in the tooltip.
+   * Show the progress (1 of 5) in the tooltip.
    * @default false
    */
   showProgress?: boolean;

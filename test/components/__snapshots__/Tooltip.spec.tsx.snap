@@ -469,15 +469,15 @@ exports[`Tooltip > should show progress label when showProgress is true 1`] = `
       style="flex: 1 1 0%;"
     />
     <button
-      aria-label="Next (Step 1 of 3)"
+      aria-label="Next (1 of 3)"
       data-action="primary"
       data-testid="button-primary"
       role="button"
       style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
-      title="Next (Step 1 of 3)"
+      title="Next (1 of 3)"
       type="button"
     >
-      Next (Step 1 of 3)
+      Next (1 of 3)
     </button>
   </div>
   <button

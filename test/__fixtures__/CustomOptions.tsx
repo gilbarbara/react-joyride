@@ -6,7 +6,7 @@ interface CustomOptionsProps extends Omit<Props, 'steps'> {
 }
 
 function NextWithProgress() {
-  return <strong>{`Go ({step} of {steps})`}</strong>;
+  return <strong>{`Go ({current} of {total})`}</strong>;
 }
 
 function Skip() {
@@ -26,7 +26,7 @@ const tourSteps: Array<Step> = [
     title: 'Our Mission',
     showProgress: true,
     locale: {
-      nextLabelWithProgress: <NextWithProgress />,
+      nextWithProgress: <NextWithProgress />,
       back: <strong>Go Back</strong>,
       skip: <Skip />,
     },
