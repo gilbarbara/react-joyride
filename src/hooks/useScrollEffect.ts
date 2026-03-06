@@ -53,7 +53,7 @@ function adjustForPlacement(
     if (placement === 'top') {
       const floaterElement = document.querySelector('.react-joyride__floater');
       const floaterHeight = floaterElement?.getBoundingClientRect().height ?? 0;
-      const arrowSize = step.floatingOptions?.hideArrow ? 0 : step.styles.arrow.size;
+      const arrowSize = step.floatingOptions?.hideArrow ? 0 : step.styles.options.arrowSize;
       const gap = step.offset + step.spotlightPadding.top + arrowSize;
 
       adjustedY -= floaterHeight + gap;

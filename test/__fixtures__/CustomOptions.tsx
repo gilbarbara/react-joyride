@@ -32,15 +32,15 @@ const tourSteps: Array<Step> = [
     },
     styles: {
       arrow: {
-        base: 50,
         color: '#fff',
-        size: 50,
       },
       buttonNext: {
         backgroundColor: '#f04',
       },
       options: {
+        arrowBase: 50,
         arrowColor: '#66a5ff',
+        arrowSize: 50,
       },
     },
   },

@@ -11,8 +11,10 @@ const step = createStep();
 function createProps(overrides: Record<string, unknown> = {}) {
   return {
     arrowRef: createRef<HTMLElement>(),
+    base: step.styles.options.arrowBase,
     placement: 'bottom' as const,
     position: { x: 10, y: 20 } as { x?: number; y?: number } | undefined,
+    size: step.styles.options.arrowSize,
     styles: step.styles.arrow,
     ...overrides,
   };

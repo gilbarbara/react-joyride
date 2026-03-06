@@ -1,13 +1,15 @@
 import type { CSSProperties, ElementType, Ref } from 'react';
 
-import type { ArrowRenderProps, Placement, Styles } from '~/types';
+import type { ArrowRenderProps, Placement } from '~/types';
 
 interface ArrowProps {
   arrowComponent?: ElementType<ArrowRenderProps>;
   arrowRef: Ref<HTMLElement>;
+  base: number;
   placement: Placement;
   position: { x?: number; y?: number } | undefined;
-  styles: Styles['arrow'];
+  size: number;
+  styles: CSSProperties;
 }
 
 function getDimensions(placement: Placement, base: number, size: number) {
@@ -83,11 +85,12 @@ function getPositionStyle(
 export default function Arrow({
   arrowComponent,
   arrowRef,
+  base,
   placement,
   position,
+  size,
   styles,
 }: ArrowProps) {
-  const { base, size, ...restStyles } = styles;
   const ArrowComponent = arrowComponent;
 
   let content = null;
@@ -124,7 +127,7 @@ export default function Arrow({
       className="react-joyride__arrow"
       data-testid="arrow"
       style={{
-        ...restStyles,
+        ...styles,
         ...getPositionStyle(placement, position, size, base),
         ...(position ? {} : { visibility: 'hidden' }),
       }}
