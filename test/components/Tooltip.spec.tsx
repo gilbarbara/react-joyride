@@ -20,8 +20,6 @@ function createControls(overrides: Partial<Controls> = {}) {
   });
 }
 
-const setTooltipRefMock = vi.fn();
-
 const step = createStep();
 
 describe('Tooltip', () => {
@@ -34,15 +32,7 @@ describe('Tooltip', () => {
     const controls = createControls();
 
     const { container } = render(
-      <Tooltip
-        continuous
-        controls={controls}
-        index={0}
-        isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
-        size={3}
-        step={step}
-      />,
+      <Tooltip continuous controls={controls} index={0} isLastStep={false} size={3} step={step} />,
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -52,15 +42,7 @@ describe('Tooltip', () => {
     const controls = createControls();
 
     const { container } = render(
-      <Tooltip
-        continuous
-        controls={controls}
-        index={2}
-        isLastStep
-        setTooltipRef={setTooltipRefMock}
-        size={3}
-        step={step}
-      />,
+      <Tooltip continuous controls={controls} index={2} isLastStep size={3} step={step} />,
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -75,7 +57,6 @@ describe('Tooltip', () => {
         controls={controls}
         index={0}
         isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
         size={3}
         step={step}
       />,
@@ -88,15 +69,7 @@ describe('Tooltip', () => {
     const controls = createControls();
 
     render(
-      <Tooltip
-        continuous
-        controls={controls}
-        index={0}
-        isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
-        size={3}
-        step={step}
-      />,
+      <Tooltip continuous controls={controls} index={0} isLastStep={false} size={3} step={step} />,
     );
 
     fireEvent.click(screen.getByTestId('button-primary'));
@@ -113,7 +86,6 @@ describe('Tooltip', () => {
         controls={controls}
         index={0}
         isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
         size={3}
         step={step}
       />,
@@ -128,15 +100,7 @@ describe('Tooltip', () => {
     const controls = createControls();
 
     const { container } = render(
-      <Tooltip
-        continuous
-        controls={controls}
-        index={1}
-        isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
-        size={3}
-        step={step}
-      />,
+      <Tooltip continuous controls={controls} index={1} isLastStep={false} size={3} step={step} />,
     );
 
     expect(container.firstChild).toMatchSnapshot();
@@ -150,15 +114,7 @@ describe('Tooltip', () => {
     const controls = createControls();
 
     render(
-      <Tooltip
-        continuous
-        controls={controls}
-        index={0}
-        isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
-        size={3}
-        step={step}
-      />,
+      <Tooltip continuous controls={controls} index={0} isLastStep={false} size={3} step={step} />,
     );
 
     fireEvent.click(screen.getByTestId('button-close'));
@@ -176,7 +132,6 @@ describe('Tooltip', () => {
         controls={controls}
         index={0}
         isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
         size={3}
         step={skipStep}
       />,
@@ -199,7 +154,6 @@ describe('Tooltip', () => {
         controls={controls}
         index={0}
         isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
         size={3}
         step={progressStep}
       />,
@@ -218,7 +172,6 @@ describe('Tooltip', () => {
         controls={controls}
         index={0}
         isLastStep={false}
-        setTooltipRef={setTooltipRefMock}
         size={3}
         step={customStep}
       />,

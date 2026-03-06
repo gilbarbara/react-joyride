@@ -1,4 +1,4 @@
-import type { ElementType, MouseEventHandler, RefCallback } from 'react';
+import type { ElementType, MouseEventHandler } from 'react';
 
 import type { Locale, Placement, Styles } from './common';
 import type { FloatingOptions } from './floating';
@@ -115,7 +115,6 @@ export type TooltipRenderProps = Simplify<
     tooltipProps: {
       'aria-describedby': string;
       'aria-modal': boolean;
-      ref: RefCallback<HTMLElement>;
       role: string;
     };
   }

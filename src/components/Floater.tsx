@@ -235,7 +235,10 @@ export default function JoyrideFloater(props: FloaterProps) {
 
     content = (
       <div
-        ref={tooltipFloating.refs.setFloating}
+        ref={node => {
+          tooltipFloating.refs.setFloating(node);
+          setTooltipRef(node);
+        }}
         className="react-joyride__floater"
         data-testid="floater"
         id={`react-joyride-step-${index}`}
@@ -246,7 +249,6 @@ export default function JoyrideFloater(props: FloaterProps) {
           controls={controls}
           index={index}
           isLastStep={index + 1 === size}
-          setTooltipRef={setTooltipRef}
           size={size}
           step={step}
         />
