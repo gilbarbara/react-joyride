@@ -22,24 +22,9 @@ export type Step = Simplify<
        */
       data?: any;
       /**
-       * Don't show the Beacon before the tooltip.
-       * @default false
-       */
-      disableBeacon?: boolean;
-      /**
-       * The event to trigger the beacon.
-       * @default click
-       */
-      event?: 'click' | 'hover';
-      /**
        * Options for the floating positioning.
        */
       floatingOptions?: Partial<FloatingOptions>;
-      /**
-       * Hide the tooltip's footer.
-       * @default false
-       */
-      hideFooter?: boolean;
       /**
        * A unique identifier for the step.
        */
@@ -49,11 +34,6 @@ export type Step = Simplify<
        * @default false
        */
       isFixed?: boolean;
-      /**
-       * The distance in pixels between the tooltip and the target.
-       * @default 10
-       */
-      offset?: number;
       /**
        * The placement of the beacon and tooltip. It will re-position itself if there's no space available.
        * @default bottom
@@ -121,6 +101,11 @@ export type StepOptions = {
    */
   before?: (data: TourData) => Promise<void>;
   /**
+   * Don't show the Beacon before the tooltip.
+   * @default false
+   */
+  disableBeacon?: boolean;
+  /**
    * Disable closing the tooltip on ESC.
    * @default false
    */
@@ -153,6 +138,11 @@ export type StepOptions = {
    */
   dismissAction?: 'close' | 'skip';
   /**
+   * The event to trigger the beacon.
+   * @default 'click'
+   */
+  event?: 'click' | 'hover';
+  /**
    * Hide the Back button.
    * @default false
    */
@@ -163,6 +153,11 @@ export type StepOptions = {
    */
   hideCloseButton?: boolean;
   /**
+   * Hide the tooltip's footer.
+   * @default false
+   */
+  hideFooter?: boolean;
+  /**
    * Hide the Next (or Last) button.
    * @default false
    */
@@ -172,6 +167,11 @@ export type StepOptions = {
    * @default 300
    */
   loaderDelay?: number;
+  /**
+   * The distance in pixels between the tooltip and the target.
+   * @default 10
+   */
+  offset?: number;
   /**
    * The action to take when the overlay is clicked.
    * - `'close'`: Closes the step (fires a CLOSE action).
