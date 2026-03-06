@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-import * as React from 'react';
+import type { ReactNode } from 'react';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import {
@@ -33,7 +33,7 @@ interface Props {
 const baseObject = { a: 1, b: '', c: [1], d: { a: null }, e: undefined };
 
 function NextWithProgress() {
-  return <strong data-testid="next-label">{`Go ({step} of {steps})`}</strong>;
+  return <strong data-testid="next-label">{`Go ({current} of {total})`}</strong>;
 }
 
 function Skip() {
@@ -150,9 +150,9 @@ describe('helpers', () => {
       expect(getReactNodeText(<Skip />)).toBe('Do you really want to skip?');
       expect(getReactNodeText(<NextWithProgress />, { step: 2, steps: 5 })).toBe('Go (2 of 5)');
       expect(
-        getReactNodeText(<span>Next {`({step} of {steps})`}</span>, { step: 2, steps: 5 }),
+        getReactNodeText(<span>Next {`({current} of {total})`}</span>, { step: 2, steps: 5 }),
       ).toBe('Next (2 of 5)');
-      expect(getReactNodeText('Next ({step} of {steps})', { step: 2, steps: 5 })).toBe(
+      expect(getReactNodeText('Next ({current} of {total})', { step: 2, steps: 5 })).toBe(
         'Next (2 of 5)',
       );
     });
@@ -416,15 +416,15 @@ describe('helpers', () => {
       expect(replaceLocaleContent(<NextWithProgress />, 2, 5)).toEqual(
         <strong data-testid="next-label">Go (2 of 5)</strong>,
       );
-      expect(replaceLocaleContent(<span>{`Next ({step} of {steps})`}</span>, 2, 5)).toEqual(
+      expect(replaceLocaleContent(<span>{`Next ({current} of {total})`}</span>, 2, 5)).toEqual(
         <span>Next (2 of 5)</span>,
       );
-      expect(replaceLocaleContent('Next ({step} of {steps})', 2, 5)).toEqual('Next (2 of 5)');
+      expect(replaceLocaleContent('Next ({current} of {total})', 2, 5)).toEqual('Next (2 of 5)');
       expect(replaceLocaleContent(null, 2, 5)).toEqual(null);
     });
 
     it('should handle array children with mixed content', () => {
-      expect(replaceLocaleContent(<span>Step {`{step} of {steps}`}</span>, 2, 5)).toEqual(
+      expect(replaceLocaleContent(<span>Step {`{current} of {total}`}</span>, 2, 5)).toEqual(
         <span>Step {'2 of 5'}</span>,
       );
     });
@@ -433,7 +433,7 @@ describe('helpers', () => {
       expect(
         replaceLocaleContent(
           <span>
-            {'Step'} <em>{`{step} of {steps}`}</em>
+            {'Step'} <em>{`{current} of {total}`}</em>
           </span>,
           3,
           7,
@@ -465,17 +465,14 @@ describe('helpers', () => {
 
     it('should not recurse into React elements', () => {
       const element = <div>test</div>;
-      const result = deepMerge<{ content: React.ReactNode }>(
-        { content: 'old' },
-        { content: element },
-      );
+      const result = deepMerge<{ content: ReactNode }>({ content: 'old' }, { content: element });
 
       expect(result.content).toBe(element);
     });
 
     it('should handle nested objects with React element values', () => {
       const element = <span />;
-      const result = deepMerge<{ step: { content: React.ReactNode; title: string } }>(
+      const result = deepMerge<{ step: { content: ReactNode; title: string } }>(
         { step: { title: 'old', content: 'old' } },
         { step: { content: element } },
       );

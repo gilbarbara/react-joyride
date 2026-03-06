@@ -58,10 +58,10 @@ export interface Locale {
   next?: ReactNode;
   /**
    * Label for the next button with `showProgress`.
-   * Use the `{step}` and `{steps}` placeholders to display the current step and the total steps.
-   * @default 'Next (Step {step} of {steps})'
+   * Use the `{current}` and `{total}` placeholders to display the current step and the total steps.
+   * @default 'Next ({current} of {total})'
    */
-  nextLabelWithProgress?: ReactNode;
+  nextWithProgress?: ReactNode;
   /**
    * Label for the open button.
    * @default 'Open the dialog'

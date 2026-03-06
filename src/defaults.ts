@@ -11,7 +11,7 @@ export const defaultLocale: Locale = {
   close: 'Close',
   last: 'Last',
   next: 'Next',
-  nextLabelWithProgress: 'Next (Step {step} of {steps})',
+  nextWithProgress: 'Next ({current} of {total})',
   open: 'Open the dialog',
   skip: 'Skip',
 };

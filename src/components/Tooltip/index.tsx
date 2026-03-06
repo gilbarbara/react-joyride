@@ -44,7 +44,7 @@ export default function Tooltip(props: TooltipProps) {
   };
 
   const getElementsProps = () => {
-    const { back, close, last, next, nextLabelWithProgress, skip } = step.locale;
+    const { back, close, last, next, nextWithProgress, skip } = step.locale;
 
     const backText = getReactNodeText(back);
     const closeText = getReactNodeText(close);
@@ -60,12 +60,12 @@ export default function Tooltip(props: TooltipProps) {
       primaryText = nextText;
 
       if (step.showProgress && !isLastStep) {
-        const labelWithProgress = getReactNodeText(nextLabelWithProgress, {
+        const labelWithProgress = getReactNodeText(nextWithProgress, {
           step: index + 1,
           steps: size,
         });
 
-        primary = replaceLocaleContent(nextLabelWithProgress, index + 1, size);
+        primary = replaceLocaleContent(nextWithProgress, index + 1, size);
         primaryText = labelWithProgress;
       }
 

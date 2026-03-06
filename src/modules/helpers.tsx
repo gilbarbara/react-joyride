@@ -130,8 +130,8 @@ export function getReactNodeText(input: ReactNode, options: GetReactNodeTextOpti
     } else {
       text = innerText(defaultValue);
     }
-  } else if ((text.includes('{step}') || text.includes('{steps}')) && step && steps) {
-    text = text.replace('{step}', step.toString()).replace('{steps}', steps.toString());
+  } else if ((text.includes('{current}') || text.includes('{total}')) && step && steps) {
+    text = text.replace('{current}', step.toString()).replace('{total}', steps.toString());
   }
 
   return text;
@@ -301,7 +301,7 @@ export function pick<T extends Record<string, any>, K extends keyof T>(
 
 export function replaceLocaleContent(input: ReactNode, step: number, steps: number): ReactNode {
   const replacer = (text: string) =>
-    text.replace('{step}', String(step)).replace('{steps}', String(steps));
+    text.replace('{current}', String(step)).replace('{total}', String(steps));
 
   if (getObjectType(input) === 'string') {
     return replacer(input as string);
@@ -313,7 +313,7 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
 
   const { children } = input.props as { children?: ReactNode };
 
-  if (is.string(children) && children.includes('{step}')) {
+  if (is.string(children) && children.includes('{current}')) {
     return cloneElement(input as ReactElement<{ children?: ReactNode }>, {
       children: replacer(children),
     });
