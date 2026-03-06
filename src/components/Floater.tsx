@@ -139,7 +139,7 @@ export default function JoyrideFloater(props: FloaterProps) {
             return (
               step.offset +
               step.spotlightPadding[side] +
-              (step.floatingOptions?.hideArrow ? 0 : arrowStyles.size)
+              (step.floatingOptions?.hideArrow ? 0 : step.styles.options.arrowSize)
             );
           }),
           isAuto ? autoPlacement() : flip(),
@@ -256,8 +256,10 @@ export default function JoyrideFloater(props: FloaterProps) {
           <Arrow
             arrowComponent={step.arrowComponent}
             arrowRef={arrowRef}
+            base={step.styles.options.arrowBase}
             placement={tooltipFloating.placement}
             position={tooltipFloating.middlewareData.arrow}
+            size={step.styles.options.arrowSize}
             styles={arrowStyles}
           />
         )}

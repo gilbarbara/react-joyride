@@ -3,14 +3,16 @@ import { deepMerge, hexToRGB } from '~/modules/helpers';
 import type { Props, StepMerged, Styles, StylesOptions } from '~/types';
 
 const defaultOptions: StylesOptions = {
-  arrowColor: '#fff',
+  arrowBase: 32,
+  arrowColor: '#ffffff',
+  arrowSize: 16,
   arrowSpacing: 5,
-  backgroundColor: '#fff',
+  backgroundColor: '#ffffff',
   beaconSize: 36,
-  overlayColor: 'rgba(0, 0, 0, 0.5)',
-  primaryColor: '#f04',
+  overlayColor: '#00000080',
+  primaryColor: '#ff0044',
   spotlightRadius: 4,
-  textColor: '#333',
+  textColor: '#333333',
   width: 380,
   zIndex: 100,
 };
@@ -19,7 +21,7 @@ const buttonReset = {
   backgroundColor: 'transparent',
   border: 0,
   borderRadius: 0,
-  color: '#555',
+  color: '#555555',
   cursor: 'pointer',
   fontSize: 16,
   lineHeight: 1,
@@ -56,8 +58,6 @@ export default function getStyles(props: Props, step: StepMerged) {
 
   const defaultStyles = {
     arrow: {
-      base: 32,
-      size: 16,
       alignItems: 'center',
       color: options.arrowColor,
       display: 'inline-flex',

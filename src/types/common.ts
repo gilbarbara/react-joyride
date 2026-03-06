@@ -85,12 +85,7 @@ export interface SpotlightPadding {
 /** CSS styles for all Joyride UI elements. */
 export interface Styles {
   /** Arrow element styles. */
-  arrow: CSSProperties & {
-    /** Width of the arrow base. @default 32 */
-    base: number;
-    /** Height/depth of the arrow (tip to edge). @default 16 */
-    size: number;
-  };
+  arrow: CSSProperties;
   /** Beacon visual styles (size, border-radius). Applied to the default beacon content. */
   beacon: CSSProperties;
   /** Beacon inner pulse element styles. */
@@ -130,10 +125,20 @@ export interface Styles {
 /** Themeable style options (colors, sizes, spacing). */
 export interface StylesOptions {
   /**
+   * Width of the arrow base edge in pixels.
+   * @default 32
+   */
+  arrowBase: number;
+  /**
    * Arrow fill color.
-   * @default '#fff'
+   * @default '#ffffff'
    */
   arrowColor: string;
+  /**
+   * Height/depth of the arrow (tip to base edge) in pixels.
+   * @default 16
+   */
+  arrowSize: number;
   /**
    * The distance between the arrow and the edge of the tooltip.
    * @default 5
@@ -141,7 +146,7 @@ export interface StylesOptions {
   arrowSpacing: number;
   /**
    * Tooltip background color.
-   * @default '#fff'
+   * @default '#ffffff'
    */
   backgroundColor: string;
   /**
@@ -151,12 +156,12 @@ export interface StylesOptions {
   beaconSize: number;
   /**
    * Overlay backdrop color.
-   * @default 'rgba(0, 0, 0, 0.5)'
+   * @default '#00000080'
    */
   overlayColor: string;
   /**
    * Primary button and beacon color.
-   * @default '#f04'
+   * @default '#ff0044'
    */
   primaryColor: string;
   /**
@@ -166,7 +171,7 @@ export interface StylesOptions {
   spotlightRadius: number;
   /**
    * Tooltip text color.
-   * @default '#333'
+   * @default '#333333'
    */
   textColor: string;
   /**

@@ -14,7 +14,7 @@ exports[`Overlay > should not render Spotlight for center placement 1`] = `
   >
     <path
       d="M0 0H1024V50H0Z"
-      fill="rgba(0, 0, 0, 0.5)"
+      fill="#00000080"
       fill-rule="evenodd"
       style="cursor: pointer; pointer-events: auto;"
     />
@@ -36,7 +36,7 @@ exports[`Overlay > should not render Spotlight when scrolling is true 1`] = `
   >
     <path
       d="M0 0H1024V50H0Z"
-      fill="rgba(0, 0, 0, 0.5)"
+      fill="#00000080"
       fill-rule="evenodd"
       style="cursor: pointer; pointer-events: auto;"
     />
@@ -58,7 +58,7 @@ exports[`Overlay > should not render Spotlight when waiting is true 1`] = `
   >
     <path
       d="M0 0H1024V50H0Z"
-      fill="rgba(0, 0, 0, 0.5)"
+      fill="#00000080"
       fill-rule="evenodd"
       style="cursor: pointer; pointer-events: auto;"
     />
@@ -80,7 +80,7 @@ exports[`Overlay > should render Spotlight when scrolling transitions to false 1
   >
     <path
       d="M0 0H1024V50H0Z"
-      fill="rgba(0, 0, 0, 0.5)"
+      fill="#00000080"
       fill-rule="evenodd"
       style="cursor: pointer; pointer-events: auto;"
     />
@@ -102,7 +102,7 @@ exports[`Overlay > should render the overlay when lifecycle is TOOLTIP 1`] = `
   >
     <path
       d="M0 0H1024V50H0Z"
-      fill="rgba(0, 0, 0, 0.5)"
+      fill="#00000080"
       fill-rule="evenodd"
       style="cursor: pointer; pointer-events: auto;"
     />
