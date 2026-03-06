@@ -69,15 +69,21 @@ export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
     return null;
   }
 
+  let content;
+
   if (loaderComponent) {
     const CustomLoader = loaderComponent;
 
-    return <CustomLoader step={step} />;
+    content = <CustomLoader step={step} />;
+  } else {
+    content = (
+      <div style={{ ...loaderStyles.spinner, borderTopColor: styles.options.primaryColor }} />
+    );
   }
 
   return (
     <div className="react-joyride__loader" data-testid="loader" style={loaderStyles.wrapper}>
-      <div style={{ ...loaderStyles.spinner, borderTopColor: styles.options.primaryColor }} />
+      {content}
     </div>
   );
 }
