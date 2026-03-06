@@ -95,15 +95,6 @@ export default function JoyrideFloater(props: FloaterProps) {
       scrollParent ? { boundary: scrollParent as Element, rootBoundary: 'viewport' as const } : {},
     [scrollParent],
   );
-  const arrowMiddleware = useMemo(
-    () =>
-      step.floatingOptions?.hideArrow
-        ? []
-        : [arrow({ element: arrowRef, padding: step.styles.options.arrowSpacing })],
-    [step.floatingOptions?.hideArrow, step.styles.options.arrowSpacing],
-  );
-
-  const { arrow: arrowStyles, floater: floaterStyles } = step.styles;
 
   const tooltipPlacement = isCenter || isAuto ? 'bottom' : (step.placement as FloatingPlacement);
 
@@ -127,29 +118,41 @@ export default function JoyrideFloater(props: FloaterProps) {
           },
         ]
       : [
-          offset(({ placement: currentPlacement }) => {
-            const side = currentPlacement.startsWith('top')
-              ? 'top'
-              : currentPlacement.startsWith('bottom')
-                ? 'bottom'
-                : currentPlacement.startsWith('left')
-                  ? 'left'
-                  : 'right';
+          offset(
+            ({ placement: currentPlacement }) => {
+              const side = currentPlacement.startsWith('top')
+                ? 'top'
+                : currentPlacement.startsWith('bottom')
+                  ? 'bottom'
+                  : currentPlacement.startsWith('left')
+                    ? 'left'
+                    : 'right';
 
-            return (
-              step.offset +
-              step.spotlightPadding[side] +
-              (step.floatingOptions?.hideArrow ? 0 : step.styles.options.arrowSize)
-            );
-          }),
+              return (
+                step.offset +
+                step.spotlightPadding[side] +
+                (step.floatingOptions?.hideArrow ? 0 : step.styles.options.arrowSize)
+              );
+            },
+            [
+              step.offset,
+              step.spotlightPadding,
+              step.styles.options.arrowSize,
+              step.floatingOptions?.hideArrow,
+            ],
+          ),
           isAuto ? autoPlacement() : flip(),
           shift({ padding: 5, ...boundaryOptions }),
-          ...arrowMiddleware,
+          ...(step.floatingOptions?.hideArrow
+            ? []
+            : [
+                arrow({ element: arrowRef, padding: step.styles.options.arrowSpacing }, [
+                  step.styles.options.arrowSpacing,
+                  step.styles.options.arrowBase,
+                ]),
+              ]),
           ...(step.floatingOptions?.middleware ?? []),
         ],
-    whileElementsMounted: isCenter
-      ? autoUpdate
-      : (...arguments_) => autoUpdate(...arguments_, step.floatingOptions?.autoUpdate),
   });
 
   const beaconPlacement =
@@ -164,6 +167,23 @@ export default function JoyrideFloater(props: FloaterProps) {
 
   tooltipMiddlewareRef.current = tooltipFloating.middlewareData;
   beaconMiddlewareRef.current = beaconFloating.middlewareData;
+
+  useEffect(() => {
+    const ref = tooltipFloating.refs.reference.current;
+    const floating = tooltipFloating.refs.floating.current;
+
+    if (!ref || !floating || lifecycle !== LIFECYCLE.TOOLTIP) {
+      return undefined;
+    }
+
+    return autoUpdate(ref, floating, tooltipFloating.update, step.floatingOptions?.autoUpdate);
+  }, [
+    lifecycle,
+    tooltipFloating.refs.reference,
+    tooltipFloating.refs.floating,
+    tooltipFloating.update,
+    step.floatingOptions?.autoUpdate,
+  ]);
 
   // Wire reference element to both floating instances
   useEffect(() => {
@@ -222,6 +242,7 @@ export default function JoyrideFloater(props: FloaterProps) {
     updateState({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE, positioned: false });
   };
 
+  const { arrow: arrowStyles, floater: floaterStyles } = step.styles;
   let content: ReactNode = null;
 
   if (lifecycle === LIFECYCLE.TOOLTIP || lifecycle === LIFECYCLE.TOOLTIP_BEFORE) {
