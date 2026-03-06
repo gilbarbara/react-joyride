@@ -399,7 +399,12 @@ describe('Floater', () => {
 
       render(<Floater {...props} />);
 
-      expect(offsetMock).toHaveBeenCalledWith(expect.any(Function));
+      expect(offsetMock).toHaveBeenCalledWith(expect.any(Function), [
+        10,
+        { bottom: 5, left: 5, right: 5, top: 5 },
+        16,
+        true,
+      ]);
 
       const offsetFn = (offsetMock as ReturnType<typeof vi.fn>).mock.calls[0][0] as (state: {
         placement: string;
