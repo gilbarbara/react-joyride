@@ -7,7 +7,7 @@ import type { TooltipProps } from '~/types';
 import Container from './Container';
 
 export default function Tooltip(props: TooltipProps) {
-  const { continuous, controls, index, isLastStep, setTooltipRef, size, step } = props;
+  const { continuous, controls, index, isLastStep, size, step } = props;
 
   const handleClickBack = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
@@ -111,7 +111,6 @@ export default function Tooltip(props: TooltipProps) {
       tooltipProps: {
         'aria-describedby': 'joyride-tooltip-content',
         'aria-modal': true,
-        ref: setTooltipRef,
         role: 'alertdialog',
       },
     };
@@ -129,7 +128,6 @@ export default function Tooltip(props: TooltipProps) {
       isLastStep,
       size,
       step: cleanStep,
-      setTooltipRef,
     };
 
     const TooltipComponent = tooltipComponent;

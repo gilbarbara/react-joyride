@@ -86,7 +86,7 @@ export function App() {
 
 **skipProps** {object}: The skip button's props
 
-**tooltipProps** {object}: The root element props \(including `ref`\)
+**tooltipProps** {object}: The root element props
 
 ### Example with css classes
 

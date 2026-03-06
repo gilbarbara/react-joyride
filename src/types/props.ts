@@ -1,4 +1,4 @@
-import type { MouseEventHandler, ReactElement, RefCallback } from 'react';
+import type { MouseEventHandler, ReactElement } from 'react';
 
 import type { Lifecycle, Locale, Styles } from './common';
 import type { BaseProps, BeaconRenderProps } from './components';
@@ -137,8 +137,6 @@ export type TooltipProps = {
   index: number;
   /** Whether this is the last step. */
   isLastStep: boolean;
-  /** Ref callback for the tooltip DOM element. */
-  setTooltipRef: RefCallback<HTMLElement>;
   /** The total number of steps. */
   size: number;
   /** The current merged step. */
