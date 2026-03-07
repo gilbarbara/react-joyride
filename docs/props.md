@@ -58,11 +58,8 @@ floatingOptions={{
 
 See the [styling documentation](styling.md#advanced-positioning) for more examples.
 
-**hideBackButton** `boolean` ▶︎ **false**  
-Hide the **Back** button.
-
-**hideCloseButton** `boolean` ▶︎ **false**  
-Hide the **Close** button.
+**buttons** `Array<'back' | 'close' | 'primary' | 'skip'>` ▶︎ **['back', 'close', 'primary']**
+The buttons to show in the tooltip. Use an empty array to hide all buttons (footer and close).
 
 **locale** `Locale` ▶︎ **{ back: 'Back', close: 'Close', last: 'Last', next: 'Next', nextLabelWithProgress: 'Next (Step {step} of {steps})', open: 'Open the dialog', skip: 'Skip' }**  
 The strings used in the tooltip.
@@ -82,11 +79,8 @@ The scroll distance from the element scrollTop value.
 **scrollToFirstStep** `boolean` ▶︎ **false**  
 Scroll the page for the first step.
 
-**showProgress** `boolean` ▶︎ **false**  
+**showProgress** `boolean` ▶︎ **false**
 Display the tour progress in the next button, `2/5`, in `continuous` tours.
-
-**showSkipButton** `boolean` ▶︎ **false**  
-Display a button to skip the tour.
 
 **spotlightPadding** `number` ▶︎ **10**  
 The padding of the spotlight.

@@ -25,9 +25,6 @@ Don't show the Beacon before the tooltip.
 **event** `'click' | 'hover'` ▶︎ **click**  
 The event to trigger the beacon.
 
-**hideFooter** `boolean` ▶︎ **false**  
-Hide the tooltip's footer.
-
 **isFixed** `boolean` ▶︎ **false**  
 Force the step to be fixed.
 
@@ -70,11 +67,9 @@ Step will inherit some properties from Joyride's own [props](props.md), but you 
 - overlayClickBehavior
 - disableScrolling
 - floatingOptions - Options passed to Floating UI for positioning. Step-level floatingOptions are merged with component-level floatingOptions, allowing per-step customization. See [styling documentation](styling.md#advanced-positioning) for detailed examples.
-- hideBackButton
-- hideCloseButton
+- buttons
 - locale
 - showProgress
-- showSkipButton
 - spotlightPadding
 - styles
 - tooltipComponent

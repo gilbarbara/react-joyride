@@ -2,6 +2,11 @@
 
 exports[`step > getMergedStep > should allow step props to override stepOptions 1`] = `
 {
+  "buttons": [
+    "back",
+    "close",
+    "primary",
+  ],
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
@@ -16,10 +21,6 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
       "offset": -18,
     },
   },
-  "hideBackButton": false,
-  "hideCloseButton": false,
-  "hideFooter": false,
-  "hidePrimaryButton": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -50,7 +51,6 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
   "placement": "bottom",
   "scrollOffset": 10,
   "showProgress": false,
-  "showSkipButton": false,
   "spotlightPadding": {
     "bottom": 5,
     "left": 5,
@@ -215,6 +215,11 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
 
 exports[`step > getMergedStep > should allow stepOptions to override defaultStep 1`] = `
 {
+  "buttons": [
+    "back",
+    "close",
+    "primary",
+  ],
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
@@ -229,10 +234,6 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
       "offset": -18,
     },
   },
-  "hideBackButton": false,
-  "hideCloseButton": false,
-  "hideFooter": false,
-  "hidePrimaryButton": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -263,7 +264,6 @@ exports[`step > getMergedStep > should allow stepOptions to override defaultStep
   "placement": "bottom",
   "scrollOffset": 20,
   "showProgress": false,
-  "showSkipButton": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,
@@ -582,6 +582,11 @@ exports[`step > getMergedStep > should include styles in the merged step 1`] = `
 
 exports[`step > getMergedStep > should merge defaultStep values 1`] = `
 {
+  "buttons": [
+    "back",
+    "close",
+    "primary",
+  ],
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
@@ -596,10 +601,6 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
       "offset": -18,
     },
   },
-  "hideBackButton": false,
-  "hideCloseButton": false,
-  "hideFooter": false,
-  "hidePrimaryButton": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -630,7 +631,6 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "placement": "bottom",
   "scrollOffset": 20,
   "showProgress": false,
-  "showSkipButton": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,
@@ -816,6 +816,11 @@ exports[`step > getMergedStep > should merge locale from defaults, props, and st
 
 exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
 {
+  "buttons": [
+    "back",
+    "close",
+    "primary",
+  ],
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
@@ -830,10 +835,6 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
       "offset": -18,
     },
   },
-  "hideBackButton": false,
-  "hideCloseButton": false,
-  "hideFooter": false,
-  "hidePrimaryButton": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -864,7 +865,6 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "placement": "bottom",
   "scrollOffset": 20,
   "showProgress": false,
-  "showSkipButton": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,
@@ -1029,6 +1029,11 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
 
 exports[`step > getMergedStep > should preserve unset stepOptions defaults when partial stepOptions is provided 1`] = `
 {
+  "buttons": [
+    "back",
+    "close",
+    "primary",
+  ],
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
@@ -1043,10 +1048,6 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
       "offset": -18,
     },
   },
-  "hideBackButton": false,
-  "hideCloseButton": false,
-  "hideFooter": false,
-  "hidePrimaryButton": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -1077,7 +1078,6 @@ exports[`step > getMergedStep > should preserve unset stepOptions defaults when 
   "placement": "bottom",
   "scrollOffset": 20,
   "showProgress": false,
-  "showSkipButton": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,
