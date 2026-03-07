@@ -1,0 +1,216 @@
+import Callout from '~/components/Callout';
+
+# Migrating from V2 to V3
+
+This guide covers the breaking changes when upgrading from V2.
+
+For a complete overview of new features, see [New in V3](./new-in-v3).
+
+## Automated Migration
+
+Use the [react-joyride-migrate](https://github.com/gilbarbara/react-joyride-migrate) codemod to automate most of the mechanical changes:
+
+```bash
+# Preview changes without modifying files
+npx react-joyride-migrate v3 src/ --dry --print
+
+# Apply migration
+npx react-joyride-migrate v3 src/
+```
+
+The codemod handles import changes, prop renames, options restructuring, button array composition, styles/locale migration, and more.
+
+<Callout type="warning">
+  <p>Some patterns require manual review after running the codemod: spread props, dynamic/conditional values, <code>floaterProps</code> shape changes, and <code>getHelpers</code> to hook migration. See the <a href="https://github.com/gilbarbara/react-joyride-migrate#known-limitations">known limitations</a> for details.</p>
+</Callout>
+
+## Breaking Changes
+
+### Named export
+
+The `Joyride` component is now a named export instead of a default export.
+
+```tsx
+// V2
+import Joyride from 'react-joyride';
+
+// V3
+import { Joyride } from 'react-joyride';
+```
+
+### `callback` replaced by `onEvent`
+
+The `callback` prop has been renamed to `onEvent`. It now receives a second `controls` argument with tour control methods (next, prev, start, stop, etc.).
+
+```tsx
+// V2
+<Joyride callback={handleCallback} />
+
+// V3
+<Joyride onEvent={handleEvent} />
+```
+
+### `run` default changed
+
+The `run` prop now defaults to `false` (was `true` in V2). You must explicitly set `run={true}` to start the tour.
+
+### Options system
+
+Many props that were top-level in V2 are now part of the `Options` system. Set them via the `options` prop (globally) or directly on step objects (per-step).
+
+```tsx
+// V2
+<Joyride
+  disableCloseOnEsc
+  disableOverlay
+  showProgress
+  spotlightPadding={20}
+  scrollDuration={500}
+  scrollOffset={30}
+/>
+
+// V3
+<Joyride
+  options={{
+    dismissKeyAction: false,
+    hideOverlay: true,
+    showProgress: true,
+    spotlightPadding: 20,
+    scrollDuration: 500,
+    scrollOffset: 30,
+  }}
+/>
+```
+
+### `styles.options` removed
+
+The `styles.options` object for theming has been replaced by the `options` prop.
+
+```tsx
+// V2
+<Joyride
+  styles={{
+    options: {
+      primaryColor: '#e91e63',
+      textColor: '#333',
+      overlayColor: 'rgba(0, 0, 0, 0.5)',
+    },
+  }}
+/>
+
+// V3
+<Joyride
+  options={{
+    primaryColor: '#e91e63',
+    textColor: '#333',
+    overlayColor: 'rgba(0, 0, 0, 0.5)',
+  }}
+/>
+```
+
+### `getHelpers` replaced by `useJoyride` hook
+
+The `getHelpers` component prop has been replaced by the `useJoyride()` hook for programmatic control.
+
+```tsx
+// V2
+<Joyride
+  getHelpers={helpers => {
+    helpers.next();
+    helpers.prev();
+    helpers.reset();
+  }}
+/>
+
+// V3
+import { useJoyride } from 'react-joyride';
+
+function App() {
+  const { controls, Tour } = useJoyride({ steps });
+
+  // controls.next(), controls.prev(), controls.reset()
+
+  return <>{Tour}</>;
+}
+```
+
+See the [Hook documentation](./hook) for details.
+
+### Button visibility
+
+Individual button props have been replaced by a single `buttons` array:
+
+```tsx
+// V2
+<Joyride hideBackButton hideCloseButton showSkipButton />
+
+// V3
+<Joyride options={{ buttons: ['skip', 'primary'] }} />
+```
+
+Available buttons: `'back'`, `'close'`, `'primary'`, `'skip'`. Default: `['back', 'close', 'primary']`.
+
+## Renamed Props & Step Fields
+
+| V2 | V3 | Notes |
+|----|-----|-------|
+| `callback` | `onEvent` | Now receives `(data, controls)` |
+| `disableBeacon` | `skipBeacon` | Now in Options |
+| `disableCloseOnEsc` | `dismissKeyAction` | `false` \| `'close'` \| `'next'` |
+| `disableOverlay` | `hideOverlay` | Now in Options |
+| `disableOverlayClose` | `overlayClickAction` | `false` \| `'close'` \| `'next'` |
+| `disableScrolling` | `skipScroll` | Now in Options |
+| `event` | `beaconTrigger` | Now in Options (`'click'` \| `'hover'`) |
+| `floaterProps` | `floatingOptions` | New type, now on SharedProps |
+| `getHelpers` | `useJoyride()` hook | Returns `{ controls, ... }` |
+| `placementBeacon` | `beaconPlacement` | Step field |
+| `spotlightClicks` | `blockTargetInteraction` | **Inverted**: `false` = clicks pass through (default) |
+
+### Locale
+
+| V2 | V3 | Notes |
+|----|-----|-------|
+| `nextLabelWithProgress` | `nextWithProgress` | Placeholders changed: `{step}` / `{steps}` → `{current}` / `{total}` |
+
+### Styles
+
+| V2 | V3 | Notes |
+|----|-----|-------|
+| `styles.buttonNext` | `styles.buttonPrimary` | Renamed |
+| `styles.options` | `options` prop | Theming moved to Options |
+
+## Props Moved to Options
+
+These props are now set via the `options` prop or per-step:
+
+`offset`, `scrollDuration`, `scrollOffset`, `showProgress`, `spotlightPadding`
+
+Renamed props that also moved to Options are listed in [Renamed Props & Step Fields](#renamed-props-step-fields) above.
+
+## Removed
+
+### Props
+- `callback` — use `onEvent`
+- `getHelpers` — use `useJoyride()` hook
+- `disableScrollParentFix` — no longer needed
+- `scrollDuration` / `scrollOffset` — moved to Options (now per-step)
+
+### Step fields
+- `hideBackButton` — use `buttons` array (remove `'back'`)
+- `hideCloseButton` — use `buttons` array (remove `'close'`)
+- `hideFooter` — use `buttons: []`
+- `showSkipButton` — use `buttons` array (add `'skip'`)
+
+### Styles
+- `styles.options` — use `options` prop
+- `styles.spotlight` / `styles.spotlightLegacy` — SVG overlay replaces CSS spotlight
+- `styles.overlayLegacy` / `styles.overlayLegacyCenter` — removed
+
+### Constants
+- `LIFECYCLE.ERROR` — errors now use `error` event, not lifecycle phase
+- `STATUS.ERROR` — errors now use `error` event, not status
+
+### Types
+- `Callback` / `CallBackProps` — use `EventHandler` / `EventData`
+- `StoreHelpers` — use `Controls`
+- `FloaterProps` — use `FloatingOptions`

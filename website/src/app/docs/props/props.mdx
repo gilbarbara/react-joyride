@@ -1,0 +1,39 @@
+import Callout from '~/components/Callout';
+
+import PropsTable from './PropsTable';
+import SharedPropsTable from './SharedPropsTable';
+import LocaleTable from './LocaleTable';
+
+# Props
+
+Joyride's props are split into two groups: **Tour Props** control how the tour runs (start/stop, events, controlled mode), and **Shared Props** configure the visual and interactive elements (components, positioning, locale, styles).
+
+Beyond props, you can customize theming and behavior through [Options](./props/options), [Styles](./props/styles), and [Floating Options](./props/floating-options) — all settable globally or per-step.
+
+<Callout type="tip">
+  <p>The only required prop is **`steps`**. Pass an array of [Step](./step) objects and you're ready to go.</p>
+</Callout>
+
+## Tour Props
+
+Control the tour lifecycle: start and stop it, listen to events, switch between controlled and uncontrolled mode, and set global defaults.
+
+<PropsTable />
+
+## Shared Props
+
+Customize components, positioning, locale, and styles at the tour level.
+
+Every shared prop is inherited by all steps and can be overridden individually on any [Step](./step) object.
+
+<SharedPropsTable />
+
+### locale
+
+The strings used in the tooltip.
+
+<LocaleTable />
+
+<Callout type="info">
+  <p>Type definitions: [props.ts](https://github.com/gilbarbara/react-joyride/blob/main/src/types/props.ts).</p>
+</Callout>

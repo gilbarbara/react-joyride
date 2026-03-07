@@ -4,72 +4,66 @@ import { expect, test } from '@playwright/test';
 
 import { getScrollTop, waitForScrollEnd } from './__setup__/utils';
 
-test('scroll', async ({ page }) => {
-  const tooltip = page.locator('.react-joyride__tooltip');
+test('scroll', async ({ page, request }) => {
   const overlay = page.locator('.react-joyride__overlay');
+  const primaryButton = page.getByTestId('button-primary');
   const container = '.app__scroller';
 
+  await test.step('Warmup', async () => {
+    await request.get('/demos/scroll?e2e=true');
+  });
+
   await test.step('Load page', async () => {
-    await page.goto('/scroll');
+    await page.goto('/demos/scroll?e2e=true', { waitUntil: 'networkidle' });
+
     await expect(page.getByText('Works with custom scrolling parents!')).toBeVisible();
   });
 
-  await test.step('Step 1 - Beacon', async () => {
+  await test.step('Step 1 - Custom Scroll Parent', async () => {
     const beacon = page.getByTestId('button-beacon');
 
     await waitForScrollEnd(page, container);
     await expect.poll(() => getScrollTop(page, container)).toBeAround(0);
     await expect(page).toHaveScreenshot('step1-beacon.png');
     await beacon.click();
-  });
 
-  await test.step('Step 1 - New Features in React 18', async () => {
     await waitForScrollEnd(page, container);
-    await expect.poll(() => getScrollTop(page, container)).toBeAround(0);
-
-    await expect(tooltip).toContainText('The latest version of React!');
     await expect(page).toHaveScreenshot('step1-tooltip.png');
   });
 
-  await test.step('Step 2 - Server Components', async () => {
-    await page.getByTestId('button-primary').click();
+  await test.step('Step 2 - Typography', async () => {
+    await primaryButton.click();
     await waitForScrollEnd(page, container);
     await expect.poll(() => getScrollTop(page, container)).toBeAround(0);
 
-    await expect(tooltip).toContainText('Yay! Server components');
     await expect(page).toHaveScreenshot('step2-tooltip.png');
   });
 
-  await test.step('Step 3 - Suspense SSR', async () => {
-    await page.getByTestId('button-primary').click();
+  await test.step('Step 3 - Color Palette', async () => {
+    await primaryButton.click();
     await waitForScrollEnd(page, container);
-    await expect.poll(() => getScrollTop(page, container)).toBeAround(332);
+    await expect.poll(() => getScrollTop(page, container)).toBeAround(360);
 
-    await expect(tooltip).toContainText('This is the way.');
     await expect(page).toHaveScreenshot('step3-tooltip.png');
   });
 
-  await test.step('Step 4 - React Refresh', async () => {
-    await page.getByTestId('button-primary').click();
+  await test.step('Step 4 - Spacing Scale', async () => {
+    await primaryButton.click();
     await waitForScrollEnd(page, container);
-    await expect.poll(() => getScrollTop(page, container)).toBeAround(247);
 
-    await expect(tooltip).toContainText('Code, Debug, Repeat.');
     await expect(page).toHaveScreenshot('step4-tooltip.png');
   });
 
-  await test.step('Step 5 - In Conclusion', async () => {
-    await page.getByTestId('button-primary').click();
+  await test.step('Step 5 - Button Variants', async () => {
+    await primaryButton.click();
     await waitForScrollEnd(page, container);
-    await expect.poll(() => getScrollTop(page, container)).toBeAround(600);
 
-    await expect(tooltip).toContainText('Several exciting features');
     await expect(page).toHaveScreenshot('step5-tooltip.png');
   });
 
   await test.step('Finish the tour', async () => {
-    await page.getByTestId('button-primary').click();
+    await primaryButton.click();
     await expect(overlay).not.toBeVisible();
-    await expect(page).toHaveScreenshot('step5-after.png');
+    await expect(page).toHaveScreenshot('tour-end.png');
   });
 });

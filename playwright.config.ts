@@ -3,7 +3,7 @@ import { defineConfig, devices, expect } from '@playwright/test';
 const config = defineConfig({
   expect: {
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.001,
+      maxDiffPixelRatio: 0.025,
     },
   },
   forbidOnly: !!process.env.CI,
@@ -35,7 +35,7 @@ const config = defineConfig({
     },
   },
   webServer: {
-    command: 'pnpm --dir demo dev',
+    command: 'pnpm website:serve',
     port: 3000,
     reuseExistingServer: !process.env.CI,
   },

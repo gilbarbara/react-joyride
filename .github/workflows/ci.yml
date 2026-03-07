@@ -31,10 +31,15 @@ jobs:
 
       - run: pnpm install
 
+      - run: pnpm validate
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
 
-      - run: pnpm validate
+      - name: Install website dependencies
+        run: pnpm --dir website install
+
+      - run: pnpm e2e
 
       - name: Save Playwright Report
         uses: actions/upload-artifact@v6

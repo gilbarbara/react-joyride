@@ -1,0 +1,55 @@
+import Code from "~/components/Code";
+import Callout from '~/components/Callout.tsx';
+
+# Styles
+
+For finer control over individual elements, use the <Code color="primary">styles</Code> prop. Each key maps to a specific UI element and accepts a `CSSProperties` object.
+
+## Available Style Keys
+
+| Key | Element |
+|-----|---------|
+| arrow | Arrow element |
+| beacon | Beacon visual (size, border-radius) |
+| beaconInner | Beacon inner pulse element |
+| beaconOuter | Beacon outer ring element |
+| beaconWrapper | Beacon wrapper button |
+| buttonBack | Back button |
+| buttonClose | Close button |
+| buttonPrimary | Next/Last button |
+| buttonSkip | Skip button |
+| floater | Floating container |
+| loader | Loader wrapper |
+| overlay | Overlay backdrop |
+| tooltip | Tooltip wrapper |
+| tooltipContainer | Tooltip inner container |
+| tooltipContent | Tooltip body content |
+| tooltipFooter | Tooltip footer |
+| tooltipFooterSpacer | Tooltip footer spacer |
+| tooltipTitle | Tooltip title |
+
+## Example
+
+```tsx
+<Joyride
+  steps={steps}
+  styles={{
+    tooltip: {
+      borderRadius: 16,
+    },
+    buttonPrimary: {
+      backgroundColor: '#e91e63',
+      borderRadius: 8,
+    },
+    buttonBack: {
+      color: '#666',
+    },
+  }}
+/>
+```
+
+Check [styles.ts](https://github.com/gilbarbara/react-joyride/blob/main/src/styles.ts) for the complete default styles.
+
+<Callout type="tip">
+  <p>If you need full control, check the [custom components](../custom-components) documentation.</p>
+</Callout>
