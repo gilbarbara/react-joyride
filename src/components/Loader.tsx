@@ -25,7 +25,7 @@ const loaderStyles: Record<string, CSSProperties> = {
 };
 
 export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
-  const { loaderComponent, styles } = step;
+  const { loaderComponent } = step;
 
   const hasLoaderComponent = Boolean(loaderComponent);
 
@@ -77,7 +77,7 @@ export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
     content = <CustomLoader step={step} />;
   } else {
     content = (
-      <div style={{ ...loaderStyles.spinner, borderTopColor: styles.options.primaryColor }} />
+      <div style={{ ...loaderStyles.spinner, borderTopColor: step.options.primaryColor }} />
     );
   }
 

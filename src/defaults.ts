@@ -1,4 +1,19 @@
-import type { FloatingOptions, Locale, Props, Step, StepOptions } from '~/types';
+import type { FloatingOptions, Locale, Options, Props, Step, StepOptions } from '~/types';
+
+export const defaultOptions: Options = {
+  arrowBase: 32,
+  arrowColor: '#ffffff',
+  arrowSize: 16,
+  arrowSpacing: 5,
+  backgroundColor: '#ffffff',
+  beaconSize: 36,
+  overlayColor: '#00000080',
+  primaryColor: '#ff0044',
+  spotlightRadius: 4,
+  textColor: '#333333',
+  width: 380,
+  zIndex: 100,
+};
 
 export const defaultFloatingOptions: FloatingOptions = {
   beaconOptions: {

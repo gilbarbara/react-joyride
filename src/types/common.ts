@@ -74,56 +74,8 @@ export interface Locale {
   skip?: ReactNode;
 }
 
-/** Padding around the spotlight cutout in pixels. */
-export interface SpotlightPadding {
-  bottom?: number;
-  left?: number;
-  right?: number;
-  top?: number;
-}
-
-/** CSS styles for all Joyride UI elements. */
-export interface Styles {
-  /** Arrow element styles. */
-  arrow: CSSProperties;
-  /** Beacon visual styles (size, border-radius). Applied to the default beacon content. */
-  beacon: CSSProperties;
-  /** Beacon inner pulse element styles. */
-  beaconInner: CSSProperties;
-  /** Beacon outer ring element styles. */
-  beaconOuter: CSSProperties;
-  /** Beacon wrapper button styles (interaction, layout). */
-  beaconWrapper: CSSProperties;
-  /** Back button styles. */
-  buttonBack: CSSProperties;
-  /** Close button styles. */
-  buttonClose: CSSProperties;
-  /** Next/Last button styles. */
-  buttonNext: CSSProperties;
-  /** Skip button styles. */
-  buttonSkip: CSSProperties;
-  /** Floating container styles. */
-  floater: CSSProperties;
-  /** Themeable style options. */
-  options: StylesOptions;
-  /** Overlay backdrop styles. */
-  overlay: CSSProperties;
-  /** Tooltip wrapper styles. */
-  tooltip: CSSProperties;
-  /** Tooltip inner container styles. */
-  tooltipContainer: CSSProperties;
-  /** Tooltip body content styles. */
-  tooltipContent: CSSProperties;
-  /** Tooltip footer styles. */
-  tooltipFooter: CSSProperties;
-  /** Tooltip footer spacer styles. */
-  tooltipFooterSpacer: CSSProperties;
-  /** Tooltip title styles. */
-  tooltipTitle: CSSProperties;
-}
-
 /** Themeable style options (colors, sizes, spacing). */
-export interface StylesOptions {
+export interface Options {
   /**
    * Width of the arrow base edge in pixels.
    * @default 32
@@ -184,4 +136,50 @@ export interface StylesOptions {
    * @default 100
    */
   zIndex: number;
+}
+
+/** Padding around the spotlight cutout in pixels. */
+export interface SpotlightPadding {
+  bottom?: number;
+  left?: number;
+  right?: number;
+  top?: number;
+}
+
+/** CSS styles for all Joyride UI elements. */
+export interface Styles {
+  /** Arrow element styles. */
+  arrow: CSSProperties;
+  /** Beacon visual styles (size, border-radius). Applied to the default beacon content. */
+  beacon: CSSProperties;
+  /** Beacon inner pulse element styles. */
+  beaconInner: CSSProperties;
+  /** Beacon outer ring element styles. */
+  beaconOuter: CSSProperties;
+  /** Beacon wrapper button styles (interaction, layout). */
+  beaconWrapper: CSSProperties;
+  /** Back button styles. */
+  buttonBack: CSSProperties;
+  /** Close button styles. */
+  buttonClose: CSSProperties;
+  /** Next/Last button styles. */
+  buttonNext: CSSProperties;
+  /** Skip button styles. */
+  buttonSkip: CSSProperties;
+  /** Floating container styles. */
+  floater: CSSProperties;
+  /** Overlay backdrop styles. */
+  overlay: CSSProperties;
+  /** Tooltip wrapper styles. */
+  tooltip: CSSProperties;
+  /** Tooltip inner container styles. */
+  tooltipContainer: CSSProperties;
+  /** Tooltip body content styles. */
+  tooltipContent: CSSProperties;
+  /** Tooltip footer styles. */
+  tooltipFooter: CSSProperties;
+  /** Tooltip footer spacer styles. */
+  tooltipFooterSpacer: CSSProperties;
+  /** Tooltip title styles. */
+  tooltipTitle: CSSProperties;
 }

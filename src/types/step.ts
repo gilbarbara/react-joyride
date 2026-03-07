@@ -1,6 +1,6 @@
 import type { ReactNode, RefObject } from 'react';
 
-import type { Placement, SpotlightPadding, Styles } from './common';
+import type { Options, Placement, SpotlightPadding, Styles } from './common';
 import type { BaseProps } from './components';
 import type { TourData } from './events';
 import type { FloatingOptions } from './floating';
@@ -82,6 +82,7 @@ export type StepMerged = Simplify<
     | 'showSkipButton'
     | 'targetWaitTimeout'
   > & {
+    options: Options;
     spotlightPadding: Required<SpotlightPadding>;
     styles: Styles;
   }

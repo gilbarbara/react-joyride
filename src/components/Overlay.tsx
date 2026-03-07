@@ -17,6 +17,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
     disableTargetInteraction,
     lifecycle,
     onClickOverlay,
+    options,
     overlayClickBehavior,
     placement,
     scrolling,
@@ -35,7 +36,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
   const overlayHeight = useMemo(() => getDocumentHeight() || windowSize.height, [windowSize]);
 
   const overlayColor = (styles.overlay?.backgroundColor ?? 'rgba(0, 0, 0, 0.5)') as string;
-  const spotlightRadius = styles.options?.spotlightRadius ?? 4;
+  const spotlightRadius = options?.spotlightRadius ?? 4;
 
   const overlayStyles = useMemo(() => {
     const { backgroundColor: _bg, mixBlendMode: _mbm, ...rest } = styles.overlay;
