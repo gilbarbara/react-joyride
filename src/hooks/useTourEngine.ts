@@ -25,7 +25,7 @@ export interface UseTourEngineReturn {
 
 export default function useTourEngine(props: Props): UseTourEngineReturn {
   const mergedProps = useMemoDeepCompare(() => mergeProps(defaultProps, props), [props]);
-  const { debug, onEvent, run, steps } = mergedProps;
+  const { debug, initialStepIndex, onEvent, run, stepIndex, steps } = mergedProps;
 
   const store = useRef(createStore(mergedProps));
   const state = useSyncExternalStore<StoreState>(
@@ -48,7 +48,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
 
   useMount(() => {
     if (run && size && validateSteps(steps, debug)) {
-      controls.start();
+      controls.start(stepIndex ?? initialStepIndex);
     }
   });
 

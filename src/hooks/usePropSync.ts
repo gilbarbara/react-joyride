@@ -28,7 +28,7 @@ export default function usePropSync({
   state,
   store,
 }: UsePropSyncParams): void {
-  const { debug, run, stepIndex, steps } = props;
+  const { debug, initialStepIndex, run, stepIndex, steps } = props;
 
   const previousPropsRef = useRef<MergedProps | undefined>(undefined);
   const stateRef = useRef(state);
@@ -69,7 +69,7 @@ export default function usePropSync({
     if (changed('run')) {
       if (run) {
         if (store.current.getState().size) {
-          controlsRef.current.start(stepIndex);
+          controlsRef.current.start(stepIndex ?? initialStepIndex);
         }
       } else {
         controlsRef.current.stop();
@@ -87,5 +87,5 @@ export default function usePropSync({
         );
       }
     }
-  }, [debug, props, run, stepIndex, steps, store]);
+  }, [debug, initialStepIndex, props, run, stepIndex, steps, store]);
 }
