@@ -1130,6 +1130,40 @@ describe('useTourEngine', () => {
         }),
       );
     });
+
+    it('should start at the specified step index when run changes to true', async () => {
+      const { rerender } = renderHook((props: Props) => useTourEngine(props), {
+        initialProps: createProps({ run: false }),
+      });
+
+      expect(mockOnEvent).not.toHaveBeenCalled();
+
+      rerender(createProps({ run: true, initialStepIndex: 1 }));
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledTimes(3);
+      });
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        1,
+        getEventResponse({
+          action: ACTIONS.START,
+          index: 1,
+          lifecycle: LIFECYCLE.INIT,
+          type: EVENTS.TOUR_START,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        2,
+        getEventResponse({
+          action: ACTIONS.UPDATE,
+          index: 1,
+          lifecycle: LIFECYCLE.READY,
+          type: EVENTS.STEP_BEFORE,
+        }),
+      );
+    });
   });
 
   describe('before hook', () => {
