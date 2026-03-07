@@ -867,6 +867,39 @@ describe('useTourEngine', () => {
 
       await waitFor(() => expect(scrollTo).toHaveBeenCalledWith(0, expect.any(Object)));
     });
+
+    it('should use scrollTarget for scroll calculations when set', async () => {
+      const scrollTargetElement = document.createElement('div');
+
+      vi.mocked(needsScrolling).mockReturnValue(true);
+      vi.mocked(getElement).mockImplementation(selector => {
+        if (selector === '.scroll-target') return scrollTargetElement;
+
+        return mockElement;
+      });
+
+      const steps: Step[] = [
+        {
+          target: '.step-1',
+          content: 'Step 1',
+          disableBeacon: true,
+          scrollTarget: '.scroll-target',
+        },
+      ];
+
+      const { result } = renderHook(() =>
+        useTourEngine(createProps({ steps, scrollToFirstStep: true })),
+      );
+
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(2));
+
+      act(() => {
+        result.current.store.current.setPositionData('tooltip', mockPositionData);
+      });
+
+      await waitFor(() => expect(scrollTo).toHaveBeenCalled());
+      expect(getElement).toHaveBeenCalledWith('.scroll-target');
+    });
   });
 
   describe('Edge Cases', () => {

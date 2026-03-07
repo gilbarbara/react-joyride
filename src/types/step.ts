@@ -48,6 +48,11 @@ export type Step = Simplify<
        */
       placement?: Placement | 'auto' | 'center';
       /**
+       * An optional element to scroll to instead of the target.
+       * The spotlight and tooltip will still use `target`.
+       */
+      scrollTarget?: StepTarget;
+      /**
        * The target for the step.
        * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
        */

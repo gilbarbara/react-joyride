@@ -271,7 +271,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           ? LIFECYCLE.TOOLTIP
           : LIFECYCLE.BEACON;
 
-        const target = getElement(currentStep.target);
+        const target = getElement(currentStep.scrollTarget ?? currentStep.target);
         const willScroll = needsScrolling({
           isFirstStep: currentState.index === 0,
           scrollToFirstStep: propsRef.current.scrollToFirstStep,
@@ -331,7 +331,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       hasChangedTo('lifecycle', LIFECYCLE.TOOLTIP_BEFORE) &&
       previous.lifecycle === LIFECYCLE.BEACON
     ) {
-      const target = getElement(currentStep.target);
+      const target = getElement(currentStep.scrollTarget ?? currentStep.target);
       const willScroll = needsScrolling({
         isFirstStep: stateRef.current.index === 0,
         scrollToFirstStep: propsRef.current.scrollToFirstStep,
