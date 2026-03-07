@@ -2,20 +2,20 @@
 
 exports[`step > getMergedStep > should allow step props to override stepOptions 1`] = `
 {
+  "beaconTrigger": "click",
   "buttons": [
     "back",
     "close",
     "primary",
   ],
+  "closeAction": "close",
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
   "disableFocusTrap": false,
   "disableOverlay": false,
-  "disableScrolling": false,
+  "disableScroll": false,
   "disableTargetInteraction": false,
-  "dismissAction": "close",
-  "event": "click",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
@@ -215,20 +215,20 @@ exports[`step > getMergedStep > should allow step props to override stepOptions 
 
 exports[`step > getMergedStep > should allow stepOptions to override defaultStep 1`] = `
 {
+  "beaconTrigger": "click",
   "buttons": [
     "back",
     "close",
     "primary",
   ],
+  "closeAction": "close",
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
   "disableFocusTrap": false,
   "disableOverlay": false,
-  "disableScrolling": false,
+  "disableScroll": false,
   "disableTargetInteraction": false,
-  "dismissAction": "close",
-  "event": "click",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
@@ -582,20 +582,20 @@ exports[`step > getMergedStep > should include styles in the merged step 1`] = `
 
 exports[`step > getMergedStep > should merge defaultStep values 1`] = `
 {
+  "beaconTrigger": "click",
   "buttons": [
     "back",
     "close",
     "primary",
   ],
+  "closeAction": "close",
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
   "disableFocusTrap": false,
   "disableOverlay": false,
-  "disableScrolling": false,
+  "disableScroll": false,
   "disableTargetInteraction": false,
-  "dismissAction": "close",
-  "event": "click",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
@@ -816,20 +816,20 @@ exports[`step > getMergedStep > should merge locale from defaults, props, and st
 
 exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
 {
+  "beaconTrigger": "click",
   "buttons": [
     "back",
     "close",
     "primary",
   ],
+  "closeAction": "close",
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
   "disableFocusTrap": false,
   "disableOverlay": false,
-  "disableScrolling": false,
+  "disableScroll": false,
   "disableTargetInteraction": false,
-  "dismissAction": "close",
-  "event": "click",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
@@ -1029,20 +1029,20 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
 
 exports[`step > getMergedStep > should preserve unset stepOptions defaults when partial stepOptions is provided 1`] = `
 {
+  "beaconTrigger": "click",
   "buttons": [
     "back",
     "close",
     "primary",
   ],
+  "closeAction": "close",
   "content": "Test content",
   "disableBeacon": false,
   "disableCloseOnEsc": false,
   "disableFocusTrap": false,
   "disableOverlay": false,
-  "disableScrolling": false,
+  "disableScroll": false,
   "disableTargetInteraction": false,
-  "dismissAction": "close",
-  "event": "click",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,

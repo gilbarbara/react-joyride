@@ -178,7 +178,7 @@ export default function JoyrideFloater(props: FloaterProps) {
   });
 
   const beaconPlacement =
-    step.placementBeacon ?? (isAuto || isCenter ? 'bottom' : (step.placement as FloatingPlacement));
+    step.beaconPlacement ?? (isAuto || isCenter ? 'bottom' : (step.placement as FloatingPlacement));
 
   const beaconFloating = useFloating({
     strategy,
@@ -257,7 +257,7 @@ export default function JoyrideFloater(props: FloaterProps) {
   const zIndex = step.options.zIndex + 100;
 
   const handleBeaconClick = (event: MouseEvent<HTMLElement>) => {
-    if (event.type === 'mouseenter' && step.event !== 'hover') {
+    if (event.type === 'mouseenter' && step.beaconTrigger !== 'hover') {
       return;
     }
 

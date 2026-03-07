@@ -215,7 +215,7 @@ export function needsScrolling(options: NeedsScrollingOptions): boolean {
   const { isFirstStep, scrollToFirstStep, step, target, targetLifecycle } = options;
 
   if (
-    step.disableScrolling ||
+    step.disableScroll ||
     (isFirstStep && !scrollToFirstStep && targetLifecycle !== LIFECYCLE.TOOLTIP) ||
     step.placement === 'center'
   ) {

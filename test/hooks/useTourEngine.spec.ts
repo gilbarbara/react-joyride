@@ -804,10 +804,10 @@ describe('useTourEngine', () => {
       await waitFor(() => expect(scrollTo).toHaveBeenCalled());
     });
 
-    it('should NOT call scrollTo when disableScrolling is true on the step', async () => {
+    it('should NOT call scrollTo when disableScroll is true on the step', async () => {
       vi.mocked(needsScrolling).mockReturnValue(false);
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true, disableScrolling: true },
+        { target: '.step-1', content: 'Step 1', disableBeacon: true, disableScroll: true },
       ];
 
       const { result } = renderHook(() =>

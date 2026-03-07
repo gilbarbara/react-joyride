@@ -25,7 +25,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
   const { interactions, mockAfter, mockBefore, mockOnEvent } = options;
   const getEventResponse = eventResponseFactory({ size: 7 });
 
-  // ─── TOUR 1: ends in SKIPPED via dismissAction ───
+  // ─── TOUR 1: ends in SKIPPED via closeAction ───
 
   test('should render the content', () => {
     expect(screen.getByTestId('demo')).toMatchSnapshot();
@@ -512,7 +512,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     });
   }
 
-  test('should skip the tour via close button (dismissAction: skip)', async () => {
+  test('should skip the tour via close button (closeAction: skip)', async () => {
     interactions.skip('button_close');
 
     await waitFor(() => {

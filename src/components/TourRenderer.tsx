@@ -79,7 +79,7 @@ export default function TourRenderer({
           nonce={nonce}
           portalElement={element}
           setPositionData={store.current.setPositionData}
-          shouldScroll={!step.disableScrolling && (index !== 0 || scrollToFirstStep)}
+          shouldScroll={!step.disableScroll && (index !== 0 || scrollToFirstStep)}
           step={step}
           updateState={store.current.updateState}
         />

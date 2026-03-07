@@ -32,15 +32,15 @@ export const defaultLocale: Locale = {
 };
 
 export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>> = {
+  beaconTrigger: 'click',
   buttons: ['back', 'close', 'primary'],
+  closeAction: 'close',
   disableBeacon: false,
   disableCloseOnEsc: false,
   disableFocusTrap: false,
   disableOverlay: false,
-  disableScrolling: false,
+  disableScroll: false,
   disableTargetInteraction: false,
-  dismissAction: 'close',
-  event: 'click',
   loaderDelay: 300,
   offset: 10,
   overlayClickBehavior: 'close',

@@ -500,7 +500,7 @@ describe('helpers', () => {
   describe('needsScrolling', () => {
     const target = document.createElement('div');
     const baseStep = fromPartial<StepMerged>({
-      disableScrolling: false,
+      disableScroll: false,
       isFixed: false,
       placement: 'bottom',
     });
@@ -516,8 +516,8 @@ describe('helpers', () => {
       { ...baseOptions, label: 'base case', expected: true },
       {
         ...baseOptions,
-        step: fromPartial<StepMerged>({ ...baseStep, disableScrolling: true }),
-        label: 'disableScrolling',
+        step: fromPartial<StepMerged>({ ...baseStep, disableScroll: true }),
+        label: 'disableScroll',
         expected: false,
       },
       {
