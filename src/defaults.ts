@@ -60,7 +60,7 @@ export const defaultStep = {
 export const defaultProps = {
   continuous: false,
   debug: false,
-  run: true,
+  run: false,
   scrollOffset: 20,
   scrollDuration: 300,
   scrollToFirstStep: false,
