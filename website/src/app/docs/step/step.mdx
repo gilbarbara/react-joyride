@@ -1,0 +1,52 @@
+import Code from '~/components/Code';
+import Callout from '~/components/Callout';
+
+import StepTable from './StepTable';
+
+# Step
+
+A step is a plain object that only requires two properties: <Code color="primary">target</Code> and <Code color="primary">content</Code>.
+
+<StepTable />
+
+<Callout type="tip">
+  <p>When using a ref created in the same render cycle, the element won't be available until the next render. Using a function target `() => ref.current` avoids this issue.</p>
+</Callout>
+
+<Callout type="demo" title="See it in action">
+  <p>The <a href="/demos/overview">Overview</a> demo shows `scrollTarget`, `spotlightTarget`, and placement variants.</p>
+</Callout>
+
+## Inherited Props
+
+Steps inherit all [Shared Props](./props#shared-props) from the Joyride component. You can override them per-step:
+
+- `arrowComponent`
+- `beaconComponent`
+- `floatingOptions` — Step-level floatingOptions are deep-merged with component-level floatingOptions.
+- `loaderComponent`
+- `locale`
+- `styles`
+- `tooltipComponent`
+
+## Per-Step Options
+
+Steps can override any [Options](./props/options) by setting it directly as a field on the step object.
+
+```tsx
+{
+  target: '.my-selector',
+  content: 'Custom behavior for this step',
+  // Override options for this step only:
+  skipBeacon: true,
+  hideOverlay: true,
+  scrollOffset: 50,
+  before: async () => {
+    await loadData();
+  },
+}
+```
+
+<Callout title="Merge priority" type="info">
+  <p className="text-lg font-bold">defaults → options prop → step fields</p>
+</Callout>

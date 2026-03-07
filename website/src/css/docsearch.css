@@ -1,0 +1,34 @@
+/* DocSearch dark mode: mirror html[data-theme=dark] for class-based dark mode */
+html.dark {
+  --docsearch-text-color: #c4c7dc;
+  --docsearch-secondary-text-color: #b6b7d5;
+  --docsearch-subtle-color: #212139;
+  --docsearch-highlight-color: #457aff;
+  --docsearch-focus-color: #9ac8ff;
+  --docsearch-background-color: #36395a;
+  --docsearch-icon-color: #b6b7d5;
+  --docsearch-container-background: rgba(9, 10, 17, 0.8);
+  --docsearch-modal-background: #15172a;
+  --docsearch-modal-shadow: inset 1px 1px 0 0 #2c2e40, 0 3px 8px 0 #000309;
+  --docsearch-searchbox-background: #000000a6;
+  --docsearch-searchbox-focus-background: #000000a6;
+  --docsearch-hit-color: #bec3c9;
+  --docsearch-hit-shadow: none;
+  --docsearch-hit-background: #090a11;
+  --docsearch-key-background: #36395a;
+  --docsearch-key-color: #b6b7d5;
+  --docsearch-key-pressed-shadow: inset 0 2px 4px rgba(12, 13, 20, 0.4);
+  --docsearch-footer-background: #000000a6;
+  --docsearch-footer-shadow: inset 0 1px 0 0 rgba(73, 76, 106, 0.5), 0 -4px 8px 0 rgba(0, 0, 0, 0.2);
+  --docsearch-logo-color: #fff;
+  --docsearch-muted-color: #7f8497;
+  --docsearch-search-button-background: var(--docsearch-modal-background);
+  --docsearch-search-button-text-color: var(--docsearch-text-color);
+}
+
+/* DocSearch button: match HeroUI navbar button style */
+.DocSearch-Button {
+  margin: 0;
+  border-radius: 8px;
+  height: 36px;
+}

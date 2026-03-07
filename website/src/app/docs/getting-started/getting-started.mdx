@@ -1,0 +1,108 @@
+import Code from '~/components/Code';
+import PackageManagerSelector from '~/components/PackageManagerSelector';
+import Playground from '~/components/Playground';
+
+# Getting Started
+
+Create guided tours for your app. Showcase features to new users or explain functionality with step-by-step tooltips.
+
+## Setup
+
+<PackageManagerSelector />
+
+## Quick Start
+
+The only required prop is <Code color="primary">steps</Code>. Set `run={true}` to start the tour.
+
+```tsx
+import { Joyride } from 'react-joyride';
+
+const steps = [
+  { content: 'This is my awesome feature!', target: '.my-first-step' },
+  { content: 'This is another awesome feature!', target: '.my-other-step' },
+];
+
+export default function App() {
+  return (
+    <div>
+      <Joyride continuous run={true} steps={steps} />
+      {/* your app content */}
+    </div>
+  );
+}
+```
+
+## Quick Start with the Hook
+
+The hook returns the tour element and explicit access to controls, state, and events.<br />
+Subscribe to specific events with <Code color="primary">on()</Code> instead of filtering in a callback.
+
+```tsx
+import { useEffect } from 'react';
+import { useJoyride } from 'react-joyride';
+
+const steps = [
+  { content: 'This is my awesome feature!', target: '.my-first-step' },
+  { content: 'This is another awesome feature!', target: '.my-other-step' },
+];
+
+export default function App() {
+  const { controls, on, Tour } = useJoyride({
+    continuous: true,
+    steps,
+  });
+
+  useEffect(() => {
+    return on('tour:end', () => {
+      console.log('Tour finished!');
+    });
+  }, [on]);
+
+  return (
+    <div>
+      <button onClick={() => controls.start()}>Start Tour</button>
+      {Tour}
+      {/* your app content */}
+    </div>
+  );
+}
+```
+
+## Live Example
+
+Try different prop combinations with this interactive playground:
+
+<Playground inline />
+
+You can also use the [StackBlitz playground](https://stackblitz.com/edit/react-joyride) as a starting point for bug reports and experimentation.
+
+
+## What's Next
+
+### [Step](./step)
+
+Each step needs a `target` (CSS selector or element) and `content` (what to show). You can also set placement, title, and per-step overrides.
+
+### [Props](./props)
+
+Tour-level configuration: start/stop the tour, listen to events, set controlled mode. Shared props like locale, styles, and custom components are inherited by all steps.
+
+### [Options](./props/options)
+
+Control appearance (colors, sizes, spacing), behavior (overlay, beacon, navigation buttons), and timing (async hooks, scroll animation). Set globally or override per-step.
+
+### [Styles](./props/styles)
+
+CSS overrides for individual tooltip elements — buttons, arrow, overlay, content areas. For when Options don't give you enough control.
+
+### [Events](./events)
+
+React to tour state changes with the `onEvent` callback. Handle step transitions, detect completion, or build fully controlled tours.
+
+### [useJoyride Hook](./hook)
+
+Programmatic control for advanced use cases. Access tour controls (start, stop, next, prev), state, and the current step directly.
+
+### [How It Works](./how-it-works)
+
+Understand the tour status machine, step lifecycle phases, and event sequence. Essential reading for building controlled tours or debugging behavior.

@@ -1,0 +1,58 @@
+# Accessibility
+
+React Joyride aims to be fully accessible, using the [WAI-ARIA](https://www.w3.org/WAI/intro/aria) guidelines to support users of assistive technologies.
+
+## ARIA Attributes
+
+The tooltip uses the `alertdialog` role with `aria-modal` set to `true`, signaling to screen readers that the tooltip is a modal dialog requiring user interaction.
+
+The beacon renders as a `<button>` with an `aria-label` set to the `locale.open` string (`"Open the dialog"` by default).
+
+## Focus Trap
+
+When the tooltip is open, focus is trapped within the tooltip. Pressing **Tab** cycles through the interactive elements (buttons) inside the tooltip. Elements outside the tooltip will not receive focus.
+
+When the tooltip closes, focus is restored to the previously focused element.
+
+### Disabling the Focus Trap
+
+If the focus trap interferes with your application's behavior, you can disable it per-step or globally:
+
+```tsx
+// Globally
+<Joyride options={{ disableFocusTrap: true }} steps={steps} />
+
+// Per-step
+{
+  target: '.my-step',
+  content: 'This step has no focus trap',
+  disableFocusTrap: true,
+}
+```
+
+## Keyboard Navigation
+
+**ESC** — Closes the tooltip (configurable via `dismissKeyAction`).
+
+**Tab** — Cycles focus through tooltip buttons when the focus trap is active.
+
+### Configuring ESC behavior
+
+By default, `dismissKeyAction` is `'close'` — pressing ESC closes the current tooltip and the next step starts normally (showing the beacon if `skipBeacon` isn't enabled).
+
+```tsx
+// Advance directly to the next tooltip (skip the beacon)
+<Joyride options={{ dismissKeyAction: 'next' }} steps={steps} />
+
+// Disable ESC entirely
+<Joyride options={{ dismissKeyAction: false }} steps={steps} />
+```
+
+## Overlay
+
+The overlay covers the page while a tooltip is visible. By default, the target element remains interactive through the spotlight cutout.
+
+```tsx
+// Block interaction with the target element through the spotlight
+<Joyride options={{ blockTargetInteraction: true }} steps={steps} />
+```

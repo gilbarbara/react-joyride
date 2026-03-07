@@ -1,0 +1,122 @@
+import Callout from '~/components/Callout';
+import Code from '~/components/Code';
+
+
+# Events
+
+Use the `onEvent` prop to listen to tour state changes. It receives an [`EventData`](#eventdata) object and a [`Controls`](./hook#controls) object on every transition.
+
+For the full event sequence, lifecycle phases, and status transitions, see [How It Works](./how-it-works).
+
+<Callout type="tip">
+  <p>If you're using the `useJoyride` hook, you can also subscribe to specific events with [<Code color="primary">on()</Code>](./hook#event-subscriptions) instead of filtering in `onEvent`.</p>
+</Callout>
+
+## Event Types
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `EVENTS.TOUR_START` | `'tour:start'` | The tour started |
+| `EVENTS.STEP_BEFORE_HOOK` | `'step:before_hook'` | A step's `before` hook is executing |
+| `EVENTS.STEP_BEFORE` | `'step:before'` | A step is about to display |
+| `EVENTS.SCROLL_START` | `'scroll:start'` | Scrolling to the step target started |
+| `EVENTS.SCROLL_END` | `'scroll:end'` | Scrolling to the step target finished |
+| `EVENTS.BEACON` | `'beacon'` | The beacon is displayed |
+| `EVENTS.TOOLTIP` | `'tooltip'` | The tooltip is displayed |
+| `EVENTS.STEP_AFTER` | `'step:after'` | A step has ended |
+| `EVENTS.STEP_AFTER_HOOK` | `'step:after_hook'` | A step's `after` hook has executed |
+| `EVENTS.TOUR_END` | `'tour:end'` | The tour ended |
+| `EVENTS.TOUR_STATUS` | `'tour:status'` | The tour status changed (stop/reset) |
+| `EVENTS.TARGET_NOT_FOUND` | `'error:target_not_found'` | The step target was not found |
+| `EVENTS.ERROR` | `'error'` | An error occurred (e.g., in a `before` hook) |
+
+See [Exports](./exports#events) for all constant values.
+
+## EventData
+
+The `onEvent` callback receives two arguments: an `EventData` object and a [`Controls`](./hook#controls) object with tour control methods.
+
+| Field | Description | Type |
+|-------|-------------|------|
+| `action` | The action that triggered the state update | [`Actions`](./exports#literal-unions) |
+| `controlled` | Whether the tour is in controlled mode | `boolean` |
+| `error` | The error (populated on `error` events) | `Error \| null` |
+| `index` | The current step index | `number` |
+| `lifecycle` | The step's lifecycle phase | [`Lifecycle`](./exports#literal-unions) |
+| `origin` | The UI element that triggered the action | [`Origin`](./exports#literal-unions) ` \| null` |
+| `scroll` | Scroll info (on `scroll:start` / `scroll:end`) | [`ScrollData`](#scrolldata) ` \| null` |
+| `scrolling` | Whether the tour is currently scrolling to a target | `boolean` |
+| `size` | The total number of steps | `number` |
+| `status` | The tour's current status | [`Status`](./exports#literal-unions) |
+| `step` | The current step with all defaults applied | [`StepMerged`](./exports#core) |
+| `type` | The event type | [`Events`](./exports#literal-unions) |
+| `waiting` | Whether the tour is waiting for a `before` hook or target | `boolean` |
+
+### ScrollData
+
+Populated in `scroll` when the event type is `scroll:start` or `scroll:end`:
+
+| Field | Description | Type |
+|-------|-------------|------|
+| `duration` | The scroll duration in milliseconds | `number` |
+| `element` | The element being scrolled | `Element` |
+| `initial` | The scroll position before scrolling | `number` |
+| `target` | The computed scroll destination | `number` |
+
+### Waiting State
+
+When `waiting` is `true`, the tour is blocked by one of:
+
+- A `before` hook promise that hasn't resolved yet
+- Target polling — the target element hasn't appeared in the DOM within `targetWaitTimeout`
+
+While waiting, the loader component is displayed (after `loaderDelay` ms).
+
+## Usage
+
+<Callout type="demo" title="See it in action">
+  <p>The <a href="/demos/controlled">Controlled Tour</a> demo shows a complete `onEvent` implementation managing step index and tour state.</p>
+</Callout>
+
+```tsx
+import { useState } from 'react';
+import { Joyride, ACTIONS, EVENTS, ORIGIN, STATUS, type Controls, type EventData } from 'react-joyride';
+
+const steps = [
+  {
+    target: '.my-first-step',
+    content: 'This is my awesome feature!',
+  },
+];
+
+export default function App() {
+  const [run, setRun] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
+
+  const handleJoyrideEvent = (data: EventData, controls: Controls) => {
+    const { action, index, origin, status, type } = data;
+
+    if (action === ACTIONS.CLOSE && origin === ORIGIN.KEYBOARD) {
+      // do something
+    }
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      // Update state to advance the tour
+      setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
+    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setRun(false);
+    }
+
+    console.groupCollapsed(type);
+    console.log(data);
+    console.groupEnd();
+  };
+
+  return (
+    <div>
+      <Joyride onEvent={handleJoyrideEvent} run={run} stepIndex={stepIndex} steps={steps} />
+      <button onClick={() => setRun(true)}>Start</button>
+    </div>
+  );
+}
+```

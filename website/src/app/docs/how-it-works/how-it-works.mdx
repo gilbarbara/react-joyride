@@ -1,0 +1,142 @@
+import Callout from '~/components/Callout';
+import Code from '~/components/Code';
+import TourStatus from '~/components/Graphics/TourStatus';
+import StepLifecycle from '~/components/Graphics/StepLifecycle';
+
+# How It Works
+
+Joyride runs as a state machine with two dimensions: **tour status** and **step lifecycle**.
+
+<TourStatus />
+
+While the tour is <Code color="primary">running</Code>, each step progresses through the lifecycle below.
+
+<StepLifecycle className="mt-4" />
+
+## Tour Status
+
+The tour moves through these statuses:
+
+| Status | Meaning |
+|--------|---------|
+| `idle` | Initial state. No tour running. |
+| `waiting` | Tour started but no steps are loaded yet. Transitions to `running` once steps are available. |
+| `ready` | Steps are loaded, tour is ready to start. |
+| `running` | Tour is active and displaying steps. |
+| `paused` | Tour was stopped mid-way via `controls.stop()`. Can be resumed. |
+| `finished` | All steps completed. |
+| `skipped` | User clicked Skip to exit early. |
+
+### Transitions
+
+**Starting**
+- `run={true}` or `controls.start()` → `running` (or `waiting` if no steps loaded yet)
+- `controls.start()` from `paused` → `running` (resumes tour)
+- `waiting` → `running` automatically when steps become available
+
+**Stopping**
+- `run={false}` or `controls.stop()` → `paused`
+- Skip button or `controls.skip()` → `skipped`
+- Last step completed or Close button on final step → `finished`
+
+**Resetting**
+- `controls.reset()` → `ready`
+- `controls.reset(true)` → `running` (restarts the tour)
+
+<Callout type="info" title='"run" vs "controls.start()"'>
+  <p>The `run` prop is the declarative way to start and stop the tour.</p>
+  <p>Setting `run={true}` calls `controls.start()` internally, and `run={false}` calls `controls.stop()`.</p>
+  <p>Both work with the component and the hook.</p>
+</Callout>
+
+See [STATUS](./exports#status) for the constant values.
+
+## Step Lifecycle
+
+Each step goes through these phases:
+
+| Phase | What happens | When |
+|-------|-------------|------|
+| `init` | Target lookup. `before` hook runs if defined. | Always |
+| `ready` | Target found and visible. | Always |
+| `beacon_before` | Scroll to target. Positioning calculated. | `skipBeacon` is false |
+| `beacon` | Beacon displayed. Waiting for user click. | Beacon visible |
+| `tooltip_before` | Scroll to target. Positioning calculated. | Always |
+| `tooltip` | Tooltip displayed and interactive. | Always |
+| `complete` | `after` hook fires, tour advances. | Always |
+
+  <Callout type="info" title="Beacon phases">
+  <p>The `beacon_before` and `beacon` phases are skipped when `skipBeacon` is set, `placement` is **center**, or in continuous tours navigating with Next/Prev.</p>
+</Callout>
+
+See [LIFECYCLE](./exports#lifecycle) for the constant values.
+
+## Event Sequence
+
+As a step progresses through its lifecycle, Joyride fires events via the `onEvent` callback. Here's the typical sequence:
+
+```
+tour:start
+  → step:before_hook    (only if step has a `before` hook)
+  → step:before
+  → scroll:start        (only if scrolling is needed)
+  → scroll:end
+  → beacon              (skipped in continuous mode with Next/Prev)
+  → tooltip
+  → step:after
+  → step:after_hook     (only if step has an `after` hook)
+  → ... next step ...
+tour:end
+```
+
+Error events (`error:target_not_found`, `error`) can fire at any point if the target is missing or a hook fails.
+
+See the [Events](./events) page for how to handle these in your code.
+
+## Controlled vs Uncontrolled
+
+### Uncontrolled (default)
+
+Joyride manages the step index internally. The built-in buttons (Next, Back, Skip, Close) handle navigation. You can also use [`controls`](./hook#controls) for programmatic navigation.
+
+```tsx
+<Joyride
+  continuous
+  run={true}
+  steps={steps}
+  onEvent={(data, controls) => {
+    // React to events, but Joyride handles navigation
+  }}
+/>
+```
+
+### Controlled
+
+Set `stepIndex` to take full control. You manage the index yourself via `onEvent`:
+
+```tsx
+const [stepIndex, setStepIndex] = useState(0);
+const [run, setRun] = useState(false);
+
+<Joyride
+  continuous
+  run={run}
+  stepIndex={stepIndex}
+  steps={steps}
+  onEvent={(data, controls) => {
+    const { action, index, status, type } = data;
+
+    if ([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND].includes(type)) {
+      setStepIndex(index + (action === ACTIONS.PREV ? -1 : 1));
+    } else if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setRun(false);
+    }
+  }}
+/>
+```
+
+The [useJoyride hook](./hook) provides a `controls` object for programmatic navigation in uncontrolled mode.
+
+<Callout type="demo" title="See it in action">
+  <p>The <a href="/demos/controlled">Controlled Tour</a> demo shows a full implementation with multi-step state management.</p>
+</Callout>

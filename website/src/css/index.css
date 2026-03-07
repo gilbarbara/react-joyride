@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@import "./docs.css";
+@import "./docsearch.css";
+@import "./keyframes.css";
+
+@plugin '../config/hero.ts';
+/* Note: You may need to change the path to fit your project structure */
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-blue: #66a5ff;
+  --color-crimson: #ff0044;
+  --color-cyan: #0bc5ea;
+  --color-green: #58d063;
+  --color-indigo: #8a8fff;
+  --color-lime: #d9ff66;
+  --color-orange: #ff995d;
+  --color-pink: #ee63ab;
+  --color-purple: #ad7bff;
+  --color-red: #ff5e5e;
+  --color-teal: #52d6c5;
+  --color-yellow: #ffe166;
+
+  --outline-color: #99999980;
+
+  --breakpoint-xs: 375px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+}
+
+#demo-pages * {
+  scroll-margin-top: 64px;
+}
+
+#documentation-pages * {
+  scroll-margin-top: 72px;
+}
+
+body {
+  font-family: var(--font-inter), sans-serif;
+  font-size: 16px;
+  margin: 0;
+  min-height: 100dvh;
+  padding: 0;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition:
+    background-color 50000s ease-in-out 0s,
+    color 5000s ease-in-out 0s;
+}
+
+.react-joyride__floater button:focus-within {
+  outline: 2px solid var(--outline-color);
+  outline-offset: 2px;
+}
+
+.star-burst {
+  align-items: center;
+  color: #000000;
+  display: flex;
+  font:
+    32px 'Lobster',
+    georgia,
+    serif;
+  position: absolute;
+  justify-content: center;
+  padding: 14px;
+  text-align: center;
+  top: -90px;
+  right: -30px;
+
+  div {
+    background-color: #fdd807;
+    height: 75px;
+    position: relative;
+    width: 75px;
+  }
+
+  span {
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    transform: rotate(15deg);
+    z-index: 10;
+  }
+
+  div::before,
+  div::after {
+    background: #fdd807;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: rotate(30deg);
+    width: 100%;
+    z-index: 1;
+  }
+  div::after {
+    transform: rotate(-30deg);
+  }
+}

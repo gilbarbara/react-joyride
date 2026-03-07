@@ -1,0 +1,110 @@
+import Callout from '~/components/Callout';
+import Code from '~/components/Code';
+
+
+# New in V3
+
+Everything new and improved in React Joyride V3.
+
+Upgrading from V2? See the [Migration Guide](./migration) for breaking changes.
+
+---
+
+## New Features
+
+### useJoyride Hook
+
+The [`useJoyride()`](./hook) hook is the core API. It returns tour controls, state, the current step, step failures, and event subscriptions as explicit values — making it easy to coordinate the tour with your app's UI and state.
+
+<Callout type="tip">
+  <p>The <Code>{'<Joyride />'}</Code> component is a convenience wrapper around the hook. Both accept the same props.</p>
+</Callout>
+
+### Event System
+
+The [`onEvent`](./events) callback receives discriminated event types (`tour:start`, `step:before`, `tooltip`, etc.) and a [`controls`](./hook#controls) object as the second argument. Subscribe to specific events with the [`on()`](./hook#event-subscriptions) method instead of filtering in a callback.
+
+### Step Hooks
+
+Run async logic before a step with [<Code color="primary">before</Code>](./props/options#timing-async) or fire-and-forget cleanup with `after`.
+
+<Callout type="tip">
+  <p>While `before` is resolving, the tour shows a loader (after `loaderDelay` ms). You can customize or disable the loader with `loaderComponent`.</p>
+</Callout>
+
+### Separate Scroll & Spotlight Targets
+
+[`scrollTarget`](./step) scrolls to a different element than the tooltip target, and [`spotlightTarget`](./step) highlights a different element. The tooltip still anchors to `target`. Useful for highlighting a container while pointing at a specific child, or scrolling a parent into view.
+
+### Floating UI
+
+Tooltip positioning uses [`@floating-ui/react-dom`](./props/floating-options) directly, replacing Popper.js/react-floater. Configure middleware, flip/shift behavior, positioning strategy, and beacon offset via `floatingOptions`.
+
+### Custom Components
+
+[`arrowComponent`](./custom-components#arrowcomponent) and [`loaderComponent`](./custom-components#loadercomponent) join the existing beacon and tooltip overrides. Set `loaderComponent` to `null` to disable the loader entirely.
+
+### Portal Rendering
+
+All tour UI renders via a React portal. Use the [`portalElement`](./props) prop to target a custom container instead of `document.body`.
+
+### initialStepIndex
+
+Start uncontrolled tours at any step with [`initialStepIndex`](./props). Previously, tours always started at step 0.
+
+### React 19 Support
+
+Full compatibility with React 16.8 through React 19.
+
+---
+
+## Improvements
+
+### Interaction Control
+
+Overlay clicks, ESC key, and the close button used to be on/off only. Now they support actions:
+
+- [`dismissKeyAction`](./props/options#interactions): `'close'`, `'next'`, or `false`
+- [`overlayClickAction`](./props/options#interactions): `'close'`, `'next'`, or `false`
+- [`closeButtonAction`](./props/options#interactions): `'close'` or `'skip'`
+
+### Focus Trap
+
+Now a proper hook with per-step control via [`disableFocusTrap`](./accessibility#focus-trap). Focus is restored to the previously active element when the tooltip closes.
+
+### Target Resolution
+
+[`target`](./step) now accepts `RefObject<HTMLElement>` and `() => HTMLElement | null` in addition to CSS selectors and elements. The tour polls for missing targets up to `targetWaitTimeout` ms before advancing.
+
+### Options System
+
+All options are now flat fields that can be set globally via the [`options`](./props/options) prop or overridden directly on any step. Merge priority: defaults → options prop → step fields.
+
+### SVG Overlay
+
+The [overlay](./props/options#overlay-spotlight) uses an SVG path cutout instead of CSS box-shadow, providing precise spotlight rendering with configurable `spotlightRadius`.
+
+### Spotlight Padding
+
+[`spotlightPadding`](./props/options#overlay-spotlight) now accepts a `{ top, right, bottom, left }` object for per-side control, in addition to a single number.
+
+### Buttons
+
+Individual `hideBackButton`, `hideCloseButton`, and `showSkipButton` props are replaced by a single [`buttons`](./props/options#appearance) array: `['back', 'close', 'primary', 'skip']`.
+
+### Smaller Bundle
+
+~30% smaller than V2. Replaced `react-floater`, `deepmerge`, and `tree-changes` with lighter alternatives and local implementations.
+
+---
+
+## Bug Fixes
+
+<Callout type="info">
+  <p>These were among the most-reported issues in V2.</p>
+</Callout>
+
+- **Live target tracking** — The spotlight and tooltip follow targets that move, resize, or live inside scroll containers.
+- **Fixed-position spotlight** — Correct rendering when the target has fixed or sticky ancestors.
+- **Spotlight clicks in scroll containers** — Click-through now works regardless of scroll position.
+- **Touch device interaction** — No more double-tap required on mobile.

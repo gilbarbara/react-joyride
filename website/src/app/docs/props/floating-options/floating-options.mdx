@@ -1,0 +1,42 @@
+import FloatingOptionsTable from './FloatingOptionsTable';
+
+# Floating Options
+
+Options to control tooltip and beacon positioning via [@floating-ui/react-dom](https://floating-ui.com/).
+
+<FloatingOptionsTable />
+
+## Example
+
+```tsx
+import { size } from '@floating-ui/react-dom';
+
+floatingOptions={{
+  strategy: 'fixed',
+  middleware: [
+    size({ padding: 10 }),
+  ],
+  beaconOptions: {
+    offset: -10,
+  },
+}}
+```
+
+The default middleware stack includes `offset`, `flip` (or `autoPlacement` for `auto` placement), `shift`, and `arrow`. Any middleware you pass via `floatingOptions.middleware` is appended to these defaults.
+
+## Beacon Positioning
+
+Beacon placement can be customized independently:
+
+```tsx
+<Joyride
+  steps={steps}
+  floatingOptions={{
+    beaconOptions: {
+      offset: -10,       // Distance from target (default: -18)
+    },
+  }}
+/>
+```
+
+For detailed configuration options, see the [Floating UI middleware documentation](https://floating-ui.com/docs/middleware).

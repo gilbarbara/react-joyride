@@ -1,0 +1,129 @@
+import Callout from '~/components/Callout';
+import Code from '~/components/Code';
+
+import ControlsTable from './ControlsTable';
+import HookReturnValueTable from './HookReturnValueTable';
+
+
+# useJoyride Hook
+
+The `useJoyride` hook gives you direct access to the tour's controls, state, current step, failures, and event subscriptions. It replaces the `getHelpers` component prop from V2.
+
+It's the recommended approach for any tour that reacts to state, coordinates with external UI, or needs explicit control. The `<Joyride />` component is a convenience wrapper around it.
+
+<Callout type="demo" title="See it in action">
+  <p>The <a className="text-fill-inherit" href="/demos/custom-components">Custom Components</a> demo shows programmatic controls and state display.</p>
+  <p>The <a href="/demos/carousel">Carousel</a> demo uses event subscriptions to sync external UI.</p>
+</Callout>
+
+## Usage
+
+```tsx
+import { useEffect } from 'react';
+import { useJoyride } from 'react-joyride';
+
+const steps = [
+  { target: '[data-step="1"]', content: 'First step' },
+  { target: '[data-step="X"]', content: 'Second step is missing' },
+  { target: '[data-step="3"]', content: 'Third step' },
+];
+
+function App() {
+  const { controls, failures, on, state, Tour } = useJoyride({
+    continuous: true,
+    steps,
+  });
+
+  useEffect(() => {
+    return on('tour:end', () => {
+      console.log('The tour has ended');
+    });
+  }, [on]);
+
+  useEffect(() => {
+    if (failures?.length) {
+      console.log(failures?.at(-1));
+    }
+  }, [failures]);
+
+  return (
+    <div>
+      <div data-step="1">Step 1</div>
+      <div data-step="3">Step 3</div>
+      <button onClick={() => controls.start()} type="button">
+        Start Tour
+      </button>
+      <p>Status: {state.status}</p>
+      {Tour}
+    </div>
+  );
+}
+```
+
+The hook accepts the same [props](./props) as the `<Joyride />` component.
+
+## Return Value
+
+<HookReturnValueTable />
+
+<Callout type="warning">
+  <p>You must render <Code color="primary">{`{Tour}`}</Code> in your component's JSX. Without it, nothing will be displayed.</p>
+</Callout>
+
+## Controls
+
+Methods to programmatically control the tour. All methods are stable references (they don't change between renders).
+
+<ControlsTable />
+
+## Event Subscriptions
+
+The `on` method lets you subscribe to specific [event types](./events#event-types) without filtering in `onEvent`. It returns an unsubscribe function.
+
+`on` is a stable reference — it doesn't change between renders, making it safe for `useEffect` dependencies.
+
+```tsx
+import { useEffect } from 'react';
+import { useJoyride } from 'react-joyride';
+
+function App() {
+  const { on, Tour } = useJoyride({ steps, continuous: true });
+
+  useEffect(() => {
+    return on('step:before', (data, controls) => {
+      console.log(`Entering step ${data.index}`);
+    });
+  }, [on]);
+
+  return <>{Tour}</>;
+}
+```
+
+<Callout type="tip">
+  <p>The handler receives [`EventData`](./events#eventdata) and [`Controls`](#controls) as arguments — the same as `onEvent`. Since `data` contains the full tour state (`index`, `action`, `status`, etc.), you rarely need external state in the handler.</p>
+</Callout>
+
+<Callout type="warning">
+  <p>Always return the unsubscribe function from `useEffect` to prevent duplicate subscriptions in StrictMode.</p>
+</Callout>
+
+## State
+
+| Field | Description | Type |
+|-------|-------------|------|
+| `action` | The action that triggered the last state update | `Actions` |
+| `controlled` | Whether the tour is in controlled mode (using `stepIndex`) | `boolean` |
+| `index` | The current step index | `number` |
+| `lifecycle` | The step's rendering phase | `Lifecycle` |
+| `origin` | The UI element that triggered the last action | `Origin \| null` |
+| `scrolling` | Whether the tour is currently scrolling to a target | `boolean` |
+| `size` | The total number of steps | `number` |
+| `status` | The tour's current status | `Status` |
+| `waiting` | Whether the tour is blocked waiting for a `before` hook or target to appear | `boolean` |
+
+## Controlled vs Uncontrolled
+
+The hook works in both modes. See [How It Works](./how-it-works#controlled-vs-uncontrolled) for the full explanation and code examples.
+
+- **Uncontrolled** (default): Joyride manages the step index. Use `controls` to navigate programmatically.
+- **Controlled** (with `stepIndex`): You manage the index via `onEvent`. `go()` and `reset()` are disabled in this mode.

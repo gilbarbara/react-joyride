@@ -1,11 +1,12 @@
+.idea
 .tmp
-_book/
 coverage
 dist
 node_modules
+
 /test-results/
 /playwright-report/
 /playwright/.cache/
 
-demo/pnpm-lock.yaml
-**/pnpm-workspace.yaml
+.vercel
+.next

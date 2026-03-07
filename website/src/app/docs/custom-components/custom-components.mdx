@@ -1,0 +1,203 @@
+import Callout from '~/components/Callout';
+
+# Custom Components
+
+You can replace any of Joyride's UI components for complete control over the look and feel.
+
+<Callout type="info">
+  <p>If you want to customize the default UI without replacing components, check the [Styles](./props/styles) docs.</p>
+</Callout>
+
+<Callout type="demo" title="See it in action">
+  <p>The <a href="/demos/custom-components">Custom Components</a> demo has a live example with custom arrow, beacon and tooltip.</p>
+</Callout>
+
+## arrowComponent
+
+A custom arrow component replaces the default SVG arrow rendered between the tooltip and target.
+
+### Props (ArrowRenderProps)
+
+| Prop | Description | Type |
+|------|-------------|------|
+| `base` | Width of the arrow base in pixels | `number` |
+| `placement` | The computed placement of the tooltip | `Placement` |
+| `size` | Height of the arrow in pixels | `number` |
+
+### Example
+
+```tsx
+import { Joyride, type ArrowRenderProps } from 'react-joyride';
+
+function CustomArrow({ base, placement, size }: ArrowRenderProps) {
+  return (
+    <div
+      style={{
+        width: base,
+        height: size,
+        backgroundColor: '#333',
+        clipPath: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+      }}
+    />
+  );
+}
+
+export function App() {
+  return (
+    <Joyride
+      arrowComponent={CustomArrow}
+      steps={[/* ... */]}
+    />
+  );
+}
+```
+
+<Callout type="info">
+  <p>The arrow is automatically hidden when `placement` is `center` or when `floatingOptions.hideArrow` is `true`.</p>
+</Callout>
+
+## beaconComponent
+
+A custom beacon component renders inside Joyride's `<button>` wrapper. Your component should render a `<span>` (not a `<button>`, since it's already wrapped in one).
+
+### Props (BeaconRenderProps)
+
+| Prop | Description | Type |
+|------|-------------|------|
+| `continuous` | Whether the tour is in continuous mode | `boolean` |
+| `index` | The current step index | `number` |
+| `isLastStep` | Whether this is the last step | `boolean` |
+| `size` | The total number of steps | `number` |
+| `step` | The current step data with all defaults applied | `StepMerged` |
+
+### Example
+
+```tsx
+import { Joyride, type BeaconRenderProps } from 'react-joyride';
+
+function CustomBeacon({ step }: BeaconRenderProps) {
+  return (
+    <span
+      style={{
+        animation: 'pulse 1s ease-in-out infinite',
+        backgroundColor: step.primaryColor,
+        borderRadius: '50%',
+        display: 'inline-block',
+        height: '3rem',
+        width: '3rem',
+      }}
+    />
+  );
+}
+
+export function App() {
+  return (
+    <Joyride
+      beaconComponent={CustomBeacon}
+      steps={[/* ... */]}
+    />
+  );
+}
+```
+
+## loaderComponent
+
+A custom loader component replaces the default spinner shown while the tour is waiting for a `before` hook to resolve or a target to appear.
+
+### Props (LoaderRenderProps)
+
+| Prop | Description | Type |
+|------|-------------|------|
+| `step` | The current step data with all defaults applied | `StepMerged` |
+
+### Example
+
+```tsx
+import { Joyride, type LoaderRenderProps } from 'react-joyride';
+
+function CustomLoader({ step }: LoaderRenderProps) {
+  return (
+    <div style={{ textAlign: 'center', padding: 20 }}>
+      <p>Loading step for {step.target}...</p>
+    </div>
+  );
+}
+
+export function App() {
+  return (
+    <Joyride
+      loaderComponent={CustomLoader}
+      steps={[/* ... */]}
+    />
+  );
+}
+```
+
+Set `loaderComponent` to `null` to disable the loader entirely.
+
+## tooltipComponent
+
+A custom tooltip component replaces the entire tooltip UI. You receive button props objects to spread on your buttons for correct behavior.
+
+### Props (TooltipRenderProps)
+
+| Prop | Description | Type |
+|------|-------------|------|
+| `backProps` | Props to spread on the back button (`aria-label`, `data-action`, `onClick`, `role`, `title`) | `object` |
+| `closeProps` | Props to spread on the close button | `object` |
+| `continuous` | Whether the tour is in continuous mode | `boolean` |
+| `controls` | Methods to programmatically control the tour (see [Hook](./hook#controls)) | `Controls` |
+| `index` | The current step index | `number` |
+| `isLastStep` | Whether this is the last step | `boolean` |
+| `primaryProps` | Props to spread on the next/last button | `object` |
+| `size` | The total number of steps | `number` |
+| `skipProps` | Props to spread on the skip button | `object` |
+| `step` | The current step data with all defaults applied | `StepMerged` |
+| `tooltipProps` | Props to spread on the tooltip container (`aria-modal`, `role`) | `object` |
+
+### Example
+
+```tsx
+import { Joyride, type TooltipRenderProps } from 'react-joyride';
+
+function CustomTooltip(props: TooltipRenderProps) {
+  const { backProps, closeProps, continuous, index, primaryProps, skipProps, step, tooltipProps } =
+    props;
+
+  return (
+    <div className="tooltip__body" {...tooltipProps}>
+      <button className="tooltip__close" {...closeProps}>
+        &times;
+      </button>
+      {step.title && <h4 className="tooltip__title">{step.title}</h4>}
+      <div className="tooltip__content">{step.content}</div>
+      <div className="tooltip__footer">
+        <button className="tooltip__button" {...skipProps}>
+          {skipProps.title}
+        </button>
+        <div className="tooltip__spacer">
+          {index > 0 && (
+            <button className="tooltip__button" {...backProps}>
+              {backProps.title}
+            </button>
+          )}
+          {continuous && (
+            <button className="tooltip__button tooltip__button--primary" {...primaryProps}>
+              {primaryProps.title}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function App() {
+  return (
+    <Joyride
+      tooltipComponent={CustomTooltip}
+      steps={[/* ... */]}
+    />
+  );
+}
+```

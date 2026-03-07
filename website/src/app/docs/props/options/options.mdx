@@ -1,0 +1,69 @@
+import Callout from '~/components/Callout';
+import {
+  AppearanceTable,
+  ArrowTable,
+  BeaconTable,
+  InteractionsTable,
+  OverlayTable,
+  ScrollingTable,
+  TimingTable,
+} from './OptionsTable';
+
+# Options
+
+Options control theming, behavior, and timing. Set them globally via the `options` prop, or override per-step.
+
+```tsx
+<Joyride
+  options={{
+    primaryColor: '#e91e63',
+    hideOverlay: true,
+    scrollDuration: 500,
+  }}
+  steps={[
+    {
+      target: '.my-element',
+      content: 'Hello!',
+      // Per-step override:
+      hideOverlay: false,
+    },
+  ]}
+/>
+```
+
+<Callout title="Merge priority" type="info">
+  <p className="text-lg font-bold" color="primary">defaults → options prop → step fields</p>
+</Callout>
+
+## Appearance
+
+<AppearanceTable />
+
+## Arrow
+
+<ArrowTable />
+
+## Beacon
+
+<BeaconTable />
+
+## Overlay & Spotlight
+
+<OverlayTable />
+
+## Interactions
+
+<InteractionsTable />
+
+## Scrolling
+
+<ScrollingTable />
+
+## Timing & Async
+
+<Callout type="demo" title="See it in action">
+  <p>The <a href="/demos/overview">Overview</a> demo uses `before` and `after` hooks.</p>
+  <p>The <a href="/demos/modal">Modal</a> demo shows conditional `before` hooks with delays.</p>
+</Callout>
+
+<TimingTable />
