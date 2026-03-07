@@ -10,8 +10,9 @@ import { STATUS } from '~/literals';
 import { mergeProps } from '~/modules/helpers';
 import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 
-import type { Controls, Props, StepMerged, StoreState } from '~/types';
+import type { Controls, Props, StepMerged } from '~/types';
 
 export type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 

@@ -1,9 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { type MouseEventHandler, useEffect, useRef } from 'react';
 import is from 'is-lite';
 
 import { getReactNodeText, noop } from '~/modules/helpers';
 
-import type { BeaconProps } from '~/types';
+import type { BeaconRenderProps, Locale, Props, Simplify, Styles } from '~/types';
+
+type BeaconProps = Simplify<
+  Pick<Props, 'beaconComponent' | 'nonce'> &
+    BeaconRenderProps & {
+      locale: Locale;
+      onInteract: MouseEventHandler<HTMLElement>;
+      shouldFocus: boolean;
+      styles: Styles;
+    }
+>;
 
 export default function JoyrideBeacon(props: BeaconProps) {
   const {
@@ -13,7 +23,7 @@ export default function JoyrideBeacon(props: BeaconProps) {
     isLastStep,
     locale,
     nonce,
-    onClickOrHover,
+    onInteract,
     shouldFocus,
     size,
     step,
@@ -51,22 +61,22 @@ export default function JoyrideBeacon(props: BeaconProps) {
           20% {
             opacity: 0.9;
           }
-        
+
           90% {
             opacity: 0.7;
           }
         }
-        
+
         @keyframes joyride-beacon-outer {
           0% {
             transform: scale(1);
           }
-        
+
           45% {
             opacity: 0.7;
             transform: scale(0.75);
           }
-        
+
           100% {
             opacity: 0.9;
             transform: scale(1);
@@ -125,8 +135,8 @@ export default function JoyrideBeacon(props: BeaconProps) {
       aria-label={title}
       className="react-joyride__beacon"
       data-testid="button-beacon"
-      onClick={onClickOrHover}
-      onMouseEnter={onClickOrHover}
+      onClick={onInteract}
+      onMouseEnter={onInteract}
       style={styles.beaconWrapper}
       title={title}
       type="button"

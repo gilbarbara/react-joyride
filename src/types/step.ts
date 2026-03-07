@@ -3,7 +3,6 @@ import type { ReactNode, RefObject } from 'react';
 import type { Options, Placement, SpotlightPadding, Styles } from './common';
 import type { BaseProps } from './components';
 import type { TourData } from './events';
-import type { FloatingOptions } from './floating';
 import type { SetRequired, Simplify } from './utilities';
 
 /** A hook that runs after a step completes. Fire-and-forget. */
@@ -34,10 +33,6 @@ export type Step = Simplify<
        * Additional data you can add to the step.
        */
       data?: any;
-      /**
-       * Options for the floating positioning.
-       */
-      floatingOptions?: Partial<FloatingOptions>;
       /**
        * A unique identifier for the step.
        */

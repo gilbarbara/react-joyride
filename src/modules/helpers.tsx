@@ -72,38 +72,6 @@ export function deepMerge<T extends object>(...objects: object[]): T {
 }
 
 /**
- * Get the current browser
- */
-export function getBrowser(userAgent: string = navigator.userAgent): string {
-  if (typeof window === 'undefined') {
-    return 'node';
-  }
-
-  if (/Edg\//.test(userAgent)) {
-    return 'edge';
-  }
-
-  if (userAgent.includes(' OPR/')) {
-    return 'opera';
-  }
-
-  if (/Firefox\//.test(userAgent)) {
-    return 'firefox';
-  }
-
-  // @ts-expect-error Chrome 1+
-  if (window.chrome) {
-    return 'chrome';
-  }
-
-  if (/Version\/[\d._].*Safari|CriOS|FxiOS| Mobile\//.test(userAgent)) {
-    return 'safari';
-  }
-
-  return userAgent;
-}
-
-/**
  * Get Object type
  */
 export function getObjectType(value: unknown): string {
@@ -147,17 +115,6 @@ export function hexToRGB(hex: string): Array<number> {
   const result = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})/i.exec(properHex);
 
   return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [];
-}
-
-/**
- * Decide if the step shouldn't skip the beacon
- */
-export function hideBeacon(step: Step, state: State, continuous: boolean): boolean {
-  const { action } = state;
-
-  const withContinuous = continuous && ([ACTIONS.PREV, ACTIONS.NEXT] as Actions[]).includes(action);
-
-  return step.disableBeacon || step.placement === 'center' || withContinuous;
 }
 
 /**
@@ -342,6 +299,17 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
   }
 
   return input;
+}
+
+/**
+ * Decide if the step shouldn't skip the beacon
+ */
+export function shouldHideBeacon(step: Step, state: State, continuous: boolean): boolean {
+  const { action } = state;
+
+  const withContinuous = continuous && ([ACTIONS.PREV, ACTIONS.NEXT] as Actions[]).includes(action);
+
+  return step.disableBeacon || step.placement === 'center' || withContinuous;
 }
 
 /**

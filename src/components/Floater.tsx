@@ -22,8 +22,9 @@ import {
 import { LIFECYCLE } from '~/literals';
 import { getScrollParent, hasCustomScrollParent, hasPosition } from '~/modules/dom';
 import { sortObjectKeys } from '~/modules/helpers';
+import type { StoreState } from '~/modules/store';
 
-import type { Controls, Lifecycle, Placement, PositionData, StepMerged, StoreState } from '~/types';
+import type { Controls, Lifecycle, Placement, PositionData, StepMerged } from '~/types';
 
 import Arrow from './Arrow';
 import Beacon from './Beacon';
@@ -256,7 +257,7 @@ export default function JoyrideFloater(props: FloaterProps) {
 
   const zIndex = step.options.zIndex + 100;
 
-  const handleBeaconClick = (event: MouseEvent<HTMLElement>) => {
+  const handleBeaconInteraction = (event: MouseEvent<HTMLElement>) => {
     if (event.type === 'mouseenter' && step.beaconTrigger !== 'hover') {
       return;
     }
@@ -327,7 +328,7 @@ export default function JoyrideFloater(props: FloaterProps) {
           isLastStep={index + 1 === size}
           locale={step.locale}
           nonce={nonce}
-          onClickOrHover={handleBeaconClick}
+          onInteract={handleBeaconInteraction}
           shouldFocus={shouldScroll}
           size={size}
           step={step}

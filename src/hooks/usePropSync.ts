@@ -2,16 +2,14 @@ import { type RefObject, useEffect, useRef } from 'react';
 import isEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
-import { defaultProps } from '~/defaults';
+import type { MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
-import { mergeProps } from '~/modules/helpers';
 import { validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 
-import type { Actions, Controls, EventHandler, Props, Status, StoreState } from '~/types';
-
-type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
+import type { Actions, Controls, EventHandler, Status, StepMerged } from '~/types';
 
 interface UsePropSyncParams {
   controls: Controls;
@@ -48,7 +46,7 @@ export default function usePropSync({
       return;
     }
 
-    const { changed } = treeChanges(props, previousProps);
+    const { hasChanged } = treeChanges(props, previousProps);
 
     if (!isEqual(previousProps.steps, steps)) {
       if (validateSteps(steps, debug)) {
@@ -60,13 +58,13 @@ export default function usePropSync({
           ...store.current.getEventState(),
           error: new Error('Steps are not valid'),
           scroll: null,
-          step: steps[0] ?? { target: '', content: '' },
+          step: (steps[0] ?? { target: '', content: '' }) as StepMerged,
           type: EVENTS.ERROR,
         });
       }
     }
 
-    if (changed('run')) {
+    if (hasChanged('run')) {
       if (run) {
         if (store.current.getState().size) {
           controlsRef.current.start(stepIndex ?? initialStepIndex);
@@ -74,7 +72,7 @@ export default function usePropSync({
       } else {
         controlsRef.current.stop();
       }
-    } else if (is.number(stepIndex) && changed('stepIndex')) {
+    } else if (is.number(stepIndex) && hasChanged('stepIndex')) {
       const nextAction: Actions =
         is.number(previousProps.stepIndex) && previousProps.stepIndex < stepIndex
           ? ACTIONS.NEXT

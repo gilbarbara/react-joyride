@@ -7,10 +7,25 @@ import { LIFECYCLE } from '~/literals';
 import { getElement } from '~/modules/dom';
 import { logDebug } from '~/modules/helpers';
 import { validateStep } from '~/modules/step';
+import type { StoreState } from '~/modules/store';
 
-import type { StepProps } from '~/types';
+import type { Controls, PositionData, Simplify, StepMerged } from '~/types';
 
 import Floater from './Floater';
+
+type StepProps = Simplify<
+  StoreState & {
+    continuous: boolean;
+    controls: Controls;
+    debug: boolean;
+    nonce?: string;
+    portalElement: HTMLElement | null;
+    setPositionData: (name: 'beacon' | 'tooltip', data: PositionData) => void;
+    shouldScroll: boolean;
+    step: StepMerged;
+    updateState: (state: Partial<StoreState>) => void;
+  }
+>;
 
 export default function JoyrideStep(props: StepProps) {
   const {

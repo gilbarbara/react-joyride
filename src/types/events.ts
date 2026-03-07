@@ -1,5 +1,5 @@
 import type { Actions, Events, Lifecycle, Origin, Status } from './common';
-import type { Step } from './step';
+import type { StepMerged } from './step';
 import type { Simplify } from './utilities';
 
 /** The payload passed to the `onEvent` callback. Extends `TourData` with event-specific fields. */
@@ -84,5 +84,5 @@ export interface TourData {
   /**
    * The current step's data.
    */
-  step: Step;
+  step: StepMerged;
 }

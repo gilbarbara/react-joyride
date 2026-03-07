@@ -45,6 +45,3 @@ export type State = {
   /** Whether the tour is waiting for a `before` hook or target polling. */
   waiting: boolean;
 };
-
-/** Internal store state. Extends `State` with positioning tracking. */
-export type StoreState = State & { positioned: boolean };

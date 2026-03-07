@@ -117,7 +117,6 @@ export type TooltipRenderProps = Simplify<
     };
     /** Props to spread on the tooltip container. */
     tooltipProps: {
-      'aria-describedby': string;
       'aria-modal': boolean;
       role: string;
     };

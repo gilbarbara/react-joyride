@@ -1,11 +1,11 @@
-import type { StoreState } from '~/types';
+import type { StoreState } from '~/modules/store';
 
 export function treeChanges<T extends Record<string, any> = StoreState>(state: T, previous: T) {
   return {
-    changed<K extends keyof T>(key: K): boolean {
+    hasChanged<K extends keyof T>(key: K): boolean {
       return state[key] !== previous[key];
     },
-    changedTo<K extends keyof T>(key: K, value: T[K] | T[K][]): boolean {
+    hasChangedTo<K extends keyof T>(key: K, value: T[K] | T[K][]): boolean {
       const current = state[key];
       const previousValue = previous[key];
 
