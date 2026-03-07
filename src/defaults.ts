@@ -32,6 +32,7 @@ export const defaultLocale: Locale = {
 };
 
 export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>> = {
+  buttons: ['back', 'close', 'primary'],
   disableBeacon: false,
   disableCloseOnEsc: false,
   disableFocusTrap: false,
@@ -40,15 +41,10 @@ export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>>
   disableTargetInteraction: false,
   dismissAction: 'close',
   event: 'click',
-  hideBackButton: false,
-  hideCloseButton: false,
-  hideFooter: false,
-  hidePrimaryButton: false,
   loaderDelay: 300,
   offset: 10,
   overlayClickBehavior: 'close',
   showProgress: false,
-  showSkipButton: false,
   spotlightPadding: 10,
   targetWaitTimeout: 1000,
 };

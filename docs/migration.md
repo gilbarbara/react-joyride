@@ -23,7 +23,10 @@ the space, return, and tab keys are now controlled with tabIndex
 
 **scrollToSteps** `true` ▶︎ disableScrolling `false`
 
-**showBackButton** `true` ▶︎ **hideBackButton** `false`
+**hideBackButton**, **hideCloseButton**, **hideFooter**, **hidePrimaryButton**, **showSkipButton** ▶︎ **buttons** `['back', 'close', 'primary']`
+Replaced multiple boolean flags with a single `buttons` array.
+
+**showBackButton** `true` ▶︎ **buttons** `['back', 'close', 'primary']`
 
 **showOverlay** `true` ▶︎ **disableOverlay** `false`
 

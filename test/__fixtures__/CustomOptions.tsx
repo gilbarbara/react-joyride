@@ -83,7 +83,7 @@ export default function CustomOptions(props: CustomOptionsProps) {
           overlayColor: 'rgba(0, 0, 0, 0.3)',
         }}
         scrollToFirstStep
-        stepOptions={{ showSkipButton: true }}
+        stepOptions={{ buttons: ['back', 'close', 'primary', 'skip'] }}
         steps={tourSteps}
         styles={{
           beaconInner: {

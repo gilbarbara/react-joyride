@@ -6,6 +6,9 @@ import type { TourData } from './events';
 import type { FloatingOptions } from './floating';
 import type { SetRequired, Simplify } from './utilities';
 
+/** The buttons to show in the tooltip. */
+export type ButtonType = 'back' | 'close' | 'primary' | 'skip';
+
 /** A CSS selector string, an HTMLElement, or null. */
 export type SelectorOrElement = string | null | HTMLElement;
 
@@ -59,6 +62,7 @@ export type Step = Simplify<
 export type StepMerged = Simplify<
   SetRequired<
     Step,
+    | 'buttons'
     | 'disableBeacon'
     | 'disableCloseOnEsc'
     | 'disableTargetInteraction'
@@ -68,10 +72,6 @@ export type StepMerged = Simplify<
     | 'disableScrolling'
     | 'dismissAction'
     | 'event'
-    | 'hideBackButton'
-    | 'hideCloseButton'
-    | 'hideFooter'
-    | 'hidePrimaryButton'
     | 'isFixed'
     | 'loaderDelay'
     | 'locale'
@@ -79,7 +79,6 @@ export type StepMerged = Simplify<
     | 'placement'
     | 'scrollOffset'
     | 'showProgress'
-    | 'showSkipButton'
     | 'targetWaitTimeout'
   > & {
     options: Options;
@@ -101,6 +100,11 @@ export type StepOptions = {
    * Capped by `targetWaitTimeout`.
    */
   before?: (data: TourData) => Promise<void>;
+  /**
+   * The buttons to show in the tooltip.
+   * @default ['back', 'close', 'primary']
+   */
+  buttons?: ButtonType[];
   /**
    * Don't show the Beacon before the tooltip.
    * @default false
@@ -144,26 +148,6 @@ export type StepOptions = {
    */
   event?: 'click' | 'hover';
   /**
-   * Hide the Back button.
-   * @default false
-   */
-  hideBackButton?: boolean;
-  /**
-   * Hide the Close button.
-   * @default false
-   */
-  hideCloseButton?: boolean;
-  /**
-   * Hide the tooltip's footer.
-   * @default false
-   */
-  hideFooter?: boolean;
-  /**
-   * Hide the Next (or Last) button.
-   * @default false
-   */
-  hidePrimaryButton?: boolean;
-  /**
    * Delay (ms) before showing the loader while waiting for a target.
    * @default 300
    */
@@ -186,11 +170,6 @@ export type StepOptions = {
    * @default false
    */
   showProgress?: boolean;
-  /**
-   * Show the skip button in the tooltip.
-   * @default false
-   */
-  showSkipButton?: boolean;
   /**
    * The padding of the spotlight.
    * Accepts a number for equal padding on all sides, or an object with `top`, `right`, `bottom`, `left`.

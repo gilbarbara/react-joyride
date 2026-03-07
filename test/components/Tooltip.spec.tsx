@@ -124,7 +124,7 @@ describe('Tooltip', () => {
 
   it('should call controls.skip() on skip click', () => {
     const controls = createControls();
-    const skipStep = createStep({ showSkipButton: true });
+    const skipStep = createStep({ buttons: ['back', 'close', 'primary', 'skip'] });
 
     const { container } = render(
       <Tooltip

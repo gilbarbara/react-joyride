@@ -60,7 +60,7 @@ export default function Component(props: StandardProps) {
           portalElement="#portal"
           run={run}
           scrollToFirstStep
-          stepOptions={{ showSkipButton: true }}
+          stepOptions={{ buttons: ['back', 'close', 'primary', 'skip'] }}
           steps={steps}
           {...rest}
         />
