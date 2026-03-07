@@ -6,6 +6,12 @@ import type { TourData } from './events';
 import type { FloatingOptions } from './floating';
 import type { SetRequired, Simplify } from './utilities';
 
+/** A hook that runs after a step completes. Fire-and-forget. */
+export type AfterHook = (data: TourData) => void;
+
+/** A hook that runs before a step is shown. The tour waits for the promise to resolve. */
+export type BeforeHook = (data: TourData) => Promise<void>;
+
 /** The buttons to show in the tooltip. */
 export type ButtonType = 'back' | 'close' | 'primary' | 'skip';
 
@@ -16,6 +22,10 @@ export type SelectorOrElement = string | null | HTMLElement;
 export type Step = Simplify<
   BaseProps &
     StepOptions & {
+      /**
+       * The placement of the beacon. It will use the `placement` if nothing is passed.
+       */
+      beaconPlacement?: Placement;
       /**
        * The tooltip's body.
        */
@@ -43,10 +53,6 @@ export type Step = Simplify<
        */
       placement?: Placement | 'auto' | 'center';
       /**
-       * The placement of the beacon. It will use the `placement` if nothing is passed.
-       */
-      placementBeacon?: Placement;
-      /**
        * The target for the step.
        * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
        */
@@ -69,9 +75,9 @@ export type StepMerged = Simplify<
     | 'disableFocusTrap'
     | 'disableOverlay'
     | 'overlayClickBehavior'
-    | 'disableScrolling'
-    | 'dismissAction'
-    | 'event'
+    | 'disableScroll'
+    | 'closeAction'
+    | 'beaconTrigger'
     | 'isFixed'
     | 'loaderDelay'
     | 'locale'
@@ -93,18 +99,30 @@ export type StepOptions = {
    * A hook that runs after the step completes (user clicked next, prev, close, or skip).
    * Fire-and-forget — does not block the tour.
    */
-  after?: (data: TourData) => void;
+  after?: AfterHook;
+  /**
+   * The interaction that triggers the beacon to show the tooltip.
+   * @default 'click'
+   */
+  beaconTrigger?: 'click' | 'hover';
   /**
    * A hook that runs before the step is shown.
    * The tour waits for the returned promise to resolve and shows the loader while waiting (after loaderDelay).
    * Capped by `targetWaitTimeout`.
    */
-  before?: (data: TourData) => Promise<void>;
+  before?: BeforeHook;
   /**
    * The buttons to show in the tooltip.
    * @default ['back', 'close', 'primary']
    */
   buttons?: ButtonType[];
+  /**
+   * The action to take when the close button is clicked.
+   * - `'close'`: Advances to the next step (default behavior).
+   * - `'skip'`: Ends the tour entirely.
+   * @default 'close'
+   */
+  closeAction?: 'close' | 'skip';
   /**
    * Don't show the Beacon before the tooltip.
    * @default false
@@ -129,24 +147,12 @@ export type StepOptions = {
    * Disable scrolling to the target.
    * @default false
    */
-  disableScrolling?: boolean;
+  disableScroll?: boolean;
   /**
    * Block pointer events on the highlighted element through the spotlight cutout.
    * @default false
    */
   disableTargetInteraction?: boolean;
-  /**
-   * The action to take when the close button is clicked.
-   * - `'close'`: Advances to the next step (default behavior).
-   * - `'skip'`: Ends the tour entirely.
-   * @default 'close'
-   */
-  dismissAction?: 'close' | 'skip';
-  /**
-   * The event to trigger the beacon.
-   * @default 'click'
-   */
-  event?: 'click' | 'hover';
   /**
    * Delay (ms) before showing the loader while waiting for a target.
    * @default 300

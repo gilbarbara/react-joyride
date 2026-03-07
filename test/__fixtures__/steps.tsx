@@ -18,7 +18,7 @@ export const standardSteps: Array<Step> = [
     placement: 'bottom',
     disableCloseOnEsc: true,
     overlayClickBehavior: false,
-    dismissAction: 'skip',
+    closeAction: 'skip',
     content: (
       <div>
         <h3>We are the people</h3>

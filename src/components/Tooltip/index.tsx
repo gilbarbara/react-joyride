@@ -18,7 +18,7 @@ export default function Tooltip(props: TooltipProps) {
   const handleClickClose = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    if (step.dismissAction === 'skip') {
+    if (step.closeAction === 'skip') {
       controls.skip('button_close');
     } else {
       controls.close('button_close');

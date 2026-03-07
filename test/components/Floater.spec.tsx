@@ -265,7 +265,7 @@ describe('Floater', () => {
       const props = createProps({
         lifecycle: LIFECYCLE.BEACON,
         updateState,
-        step: createStep({ event: 'click' }),
+        step: createStep({ beaconTrigger: 'click' }),
       });
 
       render(<Floater {...props} />);
@@ -284,7 +284,7 @@ describe('Floater', () => {
       const props = createProps({
         lifecycle: LIFECYCLE.BEACON,
         updateState,
-        step: createStep({ event: 'hover' }),
+        step: createStep({ beaconTrigger: 'hover' }),
       });
 
       render(<Floater {...props} />);
