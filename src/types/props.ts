@@ -74,7 +74,7 @@ export type Props = Simplify<
     portalElement?: SelectorOrElement;
     /**
      * Run/stop the tour.
-     * @default true
+     * @default false
      */
     run?: boolean;
     /**
