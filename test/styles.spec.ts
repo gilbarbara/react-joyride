@@ -8,17 +8,17 @@ const props: Props = {
   steps: [],
 };
 
-const customStylesProps = {
+const customStylesProps: Props = {
   ...props,
+  options: {
+    arrowColor: '#00f',
+    primaryColor: '#ff0',
+    backgroundColor: '#00f',
+    textColor: '#fff',
+  },
   styles: {
     buttonNext: {
       color: '#00f',
-    },
-    options: {
-      arrowColor: '#00f',
-      primaryColor: '#ff0',
-      backgroundColor: '#00f',
-      textColor: '#fff',
     },
   },
 };
@@ -33,25 +33,27 @@ describe('styles', () => {
     expect(getStyles(props, getMergedStep(props, baseStep)!)).toMatchSnapshot();
   });
 
-  it('should return styles.arrow.color over styles.options.arrowColor (component level)', () => {
+  it('should return styles.arrow.color over options.arrowColor (component level)', () => {
     expect(
       getStyles(
         {
           ...props,
-          styles: { arrow: { color: '#f00' }, options: { arrowColor: '#00f' } },
+          options: { arrowColor: '#00f' },
+          styles: { arrow: { color: '#f00' } },
         },
         getMergedStep(props, baseStep)!,
       ),
     ).toMatchSnapshot();
   });
 
-  it('should return styles.arrow.color over styles.options.arrowColor (step level)', () => {
+  it('should return styles.arrow.color over options.arrowColor (step level)', () => {
     expect(
       getStyles(
         props,
         getMergedStep(props, {
           ...baseStep,
-          styles: { arrow: { color: '#f00' }, options: { arrowColor: '#00f' } },
+          options: { arrowColor: '#00f' },
+          styles: { arrow: { color: '#f00' } },
         })!,
       ),
     ).toMatchSnapshot();
@@ -64,17 +66,17 @@ describe('styles', () => {
   });
 
   it("should return the step's styles", () => {
-    const step = {
+    const step: Step = {
       ...baseStep,
+      options: {
+        arrowColor: '#000',
+        primaryColor: '#f00',
+        backgroundColor: '#000',
+        textColor: '#fff',
+      },
       styles: {
         buttonNext: {
           color: '#000',
-        },
-        options: {
-          arrowColor: '#000',
-          primaryColor: '#f00',
-          backgroundColor: '#000',
-          textColor: '#fff',
         },
       },
     };

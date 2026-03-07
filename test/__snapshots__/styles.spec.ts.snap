@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`styles > should return styles.arrow.color over styles.options.arrowColor (component level) 1`] = `
+exports[`styles > should return styles.arrow.color over options.arrowColor (component level) 1`] = `
 {
   "arrow": {
     "alignItems": "center",
@@ -110,20 +110,6 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
     "maxWidth": "100%",
     "transition": "opacity 0.3s",
   },
-  "options": {
-    "arrowBase": 32,
-    "arrowColor": "#ffffff",
-    "arrowSize": 16,
-    "arrowSpacing": 5,
-    "backgroundColor": "#ffffff",
-    "beaconSize": 36,
-    "overlayColor": "#00000080",
-    "primaryColor": "#ff0044",
-    "spotlightRadius": 4,
-    "textColor": "#333333",
-    "width": 380,
-    "zIndex": 100,
-  },
   "overlay": {
     "backgroundColor": "#00000080",
     "bottom": 0,
@@ -168,7 +154,7 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
 }
 `;
 
-exports[`styles > should return styles.arrow.color over styles.options.arrowColor (step level) 1`] = `
+exports[`styles > should return styles.arrow.color over options.arrowColor (step level) 1`] = `
 {
   "arrow": {
     "alignItems": "center",
@@ -277,20 +263,6 @@ exports[`styles > should return styles.arrow.color over styles.options.arrowColo
     "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
     "maxWidth": "100%",
     "transition": "opacity 0.3s",
-  },
-  "options": {
-    "arrowBase": 32,
-    "arrowColor": "#00f",
-    "arrowSize": 16,
-    "arrowSpacing": 5,
-    "backgroundColor": "#ffffff",
-    "beaconSize": 36,
-    "overlayColor": "#00000080",
-    "primaryColor": "#ff0044",
-    "spotlightRadius": 4,
-    "textColor": "#333333",
-    "width": 380,
-    "zIndex": 100,
   },
   "overlay": {
     "backgroundColor": "#00000080",
@@ -446,20 +418,6 @@ exports[`styles > should return the default styles 1`] = `
     "maxWidth": "100%",
     "transition": "opacity 0.3s",
   },
-  "options": {
-    "arrowBase": 32,
-    "arrowColor": "#ffffff",
-    "arrowSize": 16,
-    "arrowSpacing": 5,
-    "backgroundColor": "#ffffff",
-    "beaconSize": 36,
-    "overlayColor": "#00000080",
-    "primaryColor": "#ff0044",
-    "spotlightRadius": 4,
-    "textColor": "#333333",
-    "width": 380,
-    "zIndex": 100,
-  },
   "overlay": {
     "backgroundColor": "#00000080",
     "bottom": 0,
@@ -614,20 +572,6 @@ exports[`styles > should return the inherited props' styles 1`] = `
     "maxWidth": "100%",
     "transition": "opacity 0.3s",
   },
-  "options": {
-    "arrowBase": 32,
-    "arrowColor": "#00f",
-    "arrowSize": 16,
-    "arrowSpacing": 5,
-    "backgroundColor": "#00f",
-    "beaconSize": 36,
-    "overlayColor": "#00000080",
-    "primaryColor": "#ff0",
-    "spotlightRadius": 4,
-    "textColor": "#fff",
-    "width": 380,
-    "zIndex": 100,
-  },
   "overlay": {
     "backgroundColor": "#00000080",
     "bottom": 0,
@@ -781,20 +725,6 @@ exports[`styles > should return the step's styles 1`] = `
     "filter": "drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))",
     "maxWidth": "100%",
     "transition": "opacity 0.3s",
-  },
-  "options": {
-    "arrowBase": 32,
-    "arrowColor": "#000",
-    "arrowSize": 16,
-    "arrowSpacing": 5,
-    "backgroundColor": "#000",
-    "beaconSize": 36,
-    "overlayColor": "#00000080",
-    "primaryColor": "#f00",
-    "spotlightRadius": 4,
-    "textColor": "#fff",
-    "width": 380,
-    "zIndex": 100,
   },
   "overlay": {
     "backgroundColor": "#00000080",

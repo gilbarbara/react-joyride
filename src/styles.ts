@@ -1,21 +1,6 @@
 import { deepMerge, hexToRGB } from '~/modules/helpers';
 
-import type { Props, StepMerged, Styles, StylesOptions } from '~/types';
-
-const defaultOptions: StylesOptions = {
-  arrowBase: 32,
-  arrowColor: '#ffffff',
-  arrowSize: 16,
-  arrowSpacing: 5,
-  backgroundColor: '#ffffff',
-  beaconSize: 36,
-  overlayColor: '#00000080',
-  primaryColor: '#ff0044',
-  spotlightRadius: 4,
-  textColor: '#333333',
-  width: 380,
-  zIndex: 100,
-};
+import type { Props, StepMerged, Styles } from '~/types';
 
 const buttonReset = {
   backgroundColor: 'transparent',
@@ -36,7 +21,7 @@ const buttonBase = {
 export default function getStyles(props: Props, step: StepMerged) {
   const { styles } = props;
   const mergedStyles = deepMerge<Styles>(styles ?? {}, step.styles ?? {});
-  const options = deepMerge<StylesOptions>(defaultOptions, mergedStyles.options || {});
+  const { options } = step;
   let { width } = options;
 
   if ('width' in options) {
@@ -170,7 +155,6 @@ export default function getStyles(props: Props, step: StepMerged) {
     tooltipFooterSpacer: {
       flex: 1,
     },
-    options,
   };
 
   return deepMerge<Styles>(defaultStyles, mergedStyles);

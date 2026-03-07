@@ -30,17 +30,17 @@ const tourSteps: Array<Step> = [
       back: <strong>Go Back</strong>,
       skip: <Skip />,
     },
+    options: {
+      arrowBase: 50,
+      arrowColor: '#66a5ff',
+      arrowSize: 50,
+    },
     styles: {
       arrow: {
         color: '#fff',
       },
       buttonNext: {
         backgroundColor: '#f04',
-      },
-      options: {
-        arrowBase: 50,
-        arrowColor: '#66a5ff',
-        arrowSize: 50,
       },
     },
   },
@@ -77,6 +77,11 @@ export default function CustomOptions(props: CustomOptionsProps) {
       <Joyride
         continuous
         onEvent={handleEvent}
+        options={{
+          arrowColor: '#5cff47',
+          primaryColor: '#ff0000',
+          overlayColor: 'rgba(0, 0, 0, 0.3)',
+        }}
         scrollToFirstStep
         stepOptions={{ showSkipButton: true }}
         steps={tourSteps}
@@ -93,11 +98,6 @@ export default function CustomOptions(props: CustomOptionsProps) {
           },
           buttonNext: {
             backgroundColor: '#a947ff',
-          },
-          options: {
-            arrowColor: '#5cff47',
-            primaryColor: '#ff0000',
-            overlayColor: 'rgba(0, 0, 0, 0.3)',
           },
           tooltip: {
             borderRadius: 8,

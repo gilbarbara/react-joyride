@@ -138,13 +138,13 @@ export default function JoyrideFloater(props: FloaterProps) {
               return (
                 step.offset +
                 step.spotlightPadding[side] +
-                (step.floatingOptions?.hideArrow ? 0 : step.styles.options.arrowSize)
+                (step.floatingOptions?.hideArrow ? 0 : step.options.arrowSize)
               );
             },
             [
               step.offset,
               step.spotlightPadding,
-              step.styles.options.arrowSize,
+              step.options.arrowSize,
               step.floatingOptions?.hideArrow,
             ],
           ),
@@ -168,9 +168,9 @@ export default function JoyrideFloater(props: FloaterProps) {
           ...(step.floatingOptions?.hideArrow
             ? []
             : [
-                arrow({ element: arrowRef, padding: step.styles.options.arrowSpacing }, [
-                  step.styles.options.arrowSpacing,
-                  step.styles.options.arrowBase,
+                arrow({ element: arrowRef, padding: step.options.arrowSpacing }, [
+                  step.options.arrowSpacing,
+                  step.options.arrowBase,
                 ]),
               ]),
           ...(step.floatingOptions?.middleware ?? []),
@@ -254,7 +254,7 @@ export default function JoyrideFloater(props: FloaterProps) {
     beaconFloating.y,
   ]);
 
-  const zIndex = step.styles.options.zIndex + 100;
+  const zIndex = step.options.zIndex + 100;
 
   const handleBeaconClick = (event: MouseEvent<HTMLElement>) => {
     if (event.type === 'mouseenter' && step.event !== 'hover') {
@@ -299,10 +299,10 @@ export default function JoyrideFloater(props: FloaterProps) {
           <Arrow
             arrowComponent={step.arrowComponent}
             arrowRef={arrowRef}
-            base={step.styles.options.arrowBase}
+            base={step.options.arrowBase}
             placement={tooltipFloating.placement}
             position={tooltipFloating.middlewareData.arrow}
-            size={step.styles.options.arrowSize}
+            size={step.options.arrowSize}
             styles={arrowStyles}
           />
         )}

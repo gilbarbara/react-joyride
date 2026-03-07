@@ -1,6 +1,6 @@
 import { fromPartial } from '@total-typescript/shoehorn';
 
-import { defaultLocale } from '~/defaults';
+import { defaultLocale, defaultOptions } from '~/defaults';
 import { STATUS } from '~/literals';
 import getStyles from '~/styles';
 
@@ -30,9 +30,11 @@ export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
     ...overrides,
   });
 
-  const styles = getStyles(fromPartial<Props>({}), base);
+  const options = { ...defaultOptions, ...overrides.options };
+  const merged = { ...base, options };
+  const styles = getStyles(fromPartial<Props>({}), merged);
 
-  return { ...base, styles: overrides.styles ? { ...styles, ...overrides.styles } : styles };
+  return { ...merged, styles: overrides.styles ? { ...styles, ...overrides.styles } : styles };
 }
 
 export function eventResponseFactory(initial?: Partial<EventData>) {
