@@ -367,7 +367,6 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
 
 exports[`Tooltip > should render custom tooltipComponent 1`] = `
 <div
-  aria-describedby="joyride-tooltip-content"
   aria-modal="true"
   role="alertdialog"
   style="background-color: rgb(255, 255, 255); border-radius: 18px; max-width: 400px; min-width: 290px; padding: 18px; position: relative; text-align: center; width: 100%;"

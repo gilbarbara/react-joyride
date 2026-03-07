@@ -1,10 +1,20 @@
 import type { MouseEvent } from 'react';
 
+import { ORIGIN } from '~/literals';
 import { getReactNodeText, replaceLocaleContent } from '~/modules/helpers';
 
-import type { TooltipProps } from '~/types';
+import type { Controls, StepMerged } from '~/types';
 
-import Container from './Container';
+import DefaultTooltip from './DefaultTooltip';
+
+interface TooltipProps {
+  continuous: boolean;
+  controls: Controls;
+  index: number;
+  isLastStep: boolean;
+  size: number;
+  step: StepMerged;
+}
 
 export default function Tooltip(props: TooltipProps) {
   const { continuous, controls, index, isLastStep, size, step } = props;
@@ -19,9 +29,9 @@ export default function Tooltip(props: TooltipProps) {
     event.preventDefault();
 
     if (step.closeAction === 'skip') {
-      controls.skip('button_close');
+      controls.skip(ORIGIN.BUTTON_CLOSE);
     } else {
-      controls.close('button_close');
+      controls.close(ORIGIN.BUTTON_CLOSE);
     }
   };
 
@@ -29,7 +39,7 @@ export default function Tooltip(props: TooltipProps) {
     event.preventDefault();
 
     if (!continuous) {
-      controls.close('button_primary');
+      controls.close(ORIGIN.BUTTON_PRIMARY);
 
       return;
     }
@@ -40,7 +50,7 @@ export default function Tooltip(props: TooltipProps) {
   const handleClickSkip = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    controls.skip('button_skip');
+    controls.skip(ORIGIN.BUTTON_SKIP);
   };
 
   const getElementsProps = () => {
@@ -109,7 +119,6 @@ export default function Tooltip(props: TooltipProps) {
         title: skipText,
       },
       tooltipProps: {
-        'aria-describedby': 'joyride-tooltip-content',
         'aria-modal': true,
         role: 'alertdialog',
       },
@@ -117,31 +126,31 @@ export default function Tooltip(props: TooltipProps) {
   };
 
   // eslint-disable-next-line unused-imports/no-unused-vars
-  const { arrowComponent, beaconComponent, tooltipComponent, ...cleanStep } = step;
+  const { arrowComponent, beaconComponent, tooltipComponent, ...stepProps } = step;
   let component;
 
   if (tooltipComponent) {
-    const renderProps = {
-      ...getElementsProps(),
-      continuous,
-      index,
-      isLastStep,
-      size,
-      step: cleanStep,
-    };
-
     const TooltipComponent = tooltipComponent;
 
-    component = <TooltipComponent {...renderProps} />;
-  } else {
     component = (
-      <Container
+      <TooltipComponent
         {...getElementsProps()}
         continuous={continuous}
         index={index}
         isLastStep={isLastStep}
         size={size}
-        step={step}
+        step={stepProps}
+      />
+    );
+  } else {
+    component = (
+      <DefaultTooltip
+        {...getElementsProps()}
+        continuous={continuous}
+        index={index}
+        isLastStep={isLastStep}
+        size={size}
+        step={stepProps}
       />
     );
   }

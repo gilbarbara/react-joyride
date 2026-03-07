@@ -10,7 +10,7 @@ const defaultProps = {
   index: 0,
   isLastStep: false,
   locale: step.locale,
-  onClickOrHover: vi.fn(),
+  onInteract: vi.fn(),
   shouldFocus: false,
   size: 3,
   step,
@@ -66,20 +66,20 @@ describe('Beacon', () => {
     expect(style?.getAttribute('nonce')).toBe('test-nonce');
   });
 
-  it('should call onClickOrHover on click', () => {
+  it('should call onInteract on click', () => {
     render(<Beacon {...defaultProps} />);
 
     fireEvent.click(screen.getByTestId('button-beacon'));
 
-    expect(defaultProps.onClickOrHover).toHaveBeenCalledTimes(1);
+    expect(defaultProps.onInteract).toHaveBeenCalledTimes(1);
   });
 
-  it('should call onClickOrHover on mouseenter', () => {
+  it('should call onInteract on mouseenter', () => {
     render(<Beacon {...defaultProps} />);
 
     fireEvent.mouseEnter(screen.getByTestId('button-beacon'));
 
-    expect(defaultProps.onClickOrHover).toHaveBeenCalledTimes(1);
+    expect(defaultProps.onInteract).toHaveBeenCalledTimes(1);
   });
 
   it('should render custom beaconComponent and skip CSS injection', () => {

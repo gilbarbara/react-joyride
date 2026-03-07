@@ -5,11 +5,9 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import {
   cleanUpObject,
   deepMerge,
-  getBrowser,
   getObjectType,
   getReactNodeText,
   hexToRGB,
-  hideBeacon,
   logDebug,
   mergeProps,
   needsScrolling,
@@ -18,6 +16,7 @@ import {
   omit,
   pick,
   replaceLocaleContent,
+  shouldHideBeacon,
   sortObjectKeys,
 } from '~/modules/helpers';
 import { fromPartial } from '~/test-utils';
@@ -50,82 +49,6 @@ describe('helpers', () => {
         c: Array<number>;
         d: { a: null };
       }>();
-    });
-  });
-
-  describe('getBrowser', () => {
-    describe('with the default userAgent', () => {
-      it('should identify JSDOM', () => {
-        expect(getBrowser()).toContain('jsdom');
-      });
-    });
-
-    describe('with chrome', () => {
-      beforeAll(() => {
-        // @ts-expect-error Legacy Chrome
-        window.chrome = true;
-      });
-
-      afterAll(() => {
-        // @ts-expect-error Legacy Chrome
-        delete window.chrome;
-      });
-
-      it('should identify properly', () => {
-        expect(getBrowser()).toBe('chrome');
-      });
-    });
-
-    describe('with edge', () => {
-      it('should identify properly', () => {
-        expect(getBrowser(navigator.userAgent.replace('jsdom', 'Edg/'))).toBe('edge');
-      });
-    });
-
-    describe('with firefox', () => {
-      it('should identify properly', () => {
-        expect(getBrowser(navigator.userAgent.replace('jsdom', 'Firefox/'))).toBe('firefox');
-      });
-    });
-
-    describe('with opera', () => {
-      it('should identify properly', () => {
-        expect(getBrowser(navigator.userAgent.replace('jsdom', 'OPR/'))).toBe('opera');
-      });
-    });
-
-    describe('with safari', () => {
-      it('should identify Safari desktop', () => {
-        expect(
-          getBrowser(
-            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.1 Safari/605.1.15',
-          ),
-        ).toBe('safari');
-      });
-
-      it('should identify Safari mobile', () => {
-        expect(
-          getBrowser(
-            'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1',
-          ),
-        ).toBe('safari');
-      });
-
-      it('should identify Chrome on iOS', () => {
-        expect(
-          getBrowser(
-            'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1',
-          ),
-        ).toBe('safari');
-      });
-
-      it('should identify Firefox on iOS', () => {
-        expect(
-          getBrowser(
-            'Mozilla/5.0 (iPhone; CPU iPhone OS 8_3 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) FxiOS/1.0 Mobile/12F69 Safari/600.1.4',
-          ),
-        ).toBe('safari');
-      });
     });
   });
 
@@ -169,7 +92,7 @@ describe('helpers', () => {
     });
   });
 
-  describe('hideBeacon', () => {
+  describe('shouldHideBeacon', () => {
     const baseState = {
       action: ACTIONS.START,
       controlled: true,
@@ -220,7 +143,9 @@ describe('helpers', () => {
         expected: false,
       },
     ])('should return properly', ({ continuous, expected, state, step }) => {
-      expect(hideBeacon(fromPartial(step as Partial<Step>), state, continuous)).toBe(expected);
+      expect(shouldHideBeacon(fromPartial(step as Partial<Step>), state, continuous)).toBe(
+        expected,
+      );
     });
   });
 

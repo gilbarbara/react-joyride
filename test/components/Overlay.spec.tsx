@@ -2,8 +2,7 @@ import { LIFECYCLE } from '~/literals';
 import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/test-utils';
 
 import Overlay from '~/components/Overlay';
-
-import type { OverlayProps } from '~/types';
+import type { OverlayProps } from '~/components/Overlay';
 
 function createProps(overrides: Partial<OverlayProps> = {}) {
   const step = createStep(overrides);

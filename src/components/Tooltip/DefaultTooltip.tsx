@@ -6,14 +6,14 @@ import type { TooltipRenderProps } from '~/types';
 
 import CloseButton from './CloseButton';
 
-export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
+export default function JoyrideDefaultTooltip(props: TooltipRenderProps) {
   const { backProps, closeProps, index, isLastStep, primaryProps, skipProps, step, tooltipProps } =
     props;
   const { buttons, content, styles, title } = step;
-  const output: Record<string, ReactNode> = {};
+  const buttonElements: Record<string, ReactNode> = {};
 
   if (buttons.includes('primary')) {
-    output.primary = (
+    buttonElements.primary = (
       <button
         data-testid="button-primary"
         style={styles.buttonNext}
@@ -24,7 +24,7 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
   }
 
   if (buttons.includes('skip') && !isLastStep) {
-    output.skip = (
+    buttonElements.skip = (
       <button
         aria-live="off"
         data-testid="button-skip"
@@ -36,18 +36,18 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
   }
 
   if (buttons.includes('back') && index > 0) {
-    output.back = (
+    buttonElements.back = (
       <button data-testid="button-back" style={styles.buttonBack} type="button" {...backProps} />
     );
   }
 
-  output.close = buttons.includes('close') && (
+  buttonElements.close = buttons.includes('close') && (
     <CloseButton data-testid="button-close" styles={styles.buttonClose} {...closeProps} />
   );
 
   const ariaProps = title
-    ? { 'aria-labelledby': 'joyride-tooltip-title' }
-    : { 'aria-label': getReactNodeText(content) };
+    ? { 'aria-labelledby': 'joyride-tooltip-title', 'aria-describedby': 'joyride-tooltip-content' }
+    : { 'aria-label': getReactNodeText(content), 'aria-describedby': 'joyride-tooltip-content' };
 
   return (
     <div
@@ -71,12 +71,12 @@ export default function JoyrideTooltipContainer(props: TooltipRenderProps) {
       </div>
       {buttons.some(b => b === 'back' || b === 'primary' || b === 'skip') && (
         <div style={styles.tooltipFooter}>
-          <div style={styles.tooltipFooterSpacer}>{output.skip}</div>
-          {output.back}
-          {output.primary}
+          <div style={styles.tooltipFooterSpacer}>{buttonElements.skip}</div>
+          {buttonElements.back}
+          {buttonElements.primary}
         </div>
       )}
-      {output.close}
+      {buttonElements.close}
     </div>
   );
 }

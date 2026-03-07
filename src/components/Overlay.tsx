@@ -6,9 +6,20 @@ import { LIFECYCLE } from '~/literals';
 import { getDocumentHeight } from '~/modules/dom';
 import { generateOverlayPath, generateSpotlightPath } from '~/modules/svg';
 
-import type { Lifecycle, OverlayProps } from '~/types';
+import type { Lifecycle, Simplify, StepMerged } from '~/types';
 
-const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON_BEFORE, LIFECYCLE.BEACON, LIFECYCLE.ERROR];
+export type OverlayProps = Simplify<
+  StepMerged & {
+    continuous: boolean;
+    debug: boolean;
+    lifecycle: Lifecycle;
+    onClickOverlay: () => void;
+    scrolling: boolean;
+    waiting: boolean;
+  }
+>;
+
+const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON_BEFORE, LIFECYCLE.BEACON];
 
 export default function JoyrideOverlay(props: OverlayProps) {
   const {

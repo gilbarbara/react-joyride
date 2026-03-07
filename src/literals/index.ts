@@ -36,7 +36,6 @@ export const LIFECYCLE = {
   TOOLTIP_BEFORE: 'tooltip_before',
   TOOLTIP: 'tooltip',
   COMPLETE: 'complete',
-  ERROR: 'error',
 } as const;
 
 export const ORIGIN = {
@@ -55,7 +54,6 @@ export const STATUS = {
   PAUSED: 'paused',
   SKIPPED: 'skipped',
   FINISHED: 'finished',
-  ERROR: 'error',
 } as const;
 
 export const PORTAL_ELEMENT_ID = 'react-joyride-portal';

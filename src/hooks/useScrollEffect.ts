@@ -1,6 +1,6 @@
 import { type RefObject, useEffect, useRef } from 'react';
 
-import { defaultProps } from '~/defaults';
+import type { MergedProps } from '~/hooks/useTourEngine';
 import { EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
 import {
@@ -13,12 +13,11 @@ import {
   scrollDocument,
   scrollTo,
 } from '~/modules/dom';
-import { logDebug, mergeProps } from '~/modules/helpers';
+import { logDebug } from '~/modules/helpers';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 
-import type { EventHandler, Lifecycle, PositionData, Props, StepMerged, StoreState } from '~/types';
-
-type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
+import type { EventHandler, Lifecycle, PositionData, StepMerged } from '~/types';
 
 interface UseScrollEffectParams {
   onEvent: EventHandler | undefined;
@@ -120,14 +119,19 @@ export default function useScrollEffect({
       return;
     }
 
-    const { changedTo } = treeChanges(stateRef.current, previousStateRef.current);
+    const { hasChangedTo } = treeChanges(stateRef.current, previousStateRef.current);
     const currentStep = stepRef.current;
     const { debug, scrollDuration } = propsRef.current;
 
     const isBeforePhase =
       lifecycle === LIFECYCLE.BEACON_BEFORE || lifecycle === LIFECYCLE.TOOLTIP_BEFORE;
 
-    if (status === STATUS.RUNNING && isBeforePhase && scrolling && changedTo('positioned', true)) {
+    if (
+      status === STATUS.RUNNING &&
+      isBeforePhase &&
+      scrolling &&
+      hasChangedTo('positioned', true)
+    ) {
       const target = getElement(currentStep.target);
       const beaconPosition = store.current.getPositionData('beacon');
       const hasCustomScroll = hasCustomScrollParent(target);

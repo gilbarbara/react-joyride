@@ -2,15 +2,16 @@ import { type RefObject, useCallback, useEffect } from 'react';
 
 import { usePortalElement } from '~/hooks/usePortalElement';
 import type { MergedProps } from '~/hooks/useTourEngine';
-import { LIFECYCLE, STATUS } from '~/literals';
+import { LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 
 import Loader from '~/components/Loader';
 import Overlay from '~/components/Overlay';
 import Portal from '~/components/Portal';
 import Step from '~/components/Step';
 
-import type { Controls, StepMerged, StoreState } from '~/types';
+import type { Controls, StepMerged } from '~/types';
 
 interface TourRendererProps {
   controls: Controls;
@@ -45,7 +46,7 @@ export default function TourRenderer({
       }
 
       if (event.key === 'Escape' && !step.disableCloseOnEsc) {
-        controls.close('keyboard');
+        controls.close(ORIGIN.KEYBOARD);
       }
     };
 
@@ -58,7 +59,7 @@ export default function TourRenderer({
 
   const handleClickOverlay = useCallback(() => {
     if (step?.overlayClickBehavior === 'close') {
-      controls.close('overlay');
+      controls.close(ORIGIN.OVERLAY);
     } else if (step?.overlayClickBehavior === 'next') {
       controls.next();
     }

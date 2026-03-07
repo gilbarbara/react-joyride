@@ -6,9 +6,10 @@ import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, isElementVisible } from '~/modules/dom';
 import { mergeProps, needsScrolling } from '~/modules/helpers';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 import { createStep, fromPartial, renderHook } from '~/test-utils';
 
-import type { Controls, Props, StoreState } from '~/types';
+import type { Controls, Props } from '~/types';
 
 const mockElement = document.createElement('div');
 

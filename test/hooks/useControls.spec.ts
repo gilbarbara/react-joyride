@@ -1,9 +1,10 @@
 import useControls from '~/hooks/useControls';
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 import { renderHook } from '~/test-utils';
 
-import type { Step, StoreState } from '~/types';
+import type { Step } from '~/types';
 
 const steps: Step[] = [
   { target: '.step-1', content: 'Step 1' },
@@ -236,7 +237,6 @@ describe('useControls', () => {
 
       expect(state.action).toBe(ACTIONS.SKIP);
       expect(state.status).toBe(STATUS.SKIPPED);
-      expect(state.origin).toBe('button_skip');
     });
 
     it('should accept custom origin', () => {

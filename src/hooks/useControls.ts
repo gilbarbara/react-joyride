@@ -4,8 +4,9 @@ import is from 'is-lite';
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { logDebug, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
+import type { StoreState } from '~/modules/store';
 
-import type { Controls, Origin, Status, StoreState } from '~/types';
+import type { Controls, Origin, Status } from '~/types';
 
 function getUpdatedIndex(nextIndex: number, size: number): number {
   return Math.min(Math.max(nextIndex, 0), size);
@@ -138,7 +139,7 @@ export default function useControls(
       });
     };
 
-    const skip = (origin: Extract<Origin, 'button_close' | 'button_skip'> = 'button_skip') => {
+    const skip = (origin?: Extract<Origin, 'button_close' | 'button_skip'> | null) => {
       const { status } = getState();
 
       if (status !== STATUS.RUNNING) {

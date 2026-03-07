@@ -92,7 +92,7 @@
     "watch": "tsup --watch",
     "clean": "del dist/*",
     "demo": "pnpm --dir demo dev",
-    "lint": "eslint --fix src test",
+    "lint": "eslint --fix src test e2e",
     "typecheck": "tsc -p test/tsconfig.json",
     "typevalidation": "attw -P",
     "test": "vitest run",
@@ -105,7 +105,8 @@
     "e2e:headed": "pnpm e2e --headed",
     "e2e:report": "playwright show-report",
     "format": "prettier \"**/*.{js,jsx,ts,tsx}\" --write",
-    "validate": "pnpm lint && pnpm typecheck && pnpm test:coverage && pnpm e2e && pnpm build && pnpm size && pnpm typevalidation",
+    "check": "pnpm lint && pnpm typecheck && pnpm test:coverage",
+    "validate": "pnpm check && pnpm e2e && pnpm build && pnpm size && pnpm typevalidation",
     "size": "size-limit",
     "prepare": "husky"
   },

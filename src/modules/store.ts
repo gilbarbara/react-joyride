@@ -5,9 +5,12 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { logDebug, omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
-import type { PositionData, Props, State, Step, StepMerged, StoreState } from '~/types';
+import type { PositionData, Props, State, Step, StepMerged } from '~/types';
 
 type Listener = (state: StoreState) => void;
+
+/** Internal store state. Extends `State` with positioning tracking. */
+export type StoreState = State & { positioned: boolean };
 
 class Store {
   private beaconPosition: PositionData | null = null;

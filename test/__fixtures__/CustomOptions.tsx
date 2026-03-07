@@ -82,6 +82,7 @@ export default function CustomOptions(props: CustomOptionsProps) {
           primaryColor: '#ff0000',
           overlayColor: 'rgba(0, 0, 0, 0.3)',
         }}
+        run
         scrollToFirstStep
         stepOptions={{ buttons: ['back', 'close', 'primary', 'skip'] }}
         steps={tourSteps}

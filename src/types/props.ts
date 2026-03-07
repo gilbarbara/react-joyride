@@ -1,45 +1,10 @@
-import type { MouseEventHandler, ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
-import type { Lifecycle, Locale, Styles } from './common';
-import type { BaseProps, BeaconRenderProps } from './components';
+import type { BaseProps } from './components';
 import type { EventHandler } from './events';
-import type { PositionData } from './floating';
-import type { Controls, State, StoreState } from './state';
+import type { Controls, State } from './state';
 import type { SelectorOrElement, Step, StepMerged, StepOptions } from './step';
 import type { Simplify } from './utilities';
-
-/** Internal props for the Beacon component. */
-export type BeaconProps = Simplify<
-  Pick<Props, 'beaconComponent' | 'nonce'> &
-    BeaconRenderProps & {
-      /** Tooltip button labels. */
-      locale: Locale;
-      /** Handler for beacon click or hover interaction. */
-      onClickOrHover: MouseEventHandler<HTMLElement>;
-      /** Whether the beacon should receive focus. */
-      shouldFocus: boolean;
-      /** Resolved styles for the beacon. */
-      styles: Styles;
-    }
->;
-
-/** Internal props for the Overlay component. */
-export type OverlayProps = Simplify<
-  StepMerged & {
-    /** Whether the tour is in continuous mode. */
-    continuous: boolean;
-    /** Whether debug logging is enabled. */
-    debug: boolean;
-    /** The step's rendering phase. */
-    lifecycle: Lifecycle;
-    /** Handler for overlay click. */
-    onClickOverlay: () => void;
-    /** Whether the tour is scrolling to a target. */
-    scrolling: boolean;
-    /** Whether the tour is waiting for a `before` hook or target. */
-    waiting: boolean;
-  }
->;
 
 /** Props for the Joyride component. */
 export type Props = Simplify<
@@ -102,46 +67,6 @@ export type Props = Simplify<
     steps: Array<Step>;
   }
 >;
-
-/** Internal props for the Step component. */
-export type StepProps = Simplify<
-  StoreState & {
-    /** Whether the tour is in continuous mode. */
-    continuous: boolean;
-    /** Tour control methods. */
-    controls: Controls;
-    /** Whether debug logging is enabled. */
-    debug: boolean;
-    /** CSP nonce for inline styles. */
-    nonce?: string;
-    /** The resolved portal DOM element. */
-    portalElement: HTMLElement | null;
-    /** Callback to update beacon or tooltip position. */
-    setPositionData: (name: 'beacon' | 'tooltip', data: PositionData) => void;
-    /** Whether the step should scroll to the target. */
-    shouldScroll: boolean;
-    /** The current merged step. */
-    step: StepMerged;
-    /** Callback to update internal store state. */
-    updateState: (state: Partial<StoreState>) => void;
-  }
->;
-
-/** Internal props for the Tooltip component. */
-export type TooltipProps = {
-  /** Whether the tour is in continuous mode. */
-  continuous: boolean;
-  /** Tour control methods. */
-  controls: Controls;
-  /** The current step index. */
-  index: number;
-  /** Whether this is the last step. */
-  isLastStep: boolean;
-  /** The total number of steps. */
-  size: number;
-  /** The current merged step. */
-  step: StepMerged;
-};
 
 /** Return value of the `useJoyride` hook. */
 export type UseJoyrideReturn = {
