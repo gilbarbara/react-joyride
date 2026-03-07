@@ -116,7 +116,7 @@ exports[`Joyride > Component > should fire STEP 3 before hook again and render T
   class="react-joyride__floater"
   data-testid="floater"
   id="react-joyride-step-2"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(10px, 36px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"
@@ -405,7 +405,7 @@ exports[`Joyride > Component > should render STEP 2 Tooltip > tooltip 1`] = `
   class="react-joyride__floater"
   data-testid="floater"
   id="react-joyride-step-1"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(10px, 36px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"
@@ -545,7 +545,7 @@ exports[`Joyride > Component > should render STEP 2 Tooltip AGAIN > tooltip 1`] 
   class="react-joyride__floater"
   data-testid="floater"
   id="react-joyride-step-1"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, 36px);"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(10px, 36px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"
@@ -685,7 +685,7 @@ exports[`Joyride > Component > should render STEP 3 Tooltip > tooltip 1`] = `
   class="react-joyride__floater"
   data-testid="floater"
   id="react-joyride-step-2"
-  style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
+  style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(10px, 36px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"
@@ -860,7 +860,7 @@ exports[`Joyride > Component > should render STEP 4 Tooltip > tooltip 1`] = `
   class="react-joyride__floater"
   data-testid="floater"
   id="react-joyride-step-3"
-  style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(5px, 36px);"
+  style="left: 0px; position: absolute; top: 0px; z-index: 200; display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); max-width: 100%; opacity: 1; transition: opacity 0.3s; transform: translate(10px, 36px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"
@@ -992,7 +992,7 @@ exports[`Joyride > Component > should render STEP 6 Tooltip > tooltip 1`] = `
   class="react-joyride__floater"
   data-testid="floater"
   id="react-joyride-step-5"
-  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(5px, -86px);"
+  style="display: inline-block; filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)); left: 0px; max-width: 100%; opacity: 1; position: absolute; top: 0px; transition: opacity 0.3s; z-index: 200; transform: translate(10px, -86px);"
 >
   <div
     aria-describedby="joyride-tooltip-content"

@@ -1,7 +1,9 @@
 import type {
   AutoUpdateOptions,
+  FlipOptions,
   Middleware,
   MiddlewareData,
+  ShiftOptions,
   Strategy,
 } from '@floating-ui/react-dom';
 
@@ -18,6 +20,11 @@ export interface FloatingOptions {
    */
   beaconOptions?: { offset?: number };
   /**
+   * Options for the flip middleware, or `false` to disable flipping.
+   * Defaults: crossAxis false, padding 20, smart fallbackPlacements for left/right.
+   */
+  flipOptions?: Partial<FlipOptions> | false;
+  /**
    * Hide the arrow element.
    * Centered placement already hides the arrow.
    *
@@ -32,6 +39,11 @@ export interface FloatingOptions {
    * Called after each position calculation.
    */
   onPosition?: (data: PositionData) => void;
+  /**
+   * Options for the shift middleware.
+   * Default: padding 10.
+   */
+  shiftOptions?: Partial<ShiftOptions>;
   /**
    * Positioning strategy.
    * Defaults to 'fixed' when step.isFixed is true, 'absolute' otherwise.
