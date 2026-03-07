@@ -47,6 +47,13 @@ interface FloaterProps {
   updateState: (state: Partial<StoreState>) => void;
 }
 
+function getFallbackPlacements(placement: FloatingPlacement): FloatingPlacement[] | undefined {
+  if (placement.startsWith('left')) return ['top', 'bottom'];
+  if (placement.startsWith('right')) return ['bottom', 'top'];
+
+  return undefined;
+}
+
 export default function JoyrideFloater(props: FloaterProps) {
   const {
     continuous,
@@ -141,8 +148,23 @@ export default function JoyrideFloater(props: FloaterProps) {
               step.floatingOptions?.hideArrow,
             ],
           ),
-          isAuto ? autoPlacement() : flip(),
-          shift({ padding: 5, ...boundaryOptions }),
+          ...(isAuto
+            ? [autoPlacement()]
+            : step.floatingOptions?.flipOptions === false
+              ? []
+              : [
+                  flip({
+                    crossAxis: false,
+                    fallbackPlacements: getFallbackPlacements(tooltipPlacement),
+                    padding: 20,
+                    ...step.floatingOptions?.flipOptions,
+                  }),
+                ]),
+          shift({
+            padding: 10,
+            ...boundaryOptions,
+            ...step.floatingOptions?.shiftOptions,
+          }),
           ...(step.floatingOptions?.hideArrow
             ? []
             : [
