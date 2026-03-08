@@ -42,10 +42,6 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   const previousState = usePrevious(state);
 
   const step = useMemo(() => getMergedStep(mergedProps, steps[index]), [index, mergedProps, steps]);
-  const previousStep = useMemo(
-    () => getMergedStep(mergedProps, steps[index - 1]),
-    [index, mergedProps, steps],
-  );
 
   useMount(() => {
     if (run && size && validateSteps(steps, debug)) {
@@ -70,7 +66,6 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   useLifecycleEffect({
     controls,
     previousState,
-    previousStep,
     props: mergedProps,
     state,
     step,

@@ -1207,6 +1207,7 @@ describe('useTourEngine', () => {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
+          loaderDelay: 0,
           before: () => new Promise(resolve => setTimeout(resolve, 200)),
         },
       ];
@@ -1247,7 +1248,7 @@ describe('useTourEngine', () => {
           target: '.step-2',
           content: 'Step 2',
           disableBeacon: true,
-          before: () => new Promise(resolve => setTimeout(resolve, 200)),
+          before: () => new Promise(resolve => setTimeout(resolve, 500)),
         },
       ];
 
@@ -1306,7 +1307,9 @@ describe('useTourEngine', () => {
         );
       });
 
-      expect(result.current.state.waiting).toBe(true);
+      await waitFor(() => {
+        expect(result.current.state.waiting).toBe(true);
+      });
 
       // Resolve the async delay
       await act(async () => {
@@ -1389,7 +1392,8 @@ describe('useTourEngine', () => {
           content: 'Step 2',
           disableBeacon: true,
           before: () => new Promise<void>(() => {}),
-          targetWaitTimeout: 200,
+          loaderDelay: 100,
+          targetWaitTimeout: 500,
         },
       ];
 
@@ -1408,9 +1412,11 @@ describe('useTourEngine', () => {
         );
       });
 
-      expect(result.current.state.waiting).toBe(true);
+      await waitFor(() => {
+        expect(result.current.state.waiting).toBe(true);
+      });
 
-      // After targetWaitTimeout (200ms), should proceed
+      // After targetWaitTimeout (500ms), should proceed
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),

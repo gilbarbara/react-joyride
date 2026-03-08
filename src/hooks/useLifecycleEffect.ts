@@ -1,10 +1,12 @@
 import { type RefObject, useEffect, useRef } from 'react';
+import { usePrevious } from '@gilbarbara/hooks';
 
 import type { MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
 import { getElement, isElementVisible } from '~/modules/dom';
 import { logDebug, needsScrolling, omit, shouldHideBeacon } from '~/modules/helpers';
+import { getMergedStep } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
@@ -13,7 +15,6 @@ import type { Actions, Controls, ScrollData, StepMerged, StepTarget } from '~/ty
 interface UseLifecycleEffectOptions {
   controls: Controls;
   previousState: StoreState | undefined;
-  previousStep: StepMerged | null;
   props: MergedProps;
   state: StoreState;
   step: StepMerged | null;
@@ -21,8 +22,10 @@ interface UseLifecycleEffectOptions {
 }
 
 export default function useLifecycleEffect(options: UseLifecycleEffectOptions): void {
-  const { controls, previousState, previousStep, props, state, step, store } = options;
+  const { controls, previousState, props, state, step, store } = options;
   const { action, index, lifecycle, positioned, scrolling, size, status } = state;
+
+  const previousStep = usePrevious(step) ?? null;
 
   const lastAction = useRef<Actions | null>(null);
   const propsRef = useRef(props);
@@ -122,9 +125,20 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     if (currentStep.before && !beforeRef.current) {
       beforeRef.current = { cancel: () => {} };
-      store.current.updateState({ waiting: true });
+
+      if (currentStep.loaderDelay === 0) {
+        store.current.updateState({ waiting: true });
+      } else {
+        loaderTimeoutRef.current = setTimeout(() => {
+          if (beforeRef.current) {
+            store.current.updateState({ waiting: true });
+          }
+        }, currentStep.loaderDelay);
+      }
+
       propsRef.current.onEvent?.({
         ...getEventData(currentStep),
+        action: lastAction.current ?? stateRef.current.action,
         type: EVENTS.STEP_BEFORE_HOOK,
       });
 
@@ -157,7 +171,11 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         : null;
 
       currentStep
-        .before({ ...store.current.getState(), step: currentStep })
+        .before({
+          ...store.current.getState(),
+          action: lastAction.current ?? store.current.getState().action,
+          step: currentStep,
+        })
         .then(() => {
           if (!abortController.signal.aborted) {
             if (timeoutId) clearTimeout(timeoutId);
@@ -197,24 +215,28 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           waiting: false,
         });
       } else if (!pollingRef.current) {
-        const timeout = currentStep.targetWaitTimeout ?? 150;
-        const loaderDelay = currentStep.loaderDelay ?? 300;
+        const { loaderDelay, targetWaitTimeout } = currentStep;
+
         const startTime = Date.now();
 
         pollingTargetRef.current = currentStep.target;
 
-        if (timeout > loaderDelay) {
-          loaderTimeoutRef.current = setTimeout(() => {
-            if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
-              store.current.updateState({ waiting: true });
-            }
-          }, loaderDelay);
+        if (targetWaitTimeout > loaderDelay) {
+          if (loaderDelay === 0) {
+            store.current.updateState({ waiting: true });
+          } else {
+            loaderTimeoutRef.current = setTimeout(() => {
+              if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
+                store.current.updateState({ waiting: true });
+              }
+            }, loaderDelay);
+          }
         }
 
         pollingRef.current = setInterval(() => {
           const el = getElement(currentStep.target);
           const elapsed = Date.now() - startTime;
-          const timedOut = elapsed >= timeout;
+          const timedOut = elapsed >= targetWaitTimeout;
 
           if ((el && isElementVisible(el)) || timedOut) {
             cleanup();
@@ -380,29 +402,25 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     }
 
     const currentState = stateRef.current;
-    const element = getElement(currentStep?.target);
-    const elementExists = !!element;
     const isRunningOrPausedWithStep =
       currentState.status === STATUS.RUNNING ||
       (currentState.controlled && currentState.status === STATUS.PAUSED && !!currentStep);
-    const eventStep = currentStep ?? previousStepValue;
     const shouldFireStepAfter =
       isRunningOrPausedWithStep &&
-      eventStep &&
+      previousStepValue &&
       hasChangedTo('lifecycle', LIFECYCLE.COMPLETE) &&
-      previous.lifecycle === LIFECYCLE.TOOLTIP &&
-      (elementExists || !currentStep);
+      previous.lifecycle === LIFECYCLE.TOOLTIP;
 
     if (shouldFireStepAfter) {
       propsRef.current.onEvent?.({
-        ...getEventData(eventStep),
+        ...getEventData(previousStepValue),
         action: lastAction.current ?? ACTIONS.UPDATE,
         index: previous.index ?? currentState.index,
         lifecycle: currentState.lifecycle,
         type: EVENTS.STEP_AFTER,
       });
 
-      if (previousStepValue?.after) {
+      if (previousStepValue.after) {
         propsRef.current.onEvent?.({
           ...getEventData(previousStepValue),
           action: lastAction.current ?? ACTIONS.UPDATE,
@@ -461,12 +479,21 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       });
     }
 
-    const tourEndStep = previousStepValue ?? currentStep;
+    const tourEndStep =
+      currentStep ??
+      previousStepValue ??
+      getMergedStep(propsRef.current, propsRef.current.steps[index - 1]);
 
     if (tourEndStep && hasChangedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
+      const tourEndIndex = currentStep
+        ? index
+        : previousStepValue
+          ? (previous.index ?? index)
+          : index - 1;
+
       propsRef.current.onEvent?.({
         ...getEventData(tourEndStep),
-        index: previousStepValue ? index - 1 : index,
+        index: tourEndIndex,
         type: EVENTS.TOUR_END,
       });
       controlsRef.current.reset();

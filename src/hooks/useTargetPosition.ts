@@ -80,28 +80,48 @@ export default function useTargetPosition(
   }, [target, spotlightPadding]);
 
   useEffect(() => {
+    let mutationObserver: MutationObserver | null = null;
+
+    const setup = (element: HTMLElement) => {
+      scrollParentRef.current = getScrollParent(element, true);
+
+      if (scrollParentRef.current) {
+        scrollParentRef.current.addEventListener('scroll', updateRect, { passive: true });
+      }
+
+      window.addEventListener('scroll', updateRect, { passive: true });
+      window.addEventListener('resize', updateRect);
+
+      if (typeof ResizeObserver !== 'undefined') {
+        observerRef.current = new ResizeObserver(updateRect);
+        observerRef.current.observe(element);
+      }
+
+      setRect(computeRect(target, spotlightPadding));
+    };
+
     const element = getElement(target);
 
-    scrollParentRef.current = getScrollParent(element ?? document.body, true);
+    if (element) {
+      setup(element);
+    } else {
+      // Target not in DOM yet — watch for it
+      mutationObserver = new MutationObserver(() => {
+        const el = getElement(target);
 
-    // Scroll listeners
-    if (scrollParentRef.current) {
-      scrollParentRef.current.addEventListener('scroll', updateRect, { passive: true });
+        if (el) {
+          mutationObserver?.disconnect();
+          mutationObserver = null;
+          setup(el);
+        }
+      });
+
+      mutationObserver.observe(document.body, { childList: true, subtree: true });
     }
-
-    window.addEventListener('scroll', updateRect, { passive: true });
-    window.addEventListener('resize', updateRect);
-
-    // ResizeObserver on target
-    if (element && typeof ResizeObserver !== 'undefined') {
-      observerRef.current = new ResizeObserver(updateRect);
-      observerRef.current.observe(element);
-    }
-
-    // Compute initial rect for this target
-    setRect(computeRect(target, spotlightPadding));
 
     return () => {
+      mutationObserver?.disconnect();
+
       if (scrollParentRef.current) {
         scrollParentRef.current.removeEventListener('scroll', updateRect);
       }
