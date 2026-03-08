@@ -180,12 +180,14 @@ export function getScrollTo(element: HTMLElement | null, offset: number): number
   let top = element.getBoundingClientRect().top + scrollTop;
 
   if (!!offsetTop && (hasCustomScrollParent(element) || hasCustomOffsetParent(element))) {
-    const elementTopInContainer = element.getBoundingClientRect().top - (parentRect?.top ?? 0);
+    const elementRect = element.getBoundingClientRect();
+    const elementTopInContainer = elementRect.top - (parentRect?.top ?? 0);
+    const elementBottomInContainer = elementTopInContainer + elementRect.height;
     const containerHeight = parentElement.clientHeight;
     const margin = containerHeight * 0.2;
 
     // eslint-disable-next-line unicorn/prefer-ternary
-    if (elementTopInContainer >= margin && elementTopInContainer < containerHeight - margin) {
+    if (elementTopInContainer >= margin && elementBottomInContainer <= containerHeight - margin) {
       top = parentScrollTop;
     } else {
       top = elementTopInContainer + parentScrollTop;
