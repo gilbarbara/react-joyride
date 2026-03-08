@@ -187,7 +187,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     expect(mockOnEvent).toHaveBeenNthCalledWith(
       10,
       getEventResponse({
-        action: ACTIONS.UPDATE,
+        action: ACTIONS.CLOSE,
         index: 2,
         lifecycle: LIFECYCLE.INIT,
         type: EVENTS.STEP_BEFORE_HOOK,
@@ -298,7 +298,17 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
       }),
     );
 
-    expect(mockAfter).toHaveBeenCalledTimes(0);
+    expect(mockAfter).toHaveBeenCalledTimes(1);
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      19,
+      getEventResponse({
+        action: ACTIONS.PREV,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+        type: EVENTS.STEP_AFTER_HOOK,
+      }),
+    );
   });
 
   test('should render STEP 2 Tooltip AGAIN', async () => {
@@ -311,28 +321,16 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     expect(screen.getByTestId('overlay')).toMatchSnapshot('overlay');
 
     await waitFor(() => {
-      expect(mockOnEvent).toHaveBeenCalledTimes(22);
+      expect(mockOnEvent).toHaveBeenCalledTimes(23);
     });
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
-      19,
+      20,
       getEventResponse({
         action: ACTIONS.PREV,
         index: 1,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
-      }),
-    );
-
-    expect(mockOnEvent).toHaveBeenNthCalledWith(
-      20,
-      getEventResponse({
-        action: ACTIONS.UPDATE,
-        index: 1,
-        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
-        scroll: expect.any(Object),
-        scrolling: true,
-        type: EVENTS.SCROLL_START,
       }),
     );
 
@@ -344,12 +342,24 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
         scroll: expect.any(Object),
         scrolling: true,
-        type: EVENTS.SCROLL_END,
+        type: EVENTS.SCROLL_START,
       }),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
       22,
+      getEventResponse({
+        action: ACTIONS.UPDATE,
+        index: 1,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
+        scroll: expect.any(Object),
+        scrolling: true,
+        type: EVENTS.SCROLL_END,
+      }),
+    );
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      23,
       getEventResponse({
         action: ACTIONS.UPDATE,
         index: 1,
@@ -367,7 +377,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     }
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
-      23,
+      24,
       getEventResponse({
         action: ACTIONS.NEXT,
         index: 1,
@@ -380,15 +390,15 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
 
   test('should fire STEP 3 before hook again and render Tooltip', async () => {
     await waitFor(() => {
-      expect(mockOnEvent).toHaveBeenCalledTimes(28);
+      expect(mockOnEvent).toHaveBeenCalledTimes(29);
     });
 
     expect(mockBefore).toHaveBeenCalledTimes(2);
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
-      24,
+      25,
       getEventResponse({
-        action: ACTIONS.UPDATE,
+        action: ACTIONS.NEXT,
         index: 2,
         lifecycle: LIFECYCLE.INIT,
         type: EVENTS.STEP_BEFORE_HOOK,
@@ -396,24 +406,12 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
-      25,
+      26,
       getEventResponse({
         action: ACTIONS.NEXT,
         index: 2,
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
-      }),
-    );
-
-    expect(mockOnEvent).toHaveBeenNthCalledWith(
-      26,
-      getEventResponse({
-        action: ACTIONS.UPDATE,
-        index: 2,
-        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
-        scroll: expect.any(Object),
-        scrolling: true,
-        type: EVENTS.SCROLL_START,
       }),
     );
 
@@ -425,12 +423,24 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
         scroll: expect.any(Object),
         scrolling: true,
-        type: EVENTS.SCROLL_END,
+        type: EVENTS.SCROLL_START,
       }),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
       28,
+      getEventResponse({
+        action: ACTIONS.UPDATE,
+        index: 2,
+        lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
+        scroll: expect.any(Object),
+        scrolling: true,
+        type: EVENTS.SCROLL_END,
+      }),
+    );
+
+    expect(mockOnEvent).toHaveBeenNthCalledWith(
+      29,
       getEventResponse({
         action: ACTIONS.UPDATE,
         index: 2,
@@ -452,7 +462,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     interactions.close('overlay');
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
-      29,
+      30,
       getEventResponse({
         action: ACTIONS.CLOSE,
         index: 2,
@@ -463,7 +473,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
-      30,
+      31,
       getEventResponse({
         action: ACTIONS.CLOSE,
         index: 2,
@@ -473,7 +483,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
       }),
     );
 
-    expect(mockAfter).toHaveBeenCalledTimes(1);
+    expect(mockAfter).toHaveBeenCalledTimes(2);
   });
 
   test('should render STEP 4 Beacon', async () => {
@@ -522,7 +532,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     expect(mockOnEvent).toHaveBeenCalledWith(
       getEventResponse({
         action: ACTIONS.SKIP,
-        index: 2,
+        index: 3,
         lifecycle: LIFECYCLE.COMPLETE,
         origin: 'button_close',
         status: STATUS.SKIPPED,
