@@ -39,7 +39,7 @@ function adjustForPlacement(
 ): number {
   const { beaconPosition, lifecycle, scrollOffset, step } = options;
 
-  if (step.scrollTarget) {
+  if (step.scrollTarget || step.spotlightTarget) {
     return Math.max(0, scrollY);
   }
 
@@ -137,7 +137,9 @@ export default function useScrollEffect({
       scrolling &&
       hasChangedTo('positioned', true)
     ) {
-      const target = getElement(currentStep.scrollTarget ?? currentStep.target);
+      const target = getElement(
+        currentStep.scrollTarget ?? currentStep.spotlightTarget ?? currentStep.target,
+      );
       const beaconPosition = store.current.getPositionData('beacon');
       const hasCustomScroll = hasCustomScrollParent(target);
       const scrollParent = getScrollParent(target);

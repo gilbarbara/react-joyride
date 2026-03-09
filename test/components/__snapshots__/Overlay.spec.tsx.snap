@@ -109,3 +109,30 @@ exports[`Overlay > should render the overlay when lifecycle is TOOLTIP 1`] = `
   </svg>
 </div>
 `;
+
+exports[`Overlay > should use spotlightTarget for the spotlight position when set 1`] = `
+<div
+  aria-hidden="true"
+  class="react-joyride__overlay"
+  data-testid="overlay"
+  style="height: 50px; pointer-events: none; bottom: 0px; left: 0px; overflow: hidden; position: absolute; right: 0px; top: 0px; z-index: 100;"
+>
+  <svg
+    class="react-joyride__spotlight"
+    data-testid="spotlight"
+    style="height: 50px; left: 0px; position: absolute; top: 0px; width: 1024px;"
+  >
+    <path
+      d="M0 0H1024V50H0Z M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="#00000080"
+      fill-rule="evenodd"
+      style="cursor: pointer; pointer-events: auto;"
+    />
+    <path
+      d="M-6 -10H6A4 4 0 0 1 10 -6V6A4 4 0 0 1 6 10H-6A4 4 0 0 1 -10 6V-6A4 4 0 0 1 -6 -10Z"
+      fill="#00000080"
+      style="opacity: 0; pointer-events: none; transition: opacity 0.2s;"
+    />
+  </svg>
+</div>
+`;
