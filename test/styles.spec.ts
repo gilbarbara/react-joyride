@@ -52,7 +52,7 @@ describe('styles', () => {
         props,
         getMergedStep(props, {
           ...baseStep,
-          options: { arrowColor: '#00f' },
+          arrowColor: '#00f',
           styles: { arrow: { color: '#f00' } },
         })!,
       ),
@@ -68,12 +68,10 @@ describe('styles', () => {
   it("should return the step's styles", () => {
     const step: Step = {
       ...baseStep,
-      options: {
-        arrowColor: '#000',
-        primaryColor: '#f00',
-        backgroundColor: '#000',
-        textColor: '#fff',
-      },
+      arrowColor: '#000',
+      primaryColor: '#f00',
+      backgroundColor: '#000',
+      textColor: '#fff',
       styles: {
         buttonNext: {
           color: '#000',

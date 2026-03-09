@@ -1,12 +1,6 @@
 import is from 'is-lite';
 
-import {
-  defaultFloatingOptions,
-  defaultLocale,
-  defaultOptions,
-  defaultStep,
-  defaultStepOptions,
-} from '~/defaults';
+import { defaultFloatingOptions, defaultLocale, defaultOptions, defaultStep } from '~/defaults';
 import getStyles from '~/styles';
 
 import type {
@@ -20,6 +14,40 @@ import type {
 } from '~/types';
 
 import { deepMerge, logDebug, pick } from './helpers';
+
+const optionFieldNames = [
+  'after',
+  'arrowBase',
+  'arrowColor',
+  'arrowSize',
+  'arrowSpacing',
+  'backgroundColor',
+  'beaconSize',
+  'beaconTrigger',
+  'before',
+  'buttons',
+  'closeAction',
+  'disableBeacon',
+  'disableCloseOnEsc',
+  'disableFocusTrap',
+  'disableOverlay',
+  'disableScroll',
+  'disableTargetInteraction',
+  'loaderDelay',
+  'offset',
+  'overlayClickBehavior',
+  'overlayColor',
+  'primaryColor',
+  'scrollDuration',
+  'scrollOffset',
+  'showProgress',
+  'spotlightPadding',
+  'spotlightRadius',
+  'targetWaitTimeout',
+  'textColor',
+  'width',
+  'zIndex',
+] as const satisfies ReadonlyArray<keyof Options>;
 
 export function getMergedStep(props: Props, currentStep?: Step): StepMerged | null {
   if (!currentStep) {
@@ -35,22 +63,20 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
       'floatingOptions',
       'loaderComponent',
       'locale',
-      'options',
-      'scrollOffset',
       'styles',
       'tooltipComponent',
     ),
-    defaultStepOptions,
-    props.stepOptions ?? {},
     currentStep,
   );
 
   const mergedOptions = deepMerge<Options>(
     defaultOptions,
     props.options ?? {},
-    mergedStep.options ?? {},
+    pick(currentStep, ...optionFieldNames),
   );
-  const mergedStyles = getStyles(props, { ...mergedStep, options: mergedOptions });
+
+  const mergedStyles = getStyles(props, { ...mergedStep, ...mergedOptions } as StepMerged);
+
   const floatingOptions = deepMerge<FloatingOptions>(
     defaultFloatingOptions,
     props.floatingOptions ?? {},
@@ -59,10 +85,10 @@ export function getMergedStep(props: Props, currentStep?: Step): StepMerged | nu
 
   return {
     ...mergedStep,
+    ...mergedOptions,
     locale: deepMerge<Locale>(defaultLocale, props.locale ?? {}, mergedStep.locale || {}),
     floatingOptions,
-    options: mergedOptions,
-    spotlightPadding: normalizeSpotlightPadding(mergedStep.spotlightPadding),
+    spotlightPadding: normalizeSpotlightPadding(mergedOptions.spotlightPadding),
     styles: mergedStyles,
   };
 }

@@ -1,9 +1,10 @@
 import type { ReactElement } from 'react';
 
+import type { Options } from './common';
 import type { BaseProps } from './components';
 import type { EventHandler } from './events';
 import type { Controls, State } from './state';
-import type { SelectorOrElement, Step, StepMerged, StepOptions } from './step';
+import type { SelectorOrElement, Step, StepMerged } from './step';
 import type { Simplify } from './utilities';
 
 /** Props for the Joyride component. */
@@ -34,6 +35,10 @@ export type Props = Simplify<
      */
     onEvent?: EventHandler;
     /**
+     * Default options for all steps.
+     */
+    options?: Partial<Options>;
+    /**
      * The element to render the tooltip into. Accepts a CSS selector or HTMLElement.
      */
     portalElement?: SelectorOrElement;
@@ -42,11 +47,6 @@ export type Props = Simplify<
      * @default false
      */
     run?: boolean;
-    /**
-     * The scroll animation duration in milliseconds.
-     * @default 300
-     */
-    scrollDuration?: number;
     /**
      * Scroll the page for the first step.
      * @default false
@@ -57,10 +57,6 @@ export type Props = Simplify<
      * You'll have to keep an internal state by yourself and update it with the events in `onEvent`.
      */
     stepIndex?: number;
-    /**
-     * Default options for all steps.
-     */
-    stepOptions?: StepOptions;
     /**
      * The tour's steps.
      */

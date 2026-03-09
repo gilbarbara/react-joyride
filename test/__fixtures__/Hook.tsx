@@ -50,7 +50,7 @@ export default function Hook(props: HookProps) {
     portalElement: '#portal',
     run,
     scrollToFirstStep: true,
-    stepOptions: { buttons: ['back', 'close', 'primary', 'skip'] },
+    options: { buttons: ['back', 'close', 'primary', 'skip'] },
     steps,
     ...rest,
   });

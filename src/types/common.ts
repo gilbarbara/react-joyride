@@ -2,10 +2,20 @@ import type { CSSProperties, ReactNode } from 'react';
 
 import { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 
+import type { TourData } from './events';
 import type { ValueOf } from './utilities';
 
 /** The action that triggered the state update. */
 export type Actions = ValueOf<typeof ACTIONS>;
+
+/** A hook that runs after a step completes. Fire-and-forget. */
+export type AfterHook = (data: TourData) => void;
+
+/** A hook that runs before a step is shown. The tour waits for the promise to resolve. */
+export type BeforeHook = (data: TourData) => Promise<void>;
+
+/** The buttons to show in the tooltip. */
+export type ButtonType = 'back' | 'close' | 'primary' | 'skip';
 
 /** The event type passed to the `onEvent` callback. */
 export type Events = ValueOf<typeof EVENTS>;
@@ -74,8 +84,13 @@ export interface Locale {
   skip?: ReactNode;
 }
 
-/** Themeable style options (colors, sizes, spacing). */
+/** Step options for behavior, theming, and layout. Shared between Props and Step. */
 export interface Options {
+  /**
+   * A hook that runs after the step completes (user clicked next, prev, close, or skip).
+   * Fire-and-forget — does not block the tour.
+   */
+  after?: AfterHook;
   /**
    * Width of the arrow base edge in pixels.
    * @default 32
@@ -107,6 +122,77 @@ export interface Options {
    */
   beaconSize: number;
   /**
+   * The interaction that triggers the beacon to show the tooltip.
+   * @default 'click'
+   */
+  beaconTrigger: 'click' | 'hover';
+  /**
+   * A hook that runs before the step is shown.
+   * The tour waits for the returned promise to resolve and shows the loader while waiting (after loaderDelay).
+   * Capped by `targetWaitTimeout`.
+   */
+  before?: BeforeHook;
+  /**
+   * The buttons to show in the tooltip.
+   * @default ['back', 'close', 'primary']
+   */
+  buttons: ButtonType[];
+  /**
+   * The action to take when the close button is clicked.
+   * - `'close'`: Advances to the next step (default behavior).
+   * - `'skip'`: Ends the tour entirely.
+   * @default 'close'
+   */
+  closeAction: 'close' | 'skip';
+  /**
+   * Don't show the Beacon before the tooltip.
+   * @default false
+   */
+  disableBeacon: boolean;
+  /**
+   * Disable closing the tooltip on ESC.
+   * @default false
+   */
+  disableCloseOnEsc: boolean;
+  /**
+   * Disable the focus trap for the tooltip.
+   * @default false
+   */
+  disableFocusTrap: boolean;
+  /**
+   * Don't show the overlay.
+   * @default false
+   */
+  disableOverlay: boolean;
+  /**
+   * Disable scrolling to the target.
+   * @default false
+   */
+  disableScroll: boolean;
+  /**
+   * Block pointer events on the highlighted element through the spotlight cutout.
+   * @default false
+   */
+  disableTargetInteraction: boolean;
+  /**
+   * Delay (ms) before showing the loader while waiting for a target.
+   * @default 300
+   */
+  loaderDelay: number;
+  /**
+   * The distance in pixels between the tooltip and the target.
+   * @default 10
+   */
+  offset: number;
+  /**
+   * The action to take when the overlay is clicked.
+   * - `'close'`: Closes the step (fires a CLOSE action).
+   * - `'next'`: Advances to the next step (ends the tour on the last step).
+   * - `false`: Disables overlay click.
+   * @default 'close'
+   */
+  overlayClickBehavior: 'close' | 'next' | false;
+  /**
    * Overlay backdrop color.
    * @default '#00000080'
    */
@@ -117,10 +203,36 @@ export interface Options {
    */
   primaryColor: string;
   /**
+   * The scroll animation duration in milliseconds.
+   * @default 300
+   */
+  scrollDuration: number;
+  /**
+   * The scroll distance from the element scrollTop value.
+   * @default 20
+   */
+  scrollOffset: number;
+  /**
+   * Show the progress (1 of 5) in the tooltip.
+   * @default false
+   */
+  showProgress: boolean;
+  /**
+   * The padding of the spotlight.
+   * Accepts a number for equal padding on all sides, or an object with `top`, `right`, `bottom`, `left`.
+   * @default 10
+   */
+  spotlightPadding: number | SpotlightPadding;
+  /**
    * The border radius of the spotlight cutout in pixels.
    * @default 4
    */
   spotlightRadius: number;
+  /**
+   * Max time (ms) to wait for the target to appear. 0 = no waiting.
+   * @default 1000
+   */
+  targetWaitTimeout: number;
   /**
    * Tooltip text color.
    * @default '#333333'

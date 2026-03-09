@@ -76,9 +76,7 @@ export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
 
     content = <CustomLoader step={step} />;
   } else {
-    content = (
-      <div style={{ ...loaderStyles.spinner, borderTopColor: step.options.primaryColor }} />
-    );
+    content = <div style={{ ...loaderStyles.spinner, borderTopColor: step.primaryColor }} />;
   }
 
   return (

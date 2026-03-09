@@ -77,7 +77,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
         data-action="primary"
         data-testid="button-primary"
         role="button"
-        style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; background-color: rgb(169, 71, 255);"
+        style="border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; background-color: rgb(169, 71, 255);"
         title="Next"
         type="button"
       >
@@ -219,7 +219,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
         data-action="primary"
         data-testid="button-primary"
         role="button"
-        style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; background-color: rgb(169, 71, 255);"
+        style="border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; background-color: rgb(169, 71, 255);"
         title="Next"
         type="button"
       >

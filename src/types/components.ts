@@ -2,7 +2,7 @@ import type { ElementType, MouseEventHandler } from 'react';
 
 import type { Controls } from '~/types/state';
 
-import type { Locale, Options, Placement, Styles } from './common';
+import type { Locale, Placement, Styles } from './common';
 import type { FloatingOptions } from './floating';
 import type { StepMerged } from './step';
 import type { PartialDeep, Simplify } from './utilities';
@@ -39,15 +39,6 @@ export type BaseProps = {
    * The strings used in the tooltip.
    */
   locale?: Locale;
-  /**
-   * Themeable style options (colors, sizes, spacing).
-   */
-  options?: Partial<Options>;
-  /**
-   * The scroll distance from the element scrollTop value.
-   * @default 20
-   */
-  scrollOffset?: number;
   /**
    * Override the styling of the Tooltip.
    */

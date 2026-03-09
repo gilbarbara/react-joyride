@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-import { defaultFloatingOptions, defaultProps, defaultStep, defaultStepOptions } from '~/defaults';
+import { defaultFloatingOptions, defaultOptions, defaultProps, defaultStep } from '~/defaults';
 import { noop } from '~/modules/helpers';
 import { getMergedStep, validateStep, validateSteps } from '~/modules/step';
 import { fromPartial } from '~/test-utils';
@@ -108,10 +108,10 @@ describe('step', () => {
       expect(result).toMatchSnapshot();
     });
 
-    it('should allow stepOptions to override defaultStep', () => {
+    it('should allow options to override defaultStep', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        stepOptions: { ...defaultStepOptions, disableOverlay: true, spotlightPadding: 20 },
+        options: { ...defaultOptions, disableOverlay: true, spotlightPadding: 20 },
       });
 
       const result = getMergedStep(props, baseStep);
@@ -119,10 +119,10 @@ describe('step', () => {
       expect(result).toMatchSnapshot();
     });
 
-    it('should preserve unset stepOptions defaults when partial stepOptions is provided', () => {
+    it('should preserve unset options defaults when partial options is provided', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        stepOptions: { disableOverlay: true },
+        options: { disableOverlay: true },
       });
 
       const result = getMergedStep(props, baseStep);
@@ -130,11 +130,15 @@ describe('step', () => {
       expect(result).toMatchSnapshot();
     });
 
-    it('should allow step props to override stepOptions', () => {
+    it('should allow step props to override options', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        scrollOffset: 50,
-        stepOptions: { ...defaultStepOptions, disableOverlay: true, spotlightPadding: 20 },
+        options: {
+          ...defaultOptions,
+          disableOverlay: true,
+          spotlightPadding: 20,
+          scrollOffset: 50,
+        },
       });
       const step: Step = {
         ...baseStep,
@@ -188,7 +192,7 @@ describe('step', () => {
     it('should merge scrollOffset from props', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        scrollOffset: 50,
+        options: { scrollOffset: 50 },
       });
 
       const result = getMergedStep(props, baseStep);

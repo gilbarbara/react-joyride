@@ -8,7 +8,7 @@ exports[`Tooltip > should call controls.prev() on back click 1`] = `
   class="react-joyride__tooltip"
   data-joyride-step="1"
   role="alertdialog"
-  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
 >
   <div
     style="line-height: 1.4; text-align: center;"
@@ -42,7 +42,7 @@ exports[`Tooltip > should call controls.prev() on back click 1`] = `
       data-action="primary"
       data-testid="button-primary"
       role="button"
-      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
       title="Next"
       type="button"
     >
@@ -85,7 +85,7 @@ exports[`Tooltip > should call controls.skip() on skip click 1`] = `
   class="react-joyride__tooltip"
   data-joyride-step="0"
   role="alertdialog"
-  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
 >
   <div
     style="line-height: 1.4; text-align: center;"
@@ -121,7 +121,7 @@ exports[`Tooltip > should call controls.skip() on skip click 1`] = `
       data-action="primary"
       data-testid="button-primary"
       role="button"
-      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
       title="Next"
       type="button"
     >
@@ -164,7 +164,7 @@ exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] =
   class="react-joyride__tooltip"
   data-joyride-step="0"
   role="alertdialog"
-  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
 >
   <div
     style="line-height: 1.4; text-align: center;"
@@ -187,7 +187,7 @@ exports[`Tooltip > should render "Close" on primary in non-continuous mode 1`] =
       data-action="primary"
       data-testid="button-primary"
       role="button"
-      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
       title="Close"
       type="button"
     >
@@ -230,7 +230,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
   class="react-joyride__tooltip"
   data-joyride-step="2"
   role="alertdialog"
-  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
 >
   <div
     style="line-height: 1.4; text-align: center;"
@@ -264,7 +264,7 @@ exports[`Tooltip > should render "Last" on primary when isLastStep 1`] = `
       data-action="primary"
       data-testid="button-primary"
       role="button"
-      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
       title="Last"
       type="button"
     >
@@ -307,7 +307,7 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
   class="react-joyride__tooltip"
   data-joyride-step="0"
   role="alertdialog"
-  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
 >
   <div
     style="line-height: 1.4; text-align: center;"
@@ -330,7 +330,7 @@ exports[`Tooltip > should render "Next" on primary in continuous mode 1`] = `
       data-action="primary"
       data-testid="button-primary"
       role="button"
-      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
       title="Next"
       type="button"
     >
@@ -449,7 +449,7 @@ exports[`Tooltip > should show progress label when showProgress is true 1`] = `
   class="react-joyride__tooltip"
   data-joyride-step="0"
   role="alertdialog"
-  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 15px; position: relative; width: 380px;"
+  style="background-color: rgb(255, 255, 255); border-radius: 5px; box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; padding: 12px; position: relative; width: 380px;"
 >
   <div
     style="line-height: 1.4; text-align: center;"
@@ -472,7 +472,7 @@ exports[`Tooltip > should show progress label when showProgress is true 1`] = `
       data-action="primary"
       data-testid="button-primary"
       role="button"
-      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+      style="background-color: rgb(255, 0, 68); border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px;"
       title="Next (1 of 3)"
       type="button"
     >
