@@ -1,15 +1,32 @@
-import type { FloatingOptions, Locale, Options, Props, Step, StepOptions } from '~/types';
+import type { FloatingOptions, Locale, Options, Props, Step } from '~/types';
 
-export const defaultOptions: Options = {
+export const defaultOptions: Required<Omit<Options, 'after' | 'before'>> = {
   arrowBase: 32,
   arrowColor: '#ffffff',
   arrowSize: 16,
-  arrowSpacing: 5,
+  arrowSpacing: 12,
   backgroundColor: '#ffffff',
   beaconSize: 36,
+  beaconTrigger: 'click',
+  buttons: ['back', 'close', 'primary'],
+  closeAction: 'close',
+  disableBeacon: false,
+  disableCloseOnEsc: false,
+  disableFocusTrap: false,
+  disableOverlay: false,
+  disableScroll: false,
+  disableTargetInteraction: false,
+  loaderDelay: 300,
+  offset: 10,
+  overlayClickBehavior: 'close',
   overlayColor: '#00000080',
   primaryColor: '#ff0044',
+  scrollDuration: 300,
+  scrollOffset: 20,
+  showProgress: false,
+  spotlightPadding: 10,
   spotlightRadius: 4,
+  targetWaitTimeout: 1000,
   textColor: '#333333',
   width: 380,
   zIndex: 100,
@@ -31,39 +48,16 @@ export const defaultLocale: Locale = {
   skip: 'Skip',
 };
 
-export const defaultStepOptions: Required<Omit<StepOptions, 'after' | 'before'>> = {
-  beaconTrigger: 'click',
-  buttons: ['back', 'close', 'primary'],
-  closeAction: 'close',
-  disableBeacon: false,
-  disableCloseOnEsc: false,
-  disableFocusTrap: false,
-  disableOverlay: false,
-  disableScroll: false,
-  disableTargetInteraction: false,
-  loaderDelay: 300,
-  offset: 10,
-  overlayClickBehavior: 'close',
-  showProgress: false,
-  spotlightPadding: 10,
-  targetWaitTimeout: 1000,
-};
-
 export const defaultStep = {
   isFixed: false,
   locale: defaultLocale,
   placement: 'bottom',
-  scrollOffset: 20,
-  ...defaultStepOptions,
 } satisfies Omit<Step, 'content' | 'target'>;
 
 export const defaultProps = {
   continuous: false,
   debug: false,
   run: false,
-  scrollOffset: 20,
-  scrollDuration: 300,
   scrollToFirstStep: false,
-  stepOptions: defaultStepOptions,
   steps: [],
 } satisfies Props;

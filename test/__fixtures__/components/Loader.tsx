@@ -15,7 +15,7 @@ function LoaderComponent({ step }: LoaderRenderProps) {
         zIndex: 10001,
       }}
     >
-      <span style={{ color: step.options.primaryColor }}>Loading...</span>
+      <span style={{ color: step.primaryColor }}>Loading...</span>
     </div>
   );
 }

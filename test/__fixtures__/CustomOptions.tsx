@@ -30,11 +30,9 @@ const tourSteps: Array<Step> = [
       back: <strong>Go Back</strong>,
       skip: <Skip />,
     },
-    options: {
-      arrowBase: 50,
-      arrowColor: '#66a5ff',
-      arrowSize: 50,
-    },
+    arrowBase: 50,
+    arrowColor: '#66a5ff',
+    arrowSize: 50,
     styles: {
       arrow: {
         color: '#fff',
@@ -79,12 +77,12 @@ export default function CustomOptions(props: CustomOptionsProps) {
         onEvent={handleEvent}
         options={{
           arrowColor: '#5cff47',
+          buttons: ['back', 'close', 'primary', 'skip'],
           primaryColor: '#ff0000',
           overlayColor: 'rgba(0, 0, 0, 0.3)',
         }}
         run
         scrollToFirstStep
-        stepOptions={{ buttons: ['back', 'close', 'primary', 'skip'] }}
         steps={tourSteps}
         styles={{
           beaconInner: {

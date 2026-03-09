@@ -21,14 +21,10 @@ const buttonBase = {
 export default function getStyles(props: Props, step: StepMerged) {
   const { styles } = props;
   const mergedStyles = deepMerge<Styles>(styles ?? {}, step.styles ?? {});
-  const { options } = step;
-  let { width } = options;
+  let { width } = step;
 
-  if ('width' in options) {
-    width =
-      typeof options.width === 'number' && window.innerWidth < options.width
-        ? window.innerWidth - 30
-        : options.width;
+  if (width !== undefined) {
+    width = typeof width === 'number' && window.innerWidth < width ? window.innerWidth - 30 : width;
   }
 
   const overlay = {
@@ -38,13 +34,13 @@ export default function getStyles(props: Props, step: StepMerged) {
     position: 'absolute',
     right: 0,
     top: 0,
-    zIndex: options.zIndex,
+    zIndex: step.zIndex,
   };
 
   const defaultStyles = {
     arrow: {
       alignItems: 'center',
-      color: options.arrowColor,
+      color: step.arrowColor,
       display: 'inline-flex',
       justifyContent: 'center',
       position: 'absolute',
@@ -56,12 +52,12 @@ export default function getStyles(props: Props, step: StepMerged) {
       position: 'relative',
     },
     beacon: {
-      height: options.beaconSize,
-      width: options.beaconSize,
+      height: step.beaconSize,
+      width: step.beaconSize,
     },
     beaconInner: {
       animation: 'joyride-beacon-inner 1.2s infinite ease-in-out',
-      backgroundColor: options.primaryColor,
+      backgroundColor: step.primaryColor,
       borderRadius: '50%',
       display: 'block',
       height: '50%',
@@ -74,8 +70,8 @@ export default function getStyles(props: Props, step: StepMerged) {
     },
     beaconOuter: {
       animation: 'joyride-beacon-outer 1.2s infinite ease-in-out',
-      backgroundColor: `rgba(${hexToRGB(options.primaryColor).join(',')}, 0.2)`,
-      border: `2px solid ${options.primaryColor}`,
+      backgroundColor: `rgba(${hexToRGB(step.primaryColor).join(',')}, 0.2)`,
+      border: `2px solid ${step.primaryColor}`,
       borderRadius: '50%',
       boxSizing: 'border-box',
       display: 'block',
@@ -89,19 +85,18 @@ export default function getStyles(props: Props, step: StepMerged) {
     },
     buttonNext: {
       ...buttonBase,
-      backgroundColor: options.primaryColor,
-      borderRadius: 4,
+      backgroundColor: step.primaryColor,
       color: '#fff',
     },
     buttonBack: {
       ...buttonBase,
-      color: options.primaryColor,
+      color: step.primaryColor,
       marginLeft: 'auto',
       marginRight: 5,
     },
     buttonClose: {
       ...buttonBase,
-      color: options.textColor,
+      color: step.textColor,
       height: 14,
       padding: 15,
       position: 'absolute',
@@ -111,7 +106,7 @@ export default function getStyles(props: Props, step: StepMerged) {
     },
     buttonSkip: {
       ...buttonBase,
-      color: options.textColor,
+      color: step.textColor,
       fontSize: 14,
     },
     floater: {
@@ -122,16 +117,16 @@ export default function getStyles(props: Props, step: StepMerged) {
     },
     overlay: {
       ...overlay,
-      backgroundColor: options.overlayColor,
+      backgroundColor: step.overlayColor,
     },
     tooltip: {
-      backgroundColor: options.backgroundColor,
+      backgroundColor: step.backgroundColor,
       borderRadius: 5,
       boxSizing: 'border-box',
-      color: options.textColor,
+      color: step.textColor,
       fontSize: 16,
       maxWidth: '100%',
-      padding: 15,
+      padding: 12,
       position: 'relative',
       width,
     },

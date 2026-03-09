@@ -26,8 +26,7 @@ export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
     ...overrides,
   });
 
-  const options = { ...defaultOptions, ...overrides.options };
-  const merged = { ...base, options };
+  const merged = { ...defaultOptions, ...base };
   const styles = getStyles(fromPartial<Props>({}), merged);
 
   return { ...merged, styles: overrides.styles ? { ...styles, ...overrides.styles } : styles };

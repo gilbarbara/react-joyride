@@ -57,10 +57,10 @@ export default function Component(props: StandardProps) {
         <Joyride
           continuous
           onEvent={handleJoyrideCallback}
+          options={{ buttons: ['back', 'close', 'primary', 'skip'] }}
           portalElement="#portal"
           run={run}
           scrollToFirstStep
-          stepOptions={{ buttons: ['back', 'close', 'primary', 'skip'] }}
           steps={steps}
           {...rest}
         />
