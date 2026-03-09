@@ -256,7 +256,7 @@ describe('Floater', () => {
       });
     });
 
-    it('should ignore mouseenter when step.event is not hover', () => {
+    it('should ignore mouseenter when step.beaconTrigger is not hover', () => {
       mockUseFloating
         .mockReturnValueOnce(createFloatingReturn())
         .mockReturnValueOnce(createFloatingReturn());
@@ -275,7 +275,7 @@ describe('Floater', () => {
       expect(updateState).not.toHaveBeenCalled();
     });
 
-    it('should call updateState on mouseenter when step.event is hover', () => {
+    it('should call updateState on mouseenter when step.beaconTrigger is hover', () => {
       mockUseFloating
         .mockReturnValueOnce(createFloatingReturn())
         .mockReturnValueOnce(createFloatingReturn());
@@ -295,6 +295,22 @@ describe('Floater', () => {
         lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
         positioned: false,
       });
+    });
+  });
+
+  describe('tooltip interaction', () => {
+    it('should call controls.next() on primary button click', () => {
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      const props = createProps();
+
+      render(<Floater {...props} />);
+
+      fireEvent.click(screen.getByTestId('button-primary'));
+
+      expect(props.controls.next).toHaveBeenCalledTimes(1);
     });
   });
 
