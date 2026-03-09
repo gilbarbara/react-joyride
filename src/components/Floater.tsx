@@ -136,15 +136,18 @@ export default function JoyrideFloater(props: FloaterProps) {
                     ? 'left'
                     : 'right';
 
+              const padding = step.spotlightTarget ? 0 : step.spotlightPadding[side];
+
               return (
                 step.offset +
-                step.spotlightPadding[side] +
+                padding +
                 (step.floatingOptions?.hideArrow ? 0 : step.options.arrowSize)
               );
             },
             [
               step.offset,
               step.spotlightPadding,
+              step.spotlightTarget,
               step.options.arrowSize,
               step.floatingOptions?.hideArrow,
             ],

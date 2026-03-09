@@ -53,6 +53,11 @@ export type Step = Simplify<
        */
       scrollTarget?: StepTarget;
       /**
+       * An optional element to highlight instead of the target.
+       * The tooltip will still anchor to `target`.
+       */
+      spotlightTarget?: StepTarget;
+      /**
        * The target for the step.
        * It can be a CSS selector, an HTMLElement, a React ref, or a function that returns an element.
        */

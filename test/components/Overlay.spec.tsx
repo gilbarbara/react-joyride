@@ -100,6 +100,22 @@ describe('Overlay', () => {
     expect(onClickOverlay).toHaveBeenCalledTimes(1);
   });
 
+  it('should use spotlightTarget for the spotlight position when set', () => {
+    const spotlightElement = document.createElement('div');
+
+    document.body.appendChild(spotlightElement);
+
+    const props = createProps({ lifecycle: LIFECYCLE.READY, spotlightTarget: spotlightElement });
+
+    const { rerender } = render(<Overlay {...props} />);
+
+    rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+
+    expect(screen.getByTestId('overlay')).toMatchSnapshot();
+
+    document.body.removeChild(spotlightElement);
+  });
+
   it('should set cursor to default when overlayClickBehavior is false', () => {
     render(<Overlay {...createProps({ overlayClickBehavior: false })} />);
 

@@ -33,12 +33,17 @@ export default function JoyrideOverlay(props: OverlayProps) {
     placement,
     scrolling,
     spotlightPadding,
+    spotlightTarget,
     styles,
     target,
     waiting,
   } = props;
   const windowSize = useWindowSize();
-  const targetRect = useTargetPosition(target, spotlightPadding, scrolling || waiting);
+  const targetRect = useTargetPosition(
+    spotlightTarget ?? target,
+    spotlightPadding,
+    scrolling || waiting,
+  );
   const previousLifecycleRef = useRef(lifecycle);
 
   const [showSpotlight, setShowSpotlight] = useState(false);
