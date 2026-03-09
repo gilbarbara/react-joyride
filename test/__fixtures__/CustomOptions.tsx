@@ -37,7 +37,7 @@ const tourSteps: Array<Step> = [
       arrow: {
         color: '#fff',
       },
-      buttonNext: {
+      buttonPrimary: {
         backgroundColor: '#f04',
       },
     },
@@ -95,7 +95,7 @@ export default function CustomOptions(props: CustomOptionsProps) {
           buttonClose: {
             color: '#000',
           },
-          buttonNext: {
+          buttonPrimary: {
             backgroundColor: '#a947ff',
           },
           tooltip: {

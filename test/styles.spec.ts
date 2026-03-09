@@ -17,7 +17,7 @@ const customStylesProps: Props = {
     textColor: '#fff',
   },
   styles: {
-    buttonNext: {
+    buttonPrimary: {
       color: '#00f',
     },
   },
@@ -73,7 +73,7 @@ describe('styles', () => {
       backgroundColor: '#000',
       textColor: '#fff',
       styles: {
-        buttonNext: {
+        buttonPrimary: {
           color: '#000',
         },
       },

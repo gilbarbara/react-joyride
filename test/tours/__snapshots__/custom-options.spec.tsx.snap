@@ -41,7 +41,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
     class="react-joyride__tooltip"
     data-joyride-step="0"
     role="alertdialog"
-    style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
+    style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(0, 0, 0); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
   >
     <div
       style="line-height: 1.4; text-align: center;"
@@ -54,7 +54,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
       </div>
     </div>
     <div
-      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+      style="align-items: center; display: flex; justify-content: flex-end;"
     >
       <div
         style="flex: 1 1 0%;"
@@ -65,7 +65,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
           data-action="skip"
           data-testid="button-skip"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+          style="background-color: transparent; border: 0px; border-radius: 4px; color: rgb(0, 0, 0); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
           title="Skip"
           type="button"
         >
@@ -77,7 +77,7 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
         data-action="primary"
         data-testid="button-primary"
         role="button"
-        style="border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; background-color: rgb(169, 71, 255);"
+        style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; background-color: rgb(169, 71, 255);"
         title="Next"
         type="button"
       >
@@ -89,16 +89,16 @@ exports[`Joyride > Custom Options > should render STEP 1 Tooltip with custom sty
       data-action="close"
       data-testid="button-close"
       role="button"
-      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 15px; position: absolute; right: 0px; top: 0px;"
+      style="background-color: transparent; border: 0px; border-radius: 4px; cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
       title="Close"
       type="button"
     >
       <svg
-        height="14px"
+        height="12px"
         preserveAspectRatio="xMidYMid"
         version="1.1"
         viewBox="0 0 18 18"
-        width="14px"
+        width="12px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g>
@@ -134,7 +134,7 @@ exports[`Joyride > Custom Options > should render STEP 1 with custom beacon styl
   aria-label="Open the dialog"
   class="react-joyride__beacon"
   data-testid="button-beacon"
-  style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; display: inline-flex; position: relative;"
+  style="background-color: transparent; border: 0px; border-radius: 50%; color: rgb(85, 85, 85); cursor: pointer; font-size: 16px; line-height: 1; padding: 0px; -webkit-appearance: none; display: inline-flex; position: relative;"
   title="Open the dialog"
   type="button"
 >
@@ -165,7 +165,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
     class="react-joyride__tooltip"
     data-joyride-step="2"
     role="alertdialog"
-    style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(51, 51, 51); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
+    style="background-color: rgb(255, 255, 255); box-sizing: border-box; color: rgb(0, 0, 0); font-size: 16px; max-width: 100%; position: relative; width: 380px; border-radius: 8px; padding: 12px;"
   >
     <div
       style="line-height: 1.4; text-align: center;"
@@ -185,7 +185,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
       </div>
     </div>
     <div
-      style="align-items: center; display: flex; justify-content: flex-end; margin-top: 15px;"
+      style="align-items: center; display: flex; justify-content: flex-end;"
     >
       <div
         style="flex: 1 1 0%;"
@@ -196,7 +196,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
           data-action="skip"
           data-testid="button-skip"
           role="button"
-          style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(51, 51, 51); cursor: pointer; font-size: 14px; line-height: 1; -webkit-appearance: none; padding: 8px;"
+          style="background-color: transparent; border: 0px; border-radius: 4px; color: rgb(0, 0, 0); cursor: pointer; font-size: 14px; line-height: 1; padding: 8px; -webkit-appearance: none;"
           title="Skip"
           type="button"
         >
@@ -208,7 +208,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
         data-action="back"
         data-testid="button-back"
         role="button"
-        style="background-color: transparent; border: 0px; border-radius: 0px; color: rgb(255, 0, 0); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; margin-left: auto; margin-right: 5px;"
+        style="background-color: transparent; border: 0px; border-radius: 4px; color: rgb(255, 0, 0); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; margin-left: auto; margin-right: 5px;"
         title="Back"
         type="button"
       >
@@ -219,7 +219,7 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
         data-action="primary"
         data-testid="button-primary"
         role="button"
-        style="border: 0px; border-radius: 0px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 8px; background-color: rgb(169, 71, 255);"
+        style="border: 0px; border-radius: 4px; color: rgb(255, 255, 255); cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; background-color: rgb(169, 71, 255);"
         title="Next"
         type="button"
       >
@@ -231,16 +231,16 @@ exports[`Joyride > Custom Options > should render STEP 3 Tooltip with custom arr
       data-action="close"
       data-testid="button-close"
       role="button"
-      style="background-color: transparent; border: 0px; border-radius: 0px; cursor: pointer; font-size: 16px; line-height: 1; -webkit-appearance: none; padding: 15px; position: absolute; right: 0px; top: 0px;"
+      style="background-color: transparent; border: 0px; border-radius: 4px; cursor: pointer; font-size: 16px; line-height: 1; padding: 8px; -webkit-appearance: none; position: absolute; right: 0px; top: 0px;"
       title="Close"
       type="button"
     >
       <svg
-        height="14px"
+        height="12px"
         preserveAspectRatio="xMidYMid"
         version="1.1"
         viewBox="0 0 18 18"
-        width="14px"
+        width="12px"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g>

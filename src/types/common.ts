@@ -275,7 +275,7 @@ export interface Styles {
   /** Close button styles. */
   buttonClose: CSSProperties;
   /** Next/Last button styles. */
-  buttonNext: CSSProperties;
+  buttonPrimary: CSSProperties;
   /** Skip button styles. */
   buttonSkip: CSSProperties;
   /** Floating container styles. */

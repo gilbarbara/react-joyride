@@ -10,11 +10,13 @@ const buttonReset = {
   cursor: 'pointer',
   fontSize: 16,
   lineHeight: 1,
+  padding: 0,
   WebkitAppearance: 'none',
 };
 
 const buttonBase = {
   ...buttonReset,
+  borderRadius: 4,
   padding: 8,
 };
 
@@ -83,11 +85,6 @@ export default function getStyles(props: Props, step: StepMerged) {
       transformOrigin: 'center',
       width: '100%',
     },
-    buttonNext: {
-      ...buttonBase,
-      backgroundColor: step.primaryColor,
-      color: '#fff',
-    },
     buttonBack: {
       ...buttonBase,
       color: step.primaryColor,
@@ -97,12 +94,17 @@ export default function getStyles(props: Props, step: StepMerged) {
     buttonClose: {
       ...buttonBase,
       color: step.textColor,
-      height: 14,
-      padding: 15,
+      height: 12,
+      padding: 8,
       position: 'absolute',
       right: 0,
       top: 0,
-      width: 14,
+      width: 12,
+    },
+    buttonPrimary: {
+      ...buttonBase,
+      backgroundColor: step.primaryColor,
+      color: step.backgroundColor,
     },
     buttonSkip: {
       ...buttonBase,
@@ -139,13 +141,13 @@ export default function getStyles(props: Props, step: StepMerged) {
       margin: 0,
     },
     tooltipContent: {
-      padding: '20px 10px',
+      paddingBottom: 12,
+      paddingTop: 12,
     },
     tooltipFooter: {
       alignItems: 'center',
       display: 'flex',
       justifyContent: 'flex-end',
-      marginTop: 15,
     },
     tooltipFooterSpacer: {
       flex: 1,
