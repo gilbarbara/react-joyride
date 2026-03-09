@@ -2,7 +2,7 @@ import { cleanup, createStep, fireEvent, fromPartial, render, screen } from '~/t
 
 import Tooltip from '~/components/Tooltip';
 
-import type { Controls } from '~/types';
+import type { Controls, TooltipRenderProps } from '~/types';
 
 import TooltipComponent from '../__fixtures__/components/Tooltip';
 
@@ -178,5 +178,31 @@ describe('Tooltip', () => {
     );
 
     expect(container.firstChild).toMatchSnapshot();
+  });
+
+  it('should pass controls to custom tooltipComponent', () => {
+    const controls = createControls();
+    const customStep = createStep({
+      tooltipComponent: (props: TooltipRenderProps) => (
+        <button data-testid="button-go" onClick={() => props.controls.go(2)} type="button">
+          Go to step 2
+        </button>
+      ),
+    });
+
+    render(
+      <Tooltip
+        continuous
+        controls={controls}
+        index={0}
+        isLastStep={false}
+        size={3}
+        step={customStep}
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId('button-go'));
+
+    expect(controls.go).toHaveBeenCalledWith(2);
   });
 });

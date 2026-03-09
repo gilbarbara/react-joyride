@@ -136,6 +136,7 @@ export default function Tooltip(props: TooltipProps) {
       <TooltipComponent
         {...getElementsProps()}
         continuous={continuous}
+        controls={controls}
         index={index}
         isLastStep={isLastStep}
         size={size}
@@ -147,6 +148,7 @@ export default function Tooltip(props: TooltipProps) {
       <DefaultTooltip
         {...getElementsProps()}
         continuous={continuous}
+        controls={controls}
         index={index}
         isLastStep={isLastStep}
         size={size}

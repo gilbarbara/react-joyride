@@ -1,5 +1,7 @@
 import type { ElementType, MouseEventHandler } from 'react';
 
+import type { Controls } from '~/types/state';
+
 import type { Locale, Options, Placement, Styles } from './common';
 import type { FloatingOptions } from './floating';
 import type { StepMerged } from './step';
@@ -99,6 +101,8 @@ export type TooltipRenderProps = Simplify<
       role: string;
       title: string;
     };
+    /** Methods to programmatically control the tour. */
+    controls: Controls;
     /** Props to spread on the next/last button. */
     primaryProps: {
       'aria-label': string;
