@@ -7,7 +7,7 @@ exports[`Loader > should render custom loaderComponent and skip CSS injection 1`
   style="align-items: center; display: flex; inset: 0px; justify-content: center; pointer-events: none; position: fixed; z-index: 10001;"
 >
   <span
-    style="color: rgb(255, 0, 68);"
+    style="color: rgb(0, 0, 0);"
   >
     Loading...
   </span>
@@ -21,7 +21,7 @@ exports[`Loader > should render the loader with spinner 1`] = `
   style="align-items: center; display: flex; inset: 0px; justify-content: center; pointer-events: none; position: fixed; z-index: 10001;"
 >
   <div
-    style="animation: joyride-loader-spin 1s linear infinite; border-width: 5px; border-style: solid; border-color: rgb(255, 0, 68) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1); border-image: none; border-radius: 50%; height: 48px; width: 48px;"
+    style="animation: joyride-loader-spin 1s linear infinite; border-width: 5px; border-style: solid; border-color: rgb(0, 0, 0) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1); border-image: none; border-radius: 50%; height: 48px; width: 48px;"
   />
 </div>
 `;

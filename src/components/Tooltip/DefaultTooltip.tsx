@@ -16,7 +16,7 @@ export default function JoyrideDefaultTooltip(props: TooltipRenderProps) {
     buttonElements.primary = (
       <button
         data-testid="button-primary"
-        style={styles.buttonNext}
+        style={styles.buttonPrimary}
         type="button"
         {...primaryProps}
       />
