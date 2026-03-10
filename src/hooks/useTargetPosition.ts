@@ -35,7 +35,7 @@ function computeRect(target: StepTarget, spotlightPadding: Required<SpotlightPad
 
   const elementRect = getClientRect(element);
   const isFixed = hasPosition(element);
-  const top = getElementPosition(element, spotlightPadding.top);
+  const top = getElementPosition(element, spotlightPadding.top, isFixed);
 
   return {
     height: Math.round((elementRect?.height ?? 0) + spotlightPadding.top + spotlightPadding.bottom),

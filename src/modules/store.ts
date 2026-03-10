@@ -155,9 +155,10 @@ class Store {
     const final = this.applyTransitions(merged);
 
     this.state = final;
-    this.snapshot = Object.freeze({ ...final });
 
-    if (!deepEqual(previousSnapshot, this.snapshot)) {
+    if (!deepEqual(previousSnapshot, final)) {
+      this.snapshot = Object.freeze({ ...final });
+
       for (const listener of this.listeners) {
         listener(this.snapshot);
       }

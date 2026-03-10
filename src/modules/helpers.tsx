@@ -17,7 +17,7 @@ import type {
   StepMerged,
 } from '~/types';
 
-import { getScrollParent, hasCustomScrollParent, hasPosition, scrollDocument } from './dom';
+import { getScrollParent, hasPosition, scrollDocument } from './dom';
 
 type RemoveType<TObject, TExclude = undefined> = {
   [Key in keyof TObject as TObject[Key] extends TExclude ? never : Key]: TObject[Key];
@@ -179,11 +179,12 @@ export function needsScrolling(options: NeedsScrollingOptions): boolean {
     return false;
   }
 
-  if ((step.isFixed || hasPosition(target)) && !hasCustomScrollParent(target)) {
+  const parent = (target?.isConnected ? getScrollParent(target) : scrollDocument()) as Element;
+  const isCustomScrollParent = parent ? !parent.isSameNode(scrollDocument()) : false;
+
+  if ((step.isFixed || hasPosition(target)) && !isCustomScrollParent) {
     return false;
   }
-
-  const parent = (target?.isConnected ? getScrollParent(target) : scrollDocument()) as Element;
 
   return parent.scrollHeight > parent.clientHeight;
 }

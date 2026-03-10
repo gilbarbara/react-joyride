@@ -8,7 +8,6 @@ import {
   getScrollParent,
   getScrollTargetToCenter,
   getScrollTo,
-  hasCustomScrollParent,
   hasPosition,
   scrollDocument,
   scrollTo,
@@ -142,8 +141,8 @@ export default function useScrollEffect({
         currentStep.scrollTarget ?? currentStep.spotlightTarget ?? currentStep.target,
       );
       const beaconPosition = store.current.getPositionData('beacon');
-      const hasCustomScroll = hasCustomScrollParent(target);
       const scrollParent = getScrollParent(target);
+      const hasCustomScroll = scrollParent ? !scrollParent.isSameNode(scrollDocument()) : false;
 
       logDebug({
         title: 'scrollToStep',

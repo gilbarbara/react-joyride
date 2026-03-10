@@ -98,11 +98,15 @@ export function getElement(element?: StepTarget): HTMLElement | null {
 /**
  * Find and return the target DOM element based on a step's 'target'.
  */
-export function getElementPosition(element: HTMLElement | null, offset: number): number {
+export function getElementPosition(
+  element: HTMLElement | null,
+  offset: number,
+  isFixed?: boolean,
+): number {
   const elementRect = getClientRect(element);
   const parent = getScrollParent(element);
-  const hasScrollParent = hasCustomScrollParent(element);
-  const isFixedTarget = hasPosition(element);
+  const hasScrollParent = parent ? !parent.isSameNode(scrollDocument()) : false;
+  const isFixedTarget = isFixed ?? hasPosition(element);
   let parentTop = 0;
   let top = elementRect?.top ?? 0;
 
@@ -111,7 +115,7 @@ export function getElementPosition(element: HTMLElement | null, offset: number):
   } else if (parent instanceof HTMLElement) {
     parentTop = parent.scrollTop;
 
-    if (!hasScrollParent && !hasPosition(element)) {
+    if (!hasScrollParent && !isFixedTarget) {
       top += parentTop;
     }
 
@@ -233,19 +237,18 @@ export function hasCustomScrollParent(element: HTMLElement | null): boolean {
 /**
  * Check if an element has fixed/sticky position
  */
-export function hasPosition(el: HTMLElement | Node | null, type: string = 'fixed'): boolean {
-  if (!el || !(el instanceof HTMLElement)) {
+export function hasPosition(el: Element | Node | null, type: string = 'fixed'): boolean {
+  if (!el || !(el instanceof Element)) {
     return false;
   }
 
   const { nodeName } = el;
-  const styles = getStyleComputedProperty(el);
 
   if (nodeName === 'BODY' || nodeName === 'HTML') {
     return false;
   }
 
-  if (styles && styles.position === type) {
+  if (getComputedStyle(el).position === type) {
     return true;
   }
 
