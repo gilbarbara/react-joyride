@@ -3,6 +3,7 @@ import {
   type MouseEvent,
   type ReactNode,
   type RefCallback,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -95,9 +96,16 @@ export default function JoyrideFloater(props: FloaterProps) {
     [],
   );
 
-  const scrollParent = hasCustomScrollParent(target as HTMLElement)
-    ? getScrollParent(target as HTMLElement)
-    : undefined;
+  const scrollParent = useMemo(
+    () =>
+      hasCustomScrollParent(target as HTMLElement)
+        ? getScrollParent(target as HTMLElement)
+        : undefined,
+    [target],
+  );
+
+  const isFixedTarget = useMemo(() => hasPosition(target), [target]);
+
   const boundaryOptions = useMemo(
     () =>
       scrollParent ? { boundary: scrollParent as Element, rootBoundary: 'viewport' as const } : {},
@@ -108,82 +116,106 @@ export default function JoyrideFloater(props: FloaterProps) {
 
   const strategy = isCenter
     ? 'fixed'
-    : (step.floatingOptions?.strategy ??
-      (step.isFixed || hasPosition(target) ? 'fixed' : 'absolute'));
+    : (step.floatingOptions?.strategy ?? (step.isFixed || isFixedTarget ? 'fixed' : 'absolute'));
+
+  const tooltipMiddleware = useMemo(
+    () =>
+      isCenter
+        ? [
+            {
+              name: 'center',
+              fn: ({ rects }: { rects: { floating: { height: number; width: number } } }) => ({
+                x: (window.innerWidth - rects.floating.width) / 2,
+                y: (window.innerHeight - rects.floating.height) / 2,
+              }),
+            },
+          ]
+        : [
+            offset(
+              ({ placement: currentPlacement }) => {
+                const side = currentPlacement.startsWith('top')
+                  ? 'top'
+                  : currentPlacement.startsWith('bottom')
+                    ? 'bottom'
+                    : currentPlacement.startsWith('left')
+                      ? 'left'
+                      : 'right';
+
+                const padding = step.spotlightTarget ? 0 : step.spotlightPadding[side];
+
+                return (
+                  step.offset + padding + (step.floatingOptions?.hideArrow ? 0 : step.arrowSize)
+                );
+              },
+              [
+                step.offset,
+                step.spotlightPadding,
+                step.spotlightTarget,
+                step.arrowSize,
+                step.floatingOptions?.hideArrow,
+              ],
+            ),
+            ...(isAuto
+              ? [autoPlacement()]
+              : step.floatingOptions?.flipOptions === false
+                ? []
+                : [
+                    flip({
+                      crossAxis: false,
+                      fallbackPlacements: getFallbackPlacements(tooltipPlacement),
+                      padding: 20,
+                      ...step.floatingOptions?.flipOptions,
+                    }),
+                  ]),
+            shift({
+              padding: 10,
+              ...boundaryOptions,
+              ...step.floatingOptions?.shiftOptions,
+            }),
+            ...(step.floatingOptions?.hideArrow
+              ? []
+              : [
+                  arrow({ element: arrowRef, padding: step.arrowSpacing }, [
+                    step.arrowSpacing,
+                    step.arrowBase,
+                  ]),
+                ]),
+            ...(step.floatingOptions?.middleware ?? []),
+          ],
+    [
+      isCenter,
+      isAuto,
+      boundaryOptions,
+      tooltipPlacement,
+      step.offset,
+      step.spotlightPadding,
+      step.spotlightTarget,
+      step.arrowSize,
+      step.arrowSpacing,
+      step.arrowBase,
+      step.floatingOptions,
+    ],
+  );
 
   const tooltipFloating = useFloating({
     ...(isCenter ? { elements: { reference: centerReference } } : {}),
     placement: tooltipPlacement,
     strategy,
-    middleware: isCenter
-      ? [
-          {
-            name: 'center',
-            fn: ({ rects }) => ({
-              x: (window.innerWidth - rects.floating.width) / 2,
-              y: (window.innerHeight - rects.floating.height) / 2,
-            }),
-          },
-        ]
-      : [
-          offset(
-            ({ placement: currentPlacement }) => {
-              const side = currentPlacement.startsWith('top')
-                ? 'top'
-                : currentPlacement.startsWith('bottom')
-                  ? 'bottom'
-                  : currentPlacement.startsWith('left')
-                    ? 'left'
-                    : 'right';
-
-              const padding = step.spotlightTarget ? 0 : step.spotlightPadding[side];
-
-              return step.offset + padding + (step.floatingOptions?.hideArrow ? 0 : step.arrowSize);
-            },
-            [
-              step.offset,
-              step.spotlightPadding,
-              step.spotlightTarget,
-              step.arrowSize,
-              step.floatingOptions?.hideArrow,
-            ],
-          ),
-          ...(isAuto
-            ? [autoPlacement()]
-            : step.floatingOptions?.flipOptions === false
-              ? []
-              : [
-                  flip({
-                    crossAxis: false,
-                    fallbackPlacements: getFallbackPlacements(tooltipPlacement),
-                    padding: 20,
-                    ...step.floatingOptions?.flipOptions,
-                  }),
-                ]),
-          shift({
-            padding: 10,
-            ...boundaryOptions,
-            ...step.floatingOptions?.shiftOptions,
-          }),
-          ...(step.floatingOptions?.hideArrow
-            ? []
-            : [
-                arrow({ element: arrowRef, padding: step.arrowSpacing }, [
-                  step.arrowSpacing,
-                  step.arrowBase,
-                ]),
-              ]),
-          ...(step.floatingOptions?.middleware ?? []),
-        ],
+    middleware: tooltipMiddleware,
   });
 
   const beaconPlacement =
     step.beaconPlacement ?? (isAuto || isCenter ? 'bottom' : (step.placement as FloatingPlacement));
 
+  const beaconMiddleware = useMemo(
+    () => [offset(step.floatingOptions?.beaconOptions?.offset ?? -18)],
+    [step.floatingOptions?.beaconOptions?.offset],
+  );
+
   const beaconFloating = useFloating({
     strategy,
     placement: beaconPlacement,
-    middleware: [offset(step.floatingOptions?.beaconOptions?.offset ?? -18)],
+    middleware: beaconMiddleware,
     whileElementsMounted: autoUpdate,
   });
 
@@ -205,6 +237,7 @@ export default function JoyrideFloater(props: FloaterProps) {
     tooltipFloating.refs.floating,
     tooltipFloating.update,
     step.floatingOptions?.autoUpdate,
+    step.target,
   ]);
 
   // Wire reference element to both floating instances
@@ -256,13 +289,26 @@ export default function JoyrideFloater(props: FloaterProps) {
 
   const zIndex = step.zIndex + 100;
 
-  const handleBeaconInteraction = (event: MouseEvent<HTMLElement>) => {
-    if (event.type === 'mouseenter' && step.beaconTrigger !== 'hover') {
-      return;
-    }
+  const handleBeaconInteraction = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      if (event.type === 'mouseenter' && step.beaconTrigger !== 'hover') {
+        return;
+      }
 
-    updateState({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE, positioned: false });
-  };
+      updateState({ lifecycle: LIFECYCLE.TOOLTIP_BEFORE, positioned: false });
+    },
+    [step.beaconTrigger, updateState],
+  );
+
+  const floaterRef = useCallback(
+    (node: HTMLElement | null) => {
+      if (node) {
+        tooltipFloating.refs.setFloating(node);
+        setTooltipRef(node);
+      }
+    },
+    [tooltipFloating.refs, setTooltipRef],
+  );
 
   const { arrow: arrowStyles, floater: floaterStyles } = step.styles;
   let content: ReactNode = null;
@@ -278,10 +324,7 @@ export default function JoyrideFloater(props: FloaterProps) {
 
     content = (
       <div
-        ref={node => {
-          tooltipFloating.refs.setFloating(node);
-          setTooltipRef(node);
-        }}
+        ref={floaterRef}
         className="react-joyride__floater"
         data-testid="floater"
         id={`react-joyride-step-${index}`}
