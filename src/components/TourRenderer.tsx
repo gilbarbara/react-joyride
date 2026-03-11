@@ -2,7 +2,7 @@ import { type RefObject, useCallback, useEffect } from 'react';
 
 import { usePortalElement } from '~/hooks/usePortalElement';
 import type { MergedProps } from '~/hooks/useTourEngine';
-import { LIFECYCLE, ORIGIN, STATUS } from '~/literals';
+import { ACTIONS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
@@ -69,6 +69,13 @@ export default function TourRenderer({
     return null;
   }
 
+  /*
+  Hide the overlay when the tour starts, and a beacon will be shown.
+  Prevent the overlay from flashing before the beacon is rendered.
+   */
+  const hideOverlay =
+    state.action === ACTIONS.START && !step.disableBeacon && step.placement !== 'center';
+
   return (
     <div className="react-joyride">
       {!state.waiting && (
@@ -88,15 +95,17 @@ export default function TourRenderer({
       <Portal element={element}>
         <>
           {state.waiting && <Loader nonce={nonce} step={step} />}
-          <Overlay
-            {...step}
-            continuous={continuous}
-            debug={debug}
-            lifecycle={lifecycle}
-            onClickOverlay={handleClickOverlay}
-            scrolling={state.scrolling}
-            waiting={state.waiting}
-          />
+          {!hideOverlay && (
+            <Overlay
+              {...step}
+              continuous={continuous}
+              debug={debug}
+              lifecycle={lifecycle}
+              onClickOverlay={handleClickOverlay}
+              scrolling={state.scrolling}
+              waiting={state.waiting}
+            />
+          )}
         </>
       </Portal>
     </div>
