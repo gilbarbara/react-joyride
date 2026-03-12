@@ -62,24 +62,22 @@ export default function JoyrideStep(props: StepProps) {
   }
 
   return (
-    <div className="react-joyride__step">
-      <Floater
-        key={`JoyrideStep-${index}`}
-        continuous={continuous}
-        controls={controls}
-        index={index}
-        lifecycle={lifecycle}
-        nonce={nonce}
-        open={open}
-        portalElement={portalElement}
-        setPositionData={setPositionData}
-        setTooltipRef={setTooltipElement}
-        shouldScroll={shouldScroll}
-        size={size}
-        step={step}
-        target={target}
-        updateState={updateState}
-      />
-    </div>
+    <Floater
+      key={`JoyrideStep-${index}`}
+      continuous={continuous}
+      controls={controls}
+      index={index}
+      lifecycle={lifecycle}
+      nonce={nonce}
+      open={open}
+      portalElement={portalElement}
+      setPositionData={setPositionData}
+      setTooltipRef={setTooltipElement}
+      shouldScroll={shouldScroll}
+      size={size}
+      step={step}
+      target={target}
+      updateState={updateState}
+    />
   );
 }
