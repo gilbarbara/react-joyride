@@ -36,7 +36,6 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   const controlsRef = useRef(controls);
   const pollingRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const pollingTargetRef = useRef<StepTarget | null>(null);
-  const loaderTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const beforeRef = useRef<{ cancel: () => void } | null>(null);
 
   propsRef.current = props;
@@ -56,11 +55,6 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   };
 
   const cleanup = () => {
-    if (loaderTimeoutRef.current) {
-      clearTimeout(loaderTimeoutRef.current);
-      loaderTimeoutRef.current = null;
-    }
-
     if (pollingRef.current) {
       clearInterval(pollingRef.current);
       pollingRef.current = null;
@@ -126,15 +120,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     if (currentStep.before && !beforeRef.current) {
       beforeRef.current = { cancel: () => {} };
 
-      if (currentStep.loaderDelay === 0) {
-        store.current.updateState({ waiting: true });
-      } else {
-        loaderTimeoutRef.current = setTimeout(() => {
-          if (beforeRef.current) {
-            store.current.updateState({ waiting: true });
-          }
-        }, currentStep.loaderDelay);
-      }
+      store.current.updateState({ waiting: true });
 
       propsRef.current.onEvent?.({
         ...getEventData(currentStep),
@@ -152,7 +138,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       };
 
       const abortController = new AbortController();
-      const timeout = currentStep.targetWaitTimeout;
+      const timeout = currentStep.beforeTimeout;
 
       beforeRef.current = { cancel: () => abortController.abort() };
 
@@ -215,23 +201,13 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           waiting: false,
         });
       } else if (!pollingRef.current) {
-        const { loaderDelay, targetWaitTimeout } = currentStep;
+        const { targetWaitTimeout } = currentStep;
 
         const startTime = Date.now();
 
         pollingTargetRef.current = currentStep.target;
 
-        if (targetWaitTimeout > loaderDelay) {
-          if (loaderDelay === 0) {
-            store.current.updateState({ waiting: true });
-          } else {
-            loaderTimeoutRef.current = setTimeout(() => {
-              if (pollingRef.current && stateRef.current.lifecycle === LIFECYCLE.INIT) {
-                store.current.updateState({ waiting: true });
-              }
-            }, loaderDelay);
-          }
-        }
+        store.current.updateState({ waiting: true });
 
         pollingRef.current = setInterval(() => {
           const el = getElement(currentStep.target);

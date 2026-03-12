@@ -25,6 +25,7 @@ const optionFieldNames = [
   'beaconSize',
   'beaconTrigger',
   'before',
+  'beforeTimeout',
   'buttons',
   'closeAction',
   'disableBeacon',

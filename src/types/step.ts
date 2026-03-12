@@ -70,6 +70,7 @@ export type StepMerged = Simplify<
     | 'backgroundColor'
     | 'beaconSize'
     | 'beaconTrigger'
+    | 'beforeTimeout'
     | 'buttons'
     | 'closeAction'
     | 'disableBeacon'

@@ -8,6 +8,7 @@ export const defaultOptions: Required<Omit<Options, 'after' | 'before'>> = {
   backgroundColor: '#ffffff',
   beaconSize: 36,
   beaconTrigger: 'click',
+  beforeTimeout: 5000,
   buttons: ['back', 'close', 'primary'],
   closeAction: 'close',
   disableBeacon: false,

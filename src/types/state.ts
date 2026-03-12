@@ -42,6 +42,6 @@ export type State = {
   size: number;
   /** The tour's current status. */
   status: Status;
-  /** Whether the tour is waiting for a `before` hook or target polling. */
+  /** Whether the tour is blocked waiting for a `before` hook or target to appear. */
   waiting: boolean;
 };

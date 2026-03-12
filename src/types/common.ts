@@ -128,10 +128,15 @@ export interface Options {
   beaconTrigger: 'click' | 'hover';
   /**
    * A hook that runs before the step is shown.
-   * The tour waits for the returned promise to resolve and shows the loader while waiting (after loaderDelay).
-   * Capped by `targetWaitTimeout`.
+   * The tour waits for the returned promise to resolve and shows the loader while waiting (after `loaderDelay`).
+   * Max duration capped by `beforeTimeout`.
    */
   before?: BeforeHook;
+  /**
+   * Max time (ms) to wait for a `before` hook to resolve. 0 = no timeout.
+   * @default 5000
+   */
+  beforeTimeout: number;
   /**
    * The buttons to show in the tooltip.
    * @default ['back', 'close', 'primary']
@@ -175,7 +180,7 @@ export interface Options {
    */
   disableTargetInteraction: boolean;
   /**
-   * Delay (ms) before showing the loader while waiting for a target.
+   * Delay (ms) before showing the loader while the tour is waiting.
    * @default 300
    */
   loaderDelay: number;
