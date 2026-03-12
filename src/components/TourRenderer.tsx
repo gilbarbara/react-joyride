@@ -102,7 +102,7 @@ export default function TourRenderer({
     state.action === ACTIONS.START && !step.disableBeacon && step.placement !== 'center';
 
   return (
-    <div className="react-joyride">
+    <>
       {lifecycle !== LIFECYCLE.INIT && (
         <Step
           {...state}
@@ -133,6 +133,6 @@ export default function TourRenderer({
           )}
         </>
       </Portal>
-    </div>
+    </>
   );
 }
