@@ -37,6 +37,7 @@ export default function useControls(
         lifecycle: LIFECYCLE.COMPLETE,
         positioned: false,
         scrolling: false,
+        waiting: false,
       });
     };
 
@@ -64,6 +65,7 @@ export default function useControls(
         positioned: false,
         scrolling: false,
         status: nextIndex < size ? status : STATUS.FINISHED,
+        waiting: false,
       });
     };
 
@@ -82,6 +84,7 @@ export default function useControls(
         lifecycle: LIFECYCLE.COMPLETE,
         positioned: false,
         scrolling: false,
+        waiting: false,
       });
     };
 
@@ -97,6 +100,7 @@ export default function useControls(
         lifecycle: LIFECYCLE.TOOLTIP_BEFORE,
         positioned: false,
         scrolling: false,
+        waiting: false,
       });
     };
 
@@ -113,6 +117,7 @@ export default function useControls(
         lifecycle: LIFECYCLE.COMPLETE,
         positioned: false,
         scrolling: false,
+        waiting: false,
       });
     };
 
@@ -136,6 +141,7 @@ export default function useControls(
         positioned: false,
         scrolling: false,
         status: restart ? STATUS.RUNNING : STATUS.READY,
+        waiting: false,
       });
     };
 
@@ -153,6 +159,7 @@ export default function useControls(
         positioned: false,
         scrolling: false,
         status: STATUS.SKIPPED,
+        waiting: false,
       });
     };
 
@@ -167,6 +174,7 @@ export default function useControls(
           positioned: false,
           scrolling: false,
           status: size ? STATUS.RUNNING : STATUS.WAITING,
+          waiting: false,
         },
         true,
       );
@@ -186,6 +194,7 @@ export default function useControls(
         positioned: false,
         scrolling: false,
         status: STATUS.PAUSED,
+        waiting: false,
       });
     };
 

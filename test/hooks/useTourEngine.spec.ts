@@ -548,7 +548,7 @@ describe('useTourEngine', () => {
       vi.useRealTimers();
     });
 
-    it('should set waiting flag after loaderDelay', async () => {
+    it('should set waiting flag immediately during polling', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
         {
@@ -575,11 +575,7 @@ describe('useTourEngine', () => {
         result.current.controls.next();
       });
 
-      // COMPLETE→INIT starts polling (target missing)
-      // Before loaderDelay: waiting should be false
-      expect(result.current.state.waiting).toBe(false);
-
-      // After loaderDelay (200ms): waiting becomes true
+      // COMPLETE→INIT starts polling — waiting is set immediately
       await waitFor(() => {
         expect(result.current.state.waiting).toBe(true);
       });
@@ -1384,7 +1380,7 @@ describe('useTourEngine', () => {
       expect(result.current.state.waiting).toBe(false);
     });
 
-    it('should proceed after targetWaitTimeout if async before never resolves', async () => {
+    it('should proceed after beforeTimeout if async before never resolves', async () => {
       const steps: Step[] = [
         { target: '.step-1', content: 'Step 1', disableBeacon: true },
         {
@@ -1393,7 +1389,7 @@ describe('useTourEngine', () => {
           disableBeacon: true,
           before: () => new Promise<void>(() => {}),
           loaderDelay: 100,
-          targetWaitTimeout: 500,
+          beforeTimeout: 500,
         },
       ];
 
@@ -1416,7 +1412,7 @@ describe('useTourEngine', () => {
         expect(result.current.state.waiting).toBe(true);
       });
 
-      // After targetWaitTimeout (500ms), should proceed
+      // After beforeTimeout (500ms), should proceed
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),

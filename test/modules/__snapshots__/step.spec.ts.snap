@@ -9,6 +9,7 @@ exports[`step > getMergedStep > should allow options to override defaultStep 1`]
   "backgroundColor": "#ffffff",
   "beaconSize": 36,
   "beaconTrigger": "click",
+  "beforeTimeout": 5000,
   "buttons": [
     "back",
     "close",
@@ -222,6 +223,7 @@ exports[`step > getMergedStep > should allow step props to override options 1`] 
   "backgroundColor": "#ffffff",
   "beaconSize": 36,
   "beaconTrigger": "click",
+  "beforeTimeout": 5000,
   "buttons": [
     "back",
     "close",
@@ -590,6 +592,7 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "backgroundColor": "#ffffff",
   "beaconSize": 36,
   "beaconTrigger": "click",
+  "beforeTimeout": 5000,
   "buttons": [
     "back",
     "close",
@@ -824,6 +827,7 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "backgroundColor": "#ffffff",
   "beaconSize": 36,
   "beaconTrigger": "click",
+  "beforeTimeout": 5000,
   "buttons": [
     "back",
     "close",
@@ -1037,6 +1041,7 @@ exports[`step > getMergedStep > should preserve unset options defaults when part
   "backgroundColor": "#ffffff",
   "beaconSize": 36,
   "beaconTrigger": "click",
+  "beforeTimeout": 5000,
   "buttons": [
     "back",
     "close",

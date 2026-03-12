@@ -1,4 +1,4 @@
-import { type RefObject, useCallback, useEffect } from 'react';
+import { type RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 import { usePortalElement } from '~/hooks/usePortalElement';
 import type { MergedProps } from '~/hooks/useTourEngine';
@@ -34,6 +34,31 @@ export default function TourRenderer({
 
   const { index, lifecycle, status } = state;
   const isRunning = status === STATUS.RUNNING;
+
+  const [showLoader, setShowLoader] = useState(false);
+  const loaderTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const loaderDelay = step?.loaderDelay ?? 0;
+
+  useEffect(() => {
+    if (state.waiting) {
+      if (loaderDelay === 0) {
+        setShowLoader(true);
+      } else {
+        loaderTimerRef.current = setTimeout(() => {
+          setShowLoader(true);
+        }, loaderDelay);
+      }
+    } else {
+      setShowLoader(false);
+    }
+
+    return () => {
+      if (loaderTimerRef.current) {
+        clearTimeout(loaderTimerRef.current);
+        loaderTimerRef.current = null;
+      }
+    };
+  }, [loaderDelay, state.waiting]);
 
   useEffect(() => {
     if (!isRunning) {
@@ -78,7 +103,7 @@ export default function TourRenderer({
 
   return (
     <div className="react-joyride">
-      {!state.waiting && (
+      {lifecycle !== LIFECYCLE.INIT && (
         <Step
           {...state}
           continuous={continuous}
@@ -94,7 +119,7 @@ export default function TourRenderer({
       )}
       <Portal element={element}>
         <>
-          {state.waiting && <Loader nonce={nonce} step={step} />}
+          {showLoader && <Loader nonce={nonce} step={step} />}
           {!hideOverlay && (
             <Overlay
               {...step}

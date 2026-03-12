@@ -247,7 +247,7 @@ describe('useLifecycleEffect', () => {
       );
     });
 
-    it('should set waiting after loaderDelay during polling', async () => {
+    it('should set waiting immediately during polling', async () => {
       vi.mocked(getElement).mockReturnValue(null);
 
       const store = createMockStore();
@@ -267,10 +267,6 @@ describe('useLifecycleEffect', () => {
       });
 
       rerender({ ...options, state: state2, previousState: state1 });
-
-      expect(store.current.updateState).not.toHaveBeenCalledWith({ waiting: true });
-
-      await new Promise(resolve => setTimeout(resolve, 150));
 
       expect(store.current.updateState).toHaveBeenCalledWith({ waiting: true });
     });
@@ -312,7 +308,7 @@ describe('useLifecycleEffect', () => {
 
       const step = createStep({
         disableBeacon: true,
-        targetWaitTimeout: 5000,
+        beforeTimeout: 5000,
         before: () => hookPromise,
       });
 
@@ -345,7 +341,7 @@ describe('useLifecycleEffect', () => {
       const error = new Error('hook failed');
       const step = createStep({
         disableBeacon: true,
-        targetWaitTimeout: 5000,
+        beforeTimeout: 5000,
         before: () => Promise.reject(error),
       });
 
@@ -378,7 +374,7 @@ describe('useLifecycleEffect', () => {
       const props = createMergedProps();
       const step = createStep({
         disableBeacon: true,
-        targetWaitTimeout: 5000,
+        beforeTimeout: 5000,
         before: () => Promise.reject(new Error('string error')),
       });
 
@@ -408,7 +404,7 @@ describe('useLifecycleEffect', () => {
       const props = createMergedProps();
       const step = createStep({
         disableBeacon: true,
-        targetWaitTimeout: 200,
+        beforeTimeout: 200,
         before: () => new Promise<void>(() => {}),
       });
 
@@ -449,7 +445,7 @@ describe('useLifecycleEffect', () => {
 
       const step = createStep({
         disableBeacon: true,
-        targetWaitTimeout: 5000,
+        beforeTimeout: 5000,
         before: () => hookPromise,
       });
 
@@ -464,8 +460,6 @@ describe('useLifecycleEffect', () => {
       );
 
       rerender({ ...options, state: state2, previousState: state1 });
-
-      await new Promise(resolve => setTimeout(resolve, 350));
 
       expect(store.current.updateState).toHaveBeenCalledWith({ waiting: true });
 

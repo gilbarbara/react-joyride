@@ -22,7 +22,7 @@ export type EventData = Simplify<
      */
     type: Events;
     /**
-     * Whether the tour is waiting for a before hook or target polling.
+     * Whether the tour is blocked waiting for a before hook or target to appear.
      */
     waiting: boolean;
   }
