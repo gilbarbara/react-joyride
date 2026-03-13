@@ -25,7 +25,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
   const { interactions, mockAfter, mockBefore, mockOnEvent } = options;
   const getEventResponse = eventResponseFactory({ size: 7 });
 
-  // ─── TOUR 1: ends in SKIPPED via closeAction ───
+  // ─── TOUR 1: ends in SKIPPED via closeButtonAction ───
 
   test('should render the content', () => {
     expect(screen.getByTestId('demo')).toMatchSnapshot();
@@ -369,7 +369,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
     );
   });
 
-  test('should advance STEP 2 via overlay click (overlayClickBehavior: next)', () => {
+  test('should advance STEP 2 via overlay click (overlayClickAction: next)', () => {
     if (interactions.supportsUIGuards) {
       fireEvent.click(screen.getByTestId('spotlight').querySelector('path')!);
     } else {
@@ -507,7 +507,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
   });
 
   if (interactions.supportsUIGuards) {
-    test('should not close STEP 4 Tooltip with keyboard (disableCloseOnEsc)', () => {
+    test('should not close STEP 4 Tooltip with keyboard (dismissKeyAction: false)', () => {
       act(() => {
         document.body.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
       });
@@ -515,14 +515,14 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
 
-    test('should not close STEP 4 Tooltip on overlay click (overlayClickBehavior: false)', () => {
+    test('should not close STEP 4 Tooltip on overlay click (overlayClickAction: false)', () => {
       fireEvent.click(screen.getByTestId('spotlight').querySelector('path')!);
 
       expect(screen.getByRole('alertdialog')).toBeInTheDocument();
     });
   }
 
-  test('should skip the tour via close button (closeAction: skip)', async () => {
+  test('should skip the tour via close button (closeButtonAction: skip)', async () => {
     interactions.skip('button_close');
 
     await waitFor(() => {

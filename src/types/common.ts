@@ -148,17 +148,12 @@ export interface Options {
    * - `'skip'`: Ends the tour entirely.
    * @default 'close'
    */
-  closeAction: 'close' | 'skip';
+  closeButtonAction: 'close' | 'skip';
   /**
    * Don't show the Beacon before the tooltip.
    * @default false
    */
   disableBeacon: boolean;
-  /**
-   * Disable closing the tooltip on ESC.
-   * @default false
-   */
-  disableCloseOnEsc: boolean;
   /**
    * Disable the focus trap for the tooltip.
    * @default false
@@ -180,6 +175,14 @@ export interface Options {
    */
   disableTargetInteraction: boolean;
   /**
+   * The action to take when the ESC key is pressed.
+   * - `'close'`: Closes the step (shows beacon on next step in continuous mode).
+   * - `'next'`: Advances to the next step (skips beacon in continuous mode).
+   * - `false`: Disables ESC key.
+   * @default 'close'
+   */
+  dismissKeyAction: 'close' | 'next' | false;
+  /**
    * Delay (ms) before showing the loader while the tour is waiting.
    * @default 300
    */
@@ -196,7 +199,7 @@ export interface Options {
    * - `false`: Disables overlay click.
    * @default 'close'
    */
-  overlayClickBehavior: 'close' | 'next' | false;
+  overlayClickAction: 'close' | 'next' | false;
   /**
    * Overlay backdrop color.
    * @default '#00000080'

@@ -70,8 +70,12 @@ export default function TourRenderer({
         return;
       }
 
-      if (event.key === 'Escape' && !step.disableCloseOnEsc) {
-        controls.close(ORIGIN.KEYBOARD);
+      if (event.key === 'Escape' && step.dismissKeyAction) {
+        if (step.dismissKeyAction === 'next') {
+          controls.next();
+        } else {
+          controls.close(ORIGIN.KEYBOARD);
+        }
       }
     };
 
@@ -83,12 +87,12 @@ export default function TourRenderer({
   }, [controls, isRunning, lifecycle, step]);
 
   const handleClickOverlay = useCallback(() => {
-    if (step?.overlayClickBehavior === 'close') {
+    if (step?.overlayClickAction === 'close') {
       controls.close(ORIGIN.OVERLAY);
-    } else if (step?.overlayClickBehavior === 'next') {
+    } else if (step?.overlayClickAction === 'next') {
       controls.next();
     }
-  }, [controls, step?.overlayClickBehavior]);
+  }, [controls, step?.overlayClickAction]);
 
   if (!step || !isRunning) {
     return null;
