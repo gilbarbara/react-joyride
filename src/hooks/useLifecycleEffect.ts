@@ -115,6 +115,24 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       };
     }
 
+    // Fire tour:start before any step processing when status just changed to RUNNING
+    const { hasChangedTo: hasStatusChangedTo } = treeChanges(
+      stateRef.current,
+      previousStateRef.current,
+    );
+
+    if (
+      hasStatusChangedTo('status', STATUS.RUNNING) &&
+      ([STATUS.IDLE, STATUS.READY, STATUS.PAUSED] as string[]).includes(
+        previousStateRef.current.status,
+      )
+    ) {
+      propsRef.current.onEvent?.({
+        ...getEventData(currentStep),
+        type: EVENTS.TOUR_START,
+      });
+    }
+
     store.current.cleanupPositionData();
 
     if (currentStep.before && !beforeRef.current) {
@@ -476,16 +494,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       lastAction.current = null;
     }
 
-    if (
-      currentStep &&
-      hasChangedTo('status', STATUS.RUNNING) &&
-      ([STATUS.IDLE, STATUS.READY, STATUS.PAUSED] as string[]).includes(previous.status)
-    ) {
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.TOUR_START,
-      });
-    }
+    // tour:start is emitted in Effect 2 (before step processing) to ensure correct event order
 
     if (currentStep && hasChangedTo('action', ACTIONS.STOP)) {
       lastAction.current = null;

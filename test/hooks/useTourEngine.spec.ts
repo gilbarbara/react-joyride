@@ -1477,4 +1477,207 @@ describe('useTourEngine', () => {
       expect(afterFn).toHaveBeenCalled();
     });
   });
+
+  describe('event ordering', () => {
+    it('should fire tour:start before step:before_hook when first step has before hook', async () => {
+      const steps: Step[] = [
+        {
+          target: '.step-1',
+          content: 'Step 1',
+          disableBeacon: true,
+          before: () => Promise.resolve(),
+        },
+      ];
+
+      renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledTimes(4);
+      });
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        1,
+        getEventResponse({
+          action: ACTIONS.START,
+          index: 0,
+          lifecycle: LIFECYCLE.INIT,
+          size: 1,
+          type: EVENTS.TOUR_START,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        2,
+        getEventResponse({
+          action: ACTIONS.START,
+          index: 0,
+          lifecycle: LIFECYCLE.INIT,
+          size: 1,
+          type: EVENTS.STEP_BEFORE_HOOK,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        3,
+        getEventResponse({
+          action: ACTIONS.START,
+          index: 0,
+          lifecycle: LIFECYCLE.READY,
+          size: 1,
+          type: EVENTS.STEP_BEFORE,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        4,
+        getEventResponse({
+          action: ACTIONS.UPDATE,
+          index: 0,
+          lifecycle: LIFECYCLE.TOOLTIP,
+          size: 1,
+          type: EVENTS.TOOLTIP,
+        }),
+      );
+    });
+
+    it('should fire step:after and step:after_hook before tour:end on last step', async () => {
+      const afterFn = vi.fn();
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOUR_END }),
+        );
+      });
+
+      const calls = mockOnEvent.mock.calls.map((call: any[]) => call[0]?.type);
+      const stepAfterIndex = calls.indexOf(EVENTS.STEP_AFTER);
+      const stepAfterHookIndex = calls.indexOf(EVENTS.STEP_AFTER_HOOK);
+      const tourEndIndex = calls.indexOf(EVENTS.TOUR_END);
+
+      expect(stepAfterIndex).toBeGreaterThanOrEqual(0);
+      expect(stepAfterHookIndex).toBeGreaterThan(stepAfterIndex);
+      expect(tourEndIndex).toBeGreaterThan(stepAfterHookIndex);
+
+      expect(afterFn).toHaveBeenCalled();
+    });
+
+    it('should not fire step:after on skip (status is already SKIPPED)', async () => {
+      const afterFn = vi.fn();
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
+        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+      mockOnEvent.mockClear();
+
+      act(() => {
+        result.current.controls.skip();
+      });
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.SKIPPED }),
+        );
+      });
+
+      const calls = mockOnEvent.mock.calls.map((call: any[]) => call[0]?.type);
+
+      expect(calls).not.toContain(EVENTS.STEP_AFTER);
+      expect(calls).not.toContain(EVENTS.STEP_AFTER_HOOK);
+      expect(afterFn).not.toHaveBeenCalled();
+    });
+
+    it('should fire tour:start before step:before_hook on stop/start resume', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        {
+          target: '.step-2',
+          content: 'Step 2',
+          disableBeacon: true,
+          before: () => Promise.resolve(),
+        },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+        );
+      });
+
+      act(() => {
+        result.current.controls.stop();
+      });
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOUR_STATUS, status: STATUS.PAUSED }),
+        );
+      });
+
+      mockOnEvent.mockClear();
+
+      act(() => {
+        result.current.controls.start();
+      });
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledTimes(4);
+      });
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        1,
+        expect.objectContaining({
+          action: ACTIONS.START,
+          type: EVENTS.TOUR_START,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.INIT,
+          type: EVENTS.STEP_BEFORE_HOOK,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        3,
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.READY,
+          type: EVENTS.STEP_BEFORE,
+        }),
+      );
+
+      expect(mockOnEvent).toHaveBeenNthCalledWith(
+        4,
+        expect.objectContaining({
+          lifecycle: LIFECYCLE.TOOLTIP,
+          type: EVENTS.TOOLTIP,
+        }),
+      );
+    });
+  });
 });
