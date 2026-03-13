@@ -55,6 +55,22 @@ describe('Loader', () => {
     expect(document.getElementById('joyride-loader-animation')).not.toBeInTheDocument();
   });
 
+  it('should render with custom loader styles', () => {
+    const customStep = createStep({
+      styles: { loader: { backgroundColor: 'rgba(0, 0, 0, 0.5)', height: 64, width: 64 } } as any,
+    });
+
+    render(<Loader step={customStep} />);
+
+    const loader = screen.getByTestId('loader');
+
+    expect(loader).toHaveStyle({ backgroundColor: 'rgba(0, 0, 0, 0.5)' });
+
+    const spinner = loader.firstElementChild;
+
+    expect(spinner).toHaveStyle({ height: '64px', width: '64px' });
+  });
+
   it('should not render when loaderComponent is "null"', () => {
     render(<Loader step={{ ...step, loaderComponent: null }} />);
 

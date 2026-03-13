@@ -6,24 +6,11 @@ import type { LoaderRenderProps, Props, Simplify } from '~/types';
 
 type LoaderProps = Simplify<Pick<Props, 'nonce'> & LoaderRenderProps>;
 
-const loaderStyles: Record<string, CSSProperties> = {
-  wrapper: {
-    alignItems: 'center',
-    display: 'flex',
-    inset: 0,
-    justifyContent: 'center',
-    pointerEvents: 'none',
-    position: 'fixed',
-    zIndex: 10001,
-  },
-  spinner: {
-    animation: 'joyride-loader-spin 1s linear infinite',
-    border: '5px solid rgba(0, 0, 0, 0.1)',
-    borderRadius: '50%',
-    borderTopColor: '#555',
-    height: 48,
-    width: 48,
-  },
+const spinnerStyles: CSSProperties = {
+  animation: 'joyride-loader-spin 1s linear infinite',
+  border: '5px solid rgba(0, 0, 0, 0.1)',
+  borderRadius: '50%',
+  borderTopColor: '#555',
 };
 
 export default function JoyrideLoader({ nonce, step }: LoaderProps) {
@@ -71,6 +58,8 @@ export default function JoyrideLoader({ nonce, step }: LoaderProps) {
     return null;
   }
 
+  const { height, width, ...loaderStyle } = step.styles.loader;
+
   let content;
 
   if (loaderComponent) {
@@ -78,11 +67,13 @@ export default function JoyrideLoader({ nonce, step }: LoaderProps) {
 
     content = <CustomLoader step={step} />;
   } else {
-    content = <div style={{ ...loaderStyles.spinner, borderTopColor: step.primaryColor }} />;
+    content = (
+      <div style={{ ...spinnerStyles, height, width, borderTopColor: step.primaryColor }} />
+    );
   }
 
   return (
-    <div className="react-joyride__loader" data-testid="loader" style={loaderStyles.wrapper}>
+    <div className="react-joyride__loader" data-testid="loader" style={loaderStyle}>
       {content}
     </div>
   );
