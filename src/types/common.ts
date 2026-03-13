@@ -285,6 +285,8 @@ export interface Styles {
   buttonSkip: CSSProperties;
   /** Floating container styles. */
   floater: CSSProperties;
+  /** Loader wrapper styles. */
+  loader: CSSProperties;
   /** Overlay backdrop styles. */
   overlay: CSSProperties;
   /** Tooltip wrapper styles. */

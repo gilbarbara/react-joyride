@@ -18,7 +18,7 @@ exports[`Loader > should render the loader with spinner 1`] = `
 <div
   class="react-joyride__loader"
   data-testid="loader"
-  style="align-items: center; display: flex; inset: 0px; justify-content: center; pointer-events: none; position: fixed; z-index: 10001;"
+  style="align-items: center; display: flex; inset: 0px; justify-content: center; pointer-events: none; position: fixed; z-index: 101;"
 >
   <div
     style="animation: joyride-loader-spin 1s linear infinite; border-width: 5px; border-style: solid; border-color: rgb(0, 0, 0) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1); border-image: none; border-radius: 50%; height: 48px; width: 48px;"

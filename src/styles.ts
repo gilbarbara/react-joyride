@@ -117,6 +117,17 @@ export default function getStyles(props: Props, step: StepMerged) {
       maxWidth: '100%',
       transition: 'opacity 0.3s',
     },
+    loader: {
+      alignItems: 'center',
+      display: 'flex',
+      height: 48,
+      inset: 0,
+      justifyContent: 'center',
+      pointerEvents: 'none',
+      position: 'fixed',
+      width: 48,
+      zIndex: step.zIndex + 1,
+    },
     overlay: {
       ...overlay,
       backgroundColor: step.overlayColor,
