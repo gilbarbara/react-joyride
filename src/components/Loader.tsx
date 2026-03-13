@@ -2,7 +2,9 @@ import { type CSSProperties, useEffect } from 'react';
 
 import { noop } from '~/modules/helpers';
 
-import type { LoaderRenderProps } from '~/types';
+import type { LoaderRenderProps, Props, Simplify } from '~/types';
+
+type LoaderProps = Simplify<Pick<Props, 'nonce'> & LoaderRenderProps>;
 
 const loaderStyles: Record<string, CSSProperties> = {
   wrapper: {
@@ -24,7 +26,7 @@ const loaderStyles: Record<string, CSSProperties> = {
   },
 };
 
-export default function JoyrideLoader({ nonce, step }: LoaderRenderProps) {
+export default function JoyrideLoader({ nonce, step }: LoaderProps) {
   const { loaderComponent } = step;
 
   const hasLoaderComponent = Boolean(loaderComponent);

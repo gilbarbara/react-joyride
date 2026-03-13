@@ -1,15 +1,21 @@
-import type { ReactElement } from 'react';
+import type { ElementType, ReactElement } from 'react';
 
-import type { Options } from './common';
-import type { BaseProps } from './components';
+import type {
+  ArrowRenderProps,
+  BeaconRenderProps,
+  LoaderRenderProps,
+  TooltipRenderProps,
+} from '~/types/components';
+import type { FloatingOptions } from '~/types/floating';
+
+import type { Locale, Options, Styles } from './common';
 import type { EventHandler } from './events';
 import type { Controls, State } from './state';
 import type { SelectorOrElement, Step, StepMerged } from './step';
-import type { Simplify } from './utilities';
+import type { PartialDeep, Simplify } from './utilities';
 
-/** Props for the Joyride component. */
 export type Props = Simplify<
-  BaseProps & {
+  SharedProps & {
     /**
      * The tour is played sequentially with the Next button.
      * @default false
@@ -63,6 +69,37 @@ export type Props = Simplify<
     steps: Array<Step>;
   }
 >;
+/** Shared configuration inherited by both `Props` and `Step`. */
+export type SharedProps = {
+  /**
+   * Custom Arrow component.
+   */
+  arrowComponent?: ElementType<ArrowRenderProps>;
+  /**
+   * Custom Beacon component.
+   */
+  beaconComponent?: ElementType<BeaconRenderProps>;
+  /**
+   * Options for the floating tooltip positioning.
+   */
+  floatingOptions?: Partial<FloatingOptions>;
+  /**
+   * Custom Loader component. Set to `null` to disable.
+   */
+  loaderComponent?: ElementType<LoaderRenderProps> | null;
+  /**
+   * The strings used in the tooltip.
+   */
+  locale?: Locale;
+  /**
+   * Override the styling of the Tooltip.
+   */
+  styles?: PartialDeep<Styles>;
+  /**
+   * Custom Tooltip component.
+   */
+  tooltipComponent?: ElementType<TooltipRenderProps>;
+};
 
 /** Return value of the `useJoyride` hook. */
 export type UseJoyrideReturn = {

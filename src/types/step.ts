@@ -1,7 +1,8 @@
 import type { ReactNode, RefObject } from 'react';
 
+import type { SharedProps } from '~/types/props';
+
 import type { Options, Placement, SpotlightPadding, Styles } from './common';
-import type { BaseProps } from './components';
 import type { SetRequired, Simplify } from './utilities';
 
 /** A CSS selector string, an HTMLElement, or null. */
@@ -9,7 +10,7 @@ export type SelectorOrElement = string | null | HTMLElement;
 
 /** A single step in the tour, provided by the user. */
 export type Step = Simplify<
-  BaseProps &
+  SharedProps &
     Partial<Options> & {
       /**
        * The placement of the beacon. It will use the `placement` if nothing is passed.
@@ -100,7 +101,6 @@ export type StepMerged = Simplify<
   }
 >;
 
-/** The element to highlight. Accepts a CSS selector, HTMLElement, React ref, or function. */
 export type StepTarget =
   | string
   | HTMLElement
