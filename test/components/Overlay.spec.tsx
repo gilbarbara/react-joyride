@@ -116,8 +116,8 @@ describe('Overlay', () => {
     document.body.removeChild(spotlightElement);
   });
 
-  it('should set cursor to default when overlayClickBehavior is false', () => {
-    render(<Overlay {...createProps({ overlayClickBehavior: false })} />);
+  it('should set cursor to default when overlayClickAction is false', () => {
+    render(<Overlay {...createProps({ overlayClickAction: false })} />);
 
     const path = screen.getByTestId('spotlight').querySelector('path')! as SVGPathElement;
 

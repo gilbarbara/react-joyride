@@ -5,7 +5,7 @@ export const standardSteps: Array<Step> = [
     target: '.projects h2 span',
     placement: 'bottom',
     content: 'The first step of many! Keep walking!',
-    overlayClickBehavior: 'next',
+    overlayClickAction: 'next',
   },
   {
     target: '.mission h2 span',
@@ -16,9 +16,9 @@ export const standardSteps: Array<Step> = [
   {
     target: '.about h2 span',
     placement: 'bottom',
-    disableCloseOnEsc: true,
-    overlayClickBehavior: false,
-    closeAction: 'skip',
+    dismissKeyAction: false,
+    overlayClickAction: false,
+    closeButtonAction: 'skip',
     content: (
       <div>
         <h3>We are the people</h3>
