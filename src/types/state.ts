@@ -17,7 +17,7 @@ export type Controls = {
   /** Reset the tour. Optionally restart from the beginning. */
   reset: (restart?: boolean) => void;
   /** Skip the tour entirely. */
-  skip: (origin?: Extract<Origin, 'button_close' | 'button_skip'>) => void;
+  skip: (origin?: Extract<Origin, 'button_close' | 'button_skip'> | null) => void;
   /** Start the tour at an optional step index. */
   start: (nextIndex?: number) => void;
   /** Stop the tour. Optionally advance to the next step before stopping. */

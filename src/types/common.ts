@@ -108,7 +108,7 @@ export interface Options {
   arrowSize: number;
   /**
    * The distance between the arrow and the edge of the tooltip.
-   * @default 5
+   * @default 12
    */
   arrowSpacing: number;
   /**
@@ -204,7 +204,7 @@ export interface Options {
   overlayColor: string;
   /**
    * Primary button and beacon color.
-   * @default '#ff0044'
+   * @default '#000000'
    */
   primaryColor: string;
   /**
@@ -240,7 +240,7 @@ export interface Options {
   targetWaitTimeout: number;
   /**
    * Tooltip text color.
-   * @default '#333333'
+   * @default '#000000'
    */
   textColor: string;
   /**

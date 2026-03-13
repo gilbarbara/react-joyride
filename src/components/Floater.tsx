@@ -25,7 +25,7 @@ import { getScrollParent, hasCustomScrollParent, hasPosition } from '~/modules/d
 import { sortObjectKeys } from '~/modules/helpers';
 import type { StoreState } from '~/modules/store';
 
-import type { Controls, Lifecycle, Placement, PositionData, StepMerged } from '~/types';
+import type { Controls, Lifecycle, PositionData, StepMerged } from '~/types';
 
 import Arrow from './Arrow';
 import Beacon from './Beacon';
@@ -255,7 +255,7 @@ export default function JoyrideFloater(props: FloaterProps) {
   useEffect(() => {
     if (tooltipFloating.isPositioned) {
       setPositionData('tooltip', {
-        placement: tooltipFloating.placement as Placement,
+        placement: tooltipFloating.placement,
         x: tooltipFloating.x ?? 0,
         y: tooltipFloating.y ?? 0,
         middlewareData: tooltipMiddlewareRef.current,
@@ -273,7 +273,7 @@ export default function JoyrideFloater(props: FloaterProps) {
   useEffect(() => {
     if (beaconFloating.isPositioned) {
       setPositionData('beacon', {
-        placement: beaconFloating.placement as Placement,
+        placement: beaconFloating.placement,
         x: beaconFloating.x ?? 0,
         y: beaconFloating.y ?? 0,
         middlewareData: beaconMiddlewareRef.current,

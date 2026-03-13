@@ -1,11 +1,10 @@
-import type { ElementType, MouseEventHandler } from 'react';
+import type { MouseEventHandler } from 'react';
 
 import type { Controls } from '~/types/state';
 
-import type { Locale, Placement, Styles } from './common';
-import type { FloatingOptions } from './floating';
+import type { Placement } from './common';
 import type { StepMerged } from './step';
-import type { PartialDeep, Simplify } from './utilities';
+import type { Simplify } from './utilities';
 
 /** Props passed to a custom arrow component. */
 export type ArrowRenderProps = {
@@ -15,38 +14,6 @@ export type ArrowRenderProps = {
   placement: Placement;
   /** Height of the arrow in pixels. */
   size: number;
-};
-
-/** Shared configuration inherited by both `Props` and `Step`. */
-export type BaseProps = {
-  /**
-   * Custom Arrow component.
-   */
-  arrowComponent?: ElementType<ArrowRenderProps>;
-  /**
-   * Custom Beacon component.
-   */
-  beaconComponent?: ElementType<BeaconRenderProps>;
-  /**
-   * Options for the floating tooltip positioning.
-   */
-  floatingOptions?: Partial<FloatingOptions>;
-  /**
-   * Custom Loader component. Set to `null` to disable.
-   */
-  loaderComponent?: ElementType<LoaderRenderProps> | null;
-  /**
-   * The strings used in the tooltip.
-   */
-  locale?: Locale;
-  /**
-   * Override the styling of the Tooltip.
-   */
-  styles?: PartialDeep<Styles>;
-  /**
-   * Custom Tooltip component.
-   */
-  tooltipComponent?: ElementType<TooltipRenderProps>;
 };
 
 /** Props passed to a custom beacon component.
@@ -67,8 +34,6 @@ export type BeaconRenderProps = {
 
 /** Props passed to a custom loader component. */
 export type LoaderRenderProps = {
-  /** CSP nonce for inline styles. */
-  nonce?: string;
   /** The current step data. */
   step: StepMerged;
 };
