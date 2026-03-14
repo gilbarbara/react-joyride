@@ -15,6 +15,7 @@ export default [
           additionalHooks: '(use.*Effect.*)',
         },
       ],
+      'react-refresh/only-export-components': 'off',
     },
   },
   {

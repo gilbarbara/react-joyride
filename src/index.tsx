@@ -17,9 +17,7 @@ export default function ReactJoyride(props: Props) {
   return <Joyride {...props} />;
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+export { defaultLocale, defaultOptions } from './defaults';
 export * from './literals';
-// eslint-disable-next-line react-refresh/only-export-components
 export * from './types';
-// eslint-disable-next-line react-refresh/only-export-components
 export { default as useJoyride } from '~/hooks/useJoyride';
