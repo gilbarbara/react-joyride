@@ -3,6 +3,7 @@ import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gil
 
 import { defaultProps } from '~/defaults';
 import useControls from '~/hooks/useControls';
+import useEventEmitter from '~/hooks/useEventEmitter';
 import useLifecycleEffect from '~/hooks/useLifecycleEffect';
 import usePropSync from '~/hooks/usePropSync';
 import useScrollEffect from '~/hooks/useScrollEffect';
@@ -36,6 +37,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   );
 
   const controls = useControls(store, debug);
+  const emitEvent = useEventEmitter(onEvent, controls, store);
 
   const { index, size, status } = state;
 
@@ -57,7 +59,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
 
   usePropSync({
     controls,
-    onEvent,
+    emitEvent,
     props: mergedProps,
     state,
     store,
@@ -65,6 +67,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
 
   useLifecycleEffect({
     controls,
+    emitEvent,
     previousState,
     props: mergedProps,
     state,
@@ -73,7 +76,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   });
 
   useScrollEffect({
-    onEvent,
+    emitEvent,
     previousState,
     props: mergedProps,
     state,

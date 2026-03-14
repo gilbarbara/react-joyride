@@ -1,7 +1,7 @@
 import useJoyride from '~/hooks/useJoyride';
-import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, isElementVisible, scrollTo } from '~/modules/dom';
-import { act, eventResponseFactory, renderHook, waitFor } from '~/test-utils';
+import { act, eventResponseFactory, expectControls, renderHook, waitFor } from '~/test-utils';
 
 import type { Step } from '~/types';
 
@@ -229,8 +229,9 @@ describe('useJoyride', () => {
         expect.objectContaining({
           action: ACTIONS.SKIP,
           status: STATUS.SKIPPED,
-          type: 'tour:end',
+          type: EVENTS.TOUR_END,
         }),
+        expectControls(),
       );
     });
 
@@ -316,8 +317,9 @@ describe('useJoyride', () => {
           action: ACTIONS.START,
           index: 0,
           lifecycle: LIFECYCLE.INIT,
-          type: 'tour:start',
+          type: EVENTS.TOUR_START,
         }),
+        expect.any(Object),
       );
     });
   });

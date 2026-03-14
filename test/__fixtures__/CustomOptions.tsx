@@ -1,4 +1,4 @@
-import Joyride, { type EventData, type Props, STATUS, type Step } from '~/index';
+import Joyride, { type Props, STATUS, type Step } from '~/index';
 import { hexToRGB } from '~/modules/helpers';
 
 interface CustomOptionsProps extends Omit<Props, 'steps'> {
@@ -62,8 +62,8 @@ const tourSteps: Array<Step> = [
 export default function CustomOptions(props: CustomOptionsProps) {
   const { finishedCallback, onEvent, ...rest } = props;
 
-  const handleEvent = (data: EventData) => {
-    onEvent?.(data);
+  const handleEvent: Props['onEvent'] = (data, controls) => {
+    onEvent?.(data, controls);
 
     if (data.status === STATUS.FINISHED) {
       finishedCallback();

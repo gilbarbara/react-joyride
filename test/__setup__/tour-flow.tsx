@@ -2,7 +2,14 @@ import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/index';
 
 import type { Origin } from '~/types';
 
-import { act, eventResponseFactory, fireEvent, screen, waitFor } from './test-utils';
+import {
+  act,
+  eventResponseFactory,
+  expectControls,
+  fireEvent,
+  screen,
+  waitFor,
+} from './test-utils';
 
 interface TourFlowOptions {
   interactions: TourInteractions;
@@ -44,6 +51,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.INIT,
         type: EVENTS.TOUR_START,
       }),
+      expectControls(),
     );
   });
 
@@ -60,6 +68,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -70,6 +79,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
+      expectControls(),
     );
 
     expect(screen.queryById('react-joyride-step-0-beacon')).not.toBeInTheDocument();
@@ -100,6 +110,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.COMPLETE,
         type: EVENTS.STEP_AFTER,
       }),
+      expectControls(),
     );
   });
 
@@ -116,6 +127,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -128,6 +140,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_START,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -140,6 +153,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_END,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -150,6 +164,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
+      expectControls(),
     );
 
     await waitFor(() => {
@@ -173,6 +188,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         origin: 'keyboard',
         type: EVENTS.STEP_AFTER,
       }),
+      expectControls(),
     );
   });
 
@@ -191,7 +207,9 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         index: 2,
         lifecycle: LIFECYCLE.INIT,
         type: EVENTS.STEP_BEFORE_HOOK,
+        waiting: true,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -202,6 +220,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -214,6 +233,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_START,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -226,6 +246,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_END,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -236,6 +257,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.BEACON,
         type: EVENTS.BEACON,
       }),
+      expectControls(),
     );
   });
 
@@ -260,6 +282,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_START,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -272,6 +295,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_END,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -282,6 +306,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
+      expectControls(),
     );
   });
 
@@ -296,6 +321,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.COMPLETE,
         type: EVENTS.STEP_AFTER,
       }),
+      expectControls(),
     );
 
     expect(mockAfter).toHaveBeenCalledTimes(1);
@@ -308,6 +334,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.COMPLETE,
         type: EVENTS.STEP_AFTER_HOOK,
       }),
+      expectControls(),
     );
   });
 
@@ -332,6 +359,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -344,6 +372,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_START,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -356,6 +385,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_END,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -366,6 +396,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
+      expectControls(),
     );
   });
 
@@ -385,6 +416,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         origin: null,
         type: EVENTS.STEP_AFTER,
       }),
+      expectControls(),
     );
   });
 
@@ -402,7 +434,9 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         index: 2,
         lifecycle: LIFECYCLE.INIT,
         type: EVENTS.STEP_BEFORE_HOOK,
+        waiting: true,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -413,6 +447,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.READY,
         type: EVENTS.STEP_BEFORE,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -425,6 +460,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_START,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -437,6 +473,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         scrolling: true,
         type: EVENTS.SCROLL_END,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -447,6 +484,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         lifecycle: LIFECYCLE.TOOLTIP,
         type: EVENTS.TOOLTIP,
       }),
+      expectControls(),
     );
 
     await waitFor(() => {
@@ -470,6 +508,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         origin: 'overlay',
         type: EVENTS.STEP_AFTER,
       }),
+      expectControls(),
     );
 
     expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -481,6 +520,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         origin: 'overlay',
         type: EVENTS.STEP_AFTER_HOOK,
       }),
+      expectControls(),
     );
 
     expect(mockAfter).toHaveBeenCalledTimes(2);
@@ -538,6 +578,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         status: STATUS.SKIPPED,
         type: EVENTS.TOUR_END,
       }),
+      expectControls(),
     );
   });
 
@@ -618,6 +659,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
           index: 4,
           type: EVENTS.TARGET_NOT_FOUND,
         }),
+        expectControls(),
       );
     });
   });
@@ -648,6 +690,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
           status: STATUS.FINISHED,
           type: EVENTS.TOUR_END,
         }),
+        expectControls(),
       );
     });
   });

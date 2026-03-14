@@ -2,7 +2,7 @@ import { useSetState } from '@gilbarbara/hooks';
 
 import { STATUS, useJoyride } from '~/index';
 
-import type { Controls, EventData, Props, Status, Step } from '~/types';
+import type { Controls, Props, Status, Step } from '~/types';
 
 import { standardSteps } from './steps';
 
@@ -34,14 +34,14 @@ export default function Hook(props: HookProps) {
     ],
   });
 
-  const handleJoyrideCallback = (data: EventData) => {
+  const handleJoyrideCallback: Props['onEvent'] = (data, controls) => {
     const { status } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
       setState({ run: false });
     }
 
-    onEvent?.(data);
+    onEvent?.(data, controls);
   };
 
   const { controls, Tour } = useJoyride({

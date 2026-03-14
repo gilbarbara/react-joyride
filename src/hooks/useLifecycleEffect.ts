@@ -1,19 +1,21 @@
 import { type RefObject, useEffect, useRef } from 'react';
 import { usePrevious } from '@gilbarbara/hooks';
 
+import type { EmitEvent } from '~/hooks/useEventEmitter';
 import type { MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
 import { getElement, isElementVisible } from '~/modules/dom';
-import { logDebug, needsScrolling, omit, shouldHideBeacon } from '~/modules/helpers';
+import { logDebug, needsScrolling, shouldHideBeacon } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
-import type { Actions, Controls, ScrollData, StepMerged, StepTarget } from '~/types';
+import type { Actions, Controls, StepMerged, StepTarget } from '~/types';
 
 interface UseLifecycleEffectOptions {
   controls: Controls;
+  emitEvent: EmitEvent;
   previousState: StoreState | undefined;
   props: MergedProps;
   state: StoreState;
@@ -22,7 +24,7 @@ interface UseLifecycleEffectOptions {
 }
 
 export default function useLifecycleEffect(options: UseLifecycleEffectOptions): void {
-  const { controls, previousState, props, state, step, store } = options;
+  const { controls, emitEvent, previousState, props, state, step, store } = options;
   const { action, index, lifecycle, positioned, scrolling, size, status } = state;
 
   const previousStep = usePrevious(step) ?? null;
@@ -44,15 +46,6 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   stepRef.current = step;
   previousStepRef.current = previousStep;
   controlsRef.current = controls;
-
-  const getEventData = (eventStep: StepMerged) => {
-    return {
-      ...omit(stateRef.current, 'positioned'),
-      error: null as Error | null,
-      scroll: null as ScrollData | null,
-      step: eventStep,
-    };
-  };
 
   const cleanup = () => {
     if (pollingRef.current) {
@@ -127,10 +120,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         previousStateRef.current.status,
       )
     ) {
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.TOUR_START,
-      });
+      emitEvent(EVENTS.TOUR_START, currentStep);
     }
 
     store.current.cleanupPositionData();
@@ -140,10 +130,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
       store.current.updateState({ waiting: true });
 
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
+      emitEvent(EVENTS.STEP_BEFORE_HOOK, currentStep, {
         action: lastAction.current ?? stateRef.current.action,
-        type: EVENTS.STEP_BEFORE_HOOK,
       });
 
       const proceed = () => {
@@ -164,10 +152,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         ? setTimeout(() => {
             if (!abortController.signal.aborted) {
               abortController.abort();
-              propsRef.current.onEvent?.({
-                ...getEventData(currentStep),
+              emitEvent(EVENTS.ERROR, currentStep, {
                 error: new Error('Step before hook timed out'),
-                type: EVENTS.ERROR,
               });
               proceed();
             }
@@ -189,10 +175,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         .catch((error: unknown) => {
           if (!abortController.signal.aborted) {
             if (timeoutId) clearTimeout(timeoutId);
-            propsRef.current.onEvent?.({
-              ...getEventData(currentStep),
+            emitEvent(EVENTS.ERROR, currentStep, {
               error: error instanceof Error ? error : new Error(String(error)),
-              type: EVENTS.ERROR,
             });
             proceed();
           }
@@ -247,7 +231,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     return () => {
       cleanup();
     };
-  }, [index, lifecycle, status, store]);
+  }, [emitEvent, index, lifecycle, status, store]);
 
   // Effect 3: Step presentation (READY → *_BEFORE → BEACON/TOOLTIP) + target not found
   useEffect(() => {
@@ -270,10 +254,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     if (elementExists && isElementVisible(element)) {
       if (hasChangedTo('lifecycle', LIFECYCLE.READY) && previous.lifecycle === LIFECYCLE.INIT) {
-        propsRef.current.onEvent?.({
-          ...getEventData(currentStep),
+        emitEvent(EVENTS.STEP_BEFORE, currentStep, {
           action: lastAction.current ?? stateRef.current.action,
-          type: EVENTS.STEP_BEFORE,
         });
       }
 
@@ -316,10 +298,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       // eslint-disable-next-line no-console
       console.warn(elementExists ? 'Target not visible' : 'Target not mounted', currentStep);
 
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.TARGET_NOT_FOUND,
-      });
+      emitEvent(EVENTS.TARGET_NOT_FOUND, currentStep);
 
       const currentState = stateRef.current;
 
@@ -331,7 +310,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         });
       }
     }
-  }, [lifecycle, store]);
+  }, [emitEvent, lifecycle, store]);
 
   // Effect 4: *_BEFORE → BEACON/TOOLTIP transition + lifecycle callbacks
   useEffect(() => {
@@ -382,17 +361,11 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     }
 
     if (currentStep && hasChangedTo('lifecycle', LIFECYCLE.BEACON)) {
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.BEACON,
-      });
+      emitEvent(EVENTS.BEACON, currentStep);
     }
 
     if (currentStep && hasChangedTo('lifecycle', LIFECYCLE.TOOLTIP)) {
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.TOOLTIP,
-      });
+      emitEvent(EVENTS.TOOLTIP, currentStep);
     }
 
     const currentState = stateRef.current;
@@ -406,21 +379,17 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       previous.lifecycle === LIFECYCLE.TOOLTIP;
 
     if (shouldFireStepAfter) {
-      propsRef.current.onEvent?.({
-        ...getEventData(previousStepValue),
+      emitEvent(EVENTS.STEP_AFTER, previousStepValue, {
         action: lastAction.current ?? ACTIONS.UPDATE,
         index: previous.index ?? currentState.index,
         lifecycle: currentState.lifecycle,
-        type: EVENTS.STEP_AFTER,
       });
 
       if (previousStepValue.after) {
-        propsRef.current.onEvent?.({
-          ...getEventData(previousStepValue),
+        emitEvent(EVENTS.STEP_AFTER_HOOK, previousStepValue, {
           action: lastAction.current ?? ACTIONS.UPDATE,
           index: previous.index ?? currentState.index,
           lifecycle: currentState.lifecycle,
-          type: EVENTS.STEP_AFTER_HOOK,
         });
 
         try {
@@ -436,7 +405,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         }
       }
     }
-  }, [lifecycle, positioned, scrolling, store]);
+  }, [emitEvent, lifecycle, positioned, scrolling, store]);
 
   // Effect 5: Tour flow + tour-level callbacks
   useEffect(() => {
@@ -485,11 +454,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           ? (previous.index ?? index)
           : index - 1;
 
-      propsRef.current.onEvent?.({
-        ...getEventData(tourEndStep),
-        index: tourEndIndex,
-        type: EVENTS.TOUR_END,
-      });
+      emitEvent(EVENTS.TOUR_END, tourEndStep, { index: tourEndIndex });
       controlsRef.current.reset();
       lastAction.current = null;
     }
@@ -498,18 +463,12 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     if (currentStep && hasChangedTo('action', ACTIONS.STOP)) {
       lastAction.current = null;
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.TOUR_STATUS,
-      });
+      emitEvent(EVENTS.TOUR_STATUS, currentStep);
     }
 
     if (currentStep && hasChangedTo('action', ACTIONS.RESET)) {
-      propsRef.current.onEvent?.({
-        ...getEventData(currentStep),
-        type: EVENTS.TOUR_STATUS,
-      });
+      emitEvent(EVENTS.TOUR_STATUS, currentStep);
       lastAction.current = null;
     }
-  }, [action, index, lifecycle, size, status, store]);
+  }, [action, emitEvent, index, lifecycle, size, status, store]);
 }

@@ -2,7 +2,7 @@ import useTourEngine from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, getScrollTo, isElementVisible, scrollTo } from '~/modules/dom';
 import { needsScrolling } from '~/modules/helpers';
-import { act, eventResponseFactory, renderHook, waitFor } from '~/test-utils';
+import { act, eventResponseFactory, expectControls, renderHook, waitFor } from '~/test-utils';
 
 import type { Props, Step } from '~/types';
 
@@ -83,6 +83,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.INIT,
           type: EVENTS.TOUR_START,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -93,6 +94,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.READY,
           type: EVENTS.STEP_BEFORE,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -103,6 +105,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.TOOLTIP,
           type: EVENTS.TOOLTIP,
         }),
+        expectControls(),
       );
     });
 
@@ -129,6 +132,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.COMPLETE,
           type: EVENTS.STEP_AFTER,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -139,6 +143,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.READY,
           type: EVENTS.STEP_BEFORE,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -149,6 +154,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.TOOLTIP,
           type: EVENTS.TOOLTIP,
         }),
+        expectControls(),
       );
     });
 
@@ -170,6 +176,7 @@ describe('useTourEngine', () => {
           size: 1,
           type: EVENTS.BEACON,
         }),
+        expectControls(),
       );
     });
 
@@ -189,7 +196,10 @@ describe('useTourEngine', () => {
       });
 
       await waitFor(() => {
-        expect(mockOnEvent).toHaveBeenCalledWith(expect.objectContaining({ type: EVENTS.TOOLTIP }));
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP }),
+          expectControls(),
+        );
       });
 
       // Should be TOOLTIP, not BEACON (continuous + NEXT hides beacon)
@@ -222,6 +232,7 @@ describe('useTourEngine', () => {
             status: STATUS.FINISHED,
             type: EVENTS.TOUR_END,
           }),
+          expectControls(),
         );
       });
     });
@@ -246,6 +257,7 @@ describe('useTourEngine', () => {
             status: STATUS.SKIPPED,
             type: EVENTS.TOUR_END,
           }),
+          expectControls(),
         );
       });
     });
@@ -269,6 +281,7 @@ describe('useTourEngine', () => {
             status: STATUS.PAUSED,
             type: EVENTS.TOUR_STATUS,
           }),
+          expectControls(),
         );
       });
 
@@ -281,6 +294,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_START }),
+          expectControls(),
         );
       });
     });
@@ -314,6 +328,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -326,6 +341,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 2 }),
+          expectControls(),
         );
       });
     });
@@ -350,6 +366,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
+          expectControls(),
         );
       });
 
@@ -379,6 +396,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
+          expectControls(),
         );
       });
 
@@ -428,6 +446,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 1 }),
+          expectControls(),
         );
       });
     });
@@ -461,6 +480,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -502,6 +522,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
+          expectControls(),
         );
       });
     });
@@ -536,6 +557,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
+          expectControls(),
         );
       });
 
@@ -617,6 +639,7 @@ describe('useTourEngine', () => {
             size: 2,
             type: EVENTS.STEP_BEFORE,
           }),
+          expectControls(),
         );
       });
     });
@@ -646,6 +669,7 @@ describe('useTourEngine', () => {
             size: 2,
             type: EVENTS.STEP_BEFORE,
           }),
+          expectControls(),
         );
       });
     });
@@ -671,6 +695,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_END }),
+          expectControls(),
         );
       });
 
@@ -706,6 +731,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_START }),
+          expectControls(),
         );
       });
     });
@@ -729,6 +755,7 @@ describe('useTourEngine', () => {
             status: STATUS.PAUSED,
             type: EVENTS.TOUR_STATUS,
           }),
+          expectControls(),
         );
       });
     });
@@ -937,6 +964,7 @@ describe('useTourEngine', () => {
           size: 1,
           type: EVENTS.TOOLTIP,
         }),
+        expectControls(),
       );
     });
 
@@ -959,6 +987,7 @@ describe('useTourEngine', () => {
             lifecycle: LIFECYCLE.READY,
             type: EVENTS.STEP_BEFORE,
           }),
+          expectControls(),
         );
       });
     });
@@ -974,6 +1003,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
+          expectControls(),
         );
       });
       mockOnEvent.mockClear();
@@ -986,6 +1016,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
+          expectControls(),
         );
       });
     });
@@ -1009,6 +1040,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1020,6 +1052,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 2 }),
+          expectControls(),
         );
       });
 
@@ -1040,6 +1073,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1047,6 +1081,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 0 }),
+          expectControls(),
         );
       });
     });
@@ -1087,6 +1122,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_START }),
+          expectControls(),
         );
       });
     });
@@ -1128,6 +1164,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.INIT,
           type: EVENTS.TOUR_START,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1138,6 +1175,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.READY,
           type: EVENTS.STEP_BEFORE,
         }),
+        expectControls(),
       );
     });
 
@@ -1157,6 +1195,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.INIT,
           type: EVENTS.TOUR_START,
         }),
+        expectControls(),
       );
     });
 
@@ -1181,6 +1220,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.INIT,
           type: EVENTS.TOUR_START,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1191,6 +1231,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.READY,
           type: EVENTS.STEP_BEFORE,
         }),
+        expectControls(),
       );
     });
   });
@@ -1221,6 +1262,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+          expectControls(),
         );
       });
 
@@ -1231,6 +1273,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1266,6 +1309,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1300,6 +1344,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+          expectControls(),
         );
       });
 
@@ -1316,6 +1361,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1374,6 +1420,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1405,6 +1452,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.STEP_AFTER, index: 0 }),
+          expectControls(),
         );
       });
 
@@ -1416,6 +1464,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1471,6 +1520,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1504,6 +1554,7 @@ describe('useTourEngine', () => {
           size: 1,
           type: EVENTS.TOUR_START,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1514,7 +1565,9 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.INIT,
           size: 1,
           type: EVENTS.STEP_BEFORE_HOOK,
+          waiting: true,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1526,6 +1579,7 @@ describe('useTourEngine', () => {
           size: 1,
           type: EVENTS.STEP_BEFORE,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1537,6 +1591,7 @@ describe('useTourEngine', () => {
           size: 1,
           type: EVENTS.TOOLTIP,
         }),
+        expectControls(),
       );
     });
 
@@ -1558,6 +1613,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_END }),
+          expectControls(),
         );
       });
 
@@ -1592,6 +1648,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_END, status: STATUS.SKIPPED }),
+          expectControls(),
         );
       });
 
@@ -1624,6 +1681,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
         );
       });
 
@@ -1634,6 +1692,7 @@ describe('useTourEngine', () => {
       await waitFor(() => {
         expect(mockOnEvent).toHaveBeenCalledWith(
           expect.objectContaining({ type: EVENTS.TOUR_STATUS, status: STATUS.PAUSED }),
+          expectControls(),
         );
       });
 
@@ -1653,6 +1712,7 @@ describe('useTourEngine', () => {
           action: ACTIONS.START,
           type: EVENTS.TOUR_START,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1661,6 +1721,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.INIT,
           type: EVENTS.STEP_BEFORE_HOOK,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1669,6 +1730,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.READY,
           type: EVENTS.STEP_BEFORE,
         }),
+        expectControls(),
       );
 
       expect(mockOnEvent).toHaveBeenNthCalledWith(
@@ -1677,6 +1739,7 @@ describe('useTourEngine', () => {
           lifecycle: LIFECYCLE.TOOLTIP,
           type: EVENTS.TOOLTIP,
         }),
+        expectControls(),
       );
     });
   });

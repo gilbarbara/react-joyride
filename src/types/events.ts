@@ -1,4 +1,5 @@
 import type { Actions, Events, Lifecycle, Origin, Status } from './common';
+import type { Controls } from './state';
 import type { StepMerged } from './step';
 import type { Simplify } from './utilities';
 
@@ -29,7 +30,7 @@ export type EventData = Simplify<
 >;
 
 /** Callback signature for the `onEvent` prop. */
-export type EventHandler = (data: EventData) => void;
+export type EventHandler = (data: EventData, controls: Controls) => void;
 
 /** Scroll position details for `scroll:start` and `scroll:end` events. */
 export type ScrollData = {
