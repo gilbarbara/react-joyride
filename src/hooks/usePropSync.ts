@@ -2,6 +2,7 @@ import { type RefObject, useEffect, useRef } from 'react';
 import isEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
+import type { EmitEvent } from '~/hooks/useEventEmitter';
 import type { MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
@@ -9,11 +10,11 @@ import { validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
-import type { Actions, Controls, EventHandler, Status, StepMerged } from '~/types';
+import type { Actions, Controls, Status, StepMerged } from '~/types';
 
 interface UsePropSyncParams {
   controls: Controls;
-  onEvent: EventHandler | undefined;
+  emitEvent: EmitEvent;
   props: MergedProps;
   state: StoreState;
   store: RefObject<ReturnType<typeof createStore>>;
@@ -21,7 +22,7 @@ interface UsePropSyncParams {
 
 export default function usePropSync({
   controls,
-  onEvent,
+  emitEvent,
   props,
   state,
   store,
@@ -31,11 +32,9 @@ export default function usePropSync({
   const previousPropsRef = useRef<MergedProps | undefined>(undefined);
   const stateRef = useRef(state);
   const controlsRef = useRef(controls);
-  const onEventRef = useRef(onEvent);
 
   stateRef.current = state;
   controlsRef.current = controls;
-  onEventRef.current = onEvent;
 
   useEffect(() => {
     const previousProps = previousPropsRef.current;
@@ -54,12 +53,8 @@ export default function usePropSync({
       } else {
         // eslint-disable-next-line no-console
         console.warn('Steps are not valid', steps);
-        onEventRef.current?.({
-          ...store.current.getEventState(),
+        emitEvent(EVENTS.ERROR, (steps[0] ?? { target: '', content: '' }) as StepMerged, {
           error: new Error('Steps are not valid'),
-          scroll: null,
-          step: (steps[0] ?? { target: '', content: '' }) as StepMerged,
-          type: EVENTS.ERROR,
         });
       }
     }
@@ -85,5 +80,5 @@ export default function usePropSync({
         );
       }
     }
-  }, [debug, initialStepIndex, props, run, stepIndex, steps, store]);
+  }, [debug, emitEvent, initialStepIndex, props, run, stepIndex, steps, store]);
 }

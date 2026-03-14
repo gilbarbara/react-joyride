@@ -2,7 +2,7 @@ import { useSetState } from '@gilbarbara/hooks';
 
 import Joyride, { STATUS } from '~/index';
 
-import type { EventData, Props, Status, Step } from '~/types';
+import type { Props, Status, Step } from '~/types';
 
 import { standardSteps } from './steps';
 
@@ -39,7 +39,7 @@ export default function Component(props: StandardProps) {
     setState({ run: true });
   };
 
-  const handleJoyrideCallback = (data: EventData) => {
+  const handleJoyrideCallback: Props['onEvent'] = (data, controls) => {
     const { status } = data;
 
     if (([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(status)) {
@@ -48,7 +48,7 @@ export default function Component(props: StandardProps) {
 
     setState({ index: data.index });
 
-    onEvent?.(data);
+    onEvent?.(data, controls);
   };
 
   return (

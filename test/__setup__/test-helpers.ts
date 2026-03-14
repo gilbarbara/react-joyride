@@ -50,3 +50,18 @@ export function eventResponseFactory(initial?: Partial<EventData>) {
     };
   };
 }
+
+export function expectControls() {
+  return expect.objectContaining({
+    close: expect.any(Function),
+    go: expect.any(Function),
+    info: expect.any(Function),
+    next: expect.any(Function),
+    open: expect.any(Function),
+    prev: expect.any(Function),
+    reset: expect.any(Function),
+    skip: expect.any(Function),
+    start: expect.any(Function),
+    stop: expect.any(Function),
+  });
+}

@@ -111,6 +111,7 @@ function createMockStore() {
 function createOptions(overrides: Partial<HookOptions> = {}): HookOptions {
   return {
     controls: createMockControls(),
+    emitEvent: vi.fn(),
     previousState: undefined,
     props: createMergedProps(),
     state: createState(),
@@ -273,7 +274,6 @@ describe('useLifecycleEffect', () => {
 
     it('should fire STEP_BEFORE_HOOK and set waiting when step has before hook', () => {
       const store = createMockStore();
-      const props = createMergedProps();
       const step = createStep({
         disableBeacon: true,
         loaderDelay: 0,
@@ -284,7 +284,7 @@ describe('useLifecycleEffect', () => {
       const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
 
-      const options = createOptions({ store, props, step, state: state1 });
+      const options = createOptions({ store, step, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -293,9 +293,9 @@ describe('useLifecycleEffect', () => {
       rerender({ ...options, state: state2, previousState: state1 });
 
       expect(store.current.updateState).toHaveBeenCalledWith({ waiting: true });
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.STEP_BEFORE_HOOK }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.STEP_BEFORE_HOOK, step, {
+        action: ACTIONS.INIT,
+      });
     });
 
     it('should proceed after before hook resolves', async () => {
@@ -337,7 +337,6 @@ describe('useLifecycleEffect', () => {
 
     it('should proceed and fire ERROR after before hook rejects', async () => {
       const store = createMockStore();
-      const props = createMergedProps();
       const error = new Error('hook failed');
       const step = createStep({
         disableBeacon: true,
@@ -348,7 +347,7 @@ describe('useLifecycleEffect', () => {
       const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
 
-      const options = createOptions({ store, props, step, state: state1 });
+      const options = createOptions({ store, step, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -358,9 +357,7 @@ describe('useLifecycleEffect', () => {
 
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.ERROR, error }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.ERROR, step, { error });
       expect(store.current.updateState).toHaveBeenCalledWith(
         expect.objectContaining({
           lifecycle: LIFECYCLE.READY,
@@ -371,7 +368,6 @@ describe('useLifecycleEffect', () => {
 
     it('should handle non-Error rejection from before hook', async () => {
       const store = createMockStore();
-      const props = createMergedProps();
       const step = createStep({
         disableBeacon: true,
         beforeTimeout: 5000,
@@ -381,7 +377,7 @@ describe('useLifecycleEffect', () => {
       const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
 
-      const options = createOptions({ store, props, step, state: state1 });
+      const options = createOptions({ store, step, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -391,17 +387,13 @@ describe('useLifecycleEffect', () => {
 
       await new Promise(resolve => setTimeout(resolve, 0));
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.ERROR,
-          error: expect.objectContaining({ message: 'string error' }),
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.ERROR, step, {
+        error: expect.objectContaining({ message: 'string error' }),
+      });
     });
 
     it('should proceed and fire ERROR after before hook timeout', async () => {
       const store = createMockStore();
-      const props = createMergedProps();
       const step = createStep({
         disableBeacon: true,
         beforeTimeout: 200,
@@ -411,7 +403,7 @@ describe('useLifecycleEffect', () => {
       const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
 
-      const options = createOptions({ store, props, step, state: state1 });
+      const options = createOptions({ store, step, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -421,12 +413,9 @@ describe('useLifecycleEffect', () => {
 
       await new Promise(resolve => setTimeout(resolve, 250));
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.ERROR,
-          error: expect.objectContaining({ message: 'Step before hook timed out' }),
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.ERROR, step, {
+        error: expect.objectContaining({ message: 'Step before hook timed out' }),
+      });
       expect(store.current.updateState).toHaveBeenCalledWith(
         expect.objectContaining({
           lifecycle: LIFECYCLE.READY,
@@ -478,12 +467,11 @@ describe('useLifecycleEffect', () => {
   describe('Step presentation', () => {
     it('should fire STEP_BEFORE on INIT→READY transition', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -491,9 +479,9 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.STEP_BEFORE }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.STEP_BEFORE, stepA, {
+        action: ACTIONS.INIT,
+      });
     });
 
     it('should transition to TOOLTIP_BEFORE when disableBeacon is true', () => {
@@ -570,12 +558,11 @@ describe('useLifecycleEffect', () => {
       vi.mocked(isElementVisible).mockReturnValue(false);
 
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -584,9 +571,7 @@ describe('useLifecycleEffect', () => {
       rerender({ ...options, state: state2, previousState: state1 });
 
       expect(consoleWarnSpy).toHaveBeenCalledWith('Target not mounted', stepA);
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TARGET_NOT_FOUND, stepA);
     });
 
     it('should warn "Target not visible" when element exists but is not visible', () => {
@@ -594,12 +579,11 @@ describe('useLifecycleEffect', () => {
       vi.mocked(isElementVisible).mockReturnValue(false);
 
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
       });
@@ -607,9 +591,7 @@ describe('useLifecycleEffect', () => {
       rerender({ ...options, state: state2, previousState: state1 });
 
       expect(consoleWarnSpy).toHaveBeenCalledWith('Target not visible', stepA);
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TARGET_NOT_FOUND }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TARGET_NOT_FOUND, stepA);
     });
 
     it('should auto-advance forward in uncontrolled mode on TARGET_NOT_FOUND', () => {
@@ -784,13 +766,12 @@ describe('useLifecycleEffect', () => {
 
     it('should fire BEACON event', () => {
       const store = createMockStore();
-      const props = createMergedProps();
       const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.BEACON_BEFORE });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.BEACON });
 
-      const options = createOptions({ store, props, step, state: state1 });
+      const options = createOptions({ store, step, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -798,17 +779,16 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(expect.objectContaining({ type: EVENTS.BEACON }));
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.BEACON, step);
     });
 
     it('should fire TOOLTIP event', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.TOOLTIP_BEFORE });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.TOOLTIP });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -816,7 +796,7 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(expect.objectContaining({ type: EVENTS.TOOLTIP }));
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOOLTIP, stepA);
     });
   });
 
@@ -826,7 +806,6 @@ describe('useLifecycleEffect', () => {
       // previousStep (usePrevious semantic) = stepA (what was showing)
       // step = stepB (the new current step)
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -842,7 +821,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepA,
         state: state1,
       });
@@ -853,14 +831,11 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: stepB, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER,
-          step: stepA,
-          action: ACTIONS.NEXT,
-          index: 0,
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.STEP_AFTER, stepA, {
+        action: ACTIONS.NEXT,
+        index: 0,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
     });
 
     it('should fire STEP_AFTER with the completed step on prev()', () => {
@@ -868,7 +843,6 @@ describe('useLifecycleEffect', () => {
       // usePrevious(step) = stepC (what was showing)
       // step = stepB (the new current step)
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -884,7 +858,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepC,
         state: state1,
       });
@@ -895,21 +868,17 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: stepB, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER,
-          step: stepC,
-          action: ACTIONS.PREV,
-          index: 2,
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.STEP_AFTER, stepC, {
+        action: ACTIONS.PREV,
+        index: 2,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
     });
 
     it('should fire STEP_AFTER with the completed step on close()', () => {
       // Scenario: viewing stepA at index 0, click close → index becomes 1
       // usePrevious(step) = stepA (what was showing)
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -925,7 +894,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepA,
         state: state1,
       });
@@ -936,21 +904,17 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: stepB, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER,
-          step: stepA,
-          action: ACTIONS.CLOSE,
-          index: 0,
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.STEP_AFTER, stepA, {
+        action: ACTIONS.CLOSE,
+        index: 0,
+        lifecycle: LIFECYCLE.COMPLETE,
+      });
     });
 
     it('should fire STEP_AFTER when past last step (step=null)', () => {
       // Scenario: viewing stepC at index 2, click next → index becomes 3 (past end)
       // usePrevious(step) = stepC, step = null
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -970,7 +934,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepC,
         state: state1,
       });
@@ -981,11 +944,10 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: null, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER,
-          step: stepC,
-        }),
+      expect(options.emitEvent).toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER,
+        stepC,
+        expect.objectContaining({ action: ACTIONS.NEXT }),
       );
     });
 
@@ -994,7 +956,6 @@ describe('useLifecycleEffect', () => {
       // stepB target (#step-b) doesn't exist in DOM yet (different route)
       // STEP_AFTER should still fire so onEvent handler can navigate
       const store = createMockStore();
-      const props = createMergedProps();
 
       // stepB target not in DOM
       vi.mocked(getElement).mockImplementation(target => {
@@ -1017,7 +978,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepA,
         state: state1,
       });
@@ -1028,18 +988,15 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: stepB, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER,
-          step: stepA,
-          action: ACTIONS.NEXT,
-        }),
+      expect(options.emitEvent).toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER,
+        stepA,
+        expect.objectContaining({ action: ACTIONS.NEXT }),
       );
     });
 
     it('should fire STEP_AFTER in controlled + PAUSED mode', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.PAUSED,
@@ -1057,7 +1014,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepA,
         state: state1,
       });
@@ -1068,12 +1024,10 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: stepB, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER,
-          step: stepA,
-          index: 0,
-        }),
+      expect(options.emitEvent).toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER,
+        stepA,
+        expect.objectContaining({ index: 0 }),
       );
     });
 
@@ -1088,7 +1042,6 @@ describe('useLifecycleEffect', () => {
       });
 
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1104,7 +1057,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepWithAfter,
         state: state1,
       });
@@ -1132,7 +1084,6 @@ describe('useLifecycleEffect', () => {
       });
 
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1148,7 +1099,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepWithAfter,
         state: state1,
       });
@@ -1159,11 +1109,10 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: stepB, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.STEP_AFTER_HOOK,
-          step: stepWithAfter,
-        }),
+      expect(options.emitEvent).toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER_HOOK,
+        stepWithAfter,
+        expect.objectContaining({ action: ACTIONS.NEXT }),
       );
     });
 
@@ -1179,7 +1128,6 @@ describe('useLifecycleEffect', () => {
       });
 
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1195,7 +1143,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepWithAfter,
         state: state1,
       });
@@ -1208,14 +1155,15 @@ describe('useLifecycleEffect', () => {
         rerender({ ...options, step: stepB, state: state2, previousState: state1 });
       }).not.toThrowError();
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.STEP_AFTER }),
+      expect(options.emitEvent).toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER,
+        stepWithAfter,
+        expect.objectContaining({ action: ACTIONS.NEXT }),
       );
     });
 
     it('should NOT fire STEP_AFTER on skip (status → SKIPPED)', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1231,7 +1179,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepA,
         state: state1,
       });
@@ -1242,14 +1189,15 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).not.toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.STEP_AFTER }),
+      expect(options.emitEvent).not.toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER,
+        expect.anything(),
+        expect.anything(),
       );
     });
 
     it('should NOT fire STEP_AFTER on stop in uncontrolled mode', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1265,7 +1213,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         step: stepB,
         state: state1,
       });
@@ -1276,8 +1223,10 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).not.toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.STEP_AFTER }),
+      expect(options.emitEvent).not.toHaveBeenCalledWith(
+        EVENTS.STEP_AFTER,
+        expect.anything(),
+        expect.anything(),
       );
     });
   });
@@ -1285,7 +1234,6 @@ describe('useLifecycleEffect', () => {
   describe('Tour flow', () => {
     it('should fire TOUR_START on IDLE→RUNNING', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.IDLE,
@@ -1297,7 +1245,7 @@ describe('useLifecycleEffect', () => {
         lifecycle: LIFECYCLE.INIT,
       });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -1305,14 +1253,11 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TOUR_START }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOUR_START, stepA);
     });
 
     it('should fire TOUR_START on PAUSED→RUNNING', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.PAUSED,
@@ -1326,7 +1271,7 @@ describe('useLifecycleEffect', () => {
         lifecycle: LIFECYCLE.INIT,
       });
 
-      const options = createOptions({ store, props, step: stepB, state: state1 });
+      const options = createOptions({ store, step: stepB, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -1334,16 +1279,13 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TOUR_START }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOUR_START, stepB);
     });
 
     it('should fire TOUR_END on FINISHED with correct step and index', () => {
       // Scenario: on last step (index 2), click next → index 3, FINISHED
       // TOUR_END should report the step that was showing (stepC) and its index (2)
       const store = createMockStore();
-      const props = createMergedProps();
       const controls = createMockControls();
 
       const state1 = createState({
@@ -1362,7 +1304,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         controls,
         step: stepC,
         state: state1,
@@ -1374,19 +1315,12 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, step: null, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.TOUR_END,
-          step: stepC,
-          index: 2,
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOUR_END, stepC, { index: 2 });
       expect(controls.reset).toHaveBeenCalled();
     });
 
     it('should fire TOUR_END on SKIPPED', () => {
       const store = createMockStore();
-      const props = createMergedProps();
       const controls = createMockControls();
 
       const state1 = createState({
@@ -1403,7 +1337,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         controls,
         step: stepB,
         state: state1,
@@ -1415,15 +1348,16 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TOUR_END }),
+      expect(options.emitEvent).toHaveBeenCalledWith(
+        EVENTS.TOUR_END,
+        stepB,
+        expect.objectContaining({ index: 1 }),
       );
       expect(controls.reset).toHaveBeenCalled();
     });
 
     it('should fire TOUR_STATUS on STOP action', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1437,7 +1371,7 @@ describe('useLifecycleEffect', () => {
         lifecycle: LIFECYCLE.COMPLETE,
       });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -1445,14 +1379,11 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TOUR_STATUS }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOUR_STATUS, stepA);
     });
 
     it('should fire TOUR_STATUS on RESET action', () => {
       const store = createMockStore();
-      const props = createMergedProps();
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -1467,7 +1398,7 @@ describe('useLifecycleEffect', () => {
         lifecycle: LIFECYCLE.INIT,
       });
 
-      const options = createOptions({ store, props, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1 });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -1475,9 +1406,7 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ type: EVENTS.TOUR_STATUS }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOUR_STATUS, stepA);
     });
 
     it('should auto-advance COMPLETE→INIT when more steps (uncontrolled)', () => {
@@ -1624,7 +1553,6 @@ describe('useLifecycleEffect', () => {
       // Skip on step 1 — index stays 1, usePrevious(step) = stepB
       // TOUR_END should report index 1 (the step being skipped from)
       const store = createMockStore();
-      const props = createMergedProps();
       const controls = createMockControls();
 
       const state1 = createState({
@@ -1641,7 +1569,6 @@ describe('useLifecycleEffect', () => {
 
       const options = createOptions({
         store,
-        props,
         controls,
         step: stepB,
         state: state1,
@@ -1653,12 +1580,7 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(props.onEvent).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: EVENTS.TOUR_END,
-          index: 1,
-        }),
-      );
+      expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TOUR_END, stepB, { index: 1 });
     });
   });
 });
