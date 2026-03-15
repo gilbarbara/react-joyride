@@ -51,10 +51,12 @@ describe('useTourEngine', () => {
     };
   }
 
+  const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
   beforeEach(() => {
     mockOnEvent.mockClear();
+    consoleLogSpy.mockClear();
     consoleWarnSpy.mockClear();
     vi.mocked(getElement).mockClear();
     vi.mocked(getElement).mockReturnValue(mockElement);
@@ -308,7 +310,7 @@ describe('useTourEngine', () => {
         { target: '.step-3', content: 'Step 3', skipBeacon: true },
       ];
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps, debug: true })));
 
       await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
       mockOnEvent.mockClear();
@@ -332,8 +334,10 @@ describe('useTourEngine', () => {
         );
       });
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Target not mounted',
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^step:1 %cTarget not mounted%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
         expect.objectContaining({ target: '.missing' }),
       );
 
@@ -352,7 +356,7 @@ describe('useTourEngine', () => {
         { target: '.step-2', content: 'Step 2', skipBeacon: true, targetWaitTimeout: 150 },
       ];
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps, debug: true })));
 
       await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
       mockOnEvent.mockClear();
@@ -370,8 +374,10 @@ describe('useTourEngine', () => {
         );
       });
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Target not visible',
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^step:1 %cTarget not visible%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
         expect.objectContaining({ target: '.step-2' }),
       );
     });
@@ -458,11 +464,11 @@ describe('useTourEngine', () => {
         { target: '.step-3', content: 'Step 3', skipBeacon: true },
       ];
 
-      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+      const { result } = renderHook(() => useTourEngine(createProps({ steps, debug: true })));
 
       await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
       mockOnEvent.mockClear();
-      consoleWarnSpy.mockClear();
+      consoleLogSpy.mockClear();
 
       // Make .missing target permanently missing before advancing
       vi.mocked(getElement).mockImplementation(target => {
@@ -490,8 +496,10 @@ describe('useTourEngine', () => {
 
       expect(notFoundCalls).toHaveLength(1);
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        'Target not mounted',
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^step:1 %cTarget not mounted%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
         expect.objectContaining({ target: '.missing' }),
       );
     });
@@ -1088,19 +1096,24 @@ describe('useTourEngine', () => {
 
     it('should warn when steps become invalid', async () => {
       const { rerender } = renderHook((props: Props) => useTourEngine(props), {
-        initialProps: createProps(),
+        initialProps: createProps({ debug: true }),
       });
 
       await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
-      consoleWarnSpy.mockClear();
+      consoleLogSpy.mockClear();
 
       // Steps without target are invalid
       const invalidSteps = [{ content: 'No target' }] as unknown as Step[];
 
-      rerender(createProps({ steps: invalidSteps }));
+      rerender(createProps({ steps: invalidSteps, debug: true }));
 
       await waitFor(() => {
-        expect(consoleWarnSpy).toHaveBeenCalledWith('Steps are not valid', invalidSteps);
+        expect(consoleLogSpy).toHaveBeenCalledWith(
+          expect.stringMatching(/^tour %cSteps are not valid%c /),
+          'font-weight: bold',
+          'color: gray; font-weight: normal',
+          invalidSteps,
+        );
       });
     });
 

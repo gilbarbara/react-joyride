@@ -128,7 +128,6 @@ export default function TourRenderer({
             <Overlay
               {...step}
               continuous={continuous}
-              debug={debug}
               lifecycle={lifecycle}
               onClickOverlay={handleClickOverlay}
               scrolling={state.scrolling}

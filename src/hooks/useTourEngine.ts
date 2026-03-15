@@ -3,6 +3,7 @@ import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gil
 
 import { defaultProps } from '~/defaults';
 import useControls from '~/hooks/useControls';
+import useDebugLogger from '~/hooks/useDebugLogger';
 import useEventEmitter from '~/hooks/useEventEmitter';
 import useLifecycleEffect from '~/hooks/useLifecycleEffect';
 import usePropSync from '~/hooks/usePropSync';
@@ -35,6 +36,8 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
     store.current.getSnapshot,
     store.current.getServerSnapshot,
   );
+
+  useDebugLogger(store, debug);
 
   const controls = useControls(store, debug);
   const emitEvent = useEventEmitter(onEvent, controls, store);

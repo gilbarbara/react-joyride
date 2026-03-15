@@ -25,10 +25,10 @@ function setup(overrides?: Partial<StoreState>) {
 }
 
 describe('useControls', () => {
-  const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
   beforeEach(() => {
-    consoleWarnSpy.mockClear();
+    consoleLogSpy.mockClear();
   });
 
   describe('close', () => {
@@ -93,9 +93,10 @@ describe('useControls', () => {
 
       result.current.go(1);
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '%creact-joyride: go() is not supported in controlled mode',
-        expect.any(String),
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %cgo\(\) is not supported in controlled mode%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
       );
       expect(store.getSnapshot().action).not.toBe(ACTIONS.GO);
     });
@@ -219,9 +220,10 @@ describe('useControls', () => {
 
       result.current.reset();
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith(
-        '%creact-joyride: reset() is not supported in controlled mode',
-        expect.any(String),
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %creset\(\) is not supported in controlled mode%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
       );
       expect(store.getSnapshot().action).not.toBe(ACTIONS.RESET);
     });

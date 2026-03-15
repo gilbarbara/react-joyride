@@ -6,7 +6,7 @@ import type { MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
 import { getElement, isElementVisible } from '~/modules/dom';
-import { logDebug, needsScrolling, shouldHideBeacon } from '~/modules/helpers';
+import { log, needsScrolling, shouldHideBeacon } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
@@ -94,12 +94,6 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     if (hasChanged('index')) {
       cleanup();
-
-      logDebug({
-        title: `step:${lifecycle}`,
-        data: [{ key: 'props', value: propsRef.current }],
-        debug: propsRef.current.debug,
-      });
     }
 
     if (status !== STATUS.RUNNING || !currentStep || lifecycle !== LIFECYCLE.INIT) {
@@ -125,7 +119,10 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
 
     store.current.cleanupPositionData();
 
+    const { debug } = propsRef.current;
+
     if (currentStep.before && !beforeRef.current) {
+      log(debug, `step:${index}`, 'before()', currentStep);
       beforeRef.current = { cancel: () => {} };
 
       store.current.updateState({ waiting: true });
@@ -151,6 +148,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       const timeoutId = timeout
         ? setTimeout(() => {
             if (!abortController.signal.aborted) {
+              log(debug, `step:${index}`, 'before()', 'timed out', `${timeout}ms`);
               abortController.abort();
               emitEvent(EVENTS.ERROR, currentStep, {
                 error: new Error('Step before hook timed out'),
@@ -208,6 +206,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         const startTime = Date.now();
 
         pollingTargetRef.current = currentStep.target;
+        log(debug, `step:${index}`, 'polling', 'started', `${targetWaitTimeout}ms`);
 
         store.current.updateState({ waiting: true });
 
@@ -217,6 +216,13 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           const timedOut = elapsed >= targetWaitTimeout;
 
           if ((el && isElementVisible(el)) || timedOut) {
+            log(
+              debug,
+              `step:${index}`,
+              'polling',
+              el && isElementVisible(el) ? 'found' : 'timed out',
+              `${elapsed}ms`,
+            );
             cleanup();
             store.current.updateState({
               action: lastAction.current ?? ACTIONS.UPDATE,
@@ -283,6 +289,8 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         const beforeLifecycle =
           finalLifecycle === LIFECYCLE.TOOLTIP ? LIFECYCLE.TOOLTIP_BEFORE : LIFECYCLE.BEACON_BEFORE;
 
+        log(propsRef.current.debug, `step:${index}`, 'scroll', willScroll ? 'needed' : 'skipped');
+
         store.current.updateState({
           action: ACTIONS.UPDATE,
           lifecycle: beforeLifecycle,
@@ -295,8 +303,12 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       lifecycle !== LIFECYCLE.COMPLETE &&
       hasChanged('lifecycle')
     ) {
-      // eslint-disable-next-line no-console
-      console.warn(elementExists ? 'Target not visible' : 'Target not mounted', currentStep);
+      log(
+        propsRef.current.debug,
+        `step:${index}`,
+        elementExists ? 'Target not visible' : 'Target not mounted',
+        currentStep,
+      );
 
       emitEvent(EVENTS.TARGET_NOT_FOUND, currentStep);
 
@@ -310,7 +322,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         });
       }
     }
-  }, [emitEvent, lifecycle, store]);
+  }, [emitEvent, index, lifecycle, store]);
 
   // Effect 4: *_BEFORE → BEACON/TOOLTIP transition + lifecycle callbacks
   useEffect(() => {
@@ -455,7 +467,11 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
           : index - 1;
 
       emitEvent(EVENTS.TOUR_END, tourEndStep, { index: tourEndIndex });
-      controlsRef.current.reset();
+
+      if (!stateRef.current.controlled) {
+        controlsRef.current.reset();
+      }
+
       lastAction.current = null;
     }
 

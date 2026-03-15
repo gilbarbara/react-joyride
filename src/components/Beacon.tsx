@@ -34,12 +34,6 @@ export default function JoyrideBeacon(props: BeaconProps) {
   const hasBeaconComponent = Boolean(beaconComponent);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'production') {
-      if (!is.domElement(beaconRef.current)) {
-        console.warn('beacon is not a valid DOM element'); // eslint-disable-line no-console
-      }
-    }
-
     if (hasBeaconComponent) {
       return noop;
     }

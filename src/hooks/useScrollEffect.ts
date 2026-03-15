@@ -13,7 +13,7 @@ import {
   scrollDocument,
   scrollTo,
 } from '~/modules/dom';
-import { logDebug } from '~/modules/helpers';
+import { log } from '~/modules/helpers';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
@@ -143,16 +143,6 @@ export default function useScrollEffect({
       const scrollParent = getScrollParent(target);
       const hasCustomScroll = scrollParent ? !scrollParent.isSameNode(scrollDocument()) : false;
 
-      logDebug({
-        title: 'scrollToStep',
-        data: [
-          { key: 'index', value: index },
-          { key: 'lifecycle', value: lifecycle },
-          { key: 'status', value: status },
-        ],
-        debug,
-      });
-
       cancelScrollRef.current?.();
 
       const handleScroll = async () => {
@@ -188,6 +178,14 @@ export default function useScrollEffect({
               scrollOffset: currentStep.scrollOffset,
               step: currentStep,
             });
+
+        log(
+          debug,
+          `step:${index}`,
+          'scroll',
+          hasCustomScroll ? 'custom' : 'document',
+          `${baseScrollY} → ${scrollY}`,
+        );
 
         const scrollElement = scrollParent as Element;
         const scrollData = {

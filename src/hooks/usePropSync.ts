@@ -6,6 +6,7 @@ import type { EmitEvent } from '~/hooks/useEventEmitter';
 import type { MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
+import { log } from '~/modules/helpers';
 import { validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
@@ -51,8 +52,7 @@ export default function usePropSync({
       if (validateSteps(steps, debug)) {
         store.current.setSteps(steps);
       } else {
-        // eslint-disable-next-line no-console
-        console.warn('Steps are not valid', steps);
+        log(debug, 'tour', 'Steps are not valid', steps);
         emitEvent(EVENTS.ERROR, (steps[0] ?? { target: '', content: '' }) as StepMerged, {
           error: new Error('Steps are not valid'),
         });

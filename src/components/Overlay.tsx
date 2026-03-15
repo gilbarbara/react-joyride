@@ -11,7 +11,6 @@ import type { Lifecycle, Simplify, StepMerged } from '~/types';
 export type OverlayProps = Simplify<
   StepMerged & {
     continuous: boolean;
-    debug: boolean;
     lifecycle: Lifecycle;
     onClickOverlay: () => void;
     scrolling: boolean;
