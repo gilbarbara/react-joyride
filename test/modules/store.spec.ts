@@ -1,9 +1,32 @@
-import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
+import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import createStore from '~/modules/store';
+
+import type { Controls, EventData } from '~/types';
 
 import { standardSteps } from '../__fixtures__/steps';
 
 const mockSyncStore = vi.fn();
+
+function createEventData(overrides: Partial<EventData> = {}): EventData {
+  return {
+    action: ACTIONS.UPDATE,
+    controlled: false,
+    error: null,
+    index: 0,
+    lifecycle: LIFECYCLE.TOOLTIP,
+    origin: null,
+    scroll: null,
+    scrolling: false,
+    size: 3,
+    status: STATUS.RUNNING,
+    step: {} as EventData['step'],
+    type: EVENTS.TOOLTIP,
+    waiting: false,
+    ...overrides,
+  };
+}
+
+const mockControls = {} as Controls;
 
 describe('store', () => {
   beforeEach(() => {
@@ -190,6 +213,105 @@ describe('store', () => {
 
       expect(store.getState().index).toBe(0);
       expect(store.getState().controlled).toBe(true);
+    });
+  });
+
+  describe('on / dispatch', () => {
+    it('should fire handler for matching event type', () => {
+      const store = createStore({ steps: standardSteps });
+      const handler = vi.fn();
+
+      store.on(EVENTS.TOOLTIP, handler);
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+
+      expect(handler).toHaveBeenCalledTimes(1);
+      expect(handler).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOOLTIP }),
+        mockControls,
+      );
+    });
+
+    it('should not fire handler for non-matching event type', () => {
+      const store = createStore({ steps: standardSteps });
+      const handler = vi.fn();
+
+      store.on(EVENTS.TOOLTIP, handler);
+      store.dispatch(createEventData({ type: EVENTS.BEACON }), mockControls);
+
+      expect(handler).not.toHaveBeenCalled();
+    });
+
+    it('should unsubscribe when calling the returned function', () => {
+      const store = createStore({ steps: standardSteps });
+      const handler = vi.fn();
+
+      const unsubscribe = store.on(EVENTS.TOOLTIP, handler);
+
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+      expect(handler).toHaveBeenCalledTimes(1);
+
+      unsubscribe();
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+      expect(handler).toHaveBeenCalledTimes(1);
+    });
+
+    it('should support multiple handlers for the same event type', () => {
+      const store = createStore({ steps: standardSteps });
+      const handler1 = vi.fn();
+      const handler2 = vi.fn();
+
+      store.on(EVENTS.TOOLTIP, handler1);
+      store.on(EVENTS.TOOLTIP, handler2);
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+
+      expect(handler1).toHaveBeenCalledTimes(1);
+      expect(handler2).toHaveBeenCalledTimes(1);
+    });
+
+    it('should be a no-op when dispatching with no listeners', () => {
+      const store = createStore({ steps: standardSteps });
+
+      expect(() => {
+        store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+      }).not.toThrowError();
+    });
+
+    it('should isolate errors between handlers', () => {
+      const store = createStore({ steps: standardSteps });
+      const handler1 = vi.fn(() => {
+        throw new Error('boom');
+      });
+      const handler2 = vi.fn();
+
+      store.on(EVENTS.TOOLTIP, handler1);
+      store.on(EVENTS.TOOLTIP, handler2);
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+
+      expect(handler1).toHaveBeenCalledTimes(1);
+      expect(handler2).toHaveBeenCalledTimes(1);
+    });
+
+    it('should handle unsubscribe inside a handler', () => {
+      const store = createStore({ steps: standardSteps });
+      const handler2 = vi.fn();
+      let unsubscribe1: () => void;
+
+      const handler1 = vi.fn(() => {
+        unsubscribe1();
+      });
+
+      unsubscribe1 = store.on(EVENTS.TOOLTIP, handler1);
+      store.on(EVENTS.TOOLTIP, handler2);
+
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+
+      expect(handler1).toHaveBeenCalledTimes(1);
+      expect(handler2).toHaveBeenCalledTimes(1);
+
+      store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
+
+      expect(handler1).toHaveBeenCalledTimes(1);
+      expect(handler2).toHaveBeenCalledTimes(2);
     });
   });
 

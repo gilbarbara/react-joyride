@@ -5,6 +5,7 @@ import createStore from '~/modules/store';
 import type {
   Actions,
   Controls,
+  EventData,
   EventHandler,
   Events,
   Lifecycle,
@@ -37,17 +38,17 @@ export default function useEventEmitter(
 
   return useCallback(
     (type, step, overrides) => {
-      onEventRef.current?.(
-        {
-          ...store.current.getEventState(),
-          error: null,
-          scroll: null,
-          step,
-          type,
-          ...overrides,
-        },
-        controlsRef.current,
-      );
+      const data: EventData = {
+        ...store.current.getEventState(),
+        error: null,
+        scroll: null,
+        step,
+        type,
+        ...overrides,
+      };
+
+      onEventRef.current?.(data, controlsRef.current);
+      store.current.dispatch(data, controlsRef.current);
     },
     [store],
   );
