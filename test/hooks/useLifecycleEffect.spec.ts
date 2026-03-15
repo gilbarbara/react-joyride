@@ -42,19 +42,19 @@ type HookOptions = Parameters<typeof useLifecycleEffect>[0];
 const stepA = createStep({
   target: '#step-a',
   content: 'Step A',
-  disableBeacon: true,
+  skipBeacon: true,
   targetWaitTimeout: 150,
 });
 const stepB = createStep({
   target: '#step-b',
   content: 'Step B',
-  disableBeacon: true,
+  skipBeacon: true,
   targetWaitTimeout: 150,
 });
 const stepC = createStep({
   target: '#step-c',
   content: 'Step C',
-  disableBeacon: true,
+  skipBeacon: true,
   targetWaitTimeout: 150,
 });
 
@@ -194,7 +194,7 @@ describe('useLifecycleEffect', () => {
       vi.mocked(getElement).mockReturnValue(null);
 
       const store = createMockStore();
-      const step = createStep({ disableBeacon: true, targetWaitTimeout: 0 });
+      const step = createStep({ skipBeacon: true, targetWaitTimeout: 0 });
 
       const state1 = createState({ status: STATUS.READY, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
@@ -253,7 +253,7 @@ describe('useLifecycleEffect', () => {
 
       const store = createMockStore();
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         targetWaitTimeout: 2000,
         loaderDelay: 100,
       });
@@ -275,7 +275,7 @@ describe('useLifecycleEffect', () => {
     it('should fire STEP_BEFORE_HOOK and set waiting when step has before hook', () => {
       const store = createMockStore();
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         loaderDelay: 0,
         targetWaitTimeout: 150,
         before: () => new Promise(resolve => setTimeout(resolve, 100)),
@@ -307,7 +307,7 @@ describe('useLifecycleEffect', () => {
       });
 
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         beforeTimeout: 5000,
         before: () => hookPromise,
       });
@@ -339,7 +339,7 @@ describe('useLifecycleEffect', () => {
       const store = createMockStore();
       const error = new Error('hook failed');
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         beforeTimeout: 5000,
         before: () => Promise.reject(error),
       });
@@ -369,7 +369,7 @@ describe('useLifecycleEffect', () => {
     it('should handle non-Error rejection from before hook', async () => {
       const store = createMockStore();
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         beforeTimeout: 5000,
         before: () => Promise.reject(new Error('string error')),
       });
@@ -395,7 +395,7 @@ describe('useLifecycleEffect', () => {
     it('should proceed and fire ERROR after before hook timeout', async () => {
       const store = createMockStore();
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         beforeTimeout: 200,
         before: () => new Promise<void>(() => {}),
       });
@@ -433,7 +433,7 @@ describe('useLifecycleEffect', () => {
       });
 
       const step = createStep({
-        disableBeacon: true,
+        skipBeacon: true,
         beforeTimeout: 5000,
         before: () => hookPromise,
       });
@@ -484,7 +484,7 @@ describe('useLifecycleEffect', () => {
       });
     });
 
-    it('should transition to TOOLTIP_BEFORE when disableBeacon is true', () => {
+    it('should transition to TOOLTIP_BEFORE when skipBeacon is true', () => {
       const store = createMockStore();
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
@@ -506,7 +506,7 @@ describe('useLifecycleEffect', () => {
     it('should transition to BEACON_BEFORE when beacon is enabled', () => {
       const store = createMockStore();
       const props = createMergedProps({ continuous: false });
-      const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
+      const step = createStep({ skipBeacon: false, targetWaitTimeout: 150 });
 
       const state1 = createState({
         status: STATUS.RUNNING,
@@ -717,7 +717,7 @@ describe('useLifecycleEffect', () => {
 
     it('should transition BEACON_BEFORE → BEACON when not scrolling', () => {
       const store = createMockStore();
-      const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
+      const step = createStep({ skipBeacon: false, targetWaitTimeout: 150 });
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
       const state2 = createState({
@@ -766,7 +766,7 @@ describe('useLifecycleEffect', () => {
 
     it('should fire BEACON event', () => {
       const store = createMockStore();
-      const step = createStep({ disableBeacon: false, targetWaitTimeout: 150 });
+      const step = createStep({ skipBeacon: false, targetWaitTimeout: 150 });
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.BEACON_BEFORE });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.BEACON });
@@ -1036,7 +1036,7 @@ describe('useLifecycleEffect', () => {
       const stepWithAfter = createStep({
         target: '#step-a',
         content: 'Step A',
-        disableBeacon: true,
+        skipBeacon: true,
         targetWaitTimeout: 150,
         after: afterFn,
       });
@@ -1078,7 +1078,7 @@ describe('useLifecycleEffect', () => {
       const stepWithAfter = createStep({
         target: '#step-a',
         content: 'Step A',
-        disableBeacon: true,
+        skipBeacon: true,
         targetWaitTimeout: 150,
         after: vi.fn(),
       });
@@ -1120,7 +1120,7 @@ describe('useLifecycleEffect', () => {
       const stepWithAfter = createStep({
         target: '#step-a',
         content: 'Step A',
-        disableBeacon: true,
+        skipBeacon: true,
         targetWaitTimeout: 150,
         after: () => {
           throw new Error('boom');

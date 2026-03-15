@@ -8,21 +8,21 @@ import type { EventData, Props, StepMerged } from '~/types';
 
 export function createStep(overrides: Partial<StepMerged> = {}): StepMerged {
   const base = fromPartial<StepMerged>({
-    content: 'Test content',
-    target: '.target',
-    locale: defaultLocale,
-    placement: 'bottom',
-    disableBeacon: false,
-    dismissKeyAction: 'close',
-    disableTargetInteraction: false,
-    disableOverlay: false,
-    overlayClickAction: 'close',
-    disableScroll: false,
-    closeButtonAction: 'close',
+    blockTargetInteraction: false,
     buttons: ['back', 'close', 'primary'],
+    closeButtonAction: 'close',
+    content: 'Test content',
+    dismissKeyAction: 'close',
+    hideOverlay: false,
+    locale: defaultLocale,
+    overlayClickAction: 'close',
+    placement: 'bottom',
     scrollOffset: 20,
     showProgress: false,
+    skipBeacon: false,
+    skipScroll: false,
     spotlightPadding: { top: 10, right: 10, bottom: 10, left: 10 },
+    target: '.target',
     ...overrides,
   });
 

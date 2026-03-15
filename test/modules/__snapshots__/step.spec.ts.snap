@@ -10,6 +10,7 @@ exports[`step > getMergedStep > should allow options to override defaultStep 1`]
   "beaconSize": 36,
   "beaconTrigger": "click",
   "beforeTimeout": 5000,
+  "blockTargetInteraction": false,
   "buttons": [
     "back",
     "close",
@@ -17,17 +18,14 @@ exports[`step > getMergedStep > should allow options to override defaultStep 1`]
   ],
   "closeButtonAction": "close",
   "content": "Test content",
-  "disableBeacon": false,
   "disableFocusTrap": false,
-  "disableOverlay": true,
-  "disableScroll": false,
-  "disableTargetInteraction": false,
   "dismissKeyAction": "close",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
     },
   },
+  "hideOverlay": true,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -47,6 +45,8 @@ exports[`step > getMergedStep > should allow options to override defaultStep 1`]
   "scrollDuration": 300,
   "scrollOffset": 20,
   "showProgress": false,
+  "skipBeacon": false,
+  "skipScroll": false,
   "spotlightPadding": {
     "bottom": 20,
     "left": 20,
@@ -235,6 +235,7 @@ exports[`step > getMergedStep > should allow step props to override options 1`] 
   "beaconSize": 36,
   "beaconTrigger": "click",
   "beforeTimeout": 5000,
+  "blockTargetInteraction": false,
   "buttons": [
     "back",
     "close",
@@ -242,17 +243,14 @@ exports[`step > getMergedStep > should allow step props to override options 1`] 
   ],
   "closeButtonAction": "close",
   "content": "Test content",
-  "disableBeacon": false,
   "disableFocusTrap": false,
-  "disableOverlay": false,
-  "disableScroll": false,
-  "disableTargetInteraction": false,
   "dismissKeyAction": "close",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
     },
   },
+  "hideOverlay": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -272,6 +270,8 @@ exports[`step > getMergedStep > should allow step props to override options 1`] 
   "scrollDuration": 300,
   "scrollOffset": 10,
   "showProgress": false,
+  "skipBeacon": false,
+  "skipScroll": false,
   "spotlightPadding": {
     "bottom": 5,
     "left": 5,
@@ -626,6 +626,7 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "beaconSize": 36,
   "beaconTrigger": "click",
   "beforeTimeout": 5000,
+  "blockTargetInteraction": false,
   "buttons": [
     "back",
     "close",
@@ -633,17 +634,14 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   ],
   "closeButtonAction": "close",
   "content": "Test content",
-  "disableBeacon": false,
   "disableFocusTrap": false,
-  "disableOverlay": false,
-  "disableScroll": false,
-  "disableTargetInteraction": false,
   "dismissKeyAction": "close",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
     },
   },
+  "hideOverlay": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -663,6 +661,8 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
   "scrollDuration": 300,
   "scrollOffset": 20,
   "showProgress": false,
+  "skipBeacon": false,
+  "skipScroll": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,
@@ -872,6 +872,7 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "beaconSize": 36,
   "beaconTrigger": "click",
   "beforeTimeout": 5000,
+  "blockTargetInteraction": false,
   "buttons": [
     "back",
     "close",
@@ -879,17 +880,14 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   ],
   "closeButtonAction": "close",
   "content": "Test content",
-  "disableBeacon": false,
   "disableFocusTrap": false,
-  "disableOverlay": false,
-  "disableScroll": false,
-  "disableTargetInteraction": false,
   "dismissKeyAction": "close",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
     },
   },
+  "hideOverlay": false,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -909,6 +907,8 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
   "scrollDuration": 300,
   "scrollOffset": 50,
   "showProgress": false,
+  "skipBeacon": false,
+  "skipScroll": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,
@@ -1097,6 +1097,7 @@ exports[`step > getMergedStep > should preserve unset options defaults when part
   "beaconSize": 36,
   "beaconTrigger": "click",
   "beforeTimeout": 5000,
+  "blockTargetInteraction": false,
   "buttons": [
     "back",
     "close",
@@ -1104,17 +1105,14 @@ exports[`step > getMergedStep > should preserve unset options defaults when part
   ],
   "closeButtonAction": "close",
   "content": "Test content",
-  "disableBeacon": false,
   "disableFocusTrap": false,
-  "disableOverlay": true,
-  "disableScroll": false,
-  "disableTargetInteraction": false,
   "dismissKeyAction": "close",
   "floatingOptions": {
     "beaconOptions": {
       "offset": -18,
     },
   },
+  "hideOverlay": true,
   "isFixed": false,
   "loaderDelay": 300,
   "locale": {
@@ -1134,6 +1132,8 @@ exports[`step > getMergedStep > should preserve unset options defaults when part
   "scrollDuration": 300,
   "scrollOffset": 20,
   "showProgress": false,
+  "skipBeacon": false,
+  "skipScroll": false,
   "spotlightPadding": {
     "bottom": 10,
     "left": 10,

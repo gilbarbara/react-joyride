@@ -37,8 +37,8 @@ describe('Overlay', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('should return null when disableOverlay is true', () => {
-    const { container } = render(<Overlay {...createProps({ disableOverlay: true })} />);
+  it('should return null when hideOverlay is true', () => {
+    const { container } = render(<Overlay {...createProps({ hideOverlay: true })} />);
 
     expect(container.firstChild).toBeNull();
   });

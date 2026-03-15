@@ -35,9 +35,9 @@ describe('useJoyride', () => {
   const getEventResponse = eventResponseFactory({ size: 3 });
 
   const testSteps: Step[] = [
-    { target: '.step-1', content: 'Step 1', disableBeacon: true },
-    { target: '.step-2', content: 'Step 2', disableBeacon: true },
-    { target: '.step-3', content: 'Step 3', disableBeacon: true },
+    { target: '.step-1', content: 'Step 1', skipBeacon: true },
+    { target: '.step-2', content: 'Step 2', skipBeacon: true },
+    { target: '.step-3', content: 'Step 3', skipBeacon: true },
   ];
 
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});

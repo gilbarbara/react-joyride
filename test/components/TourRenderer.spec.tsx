@@ -137,7 +137,7 @@ describe('TourRenderer', () => {
     it('should show overlay when action is START but beacon is disabled', () => {
       renderTourRenderer({
         state: { action: ACTIONS.START },
-        step: { disableBeacon: true },
+        step: { skipBeacon: true },
       });
 
       expect(screen.getByTestId('overlay')).toBeInTheDocument();

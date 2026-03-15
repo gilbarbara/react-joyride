@@ -108,8 +108,8 @@ describe('helpers', () => {
     const baseParameters = { step: { placement: 'auto' }, state: baseState, continuous: true };
 
     it.each([
-      { ...baseParameters, step: { disableBeacon: false }, expected: false },
-      { ...baseParameters, step: { disableBeacon: true }, expected: true },
+      { ...baseParameters, step: { skipBeacon: false }, expected: false },
+      { ...baseParameters, step: { skipBeacon: true }, expected: true },
       { ...baseParameters, step: { placement: 'bottom' }, expected: false },
       { ...baseParameters, step: { placement: 'center' }, expected: true },
       {
@@ -425,7 +425,7 @@ describe('helpers', () => {
   describe('needsScrolling', () => {
     const target = document.createElement('div');
     const baseStep = fromPartial<StepMerged>({
-      disableScroll: false,
+      skipScroll: false,
       isFixed: false,
       placement: 'bottom',
     });
@@ -441,8 +441,8 @@ describe('helpers', () => {
       { ...baseOptions, label: 'base case', expected: true },
       {
         ...baseOptions,
-        step: fromPartial<StepMerged>({ ...baseStep, disableScroll: true }),
-        label: 'disableScroll',
+        step: fromPartial<StepMerged>({ ...baseStep, skipScroll: true }),
+        label: 'skipScroll',
         expected: false,
       },
       {

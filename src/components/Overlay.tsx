@@ -23,9 +23,9 @@ const hiddenLifecycles: Lifecycle[] = [LIFECYCLE.BEACON_BEFORE, LIFECYCLE.BEACON
 
 export default function JoyrideOverlay(props: OverlayProps) {
   const {
+    blockTargetInteraction,
     continuous,
-    disableOverlay,
-    disableTargetInteraction,
+    hideOverlay,
     lifecycle,
     onClickOverlay,
     overlayClickAction,
@@ -91,7 +91,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
   }, [showCutout]);
 
   if (
-    disableOverlay ||
+    hideOverlay ||
     (waiting
       ? false
       : continuous
@@ -146,7 +146,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
             fill={overlayColor}
             style={{
               opacity: spotlightReady ? 0 : 1,
-              pointerEvents: disableTargetInteraction ? 'auto' : 'none',
+              pointerEvents: blockTargetInteraction ? 'auto' : 'none',
               transition: 'opacity 0.2s',
             }}
           />

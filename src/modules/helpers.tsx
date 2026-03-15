@@ -172,7 +172,7 @@ export function needsScrolling(options: NeedsScrollingOptions): boolean {
   const { isFirstStep, scrollToFirstStep, step, target, targetLifecycle } = options;
 
   if (
-    step.disableScroll ||
+    step.skipScroll ||
     (isFirstStep && !scrollToFirstStep && targetLifecycle !== LIFECYCLE.TOOLTIP) ||
     step.placement === 'center'
   ) {
@@ -310,7 +310,7 @@ export function shouldHideBeacon(step: Step, state: State, continuous: boolean):
 
   const withContinuous = continuous && ([ACTIONS.PREV, ACTIONS.NEXT] as Actions[]).includes(action);
 
-  return step.disableBeacon || step.placement === 'center' || withContinuous;
+  return step.skipBeacon || step.placement === 'center' || withContinuous;
 }
 
 /**
