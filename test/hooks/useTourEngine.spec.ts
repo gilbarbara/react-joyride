@@ -724,6 +724,51 @@ describe('useTourEngine', () => {
 
       expect(navCallbacks).toHaveLength(0);
     });
+
+    it('should reset positioned state when stepIndex changes', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
+      ];
+
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
+        initialProps: createProps({ steps, stepIndex: 0 }),
+      });
+
+      // Wait for step 0 to reach TOOLTIP
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 0 }),
+          expectControls(),
+        );
+      });
+
+      // Simulate what Floater does: set positioned to true (as it would in a real browser)
+      act(() => {
+        result.current.store.current.updateState({ positioned: true });
+      });
+
+      expect(result.current.state.positioned).toBe(true);
+
+      mockOnEvent.mockClear();
+
+      // Advance to step 1 via stepIndex (controlled mode)
+      // usePropSync must reset positioned to false, otherwise the scroll effect
+      // won't detect the positioned change and the lifecycle gets stuck
+      rerender(createProps({ steps, stepIndex: 1 }));
+
+      await waitFor(() => {
+        expect(result.current.state.positioned).toBe(false);
+      });
+
+      // The lifecycle should still reach TOOLTIP for step 1
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.TOOLTIP, index: 1 }),
+          expectControls(),
+        );
+      });
+    });
   });
 
   describe('Prop Changes', () => {
