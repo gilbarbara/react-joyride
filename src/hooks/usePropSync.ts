@@ -75,7 +75,7 @@ export default function usePropSync({
 
       if (!([STATUS.FINISHED, STATUS.SKIPPED] as Array<Status>).includes(stateRef.current.status)) {
         store.current.updateState(
-          { action: nextAction, index: stepIndex, lifecycle: LIFECYCLE.INIT },
+          { action: nextAction, index: stepIndex, lifecycle: LIFECYCLE.INIT, positioned: false },
           true,
         );
       }
