@@ -8,7 +8,7 @@ import type {
 } from '~/types/components';
 import type { FloatingOptions } from '~/types/floating';
 
-import type { Locale, Options, Styles } from './common';
+import type { Events, Locale, Options, Styles } from './common';
 import type { EventHandler } from './events';
 import type { Controls, State } from './state';
 import type { SelectorOrElement, Step, StepMerged } from './step';
@@ -105,6 +105,8 @@ export type SharedProps = {
 export type UseJoyrideReturn = {
   /** Methods to programmatically control the tour. */
   controls: Controls;
+  /** Subscribe to a specific event type. Returns an unsubscribe function. */
+  on: (eventType: Events, handler: EventHandler) => () => void;
   /** The current tour state. */
   state: State;
   /** The current merged step, or null if no step is active. */

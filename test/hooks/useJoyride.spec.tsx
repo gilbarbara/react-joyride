@@ -296,6 +296,115 @@ describe('useJoyride', () => {
     });
   });
 
+  describe('Event Subscription (on)', () => {
+    it('should return on as a function', () => {
+      const { result } = renderHook(() => useJoyride({ steps: testSteps, run: true }));
+
+      expect(result.current.on).toEqual(expect.any(Function));
+    });
+
+    it('should return a stable on reference across re-renders', () => {
+      const { rerender, result } = renderHook(() =>
+        useJoyride({ steps: testSteps, run: true, continuous: true }),
+      );
+
+      const firstOn = result.current.on;
+
+      rerender();
+
+      expect(result.current.on).toBe(firstOn);
+    });
+
+    it('should fire handler for matching event type', async () => {
+      const handler = vi.fn();
+
+      const { result } = renderHook(() =>
+        useJoyride({ steps: testSteps, onEvent: mockOnEvent, run: true, continuous: true }),
+      );
+
+      await waitFor(() => {
+        expect(result.current.state.status).toBe(STATUS.RUNNING);
+      });
+
+      result.current.on(EVENTS.STEP_BEFORE, handler);
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(handler).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_BEFORE }),
+          expectControls(),
+        );
+      });
+    });
+
+    it('should stop firing after unsubscribe', async () => {
+      const handler = vi.fn();
+
+      const { result } = renderHook(() =>
+        useJoyride({ steps: testSteps, onEvent: mockOnEvent, run: true, continuous: true }),
+      );
+
+      await waitFor(() => {
+        expect(result.current.state.status).toBe(STATUS.RUNNING);
+      });
+
+      const unsubscribe = result.current.on(EVENTS.STEP_BEFORE, handler);
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(handler).toHaveBeenCalledTimes(1);
+      });
+
+      unsubscribe();
+      handler.mockClear();
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.state.index).toBe(2);
+      });
+
+      expect(handler).not.toHaveBeenCalled();
+    });
+
+    it('should fire both onEvent and on() subscriber for the same event', async () => {
+      const handler = vi.fn();
+
+      const { result } = renderHook(() =>
+        useJoyride({ steps: testSteps, onEvent: mockOnEvent, run: true, continuous: true }),
+      );
+
+      await waitFor(() => {
+        expect(result.current.state.status).toBe(STATUS.RUNNING);
+      });
+
+      result.current.on(EVENTS.STEP_BEFORE, handler);
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(mockOnEvent).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 1 }),
+          expectControls(),
+        );
+        expect(handler).toHaveBeenCalledWith(
+          expect.objectContaining({ type: EVENTS.STEP_BEFORE, index: 1 }),
+          expectControls(),
+        );
+      });
+    });
+  });
+
   describe('Callbacks', () => {
     it('should fire tour lifecycle callbacks', async () => {
       renderHook(() =>

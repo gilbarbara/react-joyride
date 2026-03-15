@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useOnce } from '@gilbarbara/hooks';
 
 import useTourEngine from '~/hooks/useTourEngine';
@@ -7,7 +7,7 @@ import { logDebug, omit } from '~/modules/helpers';
 
 import TourRenderer from '~/components/TourRenderer';
 
-import type { Props, UseJoyrideReturn } from '~/types';
+import type { EventHandler, Events, Props, UseJoyrideReturn } from '~/types';
 
 export default function useJoyride(props: Props): UseJoyrideReturn {
   const { controls, mergedProps, state, step, store } = useTourEngine(props);
@@ -24,6 +24,11 @@ export default function useJoyride(props: Props): UseJoyrideReturn {
     });
   });
 
+  const on = useCallback(
+    (eventType: Events, handler: EventHandler) => store.current.on(eventType, handler),
+    [store],
+  );
+
   const publicState = useMemo(() => omit(state, 'positioned'), [state]);
 
   const Tour = canUseDOM() ? (
@@ -36,5 +41,5 @@ export default function useJoyride(props: Props): UseJoyrideReturn {
     />
   ) : null;
 
-  return { controls, state: publicState, step, Tour };
+  return { controls, on, state: publicState, step, Tour };
 }

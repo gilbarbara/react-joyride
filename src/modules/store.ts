@@ -5,7 +5,17 @@ import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { logDebug, omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
-import type { PositionData, Props, State, Step, StepMerged } from '~/types';
+import type {
+  Controls,
+  EventData,
+  EventHandler,
+  Events,
+  PositionData,
+  Props,
+  State,
+  Step,
+  StepMerged,
+} from '~/types';
 
 type Listener = (state: StoreState) => void;
 
@@ -14,6 +24,7 @@ export type StoreState = State & { positioned: boolean };
 
 class Store {
   private beaconPosition: PositionData | null = null;
+  private readonly eventListeners: Map<string, Set<EventHandler>> = new Map();
   private readonly listeners: Set<Listener> = new Set();
   private readonly props: Props;
   private snapshot: StoreState;
@@ -122,6 +133,35 @@ class Store {
     this.steps = steps;
 
     this.updateState({ size: steps.length });
+  };
+
+  public dispatch = (data: EventData, controls: Controls): void => {
+    const handlers = this.eventListeners.get(data.type);
+
+    if (handlers) {
+      for (const handler of handlers) {
+        try {
+          handler(data, controls);
+        } catch {
+          // fire-and-forget: don't let subscriber errors break the tour or other subscribers
+        }
+      }
+    }
+  };
+
+  public on = (eventType: Events, handler: EventHandler): (() => void) => {
+    let handlers = this.eventListeners.get(eventType);
+
+    if (!handlers) {
+      handlers = new Set();
+      this.eventListeners.set(eventType, handlers);
+    }
+
+    handlers.add(handler);
+
+    return () => {
+      handlers.delete(handler);
+    };
   };
 
   public subscribe = (listener: Listener): (() => void) => {
