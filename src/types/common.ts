@@ -138,6 +138,11 @@ export interface Options {
    */
   beforeTimeout: number;
   /**
+   * Block pointer events on the highlighted element through the spotlight cutout.
+   * @default false
+   */
+  blockTargetInteraction: boolean;
+  /**
    * The buttons to show in the tooltip.
    * @default ['back', 'close', 'primary']
    */
@@ -150,30 +155,10 @@ export interface Options {
    */
   closeButtonAction: 'close' | 'skip';
   /**
-   * Don't show the Beacon before the tooltip.
-   * @default false
-   */
-  disableBeacon: boolean;
-  /**
    * Disable the focus trap for the tooltip.
    * @default false
    */
   disableFocusTrap: boolean;
-  /**
-   * Don't show the overlay.
-   * @default false
-   */
-  disableOverlay: boolean;
-  /**
-   * Disable scrolling to the target.
-   * @default false
-   */
-  disableScroll: boolean;
-  /**
-   * Block pointer events on the highlighted element through the spotlight cutout.
-   * @default false
-   */
-  disableTargetInteraction: boolean;
   /**
    * The action to take when the ESC key is pressed.
    * - `'close'`: Closes the step (shows beacon on next step in continuous mode).
@@ -183,12 +168,17 @@ export interface Options {
    */
   dismissKeyAction: 'close' | 'next' | false;
   /**
+   * Don't show the overlay.
+   * @default false
+   */
+  hideOverlay: boolean;
+  /**
    * Delay (ms) before showing the loader while the tour is waiting.
    * @default 300
    */
   loaderDelay: number;
   /**
-   * The distance in pixels between the tooltip and the target.
+   * The distance in pixels between the tooltip and the spotlight.
    * @default 10
    */
   offset: number;
@@ -225,6 +215,16 @@ export interface Options {
    * @default false
    */
   showProgress: boolean;
+  /**
+   * Don't show the Beacon before the tooltip.
+   * @default false
+   */
+  skipBeacon: boolean;
+  /**
+   * Skip scrolling to the target.
+   * @default false
+   */
+  skipScroll: boolean;
   /**
    * The padding of the spotlight.
    * Accepts a number for equal padding on all sides, or an object with `top`, `right`, `bottom`, `left`.

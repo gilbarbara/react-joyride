@@ -111,7 +111,7 @@ describe('step', () => {
     it('should allow options to override defaultStep', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        options: { ...defaultOptions, disableOverlay: true, spotlightPadding: 20 },
+        options: { ...defaultOptions, hideOverlay: true, spotlightPadding: 20 },
       });
 
       const result = getMergedStep(props, baseStep);
@@ -122,7 +122,7 @@ describe('step', () => {
     it('should preserve unset options defaults when partial options is provided', () => {
       const props = fromPartial<Props>({
         ...baseProps,
-        options: { disableOverlay: true },
+        options: { hideOverlay: true },
       });
 
       const result = getMergedStep(props, baseStep);
@@ -135,14 +135,14 @@ describe('step', () => {
         ...baseProps,
         options: {
           ...defaultOptions,
-          disableOverlay: true,
+          hideOverlay: true,
           spotlightPadding: 20,
           scrollOffset: 50,
         },
       });
       const step: Step = {
         ...baseStep,
-        disableOverlay: false,
+        hideOverlay: false,
         scrollOffset: 10,
         spotlightPadding: 5,
       };

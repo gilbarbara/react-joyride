@@ -36,9 +36,9 @@ describe('useTourEngine', () => {
   const getEventResponse = eventResponseFactory({ size: 3 });
 
   const testSteps: Step[] = [
-    { target: '.step-1', content: 'Step 1', disableBeacon: true },
-    { target: '.step-2', content: 'Step 2', disableBeacon: true },
-    { target: '.step-3', content: 'Step 3', disableBeacon: true },
+    { target: '.step-1', content: 'Step 1', skipBeacon: true },
+    { target: '.step-2', content: 'Step 2', skipBeacon: true },
+    { target: '.step-3', content: 'Step 3', skipBeacon: true },
   ];
 
   function createProps(overrides: Partial<Props> = {}): Props {
@@ -182,7 +182,7 @@ describe('useTourEngine', () => {
 
     it('should hide beacon in continuous mode for NEXT action', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         { target: '.step-2', content: 'Step 2' }, // beacon enabled
       ];
 
@@ -211,7 +211,7 @@ describe('useTourEngine', () => {
     });
 
     it('should finish the tour when the last step completes', async () => {
-      const steps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
+      const steps: Step[] = [{ target: '.step-1', content: 'Step 1', skipBeacon: true }];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
 
@@ -303,9 +303,9 @@ describe('useTourEngine', () => {
   describe('Target Handling', () => {
     it('should fire TARGET_NOT_FOUND and auto-advance when target is missing (uncontrolled)', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
-        { target: '.step-3', content: 'Step 3', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 150 },
+        { target: '.step-3', content: 'Step 3', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -348,8 +348,8 @@ describe('useTourEngine', () => {
 
     it('should fire TARGET_NOT_FOUND when target is not visible', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 150 },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true, targetWaitTimeout: 150 },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -378,8 +378,8 @@ describe('useTourEngine', () => {
 
     it('should NOT auto-advance in controlled mode when target is missing', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 150 },
       ];
 
       const { rerender } = renderHook((props: Props) => useTourEngine(props), {
@@ -412,8 +412,8 @@ describe('useTourEngine', () => {
   describe('Target Wait/Retry', () => {
     it('should resolve target mid-poll and fire STEP_BEFORE', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, targetWaitTimeout: 1000 },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true, targetWaitTimeout: 1000 },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -453,9 +453,9 @@ describe('useTourEngine', () => {
 
     it('should fire TARGET_NOT_FOUND after polling timeout (uncontrolled)', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 200 },
-        { target: '.step-3', content: 'Step 3', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 200 },
+        { target: '.step-3', content: 'Step 3', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -498,8 +498,8 @@ describe('useTourEngine', () => {
 
     it('should skip polling with targetWaitTimeout: 0', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 0 },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 0 },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -531,8 +531,8 @@ describe('useTourEngine', () => {
       vi.useFakeTimers({ shouldAdvanceTime: true });
 
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 300 },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 300 },
       ];
 
       const { rerender } = renderHook((props: Props) => useTourEngine(props), {
@@ -572,11 +572,11 @@ describe('useTourEngine', () => {
 
     it('should set waiting flag immediately during polling', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.slow',
           content: 'Slow',
-          disableBeacon: true,
+          skipBeacon: true,
           targetWaitTimeout: 2000,
           loaderDelay: 200,
         },
@@ -614,8 +614,8 @@ describe('useTourEngine', () => {
   describe('Controlled Mode', () => {
     it('should fire NEXT action when stepIndex increases', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
       ];
 
       const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
@@ -646,8 +646,8 @@ describe('useTourEngine', () => {
 
     it('should fire PREV action when stepIndex decreases', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
       ];
 
       const { rerender } = renderHook((props: Props) => useTourEngine(props), {
@@ -676,9 +676,9 @@ describe('useTourEngine', () => {
 
     it('should ignore stepIndex changes when tour is finished', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
-        { target: '.step-3', content: 'Step 3', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
+        { target: '.step-3', content: 'Step 3', skipBeacon: true },
       ];
 
       const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
@@ -783,7 +783,7 @@ describe('useTourEngine', () => {
     });
 
     it('should update store size when steps change', async () => {
-      const initialSteps: Step[] = [{ target: '.step-1', content: 'Step 1', disableBeacon: true }];
+      const initialSteps: Step[] = [{ target: '.step-1', content: 'Step 1', skipBeacon: true }];
 
       const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
         initialProps: createProps({ steps: initialSteps, run: false }),
@@ -827,10 +827,10 @@ describe('useTourEngine', () => {
       await waitFor(() => expect(scrollTo).toHaveBeenCalled());
     });
 
-    it('should NOT call scrollTo when disableScroll is true on the step', async () => {
+    it('should NOT call scrollTo when skipScroll is true on the step', async () => {
       vi.mocked(needsScrolling).mockReturnValue(false);
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true, disableScroll: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true, skipScroll: true },
       ];
 
       const { result } = renderHook(() =>
@@ -905,7 +905,7 @@ describe('useTourEngine', () => {
         {
           target: '.step-1',
           content: 'Step 1',
-          disableBeacon: true,
+          skipBeacon: true,
           scrollTarget: '.scroll-target',
         },
       ];
@@ -994,8 +994,8 @@ describe('useTourEngine', () => {
 
     it('should reset any placement from COMPLETE to INIT', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', placement: 'center', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', placement: 'center', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1023,9 +1023,9 @@ describe('useTourEngine', () => {
 
     it('should auto-advance backward when PREV target is missing', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.missing', content: 'Missing', disableBeacon: true, targetWaitTimeout: 150 },
-        { target: '.step-3', content: 'Step 3', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 150 },
+        { target: '.step-3', content: 'Step 3', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1239,11 +1239,11 @@ describe('useTourEngine', () => {
   describe('before hook', () => {
     it('should delay step transition with before hook', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
-          disableBeacon: true,
+          skipBeacon: true,
           loaderDelay: 0,
           before: () => new Promise(resolve => setTimeout(resolve, 200)),
         },
@@ -1282,11 +1282,11 @@ describe('useTourEngine', () => {
 
     it('should delay step transition with before in controlled mode', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
-          disableBeacon: true,
+          skipBeacon: true,
           before: () => new Promise(resolve => setTimeout(resolve, 500)),
         },
       ];
@@ -1323,11 +1323,11 @@ describe('useTourEngine', () => {
       });
 
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
-          disableBeacon: true,
+          skipBeacon: true,
           before: () => delayPromise,
         },
       ];
@@ -1372,8 +1372,8 @@ describe('useTourEngine', () => {
       const beforeFn = vi.fn(() => Promise.resolve());
 
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true, before: beforeFn },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true, before: beforeFn },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1398,11 +1398,11 @@ describe('useTourEngine', () => {
 
     it('should proceed if async before rejects', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
-          disableBeacon: true,
+          skipBeacon: true,
           before: () => Promise.reject(new Error('fail')),
         },
       ];
@@ -1429,11 +1429,11 @@ describe('useTourEngine', () => {
 
     it('should proceed after beforeTimeout if async before never resolves', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
-          disableBeacon: true,
+          skipBeacon: true,
           before: () => new Promise<void>(() => {}),
           loaderDelay: 100,
           beforeTimeout: 500,
@@ -1476,8 +1476,8 @@ describe('useTourEngine', () => {
     it('should call after with correct data when step completes', async () => {
       const afterFn = vi.fn();
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true, after: afterFn },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1504,8 +1504,8 @@ describe('useTourEngine', () => {
         throw new Error('user error');
       });
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true, after: afterFn },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1534,7 +1534,7 @@ describe('useTourEngine', () => {
         {
           target: '.step-1',
           content: 'Step 1',
-          disableBeacon: true,
+          skipBeacon: true,
           before: () => Promise.resolve(),
         },
       ];
@@ -1598,7 +1598,7 @@ describe('useTourEngine', () => {
     it('should fire step:after and step:after_hook before tour:end on last step', async () => {
       const afterFn = vi.fn();
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true, after: afterFn },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1632,8 +1632,8 @@ describe('useTourEngine', () => {
     it('should not fire step:after on skip (status is already SKIPPED)', async () => {
       const afterFn = vi.fn();
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true, after: afterFn },
-        { target: '.step-2', content: 'Step 2', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true, after: afterFn },
+        { target: '.step-2', content: 'Step 2', skipBeacon: true },
       ];
 
       const { result } = renderHook(() => useTourEngine(createProps({ steps })));
@@ -1661,11 +1661,11 @@ describe('useTourEngine', () => {
 
     it('should fire tour:start before step:before_hook on stop/start resume', async () => {
       const steps: Step[] = [
-        { target: '.step-1', content: 'Step 1', disableBeacon: true },
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
         {
           target: '.step-2',
           content: 'Step 2',
-          disableBeacon: true,
+          skipBeacon: true,
           before: () => Promise.resolve(),
         },
       ];

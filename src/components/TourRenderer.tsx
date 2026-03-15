@@ -103,7 +103,7 @@ export default function TourRenderer({
   Prevent the overlay from flashing before the beacon is rendered.
    */
   const hideOverlay =
-    state.action === ACTIONS.START && !step.disableBeacon && step.placement !== 'center';
+    state.action === ACTIONS.START && !step.skipBeacon && step.placement !== 'center';
 
   return (
     <>
@@ -116,7 +116,7 @@ export default function TourRenderer({
           nonce={nonce}
           portalElement={element}
           setPositionData={store.current.setPositionData}
-          shouldScroll={!step.disableScroll && (index !== 0 || scrollToFirstStep)}
+          shouldScroll={!step.skipScroll && (index !== 0 || scrollToFirstStep)}
           step={step}
           updateState={store.current.updateState}
         />
