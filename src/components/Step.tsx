@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { useMount } from '@gilbarbara/hooks';
 import is from 'is-lite';
 
 import useFocusTrap from '~/hooks/useFocusTrap';
 import { LIFECYCLE } from '~/literals';
 import { getElement } from '~/modules/dom';
-import { logDebug } from '~/modules/helpers';
 import { validateStep } from '~/modules/step';
 import type { StoreState } from '~/modules/store';
 
@@ -31,7 +29,6 @@ export default function JoyrideStep(props: StepProps) {
   const {
     continuous,
     controls,
-    debug,
     index,
     lifecycle,
     nonce,
@@ -45,14 +42,6 @@ export default function JoyrideStep(props: StepProps) {
   const [tooltipElement, setTooltipElement] = useState<HTMLElement | null>(null);
 
   useFocusTrap(step.disableFocusTrap ? null : tooltipElement, '[data-action=primary]');
-
-  useMount(() => {
-    logDebug({
-      title: `step:${index}`,
-      data: [{ key: 'props', value: props }],
-      debug,
-    });
-  });
 
   const target = getElement(step.target);
   const open = lifecycle === LIFECYCLE.TOOLTIP;

@@ -29,17 +29,6 @@ interface GetReactNodeTextOptions {
   steps?: number;
 }
 
-interface LogOptions {
-  /** The data to be logged */
-  data?: any;
-  /** display the log */
-  debug?: boolean;
-  /** The title the logger was called from */
-  title: string;
-  /** If true, the message will be a warning */
-  warn?: boolean;
-}
-
 interface NeedsScrollingOptions {
   isFirstStep: boolean;
   scrollToFirstStep: boolean;
@@ -120,37 +109,21 @@ export function hexToRGB(hex: string): Array<number> {
 /**
  * Log method calls if debug is enabled
  */
-export function logDebug({ data, debug = false, title, warn = false }: LogOptions) {
+export function log(debug: boolean, scope: string, title: string, ...data: unknown[]): void {
   if (!debug) {
     return;
   }
 
-  /* eslint-disable no-console */
-  const logFn = warn ? (console.warn ?? console.error) : console.log;
+  const now = new Date();
+  const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}.${String(now.getMilliseconds()).padStart(3, '0')}`;
 
-  if (!data) {
-    logFn(`%creact-joyride: ${title}`, 'color: #ff0044; font-weight: bold; font-size: 12px;');
-  } else {
-    console.groupCollapsed(
-      `%creact-joyride: ${title}`,
-      'color: #ff0044; font-weight: bold; font-size: 12px;',
-    );
-
-    if (Array.isArray(data)) {
-      data.forEach(d => {
-        if (is.plainObject(d) && d.key) {
-          logFn.apply(console, [d.key, d.value]);
-        } else {
-          logFn.apply(console, [d]);
-        }
-      });
-    } else {
-      logFn.apply(console, [data]);
-    }
-
-    console.groupEnd();
-  }
-  /* eslint-enable */
+  // eslint-disable-next-line no-console
+  console.log(
+    `${scope} %c${title}%c ${time}`,
+    'font-weight: bold',
+    'color: gray; font-weight: normal',
+    ...data,
+  );
 }
 
 /**

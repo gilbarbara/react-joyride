@@ -21,17 +21,14 @@ const baseStep: Step = {
 
 describe('step', () => {
   describe('validateStep', () => {
-    const consoleWarn = console.warn;
-    const consoleGroupCollapsed = console.groupCollapsed;
+    const consoleLog = console.log;
 
     beforeAll(() => {
-      vi.spyOn(console, 'warn').mockImplementation(noop);
-      vi.spyOn(console, 'groupCollapsed').mockImplementation(noop);
+      vi.spyOn(console, 'log').mockImplementation(noop);
     });
 
     afterAll(() => {
-      console.warn = consoleWarn;
-      console.groupCollapsed = consoleGroupCollapsed;
+      console.log = consoleLog;
     });
 
     it.each([
@@ -50,23 +47,23 @@ describe('step', () => {
     it('should log warnings when debug is true', () => {
       validateStep({} as Step, true);
 
-      expect(console.groupCollapsed).toHaveBeenCalled();
-      expect(console.warn).toHaveBeenCalledWith('target is missing from the step');
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %ctarget is missing from the step%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+      );
     });
   });
 
   describe('validateSteps', () => {
-    const consoleWarn = console.warn;
-    const consoleGroupCollapsed = console.groupCollapsed;
+    const consoleLog = console.log;
 
     beforeAll(() => {
-      vi.spyOn(console, 'warn').mockImplementation(noop);
-      vi.spyOn(console, 'groupCollapsed').mockImplementation(noop);
+      vi.spyOn(console, 'log').mockImplementation(noop);
     });
 
     afterAll(() => {
-      console.warn = consoleWarn;
-      console.groupCollapsed = consoleGroupCollapsed;
+      console.log = consoleLog;
     });
 
     it.each([
@@ -92,8 +89,11 @@ describe('step', () => {
     it('should log warnings when debug is true', () => {
       validateSteps({} as Array<Step>, true);
 
-      expect(console.groupCollapsed).toHaveBeenCalled();
-      expect(console.warn).toHaveBeenCalledWith('steps must be an array');
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %csteps must be an array%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+      );
     });
   });
 

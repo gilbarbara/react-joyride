@@ -2,7 +2,7 @@ import { type RefObject, useMemo, useRef } from 'react';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
-import { logDebug, omit } from '~/modules/helpers';
+import { log, omit } from '~/modules/helpers';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
@@ -45,11 +45,7 @@ export default function useControls(
       const { controlled, size, status } = getState();
 
       if (controlled) {
-        logDebug({
-          title: 'go() is not supported in controlled mode',
-          debug: debugRef.current,
-          warn: true,
-        });
+        log(debugRef.current, 'tour', 'go() is not supported in controlled mode');
 
         return;
       }
@@ -125,11 +121,7 @@ export default function useControls(
       const { controlled } = getState();
 
       if (controlled) {
-        logDebug({
-          title: 'reset() is not supported in controlled mode',
-          debug: debugRef.current,
-          warn: true,
-        });
+        log(debugRef.current, 'tour', 'reset() is not supported in controlled mode');
 
         return;
       }

@@ -13,7 +13,7 @@ import type {
   StepMerged,
 } from '~/types';
 
-import { deepMerge, logDebug, pick } from './helpers';
+import { deepMerge, log, pick } from './helpers';
 
 const optionFieldNames = [
   'after',
@@ -114,23 +114,13 @@ export function normalizeSpotlightPadding(
  */
 export function validateStep(step: Step, debug: boolean = false): boolean {
   if (!is.plainObject(step)) {
-    logDebug({
-      title: 'validateStep',
-      data: 'step must be an object',
-      warn: true,
-      debug,
-    });
+    log(debug, 'tour', 'step must be an object');
 
     return false;
   }
 
   if (!step.target) {
-    logDebug({
-      title: 'validateStep',
-      data: 'target is missing from the step',
-      warn: true,
-      debug,
-    });
+    log(debug, 'tour', 'target is missing from the step');
 
     return false;
   }
@@ -143,12 +133,7 @@ export function validateStep(step: Step, debug: boolean = false): boolean {
  */
 export function validateSteps(steps: Array<Step>, debug: boolean = false): boolean {
   if (!is.array(steps)) {
-    logDebug({
-      title: 'validateSteps',
-      data: 'steps must be an array',
-      warn: true,
-      debug,
-    });
+    log(debug, 'tour', 'steps must be an array');
 
     return false;
   }

@@ -10,7 +10,6 @@ function createProps(overrides: Partial<OverlayProps> = {}) {
   return fromPartial<OverlayProps>({
     ...step,
     continuous: true,
-    debug: false,
     lifecycle: LIFECYCLE.TOOLTIP,
     onClickOverlay: vi.fn(),
     scrolling: false,

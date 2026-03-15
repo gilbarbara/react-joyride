@@ -138,9 +138,11 @@ function createState(overrides: Partial<StoreState> = {}): StoreState {
 }
 
 describe('useLifecycleEffect', () => {
+  const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
   const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
   beforeEach(() => {
+    consoleLogSpy.mockClear();
     consoleWarnSpy.mockClear();
     vi.mocked(getElement).mockClear().mockReturnValue(mockElement);
     vi.mocked(isElementVisible).mockClear().mockReturnValue(true);
@@ -558,11 +560,12 @@ describe('useLifecycleEffect', () => {
       vi.mocked(isElementVisible).mockReturnValue(false);
 
       const store = createMockStore();
+      const props = createMergedProps({ debug: true });
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
 
-      const options = createOptions({ store, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1, props });
 
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
@@ -570,7 +573,12 @@ describe('useLifecycleEffect', () => {
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Target not mounted', stepA);
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^step:0 %cTarget not mounted%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+        stepA,
+      );
       expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TARGET_NOT_FOUND, stepA);
     });
 
@@ -579,18 +587,24 @@ describe('useLifecycleEffect', () => {
       vi.mocked(isElementVisible).mockReturnValue(false);
 
       const store = createMockStore();
+      const props = createMergedProps({ debug: true });
 
       const state1 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.INIT });
       const state2 = createState({ status: STATUS.RUNNING, lifecycle: LIFECYCLE.READY });
 
-      const options = createOptions({ store, step: stepA, state: state1 });
+      const options = createOptions({ store, step: stepA, state: state1, props });
       const { rerender } = renderHook((options_: HookOptions) => useLifecycleEffect(options_), {
         initialProps: options,
       });
 
       rerender({ ...options, state: state2, previousState: state1 });
 
-      expect(consoleWarnSpy).toHaveBeenCalledWith('Target not visible', stepA);
+      expect(consoleLogSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^step:0 %cTarget not visible%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+        stepA,
+      );
       expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TARGET_NOT_FOUND, stepA);
     });
 

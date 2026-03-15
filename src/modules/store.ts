@@ -2,7 +2,7 @@ import deepEqual from '@gilbarbara/deep-equal';
 import is from 'is-lite';
 
 import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
-import { logDebug, omit } from '~/modules/helpers';
+import { log, omit } from '~/modules/helpers';
 import { getMergedStep } from '~/modules/step';
 
 import type {
@@ -24,6 +24,7 @@ export type StoreState = State & { positioned: boolean };
 
 class Store {
   private beaconPosition: PositionData | null = null;
+  private readonly debug: boolean;
   private readonly eventListeners: Map<string, Set<EventHandler>> = new Map();
   private readonly listeners: Set<Listener> = new Set();
   private readonly props: Props;
@@ -38,22 +39,19 @@ class Store {
 
     let startIndex = 0;
 
+    this.debug = options?.debug ?? false;
+
     if (isControlled) {
       startIndex = stepIndex;
 
       if (is.number(initialStepIndex)) {
-        logDebug({
-          title: 'initialStepIndex is ignored in controlled mode',
-          debug: options?.debug,
-          warn: true,
-        });
+        log(this.debug, 'tour', 'initialStepIndex is ignored in controlled mode');
       }
     } else if (is.number(initialStepIndex)) {
       if (initialStepIndex >= 0 && initialStepIndex < steps.length) {
         startIndex = initialStepIndex;
       } else if (steps.length > 0) {
-        // eslint-disable-next-line no-console
-        console.warn('react-joyride: initialStepIndex is out of bounds');
+        log(this.debug, 'tour', 'initialStepIndex is out of bounds');
       }
     }
 
@@ -108,6 +106,12 @@ class Store {
   public getState = (): State => omit(this.snapshot, 'positioned');
 
   public setPositionData = (name: 'beacon' | 'tooltip', data: PositionData) => {
+    const previous = name === 'beacon' ? this.beaconPosition : this.tooltipPosition;
+
+    if (!previous || previous.placement !== data.placement) {
+      log(this.debug, `step:${this.state.index}`, 'positioned', `${name} ${data.placement}`);
+    }
+
     if (name === 'beacon') {
       this.beaconPosition = data;
     } else {

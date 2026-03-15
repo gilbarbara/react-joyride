@@ -176,25 +176,33 @@ describe('store', () => {
     });
 
     it('should fall back to 0 when out of bounds', () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-      const store = createStore({ steps: standardSteps, initialStepIndex: 99 });
+      const store = createStore({ debug: true, steps: standardSteps, initialStepIndex: 99 });
 
       expect(store.getState().index).toBe(0);
-      expect(warnSpy).toHaveBeenCalledWith('react-joyride: initialStepIndex is out of bounds');
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %cinitialStepIndex is out of bounds%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+      );
 
-      warnSpy.mockRestore();
+      logSpy.mockRestore();
     });
 
     it('should fall back to 0 when negative', () => {
-      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-      const store = createStore({ steps: standardSteps, initialStepIndex: -1 });
+      const store = createStore({ debug: true, steps: standardSteps, initialStepIndex: -1 });
 
       expect(store.getState().index).toBe(0);
-      expect(warnSpy).toHaveBeenCalledWith('react-joyride: initialStepIndex is out of bounds');
+      expect(logSpy).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %cinitialStepIndex is out of bounds%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+      );
 
-      warnSpy.mockRestore();
+      logSpy.mockRestore();
     });
 
     it('should treat 0 the same as omitting it', () => {

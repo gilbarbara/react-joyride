@@ -8,7 +8,7 @@ import {
   getObjectType,
   getReactNodeText,
   hexToRGB,
-  logDebug,
+  log,
   mergeProps,
   needsScrolling,
   noop,
@@ -151,100 +151,50 @@ describe('helpers', () => {
 
   describe('log', () => {
     const consoleLog = console.log;
-    const consoleWarn = console.warn;
-    const consoleError = console.error;
-    const consoleGroupCollapsed = console.groupCollapsed;
 
     beforeAll(() => {
       vi.spyOn(console, 'log').mockImplementation(noop);
-      vi.spyOn(console, 'warn').mockImplementation(noop);
-      vi.spyOn(console, 'error').mockImplementation(noop);
-      vi.spyOn(console, 'groupCollapsed').mockImplementation(noop);
     });
 
     afterAll(() => {
       console.log = consoleLog;
-      console.warn = consoleWarn;
-      console.error = consoleError;
-      console.groupCollapsed = consoleGroupCollapsed;
     });
 
-    it('should not call log', () => {
-      logDebug({
-        title: 'data',
-        data: { a: 1 },
-      });
+    it('should not call log when debug is false', () => {
+      log(false, 'tour', 'data', { a: 1 });
 
       expect(console.log).toHaveBeenCalledTimes(0);
     });
 
-    it('should call log with debug: true', () => {
-      logDebug({
-        title: 'Hello',
-        data: 'World',
-        debug: true,
-      });
-
-      expect(console.groupCollapsed).toHaveBeenNthCalledWith(
-        1,
-        '%creact-joyride: Hello',
-        'color: #ff0044; font-weight: bold; font-size: 12px;',
-      );
-      expect(console.log).toHaveBeenNthCalledWith(1, 'World');
-
-      logDebug({
-        title: 'Code',
-        data: { a: 1 },
-        debug: true,
-      });
-
-      expect(console.groupCollapsed).toHaveBeenNthCalledWith(
-        1,
-        '%creact-joyride: Hello',
-        'color: #ff0044; font-weight: bold; font-size: 12px;',
-      );
-      expect(console.log).toHaveBeenNthCalledWith(1, 'World');
-    });
-
-    it('should call warn with debug: true and warn: true', () => {
-      logDebug({
-        title: 'Warn',
-        data: ['hi', { key: 'valid', value: true }],
-        warn: true,
-        debug: true,
-      });
-
-      expect(console.warn).toHaveBeenNthCalledWith(1, 'hi');
-      expect(console.warn).toHaveBeenNthCalledWith(2, 'valid', true);
-      expect(console.groupCollapsed).toHaveBeenNthCalledWith(
-        3,
-        '%creact-joyride: Warn',
-        'color: #ff0044; font-weight: bold; font-size: 12px;',
-      );
-    });
-
-    it('should handle missing title', () => {
-      // @ts-expect-error Missing title
-      logDebug({
-        data: { a: 1 },
-        debug: true,
-      });
-
-      expect(console.groupCollapsed).toHaveBeenCalledWith(
-        '%creact-joyride: undefined',
-        'color: #ff0044; font-weight: bold; font-size: 12px;',
-      );
-    });
-
-    it('should log styled title without data', () => {
-      logDebug({
-        title: 'Hey',
-        debug: true,
-      });
+    it('should log with data', () => {
+      log(true, 'tour', 'Hello', 'World');
 
       expect(console.log).toHaveBeenCalledWith(
-        '%creact-joyride: Hey',
-        'color: #ff0044; font-weight: bold; font-size: 12px;',
+        expect.stringMatching(/^tour %cHello%c \d{2}:\d{2}:\d{2}\.\d{3}$/),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+        'World',
+      );
+    });
+
+    it('should log with step scope', () => {
+      log(true, 'step:0', 'state', { a: 1 });
+
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/^step:0 %cstate%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
+        { a: 1 },
+      );
+    });
+
+    it('should log without data', () => {
+      log(true, 'tour', 'Hey');
+
+      expect(console.log).toHaveBeenCalledWith(
+        expect.stringMatching(/^tour %cHey%c /),
+        'font-weight: bold',
+        'color: gray; font-weight: normal',
       );
     });
   });
