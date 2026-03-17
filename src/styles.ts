@@ -1,3 +1,4 @@
+import { canUseDOM } from '~/modules/dom';
 import { deepMerge, hexToRGB } from '~/modules/helpers';
 
 import type { Props, StepMerged, Styles } from '~/types';
@@ -25,7 +26,7 @@ export default function getStyles(props: Props, step: StepMerged) {
   const mergedStyles = deepMerge<Styles>(styles ?? {}, step.styles ?? {});
   let { width } = step;
 
-  if (width !== undefined) {
+  if (canUseDOM()) {
     width = typeof width === 'number' && window.innerWidth < width ? window.innerWidth - 30 : width;
   }
 
