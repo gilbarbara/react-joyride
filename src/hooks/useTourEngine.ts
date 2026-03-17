@@ -1,5 +1,6 @@
-import { type RefObject, useMemo, useRef, useSyncExternalStore } from 'react';
+import { type RefObject, useMemo, useRef } from 'react';
 import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gilbarbara/hooks';
+import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
 import { defaultProps } from '~/defaults';
 import useControls from '~/hooks/useControls';

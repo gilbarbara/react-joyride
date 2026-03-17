@@ -47,7 +47,8 @@
     "is-lite": "^2.0.0",
     "react-innertext": "^1.1.5",
     "scroll": "^3.0.1",
-    "scrollparent": "^2.1.0"
+    "scrollparent": "^2.1.0",
+    "use-sync-external-store": "^1.6.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
@@ -67,6 +68,7 @@
     "@types/react-dom": "^19.2.3",
     "@types/scroll": "^3.0.3",
     "@types/scrollparent": "^2.0.3",
+    "@types/use-sync-external-store": "^1.5.0",
     "@vitejs/plugin-react-swc": "^4.2.3",
     "@vitest/coverage-v8": "^4.0.18",
     "caniuse-lite": "^1.0.30001770",

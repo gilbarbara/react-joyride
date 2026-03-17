@@ -7,9 +7,14 @@ import { fromPartial } from '~/test-utils';
 
 import type { Props, Step } from '~/types';
 
-vi.mock('~/modules/dom', () => ({
-  getElement: vi.fn(() => document.createElement('div')),
-}));
+vi.mock('~/modules/dom', async importOriginal => {
+  const actual = await importOriginal<typeof import('~/modules/dom')>();
+
+  return {
+    ...actual,
+    getElement: vi.fn(() => document.createElement('div')),
+  };
+});
 
 const baseProps: Props = defaultProps;
 
