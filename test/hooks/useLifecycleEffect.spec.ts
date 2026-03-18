@@ -110,6 +110,7 @@ function createMockStore() {
 
 function createOptions(overrides: Partial<HookOptions> = {}): HookOptions {
   return {
+    addFailure: vi.fn(),
     controls: createMockControls(),
     emitEvent: vi.fn(),
     previousState: undefined,
@@ -359,6 +360,7 @@ describe('useLifecycleEffect', () => {
 
       await new Promise(resolve => setTimeout(resolve, 0));
 
+      expect(options.addFailure).toHaveBeenCalledWith(step, 'before_hook');
       expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.ERROR, step, { error });
       expect(store.current.updateState).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -415,6 +417,7 @@ describe('useLifecycleEffect', () => {
 
       await new Promise(resolve => setTimeout(resolve, 250));
 
+      expect(options.addFailure).toHaveBeenCalledWith(step, 'before_hook');
       expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.ERROR, step, {
         error: expect.objectContaining({ message: 'Step before hook timed out' }),
       });
@@ -579,6 +582,7 @@ describe('useLifecycleEffect', () => {
         'color: gray; font-weight: normal',
         stepA,
       );
+      expect(options.addFailure).toHaveBeenCalledWith(stepA, 'target_not_found');
       expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TARGET_NOT_FOUND, stepA);
     });
 
@@ -605,6 +609,7 @@ describe('useLifecycleEffect', () => {
         'color: gray; font-weight: normal',
         stepA,
       );
+      expect(options.addFailure).toHaveBeenCalledWith(stepA, 'target_not_found');
       expect(options.emitEvent).toHaveBeenCalledWith(EVENTS.TARGET_NOT_FOUND, stepA);
     });
 

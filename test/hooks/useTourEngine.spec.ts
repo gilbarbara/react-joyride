@@ -1801,4 +1801,82 @@ describe('useTourEngine', () => {
       );
     });
   });
+
+  describe('failures', () => {
+    it('should be empty initially', async () => {
+      const { result } = renderHook(() => useTourEngine(createProps()));
+
+      expect(result.current.failures).toEqual([]);
+    });
+
+    it('should accumulate target_not_found failures', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 150 },
+        { target: '.step-3', content: 'Step 3', skipBeacon: true },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.missing') return null;
+
+        return mockElement;
+      });
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.failures).toHaveLength(1);
+      });
+
+      expect(result.current.failures[0]).toEqual(
+        expect.objectContaining({ reason: 'target_not_found' }),
+      );
+      expect(result.current.failures[0].step.target).toBe('.missing');
+    });
+
+    it('should clear failures on start()', async () => {
+      const steps: Step[] = [
+        { target: '.step-1', content: 'Step 1', skipBeacon: true },
+        { target: '.missing', content: 'Missing', skipBeacon: true, targetWaitTimeout: 150 },
+        { target: '.step-3', content: 'Step 3', skipBeacon: true },
+      ];
+
+      const { result } = renderHook(() => useTourEngine(createProps({ steps })));
+
+      await waitFor(() => expect(mockOnEvent).toHaveBeenCalledTimes(3));
+
+      vi.mocked(getElement).mockImplementation(target => {
+        if (target === '.missing') return null;
+
+        return mockElement;
+      });
+
+      act(() => {
+        result.current.controls.next();
+      });
+
+      await waitFor(() => {
+        expect(result.current.failures).toHaveLength(1);
+      });
+
+      // Wait for tour to finish auto-advancing to step 3
+      await waitFor(() => {
+        expect(result.current.state.index).toBe(2);
+      });
+
+      vi.mocked(getElement).mockReturnValue(mockElement);
+
+      act(() => {
+        result.current.controls.start(0);
+      });
+
+      expect(result.current.failures).toEqual([]);
+    });
+  });
 });

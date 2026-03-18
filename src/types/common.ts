@@ -20,6 +20,9 @@ export type ButtonType = 'back' | 'close' | 'primary' | 'skip';
 /** The event type passed to the `onEvent` callback. */
 export type Events = ValueOf<typeof EVENTS>;
 
+/** The reason a step failed during the tour. */
+export type FailureReason = 'before_hook' | 'target_not_found';
+
 /** The rendering phase of the current step. */
 export type Lifecycle = ValueOf<typeof LIFECYCLE>;
 

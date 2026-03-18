@@ -1,4 +1,4 @@
-import { type RefObject, useMemo, useRef } from 'react';
+import { type RefObject, useCallback, useMemo, useRef, useState } from 'react';
 import { useMemoDeepCompare, useMount, usePrevious, useUpdateEffect } from '@gilbarbara/hooks';
 import { useSyncExternalStore } from 'use-sync-external-store/shim';
 
@@ -15,12 +15,15 @@ import { getMergedStep, validateSteps } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 
-import type { Controls, Props, StepMerged } from '~/types';
+import type { Controls, FailureReason, Props, StepFailure, StepMerged } from '~/types';
+
+export type AddFailure = (step: StepMerged, reason: FailureReason) => void;
 
 export type MergedProps = ReturnType<typeof mergeProps<typeof defaultProps, Props>>;
 
 export interface UseTourEngineReturn {
   controls: Controls;
+  failures: StepFailure[];
   mergedProps: MergedProps;
   state: StoreState;
   step: StepMerged | null;
@@ -38,9 +41,19 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
     store.current.getServerSnapshot,
   );
 
+  const [failures, setFailures] = useState<StepFailure[]>([]);
+
+  const addFailure: AddFailure = useCallback((failedStep, reason) => {
+    setFailures(previous => [...previous, { reason, step: failedStep }]);
+  }, []);
+
+  const clearFailures = useCallback(() => {
+    setFailures([]);
+  }, []);
+
   useDebugLogger(store, debug);
 
-  const controls = useControls(store, debug);
+  const controls = useControls(store, debug, clearFailures);
   const emitEvent = useEventEmitter(onEvent, controls, store);
 
   const { index, size, status } = state;
@@ -70,6 +83,7 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
   });
 
   useLifecycleEffect({
+    addFailure,
     controls,
     emitEvent,
     previousState,
@@ -88,5 +102,5 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
     store,
   });
 
-  return { controls, mergedProps, state, step, store };
+  return { controls, failures, mergedProps, state, step, store };
 }

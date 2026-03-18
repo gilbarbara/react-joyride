@@ -15,10 +15,13 @@ function getUpdatedIndex(nextIndex: number, size: number): number {
 export default function useControls(
   store: RefObject<ReturnType<typeof createStore>>,
   debug: boolean,
+  clearFailures: () => void,
 ): Controls {
   const debugRef = useRef(debug);
+  const clearFailuresRef = useRef(clearFailures);
 
   debugRef.current = debug;
+  clearFailuresRef.current = clearFailures;
 
   return useMemo(() => {
     const getState = (): StoreState => store.current.getSnapshot();
@@ -126,6 +129,7 @@ export default function useControls(
         return;
       }
 
+      clearFailuresRef.current();
       store.current.updateState({
         action: ACTIONS.RESET,
         index: 0,
@@ -158,6 +162,7 @@ export default function useControls(
     const start = (nextIndex?: number) => {
       const { index, size } = getState();
 
+      clearFailuresRef.current();
       store.current.updateState(
         {
           action: ACTIONS.START,

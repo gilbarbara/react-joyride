@@ -19,9 +19,10 @@ function setup(overrides?: Partial<StoreState>) {
   store.updateState({ status: STATUS.RUNNING, ...overrides });
 
   const storeRef = { current: store };
-  const { result } = renderHook(() => useControls(storeRef, false));
+  const clearFailures = vi.fn();
+  const { result } = renderHook(() => useControls(storeRef, false, clearFailures));
 
-  return { result, store };
+  return { clearFailures, result, store };
 }
 
 describe('useControls', () => {
@@ -89,7 +90,7 @@ describe('useControls', () => {
       store.updateState({ status: STATUS.RUNNING });
 
       const storeRef = { current: store };
-      const { result } = renderHook(() => useControls(storeRef, true));
+      const { result } = renderHook(() => useControls(storeRef, true, vi.fn()));
 
       result.current.go(1);
 
@@ -191,12 +192,13 @@ describe('useControls', () => {
 
   describe('reset', () => {
     it('should reset to index 0 with READY status', () => {
-      const { result, store } = setup({ index: 2 });
+      const { clearFailures, result, store } = setup({ index: 2 });
 
       result.current.reset();
 
       const state = store.getSnapshot();
 
+      expect(clearFailures).toHaveBeenCalled();
       expect(state.action).toBe(ACTIONS.RESET);
       expect(state.index).toBe(0);
       expect(state.status).toBe(STATUS.READY);
@@ -216,7 +218,7 @@ describe('useControls', () => {
       store.updateState({ status: STATUS.RUNNING });
 
       const storeRef = { current: store };
-      const { result } = renderHook(() => useControls(storeRef, true));
+      const { result } = renderHook(() => useControls(storeRef, true, vi.fn()));
 
       result.current.reset();
 
@@ -260,12 +262,13 @@ describe('useControls', () => {
 
   describe('start', () => {
     it('should set RUNNING status with INIT lifecycle', () => {
-      const { result, store } = setup({ status: STATUS.READY });
+      const { clearFailures, result, store } = setup({ status: STATUS.READY });
 
       result.current.start();
 
       const state = store.getSnapshot();
 
+      expect(clearFailures).toHaveBeenCalled();
       expect(state.action).toBe(ACTIONS.START);
       expect(state.lifecycle).toBe(LIFECYCLE.INIT);
       expect(state.status).toBe(STATUS.RUNNING);
@@ -282,7 +285,7 @@ describe('useControls', () => {
     it('should set WAITING when size is 0', () => {
       const emptyStore = createStore({ steps: [], run: true });
       const storeRef = { current: emptyStore };
-      const { result } = renderHook(() => useControls(storeRef, false));
+      const { result } = renderHook(() => useControls(storeRef, false, vi.fn()));
 
       result.current.start();
 
