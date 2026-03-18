@@ -8,7 +8,7 @@ import type {
 } from '~/types/components';
 import type { FloatingOptions } from '~/types/floating';
 
-import type { Events, Locale, Options, Styles } from './common';
+import type { Events, FailureReason, Locale, Options, Styles } from './common';
 import type { EventHandler } from './events';
 import type { Controls, State } from './state';
 import type { SelectorOrElement, Step, StepMerged } from './step';
@@ -105,6 +105,8 @@ export type SharedProps = {
 export type UseJoyrideReturn = {
   /** Methods to programmatically control the tour. */
   controls: Controls;
+  /** Steps that failed during the current tour run (target not found, before hook errors). Clears on start/reset. */
+  failures: StepFailure[];
   /** Subscribe to a specific event type. Returns an unsubscribe function. */
   on: (eventType: Events, handler: EventHandler) => () => void;
   /** The current tour state. */
@@ -114,3 +116,9 @@ export type UseJoyrideReturn = {
   /** The tour React element to render. */
   Tour: ReactElement | null;
 };
+
+/** A step that failed during the tour. */
+export interface StepFailure {
+  reason: FailureReason;
+  step: StepMerged;
+}

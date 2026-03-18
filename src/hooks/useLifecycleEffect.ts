@@ -2,7 +2,7 @@ import { type RefObject, useEffect, useRef } from 'react';
 import { usePrevious } from '@gilbarbara/hooks';
 
 import type { EmitEvent } from '~/hooks/useEventEmitter';
-import type { MergedProps } from '~/hooks/useTourEngine';
+import type { AddFailure, MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
 import { getElement, isElementVisible } from '~/modules/dom';
@@ -14,6 +14,7 @@ import type { StoreState } from '~/modules/store';
 import type { Actions, Controls, StepMerged, StepTarget } from '~/types';
 
 interface UseLifecycleEffectOptions {
+  addFailure: AddFailure;
   controls: Controls;
   emitEvent: EmitEvent;
   previousState: StoreState | undefined;
@@ -24,7 +25,7 @@ interface UseLifecycleEffectOptions {
 }
 
 export default function useLifecycleEffect(options: UseLifecycleEffectOptions): void {
-  const { controls, emitEvent, previousState, props, state, step, store } = options;
+  const { addFailure, controls, emitEvent, previousState, props, state, step, store } = options;
   const { action, index, lifecycle, positioned, scrolling, size, status } = state;
 
   const previousStep = usePrevious(step) ?? null;
@@ -150,6 +151,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
             if (!abortController.signal.aborted) {
               log(debug, `step:${index}`, 'before()', 'timed out', `${timeout}ms`);
               abortController.abort();
+              addFailure(currentStep, 'before_hook');
               emitEvent(EVENTS.ERROR, currentStep, {
                 error: new Error('Step before hook timed out'),
               });
@@ -173,6 +175,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         .catch((error: unknown) => {
           if (!abortController.signal.aborted) {
             if (timeoutId) clearTimeout(timeoutId);
+            addFailure(currentStep, 'before_hook');
             emitEvent(EVENTS.ERROR, currentStep, {
               error: error instanceof Error ? error : new Error(String(error)),
             });
@@ -237,7 +240,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     return () => {
       cleanup();
     };
-  }, [emitEvent, index, lifecycle, status, store]);
+  }, [addFailure, emitEvent, index, lifecycle, status, store]);
 
   // Effect 3: Step presentation (READY → *_BEFORE → BEACON/TOOLTIP) + target not found
   useEffect(() => {
@@ -310,6 +313,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         currentStep,
       );
 
+      addFailure(currentStep, 'target_not_found');
       emitEvent(EVENTS.TARGET_NOT_FOUND, currentStep);
 
       const currentState = stateRef.current;
@@ -322,7 +326,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
         });
       }
     }
-  }, [emitEvent, index, lifecycle, store]);
+  }, [addFailure, emitEvent, index, lifecycle, store]);
 
   // Effect 4: *_BEFORE → BEACON/TOOLTIP transition + lifecycle callbacks
   useEffect(() => {

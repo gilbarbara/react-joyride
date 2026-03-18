@@ -9,7 +9,7 @@ import TourRenderer from '~/components/TourRenderer';
 import type { EventHandler, Events, Props, UseJoyrideReturn } from '~/types';
 
 export default function useJoyride(props: Props): UseJoyrideReturn {
-  const { controls, mergedProps, state, step, store } = useTourEngine(props);
+  const { controls, failures, mergedProps, state, step, store } = useTourEngine(props);
 
   const on = useCallback(
     (eventType: Events, handler: EventHandler) => store.current.on(eventType, handler),
@@ -28,5 +28,5 @@ export default function useJoyride(props: Props): UseJoyrideReturn {
     />
   ) : null;
 
-  return { controls, on, state: publicState, step, Tour };
+  return { controls, failures, on, state: publicState, step, Tour };
 }
