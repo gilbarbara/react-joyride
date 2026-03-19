@@ -1,6 +1,6 @@
 import { useSetState } from '@gilbarbara/hooks';
 
-import Joyride, { STATUS } from '~/index';
+import { Joyride, STATUS } from '~/index';
 
 import type { Props, Status, Step } from '~/types';
 

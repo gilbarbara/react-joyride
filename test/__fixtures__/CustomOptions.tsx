@@ -1,4 +1,4 @@
-import Joyride, { type Props, STATUS, type Step } from '~/index';
+import { Joyride, type Props, STATUS, type Step } from '~/index';
 import { hexToRGB } from '~/modules/helpers';
 
 interface CustomOptionsProps extends Omit<Props, 'steps'> {

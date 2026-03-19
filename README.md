@@ -26,7 +26,7 @@ npm i react-joyride
 ## Getting Started
 
 ```jsx
-import Joyride from 'react-joyride';
+import { Joyride } from 'react-joyride';
 
 export class App extends React.Component {
   state = {

@@ -1,4 +1,4 @@
-import useJoyride from '~/hooks/useJoyride';
+import { useJoyride } from '~/hooks/useJoyride';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { getElement, isElementVisible, scrollTo } from '~/modules/dom';
 import { act, eventResponseFactory, expectControls, renderHook, waitFor } from '~/test-utils';
