@@ -8,7 +8,7 @@ import TourRenderer from '~/components/TourRenderer';
 
 import type { EventHandler, Events, Props, UseJoyrideReturn } from '~/types';
 
-export default function useJoyride(props: Props): UseJoyrideReturn {
+export function useJoyride(props: Props): UseJoyrideReturn {
   const { controls, failures, mergedProps, state, step, store } = useTourEngine(props);
 
   const on = useCallback(
