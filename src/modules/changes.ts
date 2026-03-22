@@ -10,7 +10,7 @@ export function treeChanges<T extends Record<string, any> = StoreState>(state: T
       const previousValue = previous[key];
 
       if (Array.isArray(value)) {
-        return (value as T[K][]).includes(current) && !(value as T[K][]).includes(previousValue);
+        return value.includes(current) && !value.includes(previousValue);
       }
 
       return current === value && previousValue !== value;

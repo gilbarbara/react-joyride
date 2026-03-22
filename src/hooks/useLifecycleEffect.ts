@@ -464,11 +464,15 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       getMergedStep(propsRef.current, propsRef.current.steps[index - 1]);
 
     if (tourEndStep && hasChangedTo('status', [STATUS.FINISHED, STATUS.SKIPPED])) {
-      const tourEndIndex = currentStep
-        ? index
-        : previousStepValue
-          ? (previous.index ?? index)
-          : index - 1;
+      let tourEndIndex: number;
+
+      if (currentStep) {
+        tourEndIndex = index;
+      } else if (previousStepValue) {
+        tourEndIndex = previous.index ?? index;
+      } else {
+        tourEndIndex = index - 1;
+      }
 
       emitEvent(EVENTS.TOUR_END, tourEndStep, { index: tourEndIndex });
 
