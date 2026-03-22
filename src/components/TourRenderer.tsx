@@ -130,6 +130,7 @@ export default function TourRenderer({
               continuous={continuous}
               lifecycle={lifecycle}
               onClickOverlay={handleClickOverlay}
+              portalElement={portalElement ? element : null}
               scrolling={state.scrolling}
               waiting={state.waiting}
             />

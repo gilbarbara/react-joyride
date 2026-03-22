@@ -8,6 +8,23 @@ export function canUseDOM() {
 }
 
 /**
+ * Get the absolute document-relative offset of an element by walking up the offsetParent chain.
+ */
+export function getAbsoluteOffset(element: HTMLElement): { left: number; top: number } {
+  let top = 0;
+  let left = 0;
+  let current: HTMLElement | null = element;
+
+  while (current) {
+    top += current.offsetTop;
+    left += current.offsetLeft;
+    current = current.offsetParent as HTMLElement | null;
+  }
+
+  return { left, top };
+}
+
+/**
  * Find the bounding client rect
  */
 export function getClientRect(element: HTMLElement | null) {
@@ -178,7 +195,7 @@ export function getScrollTo(element: HTMLElement | null, offset: number): number
   const scrollMarginTop = parseFloat(getComputedStyle(element).scrollMarginTop) || 0;
 
   const parentRect = getClientRect(parentElement);
-  const parentScrollTop = parentElement?.scrollTop ?? 0;
+  const parentScrollTop = parentElement.scrollTop ?? 0;
 
   const { offsetTop = 0, scrollTop = 0 } = parentElement;
   let top = element.getBoundingClientRect().top + scrollTop;
@@ -201,17 +218,6 @@ export function getScrollTo(element: HTMLElement | null, offset: number): number
   const output = Math.floor(top - offset - scrollMarginTop);
 
   return output < 0 ? 0 : output;
-}
-
-/**
- *  Get computed style property
- */
-export function getStyleComputedProperty(el: HTMLElement): CSSStyleDeclaration | null {
-  if (!el || el.nodeType !== 1) {
-    return null;
-  }
-
-  return getComputedStyle(el);
 }
 
 /**

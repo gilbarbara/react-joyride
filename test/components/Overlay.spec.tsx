@@ -18,6 +18,23 @@ function createProps(overrides: Partial<OverlayProps> = {}) {
   });
 }
 
+function setElementLayout(
+  el: HTMLElement,
+  layout: {
+    clientHeight?: number;
+    clientWidth?: number;
+    offsetHeight?: number;
+    offsetLeft?: number;
+    offsetParent?: Element | null;
+    offsetTop?: number;
+    offsetWidth?: number;
+  },
+) {
+  for (const [key, value] of Object.entries(layout)) {
+    Object.defineProperty(el, key, { configurable: true, value });
+  }
+}
+
 describe('Overlay', () => {
   afterEach(() => {
     cleanup();
@@ -121,5 +138,97 @@ describe('Overlay', () => {
     const path = screen.getByTestId('spotlight').querySelector('path')! as SVGPathElement;
 
     expect(path.style.cursor).toBe('default');
+  });
+
+  describe('with portalElement', () => {
+    let containerDiv: HTMLDivElement;
+    let portalDiv: HTMLDivElement;
+    let targetDiv: HTMLDivElement;
+
+    beforeEach(() => {
+      containerDiv = document.createElement('div');
+      containerDiv.style.position = 'relative';
+
+      portalDiv = document.createElement('div');
+      portalDiv.id = 'portal';
+
+      targetDiv = document.createElement('div');
+      targetDiv.className = 'target';
+
+      containerDiv.appendChild(targetDiv);
+      containerDiv.appendChild(portalDiv);
+      document.body.appendChild(containerDiv);
+
+      setElementLayout(containerDiv, {
+        clientWidth: 800,
+        clientHeight: 600,
+        offsetTop: 100,
+        offsetLeft: 50,
+        offsetParent: document.body,
+      });
+
+      setElementLayout(targetDiv, {
+        offsetTop: 40,
+        offsetLeft: 200,
+        offsetWidth: 120,
+        offsetHeight: 30,
+        offsetParent: containerDiv,
+      });
+    });
+
+    afterEach(() => {
+      document.body.removeChild(containerDiv);
+    });
+
+    it('should use container dimensions when portalElement is set', () => {
+      const props = createProps({
+        portalElement: portalDiv,
+        target: '.target',
+      });
+
+      const { rerender } = render(<Overlay {...props} />);
+
+      setElementLayout(screen.getByTestId('overlay'), { offsetParent: containerDiv });
+
+      rerender(<Overlay {...props} />);
+
+      expect(screen.getByTestId('spotlight').getAttribute('style')).toContain('width: 800px');
+      expect(screen.getByTestId('spotlight').getAttribute('style')).toContain('height: 600px');
+    });
+
+    it('should compute spotlight position in layout space with portalElement', () => {
+      const props = createProps({
+        lifecycle: LIFECYCLE.READY,
+        portalElement: portalDiv,
+        target: '.target',
+      });
+
+      const { rerender } = render(<Overlay {...props} />);
+
+      setElementLayout(screen.getByTestId('overlay'), { offsetParent: containerDiv });
+
+      rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+
+      const d = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d') ?? '';
+
+      // targetOffset (200+50, 40+100) - containerOffset (50, 100) - padding (10, 10) = (190, 30)
+      // width: 120 + 10 + 10 = 140, height: 30 + 10 + 10 = 50
+      // Path starts at x+r (190+4=194) due to spotlightRadius
+      expect(d).toContain('M194 30H326');
+      expect(d).toContain('V76');
+    });
+
+    it('should fall back to window dimensions when portalElement has no positioned ancestor', () => {
+      const props = createProps({
+        portalElement: portalDiv,
+        target: '.target',
+      });
+
+      render(<Overlay {...props} />);
+
+      // offsetParent is null in jsdom by default — falls back to window dimensions
+      expect(screen.getByTestId('spotlight').getAttribute('style')).toContain('width: 1024px');
+      expect(screen.getByTestId('spotlight').getAttribute('style')).toContain('height: 50px');
+    });
   });
 });
