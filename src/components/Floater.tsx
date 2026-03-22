@@ -56,6 +56,25 @@ function getFallbackPlacements(placement: FloatingPlacement): FloatingPlacement[
   return undefined;
 }
 
+function getFlipMiddleware(isAuto: boolean, step: StepMerged, tooltipPlacement: FloatingPlacement) {
+  if (isAuto) {
+    return [autoPlacement()];
+  }
+
+  if (step.floatingOptions?.flipOptions === false) {
+    return [];
+  }
+
+  return [
+    flip({
+      crossAxis: false,
+      fallbackPlacements: getFallbackPlacements(tooltipPlacement),
+      padding: 20,
+      ...step.floatingOptions?.flipOptions,
+    }),
+  ];
+}
+
 export default function JoyrideFloater(props: FloaterProps) {
   const {
     continuous,
@@ -133,13 +152,11 @@ export default function JoyrideFloater(props: FloaterProps) {
         : [
             offset(
               ({ placement: currentPlacement }) => {
-                const side = currentPlacement.startsWith('top')
-                  ? 'top'
-                  : currentPlacement.startsWith('bottom')
-                    ? 'bottom'
-                    : currentPlacement.startsWith('left')
-                      ? 'left'
-                      : 'right';
+                let side: 'top' | 'bottom' | 'left' | 'right' = 'right';
+
+                if (currentPlacement.startsWith('top')) side = 'top';
+                else if (currentPlacement.startsWith('bottom')) side = 'bottom';
+                else if (currentPlacement.startsWith('left')) side = 'left';
 
                 const padding = step.spotlightTarget ? 0 : step.spotlightPadding[side];
 
@@ -155,18 +172,7 @@ export default function JoyrideFloater(props: FloaterProps) {
                 step.floatingOptions?.hideArrow,
               ],
             ),
-            ...(isAuto
-              ? [autoPlacement()]
-              : step.floatingOptions?.flipOptions === false
-                ? []
-                : [
-                    flip({
-                      crossAxis: false,
-                      fallbackPlacements: getFallbackPlacements(tooltipPlacement),
-                      padding: 20,
-                      ...step.floatingOptions?.flipOptions,
-                    }),
-                  ]),
+            ...getFlipMiddleware(isAuto, step, tooltipPlacement),
             shift({
               padding: 10,
               ...boundaryOptions,
@@ -182,19 +188,7 @@ export default function JoyrideFloater(props: FloaterProps) {
                 ]),
             ...(step.floatingOptions?.middleware ?? []),
           ],
-    [
-      isCenter,
-      isAuto,
-      boundaryOptions,
-      tooltipPlacement,
-      step.offset,
-      step.spotlightPadding,
-      step.spotlightTarget,
-      step.arrowSize,
-      step.arrowSpacing,
-      step.arrowBase,
-      step.floatingOptions,
-    ],
+    [isCenter, step, isAuto, tooltipPlacement, boundaryOptions],
   );
 
   const tooltipFloating = useFloating({

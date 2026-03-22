@@ -108,7 +108,7 @@ class Store {
   public setPositionData = (name: 'beacon' | 'tooltip', data: PositionData) => {
     const previous = name === 'beacon' ? this.beaconPosition : this.tooltipPosition;
 
-    if (!previous || previous.placement !== data.placement) {
+    if (previous?.placement !== data.placement) {
       log(this.debug, `step:${this.state.index}`, 'positioned', `${name} ${data.placement}`);
     }
 

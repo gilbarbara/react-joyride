@@ -94,14 +94,10 @@ export default function JoyrideOverlay(props: OverlayProps) {
     }
   }, [showCutout]);
 
-  if (
-    hideOverlay ||
-    (waiting
-      ? false
-      : continuous
-        ? hiddenLifecycles.includes(lifecycle)
-        : lifecycle !== LIFECYCLE.TOOLTIP)
-  ) {
+  const isHiddenInContinuous = continuous && hiddenLifecycles.includes(lifecycle);
+  const isHiddenInNonContinuous = !continuous && lifecycle !== LIFECYCLE.TOOLTIP;
+
+  if (hideOverlay || (!waiting && (isHiddenInContinuous || isHiddenInNonContinuous))) {
     return null;
   }
 
@@ -111,7 +107,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
 
   if (showCutout) {
     if (portalElement && container) {
-      const targetEl = getElement(spotlightTarget ?? target) as HTMLElement | null;
+      const targetEl = getElement(spotlightTarget ?? target);
 
       if (targetEl) {
         const targetOffset = getAbsoluteOffset(targetEl);
