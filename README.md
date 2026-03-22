@@ -13,7 +13,7 @@ And you can use your own components too!
 
 **View the demo [here](https://react-joyride.com/)** (or the codesandbox [examples](https://codesandbox.io/s/github/gilbarbara/react-joyride-demo))
 
-**Read the [docs](https://docs.react-joyride.com/)**
+**Read the [docs](https://docs-v2.react-joyride.com/)**
 
 Talk about it on the [Discussions board](https://github.com/gilbarbara/react-joyride/discussions).
 
