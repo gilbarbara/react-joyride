@@ -1,21 +1,28 @@
 # React Joyride
 
-[![](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) [![CI](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_react-joyride&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_react-joyride) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_react-joyride&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_react-joyride)
-
-[![Joyride example image](http://gilbarbara.com/files/react-joyride.png)](https://react-joyride.com/)
+[![](https://badge.fury.io/js/react-joyride.svg)](https://www.npmjs.com/package/react-joyride) [![CI](https://github.com/gilbarbara/react-joyride/actions/workflows/main.yml/badge.svg)](https://github.com/gilbarbara/react-joyride/actions/workflows/ci.yml) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_react-joyride&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=gilbarbara_react-joyride) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=gilbarbara_react-joyride&metric=coverage)](https://sonarcloud.io/summary/new_code?id=gilbarbara_react-joyride)
 
 #### Create awesome tours for your app!
 
-Showcase your app to new users or explain functionality of new features.
+Showcase your app to new users or explain the functionality of new features.
 
-It uses [@floating-ui/react-dom](https://floating-ui.com/) for positioning and styling.
-And you can use your own components too!
+[![Joyride example image](https://react-joyride.com/images/react-joyride-v3.gif)](https://react-joyride.com/)
 
-**View the demo [here](https://react-joyride.com/)** (or the codesandbox [examples](https://codesandbox.io/s/github/gilbarbara/react-joyride-demo))
+### Highlights
 
-**Read the [docs](https://docs.react-joyride.com/)**
+- 🎨 **Easy to use:** Just set the `steps` and you're good to go
+- 🔧 **Customizable:** Use your own components and styles
+- ♿ **Accessible:** Focus trapping, keyboard navigation, and ARIA support
+- 📦 **Lightweight:** ~30% smaller bundle than v2
+- 🔄 **Broad compatibility:** React 16.8+ through React 19
+- 🖥️ **SSR-safe:** Works with Next.js, Remix, and other server-rendering frameworks
 
-Talk about it on the [Discussions board](https://github.com/gilbarbara/react-joyride/discussions).
+### Resources
+
+- [Documentation](https://react-joyride.com/docs/getting-started)
+- [Demos](https://react-joyride.com/demos)
+- [What's new in v3](https://react-joyride.com/docs/new-in-v3)
+- [StackBlitz Playground](https://stackblitz.com/edit/react-joyride)
 
 ## Setup
 
@@ -23,70 +30,54 @@ Talk about it on the [Discussions board](https://github.com/gilbarbara/react-joy
 npm i react-joyride
 ```
 
-## Getting Started
+## Quick Start
 
-```jsx
+### Component API
+
+```tsx
 import { Joyride } from 'react-joyride';
 
-export class App extends React.Component {
-  state = {
-    steps: [
-      {
-        target: '.my-first-step',
-        content: 'This is my awesome feature!',
-      },
-      {
-        target: '.my-other-step',
-        content: 'This another awesome feature!',
-      },
-      ...
-    ]
-  };
+const steps = [
+  { target: '.my-first-step', content: 'This is my awesome feature!' },
+  { target: '.my-other-step', content: 'This is another awesome feature!' },
+];
 
-  render () {
-    const { steps } = this.state;
-
-    return (
-      <div className="app">
-        <Joyride
-          steps={steps}
-          ...
-        />
-        ...
-      </div>
-    );
-  }
+export function App() {
+  return (
+    <div>
+      <Joyride run steps={steps} />
+      {/* your app */}
+    </div>
+  );
 }
 ```
 
-> If you need to support legacy browsers you need to include the [scrollingelement](https://github.com/mathiasbynens/document.scrollingElement) polyfill.
+### Hook API
 
-## Advanced Configuration
+```tsx
+import { useJoyride } from 'react-joyride';
 
-React Joyride uses [@floating-ui/react-dom](https://floating-ui.com/) for tooltip positioning.
+const steps = [
+  { target: '.my-first-step', content: 'This is my awesome feature!' },
+  { target: '.my-other-step', content: 'This is another awesome feature!' },
+];
 
-You can pass options using the `floatingOptions` prop to control tooltip positioning, arrow styling, and other advanced features. See the [styling documentation](https://docs.react-joyride.com/styling) for detailed examples and configuration options.
+export function App() {
+  const { controls, state, Tour } = useJoyride({ steps });
 
----
-
-## Development
-
-Setting up a local development environment is easy!
-
-Clone (or fork) this repo on your machine, navigate to its location in the terminal and run:
-
-```bash
-npm install
-npm link # link your local repo to your global packages
-npm run watch # build the files and watch for changes
+  return (
+    <div>
+      <button onClick={() => controls.start()}>Start Tour</button>
+      {Tour}
+      {/* your app */}
+    </div>
+  );
+}
 ```
 
-Now clone https://github.com/gilbarbara/react-joyride-demo and run:
+## Migration from v2
 
-```bash
-npm install
-npm link react-joyride # just link your local copy into this project's node_modules
-npm start
-```
+Check the [migration guide](https://react-joyride.com/docs/migration) for detailed instructions on upgrading from v2.
 
-**Start coding!** 🎉
+## License
+MIT
