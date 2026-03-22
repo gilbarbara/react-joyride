@@ -75,6 +75,16 @@ export function App() {
 }
 ```
 
+## Agent Skill
+
+Enable AI assistants to implement guided tours with React Joyride.
+
+The skill gives your AI assistant comprehensive knowledge of the API, step configuration, events, custom components, and common patterns.
+
+```bash
+npx skills add gilbarbara/react-joyride
+```
+
 ## Migration from v2
 
 Check the [migration guide](https://react-joyride.com/docs/migration) for detailed instructions on upgrading from v2.
