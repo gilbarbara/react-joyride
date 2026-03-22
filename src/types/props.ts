@@ -45,7 +45,7 @@ export type Props = Simplify<
      */
     options?: Partial<Options>;
     /**
-     * The element to render the tooltip into. Accepts a CSS selector or HTMLElement.
+     * Render all Joyride components inside a specific element.
      */
     portalElement?: SelectorOrElement;
     /**
