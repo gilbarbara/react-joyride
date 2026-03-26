@@ -1,0 +1,48 @@
+name: Bug report
+description: Report a reproducible bug or regression
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue.
+
+        Before submitting, please check if your question is already answered:
+        - [Documentation](https://react-joyride.com/docs)
+        - [Migration guide](https://react-joyride.com/docs/migration)
+        - [Discussions](https://github.com/gilbarbara/react-joyride/discussions)
+        - [Open issues](https://github.com/gilbarbara/react-joyride/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+        - [Closed issues](https://github.com/gilbarbara/react-joyride/issues?q=is%3Aissue+sort%3Aupdated-desc+is%3Aclosed)
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: |
+        A clear description of the bug, how to reproduce it, and what you expected to happen.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: react-joyride version
+      placeholder: e.g. 3.0.0
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Reproduction link
+      description: |
+        A link to a StackBlitz, GitHub repo, or similar that reproduces the issue.
+        You can fork the [playground on StackBlitz](https://stackblitz.com/edit/react-joyride) to get started.
+        Issues with a reproduction link are resolved faster.
+      placeholder: e.g. https://stackblitz.com/...
+  - type: textarea
+    id: screenshots_or_videos
+    attributes:
+      label: Screenshots or videos
+      description: If applicable, add screenshots or a video to help explain the problem.
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Any other relevant information (OS, browser, build tool, etc.).
