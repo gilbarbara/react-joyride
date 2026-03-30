@@ -3,6 +3,7 @@
 @import "./docs.css";
 @import "./docsearch.css";
 @import "./keyframes.css";
+@import "./react-color.css";
 
 @plugin '../config/hero.ts';
 /* Note: You may need to change the path to fit your project structure */
@@ -67,6 +68,12 @@ input:-webkit-autofill:active {
 .react-joyride__floater button:focus-within {
   outline: 2px solid var(--outline-color);
   outline-offset: 2px;
+}
+
+.w-color-chrome {
+  > div:nth-child(3) {
+    padding-bottom: 8px !important;
+  }
 }
 
 .star-burst {

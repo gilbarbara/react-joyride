@@ -1,0 +1,20 @@
+html.dark {
+  .w-color-editable-input {
+    --editable-input-label-color: var(--color-gray-400) !important;
+    --editable-input-box-shadow: #616161 0px 0px 0px 1px inset !important;
+    --editable-input-color: #fff !important;
+  }
+
+  .w-color-github {
+    --github-border: 0 !important;
+    --github-background-color: var(--color-zinc-900) !important;
+    --github-box-shadow: unset !important;
+  }
+
+  .w-color-alpha {
+    --alpha-pointer-background-color: #6a6a6a !important;
+    --alpha-pointer-box-shadow: rgb(0 0 0 / 37%) 0px 1px 4px 0px !important;
+  }
+}
+
+

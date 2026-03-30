@@ -1,13 +1,12 @@
 import React from 'react';
 import { objectEntries, pick } from '@gilbarbara/helpers';
 import { Checkbox, Slider, Switch } from '@heroui/react';
-import { CircleXIcon } from 'lucide-react';
 
 import { defaultOptions } from '~/config/defaults';
 import type { ConfigContextValue } from '~/context/ConfigContext';
 
 import ButtonsToggle from '~/components/ButtonsToggle';
-import ColorPicker from '~/components/ColorPicker';
+import ColorSelector from '~/components/ColorSelector';
 
 interface AppearancePanelProps extends Pick<
   ConfigContextValue,
@@ -31,94 +30,45 @@ export default function AppearancePanel(props: AppearancePanelProps) {
           pick(defaultOptions, 'arrowColor', 'backgroundColor', 'primaryColor', 'textColor'),
         ).map(([key, fallback]) => {
           const currentValue = getConfigValue<string>(key);
-          const isCustomized = initialOptions[key] && initialOptions[key] !== currentValue;
-          let resetButton = null;
-
-          if (isCustomized) {
-            resetButton = (
-              <button
-                aria-label="Reset color"
-                className="p-1"
-                onClick={() => {
-                  setOption(key, initialOptions[key]);
-
-                  if (syncColors) {
-                    switch (key) {
-                      case 'backgroundColor': {
-                        setOption('arrowColor', initialOptions.backgroundColor);
-
-                        break;
-                      }
-                      case 'primaryColor': {
-                        setOption('textColor', initialOptions.primaryColor);
-
-                        break;
-                      }
-                      case 'arrowColor': {
-                        setOption('backgroundColor', initialOptions.arrowColor);
-
-                        break;
-                      }
-                      case 'textColor': {
-                        setOption('primaryColor', initialOptions.textColor);
-
-                        break;
-                      }
-                      // No default
-                    }
-                  }
-                }}
-                title="Reset Color"
-                type="button"
-              >
-                <CircleXIcon className="size-5" />
-              </button>
-            );
-          }
 
           return (
-            <div key={key} className="flex flex-col gap-1">
-              <span className="text-small">{key}</span>
-              <div className="flex items-center gap-2">
-                <ColorPicker
-                  color={currentValue || fallback}
-                  isDisabled={hasCustomTooltip}
-                  onChange={event => {
-                    const { value } = event.target;
+            <ColorSelector
+              key={key}
+              color={currentValue}
+              fallback={fallback}
+              initialColor={initialOptions[key]}
+              isDisabled={hasCustomTooltip}
+              label={key}
+              onChange={value => {
+                setOption(key, value);
 
-                    setOption(key, value);
+                if (syncColors) {
+                  switch (key) {
+                    case 'backgroundColor': {
+                      setOption('arrowColor', value);
 
-                    if (syncColors) {
-                      switch (key) {
-                        case 'backgroundColor': {
-                          setOption('arrowColor', value);
-
-                          break;
-                        }
-                        case 'arrowColor': {
-                          setOption('backgroundColor', value);
-
-                          break;
-                        }
-                        case 'primaryColor': {
-                          setOption('textColor', value);
-
-                          break;
-                        }
-                        case 'textColor': {
-                          setOption('primaryColor', value);
-
-                          break;
-                        }
-                        // No default
-                      }
+                      break;
                     }
-                  }}
-                  size="sm"
-                />
-                {resetButton}
-              </div>
-            </div>
+                    case 'arrowColor': {
+                      setOption('backgroundColor', value);
+
+                      break;
+                    }
+                    case 'primaryColor': {
+                      setOption('textColor', value);
+
+                      break;
+                    }
+                    case 'textColor': {
+                      setOption('primaryColor', value);
+
+                      break;
+                    }
+                    // No default
+                  }
+                }
+              }}
+            />
           );
         })}
       </div>
