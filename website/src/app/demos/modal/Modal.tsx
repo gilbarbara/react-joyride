@@ -259,6 +259,7 @@ export default function Modal() {
       <Container className="py-8 items-center justify-center">
         <Joyride
           onEvent={handleEvent}
+          portalElement="#joyride-portal"
           run={run}
           steps={steps}
           {...mergeProps(baseProps, joyrideProps)}
@@ -303,6 +304,7 @@ export default function Modal() {
 
         {/* React Modal — data table with toolbar */}
       </Container>
+      <div data-react-aria-top-layer id="joyride-portal" />
     </div>
   );
 }

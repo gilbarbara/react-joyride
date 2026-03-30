@@ -34,7 +34,6 @@ export default function HeroModal(props: HeroModalProps) {
           backdrop: '!z-[80]',
           wrapper: '!z-[90]',
         }}
-        isDismissable={false}
         isOpen={activeModal === 'heroui'}
         onOpenChange={onOpenChange}
         size="3xl"
