@@ -185,6 +185,7 @@ exports[`step > getMergedStep > should allow options to override defaultStep 1`]
       "top": 0,
       "zIndex": 100,
     },
+    "spotlight": {},
     "tooltip": {
       "backgroundColor": "#ffffff",
       "borderRadius": 5,
@@ -410,6 +411,7 @@ exports[`step > getMergedStep > should allow step props to override options 1`] 
       "top": 0,
       "zIndex": 100,
     },
+    "spotlight": {},
     "tooltip": {
       "backgroundColor": "#ffffff",
       "borderRadius": 5,
@@ -582,6 +584,7 @@ exports[`step > getMergedStep > should include styles in the merged step 1`] = `
     "top": 0,
     "zIndex": 100,
   },
+  "spotlight": {},
   "tooltip": {
     "backgroundColor": "#ffffff",
     "borderRadius": 5,
@@ -801,6 +804,7 @@ exports[`step > getMergedStep > should merge defaultStep values 1`] = `
       "top": 0,
       "zIndex": 100,
     },
+    "spotlight": {},
     "tooltip": {
       "backgroundColor": "#ffffff",
       "borderRadius": 5,
@@ -1047,6 +1051,7 @@ exports[`step > getMergedStep > should merge scrollOffset from props 1`] = `
       "top": 0,
       "zIndex": 100,
     },
+    "spotlight": {},
     "tooltip": {
       "backgroundColor": "#ffffff",
       "borderRadius": 5,
@@ -1272,6 +1277,7 @@ exports[`step > getMergedStep > should preserve unset options defaults when part
       "top": 0,
       "zIndex": 100,
     },
+    "spotlight": {},
     "tooltip": {
       "backgroundColor": "#ffffff",
       "borderRadius": 5,

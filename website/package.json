@@ -65,7 +65,7 @@
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
-    "start": "next start",
+    "start": "./scripts/start.sh",
     "lint": "eslint --fix src",
     "typecheck": "tsc --noEmit"
   },

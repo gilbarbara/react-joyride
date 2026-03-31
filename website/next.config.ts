@@ -16,6 +16,7 @@ const vendoredRsc = path.resolve(
 );
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   pageExtensions: ['ts', 'tsx'],
   reactStrictMode: true,
   outputFileTracingRoot: path.resolve(import.meta.dirname, '..'),

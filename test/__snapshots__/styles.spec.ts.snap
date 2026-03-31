@@ -132,6 +132,7 @@ exports[`styles > should return styles.arrow.color over options.arrowColor (comp
     "top": 0,
     "zIndex": 100,
   },
+  "spotlight": {},
   "tooltip": {
     "backgroundColor": "#ffffff",
     "borderRadius": 5,
@@ -298,6 +299,7 @@ exports[`styles > should return styles.arrow.color over options.arrowColor (step
     "top": 0,
     "zIndex": 100,
   },
+  "spotlight": {},
   "tooltip": {
     "backgroundColor": "#ffffff",
     "borderRadius": 5,
@@ -464,6 +466,7 @@ exports[`styles > should return the default styles 1`] = `
     "top": 0,
     "zIndex": 100,
   },
+  "spotlight": {},
   "tooltip": {
     "backgroundColor": "#ffffff",
     "borderRadius": 5,
@@ -630,6 +633,7 @@ exports[`styles > should return the inherited props' styles 1`] = `
     "top": 0,
     "zIndex": 100,
   },
+  "spotlight": {},
   "tooltip": {
     "backgroundColor": "#00f",
     "borderRadius": 5,
@@ -796,6 +800,7 @@ exports[`styles > should return the step's styles 1`] = `
     "top": 0,
     "zIndex": 100,
   },
+  "spotlight": {},
   "tooltip": {
     "backgroundColor": "#000",
     "borderRadius": 5,
