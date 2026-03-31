@@ -281,7 +281,7 @@ describe('store', () => {
 
       expect(() => {
         store.dispatch(createEventData({ type: EVENTS.TOOLTIP }), mockControls);
-      }).not.toThrowError();
+      }).not.toThrow();
     });
 
     it('should isolate errors between handlers', () => {

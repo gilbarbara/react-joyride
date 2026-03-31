@@ -260,7 +260,7 @@ describe('helpers', () => {
 
     it('should throw for bad inputs', () => {
       // @ts-expect-error - invalid value
-      expect(() => omit(['a'])).toThrowError('Expected an object');
+      expect(() => omit(['a'])).toThrow('Expected an object');
     });
   });
 
@@ -282,7 +282,7 @@ describe('helpers', () => {
 
     it('should throw for bad inputs', () => {
       // @ts-expect-error - invalid value
-      expect(() => pick(['a'])).toThrowError('Expected an object');
+      expect(() => pick(['a'])).toThrow('Expected an object');
     });
   });
 
