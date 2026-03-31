@@ -3,7 +3,7 @@ import Callout from '~/components/Callout.tsx';
 
 # Styles
 
-For finer control over individual elements, use the <Code color="primary">styles</Code> prop. Each key maps to a specific UI element and accepts a `CSSProperties` object.
+For finer control over individual elements, use the <Code color="primary">styles</Code> prop. Each key maps to a specific UI element and accepts a `CSSProperties` object, except for <Code color="primary">spotlight</Code> which accepts `SVGAttributes<SVGPathElement>`.
 
 ## Available Style Keys
 
@@ -21,6 +21,7 @@ For finer control over individual elements, use the <Code color="primary">styles
 | floater | Floating container |
 | loader | Loader wrapper |
 | overlay | Overlay backdrop |
+| spotlight | Spotlight (SVG path) |
 | tooltip | Tooltip wrapper |
 | tooltipContainer | Tooltip inner container |
 | tooltipContent | Tooltip body content |
@@ -43,6 +44,23 @@ For finer control over individual elements, use the <Code color="primary">styles
     },
     buttonBack: {
       color: '#666',
+    },
+  }}
+/>
+```
+
+## Spotlight Example
+
+The <Code color="primary">spotlight</Code> key accepts SVG path attributes, giving you full control over the spotlight appearance:
+
+```tsx
+<Joyride
+  steps={steps}
+  styles={{
+    spotlight: {
+      stroke: '#ff0044',
+      strokeWidth: 3,
+      strokeDasharray: '8 4',
     },
   }}
 />
