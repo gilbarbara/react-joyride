@@ -45,10 +45,11 @@ export default function JoyrideOverlay(props: OverlayProps) {
     spotlightPadding,
     scrolling || waiting,
   );
-  const previousLifecycleRef = useRef(lifecycle);
   const overlayRef = useRef<HTMLDivElement>(null);
 
-  const [showSpotlight, setShowSpotlight] = useState(false);
+  const showSpotlight =
+    (lifecycle === LIFECYCLE.TOOLTIP || lifecycle === LIFECYCLE.TOOLTIP_BEFORE) &&
+    placement !== 'center';
   const [spotlightReady, setSpotlightReady] = useState(false);
 
   const container = portalElement ? (overlayRef.current?.offsetParent as HTMLElement | null) : null;
@@ -66,23 +67,6 @@ export default function JoyrideOverlay(props: OverlayProps) {
       ...rest,
     } as CSSProperties;
   }, [overlayHeight, styles.overlay]);
-
-  useEffect(() => {
-    const previousLifecycle = previousLifecycleRef.current;
-
-    previousLifecycleRef.current = lifecycle;
-
-    if (
-      (lifecycle === LIFECYCLE.TOOLTIP || lifecycle === LIFECYCLE.TOOLTIP_BEFORE) &&
-      previousLifecycle !== LIFECYCLE.TOOLTIP &&
-      previousLifecycle !== LIFECYCLE.TOOLTIP_BEFORE &&
-      placement !== 'center'
-    ) {
-      setShowSpotlight(true);
-    } else if (lifecycle === LIFECYCLE.COMPLETE && previousLifecycle !== LIFECYCLE.COMPLETE) {
-      setShowSpotlight(false);
-    }
-  }, [lifecycle, placement]);
 
   const showCutout = showSpotlight && !scrolling && !waiting;
 

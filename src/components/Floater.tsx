@@ -217,21 +217,24 @@ export default function JoyrideFloater(props: FloaterProps) {
   beaconMiddlewareRef.current = beaconFloating.middlewareData;
 
   useEffect(() => {
-    const ref = tooltipFloating.refs.reference.current;
-    const floating = tooltipFloating.refs.floating.current;
+    const { floating, reference } = tooltipFloating.elements;
 
-    if (!ref || !floating || lifecycle !== LIFECYCLE.TOOLTIP) {
+    if (!reference || !floating || lifecycle !== LIFECYCLE.TOOLTIP) {
       return undefined;
     }
 
-    return autoUpdate(ref, floating, tooltipFloating.update, step.floatingOptions?.autoUpdate);
+    return autoUpdate(
+      reference,
+      floating,
+      tooltipFloating.update,
+      step.floatingOptions?.autoUpdate,
+    );
   }, [
     lifecycle,
-    tooltipFloating.refs.reference,
-    tooltipFloating.refs.floating,
     tooltipFloating.update,
     step.floatingOptions?.autoUpdate,
     step.target,
+    tooltipFloating.elements,
   ]);
 
   // Wire reference element to both floating instances
