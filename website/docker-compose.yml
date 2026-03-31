@@ -1,0 +1,14 @@
+services:
+  website:
+    build:
+      context: ..
+      dockerfile: website/Dockerfile
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    networks:
+      - joyride-network
+
+networks:
+  joyride-network:
+    driver: bridge

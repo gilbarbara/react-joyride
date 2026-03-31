@@ -174,6 +174,9 @@ export default function JoyrideOverlay(props: OverlayProps) {
             }}
           />
         )}
+        {coverPath && Object.keys(styles.spotlight).length > 0 && (
+          <path d={coverPath} fill="none" style={{ pointerEvents: 'none' }} {...styles.spotlight} />
+        )}
       </svg>
     </div>
   );

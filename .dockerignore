@@ -1,0 +1,8 @@
+.git
+coverage
+dist
+e2e
+node_modules
+test
+website/.next
+website/node_modules

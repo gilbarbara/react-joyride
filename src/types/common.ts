@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactNode, SVGAttributes } from 'react';
 
 import { ACTIONS, EVENTS, LIFECYCLE, ORIGIN, STATUS } from '~/literals';
 
@@ -295,6 +295,8 @@ export interface Styles {
   loader: CSSProperties;
   /** Overlay backdrop styles. */
   overlay: CSSProperties;
+  /** Spotlight styles (SVG Path). */
+  spotlight: SVGAttributes<SVGPathElement>;
   /** Tooltip wrapper styles. */
   tooltip: CSSProperties;
   /** Tooltip inner container styles. */

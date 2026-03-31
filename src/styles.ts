@@ -133,6 +133,7 @@ export default function getStyles(props: Props, step: StepMerged) {
       ...overlay,
       backgroundColor: step.overlayColor,
     },
+    spotlight: {},
     tooltip: {
       backgroundColor: step.backgroundColor,
       borderRadius: 5,

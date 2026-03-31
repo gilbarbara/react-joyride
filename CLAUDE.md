@@ -126,3 +126,7 @@ Next.js 16 documentation and demo site in `website/`. Imports library via local 
 - `ConfigContext` — centralized tour configuration for demos
 - `website/src/components/` — 33 components (ConfigPanel, custom tour components, code blocks, navigation)
 - `website/src/config/` — sidebar nav, default values, hero content
+
+## Visual Customization
+- Visual/cosmetic options (colors, borders, sizes) belong in `styles.*`, not as new Options fields.
+- Before adding a new option for appearance, check if it fits an existing or new `styles` key.
