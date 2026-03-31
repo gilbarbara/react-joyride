@@ -17,14 +17,14 @@ export interface ConfigContextValue {
   updateSettings: (updates: Partial<SerializableSettings>) => void;
 }
 
-export interface ConfigDefaults extends Required<Omit<SerializableSettings, 'options'>> {
+export interface ConfigDefaults extends Required<Omit<SerializableSettings, 'options' | 'styles'>> {
   options: Required<Omit<Options, 'after' | 'before'>>;
 }
 
 export interface ConfigOverrides
   extends
     Pick<Props, 'continuous' | 'debug' | 'initialStepIndex' | 'options' | 'scrollToFirstStep'>,
-    Omit<SharedProps, 'floatingOptions' | 'styles'> {}
+    Omit<SharedProps, 'floatingOptions'> {}
 
 export interface SerializableSettings {
   continuous?: boolean;
@@ -34,6 +34,7 @@ export interface SerializableSettings {
   localeKey?: LocaleKey;
   options?: Partial<Options>;
   scrollToFirstStep?: boolean;
+  styles?: Props['styles'];
   useCustomArrow?: boolean;
   useCustomBeacon?: boolean;
   useCustomTooltip?: boolean;

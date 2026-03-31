@@ -101,6 +101,7 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
       ...(settings.useCustomTooltip !== undefined && {
         tooltipComponent: settings.useCustomTooltip ? customComponents.Tooltip : undefined,
       }),
+      ...(settings.styles && { styles: settings.styles }),
       ...(settings.loaderVariant !== undefined &&
         (settings.loaderVariant === null
           ? { loaderComponent: null }
@@ -117,6 +118,7 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
       settings.localeKey,
       settings.scrollToFirstStep,
       settings.options,
+      settings.styles,
       settings.useCustomArrow,
       settings.useCustomBeacon,
       settings.useCustomTooltip,
@@ -136,6 +138,15 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
         );
       }
 
+      if (key === 'styles') {
+        const effectiveStyles = initialConfig.styles ?? {};
+
+        return Object.entries(value as Record<string, unknown>).some(
+          ([styleKey, styleValue]) =>
+            !deepEqual(styleValue, effectiveStyles[styleKey as keyof typeof effectiveStyles]),
+        );
+      }
+
       const effectiveDefault =
         (initialConfig as Record<string, unknown>)[key] ?? defaults[key as keyof typeof defaults];
 
@@ -147,21 +158,81 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
     setRouteDefaults(config);
   }, []);
 
-  const updateSettings = useCallback((updates: Partial<SerializableSettings>) => {
-    setSettings(previous => {
-      const next = {
-        ...previous,
-        ...updates,
-        ...(updates.options && {
-          options: { ...previous.options, ...updates.options },
-        }),
-      };
+  const updateSettings = useCallback(
+    (updates: Partial<SerializableSettings>) => {
+      setSettings(previous => {
+        const next = {
+          ...previous,
+          ...updates,
+          ...(updates.options && {
+            options: { ...previous.options, ...updates.options },
+          }),
+          ...(updates.styles && {
+            styles: Object.fromEntries(
+              Object.entries({ ...previous.styles, ...updates.styles }).map(([key, value]) => [
+                key,
+                {
+                  ...(previous.styles as Record<string, Record<string, unknown>>)?.[key],
+                  ...value,
+                },
+              ]),
+            ),
+          }),
+        };
 
-      saveToStorage(next);
+        // Strip option values that match effective defaults
+        if (next.options) {
+          const effectiveOptions = { ...defaultOptions, ...initialConfig.options };
 
-      return next;
-    });
-  }, []);
+          for (const [key, value] of Object.entries(next.options)) {
+            if (deepEqual(value, effectiveOptions[key as keyof typeof effectiveOptions])) {
+              delete next.options[key as keyof typeof next.options];
+            }
+          }
+
+          if (Object.keys(next.options).length === 0) {
+            delete next.options;
+          }
+        }
+
+        // Strip style values that match initial config
+        if (next.styles) {
+          const effectiveStyles = initialConfig.styles ?? {};
+
+          for (const [key, value] of Object.entries(next.styles)) {
+            if (deepEqual(value, effectiveStyles[key as keyof typeof effectiveStyles])) {
+              delete next.styles[key as keyof typeof next.styles];
+            }
+          }
+
+          if (Object.keys(next.styles).length === 0) {
+            delete next.styles;
+          }
+        }
+
+        // Strip top-level values that match effective defaults
+        for (const key of Object.keys(updates)) {
+          if (key === 'options' || key === 'styles') continue;
+
+          const effectiveDefault =
+            (initialConfig as Record<string, unknown>)[key] ??
+            defaults[key as keyof typeof defaults];
+
+          if (
+            effectiveDefault !== undefined &&
+            deepEqual(next[key as keyof typeof next], effectiveDefault)
+          ) {
+            delete next[key as keyof typeof next];
+          }
+        }
+
+        saveToStorage(next);
+
+        return next;
+      });
+    },
+    [initialConfig],
+  );
 
   const resetSettings = useCallback(() => {
     setSettings({});
@@ -213,6 +284,17 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
         }
 
         return topLevelDefaults[topKey] as T;
+      }
+
+      // Style keys use dot notation: "spotlight.stroke"
+      if (key.includes('.')) {
+        const [styleKey, prop] = key.split('.');
+        const stylesRecord = settings.styles as Record<string, Record<string, unknown>> | undefined;
+        const initialStyles = initialConfig.styles as
+          | Record<string, Record<string, unknown>>
+          | undefined;
+
+        return (stylesRecord?.[styleKey]?.[prop] ?? initialStyles?.[styleKey]?.[prop]) as T;
       }
 
       const optionKey = key as keyof typeof defaultOptions;

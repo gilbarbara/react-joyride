@@ -170,6 +170,7 @@ export default function ConfigPanel(props: ConfigPanelProps) {
               getConfigValue={getConfigValue}
               initialConfig={initialConfig}
               setOption={setOption}
+              updateSettings={updateSettings}
             />
           </AccordionItem>
           <AccordionItem

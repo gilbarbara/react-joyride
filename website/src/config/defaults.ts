@@ -4,7 +4,7 @@ import { defaultOptions } from 'react-joyride';
 
 import type { ConfigDefaults, SerializableSettings } from '~/context/ConfigContext';
 
-export const topLevelDefaults: Required<Omit<SerializableSettings, 'options'>> = {
+export const topLevelDefaults: Required<Omit<SerializableSettings, 'options' | 'styles'>> = {
   continuous: false,
   debug: false,
   initialStepIndex: 0,
