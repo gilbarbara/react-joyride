@@ -9,7 +9,9 @@ import { useConfig } from '~/context/ConfigContext';
 import useTheme from '~/hooks/useTheme';
 import { getTourColors, logGroup, mergeProps } from '~/modules/helpers';
 
+import Code from '~/components/Code';
 import Container from '~/components/Container';
+import Tip from '~/components/Tip';
 
 interface State {
   run: boolean;
@@ -18,8 +20,15 @@ interface State {
 
 const steps: Step[] = [
   {
-    content:
-      'This showcase lives inside a scrollable container. The tour scrolls within it automatically.',
+    content: (
+      <div>
+        <p>This tour scrolls inside a custom container automatically.</p>
+        <Tip>
+          This demo uses <Code color="primary">styles.spotlight</Code> to add a subtle border around
+          the spotlight.
+        </Tip>
+      </div>
+    ),
     target: '.ds__header',
     title: 'Custom Scroll Parent',
   },
@@ -77,7 +86,17 @@ export default function Scroll() {
       ({
         continuous: true,
         scrollToFirstStep: true,
-        options: getTourColors(isDarkMode),
+        options: {
+          ...getTourColors(isDarkMode),
+          spotlightPadding: 16,
+          spotlightRadius: 16,
+        },
+        styles: {
+          spotlight: {
+            stroke: isDarkMode ? '#ff5e5e99' : '#ff5e5e',
+            strokeWidth: '2px',
+          },
+        },
       }) satisfies Omit<Props, 'steps'>,
     [isDarkMode],
   );

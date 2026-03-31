@@ -4,6 +4,6 @@ import Overview from './Overview';
 
 export const metadata: Metadata = { title: 'Overview (Demo)' };
 
-export default function BasicPage() {
+export default function OverviewPage() {
   return <Overview />;
 }
