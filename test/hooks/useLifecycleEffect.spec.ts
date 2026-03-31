@@ -1172,7 +1172,7 @@ describe('useLifecycleEffect', () => {
 
       expect(() => {
         rerender({ ...options, step: stepB, state: state2, previousState: state1 });
-      }).not.toThrowError();
+      }).not.toThrow();
 
       expect(options.emitEvent).toHaveBeenCalledWith(
         EVENTS.STEP_AFTER,

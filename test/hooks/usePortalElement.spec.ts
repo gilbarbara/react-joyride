@@ -47,7 +47,7 @@ describe('usePortalElement', () => {
       // Simulate external removal before unmount
       portal?.remove();
 
-      expect(() => unmount()).not.toThrowError();
+      expect(() => unmount()).not.toThrow();
     });
   });
 

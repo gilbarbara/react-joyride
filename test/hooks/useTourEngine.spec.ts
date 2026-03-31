@@ -996,7 +996,7 @@ describe('useTourEngine', () => {
     it('should not crash with empty steps', () => {
       expect(() => {
         renderHook(() => useTourEngine(createProps({ steps: [] })));
-      }).not.toThrowError();
+      }).not.toThrow();
     });
 
     it('should use TOOLTIP for center placement (beacon hidden)', async () => {
