@@ -47,6 +47,33 @@ describe('Overlay', () => {
     expect(screen.getByTestId('overlay')).toMatchSnapshot();
   });
 
+  it('should show spotlight immediately on mount with lifecycle=TOOLTIP', () => {
+    const targetEl = document.createElement('div');
+
+    targetEl.className = 'target';
+    targetEl.getBoundingClientRect = () =>
+      ({
+        x: 100,
+        y: 200,
+        width: 120,
+        height: 30,
+        top: 200,
+        left: 100,
+        right: 220,
+        bottom: 230,
+      }) as DOMRect;
+    document.body.appendChild(targetEl);
+
+    render(<Overlay {...createProps()} />);
+
+    const paths = screen.getByTestId('spotlight').querySelectorAll('path');
+
+    // With spotlight visible, there should be a cutout path (more than just the overlay rect)
+    expect(paths.length).toBeGreaterThan(1);
+
+    document.body.removeChild(targetEl);
+  });
+
   it('should return null for hidden lifecycles in continuous mode', () => {
     const { container } = render(<Overlay {...createProps({ lifecycle: LIFECYCLE.BEACON })} />);
 

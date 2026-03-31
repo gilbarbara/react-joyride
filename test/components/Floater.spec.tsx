@@ -39,6 +39,10 @@ function createFloatingReturn(overrides: Record<string, unknown> = {}) {
     x: 100,
     y: 200,
     middlewareData: {},
+    elements: {
+      floating: null,
+      reference: null,
+    },
     refs: {
       setFloating: vi.fn(),
       setReference: vi.fn(),
@@ -89,6 +93,41 @@ describe('Floater', () => {
   afterEach(() => {
     cleanup();
     vi.clearAllMocks();
+  });
+
+  describe('autoUpdate', () => {
+    it('should call autoUpdate when elements are available and lifecycle is TOOLTIP', async () => {
+      const { autoUpdate: autoUpdateMock } = await import('@floating-ui/react-dom');
+
+      const floatingEl = document.createElement('div');
+      const referenceEl = document.createElement('div');
+      const updateFn = vi.fn();
+
+      mockUseFloating
+        .mockReturnValueOnce(
+          createFloatingReturn({
+            elements: { floating: floatingEl, reference: referenceEl },
+            update: updateFn,
+          }),
+        )
+        .mockReturnValueOnce(createFloatingReturn());
+
+      render(<Floater {...createProps()} />);
+
+      expect(autoUpdateMock).toHaveBeenCalledWith(referenceEl, floatingEl, updateFn, undefined);
+    });
+
+    it('should not call autoUpdate when elements are null', async () => {
+      const { autoUpdate: autoUpdateMock } = await import('@floating-ui/react-dom');
+
+      mockUseFloating
+        .mockReturnValueOnce(createFloatingReturn())
+        .mockReturnValueOnce(createFloatingReturn());
+
+      render(<Floater {...createProps()} />);
+
+      expect(autoUpdateMock).not.toHaveBeenCalled();
+    });
   });
 
   describe('lifecycle branching', () => {
