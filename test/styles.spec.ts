@@ -1,5 +1,5 @@
 import { getMergedStep } from '~/modules/step';
-import getStyles from '~/styles';
+import getStyles, { hexToRGB } from '~/styles';
 
 import type { Props, Step } from '~/types';
 
@@ -80,5 +80,16 @@ describe('styles', () => {
     };
 
     expect(getStyles(customStylesProps, getMergedStep(customStylesProps, step)!)).toMatchSnapshot();
+  });
+
+  describe('hexToRGB', () => {
+    it('should convert properly', () => {
+      expect(hexToRGB('#ff0044')).toEqual([255, 0, 68]);
+      expect(hexToRGB('#0f4')).toEqual([0, 255, 68]);
+    });
+
+    it('should return an empty array with invalid strings', () => {
+      expect(hexToRGB('asa')).toEqual([]);
+    });
   });
 });

@@ -1,27 +1,20 @@
 /* eslint-disable react/jsx-curly-brace-presence */
 import type { ReactNode } from 'react';
 
-import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import {
   cleanUpObject,
   deepMerge,
   getObjectType,
   getReactNodeText,
-  hexToRGB,
   log,
   mergeProps,
-  needsScrolling,
   noop,
   objectKeys,
   omit,
   pick,
   replaceLocaleContent,
-  shouldHideBeacon,
   sortObjectKeys,
 } from '~/modules/helpers';
-import { fromPartial } from '~/test-utils';
-
-import type { Step, StepMerged } from '~/types';
 
 interface Props {
   name: string;
@@ -77,74 +70,6 @@ describe('helpers', () => {
       ).toBe('Next (2 of 5)');
       expect(getReactNodeText('Next ({current} of {total})', { step: 2, steps: 5 })).toBe(
         'Next (2 of 5)',
-      );
-    });
-  });
-
-  describe('hexToRGB', () => {
-    it('should convert properly', () => {
-      expect(hexToRGB('#ff0044')).toEqual([255, 0, 68]);
-      expect(hexToRGB('#0f4')).toEqual([0, 255, 68]);
-    });
-
-    it('should return an empty array with invalid strings', () => {
-      expect(hexToRGB('asa')).toEqual([]);
-    });
-  });
-
-  describe('shouldHideBeacon', () => {
-    const baseState = {
-      action: ACTIONS.START,
-      controlled: true,
-      index: 0,
-      lifecycle: LIFECYCLE.INIT,
-      origin: null,
-      scrolling: false,
-      size: 5,
-      status: STATUS.RUNNING,
-      waiting: false,
-    };
-
-    const baseParameters = { step: { placement: 'auto' }, state: baseState, continuous: true };
-
-    it.each([
-      { ...baseParameters, step: { skipBeacon: false }, expected: false },
-      { ...baseParameters, step: { skipBeacon: true }, expected: true },
-      { ...baseParameters, step: { placement: 'bottom' }, expected: false },
-      { ...baseParameters, step: { placement: 'center' }, expected: true },
-      {
-        ...baseParameters,
-        step: { placement: 'auto' },
-        state: { ...baseState, action: ACTIONS.NEXT },
-        expected: true,
-      },
-      {
-        ...baseParameters,
-        step: { placement: 'auto' },
-        state: { ...baseState, action: ACTIONS.PREV },
-        expected: true,
-      },
-      {
-        ...baseParameters,
-        state: { ...baseState, action: ACTIONS.UPDATE },
-        expected: false,
-      },
-      {
-        ...baseParameters,
-        state: { ...baseState, action: ACTIONS.STOP },
-        expected: false,
-      },
-
-      {
-        ...baseParameters,
-        step: { placement: 'auto' },
-        state: { ...baseState, action: ACTIONS.NEXT },
-        continuous: false,
-        expected: false,
-      },
-    ])('should return properly', ({ continuous, expected, state, step }) => {
-      expect(shouldHideBeacon(fromPartial(step as Partial<Step>), state, continuous)).toBe(
-        expected,
       );
     });
   });
@@ -369,135 +294,6 @@ describe('helpers', () => {
       const result = deepMerge<{ a: number; b: number; c: number }>({ a: 1 }, { b: 2 }, { c: 3 });
 
       expect(result).toEqual({ a: 1, b: 2, c: 3 });
-    });
-  });
-
-  describe('needsScrolling', () => {
-    const target = document.createElement('div');
-    const baseStep = fromPartial<StepMerged>({
-      skipScroll: false,
-      isFixed: false,
-      placement: 'bottom',
-    });
-    const baseOptions = {
-      isFirstStep: false,
-      scrollToFirstStep: false,
-      step: baseStep,
-      target,
-      targetLifecycle: LIFECYCLE.BEACON,
-    };
-
-    it.each([
-      { ...baseOptions, label: 'base case', expected: true },
-      {
-        ...baseOptions,
-        step: fromPartial<StepMerged>({ ...baseStep, skipScroll: true }),
-        label: 'skipScroll',
-        expected: false,
-      },
-      {
-        ...baseOptions,
-        isFirstStep: true,
-        label: 'first step without scrollToFirstStep',
-        expected: false,
-      },
-      {
-        ...baseOptions,
-        isFirstStep: true,
-        scrollToFirstStep: true,
-        label: 'first step with scrollToFirstStep',
-        expected: true,
-      },
-      {
-        ...baseOptions,
-        isFirstStep: true,
-        targetLifecycle: LIFECYCLE.TOOLTIP,
-        label: 'first step with tooltip lifecycle',
-        expected: true,
-      },
-      {
-        ...baseOptions,
-        step: fromPartial<StepMerged>({ ...baseStep, placement: 'center' }),
-        label: 'center placement',
-        expected: false,
-      },
-      {
-        ...baseOptions,
-        target: null,
-        label: 'null target',
-        expected: true,
-      },
-    ])('should return $expected for $label', ({ expected, label: _, ...options }) => {
-      expect(needsScrolling(options)).toBe(expected);
-    });
-
-    it('should return false for target with fixed ancestor', () => {
-      const fixedTarget = document.createElement('div');
-
-      fixedTarget.style.position = 'fixed';
-      document.body.appendChild(fixedTarget);
-
-      expect(
-        needsScrolling({
-          ...baseOptions,
-          target: fixedTarget,
-        }),
-      ).toBe(false);
-
-      document.body.removeChild(fixedTarget);
-    });
-
-    it('should return false for fixed step', () => {
-      document.body.appendChild(target);
-
-      expect(
-        needsScrolling({
-          ...baseOptions,
-          step: fromPartial<StepMerged>({ ...baseStep, isFixed: true }),
-        }),
-      ).toBe(false);
-
-      document.body.removeChild(target);
-    });
-
-    it('should return false for fixed step with fixed target', () => {
-      const fixedTarget = document.createElement('div');
-
-      fixedTarget.style.position = 'fixed';
-      document.body.appendChild(fixedTarget);
-
-      expect(
-        needsScrolling({
-          ...baseOptions,
-          target: fixedTarget,
-          step: fromPartial<StepMerged>({ ...baseStep, isFixed: true }),
-        }),
-      ).toBe(false);
-
-      document.body.removeChild(fixedTarget);
-    });
-
-    it('should return true for fixed target with scrollable parent', () => {
-      const fixedContainer = document.createElement('div');
-
-      fixedContainer.style.position = 'fixed';
-      fixedContainer.style.overflow = 'auto';
-      Object.defineProperty(fixedContainer, 'scrollHeight', { value: 500, configurable: true });
-      Object.defineProperty(fixedContainer, 'offsetHeight', { value: 200, configurable: true });
-
-      const childTarget = document.createElement('div');
-
-      fixedContainer.appendChild(childTarget);
-      document.body.appendChild(fixedContainer);
-
-      expect(
-        needsScrolling({
-          ...baseOptions,
-          target: childTarget,
-        }),
-      ).toBe(true);
-
-      document.body.removeChild(fixedContainer);
     });
   });
 

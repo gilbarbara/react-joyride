@@ -5,9 +5,9 @@ import type { EmitEvent } from '~/hooks/useEventEmitter';
 import type { AddFailure, MergedProps } from '~/hooks/useTourEngine';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
 import { treeChanges } from '~/modules/changes';
-import { getElement, isElementVisible } from '~/modules/dom';
-import { log, needsScrolling, shouldHideBeacon } from '~/modules/helpers';
-import { getMergedStep } from '~/modules/step';
+import { getElement, isElementVisible, needsScrolling } from '~/modules/dom';
+import { log } from '~/modules/helpers';
+import { getMergedStep, shouldHideBeacon } from '~/modules/step';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 

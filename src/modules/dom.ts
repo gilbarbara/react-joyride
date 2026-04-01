@@ -1,7 +1,17 @@
 import scroll from 'scroll';
 import scrollParent from 'scrollparent';
 
-import type { StepTarget } from '~/types';
+import { LIFECYCLE } from '~/literals';
+
+import type { Lifecycle, StepMerged, StepTarget } from '~/types';
+
+interface NeedsScrollingOptions {
+  isFirstStep: boolean;
+  scrollToFirstStep: boolean;
+  step: StepMerged;
+  target: HTMLElement | null;
+  targetLifecycle?: Lifecycle;
+}
 
 export function canUseDOM() {
   return !!(typeof window !== 'undefined' && window.document?.createElement);
@@ -292,6 +302,27 @@ export function isElementVisible(element: HTMLElement): boolean {
   }
 
   return true;
+}
+
+export function needsScrolling(options: NeedsScrollingOptions): boolean {
+  const { isFirstStep, scrollToFirstStep, step, target, targetLifecycle } = options;
+
+  if (
+    step.skipScroll ||
+    (isFirstStep && !scrollToFirstStep && targetLifecycle !== LIFECYCLE.TOOLTIP) ||
+    step.placement === 'center'
+  ) {
+    return false;
+  }
+
+  const parent = (target?.isConnected ? getScrollParent(target) : scrollDocument()) as Element;
+  const isCustomScrollParent = parent ? !parent.isSameNode(scrollDocument()) : false;
+
+  if ((step.isFixed || hasPosition(target)) && !isCustomScrollParent) {
+    return false;
+  }
+
+  return parent.scrollHeight > parent.clientHeight;
 }
 
 export function scrollDocument(): Element | HTMLElement {

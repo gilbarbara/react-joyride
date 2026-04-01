@@ -1,8 +1,9 @@
 import { vi } from 'vitest';
 
 import { defaultFloatingOptions, defaultOptions, defaultProps, defaultStep } from '~/defaults';
+import { ACTIONS, LIFECYCLE, STATUS } from '~/literals';
 import { noop } from '~/modules/helpers';
-import { getMergedStep, validateStep, validateSteps } from '~/modules/step';
+import { getMergedStep, shouldHideBeacon, validateStep, validateSteps } from '~/modules/step';
 import { fromPartial } from '~/test-utils';
 
 import type { Props, Step } from '~/types';
@@ -214,6 +215,63 @@ describe('step', () => {
       const result = getMergedStep(baseProps, step);
 
       expect(result?.id).toBe('my-step');
+    });
+  });
+
+  describe('shouldHideBeacon', () => {
+    const baseState = {
+      action: ACTIONS.START,
+      controlled: true,
+      index: 0,
+      lifecycle: LIFECYCLE.INIT,
+      origin: null,
+      scrolling: false,
+      size: 5,
+      status: STATUS.RUNNING,
+      waiting: false,
+    };
+
+    const baseParameters = { step: { placement: 'auto' }, state: baseState, continuous: true };
+
+    it.each([
+      { ...baseParameters, step: { skipBeacon: false }, expected: false },
+      { ...baseParameters, step: { skipBeacon: true }, expected: true },
+      { ...baseParameters, step: { placement: 'bottom' }, expected: false },
+      { ...baseParameters, step: { placement: 'center' }, expected: true },
+      {
+        ...baseParameters,
+        step: { placement: 'auto' },
+        state: { ...baseState, action: ACTIONS.NEXT },
+        expected: true,
+      },
+      {
+        ...baseParameters,
+        step: { placement: 'auto' },
+        state: { ...baseState, action: ACTIONS.PREV },
+        expected: true,
+      },
+      {
+        ...baseParameters,
+        state: { ...baseState, action: ACTIONS.UPDATE },
+        expected: false,
+      },
+      {
+        ...baseParameters,
+        state: { ...baseState, action: ACTIONS.STOP },
+        expected: false,
+      },
+
+      {
+        ...baseParameters,
+        step: { placement: 'auto' },
+        state: { ...baseState, action: ACTIONS.NEXT },
+        continuous: false,
+        expected: false,
+      },
+    ])('should return properly', ({ continuous, expected, state, step }) => {
+      expect(shouldHideBeacon(fromPartial(step as Partial<Step>), state, continuous)).toBe(
+        expected,
+      );
     });
   });
 });
