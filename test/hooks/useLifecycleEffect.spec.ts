@@ -3,8 +3,8 @@ import type { RefObject } from 'react';
 import { defaultProps } from '~/defaults';
 import useLifecycleEffect from '~/hooks/useLifecycleEffect';
 import { ACTIONS, EVENTS, LIFECYCLE, STATUS } from '~/literals';
-import { getElement, isElementVisible } from '~/modules/dom';
-import { mergeProps, needsScrolling } from '~/modules/helpers';
+import { getElement, isElementVisible, needsScrolling } from '~/modules/dom';
+import { mergeProps } from '~/modules/helpers';
 import createStore from '~/modules/store';
 import type { StoreState } from '~/modules/store';
 import { createStep, fromPartial, renderHook } from '~/test-utils';
@@ -23,16 +23,8 @@ vi.mock('~/modules/dom', async () => {
     getScrollParent: vi.fn(() => document.documentElement),
     getScrollTo: vi.fn(() => 0),
     hasCustomScrollParent: vi.fn(() => false),
-    scrollTo: vi.fn(() => ({ cancel: vi.fn(), promise: Promise.resolve() })),
-  };
-});
-
-vi.mock('~/modules/helpers', async () => {
-  const actual = await vi.importActual('~/modules/helpers');
-
-  return {
-    ...actual,
     needsScrolling: vi.fn(() => false),
+    scrollTo: vi.fn(() => ({ cancel: vi.fn(), promise: Promise.resolve() })),
   };
 });
 

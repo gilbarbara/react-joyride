@@ -1,14 +1,17 @@
 import is from 'is-lite';
 
 import { defaultFloatingOptions, defaultLocale, defaultOptions, defaultStep } from '~/defaults';
+import { ACTIONS } from '~/literals';
 import getStyles from '~/styles';
 
 import type {
+  Actions,
   FloatingOptions,
   Locale,
   Options,
   Props,
   SpotlightPadding,
+  State,
   Step,
   StepMerged,
 } from '~/types';
@@ -107,6 +110,17 @@ export function normalizeSpotlightPadding(
     bottom: value?.bottom ?? 0,
     left: value?.left ?? 0,
   };
+}
+
+/**
+ * Decide if the step shouldn't skip the beacon
+ */
+export function shouldHideBeacon(step: Step, state: State, continuous: boolean): boolean {
+  const { action } = state;
+
+  const withContinuous = continuous && ([ACTIONS.PREV, ACTIONS.NEXT] as Actions[]).includes(action);
+
+  return step.skipBeacon || step.placement === 'center' || withContinuous;
 }
 
 /**

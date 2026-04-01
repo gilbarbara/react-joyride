@@ -3,21 +3,7 @@ import innerText from 'react-innertext';
 import deepmergeFactory from '@fastify/deepmerge';
 import is from 'is-lite';
 
-import { ACTIONS, LIFECYCLE } from '~/literals';
-
-import type {
-  Actions,
-  AnyObject,
-  Lifecycle,
-  NarrowPlainObject,
-  PlainObject,
-  Simplify,
-  State,
-  Step,
-  StepMerged,
-} from '~/types';
-
-import { getScrollParent, hasPosition, scrollDocument } from './dom';
+import type { AnyObject, NarrowPlainObject, PlainObject, Simplify } from '~/types';
 
 type RemoveType<TObject, TExclude = undefined> = {
   [Key in keyof TObject as TObject[Key] extends TExclude ? never : Key]: TObject[Key];
@@ -27,14 +13,6 @@ interface GetReactNodeTextOptions {
   defaultValue?: any;
   step?: number;
   steps?: number;
-}
-
-interface NeedsScrollingOptions {
-  isFirstStep: boolean;
-  scrollToFirstStep: boolean;
-  step: StepMerged;
-  target: HTMLElement | null;
-  targetLifecycle?: Lifecycle;
 }
 
 /**
@@ -95,18 +73,6 @@ export function getReactNodeText(input: ReactNode, options: GetReactNodeTextOpti
 }
 
 /**
- * Convert hex to RGB
- */
-export function hexToRGB(hex: string): Array<number> {
-  const shorthandRegex = /^#?([\da-f])([\da-f])([\da-f])$/i;
-  const properHex = hex.replace(shorthandRegex, (_m, r, g, b) => r + r + g + g + b + b);
-
-  const result = /^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})/i.exec(properHex);
-
-  return result ? [parseInt(result[1], 16), parseInt(result[2], 16), parseInt(result[3], 16)] : [];
-}
-
-/**
  * Log method calls if debug is enabled
  */
 export function log(debug: boolean, scope: string, title: string, ...data: unknown[]): void {
@@ -139,27 +105,6 @@ export function mergeProps<TDefaultProps extends PlainObject<any>, TProps extend
   return { ...defaultProps, ...cleanProps } as unknown as Simplify<
     TProps & Required<Pick<TProps, keyof TDefaultProps & string>>
   >;
-}
-
-export function needsScrolling(options: NeedsScrollingOptions): boolean {
-  const { isFirstStep, scrollToFirstStep, step, target, targetLifecycle } = options;
-
-  if (
-    step.skipScroll ||
-    (isFirstStep && !scrollToFirstStep && targetLifecycle !== LIFECYCLE.TOOLTIP) ||
-    step.placement === 'center'
-  ) {
-    return false;
-  }
-
-  const parent = (target?.isConnected ? getScrollParent(target) : scrollDocument()) as Element;
-  const isCustomScrollParent = parent ? !parent.isSameNode(scrollDocument()) : false;
-
-  if ((step.isFixed || hasPosition(target)) && !isCustomScrollParent) {
-    return false;
-  }
-
-  return parent.scrollHeight > parent.clientHeight;
 }
 
 /**
@@ -273,17 +218,6 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
   }
 
   return input;
-}
-
-/**
- * Decide if the step shouldn't skip the beacon
- */
-export function shouldHideBeacon(step: Step, state: State, continuous: boolean): boolean {
-  const { action } = state;
-
-  const withContinuous = continuous && ([ACTIONS.PREV, ACTIONS.NEXT] as Actions[]).includes(action);
-
-  return step.skipBeacon || step.placement === 'center' || withContinuous;
 }
 
 /**

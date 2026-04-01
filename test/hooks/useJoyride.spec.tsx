@@ -17,16 +17,8 @@ vi.mock('~/modules/dom', async () => {
     getScrollParent: vi.fn(() => document.documentElement),
     getScrollTo: vi.fn(() => 0),
     hasCustomScrollParent: vi.fn(() => false),
-    scrollTo: vi.fn(() => ({ cancel: vi.fn(), promise: Promise.resolve() })),
-  };
-});
-
-vi.mock('~/modules/helpers', async () => {
-  const actual = await vi.importActual('~/modules/helpers');
-
-  return {
-    ...actual,
     needsScrolling: vi.fn(() => false),
+    scrollTo: vi.fn(() => ({ cancel: vi.fn(), promise: Promise.resolve() })),
   };
 });
 
