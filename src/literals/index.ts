@@ -39,9 +39,10 @@ export const LIFECYCLE = {
 } as const;
 
 export const ORIGIN = {
+  BUTTON_BACK: 'button_back',
   BUTTON_CLOSE: 'button_close',
-  BUTTON_SKIP: 'button_skip',
   BUTTON_PRIMARY: 'button_primary',
+  BUTTON_SKIP: 'button_skip',
   KEYBOARD: 'keyboard',
   OVERLAY: 'overlay',
 } as const;

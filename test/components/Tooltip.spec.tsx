@@ -74,7 +74,7 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-primary'));
 
-    expect(controls.next).toHaveBeenCalledTimes(1);
+    expect(controls.next).toHaveBeenCalledWith('button_primary');
   });
 
   it('should call controls.close on primary click in non-continuous mode', () => {
@@ -107,7 +107,7 @@ describe('Tooltip', () => {
 
     fireEvent.click(screen.getByTestId('button-back'));
 
-    expect(controls.prev).toHaveBeenCalledTimes(1);
+    expect(controls.prev).toHaveBeenCalledWith('button_back');
   });
 
   it('should call controls.close on close button click', () => {

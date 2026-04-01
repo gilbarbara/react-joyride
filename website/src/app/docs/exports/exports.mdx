@@ -1,4 +1,5 @@
 import Callout from '~/components/Callout';
+import Code from '~/components/Code';
 
 # Exports
 
@@ -10,7 +11,7 @@ import { Joyride, ACTIONS, EVENTS, STATUS, useJoyride, type EventData } from 're
 
 ## Constants
 
-Objects you can use to compare against values in [`EventData`](./events#eventdata). All values are `as const`.
+Objects you can use to compare against values in [<Code color="primary">EventData</Code>](./events#eventdata). All values are typed `as const`.
 
 ### ACTIONS
 
@@ -18,17 +19,17 @@ The action that triggered the state update.
 
 | Constant | Value |
 |----------|-------|
-| `ACTIONS.INIT` | `'init'` |
-| `ACTIONS.START` | `'start'` |
-| `ACTIONS.STOP` | `'stop'` |
-| `ACTIONS.RESET` | `'reset'` |
-| `ACTIONS.PREV` | `'prev'` |
-| `ACTIONS.NEXT` | `'next'` |
-| `ACTIONS.GO` | `'go'` |
-| `ACTIONS.CLOSE` | `'close'` |
-| `ACTIONS.SKIP` | `'skip'` |
-| `ACTIONS.UPDATE` | `'update'` |
-| `ACTIONS.COMPLETE` | `'complete'` |
+| **ACTIONS.INIT** | `'init'` |
+| **ACTIONS.START** | `'start'` |
+| **ACTIONS.STOP** | `'stop'` |
+| **ACTIONS.RESET** | `'reset'` |
+| **ACTIONS.PREV** | `'prev'` |
+| **ACTIONS.NEXT** | `'next'` |
+| **ACTIONS.GO** | `'go'` |
+| **ACTIONS.CLOSE** | `'close'` |
+| **ACTIONS.SKIP** | `'skip'` |
+| **ACTIONS.UPDATE** | `'update'` |
+| **ACTIONS.COMPLETE** | `'complete'` |
 
 ### EVENTS
 
@@ -36,19 +37,19 @@ The event type fired via `onEvent`.
 
 | Constant | Value |
 |----------|-------|
-| `EVENTS.TOUR_START` | `'tour:start'` |
-| `EVENTS.STEP_BEFORE_HOOK` | `'step:before_hook'` |
-| `EVENTS.STEP_BEFORE` | `'step:before'` |
-| `EVENTS.SCROLL_START` | `'scroll:start'` |
-| `EVENTS.SCROLL_END` | `'scroll:end'` |
-| `EVENTS.BEACON` | `'beacon'` |
-| `EVENTS.TOOLTIP` | `'tooltip'` |
-| `EVENTS.STEP_AFTER` | `'step:after'` |
-| `EVENTS.STEP_AFTER_HOOK` | `'step:after_hook'` |
-| `EVENTS.TOUR_END` | `'tour:end'` |
-| `EVENTS.TOUR_STATUS` | `'tour:status'` |
-| `EVENTS.TARGET_NOT_FOUND` | `'error:target_not_found'` |
-| `EVENTS.ERROR` | `'error'` |
+| **EVENTS.TOUR_START** | `'tour:start'` |
+| **EVENTS.STEP_BEFORE_HOOK** | `'step:before_hook'` |
+| **EVENTS.STEP_BEFORE** | `'step:before'` |
+| **EVENTS.SCROLL_START** | `'scroll:start'` |
+| **EVENTS.SCROLL_END** | `'scroll:end'` |
+| **EVENTS.BEACON** | `'beacon'` |
+| **EVENTS.TOOLTIP** | `'tooltip'` |
+| **EVENTS.STEP_AFTER** | `'step:after'` |
+| **EVENTS.STEP_AFTER_HOOK** | `'step:after_hook'` |
+| **EVENTS.TOUR_END** | `'tour:end'` |
+| **EVENTS.TOUR_STATUS** | `'tour:status'` |
+| **EVENTS.TARGET_NOT_FOUND** | `'error:target_not_found'` |
+| **EVENTS.ERROR** | `'error'` |
 
 ### LIFECYCLE
 
@@ -56,13 +57,13 @@ The step's rendering phase. See [How It Works](./how-it-works#step-lifecycle) fo
 
 | Constant | Value |
 |----------|-------|
-| `LIFECYCLE.INIT` | `'init'` |
-| `LIFECYCLE.READY` | `'ready'` |
-| `LIFECYCLE.BEACON_BEFORE` | `'beacon_before'` |
-| `LIFECYCLE.BEACON` | `'beacon'` |
-| `LIFECYCLE.TOOLTIP_BEFORE` | `'tooltip_before'` |
-| `LIFECYCLE.TOOLTIP` | `'tooltip'` |
-| `LIFECYCLE.COMPLETE` | `'complete'` |
+| **LIFECYCLE.INIT** | `'init'` |
+| **LIFECYCLE.READY** | `'ready'` |
+| **LIFECYCLE.BEACON_BEFORE** | `'beacon_before'` |
+| **LIFECYCLE.BEACON** | `'beacon'` |
+| **LIFECYCLE.TOOLTIP_BEFORE** | `'tooltip_before'` |
+| **LIFECYCLE.TOOLTIP** | `'tooltip'` |
+| **LIFECYCLE.COMPLETE** | `'complete'` |
 
 ### ORIGIN
 
@@ -70,11 +71,14 @@ The UI element that triggered the action.
 
 | Constant | Value |
 |----------|-------|
-| `ORIGIN.BUTTON_CLOSE` | `'button_close'` |
-| `ORIGIN.BUTTON_SKIP` | `'button_skip'` |
-| `ORIGIN.BUTTON_PRIMARY` | `'button_primary'` |
-| `ORIGIN.KEYBOARD` | `'keyboard'` |
-| `ORIGIN.OVERLAY` | `'overlay'` |
+| **ORIGIN.BUTTON_BACK** | `'button_back'` |
+| **ORIGIN.BUTTON_CLOSE** | `'button_close'` |
+| **ORIGIN.BUTTON_PRIMARY** | `'button_primary'` |
+| **ORIGIN.BUTTON_SKIP** | `'button_skip'` |
+| **ORIGIN.KEYBOARD** | `'keyboard'` |
+| **ORIGIN.OVERLAY** | `'overlay'` |
+
+The `origin` is `null` when the action was triggered programmatically via controls rather than by a built-in UI element.
 
 ### STATUS
 
@@ -82,13 +86,13 @@ The tour's current status. See [How It Works](./how-it-works#tour-status) for de
 
 | Constant | Value |
 |----------|-------|
-| `STATUS.IDLE` | `'idle'` |
-| `STATUS.READY` | `'ready'` |
-| `STATUS.WAITING` | `'waiting'` |
-| `STATUS.RUNNING` | `'running'` |
-| `STATUS.PAUSED` | `'paused'` |
-| `STATUS.SKIPPED` | `'skipped'` |
-| `STATUS.FINISHED` | `'finished'` |
+| **STATUS.IDLE** | `'idle'` |
+| **STATUS.READY** | `'ready'` |
+| **STATUS.WAITING** | `'waiting'` |
+| **STATUS.RUNNING** | `'running'` |
+| **STATUS.PAUSED** | `'paused'` |
+| **STATUS.SKIPPED** | `'skipped'` |
+| **STATUS.FINISHED** | `'finished'` |
 
 ## Defaults
 
@@ -100,11 +104,11 @@ import { defaultLocale, defaultOptions } from 'react-joyride';
 
 ### defaultOptions
 
-An object containing the default values for all [`Options`](./props/options) fields (colors, sizes, behavior flags, timing, etc.).
+An object containing the default values for all [<Code color="primary">Options</Code>](./props/options) fields (colors, sizes, behavior flags, timing, etc.).
 
 ### defaultLocale
 
-An object containing the default [`Locale`](./props#locale) strings (button labels and aria-labels).
+An object containing the default [<Code color="primary">Locale</Code>](./props#locale) strings (button labels and aria-labels).
 
 ## Types
 

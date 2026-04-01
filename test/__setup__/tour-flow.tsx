@@ -20,9 +20,9 @@ interface TourFlowOptions {
 
 export interface TourInteractions {
   close: (origin?: Origin | null) => void;
-  next: () => void;
+  next: (origin?: Origin | null) => void;
   openTooltip: () => void;
-  prev: () => void;
+  prev: (origin?: Origin | null) => void;
   skip: (origin?: Origin) => void;
   start: () => void;
   supportsUIGuards: boolean;
@@ -108,6 +108,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         action: ACTIONS.NEXT,
         index: 0,
         lifecycle: LIFECYCLE.COMPLETE,
+        origin: interactions.supportsUIGuards ? 'button_primary' : null,
         type: EVENTS.STEP_AFTER,
       }),
       expectControls(),
@@ -319,6 +320,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         action: ACTIONS.PREV,
         index: 2,
         lifecycle: LIFECYCLE.COMPLETE,
+        origin: interactions.supportsUIGuards ? 'button_back' : null,
         type: EVENTS.STEP_AFTER,
       }),
       expectControls(),
@@ -332,6 +334,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         action: ACTIONS.PREV,
         index: 2,
         lifecycle: LIFECYCLE.COMPLETE,
+        origin: interactions.supportsUIGuards ? 'button_back' : null,
         type: EVENTS.STEP_AFTER_HOOK,
       }),
       expectControls(),
@@ -413,7 +416,7 @@ export function registerTourFlowTests(options: TourFlowOptions): void {
         action: ACTIONS.NEXT,
         index: 1,
         lifecycle: LIFECYCLE.COMPLETE,
-        origin: null,
+        origin: interactions.supportsUIGuards ? 'overlay' : null,
         type: EVENTS.STEP_AFTER,
       }),
       expectControls(),

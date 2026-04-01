@@ -100,7 +100,7 @@ function App() {
 ```
 
 <Callout type="tip">
-  <p>The handler receives [`EventData`](./events#eventdata) and [`Controls`](#controls) as arguments — the same as `onEvent`. Since `data` contains the full tour state (`index`, `action`, `status`, etc.), you rarely need external state in the handler.</p>
+  <p>The handler receives [<Code color="primary">EventData</Code>](./events#eventdata) and [<Code color="primary">Controls</Code>](#controls) as arguments — the same as `onEvent`. Since `data` contains the full tour state (`index`, `action`, `status`, etc.), you rarely need external state in the handler.</p>
 </Callout>
 
 <Callout type="warning">
@@ -115,7 +115,7 @@ function App() {
 | `controlled` | Whether the tour is in controlled mode (using `stepIndex`) | `boolean` |
 | `index` | The current step index | `number` |
 | `lifecycle` | The step's rendering phase | `Lifecycle` |
-| `origin` | The UI element that triggered the last action | `Origin \| null` |
+| `origin` | The UI element that triggered the last action, or `null` for programmatic calls | `Origin \| null` |
 | `scrolling` | Whether the tour is currently scrolling to a target | `boolean` |
 | `size` | The total number of steps | `number` |
 | `status` | The tour's current status | `Status` |
