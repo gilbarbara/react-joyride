@@ -4,7 +4,7 @@ import Code from '~/components/Code';
 
 # Events
 
-Use the `onEvent` prop to listen to tour state changes. It receives an [`EventData`](#eventdata) object and a [`Controls`](./hook#controls) object on every transition.
+Use the `onEvent` prop to listen to tour state changes. It receives an [<Code color="primary">EventData</Code>](#eventdata) object and a [<Code color="primary">Controls</Code>](./hook#controls) object on every transition.
 
 For the full event sequence, lifecycle phases, and status transitions, see [How It Works](./how-it-works).
 
@@ -16,41 +16,41 @@ For the full event sequence, lifecycle phases, and status transitions, see [How 
 
 | Constant | Value | Description |
 |----------|-------|-------------|
-| `EVENTS.TOUR_START` | `'tour:start'` | The tour started |
-| `EVENTS.STEP_BEFORE_HOOK` | `'step:before_hook'` | A step's `before` hook is executing |
-| `EVENTS.STEP_BEFORE` | `'step:before'` | A step is about to display |
-| `EVENTS.SCROLL_START` | `'scroll:start'` | Scrolling to the step target started |
-| `EVENTS.SCROLL_END` | `'scroll:end'` | Scrolling to the step target finished |
-| `EVENTS.BEACON` | `'beacon'` | The beacon is displayed |
-| `EVENTS.TOOLTIP` | `'tooltip'` | The tooltip is displayed |
-| `EVENTS.STEP_AFTER` | `'step:after'` | A step has ended |
-| `EVENTS.STEP_AFTER_HOOK` | `'step:after_hook'` | A step's `after` hook has executed |
-| `EVENTS.TOUR_END` | `'tour:end'` | The tour ended |
-| `EVENTS.TOUR_STATUS` | `'tour:status'` | The tour status changed (stop/reset) |
-| `EVENTS.TARGET_NOT_FOUND` | `'error:target_not_found'` | The step target was not found |
-| `EVENTS.ERROR` | `'error'` | An error occurred (e.g., in a `before` hook) |
+| **EVENTS.TOUR_START** | `'tour:start'` | The tour started |
+| **EVENTS.STEP_BEFORE_HOOK** | `'step:before_hook'` | A step's `before` hook is executing |
+| **EVENTS.STEP_BEFORE** | `'step:before'` | A step is about to display |
+| **EVENTS.SCROLL_START** | `'scroll:start'` | Scrolling to the step target started |
+| **EVENTS.SCROLL_END** | `'scroll:end'` | Scrolling to the step target finished |
+| **EVENTS.BEACON** | `'beacon'` | The beacon is displayed |
+| **EVENTS.TOOLTIP** | `'tooltip'` | The tooltip is displayed |
+| **EVENTS.STEP_AFTER** | `'step:after'` | A step has ended |
+| **EVENTS.STEP_AFTER_HOOK** | `'step:after_hook'` | A step's `after` hook has executed |
+| **EVENTS.TOUR_END** | `'tour:end'` | The tour ended |
+| **EVENTS.TOUR_STATUS** | `'tour:status'` | The tour status changed (stop/reset) |
+| **EVENTS.TARGET_NOT_FOUND** | `'error:target_not_found'` | The step target was not found |
+| **EVENTS.ERROR** | `'error'` | An error occurred (e.g., in a `before` hook) |
 
 See [Exports](./exports#events) for all constant values.
 
 ## EventData
 
-The `onEvent` callback receives two arguments: an `EventData` object and a [`Controls`](./hook#controls) object with tour control methods.
+The `onEvent` callback receives two arguments: an `EventData` object and a [<Code color="primary">Controls</Code>](./hook#controls) object with tour control methods.
 
 | Field | Description | Type |
 |-------|-------------|------|
-| `action` | The action that triggered the state update | [`Actions`](./exports#literal-unions) |
-| `controlled` | Whether the tour is in controlled mode | `boolean` |
-| `error` | The error (populated on `error` events) | `Error \| null` |
-| `index` | The current step index | `number` |
-| `lifecycle` | The step's lifecycle phase | [`Lifecycle`](./exports#literal-unions) |
-| `origin` | The UI element that triggered the action | [`Origin`](./exports#literal-unions) ` \| null` |
-| `scroll` | Scroll info (on `scroll:start` / `scroll:end`) | [`ScrollData`](#scrolldata) ` \| null` |
-| `scrolling` | Whether the tour is currently scrolling to a target | `boolean` |
-| `size` | The total number of steps | `number` |
-| `status` | The tour's current status | [`Status`](./exports#literal-unions) |
-| `step` | The current step with all defaults applied | [`StepMerged`](./exports#core) |
-| `type` | The event type | [`Events`](./exports#literal-unions) |
-| `waiting` | Whether the tour is waiting for a `before` hook or target | `boolean` |
+| **action** | The action that triggered the state update | [<Code color="primary">Actions</Code>](./exports#literal-unions) |
+| **controlled** | Whether the tour is in controlled mode | `boolean` |
+| **error** | The error (populated on `error` events) | `Error` \| `null` |
+| **index** | The current step index | `number` |
+| **lifecycle** | The step's lifecycle phase | [<Code color="primary">Lifecycle</Code>](./exports#literal-unions) |
+| **origin** | The UI element that triggered the action,<br/> Or `null` for programmatic calls (e.g., `controls.next()`) | [<Code color="primary">Origin</Code>](./exports#literal-unions) \| `null` |
+| **scroll** | Scroll info (on `scroll:start` / `scroll:end`) | [<Code color="primary">ScrollData</Code>](#scrolldata) \| `null` |
+| **scrolling** | Whether the tour is currently scrolling to a target | `boolean` |
+| **size** | The total number of steps | `number` |
+| **status** | The tour's current status | [<Code color="primary">Status</Code>](./exports#literal-unions) |
+| **step** | The current step with all defaults applied | [<Code color="primary">StepMerged</Code>](./exports#core) |
+| **type** | The event type | [<Code color="primary">Events</Code>](./exports#literal-unions) |
+| **waiting** | Whether the tour is waiting for a `before` hook or target | `boolean` |
 
 ### ScrollData
 
@@ -58,10 +58,10 @@ Populated in `scroll` when the event type is `scroll:start` or `scroll:end`:
 
 | Field | Description | Type |
 |-------|-------------|------|
-| `duration` | The scroll duration in milliseconds | `number` |
-| `element` | The element being scrolled | `Element` |
-| `initial` | The scroll position before scrolling | `number` |
-| `target` | The computed scroll destination | `number` |
+| **duration** | The scroll duration in milliseconds | `number` |
+| **element** | The element being scrolled | `Element` |
+| **initial** | The scroll position before scrolling | `number` |
+| **target** | The computed scroll destination | `number` |
 
 ### Waiting State
 

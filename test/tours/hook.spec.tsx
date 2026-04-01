@@ -13,14 +13,14 @@ let tourControls: Controls;
 
 const interactions: TourInteractions = {
   start: () => fireEvent.click(screen.getByTestId('start')),
-  next: () => {
+  next: origin => {
     act(() => {
-      tourControls.next();
+      tourControls.next(origin);
     });
   },
-  prev: () => {
+  prev: origin => {
     act(() => {
-      tourControls.prev();
+      tourControls.prev(origin);
     });
   },
   close: origin => {

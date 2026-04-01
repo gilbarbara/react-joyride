@@ -70,7 +70,7 @@ export default function useControls(
 
     const info = () => omit(store.current.getSnapshot(), 'positioned');
 
-    const next = () => {
+    const next = (origin?: Origin | null) => {
       const { index, size, status } = getState();
 
       if (status !== STATUS.RUNNING) {
@@ -81,6 +81,7 @@ export default function useControls(
         action: ACTIONS.NEXT,
         index: getUpdatedIndex(index + 1, size),
         lifecycle: LIFECYCLE.COMPLETE,
+        origin,
         positioned: false,
         scrolling: false,
         waiting: false,
@@ -103,7 +104,7 @@ export default function useControls(
       });
     };
 
-    const previous = () => {
+    const previous = (origin?: Origin | null) => {
       const { index, size, status } = getState();
 
       if (status !== STATUS.RUNNING) {
@@ -114,6 +115,7 @@ export default function useControls(
         action: ACTIONS.PREV,
         index: getUpdatedIndex(index - 1, size),
         lifecycle: LIFECYCLE.COMPLETE,
+        origin,
         positioned: false,
         scrolling: false,
         waiting: false,

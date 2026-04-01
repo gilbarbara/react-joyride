@@ -9,11 +9,11 @@ export type Controls = {
   /** Get the current tour state. */
   info: () => State;
   /** Advance to the next step. */
-  next: () => void;
+  next: (origin?: Origin | null) => void;
   /** Open the tooltip for the current step. */
   open: () => void;
   /** Go back to the previous step. */
-  prev: () => void;
+  prev: (origin?: Origin | null) => void;
   /** Reset the tour. Optionally restart from the beginning. */
   reset: (restart?: boolean) => void;
   /** Skip the tour entirely. */

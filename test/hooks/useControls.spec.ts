@@ -123,6 +123,22 @@ describe('useControls', () => {
       expect(state.index).toBe(1);
     });
 
+    it('should set origin when provided', () => {
+      const { result, store } = setup({ index: 0 });
+
+      result.current.next('button_primary');
+
+      expect(store.getSnapshot().origin).toBe('button_primary');
+    });
+
+    it('should default origin to null', () => {
+      const { result, store } = setup({ index: 0 });
+
+      result.current.next();
+
+      expect(store.getSnapshot().origin).toBeNull();
+    });
+
     it('should clamp index to size', () => {
       const { result, store } = setup({ index: 2 });
 
@@ -171,6 +187,22 @@ describe('useControls', () => {
 
       expect(state.action).toBe(ACTIONS.PREV);
       expect(state.index).toBe(1);
+    });
+
+    it('should set origin when provided', () => {
+      const { result, store } = setup({ index: 2 });
+
+      result.current.prev('button_back');
+
+      expect(store.getSnapshot().origin).toBe('button_back');
+    });
+
+    it('should default origin to null', () => {
+      const { result, store } = setup({ index: 2 });
+
+      result.current.prev();
+
+      expect(store.getSnapshot().origin).toBeNull();
     });
 
     it('should clamp index to 0', () => {

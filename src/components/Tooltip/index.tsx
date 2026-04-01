@@ -22,7 +22,7 @@ export default function Tooltip(props: TooltipProps) {
   const handleClickBack = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
 
-    controls.prev();
+    controls.prev(ORIGIN.BUTTON_BACK);
   };
 
   const handleClickClose = (event: MouseEvent<HTMLElement>) => {
@@ -44,7 +44,7 @@ export default function Tooltip(props: TooltipProps) {
       return;
     }
 
-    controls.next();
+    controls.next(ORIGIN.BUTTON_PRIMARY);
   };
 
   const handleClickSkip = (event: MouseEvent<HTMLElement>) => {

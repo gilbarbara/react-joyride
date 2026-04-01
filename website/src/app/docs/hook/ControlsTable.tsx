@@ -44,7 +44,7 @@ export default function ControlsTable() {
               <p>Advance to the next step. Only works when the tour is running.</p>
             </td>
             <td>
-              <Code>{'() => void'}</Code>
+              <Code>{'(origin?: Origin | null) => void'}</Code>
             </td>
           </tr>
           <tr>
@@ -53,7 +53,7 @@ export default function ControlsTable() {
               <p>Go back to the previous step. Only works when the tour is running.</p>
             </td>
             <td>
-              <Code>{'() => void'}</Code>
+              <Code>{'(origin?: Origin | null) => void'}</Code>
             </td>
           </tr>
           <tr>

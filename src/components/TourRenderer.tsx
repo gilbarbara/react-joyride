@@ -72,7 +72,7 @@ export default function TourRenderer({
 
       if (event.key === 'Escape' && step.dismissKeyAction) {
         if (step.dismissKeyAction === 'next') {
-          controls.next();
+          controls.next(ORIGIN.KEYBOARD);
         } else {
           controls.close(ORIGIN.KEYBOARD);
         }
@@ -90,7 +90,7 @@ export default function TourRenderer({
     if (step?.overlayClickAction === 'close') {
       controls.close(ORIGIN.OVERLAY);
     } else if (step?.overlayClickAction === 'next') {
-      controls.next();
+      controls.next(ORIGIN.OVERLAY);
     }
   }, [controls, step?.overlayClickAction]);
 
