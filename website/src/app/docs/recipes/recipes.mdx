@@ -1,0 +1,204 @@
+import Callout from '~/components/Callout';
+import Code from '~/components/Code';
+
+# Recipes
+
+Common patterns and solutions for real-world use cases.
+
+## Dark Mode / Theming
+
+Joyride's visual options make it easy to adapt the tour to your app's theme. Pass color values through the `options` prop:
+
+```tsx
+import { useJoyride } from 'react-joyride';
+
+function App() {
+  const isDarkMode = useTheme(); // your theme hook
+
+  const { Tour } = useJoyride({
+    steps,
+    run: true,
+    options: {
+      backgroundColor: isDarkMode ? '#333333' : '#ffffff',
+      textColor: isDarkMode ? '#ffffff' : '#000000',
+      primaryColor: isDarkMode ? '#ffffff' : '#000000',
+      arrowColor: isDarkMode ? '#333333' : '#ffffff',
+      overlayColor: isDarkMode ? 'rgba(0, 0, 0, 0.7)' : 'rgba(0, 0, 0, 0.5)',
+    },
+  });
+
+  return <div>{Tour}</div>;
+}
+```
+
+The color options:
+
+| Option | What it styles |
+|--------|---------------|
+| `backgroundColor` | Tooltip background |
+| `textColor` | Tooltip text |
+| `primaryColor` | Primary button and beacon |
+| `arrowColor` | Arrow fill (should match `backgroundColor`) |
+| `overlayColor` | Overlay backdrop |
+
+For finer control, use the `styles` prop to target individual elements. See [Styles](/docs/props/styles) for all available keys.
+
+<Callout type="demo" title="See it in action">
+All demos on this site use theme-aware colors. Toggle the theme switcher in the header to see it.
+</Callout>
+
+## Multi-Route Tours
+
+Tours that span multiple pages or routes. The key challenge is navigating between pages while keeping the tour running.
+
+### Using `before` hooks (recommended)
+
+The simplest approach — use `before` hooks to navigate before a step renders. Joyride waits for the target to appear via `targetWaitTimeout`.
+
+```tsx
+import { useJoyride } from 'react-joyride';
+import { useNavigate } from 'react-router-dom'; // or next/navigation, etc.
+
+function App() {
+  const navigate = useNavigate();
+
+  const { Tour } = useJoyride({
+    continuous: true,
+    run: true,
+    steps: [
+      // Page A — multiple steps before navigating
+      {
+        target: '.dashboard-header',
+        content: 'Welcome to the dashboard.',
+      },
+      {
+        target: '.dashboard-stats',
+        content: 'Here are your stats.',
+      },
+      // Navigate to Page B before step 3
+      {
+        target: '.settings-panel',
+        content: 'Adjust your settings here.',
+        before: () => {
+          navigate('/settings');
+          return new Promise(resolve => setTimeout(resolve, 300));
+        },
+        after: () => navigate('/dashboard'), // optional: go back when done
+      },
+      // Page B — another step
+      {
+        target: '.notifications-toggle',
+        content: 'Enable notifications.',
+      },
+    ],
+  });
+
+  return <div>{Tour}</div>;
+}
+```
+
+This works well when:
+- You have multiple steps per page
+- Navigation is straightforward (no complex back/forward logic)
+- You want the tour to feel linear
+
+### Using `step.data` and `onEvent`
+
+For complex routing — bidirectional navigation, dynamic routes, or when each step maps to a different page — store route info in `step.data` and handle navigation in `onEvent`:
+
+```tsx
+import { Joyride, EVENTS, STATUS, type EventData } from 'react-joyride';
+
+const steps = [
+  {
+    target: '#home',
+    content: 'Start here.',
+    data: { next: '/page-a' },
+  },
+  {
+    target: '#page-a',
+    content: 'Page A content.',
+    data: { previous: '/', next: '/page-b' },
+  },
+  {
+    target: '#page-b',
+    content: 'Page B content.',
+    data: { previous: '/page-a' },
+  },
+];
+
+function handleEvent(data: EventData) {
+  const { action, status, step, type } = data;
+
+  if (([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)) {
+    return;
+  }
+
+  if (type === EVENTS.STEP_AFTER) {
+    const route = action === 'prev' ? step.data?.previous : step.data?.next;
+
+    if (route) {
+      navigate(route);
+    }
+  }
+}
+```
+
+<Callout type="tip">
+Joyride automatically waits for the target element to appear in the DOM (controlled by <Code color="primary">targetWaitTimeout</Code>, default 1000ms). You don't need to manually poll or add extra delays for route transitions.
+</Callout>
+
+<Callout type="demo" title="See it in action">
+The [Multi Route](/demos/multi-route) demo shows the `step.data` pattern with dynamic step injection.
+</Callout>
+
+## Modals & Portals
+
+When tour steps target elements inside modals, the tooltip may render behind the modal due to z-index stacking. Use `portalElement` to render the tooltip outside the modal's DOM hierarchy.
+
+### Setup
+
+Create a portal container at the root of your app:
+
+```tsx
+// In your layout or root component
+<div id="joyride-portal" />
+```
+
+Then pass it to Joyride:
+
+```tsx
+const { Tour } = useJoyride({
+  portalElement: '#joyride-portal',
+  steps: [
+    {
+      target: '.modal-input',
+      content: 'Fill in this field.',
+      disableFocusTrap: true, // allow interaction with modal inputs
+      before: () => {
+        openModal();
+        return new Promise(resolve => setTimeout(resolve, 300)); // wait for animation
+      },
+    },
+    {
+      target: '.modal-table',
+      content: 'Review the data.',
+      blockTargetInteraction: true, // prevent accidental clicks
+    },
+  ],
+});
+```
+
+### Key options for modals
+
+| Option | Why |
+|--------|-----|
+| `portalElement` | Renders tooltip outside the modal's DOM tree, avoiding z-index issues |
+| `disableFocusTrap` | Allows keyboard interaction with modal form inputs (Joyride's focus trap would otherwise capture Tab) |
+| `blockTargetInteraction` | Prevents clicks on interactive elements like tables or forms during the step |
+| `options.zIndex` | Adjust if the tooltip still appears behind the modal (default: 100) |
+| `before` hook | Wait for modal open animations before showing the step |
+
+<Callout type="demo" title="See it in action">
+The [Modal](/demos/modal) demo shows tours inside both HeroUI and react-modal dialogs.
+</Callout>

@@ -254,7 +254,7 @@ export default function Playground(props: PlaygroundProps) {
   }
 
   return (
-    <div className="my-6 rounded-lg border border-default overflow-hidden">
+    <div className="my-6 rounded-lg border border-default overflow-hidden" id="playground">
       <div className="flex items-center gap-2 px-4 py-2 bg-default-100 border-b border-default">
         <span className="font-bold">{title}</span>
         <button className="ml-auto" onClick={handleClickToggle} type="button">

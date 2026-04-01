@@ -26,6 +26,7 @@ export default function Search() {
       apiKey="76d5e8668534da4aaf965eeb0cdad28c"
       appId="P1LI63S577"
       indices={['Documentation']}
+      insights
       theme={isDarkMode ? 'dark' : 'light'}
       transformItems={transformItems}
     />

@@ -5,27 +5,30 @@ const baseUrl = 'https://react-joyride.com';
 export default function sitemap(): MetadataRoute.Sitemap {
   const documentation = [
     'getting-started',
+    'new-in-v3',
     'how-it-works',
+    'hook',
     'props',
     'props/options',
-    'props/floating-options',
     'props/styles',
+    'props/floating-options',
     'step',
     'events',
     'custom-components',
-    'hook',
     'exports',
+    'recipes',
     'accessibility',
     'migration',
   ];
 
   const demos = [
-    'basic',
+    'overview',
+    'chat',
     'controlled',
-    'custom-components',
-    'scroll',
     'multi-route',
     'carousel',
+    'custom-components',
+    'scroll',
     'modal',
   ];
 

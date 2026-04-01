@@ -68,6 +68,7 @@ export const sidebar: Sidebar = {
     { label: 'Events', path: '/docs/events' },
     { label: 'Custom Components', path: '/docs/custom-components' },
     { label: 'Exports', path: '/docs/exports' },
+    { label: 'Recipes', path: '/docs/recipes' },
     { label: 'Accessibility', path: '/docs/accessibility' },
     { label: 'Migration', path: '/docs/migration' },
   ],
