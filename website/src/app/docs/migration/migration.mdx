@@ -162,6 +162,8 @@ Available buttons: `'back'`, `'close'`, `'primary'`, `'skip'`. Default: `['back'
 | `disableScrolling` | `skipScroll` | Now in Options |
 | `event` | `beaconTrigger` | Now in Options (`'click'` \| `'hover'`) |
 | `floaterProps` | `floatingOptions` | New type, now on SharedProps |
+| `floaterProps.disableAnimation` | — | Removed. Use `styles.tooltip: { transition: 'none' }` to disable |
+| `floaterProps.options` | `floatingOptions` | Popper.js modifiers replaced by Floating UI middleware |
 | `getHelpers` | `useJoyride()` hook | Returns `{ controls, ... }` |
 | `placementBeacon` | `beaconPlacement` | Step field |
 | `spotlightClicks` | `blockTargetInteraction` | **Inverted**: `false` = clicks pass through (default) |
@@ -214,3 +216,17 @@ Renamed props that also moved to Options are listed in [Renamed Props & Step Fie
 - `Callback` / `CallBackProps` — use `EventHandler` / `EventData`
 - `StoreHelpers` — use `Controls`
 - `FloaterProps` — use `FloatingOptions`
+
+### floaterProps (react-floater)
+
+V2 exposed react-floater's props via `floaterProps`. V3 uses `floatingOptions` with [@floating-ui/react-dom](https://floating-ui.com/) instead.
+
+| floaterProps | V3 equivalent |
+|----|-----|
+| `disableAnimation` | Removed. Use `styles.tooltip: { transition: 'none' }` |
+| `disableFlip` | `floatingOptions: { flipOptions: false }` |
+| `hideArrow` | `floatingOptions: { hideArrow: true }` |
+| `offset` | `floatingOptions: { offset: number }` |
+| `options.flip.boundariesElement` | `floatingOptions: { flipOptions: { boundary: element } }` |
+| `options.flip.behavior` | `floatingOptions: { flipOptions: { fallbackPlacements: [...] } }` |
+| `getPopper` | `floatingOptions: { onPosition: (data) => void }` |
