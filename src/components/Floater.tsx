@@ -284,7 +284,7 @@ export default function JoyrideFloater(props: FloaterProps) {
     beaconFloating.y,
   ]);
 
-  const zIndex = step.zIndex + 100;
+  const zIndex = step.zIndex + 1;
 
   const handleBeaconInteraction = useCallback(
     (event: MouseEvent<HTMLElement>) => {
