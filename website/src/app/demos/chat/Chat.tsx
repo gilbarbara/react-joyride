@@ -36,7 +36,23 @@ const tourSteps: Step[] = [
     title: 'Your Workspace',
   },
   {
-    content: <p>Find messages, channels, and people across your workspace.</p>,
+    closeButtonAction: 'replay',
+    overlayClickAction: 'replay',
+    dismissKeyAction: 'replay',
+    content: (
+      <>
+        <p>Find messages, channels, and people across your workspace.</p>
+        <Tip iconSize={24}>
+          <p>
+            This step uses <Code color="primary">replay</Code> for its actions.
+          </p>
+          <p>
+            Clicking the close button or the overlay keeps the tour in the same step and shows its
+            beacon.
+          </p>
+        </Tip>
+      </>
+    ),
     placement: 'bottom',
     target: '.chat__search',
     title: 'Search',

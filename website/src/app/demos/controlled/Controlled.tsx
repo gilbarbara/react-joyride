@@ -72,6 +72,8 @@ export default function Controlled() {
       if (([STATUS.FINISHED, STATUS.SKIPPED] as string[]).includes(status)) {
         // Need to set our running state to false, so we can restart if we click start again.
         setState({ complete: true, run: false, stepIndex: 0 });
+      } else if (type === EVENTS.STEP_AFTER && action === ACTIONS.REPLAY) {
+        // noop
       } else if (([EVENTS.STEP_AFTER, EVENTS.TARGET_NOT_FOUND] as Events[]).includes(type)) {
         const isPrevious = action === ACTIONS.PREV;
         const nextStepIndex = index + (isPrevious ? -1 : 1);
@@ -201,12 +203,21 @@ export default function Controlled() {
         title: 'Missing Target',
       },
       {
+        closeButtonAction: 'replay',
+        overlayClickAction: 'replay',
+        dismissKeyAction: 'replay',
         content: (
           <>
-            <p>Your active users at a glance. This step uses right placement with a ref target.</p>
+            <p>Your active users at a glance.</p>
+            <p>This step uses the right placement.</p>
             <Tip iconSize={24}>
-              All the steps in this tour use a <Code color="primary">React.Ref</Code> as target
-              (except the one with a missing target).
+              <p>
+                This step uses <Code color="primary">replay</Code> for its actions.
+              </p>
+              <p>
+                Clicking the close button or the overlay keeps the tour in the same step and shows
+                its beacon.
+              </p>
             </Tip>
           </>
         ),
@@ -219,6 +230,10 @@ export default function Controlled() {
           <>
             <p>Network connections mapped by region.</p>
             <p>This is the final step of the tour.</p>
+            <Tip iconSize={24}>
+              All the steps in this tour use a <Code color="primary">React.Ref</Code> as target
+              (except the one with a missing target).
+            </Tip>
           </>
         ),
         placement: 'top',

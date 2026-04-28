@@ -32,6 +32,19 @@ test('chat', async ({ page, request }) => {
     await expect(page).toHaveScreenshot('step2-tooltip.png');
   });
 
+  await test.step('Step 2 - Search (replay via overlay)', async () => {
+    await overlay.click({ position: { x: 10, y: 10 } });
+
+    const beacon = page.getByTestId('button-beacon');
+
+    await expect(beacon).toBeVisible();
+    await expect(page).toHaveScreenshot('step2-replay-beacon.png');
+
+    await beacon.click();
+
+    await expect(page).toHaveScreenshot('step2-replay-tooltip.png');
+  });
+
   await test.step('Step 3 - Channels', async () => {
     await primaryButton.click();
 

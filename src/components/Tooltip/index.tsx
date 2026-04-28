@@ -30,6 +30,8 @@ export default function Tooltip(props: TooltipProps) {
 
     if (step.closeButtonAction === 'skip') {
       controls.skip(ORIGIN.BUTTON_CLOSE);
+    } else if (step.closeButtonAction === 'replay') {
+      controls.replay(ORIGIN.BUTTON_CLOSE);
     } else {
       controls.close(ORIGIN.BUTTON_CLOSE);
     }

@@ -59,6 +59,7 @@ export function expectControls() {
     next: expect.any(Function),
     open: expect.any(Function),
     prev: expect.any(Function),
+    replay: expect.any(Function),
     reset: expect.any(Function),
     skip: expect.any(Function),
     start: expect.any(Function),

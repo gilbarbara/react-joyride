@@ -14,6 +14,8 @@ export type Controls = {
   open: () => void;
   /** Go back to the previous step. */
   prev: (origin?: Origin | null) => void;
+  /** Replay the current step. Re-runs `before` and `after` hooks and re-emits step lifecycle events. */
+  replay: (origin?: Origin | null) => void;
   /** Reset the tour. Optionally restart from the beginning. */
   reset: (restart?: boolean) => void;
   /** Skip the tour entirely. */

@@ -136,10 +136,8 @@ export function omit<T extends Record<string, any>, K extends keyof T>(
 
   for (const key in input) {
     /* istanbul ignore else */
-    if ({}.hasOwnProperty.call(input, key)) {
-      if (!filter.includes(key as unknown as K)) {
-        output[key] = input[key];
-      }
+    if ({}.hasOwnProperty.call(input, key) && !filter.includes(key as unknown as K)) {
+      output[key] = input[key];
     }
   }
 
@@ -165,10 +163,8 @@ export function pick<T extends Record<string, any>, K extends keyof T>(
 
   for (const key in input) {
     /* istanbul ignore else */
-    if ({}.hasOwnProperty.call(input, key)) {
-      if (filter.includes(key as unknown as K)) {
-        output[key] = input[key];
-      }
+    if ({}.hasOwnProperty.call(input, key) && filter.includes(key as unknown as K)) {
+      output[key] = input[key];
     }
   }
 

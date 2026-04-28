@@ -122,6 +122,23 @@ export default function useControls(
       });
     };
 
+    const replay = (origin?: Origin | null) => {
+      const { lifecycle, status } = getState();
+
+      if (status !== STATUS.RUNNING || lifecycle !== LIFECYCLE.TOOLTIP) {
+        return;
+      }
+
+      store.current.updateState({
+        action: ACTIONS.REPLAY,
+        lifecycle: LIFECYCLE.COMPLETE,
+        origin,
+        positioned: false,
+        scrolling: false,
+        waiting: false,
+      });
+    };
+
     const reset = (restart = false) => {
       const { controlled } = getState();
 
@@ -197,6 +214,6 @@ export default function useControls(
       });
     };
 
-    return { close, go, info, next, open, prev: previous, reset, skip, start, stop };
+    return { close, go, info, next, open, prev: previous, replay, reset, skip, start, stop };
   }, [store]);
 }

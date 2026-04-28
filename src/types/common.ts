@@ -154,9 +154,10 @@ export interface Options {
    * The action to take when the close button is clicked.
    * - `'close'`: Advances to the next step (default behavior).
    * - `'skip'`: Ends the tour entirely.
+   * - `'replay'`: Replays the current step.
    * @default 'close'
    */
-  closeButtonAction: 'close' | 'skip';
+  closeButtonAction: 'close' | 'skip' | 'replay';
   /**
    * Disable the focus trap for the tooltip.
    * @default false
@@ -166,10 +167,11 @@ export interface Options {
    * The action to take when the ESC key is pressed.
    * - `'close'`: Closes the step (shows beacon on next step in continuous mode).
    * - `'next'`: Advances to the next step (skips beacon in continuous mode).
+   * - `'replay'`: Replays the current step.
    * - `false`: Disables ESC key.
    * @default 'close'
    */
-  dismissKeyAction: 'close' | 'next' | false;
+  dismissKeyAction: 'close' | 'next' | 'replay' | false;
   /**
    * Don't show the overlay.
    * @default false
@@ -189,10 +191,11 @@ export interface Options {
    * The action to take when the overlay is clicked.
    * - `'close'`: Closes the step (fires a CLOSE action).
    * - `'next'`: Advances to the next step (ends the tour on the last step).
+   * - `'replay'`: Replays the current step.
    * - `false`: Disables overlay click.
    * @default 'close'
    */
-  overlayClickAction: 'close' | 'next' | false;
+  overlayClickAction: 'close' | 'next' | 'replay' | false;
   /**
    * Overlay backdrop color.
    * @default '#00000080'

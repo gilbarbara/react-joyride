@@ -8,6 +8,7 @@ export const ACTIONS = {
   GO: 'go',
   CLOSE: 'close',
   SKIP: 'skip',
+  REPLAY: 'replay',
   UPDATE: 'update',
   COMPLETE: 'complete',
 } as const;

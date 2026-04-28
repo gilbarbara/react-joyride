@@ -222,6 +222,61 @@ describe('useControls', () => {
     });
   });
 
+  describe('replay', () => {
+    it('should set REPLAY action with COMPLETE lifecycle from TOOLTIP', () => {
+      const { result, store } = setup({ index: 1, lifecycle: LIFECYCLE.TOOLTIP });
+
+      result.current.replay('button_close');
+
+      const state = store.getSnapshot();
+
+      expect(state.action).toBe(ACTIONS.REPLAY);
+      expect(state.lifecycle).toBe(LIFECYCLE.COMPLETE);
+      expect(state.origin).toBe('button_close');
+      expect(state.scrolling).toBe(false);
+      expect(state.waiting).toBe(false);
+    });
+
+    it('should not change index', () => {
+      const { result, store } = setup({ index: 1, lifecycle: LIFECYCLE.TOOLTIP });
+
+      result.current.replay();
+
+      expect(store.getSnapshot().index).toBe(1);
+    });
+
+    it('should default origin to null', () => {
+      const { result, store } = setup({ lifecycle: LIFECYCLE.TOOLTIP });
+
+      result.current.replay();
+
+      expect(store.getSnapshot().origin).toBeNull();
+    });
+
+    it('should not update state when not RUNNING', () => {
+      const { result, store } = setup({ status: STATUS.PAUSED, lifecycle: LIFECYCLE.TOOLTIP });
+
+      result.current.replay();
+
+      expect(store.getSnapshot().action).not.toBe(ACTIONS.REPLAY);
+    });
+
+    it.each([
+      LIFECYCLE.INIT,
+      LIFECYCLE.READY,
+      LIFECYCLE.BEACON_BEFORE,
+      LIFECYCLE.BEACON,
+      LIFECYCLE.TOOLTIP_BEFORE,
+      LIFECYCLE.COMPLETE,
+    ])('should not update state when lifecycle is %s', lifecycle => {
+      const { result, store } = setup({ lifecycle });
+
+      result.current.replay();
+
+      expect(store.getSnapshot().action).not.toBe(ACTIONS.REPLAY);
+    });
+  });
+
   describe('reset', () => {
     it('should reset to index 0 with READY status', () => {
       const { clearFailures, result, store } = setup({ index: 2 });

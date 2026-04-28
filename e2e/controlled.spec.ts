@@ -72,6 +72,20 @@ test('controlled', async ({ page, request }) => {
     await expect(page).toHaveScreenshot('step7-users.png');
   });
 
+  await test.step('Step 7 - Users (replay via ESC)', async () => {
+    await page.keyboard.press('Escape');
+
+    const beacon = page.getByTestId('button-beacon');
+
+    await expect(beacon).toBeVisible();
+    await expect(page).toHaveScreenshot('step7-replay-beacon.png');
+
+    await beacon.click();
+
+    await expect(tooltip).toContainText('Our Users');
+    await expect(page).toHaveScreenshot('step7-replay-tooltip.png');
+  });
+
   await test.step('Step 8 - Connections', async () => {
     await page.getByTestId('button-primary').click();
 

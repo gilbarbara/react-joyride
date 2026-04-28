@@ -75,9 +75,14 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
       ACTIONS.PREV,
       ACTIONS.SKIP,
       ACTIONS.CLOSE,
+      ACTIONS.REPLAY,
     ]);
 
-    if (isAfterAction || (lastAction.current === ACTIONS.CLOSE && action === ACTIONS.START)) {
+    const isStaleAfterStart =
+      action === ACTIONS.START &&
+      (lastAction.current === ACTIONS.CLOSE || lastAction.current === ACTIONS.REPLAY);
+
+    if (isAfterAction || isStaleAfterStart) {
       lastAction.current = action;
     }
   }, [action]);
@@ -243,6 +248,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   }, [addFailure, emitEvent, index, lifecycle, status, store]);
 
   // Effect 3: Step presentation (READY → *_BEFORE → BEACON/TOOLTIP) + target not found
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (!previousStateRef.current) {
       return;
@@ -329,6 +335,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   }, [addFailure, emitEvent, index, lifecycle, store]);
 
   // Effect 4: *_BEFORE → BEACON/TOOLTIP transition + lifecycle callbacks
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (!previousStateRef.current) {
       return;
@@ -424,6 +431,7 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
   }, [emitEvent, lifecycle, positioned, scrolling, store]);
 
   // Effect 5: Tour flow + tour-level callbacks
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   useEffect(() => {
     if (!previousStateRef.current) {
       return;
@@ -432,6 +440,12 @@ export default function useLifecycleEffect(options: UseLifecycleEffectOptions): 
     const { hasChangedTo, previous } = treeChanges(stateRef.current, previousStateRef.current);
     const currentStep = stepRef.current;
     const previousStepValue = previousStepRef.current;
+
+    if (hasChangedTo('action', ACTIONS.REPLAY) && hasChangedTo('lifecycle', LIFECYCLE.COMPLETE)) {
+      store.current.updateState({ lifecycle: LIFECYCLE.INIT });
+
+      return;
+    }
 
     if (size && !currentStep && lifecycle === LIFECYCLE.INIT) {
       store.current.updateState({

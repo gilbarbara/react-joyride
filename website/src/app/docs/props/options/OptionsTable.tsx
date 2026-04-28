@@ -257,11 +257,12 @@ export function InteractionsTable() {
               <p className="text-lg font-bold">closeButtonAction</p>
               <p>Action when the close button is clicked.</p>
               <p>
-                <Code>'close'</Code> advances to the next step, <Code>'skip'</Code> ends the tour.
+                <Code>'close'</Code> advances to the next step, <Code>'skip'</Code> ends the tour,{' '}
+                <Code>'replay'</Code> replays the current step.
               </p>
             </td>
             <td>
-              <Code>'close' | 'skip'</Code>
+              <Code>'close' | 'skip' | 'replay'</Code>
             </td>
             <td>
               <strong>close</strong>
@@ -285,11 +286,11 @@ export function InteractionsTable() {
               <p>Action when the ESC key is pressed.</p>
               <p>
                 <Code>'close'</Code> closes the step, <Code>'next'</Code> advances,{' '}
-                <Code>false</Code> disables.
+                <Code>'replay'</Code> replays the current step, <Code>false</Code> disables.
               </p>
             </td>
             <td>
-              <Code>'close' | 'next' | false</Code>
+              <Code>'close' | 'next' | 'replay' | false</Code>
             </td>
             <td>
               <strong>close</strong>
@@ -301,11 +302,11 @@ export function InteractionsTable() {
               <p>Action when the overlay is clicked.</p>
               <p>
                 <Code>'close'</Code> closes the step, <Code>'next'</Code> advances,{' '}
-                <Code>false</Code> disables.
+                <Code>'replay'</Code> replays the current step, <Code>false</Code> disables.
               </p>
             </td>
             <td>
-              <Code>'close' | 'next' | false</Code>
+              <Code>'close' | 'next' | 'replay' | false</Code>
             </td>
             <td>
               <strong>close</strong>

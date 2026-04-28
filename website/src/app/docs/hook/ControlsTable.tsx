@@ -40,8 +40,8 @@ export default function ControlsTable() {
           </tr>
           <tr>
             <td>
-              <p className="text-lg font-bold">next</p>
-              <p>Advance to the next step. Only works when the tour is running.</p>
+              <p className="text-lg font-bold">next*</p>
+              <p>Advance to the next step.</p>
             </td>
             <td>
               <Code>{'(origin?: Origin | null) => void'}</Code>
@@ -49,8 +49,8 @@ export default function ControlsTable() {
           </tr>
           <tr>
             <td>
-              <p className="text-lg font-bold">prev</p>
-              <p>Go back to the previous step. Only works when the tour is running.</p>
+              <p className="text-lg font-bold">prev*</p>
+              <p>Go back to the previous step.</p>
             </td>
             <td>
               <Code>{'(origin?: Origin | null) => void'}</Code>
@@ -59,7 +59,8 @@ export default function ControlsTable() {
           <tr>
             <td>
               <p className="text-lg font-bold">go</p>
-              <p>Jump to a specific step by index. Only works in uncontrolled mode.</p>
+              <p>Jump to a specific step by index.</p>
+              <p>Only works in uncontrolled mode.</p>
             </td>
             <td>
               <Code>{'(nextIndex: number) => void'}</Code>
@@ -67,7 +68,7 @@ export default function ControlsTable() {
           </tr>
           <tr>
             <td>
-              <p className="text-lg font-bold">close</p>
+              <p className="text-lg font-bold">close*</p>
               <p>Close the current step and advance to the next one.</p>
             </td>
             <td>
@@ -76,7 +77,7 @@ export default function ControlsTable() {
           </tr>
           <tr>
             <td>
-              <p className="text-lg font-bold">skip</p>
+              <p className="text-lg font-bold">skip*</p>
               <p>Skip the tour entirely.</p>
             </td>
             <td>
@@ -85,11 +86,27 @@ export default function ControlsTable() {
           </tr>
           <tr>
             <td>
-              <p className="text-lg font-bold">open</p>
+              <p className="text-lg font-bold">open*</p>
               <p>Open the tooltip for the current step (skip the beacon).</p>
             </td>
             <td>
               <Code>{'() => void'}</Code>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p className="text-lg font-bold">replay*</p>
+              <p>
+                Replay the current step. Re-runs <Code>before</Code> and <Code>after</Code> hooks
+                and re-emits <Code>step:after</Code> and <Code>step:before</Code> events with{' '}
+                <Code>action: 'replay'</Code>.
+              </p>
+              <p>
+                Only works while the tooltip is visible (lifecycle <Code>tooltip</Code>).
+              </p>
+            </td>
+            <td>
+              <Code>{'(origin?: Origin | null) => void'}</Code>
             </td>
           </tr>
           <tr>
@@ -115,6 +132,7 @@ export default function ControlsTable() {
           </tr>
         </tbody>
       </table>
+      <p className="-mt-6 font-bold">* Only works when the tour is running.</p>
     </div>
   );
 }

@@ -207,6 +207,7 @@ Extracted hook providing all tour control methods. Created once via `useMemo`, r
 | `next()` | RUNNING only. Sets `action:NEXT, index+1 (clamped to size), lifecycle:COMPLETE` |
 | `open()` | RUNNING only. Sets `lifecycle:TOOLTIP_BEFORE` to force-open tooltip |
 | `prev()` | RUNNING only. Sets `action:PREV, index-1 (clamped to 0), lifecycle:COMPLETE` |
+| `replay(origin?)` | RUNNING + lifecycle:TOOLTIP only. Sets `action:REPLAY, lifecycle:COMPLETE`. Index unchanged. Triggers full step re-entry through `step:after` → `step:before` → BEACON/TOOLTIP |
 | `reset(restart?)` | Uncontrolled only. Sets `index:0, lifecycle:INIT, status:READY (or RUNNING if restart)` |
 | `skip(origin?)` | RUNNING only. Sets `action:SKIP, lifecycle:COMPLETE, status:SKIPPED` |
 | `start(nextIndex?)` | Sets `action:START, lifecycle:INIT, status:RUNNING (or WAITING if no steps)`. Uses `forceIndex=true` |
@@ -275,6 +276,7 @@ When lifecycle reaches READY:
 - COMPLETE lifecycle (from TOOLTIP) → fires `step:after` event, runs `after` hook (fire-and-forget), fires `step:after_hook` event
 
 **Effect 5: Tour flow** (`deps: [action, index, lifecycle, size, status, store]`)
+- Action REPLAY + COMPLETE → writes `lifecycle:INIT` (works in both controlled and uncontrolled modes; bypasses the controlled-mode pause and the FINISHED branch on the last step to allow same-index re-entry)
 - No step + lifecycle INIT → sets FINISHED
 - Uncontrolled + COMPLETE + index < size → auto-advances to INIT (controlled mode pauses here, waiting for parent to update `stepIndex`)
 - COMPLETE + index >= size → sets FINISHED
