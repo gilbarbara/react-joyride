@@ -78,6 +78,10 @@ While waiting, the loader component is displayed (after `loaderDelay` ms).
   <p>The <a href="/demos/controlled">Controlled Tour</a> demo shows a complete `onEvent` implementation managing step index and tour state.</p>
 </Callout>
 
+<Callout type="tip">
+  <p>This example uses controlled mode to show the full event surface. For most apps, uncontrolled mode plus `before` hooks covers conditional UI — see [Conditional / Dynamic Steps](/docs/recipes#conditional-dynamic-steps).</p>
+</Callout>
+
 ```tsx
 import { useState } from 'react';
 import { Joyride, ACTIONS, EVENTS, ORIGIN, STATUS, type Controls, type EventData } from 'react-joyride';

@@ -99,6 +99,8 @@ See the [Events](./events) page for how to handle these in your code.
 
 Joyride manages the step index internally. The built-in buttons (Next, Back, Skip, Close) handle navigation. You can also use [<Code color="primary">controls</Code>](./hook#controls) for programmatic navigation.
 
+This is the default for nearly all cases. Async [<Code color="primary">before</Code>](./props/options#timing-async) and `after` step hooks handle conditional UI, route transitions, and animated elements without giving up internal index management.
+
 ```tsx
 <Joyride
   continuous
@@ -111,6 +113,12 @@ Joyride manages the step index internally. The built-in buttons (Next, Back, Ski
 ```
 
 ### Controlled
+
+<Callout type="warning" title="Use sparingly">
+  <p>Reach for controlled mode only when an external system owns the index — for example, a persistence layer that resumes the tour at a specific step on reload, or a parent orchestrator coordinating multiple tours from one state tree.</p>
+  <p>For conditional UI (open a sidebar, switch a section, mount a modal), use a [<Code color="primary">before</Code>](/docs/recipes#conditional-dynamic-steps) step hook instead. Driving `stepIndex` from a `useEffect` that reacts to app state desynchronizes the lifecycle and breaks overlay/keyboard handlers.</p>
+  <p>Even when controlled mode is justified, you'll still rely on `before` hooks for timing — the [Controlled Tour](/demos/controlled) demo uses them on every step. Controlled mode adds work on top of async hooks; it does not replace them.</p>
+</Callout>
 
 Set `stepIndex` to take full control. You manage the index yourself via `onEvent`:
 

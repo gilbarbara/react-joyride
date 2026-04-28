@@ -47,6 +47,34 @@ For finer control, use the `styles` prop to target individual elements. See [Sty
 All demos on this site use theme-aware colors. Toggle the theme switcher in the header to see it.
 </Callout>
 
+## Conditional / Dynamic Steps
+
+Some steps depend on UI state — a sidebar must be open, an accordion expanded, a modal mounted, or a section switched — before their target exists or is visible.
+
+The reflex is to drive `stepIndex` from a `useEffect` that watches the relevant app state. Don't. External `stepIndex` updates that don't originate from `onEvent` desynchronize the tour lifecycle and break overlay/keyboard handlers.
+
+Use a `before` step hook instead. It runs before the step's lifecycle starts, so the state change and the wait happen in the right order:
+
+```tsx
+const steps = [
+  {
+    target: '.sidebar-nav-item',
+    content: 'Tweak settings here.',
+    before: () => {
+      setSidebarOpen(true);
+      return new Promise(resolve => setTimeout(resolve, 300)); // wait for open animation
+    },
+    after: () => setSidebarOpen(false), // optional cleanup
+  },
+];
+```
+
+For static targets that simply mount on render, no hook is needed — `targetWaitTimeout` already waits for the element to appear.
+
+<Callout type="demo" title="See it in action">
+  The [Controlled Tour](/demos/controlled) demo uses `before` hooks to coordinate sidebar open/close animations.
+</Callout>
+
 ## Multi-Route Tours
 
 Tours that span multiple pages or routes. The key challenge is navigating between pages while keeping the tour running.

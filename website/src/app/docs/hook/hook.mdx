@@ -127,3 +127,7 @@ The hook works in both modes. See [How It Works](./how-it-works#controlled-vs-un
 
 - **Uncontrolled** (default): Joyride manages the step index. Use `controls` to navigate programmatically.
 - **Controlled** (with `stepIndex`): You manage the index via `onEvent`. `go()` and `reset()` are disabled in this mode.
+
+<Callout type="tip">
+  <p>Default to uncontrolled. Use `stepIndex` only when an external system owns the index — see [Conditional / Dynamic Steps](/docs/recipes#conditional-dynamic-steps) for the common alternative.</p>
+</Callout>

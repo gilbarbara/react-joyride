@@ -148,6 +148,14 @@ export default function PropsTable() {
                 You'll have to keep an internal state and update it with the events in{' '}
                 <Code>onEvent</Code>.
               </p>
+              <p>
+                For conditional UI (open a sidebar, switch a section), prefer a <Code>before</Code>{' '}
+                step hook — see{' '}
+                <Link href="/docs/recipes#conditional-dynamic-steps">
+                  Conditional / Dynamic Steps
+                </Link>
+                .
+              </p>
             </td>
             <td>
               <Code>number</Code>
