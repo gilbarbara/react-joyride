@@ -96,10 +96,11 @@ export default function Playground(props: PlaygroundProps) {
 
   const { controls, on, state, Tour } = useJoyride({
     onEvent: data => {
-      if (data.type === 'tour:end' || data.type === 'tour:status') {
-        if (data.status === 'finished' || data.status === 'skipped') {
-          setRun(false);
-        }
+      if (
+        (data.type === 'tour:end' || data.type === 'tour:status') &&
+        (data.status === 'finished' || data.status === 'skipped')
+      ) {
+        setRun(false);
       }
     },
     steps,

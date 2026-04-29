@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { type EventData, Joyride, type Props, STATUS, type Step } from 'react-joyride';
 import { Button, cn } from '@heroui/react';
-import { useSearchParams } from 'next/navigation';
 
 import { useConfig } from '~/context/ConfigContext';
+import useIsE2E from '~/hooks/useIsE2E';
 import useTheme from '~/hooks/useTheme';
 import { getTourColors, logGroup, mergeProps } from '~/modules/helpers';
 
@@ -134,8 +134,7 @@ const tourSteps: Step[] = [
 ];
 
 export default function Chat() {
-  const params = useSearchParams();
-  const withHeader = !params?.has('e2e');
+  const withHeader = !useIsE2E();
   const { joyrideProps, registerConfig } = useConfig();
   const [run, setRun] = useState(true);
   const { isDarkMode } = useTheme();

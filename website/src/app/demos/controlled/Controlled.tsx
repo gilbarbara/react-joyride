@@ -4,9 +4,9 @@ import { useEffect, useMemo, useRef } from 'react';
 import { ACTIONS, EVENTS, type Events, type Props, STATUS, useJoyride } from 'react-joyride';
 import { useSetState } from '@gilbarbara/hooks';
 import { Button, cn } from '@heroui/react';
-import { useSearchParams } from 'next/navigation';
 
 import { useConfig } from '~/context/ConfigContext';
+import useIsE2E from '~/hooks/useIsE2E';
 import useTheme from '~/hooks/useTheme';
 import { delay, getTourColors, logGroup, mergeProps } from '~/modules/helpers';
 
@@ -28,8 +28,7 @@ interface State {
 }
 
 export default function Controlled() {
-  const params = useSearchParams();
-  const withHeader = !params?.has('e2e');
+  const withHeader = !useIsE2E();
   const { joyrideProps, registerConfig } = useConfig();
   const [{ complete, isNotificationsOpen, run, stepIndex }, setState] = useSetState<State>({
     complete: false,

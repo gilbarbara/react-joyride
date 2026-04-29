@@ -2,13 +2,14 @@
 
 import { type ReactNode, useCallback, useEffect, useMemo } from 'react';
 import { type EventData, EVENTS, Joyride, type Props, STATUS, type Step } from 'react-joyride';
-import { useMount, useSetState } from '@gilbarbara/hooks';
+import { useSetState } from '@gilbarbara/hooks';
 import { cn, Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@heroui/react';
 import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { useConfig } from '~/context/ConfigContext';
 import MultiRouteContext from '~/context/MultiRouteContext';
+import useIsE2E from '~/hooks/useIsE2E';
 import { logGroup, mergeProps } from '~/modules/helpers';
 
 import Code from '~/components/Code';
@@ -35,9 +36,8 @@ export default function MultiRouteLayout({ children }: { children: ReactNode }) 
     steps: [],
   });
   const router = useRouter();
-  const params = useSearchParams();
   const pathname = usePathname();
-  const isE2E = params?.has('e2e') ?? false;
+  const isE2E = useIsE2E();
 
   const baseProps = useMemo(
     () =>
@@ -66,7 +66,7 @@ export default function MultiRouteLayout({ children }: { children: ReactNode }) 
     registerConfig(baseProps);
   }, [baseProps, registerConfig]);
 
-  useMount(() => {
+  useEffect(() => {
     const queryString = isE2E ? '?e2e=true' : '';
 
     setState({
@@ -119,7 +119,7 @@ export default function MultiRouteLayout({ children }: { children: ReactNode }) 
         },
       ],
     });
-  });
+  }, [isE2E, setState]);
 
   const handleStart = useCallback(() => {
     setState({ run: true });

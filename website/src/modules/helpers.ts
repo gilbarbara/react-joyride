@@ -38,7 +38,7 @@ export function getTourColors(isDarkMode: boolean): Partial<Options> {
     backgroundColor: isDarkMode ? '#333333' : '#ffffff',
     primaryColor: isDarkMode ? '#ffffff' : '#000000',
     textColor: isDarkMode ? '#ffffff' : '#000000',
-    overlayColor: isDarkMode ? '#00000080' : '#00000080',
+    overlayColor: '#00000080',
   };
 }
 

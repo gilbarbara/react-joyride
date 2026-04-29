@@ -1,14 +1,14 @@
 'use client';
 
-import { type ReactNode, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import type { ReactNode } from 'react';
+
+import useIsE2E from '~/hooks/useIsE2E';
 
 import ConfigPanelFAB from '~/components/ConfigPanel/FAB';
 import SourceCodeLink from '~/components/SourceCodeLink';
 
-function DemosContent({ children }: { children: ReactNode }) {
-  const params = useSearchParams();
-  const isE2E = params?.has('e2e') ?? false;
+export default function DemosLayout({ children }: { children: ReactNode }) {
+  const isE2E = useIsE2E();
 
   return (
     <div className="flex flex-col flex-1 " id="demo-pages">
@@ -25,13 +25,5 @@ function DemosContent({ children }: { children: ReactNode }) {
       {!isE2E && <ConfigPanelFAB />}
       {!isE2E && <SourceCodeLink />}
     </div>
-  );
-}
-
-export default function DemosLayout({ children }: { children: ReactNode }) {
-  return (
-    <Suspense>
-      <DemosContent>{children}</DemosContent>
-    </Suspense>
   );
 }

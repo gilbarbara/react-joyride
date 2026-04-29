@@ -5,9 +5,9 @@ import { FormattedMessage } from 'react-intl';
 import { type Props, STATUS, type Step, useJoyride } from 'react-joyride';
 import { useSetState } from '@gilbarbara/hooks';
 import { Button, Chip, cn } from '@heroui/react';
-import { useSearchParams } from 'next/navigation';
 
 import { useConfig } from '~/context/ConfigContext';
+import useIsE2E from '~/hooks/useIsE2E';
 import useTheme from '~/hooks/useTheme';
 import { getTourColors, logGroup, mergeProps } from '~/modules/helpers';
 
@@ -28,8 +28,7 @@ interface State {
 }
 
 export default function CustomComponents() {
-  const params = useSearchParams();
-  const isE2E = params?.has('e2e') ?? false;
+  const isE2E = useIsE2E();
   const { joyrideProps, registerConfig } = useConfig();
   const { isDarkMode } = useTheme();
   const [{ complete, continuous, run, steps }, setState] = useSetState<State>({

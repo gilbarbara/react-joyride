@@ -160,6 +160,7 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
 
   const updateSettings = useCallback(
     (updates: Partial<SerializableSettings>) => {
+      // eslint-disable-next-line sonarjs/cognitive-complexity
       setSettings(previous => {
         const next = {
           ...previous,

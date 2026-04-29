@@ -7,9 +7,9 @@ import { addToast, Button, cn, Divider } from '@heroui/react';
 import { XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
 
 import { useConfig } from '~/context/ConfigContext';
+import useIsE2E from '~/hooks/useIsE2E';
 import useTheme from '~/hooks/useTheme';
 import { delay, getScreenSize, getTourColors, logGroup, mergeProps } from '~/modules/helpers';
 
@@ -230,8 +230,7 @@ const tourSteps: Step[] = [
 ];
 
 export default function Overview() {
-  const params = useSearchParams();
-  const isE2E = params?.has('e2e') ?? false;
+  const isE2E = useIsE2E();
   const withHeader = !isE2E;
 
   const [breakpoint, setBreakpoint] = useState('lg');
