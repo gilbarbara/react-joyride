@@ -289,7 +289,7 @@ export default function Controlled() {
         />
         <div className="flex flex-col flex-1 min-h-0" id="innerContainer">
           <div className="h-26 flex flex-col items-center justify-start gap-2">
-            <h1 className="text-4xl font-bold text-center">DASHBOARD</h1>
+            <h1 className="text-2xl md:text-4xl mb-2 md:mb-0 font-bold text-center">DASHBOARD</h1>
             {!run && (
               <Button color="primary" data-testid="button-control" onPress={handleClickStart}>
                 {complete ? 'Restart Tour' : 'Start Tour'}

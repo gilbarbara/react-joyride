@@ -32,23 +32,22 @@ export default function ConfigPanelFAB({ className }: ConfigPanelFABProps) {
   return (
     <>
       <Tooltip
-        classNames={{
-          base: 'before:right-5!',
-        }}
         content="Customize the Tour"
         {...(!seen ? { isOpen: true } : {})}
         placement="bottom-end"
         showArrow
       >
         <Button
-          className={cn('fixed top-20 right-6 z-120 shadow-lg', className)}
-          color="primary"
+          className={cn(
+            'fixed top-20 right-4 z-120 shadow-lg bg-black/30 dark:bg-white/30 text-white/75 dark:text-black/75',
+            className,
+          )}
           isIconOnly
           onPress={handlePress}
           radius="full"
-          size="lg"
+          size="sm"
         >
-          <FlaskConicalIcon size={24} />
+          <FlaskConicalIcon size={18} />
         </Button>
       </Tooltip>
       <ConfigDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />

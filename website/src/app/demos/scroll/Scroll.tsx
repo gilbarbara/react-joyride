@@ -139,7 +139,9 @@ export default function Scroll() {
           {...mergeProps(baseProps, joyrideProps)}
         />
         <div className="flex items-center justify-center w-full gap-2 mb-8">
-          <h1 className="text-4xl font-bold text-red">Works with custom scrolling parents!</h1>
+          <h1 className="text-2xl md:text-4xl font-bold text-red text-center">
+            Works with custom scrolling parents!
+          </h1>
           {!run && (
             <Button
               className="mt-2"

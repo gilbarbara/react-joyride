@@ -216,7 +216,7 @@ export default function MultiRouteLayout({ children }: { children: ReactNode }) 
           <Navbar isBordered>
             <NavbarContent className="grow-0!" justify="start">
               <NavbarBrand>
-                <h1 className="text-center text-2xl font-bold">Multi-route</h1>
+                <h1 className="text-2xl font-bold">Multi-route</h1>
               </NavbarBrand>
               <NavbarContent className="ml-8 grow-0" justify="start">
                 {links.map(link => {

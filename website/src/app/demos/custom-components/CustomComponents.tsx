@@ -165,7 +165,7 @@ export default function CustomComponents() {
         })}
       >
         <h1
-          className={cn('text-4xl font-bold text-center', {
+          className={cn('text-2xl md:text-4xl font-bold text-center', {
             'mb-2': !isE2E,
             'mb-8': isE2E,
           })}

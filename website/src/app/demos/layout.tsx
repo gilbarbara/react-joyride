@@ -4,6 +4,7 @@ import { type ReactNode, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import ConfigPanelFAB from '~/components/ConfigPanel/FAB';
+import SourceCodeLink from '~/components/SourceCodeLink';
 
 function DemosContent({ children }: { children: ReactNode }) {
   const params = useSearchParams();
@@ -22,6 +23,7 @@ function DemosContent({ children }: { children: ReactNode }) {
       )}
       {children}
       {!isE2E && <ConfigPanelFAB />}
+      {!isE2E && <SourceCodeLink />}
     </div>
   );
 }

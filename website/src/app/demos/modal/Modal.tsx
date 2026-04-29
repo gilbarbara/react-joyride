@@ -264,8 +264,8 @@ export default function Modal() {
           steps={steps}
           {...mergeProps(baseProps, joyrideProps)}
         />
-        <h1 className="text-4xl font-bold mb-2">It works with modals</h1>
-        <h2 className="text-2xl font-bold mb-8">
+        <h1 className="text-2xl md:text-4xl font-bold text-center mb-2">It works with modals</h1>
+        <h2 className="text-2xl font-bold mb-8 text-center">
           Using{' '}
           <Link
             className="text-2xl underline"
