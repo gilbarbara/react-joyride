@@ -102,7 +102,4 @@ export type StepMerged = Simplify<
 >;
 
 export type StepTarget =
-  | string
-  | HTMLElement
-  | RefObject<HTMLElement | null>
-  | (() => HTMLElement | null);
+  string | HTMLElement | RefObject<HTMLElement | null> | (() => HTMLElement | null);

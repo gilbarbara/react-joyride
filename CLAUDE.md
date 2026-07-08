@@ -88,7 +88,7 @@ Split into 8 domain files under `src/types/`: `common`, `components`, `events`, 
 
 ## Path Alias
 
-`~/*` maps to `src/*` (tsconfig.json; vite/vitest via vite-tsconfig-paths; playwright uses website webServer).
+`~/*` maps to `src/*` (tsconfig.json; vitest via native `resolve.tsconfigPaths`; playwright uses website webServer).
 
 ## Test Structure
 

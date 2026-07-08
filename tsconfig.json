@@ -1,13 +1,12 @@
 {
   "extends": "@gilbarbara/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
-    "downlevelIteration": true,
     "noEmit": true,
     "paths": {
-      "~/*": ["src/*"],
-      "~/test-utils": ["test/__setup__/test-utils.ts"]
+      "~/*": ["./src/*"],
+      "~/test-utils": ["./test/__setup__/test-utils.ts"]
     },
+    "types": ["node"],
     "verbatimModuleSyntax": true
   },
   "include": ["src/**/*", "playwright.config.ts"]

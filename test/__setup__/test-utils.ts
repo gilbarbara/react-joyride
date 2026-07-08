@@ -1,4 +1,3 @@
-/* eslint-disable import-x/export */
 import type { ReactElement } from 'react';
 import type { Matcher, MatcherOptions } from '@testing-library/dom/types/matches';
 import {
