@@ -18,6 +18,25 @@ function createProps(overrides: Partial<OverlayProps> = {}) {
   });
 }
 
+function fakeRect(el: Element, rect: Partial<DOMRect>) {
+  const full = {
+    x: rect.left ?? 0,
+    y: rect.top ?? 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: 0,
+    height: 0,
+    ...rect,
+  } as DOMRect;
+
+  Object.defineProperty(el, 'getBoundingClientRect', {
+    configurable: true,
+    value: () => ({ ...full, toJSON: () => full }),
+  });
+}
+
 function setElementLayout(
   el: HTMLElement,
   layout: {
@@ -223,7 +242,12 @@ describe('Overlay', () => {
       expect(screen.getByTestId('spotlight').getAttribute('style')).toContain('height: 600px');
     });
 
-    it('should compute spotlight position in layout space with portalElement', () => {
+    it('should offset the spotlight by the SVG origin with a positioned portal', () => {
+      // Target at viewport (250,130,120x30); the spotlight SVG (top:0/left:0) is rendered inside a
+      // positioned portal whose padding box sits at (50,100). The cutout is expressed relative to
+      // that SVG origin: targetRect - origin - padding.
+      fakeRect(targetDiv, { top: 130, left: 250, width: 120, height: 30, right: 370, bottom: 160 });
+
       const props = createProps({
         lifecycle: LIFECYCLE.READY,
         portalElement: portalDiv,
@@ -232,17 +256,130 @@ describe('Overlay', () => {
 
       const { rerender } = render(<Overlay {...props} />);
 
-      setElementLayout(screen.getByTestId('overlay'), { offsetParent: containerDiv });
+      fakeRect(screen.getByTestId('spotlight'), { top: 100, left: 50 });
 
       rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
 
       const d = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d') ?? '';
 
-      // targetOffset (200+50, 40+100) - containerOffset (50, 100) - padding (10, 10) = (190, 30)
-      // width: 120 + 10 + 10 = 140, height: 30 + 10 + 10 = 50
-      // Path starts at x+r (190+4=194) due to spotlightRadius
-      expect(d).toContain('M194 30H326');
-      expect(d).toContain('V76');
+      // x = 250 - 10(pad) - 50(origin) = 190 ; y = 130 - 10 - 100 = 20
+      // width 120+20=140, height 30+20=50 ; path starts at x+r (190+4=194)
+      expect(d).toContain('M194 20H326');
+      expect(d).toContain('V66');
+    });
+
+    it('should cancel page scroll from the vertical origin (targetRect.top is document-space)', () => {
+      // With the document scrolled, targetRect.top carries the scrollTop (document-space) while the
+      // SVG's getBoundingClientRect().top stays viewport-space. originTop adds scrollTop back so the
+      // two cancel — the cutout must land at the same place as the unscrolled case (y = 20).
+      Object.defineProperty(document.documentElement, 'scrollTop', {
+        configurable: true,
+        value: 200,
+      });
+
+      try {
+        fakeRect(targetDiv, {
+          top: 130,
+          left: 250,
+          width: 120,
+          height: 30,
+          right: 370,
+          bottom: 160,
+        });
+
+        const props = createProps({
+          lifecycle: LIFECYCLE.READY,
+          portalElement: portalDiv,
+          target: '.target',
+        });
+
+        const { rerender } = render(<Overlay {...props} />);
+
+        // SVG box stays viewport-space (top:100), unaffected by the 200px page scroll.
+        fakeRect(screen.getByTestId('spotlight'), { top: 100, left: 50 });
+
+        rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+
+        const d = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d') ?? '';
+
+        // targetRect.top = 130 + 200(scroll) - 10(pad) = 320 ; originTop = 100 + 200 = 300 → y = 20
+        expect(d).toContain('M194 20H326');
+        expect(d).toContain('V66');
+      } finally {
+        Object.defineProperty(document.documentElement, 'scrollTop', {
+          configurable: true,
+          value: 0,
+        });
+      }
+    });
+
+    it('should use targetRect directly for a body-level portal (SVG origin 0)', () => {
+      // A body-level portal: the SVG sits at the document origin (0,0), so origin is 0 and the
+      // cutout equals targetRect — identical to the non-portal path.
+      fakeRect(targetDiv, { top: 130, left: 250, width: 120, height: 30, right: 370, bottom: 160 });
+
+      const props = createProps({
+        lifecycle: LIFECYCLE.READY,
+        portalElement: portalDiv,
+        target: '.target',
+      });
+
+      const { rerender } = render(<Overlay {...props} />);
+
+      fakeRect(screen.getByTestId('spotlight'), { top: 0, left: 0 });
+
+      rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+
+      const d = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d') ?? '';
+
+      // origin 0 → x = 240, y = 120 ; width 140 → H 240+140-4=376 ; path starts at 240+4=244
+      expect(d).toContain('M244 120H376');
+    });
+
+    it('should skip the origin offset for a fixed target', () => {
+      // Fixed targets render a position:fixed SVG anchored to the viewport, which targetRect
+      // already matches — so a nonzero SVG box must be ignored.
+      fakeRect(targetDiv, { top: 130, left: 250, width: 120, height: 30, right: 370, bottom: 160 });
+      targetDiv.style.position = 'fixed';
+
+      const props = createProps({
+        lifecycle: LIFECYCLE.READY,
+        portalElement: portalDiv,
+        target: '.target',
+      });
+
+      const { rerender } = render(<Overlay {...props} />);
+
+      fakeRect(screen.getByTestId('spotlight'), { top: 100, left: 50 });
+
+      rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+
+      const d = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d') ?? '';
+
+      // isFixed → origin ignored → x = 240, y = 120 (not 190/20)
+      expect(d).toContain('M244 120H376');
+    });
+
+    it('should not move the cutout on re-render (guards #1209 render-order flip)', () => {
+      fakeRect(targetDiv, { top: 130, left: 250, width: 120, height: 30, right: 370, bottom: 160 });
+
+      const props = createProps({
+        lifecycle: LIFECYCLE.READY,
+        portalElement: portalDiv,
+        target: '.target',
+      });
+
+      const { rerender } = render(<Overlay {...props} />);
+
+      fakeRect(screen.getByTestId('spotlight'), { top: 100, left: 50 });
+
+      rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+      const first = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d');
+
+      rerender(<Overlay {...{ ...props, lifecycle: LIFECYCLE.TOOLTIP }} />);
+      const second = screen.getByTestId('spotlight').querySelector('path')?.getAttribute('d');
+
+      expect(second).toBe(first);
     });
 
     it('should fall back to window dimensions when portalElement has no positioned ancestor', () => {

@@ -3,7 +3,7 @@ import { useWindowSize } from '@gilbarbara/hooks';
 
 import useTargetPosition from '~/hooks/useTargetPosition';
 import { LIFECYCLE } from '~/literals';
-import { getAbsoluteOffset, getDocumentHeight, getElement } from '~/modules/dom';
+import { getDocumentHeight, scrollDocument } from '~/modules/dom';
 import { generateOverlayPath, generateSpotlightPath } from '~/modules/svg';
 
 import type { Lifecycle, Simplify, StepMerged } from '~/types';
@@ -46,12 +46,16 @@ export default function JoyrideOverlay(props: OverlayProps) {
     scrolling || waiting,
   );
   const overlayRef = useRef<HTMLDivElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
 
   const showSpotlight =
     (lifecycle === LIFECYCLE.TOOLTIP || lifecycle === LIFECYCLE.TOOLTIP_BEFORE) &&
     placement !== 'center';
   const [spotlightReady, setSpotlightReady] = useState(false);
 
+  // Read live from the ref during render rather than via state: the overlay re-renders on every
+  // lifecycle transition (store subscription), so a null ref self-corrects on the next render —
+  // cheaper and safer than a setState round-trip that batches against the subscription (see 79a7ef0).
   const container = portalElement ? (overlayRef.current?.offsetParent as HTMLElement | null) : null;
   const overlayWidth = container?.clientWidth ?? windowSize.width;
   const overlayHeight = container?.clientHeight ?? getDocumentHeight() ?? windowSize.height;
@@ -85,35 +89,33 @@ export default function JoyrideOverlay(props: OverlayProps) {
     return null;
   }
 
-  // When using a custom portal, compute spotlight in layout space (offsetTop/offsetLeft/offsetWidth/offsetHeight)
-  // because targetRect uses getBoundingClientRect() which is viewport-relative and doesn't match the SVG's layout space.
   let coverPath = '';
 
   if (showCutout) {
-    if (portalElement && container) {
-      const targetEl = getElement(spotlightTarget ?? target);
+    // The spotlight SVG is position:absolute/fixed, so cutout coordinates are relative to its
+    // own rendered box. Because the SVG is anchored at top:0/left:0, its getBoundingClientRect()
+    // is that coordinate origin — exact through borders, padding, nested scroll containers, and
+    // page scroll. Without a custom portal the SVG sits at the document origin, so origin is 0 and
+    // targetRect is used as-is. A fixed SVG anchors to the viewport, which targetRect already
+    // matches, so the offset is skipped there.
+    let originTop = 0;
+    let originLeft = 0;
+    const svg = svgRef.current;
 
-      if (targetEl) {
-        const targetOffset = getAbsoluteOffset(targetEl);
-        const containerOffset = getAbsoluteOffset(container);
+    if (portalElement && svg && !targetRect.isFixed) {
+      const rect = svg.getBoundingClientRect();
 
-        coverPath = generateSpotlightPath(
-          targetOffset.left - containerOffset.left - spotlightPadding.left,
-          targetOffset.top - containerOffset.top - spotlightPadding.top,
-          targetEl.offsetWidth + spotlightPadding.left + spotlightPadding.right,
-          targetEl.offsetHeight + spotlightPadding.top + spotlightPadding.bottom,
-          spotlightRadius,
-        );
-      }
-    } else {
-      coverPath = generateSpotlightPath(
-        targetRect.left,
-        targetRect.top,
-        targetRect.width,
-        targetRect.height,
-        spotlightRadius,
-      );
+      originTop = rect.top + scrollDocument().scrollTop; // targetRect.top is document-space
+      originLeft = rect.left; // targetRect.left is viewport-space
     }
+
+    coverPath = generateSpotlightPath(
+      targetRect.left - originLeft,
+      targetRect.top - originTop,
+      targetRect.width,
+      targetRect.height,
+      spotlightRadius,
+    );
   }
 
   const path = generateOverlayPath(overlayWidth, overlayHeight, coverPath);
@@ -127,6 +129,7 @@ export default function JoyrideOverlay(props: OverlayProps) {
       style={overlayStyles}
     >
       <svg
+        ref={svgRef}
         className="react-joyride__spotlight"
         data-testid="spotlight"
         style={{

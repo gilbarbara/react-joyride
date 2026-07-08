@@ -18,23 +18,6 @@ export function canUseDOM() {
 }
 
 /**
- * Get the absolute document-relative offset of an element by walking up the offsetParent chain.
- */
-export function getAbsoluteOffset(element: HTMLElement): { left: number; top: number } {
-  let top = 0;
-  let left = 0;
-  let current: HTMLElement | null = element;
-
-  while (current) {
-    top += current.offsetTop;
-    left += current.offsetLeft;
-    current = current.offsetParent as HTMLElement | null;
-  }
-
-  return { left, top };
-}
-
-/**
  * Find the bounding client rect
  */
 export function getClientRect(element: HTMLElement | null) {
@@ -123,7 +106,7 @@ export function getElement(element?: StepTarget): HTMLElement | null {
 }
 
 /**
- * Find and return the target DOM element based on a step's 'target'.
+ * Return the target's top position in document space (viewport top + scroll − offset).
  */
 export function getElementPosition(
   element: HTMLElement | null,
