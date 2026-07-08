@@ -1,5 +1,6 @@
+import { useMemo } from 'react';
 import { Button, cn, Popover, PopoverContent, PopoverTrigger, useDisclosure } from '@heroui/react';
-import Chrome, { ChromeInputType } from '@uiw/react-color-chrome';
+import { ColorPicker as ColorPickerComponent } from '@transience/color-picker';
 
 export interface ColorPickerProps {
   className?: string;
@@ -13,6 +14,10 @@ export interface ColorPickerProps {
 export default function ColorPicker(props: ColorPickerProps) {
   const { className, color, isDisabled, onChange, showAlpha = false, size = 'sm', ...rest } = props;
   const { isOpen, onOpenChange } = useDisclosure();
+
+  const currentColor = useMemo(() => {
+    return color === 'transparent' ? '#00000000' : color;
+  }, [color]);
 
   return (
     <div className="relative flex items-center">
@@ -36,19 +41,25 @@ export default function ColorPicker(props: ColorPickerProps) {
             isDisabled={isDisabled}
             isIconOnly
             size={size}
-            style={{ backgroundColor: color }}
+            style={{ backgroundImage: `url(/images/transparent-bg.gif)` }}
             {...rest}
-          />
+          >
+            <span className="size-full" style={{ backgroundColor: color }} />
+          </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 ">
-          <Chrome
-            color={color}
-            inputType={ChromeInputType.HEXA}
+        <PopoverContent className="p-0 min-w-xs">
+          <ColorPickerComponent
+            color={currentColor}
+            defaultMode="hsl"
             onChange={colorResult => {
-              onChange(showAlpha ? colorResult.hexa : colorResult.hex);
+              onChange(colorResult);
             }}
+            outputFormat="hex"
             showAlpha={showAlpha}
-            showTriangle={false}
+            showGlobalHue
+            showInputs={false}
+            showModeSelector={false}
+            showSliders={false}
           />
         </PopoverContent>
       </Popover>

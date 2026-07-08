@@ -211,7 +211,7 @@ export default function Playground(props: PlaygroundProps) {
           showArrow
         >
           <Button
-            className="fixed top-20 right-4 bg-black/30 dark:bg-white/30 text-white/75 dark:text-black/75 print:hidden"
+            className="fixed top-20 right-4 bg-black/20 dark:bg-white/20 text-foreground/60 print:hidden"
             isIconOnly
             onPress={() => {
               if (!seen) {
@@ -223,7 +223,7 @@ export default function Playground(props: PlaygroundProps) {
             }}
             radius="full"
           >
-            <FlaskConicalIcon />
+            <FlaskConicalIcon size={20} />
           </Button>
         </Tooltip>
         {isOpen && (

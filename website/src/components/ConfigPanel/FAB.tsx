@@ -39,15 +39,14 @@ export default function ConfigPanelFAB({ className }: ConfigPanelFABProps) {
       >
         <Button
           className={cn(
-            'fixed top-20 right-4 z-120 shadow-lg bg-black/30 dark:bg-white/30 text-white/75 dark:text-black/75',
+            'fixed top-20 right-4 z-120 shadow-lg bg-black/20 dark:bg-white/20 text-foreground/60',
             className,
           )}
           isIconOnly
           onPress={handlePress}
           radius="full"
-          size="sm"
         >
-          <FlaskConicalIcon size={18} />
+          <FlaskConicalIcon size={20} />
         </Button>
       </Tooltip>
       <ConfigDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />

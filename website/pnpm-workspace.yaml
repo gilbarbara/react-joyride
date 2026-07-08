@@ -10,3 +10,4 @@ overrides:
   react-joyride: link:../
 publicHoistPattern:
   - '*@heroui/*'
+  - '*@transience/color-picker/*'

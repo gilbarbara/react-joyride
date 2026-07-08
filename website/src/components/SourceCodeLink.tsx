@@ -37,14 +37,13 @@ export default function SourceCodeLink() {
       <Button
         aria-label="Source code link"
         as={Link}
-        className="fixed top-30 right-4 z-120 shadow-lg bg-black/30 dark:bg-white/30 text-white/75 dark:text-black/75"
+        className="fixed top-32 right-4 z-120 shadow-lg bg-black/20 dark:bg-white/20 text-foreground/60"
         href={url}
         isExternal
         isIconOnly
         radius="full"
-        size="sm"
       >
-        <CodeIcon className="size-4" />
+        <CodeIcon size={20} />
       </Button>
     </Tooltip>
   );
