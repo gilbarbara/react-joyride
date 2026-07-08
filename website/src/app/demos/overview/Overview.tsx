@@ -51,7 +51,8 @@ const tourSteps: Step[] = [
     title: 'Welcome to React Joyride',
   },
   {
-    before: () => delay(600),
+    before: () => delay(500),
+    loaderDelay: 0,
     content: (
       <div>
         <p>
@@ -59,7 +60,7 @@ const tourSteps: Step[] = [
           DX, and a foundation built for the features you've been asking for.
         </p>
         <Tip iconSize={24}>
-          This step has a <Code color="primary">before</Code> hook that added a 600ms delay.
+          This step has a <Code color="primary">before</Code> hook that added a 500ms delay.
         </Tip>
       </div>
     ),
