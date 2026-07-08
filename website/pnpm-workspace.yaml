@@ -1,2 +1,12 @@
+allowBuilds:
+  '@heroui/shared-utils': true
+  sharp: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - postcss@8.5.10
 overrides:
+  '@internationalized/date': 3.12.0
+  postcss@<8.5.10: ^8.5.10
   react-joyride: link:../
+publicHoistPattern:
+  - '*@heroui/*'

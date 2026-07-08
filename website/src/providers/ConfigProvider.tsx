@@ -292,8 +292,7 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
         const [styleKey, prop] = key.split('.');
         const stylesRecord = settings.styles as Record<string, Record<string, unknown>> | undefined;
         const initialStyles = initialConfig.styles as
-          | Record<string, Record<string, unknown>>
-          | undefined;
+          Record<string, Record<string, unknown>> | undefined;
 
         return (stylesRecord?.[styleKey]?.[prop] ?? initialStyles?.[styleKey]?.[prop]) as T;
       }
