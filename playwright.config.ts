@@ -22,7 +22,7 @@ const config = defineConfig({
       use: { ...devices['Desktop Safari'] },
     },
   ],
-  reporter: 'html',
+  reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'html',
   retries: process.env.CI ? 2 : 0,
   snapshotDir: './e2e/__snapshots__',
   snapshotPathTemplate: '{testDir}/__snapshots__/{testName}/{arg}-{projectName}{ext}',
@@ -38,6 +38,7 @@ const config = defineConfig({
     command: 'pnpm website:serve',
     port: 3000,
     reuseExistingServer: !process.env.CI,
+    timeout: 120_000,
   },
   workers: process.env.CI ? 1 : undefined,
 });
