@@ -1,6 +1,6 @@
 'use client';
 
-import { Link } from '@heroui/react';
+import Link from 'next/link';
 
 import Code from '~/components/Code';
 
@@ -44,10 +44,7 @@ export default function SharedPropsTable() {
               </p>
               <p>
                 Tooltip/beacon positioning config via{' '}
-                <Link href="https://floating-ui.com/" isExternal>
-                  Floating UI
-                </Link>
-                .
+                <Link href="https://floating-ui.com/">Floating UI</Link>.
               </p>
             </td>
             <td>

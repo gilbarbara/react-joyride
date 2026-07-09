@@ -116,7 +116,7 @@ Next.js 16 documentation and demo site in `website/`. Imports library via local 
 
 **Stack**: HeroUI v2, Tailwind CSS v4, MDX (rehype-pretty-code + Shiki), next-themes, DocSearch.
 
-**Note**: Uses `--webpack` flag for dev/build due to Turbopack symlink issues with local package imports.
+**Bundler**: `dev` runs on Turbopack; `build` stays on `--webpack` (`dev:webpack` is the fallback). `next build --turbopack` fails: `@next/mdx`'s Turbopack path never applies the `isServer` vendored-RSC-React alias (its `webpack()` hook does), so server-evaluated modules get the `react-server` React and any interactive HeroUI component's `@react-aria/ssr` `createContext` throws app-wide. The webpack alias in `next.config.ts` masks this; Turbopack has no server-only alias equivalent (a global `resolveAlias` pulls server React into the client bundle). Upstream: nextui-org/nextui#3967, shuding/nextra#4703.
 
 **Documentation** (`website/src/app/docs/`): MDX pages covering getting-started, new-in-v3, how-it-works, hook, props (options, styles, floating-options), step, events, custom-components, exports, accessibility, migration.
 

@@ -1,4 +1,5 @@
-import { cn, Link } from '@heroui/react';
+import { cn } from '@heroui/react';
+import Link from 'next/link';
 
 interface TourStatusProps {
   className?: string;

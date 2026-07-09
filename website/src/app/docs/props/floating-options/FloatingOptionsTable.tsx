@@ -1,4 +1,4 @@
-import { Link } from '@heroui/react';
+import Link from 'next/link';
 
 import Code from '~/components/Code';
 
@@ -19,9 +19,7 @@ export default function FloatingOptionsTable() {
               <p className="text-lg font-bold">autoUpdate</p>
               <p>
                 Options passed to{' '}
-                <Link href="https://floating-ui.com/docs/autoUpdate" isExternal>
-                  autoUpdate
-                </Link>{' '}
+                <Link href="https://floating-ui.com/docs/autoUpdate">autoUpdate</Link>{' '}
                 (ancestorScroll, elementResize, etc).
               </p>
             </td>
@@ -46,11 +44,8 @@ export default function FloatingOptionsTable() {
             <td>
               <p className="text-lg font-bold">flipOptions</p>
               <p>
-                Options for{' '}
-                <Link href="https://floating-ui.com/docs/flip" isExternal>
-                  flip
-                </Link>{' '}
-                middleware. <Code>false</Code> to disable.
+                Options for <Link href="https://floating-ui.com/docs/flip">flip</Link> middleware.{' '}
+                <Code>false</Code> to disable.
               </p>
             </td>
             <td>
@@ -74,10 +69,7 @@ export default function FloatingOptionsTable() {
             <td>
               <p className="text-lg font-bold">middleware</p>
               <p>
-                Additional{' '}
-                <Link href="https://floating-ui.com/docs/middleware" isExternal>
-                  middleware
-                </Link>{' '}
+                Additional <Link href="https://floating-ui.com/docs/middleware">middleware</Link>{' '}
                 appended to defaults (offset, flip/autoPlacement, shift, arrow).
               </p>
             </td>
@@ -100,11 +92,7 @@ export default function FloatingOptionsTable() {
             <td>
               <p className="text-lg font-bold">shiftOptions</p>
               <p>
-                Options for{' '}
-                <Link href="https://floating-ui.com/docs/shift" isExternal>
-                  shift
-                </Link>{' '}
-                middleware.
+                Options for <Link href="https://floating-ui.com/docs/shift">shift</Link> middleware.
               </p>
             </td>
             <td>

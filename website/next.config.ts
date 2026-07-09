@@ -2,10 +2,6 @@ import path from 'node:path';
 
 import createMDX from '@next/mdx';
 import type { NextConfig } from 'next';
-import rehypePrettyCode from 'rehype-pretty-code';
-import remarkGfm from 'remark-gfm';
-
-import { rehypeCaptureRaw, rehypeForwardRaw } from './src/modules/rehype-raw-code';
 
 // @next/mdx bypasses Next.js's vendored React aliases in the RSC bundle,
 // causing MDX files to load the user-installed React instead of the vendored
@@ -48,20 +44,26 @@ const nextConfig: NextConfig = {
   },
 };
 
+// Plugins are referenced by string module path so Turbopack can serialize the MDX loader options
+// (JS function references can't be passed to the loader runner). Options must be serializable.
+// Local plugins are default exports resolved via require.resolve/interopDefault by @next/mdx; paths
+// must be absolute because require.resolve ignores its `paths` option for `./`-relative requests.
+const resolveLocalPlugin = (file: string) => path.resolve(import.meta.dirname, 'src/modules', file);
+
 const withMDX = createMDX({
   options: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: ['remark-gfm'],
     rehypePlugins: [
-      rehypeCaptureRaw,
+      resolveLocalPlugin('rehype-capture-raw.ts'),
       [
-        rehypePrettyCode,
+        'rehype-pretty-code',
         {
           theme: { dark: 'one-dark-pro', light: 'github-light' },
           defaultLang: 'tsx',
           bypassInlineCode: true,
         },
       ],
-      rehypeForwardRaw,
+      resolveLocalPlugin('rehype-forward-raw.ts'),
     ],
   },
 });

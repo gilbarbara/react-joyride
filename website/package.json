@@ -63,7 +63,8 @@
     "unist-util-visit": "^5.1.0"
   },
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "next dev",
+    "dev:webpack": "next dev --webpack",
     "build": "next build --webpack",
     "start": "./scripts/start.sh",
     "lint": "eslint --fix src",
