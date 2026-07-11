@@ -841,6 +841,26 @@ describe('useTourEngine', () => {
         expect(result.current.state.size).toBe(3);
       });
     });
+
+    it('should start the tour when run is already true and steps arrive after mount', async () => {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
+        initialProps: createProps({ run: true, steps: [] }),
+      });
+
+      expect(result.current.state.status).toBe(STATUS.IDLE);
+      expect(mockOnEvent).not.toHaveBeenCalled();
+
+      rerender(createProps({ run: true, steps: testSteps }));
+
+      await waitFor(() => {
+        expect(result.current.state.status).toBe(STATUS.RUNNING);
+      });
+
+      expect(mockOnEvent).toHaveBeenCalledWith(
+        expect.objectContaining({ type: EVENTS.TOUR_START }),
+        expectControls(),
+      );
+    });
   });
 
   describe('Scroll', () => {
