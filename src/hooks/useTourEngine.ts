@@ -70,9 +70,9 @@ export default function useTourEngine(props: Props): UseTourEngineReturn {
 
   useUpdateEffect(() => {
     if (run && size && status === STATUS.IDLE) {
-      store.current.updateState({ status: STATUS.READY });
+      controls.start(stepIndex ?? initialStepIndex);
     }
-  }, [run, size, status]);
+  }, [controls, initialStepIndex, run, size, status, stepIndex]);
 
   usePropSync({
     controls,
