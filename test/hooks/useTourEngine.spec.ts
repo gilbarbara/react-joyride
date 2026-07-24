@@ -990,6 +990,30 @@ describe('useTourEngine', () => {
       }).not.toThrow();
     });
 
+    it('should start when run is true and steps are added after mount', async () => {
+      const { rerender, result } = renderHook((props: Props) => useTourEngine(props), {
+        initialProps: createProps({ steps: [] }),
+      });
+
+      expect(result.current.state.status).toBe(STATUS.IDLE);
+
+      rerender(createProps({ steps: testSteps }));
+
+      await waitFor(() => {
+        expect(result.current.state.status).toBe(STATUS.RUNNING);
+      });
+
+      expect(mockOnEvent).toHaveBeenCalledWith(
+        getEventResponse({
+          action: ACTIONS.START,
+          index: 0,
+          lifecycle: LIFECYCLE.INIT,
+          type: EVENTS.TOUR_START,
+        }),
+        expectControls(),
+      );
+    });
+
     it('should use TOOLTIP for center placement (beacon hidden)', async () => {
       const steps: Step[] = [{ target: '.step-1', content: 'Step 1', placement: 'center' }];
 
