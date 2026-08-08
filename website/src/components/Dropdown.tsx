@@ -40,17 +40,26 @@ export default function Dropdown(props: DropdownProps) {
   return (
     <div className="inline-flex relative">
       <button
-        className={cn('flex items-center gap-2 hover:underline', {
-          'font-bold': isSelected,
-        })}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        className={cn(
+          'flex items-center gap-2 rounded-md px-1 py-0.5 hover:underline outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+          {
+            'font-bold': isSelected,
+          },
+        )}
         onClick={onToggle}
         type="button"
       >
         {title}
-        <ChevronDownIcon size={16} />
+        <ChevronDownIcon
+          aria-hidden
+          className={cn('transition-transform duration-200', { 'rotate-180': isOpen })}
+          size={16}
+        />
       </button>
       <Collapse
-        className="absolute top-full left-0 bg-content1 translate-y-1.5 shadow-lg"
+        className="absolute top-full left-0 z-50 min-w-52 rounded-lg border border-default bg-content1 py-2 translate-y-1.5 shadow-md"
         isOpen={isOpen}
       >
         <div ref={ref}>{children}</div>
