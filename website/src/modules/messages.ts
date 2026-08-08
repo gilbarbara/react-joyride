@@ -1,8 +1,25 @@
+import { createElement, type CSSProperties, type ReactNode } from 'react';
 import type { Locale } from 'react-joyride';
 
 type LocaleKey = 'de' | 'en' | 'es' | 'fr' | 'pt';
 
-export const localeMessages: Record<LocaleKey, Locale> = {
+const progressStyle: CSSProperties = {
+  fontSize: '0.8125em',
+  fontWeight: 500,
+  letterSpacing: '0.01em',
+  opacity: 0.72,
+};
+
+function nextWithProgress(label: string, ofWord: string): ReactNode {
+  return createElement(
+    'span',
+    null,
+    `${label} `,
+    createElement('span', { style: progressStyle }, `({current} ${ofWord} {total})`),
+  );
+}
+
+const localeStrings = {
   de: {
     back: 'Zurück',
     close: 'Schließen',
@@ -48,54 +65,77 @@ export const localeMessages: Record<LocaleKey, Locale> = {
     open: 'Abrir o diálogo',
     skip: 'Pular',
   },
+} as const;
+
+export const localeMessages: Record<LocaleKey, Locale> = {
+  de: {
+    ...localeStrings.de,
+    nextWithProgress: nextWithProgress('Nächster', 'von'),
+  },
+  en: {
+    ...localeStrings.en,
+    nextWithProgress: nextWithProgress('Next', 'of'),
+  },
+  es: {
+    ...localeStrings.es,
+    nextWithProgress: nextWithProgress('Siguiente', 'de'),
+  },
+  fr: {
+    ...localeStrings.fr,
+    nextWithProgress: nextWithProgress('Suivant', 'de'),
+  },
+  pt: {
+    ...localeStrings.pt,
+    nextWithProgress: nextWithProgress('Próximo', 'de'),
+  },
 };
 
 export const intlMessages: Record<LocaleKey, Record<string, string>> = {
   de: {
-    ...localeMessages.de,
+    ...localeStrings.de,
     openTooltip: 'Tooltip öffnen',
     prev: 'Zurück',
     reset: 'Zurücksetzen',
     restart: 'Starten Sie die Tour neu',
     start: 'Starten',
     stop: 'Stoppen',
-  } as Record<string, string>,
+  },
   en: {
-    ...localeMessages.en,
+    ...localeStrings.en,
     openTooltip: 'Open Tooltip',
     prev: 'Prev',
     reset: 'Reset',
     restart: 'Restart the tour',
     start: 'Start',
     stop: 'Stop',
-  } as Record<string, string>,
+  },
   es: {
-    ...localeMessages.es,
+    ...localeStrings.es,
     openTooltip: 'Abrir tooltip',
     prev: 'Anterior',
     reset: 'Restablecer',
     restart: 'Reiniciar el tour',
     start: 'Iniciar',
     stop: 'Detener',
-  } as Record<string, string>,
+  },
   fr: {
-    ...localeMessages.fr,
+    ...localeStrings.fr,
     openTooltip: 'Ouvrir le tooltip',
     prev: 'Précédent',
     reset: 'Réinitialiser',
     restart: 'Redémarrer le tour',
     start: 'Démarrer',
     stop: 'Arrêter',
-  } as Record<string, string>,
+  },
   pt: {
-    ...localeMessages.pt,
-    openTooltip: 'Abrir tooltip',
+    ...localeStrings.pt,
+    openTooltip: 'Abrir o tooltip',
     prev: 'Anterior',
     reset: 'Redefinir',
     restart: 'Reiniciar o tour',
     start: 'Iniciar',
     stop: 'Parar',
-  } as Record<string, string>,
+  },
 };
 
 export const languageOptions = [

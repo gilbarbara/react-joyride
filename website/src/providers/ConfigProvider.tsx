@@ -91,7 +91,7 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
             }
           : settings.options,
       }),
-      ...(settings.localeKey && { locale: localeMessages[settings.localeKey] }),
+      locale: localeMessages[localeKey],
       ...(settings.useCustomArrow !== undefined && {
         arrowComponent: settings.useCustomArrow ? customComponents.Arrow : undefined,
       }),
@@ -111,11 +111,11 @@ export default function ConfigProvider({ children }: ConfigProviderProps) {
     }),
     [
       loaderComponent,
+      localeKey,
       settings.debug,
       settings.initialStepIndex,
       settings.continuous,
       settings.loaderVariant,
-      settings.localeKey,
       settings.scrollToFirstStep,
       settings.options,
       settings.styles,

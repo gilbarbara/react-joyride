@@ -4,14 +4,17 @@ import { useMemo, useState } from 'react';
 import {
   type EventData,
   LIFECYCLE,
+  type Props,
   STATUS,
   type Step,
   useJoyride,
 } from 'react-joyride';
 import { Button, Link } from '@heroui/react';
 
+import { useConfig } from '~/context/ConfigContext';
 import useTheme from '~/hooks/useTheme';
 import { getTourColors, logGroup } from '~/modules/helpers';
+import { localeMessages } from '~/modules/messages';
 
 import Maze from '~/components/Maze';
 import PackageManagerSelector from '~/components/PackageManagerSelector';
@@ -108,24 +111,27 @@ const tourSteps: Step[] = [
 
 export default function Home() {
   const { isDarkMode } = useTheme();
+  const { localeKey } = useConfig();
   const [run, setRun] = useState(false);
 
   const joyrideOptions = useMemo(
-    () => ({
-      continuous: true,
-      options: {
-        buttons: ['back', 'close', 'primary', 'skip'] as const,
-        overlayClickAction: 'close' as const,
-        scrollOffset: 80,
+    () =>
+      ({
+        continuous: true,
+        locale: localeMessages[localeKey],
+        options: {
+          buttons: ['back', 'close', 'primary', 'skip'],
+          overlayClickAction: 'close',
+          scrollOffset: 80,
+          showProgress: true,
+          spotlightPadding: 12,
+          spotlightRadius: 16,
+          ...getTourColors(isDarkMode),
+        },
         scrollToFirstStep: true,
-        showProgress: true,
-        spotlightPadding: 12,
-        spotlightRadius: 16,
-        ...getTourColors(isDarkMode),
-      },
-      steps: tourSteps,
-    }),
-    [isDarkMode],
+        steps: tourSteps,
+      }) satisfies Omit<Props, 'onEvent' | 'run'>,
+    [isDarkMode, localeKey],
   );
 
   const { controls, state, Tour } = useJoyride({

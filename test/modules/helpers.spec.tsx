@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-import type { ReactNode } from 'react';
+import { isValidElement, type ReactNode } from 'react';
 
 import {
   cleanUpObject,
@@ -224,25 +224,22 @@ describe('helpers', () => {
     });
 
     it('should handle array children with mixed content', () => {
-      expect(replaceLocaleContent(<span>Step {`{current} of {total}`}</span>, 2, 5)).toEqual(
-        <span>Step {'2 of 5'}</span>,
-      );
+      const result = replaceLocaleContent(<span>Step {`{current} of {total}`}</span>, 2, 5);
+
+      expect(getReactNodeText(result)).toBe('Step 2 of 5');
     });
 
     it('should handle array children with nested elements', () => {
-      expect(
-        replaceLocaleContent(
-          <span>
-            {'Step'} <em>{`{current} of {total}`}</em>
-          </span>,
-          3,
-          7,
-        ),
-      ).toEqual(
+      const result = replaceLocaleContent(
         <span>
-          {'Step'} <em>3 of 7</em>
+          {'Step'} <em>{`{current} of {total}`}</em>
         </span>,
+        3,
+        7,
       );
+
+      expect(getReactNodeText(result)).toBe('Step 3 of 7');
+      expect(isValidElement(result) && result.type).toBe('span');
     });
 
     it('should return the input for elements without placeholders', () => {

@@ -1,4 +1,11 @@
-import { cloneElement, type FC, isValidElement, type ReactElement, type ReactNode } from 'react';
+import {
+  Children,
+  cloneElement,
+  type FC,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 import innerText from 'react-innertext';
 import deepmergeFactory from '@fastify/deepmerge';
 import is from 'is-lite';
@@ -193,7 +200,7 @@ export function replaceLocaleContent(input: ReactNode, step: number, steps: numb
 
   if (Array.isArray(children)) {
     return cloneElement(input as ReactElement<{ children?: ReactNode }>, {
-      children: children.map((child: ReactNode) => {
+      children: Children.map(children, (child: ReactNode) => {
         if (typeof child === 'string') {
           return replacer(child);
         }
