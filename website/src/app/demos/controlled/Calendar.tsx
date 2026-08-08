@@ -14,10 +14,10 @@ const Calendar = forwardRef<HTMLDivElement>((_, ref) => {
             base: 'bg-transparent shadow-none',
             headerWrapper: 'bg-transparent',
             gridHeader: 'bg-transparent shadow-none',
-            gridHeaderRow: 'text-black',
-            nextButton: 'text-black size-6',
-            prevButton: 'text-black size-6',
-            title: 'text-black',
+            gridHeaderRow: 'text-foreground',
+            nextButton: 'text-foreground size-6',
+            prevButton: 'text-foreground size-6',
+            title: 'text-foreground',
           }}
           defaultValue={parseDate('2026-02-05')}
         />
