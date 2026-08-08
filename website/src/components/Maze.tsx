@@ -1,14 +1,16 @@
 interface Props {
+  'aria-hidden'?: boolean | 'true' | 'false';
   className?: string;
   color?: string;
   size?: string | number;
 }
 
 export default function Maze(props: Props) {
-  const { className, color = '#f04', size = '1em' } = props;
+  const { 'aria-hidden': ariaHidden, className, color = '#f04', size = '1em' } = props;
 
   return (
     <svg
+      aria-hidden={ariaHidden}
       className={className}
       height={size}
       version="1.1"
