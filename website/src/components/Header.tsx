@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useState } from 'react';
 import {
   Button,
@@ -49,18 +51,24 @@ function Header() {
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           className="sm:hidden h-4"
         />
-        <NavbarBrand className="gap-2 mr-8">
-          <Link className="flex items-center gap-2 text-foreground" href="/">
+        <NavbarBrand className="gap-2 mr-6">
+          <Link
+            className="flex items-center gap-2 text-foreground rounded-md outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            href="/"
+          >
             <Maze size={32} />
             <span className="hidden sm:block font-bold">React Joyride</span>
           </Link>
         </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-4">
+        <NavbarContent as="nav" aria-label="Primary" className="hidden sm:flex gap-4">
           <NavbarItem>
             <Dropdown
               isOpen={isDocumentationMenuOpen}
               isSelected={pathname.startsWith('/docs')}
-              onToggle={() => setIsDocumentationMenuOpen(previous => !previous)}
+              onToggle={() => {
+                setIsDocumentationMenuOpen(previous => !previous);
+                setIsDemosMenuOpen(false);
+              }}
               title="Documentation"
             >
               <Links items={sidebar.docs} onNavigate={() => setIsDocumentationMenuOpen(false)} />
@@ -70,7 +78,10 @@ function Header() {
             <Dropdown
               isOpen={isDemosMenuOpen}
               isSelected={pathname.startsWith('/demos')}
-              onToggle={() => setIsDemosMenuOpen(previous => !previous)}
+              onToggle={() => {
+                setIsDemosMenuOpen(previous => !previous);
+                setIsDocumentationMenuOpen(false);
+              }}
               title="Demos"
             >
               <Links items={sidebar.demos} onNavigate={() => setIsDemosMenuOpen(false)} />
@@ -115,12 +126,12 @@ function Header() {
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu className="px-0 py-4 gap-0 border-t border-default z-250">
-        <NavbarMenuItem className="text-foreground-400 text-small font-bold px-4 pb-1">
-          DOCS
+        <NavbarMenuItem className="text-foreground-500 text-xs font-semibold tracking-wide uppercase px-3 pb-2">
+          Docs
         </NavbarMenuItem>
         <Links items={sidebar.docs} onNavigate={closeMenu} wrapper={NavbarMenuItem} />
-        <NavbarMenuItem className="text-foreground-400 text-small font-bold px-4 pb-1 mt-4">
-          DEMOS
+        <NavbarMenuItem className="text-foreground-500 text-xs font-semibold tracking-wide uppercase px-3 pb-2 pt-4">
+          Demos
         </NavbarMenuItem>
         <Links items={sidebar.demos} onNavigate={closeMenu} wrapper={NavbarMenuItem} />
       </NavbarMenu>
