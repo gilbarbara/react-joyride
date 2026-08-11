@@ -1,8 +1,12 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, type Key } from 'react';
 import {
   Button,
+  Dropdown as HeroDropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -11,12 +15,14 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from '@heroui/react';
-import { MoonIcon, SunIcon } from 'lucide-react';
+import { CheckIcon, LanguagesIcon, MoonIcon, SunIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { sidebar } from '~/config/sidebar';
+import { useConfig } from '~/context/ConfigContext';
 import useTheme from '~/hooks/useTheme';
+import { languageOptions, type LocaleKey } from '~/modules/messages';
 
 import Dropdown from '~/components/Dropdown';
 import GitHubIcon from '~/components/GitHubIcon';
@@ -30,9 +36,21 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDocumentationMenuOpen, setIsDocumentationMenuOpen] = useState(false);
   const [isDemosMenuOpen, setIsDemosMenuOpen] = useState(false);
+  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const { localeKey, setLocaleKey } = useConfig();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const pathname = usePathname();
   const closeMenu = useCallback(() => setIsMenuOpen(false), []);
+  const currentLanguage =
+    languageOptions.find(option => option.value === localeKey)?.label ?? 'English';
+
+  const handleLanguageAction = useCallback(
+    (key: Key) => {
+      setLocaleKey(String(key) as LocaleKey);
+      setIsLanguageMenuOpen(false);
+    },
+    [setLocaleKey],
+  );
 
   return (
     <Navbar
@@ -92,6 +110,38 @@ function Header() {
       <NavbarContent className="gap-0.5" justify="end">
         <NavbarItem>
           <Search />
+        </NavbarItem>
+        <NavbarItem>
+          <HeroDropdown
+            classNames={{ content: '!z-[1000] min-w-40' }}
+            isOpen={isLanguageMenuOpen}
+            onOpenChange={setIsLanguageMenuOpen}
+            placement="bottom-end"
+          >
+            <DropdownTrigger>
+              <Button
+                aria-label={`Language: ${currentLanguage}`}
+                className="min-w-0 px-2 gap-1.5"
+                startContent={<LanguagesIcon className="size-5" />}
+                variant="light"
+              >
+                <span className="text-sm font-medium uppercase">{localeKey}</span>
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Select language" onAction={handleLanguageAction}>
+              {languageOptions.map(option => (
+                <DropdownItem
+                  key={option.value}
+                  endContent={
+                    option.value === localeKey ? <CheckIcon aria-hidden className="size-4" /> : null
+                  }
+                  textValue={option.label}
+                >
+                  {option.label}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </HeroDropdown>
         </NavbarItem>
         <NavbarItem>
           <Button aria-label="Toggle dark mode" isIconOnly onPress={toggleDarkMode} variant="light">
