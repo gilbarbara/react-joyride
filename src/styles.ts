@@ -101,8 +101,8 @@ export default function getStyles(props: Props, step: StepMerged) {
     buttonBack: {
       ...buttonBase,
       color: step.primaryColor,
-      marginLeft: 'auto',
-      marginRight: 5,
+      marginInlineStart: 'auto',
+      marginInlineEnd: 5,
     },
     buttonClose: {
       ...buttonBase,
@@ -110,7 +110,7 @@ export default function getStyles(props: Props, step: StepMerged) {
       height: 12,
       padding: 8,
       position: 'absolute',
-      right: 0,
+      insetInlineEnd: 0,
       top: 0,
       width: 12,
     },
